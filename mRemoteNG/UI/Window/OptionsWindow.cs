@@ -27,7 +27,6 @@ namespace mRemoteNG.UI.Window
             DockPnl = panel;
             InitializeComponent();
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.Settings_16x);
-            FontOverrider.FontOverride(this);
         }
 
         #endregion
@@ -37,6 +36,9 @@ namespace mRemoteNG.UI.Window
         private void Options_Load(object sender, EventArgs e)
         {
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] START - IsInitialized: {_isInitialized}, Visible: {this.Visible}");
+
+            // Apply font override after window is loaded to prevent UI thread blocking
+            FontOverrider.FontOverride(this);
 
             // Only subscribe to ThemeChanged once to prevent multiple subscriptions
             if (!_isInitialized)
