@@ -61,7 +61,7 @@ jobs:
       - name: (03) Setup MSBuild
         uses: microsoft/setup-msbuild@v2
         with:
-          vs-version: '[18.0)'
+          vs-version: '18.0'
           
       - name: (04) Install and run dotnet-t4 to transform T4 templates
         shell: pwsh
