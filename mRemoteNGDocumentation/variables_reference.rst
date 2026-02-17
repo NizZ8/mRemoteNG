@@ -4,7 +4,7 @@
 Variables Reference
 *******************
 
-Variables can be used with External Tools to dynamically insert connection properties into commands and arguments.
+Variables (also called parameters) can be used with External Tools to dynamically insert connection properties into commands and arguments.
 
 Available Variables
 ===================
