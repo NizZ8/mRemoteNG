@@ -26,6 +26,8 @@ namespace mRemoteNG.Config.DatabaseConnectors
             {
                 case "mysql":
                     return new MySqlDatabaseConnector(server, database, username, password);
+                case "odbc":
+                    return new OdbcDatabaseConnector(server, username, password);
                 case "mssql":
                 default:
                     return new MSSqlDatabaseConnector(server, database, username, password);
