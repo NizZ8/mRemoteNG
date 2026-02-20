@@ -294,6 +294,7 @@ namespace mRemoteNG.UI.Forms
         private void ApplyLanguage()
         {
             fileMenu.ApplyLanguage();
+            sessionsMenu.ApplyLanguage();
             viewMenu.ApplyLanguage();
             toolsMenu.ApplyLanguage();
             helpMenu.ApplyLanguage();
@@ -699,6 +700,7 @@ namespace mRemoteNG.UI.Forms
         private void PnlDock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             ActivateConnection();
+            sessionsMenu.UpdateMenuState();
         }
 
         internal void UpdateWindowTitle()
