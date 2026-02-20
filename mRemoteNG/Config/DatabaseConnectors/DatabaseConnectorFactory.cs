@@ -27,7 +27,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
                 case "mysql":
                     return new MySqlDatabaseConnector(server, database, username, password);
                 case "odbc":
-                    return new OdbcDatabaseConnector(server, username, password);
+                    throw new NotSupportedException("ODBC database connections are not supported for schema initialization. Please use a supported database backend.");
                 case "mssql":
                 default:
                     return new MSSqlDatabaseConnector(server, database, username, password);
