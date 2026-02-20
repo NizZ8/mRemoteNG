@@ -77,12 +77,17 @@ namespace mRemoteNG.UI.Menu
             {
                 int sessionNumber = i + 1;
                 _sessionNumberItems[i].Name = $"mMenSessionsSession{sessionNumber}";
-                _sessionNumberItems[i].ShortcutKeys = Keys.Control | (Keys.D1 + i);
+                _sessionNumberItems[i].ShortcutKeys = Keys.Control | (Keys)((int)Keys.D1 + i);
                 _sessionNumberItems[i].Size = new System.Drawing.Size(230, 22);
                 _sessionNumberItems[i].Text = string.Format(Language.JumpToSession, sessionNumber);
+                _sessionNumberItems[i].Enabled = false; // Initialize as disabled
                 int capturedIndex = i; // Capture the index for the lambda
                 _sessionNumberItems[i].Click += (s, e) => JumpToSessionNumber(capturedIndex);
             }
+
+            // Initialize navigation items as disabled
+            _mMenSessionsNextSession.Enabled = false;
+            _mMenSessionsPreviousSession.Enabled = false;
 
             // Hook up the dropdown opening event to update enabled state
             DropDownOpening += SessionsMenu_DropDownOpening;
@@ -100,7 +105,7 @@ namespace mRemoteNG.UI.Menu
             }
         }
 
-        private void SessionsMenu_DropDownOpening(object sender, EventArgs e)
+        public void UpdateMenuState()
         {
             // Update enabled state of menu items based on active sessions
             var connectionWindow = GetActiveConnectionWindow();
@@ -122,6 +127,12 @@ namespace mRemoteNG.UI.Menu
             {
                 _sessionNumberItems[i].Enabled = (i < sessionCount);
             }
+        }
+
+        private void SessionsMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            // Update state when menu is opened (for visual feedback)
+            UpdateMenuState();
         }
 
         private void mMenSessionsNextSession_Click(object sender, EventArgs e)
