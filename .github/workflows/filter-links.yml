@@ -1,0 +1,38 @@
+name: Remove GitHub repo links
+
+on:
+  issue_comment:
+    types: [created, edited]
+  issues:
+    types: [opened, edited]
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Replace GitHub repo links in comments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            if (!comment) return;
+
+            const body = comment.body;
+
+            // Regex for GitHub repo links
+            const githubRepoRegex = /https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:[^\s]*)?/gi;
+
+            if (githubRepoRegex.test(body)) {
+              const sanitized = body.replace(
+                githubRepoRegex,
+                "Links to external GitHub repositories are not allowed"
+              );
+
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+                body: sanitized
+              });
+            }
+
