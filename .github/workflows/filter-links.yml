@@ -1,4 +1,4 @@
-name: Remove GitHub repo links
+name: Remove other GitHub repo links
 
 permissions:
   contents: read
@@ -19,7 +19,9 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const githubRepoRegex = /https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:[^\s]*)?/gi;
+            const githubRepoRegex =
+              /\[[^\]]*\]\(https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*\)|https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*/gi;
+            
             // CASE 1: Comment
             if (context.payload.comment) {
               const comment = context.payload.comment;
