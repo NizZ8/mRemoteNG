@@ -33,7 +33,7 @@ jobs:
 
               const sanitized = comment.body.replace(
                 githubRepoRegex,
-                "Links to external GitHub repositories are not allowed"
+                "**[CENSORED!] Links to external GitHub repositories are not allowed**"
               );
 
               await github.rest.issues.updateComment({
@@ -57,9 +57,9 @@ jobs:
 
               if (!matches) return;
 
-              const sanitized = issue.body.replace(
+              const sanitized = comment.body.replace(
                 githubRepoRegex,
-                "Links to external GitHub repositories are not allowed"
+                "**[CENSORED!] Links to external GitHub repositories are not allowed**"
               );
 
               await github.rest.issues.update({
