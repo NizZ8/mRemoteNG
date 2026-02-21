@@ -19,7 +19,7 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment;
-            console.log("Context: " + commment);
+            console.log("Context: " + comment);
             if (!comment) {
               console.log("No comment found in payload");
               return;
