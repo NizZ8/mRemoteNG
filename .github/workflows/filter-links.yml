@@ -19,6 +19,10 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
+            console.log("Event name:", context.eventName);
+            console.log("Payload keys:", Object.keys(context.payload));
+            console.log("Full payload:\n", JSON.stringify(context.payload, null, 2));
+
             const comment = context.payload.comment;
             console.log("Context: " + comment);
             if (!comment) {
