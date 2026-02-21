@@ -19,24 +19,35 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment;
-            if (!comment) return;
-
-            const body = comment.body;
-
-            // Regex for GitHub repo links
-            const githubRepoRegex = /https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:[^\s]*)?/gi;
-
-            if (githubRepoRegex.test(body)) {
-              const sanitized = body.replace(
-                githubRepoRegex,
-                "Links to external GitHub repositories are not allowed"
-              );
-
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: comment.id,
-                body: sanitized
-              });
+            if (!comment) {
+              console.log("No comment found in payload");
+              return;
             }
-
+        
+            console.log("Original comment body:", comment.body);
+        
+            const githubRepoRegex = /https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:[^\s]*)?/gi;
+        
+            const matches = comment.body.match(githubRepoRegex);
+            console.log("Regex matches:", matches);
+        
+            if (!matches) {
+              console.log("No GitHub repo links found — nothing to replace");
+              return;
+            }
+        
+            const sanitized = comment.body.replace(
+              githubRepoRegex,
+              "Links to external GitHub repositories are not allowed"
+            );
+        
+            console.log("Sanitized body:", sanitized);
+        
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: comment.id,
+              body: sanitized
+            });
+        
+            console.log("Comment updated successfully");
