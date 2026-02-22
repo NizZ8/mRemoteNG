@@ -1,0 +1,57 @@
+{
+  "task_type": "implement",
+  "task_id": "2139",
+  "started_at": "2026-02-23T00:12:31",
+  "finished_at": "2026-02-23T00:24:33",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "implement #2139",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T00:12:32"
+    },
+    {
+      "agent": "gemini",
+      "task": "implement #2139",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T00:12:32"
+    },
+    {
+      "agent": "claude",
+      "task": "implement #2139",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "TIMEOUT after 710s",
+      "files_modified": [
+        "mRemoteNG/Tools/ExternalTool.cs",
+        "mRemoteNGTests/Tools/ExternalToolTests.cs"
+      ],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": true,
+      "diff_summary": "mRemoteNG/Tools/ExternalTool.cs           | 15 ++++------\n mRemoteNGTests/Tools/ExternalToolTests.cs | 46 +++++++++++++++++++++++++------\n 2 files changed, 43 insertions(+), 18 deletions(-)",
+      "timestamp": "2026-02-23T00:24:32",
+      "diff_output": "diff --git a/mRemoteNG/Tools/ExternalTool.cs b/mRemoteNG/Tools/ExternalTool.cs\nindex 02ff1ed78..dd7d4819f 100644\n--- a/mRemoteNG/Tools/ExternalTool.cs\n+++ b/mRemoteNG/Tools/ExternalTool.cs\n@@ -372,16 +372,11 @@ namespace mRemoteNG.Tools\n                 }\n                 else\n                 {\n-                    // Non-batch: use ArgumentList for proper C-runtime quoting\n-                    string parsedArguments = argParser.ParseArguments(Arguments, escapeForShell: false);\n-                    var argumentParts = SplitCommandLineArguments(parsedArguments);\n-                    foreach (var arg in argumentParts)\n-                    {\n-                        if (!string.IsNullOrWhiteSpace(arg))\n-                        {\n-                            process.StartInfo.ArgumentList.Add(arg);\n-                        }\n-                    }\n+                    // Non-batch: pass the argument string directly without C-runtime re-quoting.\n+                    // ArgumentList applies C-runtime quoting which breaks programs with their own\n+                    // command-line parsers (e.g. cmd.exe /k, telnet.exe). Passing Arguments as a\n+                    // raw string is safe because UseShellExecute=false prevents shell injection.\n+                    process.StartInfo.Arguments = argParser.ParseArguments(Arguments, escapeForShell: false);\n                 }\n             }\n \ndiff --git a/mRemoteNGTests/Tools/ExternalToolTests.cs b/mRemoteNGTests/Tools/ExternalToolTests.cs\nindex 1ce2c6885..47723b9a0 100644\n--- a/mRemoteNGTests/Tools/ExternalToolTests.cs\n+++ b/mRemoteNGTests/Tools/ExternalToolTests.cs\n@@ -168,12 +168,12 @@ namespace mRemoteNGTests.Tools\n             );\n             setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });\n \n-            // Assert - When not elevated, arguments should be in ArgumentList\n+            // Assert - When not elevated, arguments are passed as a string (not ArgumentList)\n             if (!externalTool.RunElevated)\n             {\n-                Assert.That(process.StartInfo.ArgumentList.Count, Is.GreaterThan(0));\n-                // Arguments with spaces should be preserved in ArgumentList\n-                Assert.That(process.StartInfo.ArgumentList, Does.Contain(\"test host\").Or.Contain(\"--host\"));\n+                Assert.That(process.StartInfo.Arguments, Is.Not.Empty);\n+                // Hostnames/usernames with spaces should appear in the Arguments string\n+                Assert.That(process.StartInfo.Arguments, Does.Contain(\"test host\").Or.Contain(\"--host\"));\n             }\n         }\n \n@@ -334,11 +334,41 @@ namespace mRemoteNGTests.Tools\n             Assert.That(process.StartInfo.Arguments, Does.Contain(\"\\\"1234,56789\\\"\"));\n         }\n \n+        [Test]\n+        public void CmdSlashK_TelnetArguments_PassedAsOriginalString()\n+        {\n+            // Issue #2139: CMD /k telnet %HOSTNAME% %PORT% must reach cmd.exe as a single\n+            // command-line string so cmd.exe can parse /k and run \"telnet host port\".\n+            var connectionInfo = new ConnectionInfo\n+            {\n+                Hostname = \"192.168.1.1\",\n+                Port = 23\n+            };\n+\n+            var externalTool = new ExternalTool\n+            {\n+                DisplayName = \"Telnet\",\n+                FileName = \"CMD\",\n+                Arguments = \"/k telnet %HOSTNAME% %PORT%\"\n+            };\n+\n+            var process = new Process();\n+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(\n+                \"SetProcessProperties\",\n+                BindingFlags.NonPublic | BindingFlags.Instance\n+            );\n+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });\n+\n+            // Arguments must be the raw parsed string — cmd.exe needs \"/k telnet host port\"\n+            // not individually re-quoted tokens like '\"/k\" \"telnet\" \"host\" \"port\"'.\n+            Assert.That(process.StartInfo.Arguments, Is.EqualTo(\"/k telnet 192.168.1.1 23\"));\n+        }\n+\n         [Test]\n         public void PasswordWithComma_ExeFile_PassedCorrectly()\n         {\n-            // For .exe targets, ArgumentList is used (C-runtime quoting).\n-            // The comma should appear intact in one ArgumentList entry.\n+            // For .exe targets, Arguments string is used directly (no C-runtime re-quoting).\n+            // The comma should appear intact in the Arguments string.\n             var connectionInfo = new ConnectionInfo\n             {\n                 Password = \"1234,56789\",\n@@ -360,8 +390,8 @@ namespace mRemoteNGTests.Tools\n             );\n             setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });\n \n-            // ArgumentList should contain the password as a single entry\n-            Assert.That(process.StartInfo.ArgumentList, Does.Contain(\"1234,56789\"));\n+            // Arguments string should contain the password intact (comma not splitting it)\n+            Assert.That(process.StartInfo.Arguments, Does.Contain(\"1234,56789\"));\n         }\n     }\n }"
+    }
+  ],
+  "timeout_count": 1,
+  "all_timed_out": false,
+  "final_success": false
+}

@@ -1,0 +1,50 @@
+{
+  "task_type": "triage",
+  "task_id": "2120",
+  "started_at": "2026-02-22T18:39:09",
+  "finished_at": "2026-02-22T18:39:39",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "triage",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-22T18:39:09"
+    },
+    {
+      "agent": "gemini",
+      "task": "triage",
+      "success": true,
+      "result": {
+        "decision": "implement",
+        "reason": "The mRemoteNG UI does not scale correctly on 4K monitors, leading to inconsistent element sizing, blurry images, and a degraded user experience due to improper handling of high-DPI settings.",
+        "priority": "P2-bug",
+        "estimated_files": [
+          "mRemoteNG\\UI\\GraphicsUtilities\\GdiPlusGraphicsProvider.cs",
+          "mRemoteNG\\UI\\Tabs\\DockPaneStripNG.cs",
+          "mRemoteNG\\UI\\Forms\\frmMain.cs",
+          "mRemoteNG\\UI\\Controls\\ConnectionTree.cs"
+        ],
+        "approach": "Investigate the application's overall DPI awareness configuration. Review and potentially expand the application of high-DPI scaling mechanisms (such as `PatchController.EnableHighDpi` or similar logic) to all critical UI components. Identify and correct specific UI elements that fail to scale appropriately, focusing on ensuring consistent sizing, sharp rendering of icons and text, and correct layout on 4K displays."
+      },
+      "raw_output": "```json\n{\n  \"decision\": \"implement\",\n  \"reason\": \"The mRemoteNG UI does not scale correctly on 4K monitors, leading to inconsistent element sizing, blurry images, and a degraded user experience due to improper handling of high-DPI settings.\",\n  \"priority\": \"P2-bug\",\n  \"estimated_files\": [\n    \"mRemoteNG\\\\UI\\\\GraphicsUtilities\\\\GdiPlusGraphicsProvider.cs\",\n    \"mRemoteNG\\\\UI\\\\Tabs\\\\DockPaneStripNG.cs\",\n    \"mRemoteNG\\\\UI\\\\Forms\\\\frmMain.cs\",\n    \"mRemoteNG\\\\UI\\\\Controls\\\\ConnectionTree.cs\"\n  ],\n  \"approach\": \"Investigate the application's overall DPI awareness configuration. Review and potentially expand the application of high-DPI scaling mechanisms (such as `PatchController.EnableHighDpi` or similar logic) to all critical UI components. Identify and correct specific UI elements that fail to scale appropriately, focusing on ensuring consistent sizing, sharp rendering of icons and text, and correct layout on 4K displays.\"\n}\n```\n",
+      "errors": null,
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-22T18:39:39"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": true
+}

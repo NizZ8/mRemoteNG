@@ -1,0 +1,50 @@
+{
+  "task_type": "triage",
+  "task_id": "2163",
+  "started_at": "2026-02-22T16:12:05",
+  "finished_at": "2026-02-22T16:13:26",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "triage",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-22T16:12:05"
+    },
+    {
+      "agent": "gemini",
+      "task": "triage",
+      "success": true,
+      "result": {
+        "decision": "implement",
+        "reason": "The application crashes when closing an RDP panel, likely due to a race condition during the disposal of the underlying ActiveX COM object, specifically involving `Marshal.FinalReleaseComObject` in `RdpProtocol.CleanupResources()`.",
+        "priority": "P2-bug",
+        "estimated_files": [
+          "mRemoteNG/Connection/Protocol/RDP/RdpProtocol.cs",
+          "mRemoteNG/Connection/Protocol/ProtocolBase.cs",
+          "mRemoteNG/Connection/InterfaceControl.cs",
+          "mRemoteNG/UI/Tabs/ConnectionTab.cs"
+        ],
+        "approach": "Introduce a flag in `RdpProtocol` to ensure `CleanupResources()` is executed only once, and carefully synchronize the disposal of the ActiveX COM object to prevent race conditions. This includes ensuring `Marshal.FinalReleaseComObject` is called safely and only when necessary, and adding defensive null checks around `_rdpClient` during cleanup."
+      },
+      "raw_output": "```json\n{\n  \"decision\": \"implement\",\n  \"reason\": \"The application crashes when closing an RDP panel, likely due to a race condition during the disposal of the underlying ActiveX COM object, specifically involving `Marshal.FinalReleaseComObject` in `RdpProtocol.CleanupResources()`.\",\n  \"priority\": \"P2-bug\",\n  \"estimated_files\": [\n    \"mRemoteNG/Connection/Protocol/RDP/RdpProtocol.cs\",\n    \"mRemoteNG/Connection/Protocol/ProtocolBase.cs\",\n    \"mRemoteNG/Connection/InterfaceControl.cs\",\n    \"mRemoteNG/UI/Tabs/ConnectionTab.cs\"\n  ],\n  \"approach\": \"Introduce a flag in `RdpProtocol` to ensure `CleanupResources()` is executed only once, and carefully synchronize the disposal of the ActiveX COM object to prevent race conditions. This includes ensuring `Marshal.FinalReleaseComObject` is called safely and only when necessary, and adding defensive null checks around `_rdpClient` during cleanup.\"\n}\n```\n",
+      "errors": null,
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-22T16:13:26"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": true
+}

@@ -1,0 +1,22 @@
+Project: mRemoteNG (.NET 10, WinForms, COM references)
+Working directory: D:\github\mRemoteNG
+Branch: main
+
+Fix GitHub issue #2077: Merge and auto-export configfile
+
+Description:
+
+
+Recommended approach: Investigate existing configuration loading and saving mechanisms. Design and implement a merging strategy for different configuration file types. Implement an auto-export feature that triggers on significant configuration changes or application exit.
+Likely files: mRemoteNG/App/Runtime.cs, mRemoteNG/Config/Connections/ConnectionsService.cs, mRemoteNG/Config/Serializers/ConnectionSerializers/Xml/XmlConnectionNodeSerializer28.cs, mRemoteNG/UI/Window/ConfigWindow.cs
+
+RULES (CRITICAL):
+- Read code BEFORE modifying
+- Do NOT change existing behavior — only fix the reported issue
+- Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
+- Do NOT run git commit, git add, git push, or ANY git operations. The orchestrator handles all commits.
+- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY.
+- After fixing, run build: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
+- After build passes, run tests: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -NoBuild
+- If YOUR change breaks tests, fix it.  If tests fail for unrelated reasons, ignore.
+- Do ONLY the fix.  Nothing else.

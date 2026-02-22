@@ -1,0 +1,20 @@
+VSTest version 18.3.0 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+NUnit Adapter 6.1.0.0: Test execution started
+Running selected tests in D:\github\mRemoteNG\mRemoteNGTests\bin\x64\Release\mRemoteNGTests.dll
+   NUnit3TestExecutor discovered 354 of 354 NUnit test cases using Current Discovery mode, Non-Explicit run
+  Passed VerifyConnectWithCredentialsMenuItemExists [130 ms]
+  Passed DisconnectConnection_ShouldDisconnectRecursively [49 ms]
+  Passed VerifyImportFromTextListMenuItemExists [44 ms]
+  Passed VerifyOptionsMenuItemExists [46 ms]
+  Passed IntersectionOfPropertiesIsShown_WhenSelectingDifferentProtocols [44 ms]
+  Passed UnionOfPropertiesIsShown_WhenSelectingSameProtocol [9 ms]
+  Passed AddingConnectionUpdatesAncestorCounts [330 ms]
+  Passed RemovingConnectionUpdatesAncestorCounts [88 ms]
+  Passed ApplyFilter_ExpandsDeeplyNestedFolders [178 ms]
+
+Total tests: Unknown
+     Passed: 9
+ Total time: 1.8330 Seconds
