@@ -20,7 +20,7 @@ jobs:
         with:
           script: |
             const githubRepoRegex =
-              /\[[^\]]*\]\(https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*\)|https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*/gi;
+              /\[[^\]]*\]\((?!https?:\/\/github\.com\/user-attachments\/assets\/)[^\)]*https?:\/\/github\.com\/(?!user-attachments\/assets\/)[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*\)|https?:\/\/github\.com\/(?!user-attachments\/assets\/)[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*/gi;
             
             // CASE 1: Comment
             if (context.payload.comment) {
