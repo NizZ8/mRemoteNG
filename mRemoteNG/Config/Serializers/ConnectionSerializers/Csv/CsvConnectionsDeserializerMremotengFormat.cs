@@ -660,6 +660,69 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                     connectionRecord.DesktopScaleFactor = value;
             }
 
+            if (headers.Contains("CredentialId"))
+            {
+                if (Guid.TryParse(connectionCsv[headers.IndexOf("CredentialId")], out Guid guid))
+                    connectionRecord.CredentialId = guid;
+            }
+
+            if (headers.Contains("RDPSignScope"))
+            {
+                if (Enum.TryParse(connectionCsv[headers.IndexOf("RDPSignScope")], out RDPSignScope value))
+                    connectionRecord.RDPSignScope = value;
+            }
+
+            if (headers.Contains("RDPSignature"))
+            {
+                connectionRecord.RDPSignature = connectionCsv[headers.IndexOf("RDPSignature")];
+            }
+
+            if (headers.Contains("RDPSizingMode"))
+            {
+                if (Enum.TryParse(connectionCsv[headers.IndexOf("RDPSizingMode")], out RDPSizingMode value))
+                    connectionRecord.RDPSizingMode = value;
+            }
+
+            if (headers.Contains("ResolutionWidth"))
+            {
+                if (int.TryParse(connectionCsv[headers.IndexOf("ResolutionWidth")], out int value))
+                    connectionRecord.ResolutionWidth = value;
+            }
+
+            if (headers.Contains("ResolutionHeight"))
+            {
+                if (int.TryParse(connectionCsv[headers.IndexOf("ResolutionHeight")], out int value))
+                    connectionRecord.ResolutionHeight = value;
+            }
+
+            if (headers.Contains("RDPUseMultimon"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("RDPUseMultimon")], out bool value))
+                    connectionRecord.RDPUseMultimon = value;
+            }
+
+            if (headers.Contains("Notes"))
+            {
+                connectionRecord.Notes = connectionCsv[headers.IndexOf("Notes")];
+            }
+
+            if (headers.Contains("RetryOnFirstConnect"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("RetryOnFirstConnect")], out bool value))
+                    connectionRecord.RetryOnFirstConnect = value;
+            }
+
+            if (headers.Contains("ConnectionAddressPrimary"))
+            {
+                if (Enum.TryParse(connectionCsv[headers.IndexOf("ConnectionAddressPrimary")], out ConnectionAddressPrimary value))
+                    connectionRecord.ConnectionAddressPrimary = value;
+            }
+
+            if (headers.Contains("IPAddress"))
+            {
+                connectionRecord.IPAddress = connectionCsv[headers.IndexOf("IPAddress")];
+            }
+
             #region Inheritance
 
             if (headers.Contains("InheritCacheBitmaps"))

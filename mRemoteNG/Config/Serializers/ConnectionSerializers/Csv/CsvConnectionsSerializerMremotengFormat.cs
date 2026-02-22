@@ -63,7 +63,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                       "CacheBitmaps;RedirectDiskDrives;RedirectDiskDrivesCustom;RedirectPorts;RedirectPrinters;RedirectClipboard;RedirectSmartCards;RedirectSound;RedirectKeys;" +
                       "PreExtApp;PostExtApp;MacAddress;UserField;UserField1;UserField2;UserField3;UserField4;UserField5;UserField6;UserField7;UserField8;UserField9;UserField10;EnvironmentTags;ExtApp;Favorite;AutoSort;VNCCompression;VNCEncoding;VNCAuthMode;VNCProxyType;VNCProxyIP;" +
                       "VNCProxyPort;VNCProxyUsername;VNCProxyPassword;VNCColors;VNCSmartSizeMode;VNCViewOnly;VNCClipboardRedirect;RDGatewayUsageMethod;RDGatewayHostname;" +
-                      "RDGatewayUseConnectionCredentials;RDGatewayUsername;RDGatewayPassword;RDGatewayDomain;RDGatewayExternalCredentialProvider;RDGatewayUserViaAPI;RedirectAudioCapture;RdpVersion;RDPStartProgram;RDPStartProgramWorkDir;UserViaAPI;EC2InstanceId;EC2Region;ExternalCredentialProvider;ExternalAddressProvider;PrivateKeyPath;UsePersistentBrowser;ScriptErrorsSuppressed;DesktopScaleFactor;");
+                      "RDGatewayUseConnectionCredentials;RDGatewayUsername;RDGatewayPassword;RDGatewayDomain;RDGatewayExternalCredentialProvider;RDGatewayUserViaAPI;RedirectAudioCapture;RdpVersion;RDPStartProgram;RDPStartProgramWorkDir;UserViaAPI;EC2InstanceId;EC2Region;ExternalCredentialProvider;ExternalAddressProvider;PrivateKeyPath;UsePersistentBrowser;ScriptErrorsSuppressed;DesktopScaleFactor;CredentialId;RDPSignScope;RDPSignature;RDPSizingMode;ResolutionWidth;ResolutionHeight;RDPUseMultimon;Notes;RetryOnFirstConnect;ConnectionAddressPrimary;IPAddress;");
 
             if (_saveFilter.SaveInheritance)
                 sb.Append("InheritCacheBitmaps;InheritColors;InheritDescription;InheritDisplayThemes;InheritDisplayWallpaper;" +
@@ -213,6 +213,17 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
               .Append(FormatForCsv(con.UsePersistentBrowser))
               .Append(FormatForCsv(con.ScriptErrorsSuppressed))
               .Append(FormatForCsv(con.DesktopScaleFactor))
+              .Append(FormatForCsv(con.CredentialId))
+              .Append(FormatForCsv(con.RDPSignScope))
+              .Append(FormatForCsv(con.RDPSignature))
+              .Append(FormatForCsv(con.RDPSizingMode))
+              .Append(FormatForCsv(con.ResolutionWidth))
+              .Append(FormatForCsv(con.ResolutionHeight))
+              .Append(FormatForCsv(con.RDPUseMultimon))
+              .Append(FormatForCsv(con.Notes))
+              .Append(FormatForCsv(con.RetryOnFirstConnect))
+              .Append(FormatForCsv(con.ConnectionAddressPrimary))
+              .Append(FormatForCsv(con.IPAddress))
               ;
 
 
