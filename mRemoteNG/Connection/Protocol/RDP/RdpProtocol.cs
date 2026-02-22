@@ -1785,7 +1785,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             (Control?.Parent?.Parent as ConnectionTab)?.Focus();
         }
 
-        private void OnControlDisposed(object? sender, EventArgs e)
+        private void CleanupResources()
         {
             try
             {
@@ -1796,8 +1796,8 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                 Application.RemoveMessageFilter(this);
 
-                _extendedReconnectTimer.Stop();
-                _extendedReconnectTimer.Dispose();
+                _extendedReconnectTimer?.Stop();
+                _extendedReconnectTimer?.Dispose();
 
                 if (_rdpClient != null)
                 {
@@ -1831,6 +1831,11 @@ namespace mRemoteNG.Connection.Protocol.RDP
             {
                 Runtime.MessageCollector.AddExceptionStackTrace("Error during RDP control disposal", ex);
             }
+        }
+
+        private void OnControlDisposed(object? sender, EventArgs e)
+        {
+            Dispose();
         }
         #endregion
 
@@ -1892,8 +1897,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         {
             if (disposing)
             {
-                Application.RemoveMessageFilter(this);
-                _extendedReconnectTimer?.Dispose();
+                CleanupResources();
             }
             base.Dispose(disposing);
         }
