@@ -19,7 +19,7 @@ namespace mRemoteNG.Resources.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Language {
@@ -174,6 +174,15 @@ namespace mRemoteNG.Resources.Language {
         internal static string _Scan {
             get {
                 return ResourceManager.GetString("_Scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Sessions.
+        /// </summary>
+        internal static string _Sessions {
+            get {
+                return ResourceManager.GetString("_Sessions", resourceCulture);
             }
         }
         
@@ -2910,6 +2919,15 @@ namespace mRemoteNG.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jump to Session {0}.
+        /// </summary>
+        internal static string JumpToSession {
+            get {
+                return ResourceManager.GetString("JumpToSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (Automatically Detect).
         /// </summary>
         internal static string LanguageDefault {
@@ -3495,6 +3513,15 @@ namespace mRemoteNG.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Session.
+        /// </summary>
+        internal static string NextSession {
+            get {
+                return ResourceManager.GetString("NextSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
@@ -3960,6 +3987,15 @@ namespace mRemoteNG.Resources.Language {
         internal static string PowerShell {
             get {
                 return ResourceManager.GetString("PowerShell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous Session.
+        /// </summary>
+        internal static string PreviousSession {
+            get {
+                return ResourceManager.GetString("PreviousSession", resourceCulture);
             }
         }
         

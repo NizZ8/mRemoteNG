@@ -9,6 +9,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <TransformOnBuild>true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
     <ApplicationIcon>Icons\mRemoteNG.ico</ApplicationIcon>
     <Version>1.78.2-dev</Version>
     <Description>Multi-protocol remote connections manager</Description>
@@ -277,6 +280,11 @@
     <Compile Update="UI\Forms\OptionsPages\UpdatesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <T4ParameterValues Include="platformType">
+      <Value>$(Platform)</Value>
+    </T4ParameterValues>
   </ItemGroup>
   <ItemGroup>
     <None Update="Properties\AssemblyInfo.tt">
@@ -588,4 +596,5 @@
     <RemoveDir Directories="$(TempBuildDir)" />
     <RemoveDir Directories="$(ProjectDir)bin\x64\Release Self-Contained" />
   </Target>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets" />
 </Project>
