@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -266,7 +266,11 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                 nameof(ConnectionInfo.UserField10),
                 nameof(ConnectionInfo.EnvironmentTags),
                 nameof(ConnectionInfo.Favorite),
-                nameof(ConnectionInfo.SSHTunnelConnectionName)
+                nameof(ConnectionInfo.SSHTunnelConnectionName),
+                nameof(ConnectionInfo.IPAddress),
+                nameof(ConnectionInfo.ConnectionAddressPrimary),
+                nameof(ConnectionInfo.Notes),
+                nameof(ConnectionInfo.RetryOnFirstConnect),
             };
 
             if (!isContainer)
@@ -330,6 +334,13 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.RDGatewayUserViaAPI),
                         nameof(ConnectionInfo.ExternalCredentialProvider),
                         nameof(ConnectionInfo.ExternalAddressProvider),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
+                        nameof(ConnectionInfo.RDPSignScope),
+                        nameof(ConnectionInfo.RDPSignature),
+                        nameof(ConnectionInfo.RDPSizingMode),
+                        nameof(ConnectionInfo.ResolutionWidth),
+                        nameof(ConnectionInfo.ResolutionHeight),
+                        nameof(ConnectionInfo.RDPUseMultimon),
                     });
                     break;
                 case ProtocolType.VNC:
@@ -340,7 +351,9 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Port),
                         nameof(ConnectionInfo.VNCColors),
                         nameof(ConnectionInfo.VNCSmartSizeMode),
-                        nameof(ConnectionInfo.VNCViewOnly)
+                        nameof(ConnectionInfo.VNCViewOnly),
+                        nameof(ConnectionInfo.VNCClipboardRedirect),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.SSH1:
@@ -354,6 +367,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.PuttySession),
                         nameof(ConnectionInfo.OpeningCommand),
                         nameof(ConnectionInfo.ExternalCredentialProvider),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.SSH2:
@@ -368,6 +382,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.OpeningCommand),
                         nameof(ConnectionInfo.ExternalAddressProvider),
                         nameof(ConnectionInfo.ExternalCredentialProvider),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.Telnet:
@@ -389,6 +404,9 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.RenderingEngine),
                         nameof(ConnectionInfo.UsePersistentBrowser),
                         nameof(ConnectionInfo.ScriptErrorsSuppressed),
+                        nameof(ConnectionInfo.HttpPath),
+                        nameof(ConnectionInfo.ShowBrowserNavigationBar),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.PowerShell:
@@ -397,6 +415,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Password),
                         nameof(ConnectionInfo.Domain),
                         nameof(ConnectionInfo.Port),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.WSL:
@@ -405,6 +424,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Password),
                         nameof(ConnectionInfo.Domain),
                         nameof(ConnectionInfo.Port),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.IntApp:
@@ -415,6 +435,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Domain),
                         nameof(ConnectionInfo.Port),
                         nameof(ConnectionInfo.ExtApp),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.Winbox:
@@ -423,6 +444,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Username),
                         nameof(ConnectionInfo.Password),
                         nameof(ConnectionInfo.Port),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.OpenSSH:
@@ -433,6 +455,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.Port),
                         nameof(ConnectionInfo.SSHOptions),
                         nameof(ConnectionInfo.PrivateKeyPath),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.Terminal:
@@ -443,6 +466,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                     {
                         nameof(ConnectionInfo.Password),
                         nameof(ConnectionInfo.Port),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
                     });
                     break;
                 case ProtocolType.MSRA:

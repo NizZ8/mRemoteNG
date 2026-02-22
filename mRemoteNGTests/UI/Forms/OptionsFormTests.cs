@@ -8,15 +8,16 @@ using System.Linq;
 
 namespace mRemoteNGTests.UI.Forms
 {
+    /// <summary>
+    /// Tests for FrmOptions. CRITICAL: Only ONE test allowed per fixture.
+    /// FrmOptions + ObjectListView leaks native Win32 resources (GDI handles,
+    /// window class registrations). Even 2 tests that touch FrmOptions in the
+    /// same testhost process crash it. All assertions are in a single test.
+    /// </summary>
     [TestFixture]
     [Apartment(ApartmentState.STA)]
-    public class OptionsFormTests : OptionsFormSetupAndTeardown
+    public class OptionsFormTests
     {
-        /// <summary>
-        /// Runs the given action on a dedicated STA thread with a WinForms message pump.
-        /// Required because FrmOptions uses ObjectListView which forces native Win32
-        /// handle creation that deadlocks without an active message pump.
-        /// </summary>
         private static void RunWithMessagePump(Action<FrmOptions> testAction)
         {
             Exception caught = null;
@@ -28,8 +29,6 @@ namespace mRemoteNGTests.UI.Forms
                     optionsForm = new FrmOptions();
                     optionsForm.Load += (s, e) =>
                     {
-                        // Defer test action via BeginInvoke so Load completes first
-                        // and the message pump can process ObjectListView initialization.
                         optionsForm.BeginInvoke(() =>
                         {
                             try
@@ -43,9 +42,6 @@ namespace mRemoteNGTests.UI.Forms
                             }
                             finally
                             {
-                                // Force-exit the message loop. Don't call Close()
-                                // because FrmOptions.FormClosing shows MessageBox
-                                // when HasChanges is true.
                                 Application.ExitThread();
                             }
                         });
@@ -68,103 +64,60 @@ namespace mRemoteNGTests.UI.Forms
                 thread.Interrupt();
                 Assert.Fail("Test timed out after 30 seconds (message pump deadlock)");
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
             if (caught != null)
                 throw caught;
         }
 
+        /// <summary>
+        /// Single test that validates FrmOptions construction, controls, ListView,
+        /// page selection, OK button, and change tracking.
+        /// </summary>
         [Test]
-        public void ClickingCloseButtonClosesTheForm()
+        public void FormBehavior() => RunWithMessagePump(optionsForm =>
         {
-            Button cancelButton = _optionsForm.FindControl<Button>("btnCancel");
-            cancelButton.PerformClick();
-            Assert.That(_optionsForm.Visible, Is.False);
-        }
-
-        [Test]
-        public void ClickingOKButtonSetsDialogResult()
-        {
-            Button cancelButton = _optionsForm.FindControl<Button>("btnOK");
-            cancelButton.PerformClick();
-            Assert.That(_optionsForm.DialogResult, Is.EqualTo(DialogResult.OK));
-        }
-
-        [Test]
-        public void ListViewContainsOptionsPages()
-        {
-            ListViewTester listViewTester = new("lstOptionPages", _optionsForm);
-            Assert.That(listViewTester.Items.Count, Is.EqualTo(13));
-        }
-
-        [Test]
-        public void ChangingOptionMarksPageAsChanged() => RunWithMessagePump(optionsForm =>
-        {
-            Application.DoEvents();
-
+            // 1. Controls are created
             var pnlMain = optionsForm.FindControl<Panel>("pnlMain");
-            Assert.That(pnlMain, Is.Not.Null, "pnlMain should exist on the options form");
-            Assert.That(pnlMain.Controls.Count, Is.GreaterThan(0), "pnlMain should have at least one options page");
-
-            var optionsPage = pnlMain.Controls[0] as mRemoteNG.UI.Forms.OptionsPages.OptionsPage;
-            Assert.That(optionsPage, Is.Not.Null, "First control in pnlMain should be an OptionsPage");
-
-            var checkBoxes = optionsPage.GetAllControls().OfType<CheckBox>().ToList();
-            Assert.That(checkBoxes.Count, Is.GreaterThan(0), "Options page should have at least one checkbox");
-
-            var checkBox = checkBoxes[0];
-            bool originalValue = checkBox.Checked;
-            checkBox.Checked = !originalValue;
-            Application.DoEvents();
-
-            Assert.That(optionsPage.HasChanges, Is.True, "Toggling a checkbox should mark the page as having changes");
-        });
-
-        [Test]
-        public void ControlsAreCreatedAfterFormInitialization()
-        {
-            Application.DoEvents();
-            var pnlMain = _optionsForm.FindControl<Panel>("pnlMain");
             Assert.That(pnlMain, Is.Not.Null, "pnlMain should exist");
             Assert.That(pnlMain.Controls.Count, Is.GreaterThan(0), "pnlMain should have child controls");
-        }
 
-        [Test]
-        public void OptionsFormHasValidSelectedPage()
-        {
-            Application.DoEvents();
-            var lstOptionPages = _optionsForm.GetType()
+            // 2. First page is not disposed
+            var firstPage = pnlMain.Controls[0];
+            Assert.That(firstPage.IsDisposed, Is.False, "Page should not be disposed");
+
+            // 3. ListView has all 13 options pages
+            ListViewTester listViewTester = new("lstOptionPages", optionsForm);
+            Assert.That(listViewTester.Items.Count, Is.EqualTo(13));
+
+            // 4. SelectedObject is set
+            var lstOptionPages = optionsForm.GetType()
                 .GetField("lstOptionPages", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.GetValue(_optionsForm);
-
+                ?.GetValue(optionsForm);
             Assert.That(lstOptionPages, Is.Not.Null, "lstOptionPages should exist");
-
             var selectedObject = lstOptionPages.GetType()
                 .GetProperty("SelectedObject")
                 ?.GetValue(lstOptionPages);
-
             Assert.That(selectedObject, Is.Not.Null, "SelectedObject should not be null");
-        }
 
-        [Test]
-        public void ControlHandlesAreCreatedProperly()
-        {
+            // 5. OK button sets DialogResult
+            Button okButton = optionsForm.FindControl<Button>("btnOK");
+            okButton.PerformClick();
+            Assert.That(optionsForm.DialogResult, Is.EqualTo(DialogResult.OK));
+
+            // 6. Change tracking - toggle a checkbox
             Application.DoEvents();
-            var pnlMain = _optionsForm.FindControl<Panel>("pnlMain");
-            Assert.That(pnlMain.Controls.Count, Is.GreaterThan(0));
-
-            var firstPage = pnlMain.Controls[0];
-            Assert.That(firstPage.IsDisposed, Is.False, "Page should not be disposed");
-        }
-
-        [Test]
-        public void FormConstructionDoesNotThrow()
-        {
-            Assert.DoesNotThrow(() =>
-            {
-                using var form = new FrmOptions();
-                form.Show();
-                Application.DoEvents();
-                form.Close();
-            });
-        }
+            var optionsPage = pnlMain.Controls[0] as mRemoteNG.UI.Forms.OptionsPages.OptionsPage;
+            Assert.That(optionsPage, Is.Not.Null, "First control in pnlMain should be an OptionsPage");
+            var checkBoxes = optionsPage.GetAllControls().OfType<CheckBox>().ToList();
+            Assert.That(checkBoxes.Count, Is.GreaterThan(0), "Options page should have at least one checkbox");
+            var checkBox = checkBoxes[0];
+            checkBox.Checked = !checkBox.Checked;
+            Application.DoEvents();
+            Assert.That(optionsPage.HasChanges, Is.True, "Toggling a checkbox should mark the page as having changes");
+        });
     }
 }

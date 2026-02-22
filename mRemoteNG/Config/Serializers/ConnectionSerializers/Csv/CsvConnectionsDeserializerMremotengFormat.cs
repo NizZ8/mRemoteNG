@@ -6,7 +6,6 @@ using mRemoteNG.Connection;
 using mRemoteNG.Connection.Protocol;
 using mRemoteNG.Connection.Protocol.Http;
 using mRemoteNG.Connection.Protocol.RDP;
-using mRemoteNG.Connection.Protocol.RDP;
 using mRemoteNG.Connection.Protocol.VNC;
 using mRemoteNG.Container;
 using mRemoteNG.Security;
@@ -668,8 +667,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
 
             if (headers.Contains("RDPSignScope"))
             {
-                if (Enum.TryParse(connectionCsv[headers.IndexOf("RDPSignScope")], out RDPSignScope value))
-                    connectionRecord.RDPSignScope = value;
+                connectionRecord.RDPSignScope = connectionCsv[headers.IndexOf("RDPSignScope")];
             }
 
             if (headers.Contains("RDPSignature"))
