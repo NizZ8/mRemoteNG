@@ -43,6 +43,11 @@ namespace mRemoteNG.App
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
 
+            CommandLineParser commandLineParser = new(args);
+            commandLineParser.ApplySwitches();
+            args = commandLineParser.GetNormalizedArguments();
+            Startup.Instance.CommandLineArgs = args;
+
 #if !SELF_CONTAINED
             // Runtime checks only needed for framework-dependent deployments
             // Self-contained builds include the runtime, so no check is needed
@@ -210,8 +215,9 @@ namespace mRemoteNG.App
 
         private static void SendArgsToRunningInstance(IntPtr hWnd, string[] args)
         {
-            string message = string.Join("\n", args);
-            
+            string[] normalizedArgs = new CommandLineParser(args).GetNormalizedArguments();
+            string message = string.Join("\n", normalizedArgs);
+
             NativeMethods.COPYDATASTRUCT cds;
             cds.dwData = (IntPtr)1; // ID for args
             cds.cbData = (message.Length + 1) * 2;

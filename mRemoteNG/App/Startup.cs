@@ -31,6 +31,8 @@ namespace mRemoteNG.App
 
         public static Startup Instance { get; } = new Startup();
 
+        public string[]? CommandLineArgs { get; set; }
+
         private Startup()
         {
             _RegistryLoader = RegistryLoader.Instance; //created instance
@@ -52,10 +54,10 @@ namespace mRemoteNG.App
             PluginManager.Instance.LoadPlugins();
         }
 
-        private static void ParseCommandLineArgs(MessageCollector messageCollector)
+        private void ParseCommandLineArgs(MessageCollector messageCollector)
         {
             StartupArgumentsInterpreter interpreter = new(messageCollector);
-            interpreter.ParseArguments(Environment.GetCommandLineArgs());
+            interpreter.ParseArguments(CommandLineArgs ?? Environment.GetCommandLineArgs());
         }
 
         public void CreateConnectionsProvider(MessageCollector messageCollector)

@@ -1138,6 +1138,9 @@ namespace mRemoteNG.UI.Forms
 
             string[] args = argsMessage.Split('\n');
 
+            CommandLineParser commandLineParser = new(args);
+            commandLineParser.ApplySwitches(applyLogPathToActiveLogger: true);
+
             StartupArgumentsInterpreter.ResetConnectionArgs();
             StartupArgumentsInterpreter interpreter = new(Runtime.MessageCollector);
             interpreter.ParseArguments(args);
