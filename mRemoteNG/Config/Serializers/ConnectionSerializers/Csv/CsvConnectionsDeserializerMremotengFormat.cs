@@ -6,6 +6,7 @@ using mRemoteNG.Connection;
 using mRemoteNG.Connection.Protocol;
 using mRemoteNG.Connection.Protocol.Http;
 using mRemoteNG.Connection.Protocol.RDP;
+using mRemoteNG.Connection.Protocol.RDP;
 using mRemoteNG.Connection.Protocol.VNC;
 using mRemoteNG.Container;
 using mRemoteNG.Security;
@@ -662,8 +663,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
 
             if (headers.Contains("CredentialId"))
             {
-                if (Guid.TryParse(connectionCsv[headers.IndexOf("CredentialId")], out Guid guid))
-                    connectionRecord.CredentialId = guid;
+                connectionRecord.CredentialId = connectionCsv[headers.IndexOf("CredentialId")];
             }
 
             if (headers.Contains("RDPSignScope"))
