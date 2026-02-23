@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml;
 
 namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
@@ -28,7 +29,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             if (string.IsNullOrWhiteSpace(value))
                 return defaultValue;
 
-            return int.TryParse(value, out int valueAsBool)
+            return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int valueAsBool)
                 ? valueAsBool
                 : defaultValue;
         }

@@ -674,7 +674,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             if (string.IsNullOrWhiteSpace(value))
                 return RDGatewayUsageMethod.Never;
 
-            if (int.TryParse(value, out int numericValue))
+            if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int numericValue))
             {
                 return numericValue switch
                 {
