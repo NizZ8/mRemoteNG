@@ -71,6 +71,7 @@ TEST_PASS_THRESHOLD = 0.99        # accept commit if ≥99% tests pass (1-3 fail
 TEST_MIN_DURATION_SECS = 10       # tests taking less than this = phantom (didn't run)
 TEST_MIN_COUNT = 100              # reject if fewer tests than expected (sanity check)
 IMPL_CONSECUTIVE_FAIL_LIMIT = 5   # circuit breaker: stop after N consecutive impl failures
+IMPL_MAX_RETRIES_PER_ISSUE = 3    # skip issue after N failed attempts across sessions
 TEST_FIX_MAX_ATTEMPTS = 2         # how many times to ask an agent to fix failing tests
 TEST_HYGIENE_MAX_GROUPS = 10      # max failure groups to attempt fixing in hygiene phase
 TEST_HYGIENE_FIX_ATTEMPTS = 2    # attempts per failure group during hygiene
@@ -2603,6 +2604,18 @@ def find_dependents(fpath, all_warnings):
     return dependents[:5]  # limit to 5 most relevant
 
 
+def _count_impl_attempts(issue_num):
+    """Count total implementation attempts for an issue across all chain-context files."""
+    count = 0
+    for f in CHAIN_CONTEXT_DIR.glob(f"*_implement_{issue_num}.json"):
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            count += len(data.get("attempts", []))
+        except Exception:
+            pass
+    return count
+
+
 # ── FLUX 1: OPEN ISSUES ────────────────────────────────────────────────────
 def load_actionable_issues():
     """Load issues from JSON DB that need triage or implementation.
@@ -2633,6 +2646,15 @@ def load_actionable_issues():
 
             # Include impl_failed issues for retry (even if already AI-triaged)
             if impl_failed:
+                attempt_count = _count_impl_attempts(data["number"])
+                if attempt_count >= IMPL_MAX_RETRIES_PER_ISSUE:
+                    log.info("  [SKIP] #%d — %d failed attempts (max %d), marking needs_human",
+                             data["number"], attempt_count, IMPL_MAX_RETRIES_PER_ISSUE)
+                    update_issue_json(data["number"], "triaged",
+                                      f"Skipped: {attempt_count} failed auto-fix attempts",
+                                      impl_failed=False,
+                                      notes=f"Needs human intervention after {attempt_count} AI attempts")
+                    continue
                 data["_is_retry"] = True  # marker for chain_implement to know
                 issues.append(data)
                 retry_count += 1

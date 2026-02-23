@@ -79,7 +79,14 @@ namespace mRemoteNG.Config.DataProviders
                 // Write to a temp file first, then atomically rename/replace.
                 // This avoids cloud sync services (e.g. OneDrive) getting stuck because
                 // the target file is briefly open for the entire duration of a direct overwrite.
-                File.WriteAllText(tempPath, content);
+                // Use FileStream with Flush(flushToDisk: true) to ensure data reaches
+                // the physical disk before replace — prevents data loss on hibernation (#2150).
+                byte[] bytes = new System.Text.UTF8Encoding(false).GetBytes(content);
+                using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    fs.Write(bytes, 0, bytes.Length);
+                    fs.Flush(flushToDisk: true);
+                }
 
                 // Retry the rename/replace in case the target is momentarily locked by the sync process.
                 const int maxAttempts = 5;
@@ -91,6 +98,18 @@ namespace mRemoteNG.Config.DataProviders
                             File.Replace(tempPath, FilePath, destinationBackupFileName: null);
                         else
                             File.Move(tempPath, FilePath);
+
+                        // Verify saved file is non-empty (catch catastrophic zero-byte corruption)
+                        if (content.Length > 0)
+                        {
+                            var savedInfo = new FileInfo(FilePath);
+                            if (savedInfo.Length == 0)
+                            {
+                                Runtime.MessageCollector.AddExceptionStackTrace(
+                                    $"Save verification failed: {FilePath} is empty after save",
+                                    new IOException("File is 0 bytes after successful replace"));
+                            }
+                        }
                         return;
                     }
                     catch (IOException) when (attempt < maxAttempts)

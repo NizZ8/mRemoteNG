@@ -13,7 +13,7 @@
   "created_at": "2022-02-01T20:44:11Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "I resumed configuring my list of folders & servers after hibernating my PC.  I made many changes, saved the config (ctrl-S), and exited.  I re-opened mRemoteNG & the entire configuration was gone. I was prompted to create a configuration as if I was a first-time user.\r\n\r\n## Expected Behavior\r\nI expected the configuration to be saved and available at the app's next startup.\r\n\r\n## Current Behavior\r\nThe config was lost.  Everything was gone.  This happened only once so far.\r\n\r\n## Steps to Reproduce...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P0-critical",
   "target_release": null,
   "our_branch": null,
@@ -24,6 +24,40 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "Critical data loss bug where user configuration is lost after multiple save operations and system hibernation."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Implementation failed (all agents)",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 26618,
+        "cost_usd": 2.316496,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Implementation failed (all agents)",
+      "token_usage": {
+        "input_tokens": 779,
+        "output_tokens": 22536,
+        "cost_usd": 1.747162,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-24",
+      "type": "testing",
+      "description": "Status changed to testing",
+      "pr": null,
+      "branch": null,
+      "release": null,
+      "comment_posted": false
     }
   ],
   "comments": [
@@ -68,7 +102,12 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-23T22:16:29Z",
   "notes": "AI triage (gemini): Critical data loss bug where user configuration is lost after multiple save operations and system hibernation.\nApproach: Investigate the configuration saving and loading mechanisms, focusing on file I/O robustness, file locking, and handling of application lifecycle events, especially around system hibernation. Analyze potential conflicts or race conditions when multiple save/export operations occur. Implement atomic save operations and/or backup mechanisms to ensure data integrity.",
-  "impl_failed": true
+  "impl_failed": true,
+  "token_usage": {
+    "input_tokens": 806,
+    "output_tokens": 49154,
+    "cost_usd": 4.063658
+  }
 }
