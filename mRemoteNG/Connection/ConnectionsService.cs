@@ -477,7 +477,7 @@ namespace mRemoteNG.Connection
             */
             if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
             {
-                return Properties.OptionsConnectionsPage.Default.ConnectionFilePath;
+                return Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
             }
             else
             {
