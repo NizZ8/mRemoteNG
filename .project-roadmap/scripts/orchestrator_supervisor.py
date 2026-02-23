@@ -1336,7 +1336,7 @@ class Supervisor:
 
     def _start_orchestrator(self):
         """Start the orchestrator as a subprocess."""
-        cmd = [sys.executable, str(ORCHESTRATOR_SCRIPT)]
+        cmd = [sys.executable, str(ORCHESTRATOR_SCRIPT), "--force"]
         if self.orchestrator_args:
             cmd.extend(self.orchestrator_args.split())
 
