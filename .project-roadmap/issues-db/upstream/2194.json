@@ -11,12 +11,19 @@
   "created_at": "2022-04-05T06:41:11Z",
   "github_updated_at": "2026-02-21T10:23:24Z",
   "body_snippet": "hi,\r\n\r\ntried to close an ssh connection got following error come up....\r\n\r\n```\r\nException Message\r\n\"Cannot access a disposed object.\r\nObject name: 'ConnectionWindow'.\"\r\n\r\nStack trace\r\n   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)\r\n   at System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)\r\n   at System.Windows.Forms.Control.Invoke(Action method)\r\n   at mRemoteNG.UI.Window.ConnectionWindow.Prot_Event_Closed(O...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXFY6",
@@ -42,5 +49,5 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention.\nApproach: Analyze nightly build logs to pinpoint the exact failure, then investigate recent code changes or build environment configuration."
 }

@@ -1,0 +1,60 @@
+{
+  "task_type": "implement",
+  "task_id": "2194",
+  "started_at": "2026-02-23T07:44:00",
+  "finished_at": "2026-02-23T07:54:57",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "implement #2194",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T07:44:00"
+    },
+    {
+      "agent": "gemini",
+      "task": "implement #2194",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T07:44:00"
+    },
+    {
+      "agent": "claude",
+      "task": "implement #2194",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Build OK but tests failed. Test fix attempted but failed.",
+      "files_modified": [
+        ".project-roadmap/issues-db/upstream/2192.json",
+        ".project-roadmap/issues-db/upstream/2193.json",
+        ".project-roadmap/issues-db/upstream/2194.json",
+        ".project-roadmap/scripts/chain-context/_timeout_history.json"
+      ],
+      "build_result": "OK",
+      "test_result": "FAIL",
+      "timed_out": false,
+      "diff_summary": ".project-roadmap/issues-db/upstream/2192.json       | 21 +++++++++++++++++++--\n .project-roadmap/issues-db/upstream/2193.json       | 15 +++++++++++----\n .project-roadmap/issues-db/upstream/2194.json       | 15 +++++++++++----\n .../scripts/chain-context/_timeout_history.json     | 12 ++++++------\n 4 files changed, 47 insertions(+), 16 deletions(-)",
+      "timestamp": "2026-02-23T07:54:56",
+      "diff_output": "diff --git a/.project-roadmap/issues-db/upstream/2192.json b/.project-roadmap/issues-db/upstream/2192.json\nindex e24f3ee01..76f7923e8 100644\n--- a/.project-roadmap/issues-db/upstream/2192.json\n+++ b/.project-roadmap/issues-db/upstream/2192.json\n@@ -12,7 +12,7 @@\n   \"created_at\": \"2022-03-31T12:37:04Z\",\n   \"github_updated_at\": \"2022-04-04T11:27:15Z\",\n   \"body_snippet\": \"<!--- Provide a general summary of the issue in the Title above -->\\r\\n\\r\\n## Expected Behavior\\r\\n<!--- If you're describing a bug, tell us what should happen -->\\r\\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\\r\\n![image](https://user-images.githubusercontent.com/18184515/161055838-15ab84e9-9344-4392-87a5-fb2223c5f1e1.png)\\r\\n\\r\\n\\r\\n## Current Behavior\\r\\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\\r\\n<!--- If suggesting a change/improve...\",\n-  \"our_status\": \"triaged\",\n+  \"our_status\": \"testing\",\n   \"priority\": \"P3-enhancement\",\n   \"target_release\": null,\n   \"our_branch\": null,\n@@ -23,6 +23,18 @@\n       \"date\": \"2026-02-23\",\n       \"type\": \"triaged\",\n       \"description\": \"The user requests an enhancement to the main tab panel to optimize screen usage, drawing inspiration from modern browser tab implementations like Edge.\"\n+    },\n+    {\n+      \"seq\": 2,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"testing\",\n+      \"description\": \"Fix in b1e91dd9\",\n+      \"token_usage\": {\n+        \"input_tokens\": 10,\n+        \"output_tokens\": 7323,\n+        \"cost_usd\": 0.749235,\n+        \"operations\": 1\n+      }\n     }\n   ],\n   \"comments\": [],\n@@ -31,5 +43,10 @@\n   \"needs_action\": false,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-15T09:52:50Z\",\n-  \"notes\": \"AI triage (gemini): The user requests an enhancement to the main tab panel to optimize screen usage, drawing inspiration from modern browser tab implementations like Edge.\\nApproach: Investigate and implement UI adjustments to the WeifenLuo.WinFormsUI.Docking.DockPanel, potentially customizing `DockPaneStripNG.cs` to introduce features like dynamic tab sizing, vertical tabs, or other space-saving optimizations, to maximize screen real estate.\"\n+  \"notes\": \"AI triage (gemini): The user requests an enhancement to the main tab panel to optimize screen usage, drawing inspiration from modern browser tab implementations like Edge.\\nApproach: Investigate and implement UI adjustments to the WeifenLuo.WinFormsUI.Docking.DockPanel, potentially customizing `DockPaneStripNG.cs` to introduce features like dynamic tab sizing, vertical tabs, or other space-saving optimizations, to maximize screen real estate.\",\n+  \"token_usage\": {\n+    \"input_tokens\": 10,\n+    \"output_tokens\": 7323,\n+    \"cost_usd\": 0.749235\n+  }\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2193.json b/.project-roadmap/issues-db/upstream/2193.json\nindex 9dfb931d6..fde515fb5 100644\n--- a/.project-roadmap/issues-db/upstream/2193.json\n+++ b/.project-roadmap/issues-db/upstream/2193.json\n@@ -12,12 +12,19 @@\n   \"created_at\": \"2022-04-04T20:09:44Z\",\n   \"github_updated_at\": \"2026-02-21T10:23:24Z\",\n   \"body_snippet\": \"it's implemented at Remote Desktop Manager Free. almost killer feature for me.\\r\\nnow we can copy only hostname\\r\\n![изображение](https://user-images.githubusercontent.com/1270117/161622623-cd30015a-eb61-4380-b751-8df0e556a6f3.png)\\r\\nbut this is required much more often.\\r\\n![изображение](https://user-images.githubusercontent.com/1270117/161622716-98d0399e-6d90-4b51-8174-fba5b9a4c2e2.png)\\r\\n\\r\\nfor ex: after ssh login i anyway need sudo, so should type password again. Without this option need to copy it f...\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P3-enhancement\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"Users commonly expect to be able to copy passwords from connection entries for convenience, enhancing user experience.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM5A36OD\",\n@@ -79,5 +86,5 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): Users commonly expect to be able to copy passwords from connection entries for convenience, enhancing user experience.\\nApproach: Add a public method to AbstractConnectionRecord.cs to retrieve the password string safely. Implement a 'Copy Password' context menu item in ConnectionContextMenu.cs. The menu item will retrieve the selected connection's password via the new method and use WindowsClipboard.SetText() to copy it. Ensure the menu item's visibility/enabled state is appropriate (e.g., only for connections with passwords). Add unit tests to verify functionality.\"\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2194.json b/.project-roadmap/issues-db/upstream/2194.json\nindex b92c8840d..ca312da50 100644\n--- a/.project-roadmap/issues-db/upstream/2194.json\n+++ b/.project-roadmap/issues-db/upstream/2194.json\n@@ -11,12 +11,19 @@\n   \"created_at\": \"2022-04-05T06:41:11Z\",\n   \"github_updated_at\": \"2026-02-21T10:23:24Z\",\n   \"body_snippet\": \"hi,\\r\\n\\r\\ntried to close an ssh connection got following error come up....\\r\\n\\r\\n```\\r\\nException Message\\r\\n\\\"Cannot access a disposed object.\\r\\nObject name: 'ConnectionWindow'.\\\"\\r\\n\\r\\nStack trace\\r\\n   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)\\r\\n   at System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)\\r\\n   at System.Windows.Forms.Control.Invoke(Action method)\\r\\n   at mRemoteNG.UI.Window.ConnectionWindow.Prot_Event_Closed(O...\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM7mXFY6\",\n@@ -42,5 +49,5 @@\n   \"needs_action\": false,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention.\\nApproach: Analyze nightly build logs to pinpoint the exact failure, then investigate recent code changes or build environment configuration.\"\n }\ndiff --git a/.project-roadmap/scripts/chain-context/_timeout_history.json b/.project-roadmap/scripts/chain-context/_timeout_history.json\nindex 549efbb26..c48e36d59 100644\n--- a/.project-roadmap/scripts/chain-context/_timeout_history.json\n+++ b/.project-roadmap/scripts/chain-context/_timeout_history.json\n@@ -2,8 +2,6 @@\n   \"durations\": {\n     \"claude\": {\n       \"implement\": [\n-        256.7,\n-        220.2,\n         239.6,\n         287.4,\n         391.4,\n@@ -51,7 +49,9 @@\n         240.2,\n         214.2,\n         211.9,\n-        339.2\n+        339.2,\n+        188.5,\n+        427.6\n       ],\n       \"triage\": [\n         30.0,\n@@ -160,8 +160,6 @@\n         328.1\n       ],\n       \"triage\": [\n-        22.3,\n-        60.9,\n         69.7,\n         21.1,\n         25.7,\n@@ -209,7 +207,9 @@\n         82.0,\n         33.1,\n         30.1,\n-        42.0\n+        42.0,\n+        40.4,\n+        18.1\n       ]\n     },\n     \"gpt41\": {",
+      "test_output": "=== mRemoteNG Test Runner v9 ===\n[Run] Delegating to bash runner...\n\n[Phase 1] Running 9 test groups (with auto-retry on crash)...\n  [Connection          ] 1024 passed\n  [Config.Xml          ] 0p/RETRY1... 0p/RETRY2... 0 passed\n  [Config.Other        ] 544 passed\n  [UI                  ] 0p/RETRY1... 0p/RETRY2... 355 passed\n  [Tools               ] 361 passed\n  [Security            ] 0p/RETRY1... 0p/RETRY2... 164 passed\n  [Tree+Container+Cred ] 178 passed\n  [Remaining           ] 83 passed\n  [Integration         ] 0p/RETRY1... 0p/RETRY2... 0 passed\n\n[Phase 2] FrmOptions isolated...\n  [FormBehavior        ] passed\n  [AllPages            ] passed\n\n========== RESULTS ==========\n  Total:   2711\n  Passed:  2711\n  WARNING: Only 2711 tests (expected >2800)\n=============================\n\n"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": false
+}

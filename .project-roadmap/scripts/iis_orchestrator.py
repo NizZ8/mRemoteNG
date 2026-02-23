@@ -139,7 +139,7 @@ WARNING_CODES = [
 
 BUILD_TIMEOUT = 300   # 5 min
 TEST_TIMEOUT = 300    # 5 min
-CLAUDE_TIMEOUT = 600  # 10 min per task
+CLAUDE_TIMEOUT = 900  # 15 min per task (Opus needs more time)
 CLAUDE_RETRIES = 2    # retry on failure
 CODEX_TIMEOUT = 1800  # 30 min — codex needs more time for complex implementations
 CODEX_RETRIES = 1     # codex e scump; 1 retry
@@ -205,11 +205,11 @@ CLAUDE_MODEL_SONNET = "claude-sonnet-4-6"  # fast, cheap — triage & code writi
 CLAUDE_MODEL_OPUS = "claude-opus-4-6"      # deep analysis — complex issues, fallback
 CLAUDE_MODEL_BY_TASK = {
     "triage":               CLAUDE_MODEL_SONNET,
-    "implement":            CLAUDE_MODEL_SONNET,
-    "test_fix":             CLAUDE_MODEL_SONNET,
+    "implement":            CLAUDE_MODEL_OPUS,   # Opus for complex multi-file implementations
+    "test_fix":             CLAUDE_MODEL_OPUS,   # Opus for test analysis & fix
     "warning_fix":          CLAUDE_MODEL_SONNET,
     "warning_fix_parallel": CLAUDE_MODEL_SONNET,
-    "test_hygiene":         CLAUDE_MODEL_SONNET,
+    "test_hygiene":         CLAUDE_MODEL_OPUS,   # Opus for test architecture understanding
     "analysis":             CLAUDE_MODEL_OPUS,   # deep analysis fallback
 }
 _session_agents_used = set()            # tracks which agents contributed (for co-author)
@@ -468,13 +468,13 @@ def _complexity_base_timeout(agent, task_type, triage=None):
         n_files = len(triage.get("estimated_files") or [])
         priority = triage.get("priority", "P3-enhancement")
 
-    # Base by file count
+    # Base by file count (increased for Opus which does deeper analysis)
     if n_files <= 1:
-        base = 300
+        base = 400
     elif n_files <= 3:
-        base = 600
+        base = 800
     else:
-        base = 900
+        base = 1200
 
     # Priority multiplier (critical/security issues need more careful analysis)
     if priority in ("P0-critical", "P1-security"):

@@ -188,7 +188,7 @@ namespace mRemoteNG.Connection.Protocol.PowerShell
 
                 // Setup process for script with arguments
                 //* The -NoProfile parameter would be a valuable addition but should be able to be deactivated.
-                string arguments = $@"-NoExit -Command ""& {{ {psScriptBlock} }}"" -Hostname ""'{_connectionInfo.Hostname}'"" -Username ""'{psUsername}'"" -Password ""'{_connectionInfo.Password}'"" -LoginAttempts {psLoginAttempts}";
+                string arguments = $@"-NoExit -Command ""& {{ {psScriptBlock} }}"" -Hostname ""'{EscapePsString(_connectionInfo.Hostname)}'"" -Username ""'{EscapePsString(psUsername)}'"" -Password ""'{EscapePsString(_connectionInfo.Password)}'"" -LoginAttempts {psLoginAttempts}";
                 string hostname = _connectionInfo.Hostname.Trim().ToLower();
                 bool useLocalHost = hostname == "" || hostname.Equals("localhost");
                 if (useLocalHost)
@@ -243,6 +243,16 @@ namespace mRemoteNG.Connection.Protocol.PowerShell
                 Runtime.MessageCollector.AddExceptionMessage(Language.IntAppResizeFailed, ex);
             }
         }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Escapes a value for embedding in a PowerShell single-quoted string literal.
+        /// Single quotes are escaped by doubling them, preventing injection via crafted values.
+        /// </summary>
+        private static string EscapePsString(string value) => value.Replace("'", "''");
 
         #endregion
 
