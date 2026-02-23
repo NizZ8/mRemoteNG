@@ -8,7 +8,7 @@
   ],
   "author": "7OH",
   "created_at": "2022-08-02T09:59:05Z",
-  "github_updated_at": "2026-02-21T10:22:45Z",
+  "github_updated_at": "2026-02-23T16:34:02Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nWhen i switch between RDP and usual window - keyboard indicator hide or switch - it's normal.\r\n\r\n## Current Behavior\r\nWhen i close RDP connection - keyboard indicator don't show again.\r\nIf i shutdown remote rdp - indicator came back working.\r\nIf just close tab - it's not shown again.\r\n\r\n## Possible Solution\r\nNow i'm going to control panel and switch some settings for indicators to show it back.\r\n(switch ...",
   "our_status": "testing",
   "priority": "P3-enhancement",
@@ -77,17 +77,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rMRrI",
+      "author": "robertpopa22",
+      "date": "2026-02-23T16:33:43Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** In the RDP disconnect/closed event handler, post WM_INPUTLAN\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:22:45Z",
+  "comments_cursor": "2026-02-23T16:34:02Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): RDP ActiveX control suppresses the Windows keyboard/language indicator during a session and does not restore it on disconnect, leaving the taskbar language bar hidden after closing.\nApproach: In the RDP disconnect/closed event handler, post WM_INPUTLANGCHANGEREQUEST or call ActivateKeyboardLayout(GetKeyboardLayout(0), KLF_SETFORPROCESS) via P/Invoke to force Windows to refresh the language bar indicator after the RDP control releases keyboard focus.",
-  "token_usage": {
-    "input_tokens": 22,
-    "output_tokens": 8404,
-    "cost_usd": 1.373154
-  }
+  "last_synced": "2026-02-23T21:10:02Z",
+  "notes": "AI triage (claude): RDP ActiveX control suppresses the Windows keyboard/language indicator during a session and does not restore it on disconnect, leaving the taskbar language bar hidden after closing.\nApproach: In the RDP disconnect/closed event handler, post WM_INPUTLANGCHANGEREQUEST or call ActivateKeyboardLayout(GetKeyboardLayout(0), KLF_SETFORPROCESS) via P/Invoke to force Windows to refresh the language bar indicator after the RDP control releases keyboard focus."
 }

