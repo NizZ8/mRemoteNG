@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -23,7 +24,7 @@ namespace mRemoteNG.Security.KeyDerivation
 
         public byte[] DeriveKey(string password, byte[] salt)
         {
-            byte[] passwordInBytes = PbeParametersGenerator.Pkcs5PasswordToBytes(password.ToCharArray());
+            byte[] passwordInBytes = Encoding.UTF8.GetBytes(password);
 
             Pkcs5S2ParametersGenerator keyGenerator = new();
             keyGenerator.Init(passwordInBytes, salt, _iterations);
