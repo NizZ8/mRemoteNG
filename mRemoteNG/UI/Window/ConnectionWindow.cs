@@ -1687,7 +1687,10 @@ namespace mRemoteNG.UI.Window
             {
                 InterfaceControl? interfaceControl = GetInterfaceControl();
                 if (interfaceControl == null) return;
-                Runtime.ConnectionInitiator.OpenConnection(interfaceControl.Info, ConnectionInfo.Force.DoNotJump);
+                // Use OriginalInfo so SSH Jump Mode connections duplicate with the real host/port,
+                // not the localhost tunnel endpoint stored in Info (#2135).
+                ConnectionInfo infoToDuplicate = interfaceControl.OriginalInfo ?? interfaceControl.Info;
+                Runtime.ConnectionInitiator.OpenConnection(infoToDuplicate, ConnectionInfo.Force.DoNotJump);
             }
             catch (Exception ex)
             {
