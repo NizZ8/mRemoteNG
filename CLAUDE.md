@@ -86,18 +86,18 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run
 # Full (all tests including UI):
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1"
 
-# Sequential (old behavior, single process):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Sequential
-
-# Skip build (use existing binaries):
+# Skip build (use existing binaries) — RECOMMENDED for fast iteration:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless -NoBuild
+
+# Or use the bash runner directly (fastest, no build):
+bash run-tests-core.sh
 ```
 
-### Run tests (manual — single process):
+### Run tests (manual — single group from bash):
 ```bash
-dotnet test "D:\github\mRemoteNG\mRemoteNGTests\bin\x64\Release\mRemoteNGTests.dll" --verbosity normal
-dotnet test "D:\github\mRemoteNG\mRemoteNGSpecs\bin\x64\Release\mRemoteNGSpecs.dll" --verbosity normal
+dotnet test "mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll" --results-directory /tmp/mrt --verbosity normal --filter "FullyQualifiedName~mRemoteNGTests.Tools"
 ```
+> **CRITICAL:** Always use `--verbosity normal` (minimal/quiet crash testhost on .NET 10). Always use `--results-directory` pointing outside the repo.
 
 ### CRITICAL RULE: No Interactive Tests
 **NEVER create tests that open GUI dialogs, message boxes, or require user input.**
@@ -126,18 +126,19 @@ dotnet test "D:\github\mRemoteNG\mRemoteNGSpecs\bin\x64\Release\mRemoteNGSpecs.d
 - `dotnet test --no-build` on the .csproj looks in `bin\Release\` (WRONG)
 - Always run `dotnet test` directly on the **DLL path**, not the .csproj
 
-### Current test status (v1.81.0-beta.3, 2026-02-18):
-- **Full parallel run:** 2553/2553 passed, 0 skipped, **0 failed** — 5 processes, ~81s
-- **mRemoteNGSpecs:** 6/6 passed, 0 failed (including FlaUI smoke test — title polling fix in `e3875404`)
-- **Smoke test (FlaUI):** Fixed — title polling (10s retry) handles CLI/headless context where title is delayed
-- **No headless filter needed** — all UI tests redesigned with RunWithMessagePump pattern
-- **0 [Ignore] tests** — all 3 previously-ignored tests fixed:
-  - `ChangingOptionMarksPageAsChanged` — Fixed: `Application.Run(optionsForm)` + `Application.ExitThread()` avoids FrmOptions.FormClosing MessageBox deadlock
-  - `SelectingSQLPageLoadsSettings` — Fixed: same RunWithMessagePump pattern as above
-  - `OpenConnection_RetriesSshTunnel_OnFailure` — Fixed: RunWithMessagePump with DockPanel
-- **RunWithMessagePump pattern**: For ObjectListView/FrmOptions tests, uses `Application.Run(form)` directly (form becomes main form), with `Application.ExitThread()` in finally block. Previous approaches with `form.Close()` deadlock because `FrmOptions.FormClosing` always sets `e.Cancel = true` and shows `MessageBox.Show()` when `HasChanges` is true.
-- **Run command:** `powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild`
-- **IMPORTANT: Do NOT use `[assembly: Parallelizable]`** in the test project — causes race conditions on `DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey` (shared mutable singletons). Use multi-process parallelism via `run-tests.ps1` instead.
+### Current test status (v1.81.0-beta.3, 2026-02-22):
+- **Full run:** 2817/2817 passed, 0 failed — 9 groups + 2 isolated, bash runner with auto-retry
+- **Test runner:** `run-tests-core.sh` (bash) — avoids PowerShell pipeline back-pressure
+  - 9 namespace-based groups, each in own testhost process
+  - Auto-retries crashed groups up to 2x (cumulative OS resource exhaustion)
+  - TRX logger captures partial results from crashes
+  - DLL backup/restore for crash protection
+- **mRemoteNGSpecs:** 5/6 passed (FlaUI smoke test crashes testhost — inherent limitation)
+- **RunWithMessagePump pattern**: For ObjectListView/FrmOptions tests, uses `Application.Run(form)` with `Application.ExitThread()` in finally block
+- **Run command:** `bash run-tests-core.sh` or `powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild`
+- **IMPORTANT: Do NOT use `[assembly: Parallelizable]`** in the test project — causes race conditions on shared mutable singletons
+- **CRITICAL: `--verbosity normal` ONLY** — `--verbosity minimal/quiet` crashes testhost on .NET 10
+- **CRITICAL: `--results-directory` outside repo** — TestResults inside repo causes cascading crashes
 - Coverage analysis: `.project-roadmap/P7_TEST_COVERAGE_ANALYSIS_2026-02-08.md`
 
 ### Historical baseline (upstream v1.78.2-dev, before fixes):

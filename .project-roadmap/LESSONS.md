@@ -1216,6 +1216,66 @@ Missing any layer causes `InheritancePropertiesDeserializedCorrectly` test failu
 
 **Commit:** `6dd22fc0e`
 
+### testhost.runtimeconfig.json BOM crash (CRITICAL)
+
+**Problem:** PowerShell's `Set-Content -Encoding UTF8` adds a BOM (ef bb bf) to JSON files. When `testhost.runtimeconfig.json` has a BOM, testhost.exe crashes immediately (JSON parser rejects BOM). This file should never be created manually.
+
+**Fix:** Delete `testhost.runtimeconfig.json` if it exists before running tests. The test runner's `Ensure-TestEnvironment`/`cleanup_env` removes it. Never use `Set-Content` to create JSON files for .NET tools.
+
+### --verbosity minimal crashes testhost on .NET 10 (CRITICAL)
+
+**Problem:** `dotnet test --verbosity minimal` causes testhost to exit immediately with 0 tests, exit code 1, and no error message on .NET 10. The `--verbosity quiet` also crashes. Only `--verbosity normal` works.
+
+**Fix:** Always use `--verbosity normal` for `dotnet test`. This produces more output but is the only stable option on .NET 10.
+
+### --results-directory must be OUTSIDE the repo (CRITICAL)
+
+**Problem:** When `dotnet test` writes results to `TestResults/` inside the repo, cascading file system events crash testhost. The crash is non-deterministic and depends on test count.
+
+**Fix:** Use `--results-directory` pointing to a temp directory outside the repo: `$TEMP/mremoteng-testresults-<uid>`. Clean up after each run.
+
+### PowerShell pipeline back-pressure crashes testhost
+
+**Problem:** ANY PowerShell pipeline operation on `dotnet test` output (`| Out-String`, `| Select-Object -Last N`, `| Tee-Object`) creates back-pressure that crashes testhost at ~460 tests with `--verbosity normal`. The .NET Process API with `ReadToEndAsync` has the same issue due to memory accumulation. `Start-Process -RedirectStandardOutput` produces empty or wrong files.
+
+**Fix:** Use bash `| tail -N` (efficient, no back-pressure) or .NET Process API reading line-by-line with a bounded queue (keep last N lines, discard rest). The bash approach is simpler and more reliable.
+
+**Architecture:** `run-tests-core.sh` (bash) handles all test execution. `run-tests.ps1` (PowerShell) handles build + calling the bash script.
+
+### Native resource exhaustion at ~460 tests (single-process)
+
+**Problem:** Running all ~2800 tests in a single testhost process crashes at ~460 tests due to cumulative BouncyCastle crypto + GDI handle leaks. The crash point varies (52-470) depending on system state.
+
+**Fix:** Split tests into 9 namespace-based groups, each running in its own testhost process. Groups are: Connection (1024), Config.Xml (124), Config.Other (544), UI (348), Tools (329), Security (164), Tree+Container+Cred (178), Remaining (83), Integration (21). FrmOptions tests run isolated (1 per process).
+
+### Auto-retry for crashed test groups
+
+**Problem:** Even with per-group processes, cumulative OS-level resource exhaustion causes some groups to crash after the system has processed many tests. The crash is non-deterministic — the same group may pass or crash depending on system state.
+
+**Fix:** Auto-retry crashed groups up to 2x with aggressive cleanup (kill testhost+dotnet, sleep 2s) between retries. The TRX logger captures partial results even from crashed runs. The retry starts a fresh testhost which usually passes. Achieved 2817/2817 on consecutive runs.
+
+**Commit:** `87ff38ce4`
+
+### bash filter escaping: eval vs array arguments
+
+**Problem:** Using `eval $cmd` in bash to run `dotnet test --filter "...&...!~..."` causes `!` to trigger history expansion and `&` to fork. Even in non-interactive scripts, `!` expansion may be active.
+
+**Fix:** Build arguments as a bash array and execute with `dotnet "${args[@]}"`. This passes each argument literally without shell interpretation. The `&`, `|`, and `!` characters in dotnet test filter syntax are preserved.
+
+### Zombie PowerShell processes spawn infinite test loops
+
+**Problem:** When a PowerShell `run-tests.ps1` process is killed mid-execution (e.g., by Ctrl+C or timeout), it can leave orphaned child processes. These orphans continuously respawn `dotnet test` → `testhost.exe` processes, consuming all system resources.
+
+**Detection:** `tasklist | grep -iE "testhost|dotnet"` shows processes appearing with new PIDs after being killed. Use `Get-WmiObject Win32_Process` to find parent PowerShell PIDs.
+
+**Fix:** Always kill the parent PowerShell process first, then clean children. Before any test run, check for stale `powershell.exe` processes running `run-tests.ps1`.
+
+### Test DLL deleted by testhost crash
+
+**Problem:** When testhost crashes, it sometimes deletes or corrupts the test DLL. Subsequent test runs fail with "test source file not found".
+
+**Fix:** Backup the test DLL to `.backup/` before running tests. Restore from backup if the DLL is missing after a crash. The backup is created at the start of each test run.
+
 - Rules: `D:\github\mRemoteNG\.project-roadmap\LESSONS.md`
 - Human log: `D:\github\mRemoteNG\.project-roadmap\COMMAND_FEEDBACK_LOG.md`
 - Machine log: `D:\github\mRemoteNG\.project-roadmap\command-feedback.jsonl`
