@@ -1203,7 +1203,7 @@ def git_has_changes():
 
 
 def _guard_forbidden_files():
-    """Restore any _AGENT_FORBIDDEN_FILES modified by agents before commit.
+    """Restore any _AGENT_FORBIDDEN_FILES or .project-roadmap/ files modified by agents before commit.
     Returns list of files that were restored (for logging)."""
     restored = []
     try:
@@ -1214,7 +1214,8 @@ def _guard_forbidden_files():
         unstaged = (r2.stdout or "").strip().splitlines()
         all_modified = set(staged + unstaged)
         for f in all_modified:
-            if f in _AGENT_FORBIDDEN_FILES:
+            # Guard forbidden infra files AND .project-roadmap/ files
+            if f in _AGENT_FORBIDDEN_FILES or f.startswith(".project-roadmap/"):
                 try:
                     _run(["git", "checkout", "HEAD", "--", f], timeout=10)
                     restored.append(f)
@@ -1249,7 +1250,9 @@ def git_commit(message):
             git_restore()
             return None
     try:
-        _run(["git", "add", "-A"])
+        # Only stage source code directories — NEVER stage .project-roadmap/
+        # (orchestrator manages its own metadata commits separately)
+        _run(["git", "add", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
         co_authors = []
         if "codex" in _session_agents_used:
             co_authors.append(f"Co-Authored-By: Codex ({CODEX_MODEL}) <noreply@openai.com>")
@@ -1288,11 +1291,17 @@ def git_push():
 
 
 def git_restore():
-    """Revert all uncommitted changes in source dirs + forbidden infra files."""
+    """Revert all uncommitted changes in source dirs + .project-roadmap/ + forbidden infra files."""
     try:
         # Restore source code directories
         _run(["git", "checkout", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
         _run(["git", "clean", "-fd", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
+        # Restore .project-roadmap/ files agents may have touched (safety net)
+        try:
+            _run(["git", "checkout", "--", ".project-roadmap/"], timeout=10)
+            _run(["git", "clean", "-fd", "--", ".project-roadmap/"], timeout=10)
+        except Exception:
+            pass  # may not have changes — that's fine
         # Always restore forbidden infrastructure files (agents must never change these)
         for f in _AGENT_FORBIDDEN_FILES:
             try:
