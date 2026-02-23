@@ -11,7 +11,7 @@
   "created_at": "2022-05-17T15:39:09Z",
   "github_updated_at": "2022-05-23T20:34:16Z",
   "body_snippet": "Beside the requirement that when something is changed in the sql-backend options a restart has to be done. It is also required that none of the configurations might be changed after the read-only flag is set in the options. \r\n\r\nIt turned out that a user in a shared jump server had changed some connection configuration data and the tool did save them in the normal .xml file in a faulty way. To prevent such attractions it is needed to lock the complete connection configuration when the read-only f...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The 'Readonly' setting for the SQL backend is not preventing modification operations in the UI, leading to a confusing user experience where unsaved changes are allowed."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in 67fad47b"
     }
   ],
   "comments": [
