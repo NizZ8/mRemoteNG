@@ -57,6 +57,8 @@ namespace mRemoteNG.UI.Controls
         private ToolStripMenuItem _cMenTreeRename = null!;
         private ToolStripMenuItem _cMenTreeDelete = null!;
         private ToolStripMenuItem _cMenTreeCopyHostname = null!;
+        private ToolStripMenuItem _cMenTreeCopyUsername = null!;
+        private ToolStripMenuItem _cMenTreeCopyPassword = null!;
         private ToolStripSeparator _cMenTreeSep4 = null!;
         private ToolStripMenuItem _cMenTreeMoveUp = null!;
         private ToolStripMenuItem _cMenTreeMoveDown = null!;
@@ -136,6 +138,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeRename = new ToolStripMenuItem();
             _cMenTreeDelete = new ToolStripMenuItem();
             _cMenTreeCopyHostname = new ToolStripMenuItem();
+            _cMenTreeCopyUsername = new ToolStripMenuItem();
+            _cMenTreeCopyPassword = new ToolStripMenuItem();
             _cMenTreeSep3 = new ToolStripSeparator();
             _cMenTreeLoadAdditionalFile = new ToolStripMenuItem();
             _cMenTreeImport = new ToolStripMenuItem();
@@ -197,6 +201,8 @@ namespace mRemoteNG.UI.Controls
                 _cMenTreeRename,
                 _cMenTreeDelete,
                 _cMenTreeCopyHostname,
+                _cMenTreeCopyUsername,
+                _cMenTreeCopyPassword,
                 _cMenTreeProperties,
                 _cMenInheritanceSubMenu,
                 _cMenTreeConfigureDynamicSource,
@@ -424,6 +430,20 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeCopyHostname.Size = new System.Drawing.Size(199, 22);
             _cMenTreeCopyHostname.Text = "Copy Hostname";
             _cMenTreeCopyHostname.Click += OnCopyHostnameClicked;
+            //
+            // cMenTreeCopyUsername
+            //
+            _cMenTreeCopyUsername.Name = "_cMenTreeCopyUsername";
+            _cMenTreeCopyUsername.Size = new System.Drawing.Size(199, 22);
+            _cMenTreeCopyUsername.Text = "Copy Username";
+            _cMenTreeCopyUsername.Click += OnCopyUsernameClicked;
+            //
+            // cMenTreeCopyPassword
+            //
+            _cMenTreeCopyPassword.Name = "_cMenTreeCopyPassword";
+            _cMenTreeCopyPassword.Size = new System.Drawing.Size(199, 22);
+            _cMenTreeCopyPassword.Text = "Copy Password";
+            _cMenTreeCopyPassword.Click += OnCopyPasswordClicked;
             //
             // cMenTreeProperties
             //
@@ -799,6 +819,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeApplyDefaultInheritance.Enabled = false;
             _cMenTreeCopyHostname.Enabled = false;
+            _cMenTreeCopyUsername.Enabled = false;
+            _cMenTreeCopyPassword.Enabled = false;
             _cMenTreeProperties.Enabled = false;
             _cMenTreeOpenInBrowser.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
@@ -828,6 +850,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeConnectWithOptionsViewOnly.Enabled = false;
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeApplyDefaultInheritance.Enabled = false;
+            _cMenTreeCopyUsername.Enabled = false;
+            _cMenTreeCopyPassword.Enabled = false;
             _cMenTreeOpenInBrowser.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
             _cMenTreeRefreshDynamicSource.Visible = false;
@@ -851,6 +875,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeCreateLink.Enabled = false;
             _cMenTreeConnectWithOptionsAlternativeAddress.Enabled = false;
             _cMenTreeConnectWithOptionsViewOnly.Enabled = false;
+            _cMenTreeCopyUsername.Enabled = false;
+            _cMenTreeCopyPassword.Enabled = false;
             _cMenTreeOpenInBrowser.Enabled = false;
 
             _cMenTreeConfigureDynamicSource.Visible = true;
@@ -892,6 +918,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeConnectWithOptionsViewOnly.Enabled = false;
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeApplyDefaultInheritance.Enabled = false;
+            _cMenTreeCopyUsername.Enabled = false;
+            _cMenTreeCopyPassword.Enabled = false;
             _cMenTreeProperties.Enabled = false;
             _cMenTreeOpenInBrowser.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
@@ -926,8 +954,10 @@ namespace mRemoteNG.UI.Controls
                 _cMenTreeConnectWithOptionsViewOnly.Enabled = false;
 
             _cMenTreeConnectWithOptionsAlternativeAddress.Enabled = !string.IsNullOrWhiteSpace(connectionInfo.AlternativeAddress);
-            _cMenTreeOpenInBrowser.Enabled = connectionInfo.Protocol == ProtocolType.HTTP ||
-                                             connectionInfo.Protocol == ProtocolType.HTTPS;
+            bool isWebProtocol = connectionInfo.Protocol == ProtocolType.HTTP || connectionInfo.Protocol == ProtocolType.HTTPS;
+            _cMenTreeOpenInBrowser.Enabled = isWebProtocol;
+            _cMenTreeCopyUsername.Enabled = isWebProtocol;
+            _cMenTreeCopyPassword.Enabled = isWebProtocol;
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
             _cMenTreeRefreshDynamicSource.Visible = false;
@@ -1295,6 +1325,22 @@ namespace mRemoteNG.UI.Controls
         private void OnCopyHostnameClicked(object sender, EventArgs e)
         {
             _connectionTree.CopyHostnameSelectedNode(new WindowsClipboard());
+        }
+
+        private void OnCopyUsernameClicked(object sender, EventArgs e)
+        {
+            if (_connectionTree.SelectedNode is not ConnectionInfo connectionInfo) return;
+            string username = connectionInfo.Username;
+            if (!string.IsNullOrEmpty(username))
+                new WindowsClipboard().SetText(username);
+        }
+
+        private void OnCopyPasswordClicked(object sender, EventArgs e)
+        {
+            if (_connectionTree.SelectedNode is not ConnectionInfo connectionInfo) return;
+            string password = connectionInfo.Password;
+            if (!string.IsNullOrEmpty(password))
+                new WindowsClipboard().SetText(password);
         }
 
         private void OnPropertiesClicked(object sender, EventArgs e)
