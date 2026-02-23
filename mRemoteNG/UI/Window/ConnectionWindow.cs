@@ -37,6 +37,10 @@ namespace mRemoteNG.UI.Window
         private readonly ToolStripMenuItem _cmenTabExcludeFromMultiSsh = new();
         private readonly ToolStripSeparator _cmenTabMultiSshSeparator = new();
         private readonly ToolStripMenuItem _cmenTabScreenshotManager = new();
+        private readonly ToolStripMenuItem _cmenTabTileConnections = new();
+        private readonly ToolStripMenuItem _cmenTabTileHorizontally = new();
+        private readonly ToolStripMenuItem _cmenTabTileVertically = new();
+        private readonly ToolStripMenuItem _cmenTabCollapseToTabs = new();
         private bool _isAddingTab;
         private readonly List<IDockContent> _tabActivationHistory = new();
         // Tracks panel activation order across all ConnectionWindow instances (MRU, index 0 = oldest)
@@ -202,6 +206,7 @@ namespace mRemoteNG.UI.Window
             InitializeMoveToPanelContextMenuItems();
             InitializeMultiSshContextMenuItems();
             InitializeScreenshotManagerMenuItem();
+            InitializeTileContextMenuItems();
 
             // event handler to adjust the items within the context menu
             cmenTab.Opening += ShowHideMenuButtons;
@@ -281,6 +286,45 @@ namespace mRemoteNG.UI.Window
         {
             using FrmScreenshotManager manager = new();
             manager.ShowDialog(this);
+        }
+
+        private void InitializeTileContextMenuItems()
+        {
+            _cmenTabTileConnections.Name = "cmenTabTileConnections";
+            _cmenTabTileConnections.Text = "Tile Connections";
+            _cmenTabTileConnections.Image = Properties.Resources.Panel_16x;
+
+            _cmenTabTileHorizontally.Name = "cmenTabTileHorizontally";
+            _cmenTabTileHorizontally.Text = "Tile Horizontally";
+            _cmenTabTileHorizontally.Click += (sender, args) => TileConnectionsHorizontally();
+
+            _cmenTabTileVertically.Name = "cmenTabTileVertically";
+            _cmenTabTileVertically.Text = "Tile Vertically";
+            _cmenTabTileVertically.Click += (sender, args) => TileConnectionsVertically();
+
+            _cmenTabCollapseToTabs.Name = "cmenTabCollapseToTabs";
+            _cmenTabCollapseToTabs.Text = "Collapse to Tabs";
+            _cmenTabCollapseToTabs.Click += (sender, args) => CollapseToTabs();
+
+            _cmenTabTileConnections.DropDownItems.AddRange(new ToolStripItem[]
+            {
+                _cmenTabTileHorizontally,
+                _cmenTabTileVertically,
+                new ToolStripSeparator(),
+                _cmenTabCollapseToTabs
+            });
+
+            // Insert after _cmenTabMoveToPanel (which itself sits before cmenTabSep1)
+            int insertIndex = cmenTab.Items.IndexOf(_cmenTabMoveToPanel);
+            if (insertIndex < 0)
+                insertIndex = cmenTab.Items.IndexOf(cmenTabSep1);
+            if (insertIndex < 0)
+                insertIndex = cmenTab.Items.Count;
+            else
+                insertIndex++; // insert right after _cmenTabMoveToPanel
+
+            cmenTab.Items.Insert(insertIndex, _cmenTabTileConnections);
+            _cmenTabTileConnections.Visible = false;
         }
 
         private void InitializeConnectionTabDragDropTargets()
@@ -1190,6 +1234,12 @@ namespace mRemoteNG.UI.Window
                 _cmenTabMoveToPanel.Visible = canMoveToAnotherPanel;
                 _cmenTabMoveToPanel.Enabled = canMoveToAnotherPanel;
 
+                int activeTabCount = connDock.Contents.OfType<ConnectionTab>()
+                    .Count(t => !t.IsDisposed && !t.Disposing);
+                bool canTile = activeTabCount >= 2;
+                _cmenTabTileConnections.Visible = canTile;
+                _cmenTabTileConnections.Enabled = canTile;
+
                 InterfaceControl? interfaceControl = GetInterfaceControl();
                 _cmenTabScreenshotManager.Visible = true;
                 if (interfaceControl == null)
@@ -1715,6 +1765,142 @@ namespace mRemoteNG.UI.Window
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("DuplicateTab (UI.Window.ConnectionWindow) failed", ex);
+            }
+        }
+
+        /// <summary>
+        /// Tiles all connection tabs in this panel side by side horizontally.
+        /// Each tab gets an equal share of the available width.
+        /// </summary>
+        internal void TileConnectionsHorizontally()
+        {
+            try
+            {
+                var tabs = connDock.Contents
+                    .OfType<ConnectionTab>()
+                    .Where(t => !t.IsDisposed && !t.Disposing)
+                    .ToList();
+
+                if (tabs.Count < 2) return;
+
+                _isAddingTab = true;
+                try
+                {
+                    connDock.DocumentStyle = DocumentStyle.DockingWindow;
+
+                    // Collapse all tabs into a single pane first
+                    DockPane leftPane = tabs[0].Pane;
+                    for (int i = 1; i < tabs.Count; i++)
+                    {
+                        if (!ReferenceEquals(tabs[i].Pane, leftPane))
+                            tabs[i].Show(leftPane, null);
+                    }
+
+                    // Peel tabs off right-to-left so the final order matches the tab list (left→right).
+                    // At step i: proportion = 1 / (remaining panes including the new one)
+                    // This yields equal-width columns for any N.
+                    for (int i = 1; i < tabs.Count; i++)
+                    {
+                        int tabIndex = tabs.Count - i;
+                        double proportion = 1.0 / (tabs.Count - i + 1);
+                        tabs[tabIndex].Show(leftPane, DockAlignment.Right, proportion);
+                    }
+                }
+                finally
+                {
+                    _isAddingTab = false;
+                    ShowHideConnectionTabs();
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("TileConnectionsHorizontally (UI.Window.ConnectionWindow) failed", ex);
+            }
+        }
+
+        /// <summary>
+        /// Tiles all connection tabs in this panel stacked vertically.
+        /// Each tab gets an equal share of the available height.
+        /// </summary>
+        internal void TileConnectionsVertically()
+        {
+            try
+            {
+                var tabs = connDock.Contents
+                    .OfType<ConnectionTab>()
+                    .Where(t => !t.IsDisposed && !t.Disposing)
+                    .ToList();
+
+                if (tabs.Count < 2) return;
+
+                _isAddingTab = true;
+                try
+                {
+                    connDock.DocumentStyle = DocumentStyle.DockingWindow;
+
+                    // Collapse all tabs into a single pane first
+                    DockPane topPane = tabs[0].Pane;
+                    for (int i = 1; i < tabs.Count; i++)
+                    {
+                        if (!ReferenceEquals(tabs[i].Pane, topPane))
+                            tabs[i].Show(topPane, null);
+                    }
+
+                    // Peel tabs off bottom-to-top for equal-height rows
+                    for (int i = 1; i < tabs.Count; i++)
+                    {
+                        int tabIndex = tabs.Count - i;
+                        double proportion = 1.0 / (tabs.Count - i + 1);
+                        tabs[tabIndex].Show(topPane, DockAlignment.Bottom, proportion);
+                    }
+                }
+                finally
+                {
+                    _isAddingTab = false;
+                    ShowHideConnectionTabs();
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("TileConnectionsVertically (UI.Window.ConnectionWindow) failed", ex);
+            }
+        }
+
+        /// <summary>
+        /// Collapses all tiled connection panes back into a single tabbed group.
+        /// </summary>
+        internal void CollapseToTabs()
+        {
+            try
+            {
+                var tabs = connDock.Contents
+                    .OfType<ConnectionTab>()
+                    .Where(t => !t.IsDisposed && !t.Disposing)
+                    .ToList();
+
+                if (tabs.Count < 2) return;
+
+                _isAddingTab = true;
+                try
+                {
+                    connDock.DocumentStyle = DocumentStyle.DockingWindow;
+
+                    DockPane targetPane = tabs[0].Pane;
+                    for (int i = 1; i < tabs.Count; i++)
+                    {
+                        if (!ReferenceEquals(tabs[i].Pane, targetPane))
+                            tabs[i].Show(targetPane, null);
+                    }
+                }
+                finally
+                {
+                    _isAddingTab = false;
+                    ShowHideConnectionTabs();
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("CollapseToTabs (UI.Window.ConnectionWindow) failed", ex);
             }
         }
 
