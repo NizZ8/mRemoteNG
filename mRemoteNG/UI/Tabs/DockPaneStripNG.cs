@@ -654,6 +654,41 @@ namespace mRemoteNG.UI.Tabs
             {
                 m_startDisplayingTab = 0;
                 FirstDisplayingTab = 0;
+
+                // Expand tabs to fill the available tab bar width (Edge-like behavior):
+                // distribute surplus width equally among tabs that haven't reached the maximum.
+                int totalUsed = 0;
+                foreach (Tab tab1 in Tabs)
+                    totalUsed += ((MremoteNGTab)tab1).TabWidth;
+
+                int surplus = rectTabStrip.Width - totalUsed;
+                if (surplus > 0 && Tabs.Count > 0)
+                {
+                    int tabsCanGrow = 0;
+                    foreach (Tab tab1 in Tabs)
+                    {
+                        if (((MremoteNGTab)tab1).TabWidth < DocumentTabMaxWidth)
+                            tabsCanGrow++;
+                    }
+                    if (tabsCanGrow > 0)
+                    {
+                        int addPerTab = surplus / tabsCanGrow;
+                        int leftover = surplus % tabsCanGrow;
+                        int growIndex = 0;
+                        foreach (Tab tab1 in Tabs)
+                        {
+                            MremoteNGTab tab = (MremoteNGTab)tab1;
+                            if (tab.TabWidth < DocumentTabMaxWidth)
+                            {
+                                tab.TabWidth = Math.Min(
+                                    tab.TabWidth + addPerTab + (growIndex < leftover ? 1 : 0),
+                                    DocumentTabMaxWidth);
+                                growIndex++;
+                            }
+                        }
+                    }
+                }
+
                 x = rectTabStrip.X;
                 foreach (Tab tab1 in Tabs)
                 {

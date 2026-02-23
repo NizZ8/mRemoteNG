@@ -13,7 +13,7 @@
   "created_at": "2022-02-25T12:00:03Z",
   "github_updated_at": "2026-02-21T10:23:20Z",
   "body_snippet": "I am looking for a solution to manage same connections structure but different locations using variable.\r\n\r\nfor example, i have 5 locations, hk, jp, us, uk, au.\r\ni am thinking if it is possible to add a feature like variable to name and ip/fqdn.\r\nname = {{country}}-gw1, sitecode=10\r\nhost = {{country}}-gw1.example.com\r\nip = 10.{{sitecode}}.0.1\r\ncould also apply to other attribute like port, username, password.\r\nport = 300{{sitecode}}\r\nusername = {{country}}-admin\r\npassword = seacretpw-{{country}}...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -24,6 +24,18 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "Expand the available connection-specific variables for use in external tools, enhancing flexibility and automation."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in ea7f4e4c",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 9107,
+        "cost_usd": 1.904947,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -114,5 +126,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Expand the available connection-specific variables for use in external tools, enhancing flexibility and automation.\nApproach: Identify additional relevant properties from the ConnectionInfo object (e.g., LoadBalanceInfo, PrivateKeyPath, RDPStartProgram) and extend the External Tools' variables context menu to include them. Add corresponding unit tests."
+  "notes": "AI triage (gemini): Expand the available connection-specific variables for use in external tools, enhancing flexibility and automation.\nApproach: Identify additional relevant properties from the ConnectionInfo object (e.g., LoadBalanceInfo, PrivateKeyPath, RDPStartProgram) and extend the External Tools' variables context menu to include them. Add corresponding unit tests.",
+  "token_usage": {
+    "input_tokens": 27,
+    "output_tokens": 9107,
+    "cost_usd": 1.904947
+  }
 }
