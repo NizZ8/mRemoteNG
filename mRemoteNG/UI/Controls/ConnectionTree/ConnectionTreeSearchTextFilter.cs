@@ -137,10 +137,22 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                 return (node.EnvironmentTags ?? "").ToLowerInvariant().Contains(tagFilter);
             }
 
-            return node.Name.ToLowerInvariant().Contains(filterTextLower) ||
-                   node.Hostname.ToLowerInvariant().Contains(filterTextLower) ||
-                   node.Description.ToLowerInvariant().Contains(filterTextLower) ||
-                   (node.EnvironmentTags ?? "").ToLowerInvariant().Contains(filterTextLower);
+            // Multiple space-separated terms are treated as AND criteria:
+            // all terms must match at least one field for the node to pass.
+            string[] terms = filterTextLower.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (terms.Length == 0)
+                return true;
+
+            string nameLower = node.Name.ToLowerInvariant();
+            string hostnameLower = node.Hostname.ToLowerInvariant();
+            string descriptionLower = node.Description.ToLowerInvariant();
+            string tagsLower = (node.EnvironmentTags ?? "").ToLowerInvariant();
+
+            return terms.All(term =>
+                nameLower.Contains(term) ||
+                hostnameLower.Contains(term) ||
+                descriptionLower.Contains(term) ||
+                tagsLower.Contains(term));
         }
     }
 }

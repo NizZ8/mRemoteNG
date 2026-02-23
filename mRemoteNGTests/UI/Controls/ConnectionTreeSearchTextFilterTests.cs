@@ -156,5 +156,40 @@ namespace mRemoteNGTests.UI.Controls
             Assert.That(_filter.Filter(folder), Is.False);
             Assert.That(_filter.Filter(_rdpConnection), Is.False);
         }
+
+        // --- Issue #2180: multiple space-separated search terms (AND logic) ---
+
+        [Test]
+        public void Filter_MultipleSpaceTerms_MatchesWhenAllTermsMatch()
+        {
+            // _rdpConnection: Name="Windows Server", Hostname="rdp-host"
+            _filter.FilterText = "windows rdp";
+            Assert.That(_filter.Filter(_rdpConnection), Is.True);
+            Assert.That(_filter.Filter(_sshConnection), Is.False);
+        }
+
+        [Test]
+        public void Filter_MultipleSpaceTerms_NoMatchWhenOnlyOneTermMatches()
+        {
+            // "Windows" matches _rdpConnection name but "ssh" does not
+            _filter.FilterText = "windows ssh";
+            Assert.That(_filter.Filter(_rdpConnection), Is.False);
+            Assert.That(_filter.Filter(_sshConnection), Is.False);
+        }
+
+        [Test]
+        public void Filter_MultipleSpaceTerms_SingleTermBehaviorUnchanged()
+        {
+            _filter.FilterText = "windows";
+            Assert.That(_filter.Filter(_rdpConnection), Is.True);
+            Assert.That(_filter.Filter(_sshConnection), Is.False);
+        }
+
+        [Test]
+        public void Filter_MultipleSpaceTerms_ExtraSpacesIgnored()
+        {
+            _filter.FilterText = "  windows   rdp  ";
+            Assert.That(_filter.Filter(_rdpConnection), Is.True);
+        }
     }
 }

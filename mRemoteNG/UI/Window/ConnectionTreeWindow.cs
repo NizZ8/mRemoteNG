@@ -362,6 +362,7 @@ namespace mRemoteNG.UI.Window
                 {
                     case Keys.Escape:
                         e.Handled = true;
+                        txtSearch.Text = string.Empty;
                         ConnectionTree.Focus();
                         break;
                     case Keys.Up:
