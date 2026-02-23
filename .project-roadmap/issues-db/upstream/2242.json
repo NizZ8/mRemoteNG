@@ -11,12 +11,19 @@
   "created_at": "2022-06-06T16:06:08Z",
   "github_updated_at": "2026-02-21T10:23:29Z",
   "body_snippet": "I have noticed the mysql/mssql integration coming in, and wanted to toss out the potential of a NoSQL db that works great and is tightly integrated in .NET.\r\n\r\nhttps://github.com/mbdavid/LiteDB\r\n\r\n* IMO, having less installs, running procs, and dependencies on external entities is always great.",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "To provide a lightweight, embedded NoSQL database option for new beta features and integrations, offering flexibility and an alternative to existing SQL-based connectors, specifically for new data models."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mYhkV",
@@ -33,5 +40,5 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): To provide a lightweight, embedded NoSQL database option for new beta features and integrations, offering flexibility and an alternative to existing SQL-based connectors, specifically for new data models.\nApproach: Introduce LiteDB as an embedded NoSQL database by adding the LiteDB NuGet package and establishing a dedicated data access layer (e.g., context and unit of work) to manage LiteDB instances and operations. This will allow new beta integrations to leverage LiteDB's document-oriented capabilities without being constrained by the existing SQL-centric IDatabaseConnector."
 }
