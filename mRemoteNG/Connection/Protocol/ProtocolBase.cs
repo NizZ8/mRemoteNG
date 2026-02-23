@@ -302,7 +302,18 @@ namespace mRemoteNG.Connection.Protocol
             if (_interfaceControl.InvokeRequired)
             {
                 DisposeInterfaceCB s = new(DisposeInterface);
-                _interfaceControl.Invoke(s);
+                try
+                {
+                    _interfaceControl.Invoke(s);
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Parent panel was disposed between the IsDisposed check and Invoke (race on panel close).
+                }
+                catch (InvalidOperationException)
+                {
+                    // Window handle is no longer valid.
+                }
             }
             else
             {
@@ -322,7 +333,18 @@ namespace mRemoteNG.Connection.Protocol
             if (_interfaceControl.Parent.InvokeRequired)
             {
                 SetTagToNothingCB s = new(SetTagToNothing);
-                _interfaceControl.Parent.Invoke(s);
+                try
+                {
+                    _interfaceControl.Parent.Invoke(s);
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Parent panel was disposed between the IsDisposed check and Invoke (race on panel close).
+                }
+                catch (InvalidOperationException)
+                {
+                    // Window handle is no longer valid.
+                }
             }
             else
             {
@@ -340,7 +362,18 @@ namespace mRemoteNG.Connection.Protocol
             if (Control.InvokeRequired)
             {
                 DisposeControlCB s = new(DisposeControl);
-                Control.Invoke(s);
+                try
+                {
+                    Control.Invoke(s);
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Parent panel was disposed between the IsDisposed check and Invoke (race on panel close).
+                }
+                catch (InvalidOperationException)
+                {
+                    // Window handle is no longer valid.
+                }
             }
             else
             {
