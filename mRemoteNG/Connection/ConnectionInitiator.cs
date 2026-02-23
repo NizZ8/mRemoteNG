@@ -52,8 +52,18 @@ namespace mRemoteNG.Connection
 
             if (connectionTab == null) return false;
 
+            // Activate the parent ConnectionWindow (panel) in the main dock first,
+            // so switching to a tab on a different panel works correctly (#2207).
+            if (connectionTab.DockPanel?.FindForm() is ConnectionWindow parentWindow && FrmMain.IsCreated)
+            {
+                if (parentWindow.DockState == DockState.Unknown || parentWindow.DockState == DockState.Hidden || !parentWindow.Visible)
+                    parentWindow.Show(FrmMain.Default.pnlDock, DockState.Document);
+                else
+                    parentWindow.Show(FrmMain.Default.pnlDock);
+            }
+
+            connectionTab.DockHandler.Activate();
             connectionTab.Focus();
-            connectionTab.Show(connectionTab.DockPanel);
             return true;
         }
 

@@ -12,12 +12,19 @@
   "created_at": "2022-04-22T08:51:30Z",
   "github_updated_at": "2026-02-21T10:22:47Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nActivating the already opened connection from the panel that's not active should activate this panel and connection's tab. I.e. if the active connection is _XP_ on _Windows_ panel, and I'm opening  _Ubuntu_ on _Unix_ panel that has already been opened, work ar...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "The application fails to switch to an already activated connection's tab when that connection is located on a different panel, leading to inconsistent UI state and usability issues."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXFYk",
@@ -34,5 +41,5 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): The application fails to switch to an already activated connection's tab when that connection is located on a different panel, leading to inconsistent UI state and usability issues.\nApproach: Modify 'SwitchToOpenConnection' to globally search for the open connection tab across all panels, activating the found panel and then its respective tab if the connection is already active."
 }
