@@ -1771,6 +1771,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
             try
             {
+                SetResolution();
                 _rdpClient.Connect();
             }
             catch (Exception ex)
@@ -1880,7 +1881,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 if (!ReconnectGroup.ReconnectWhenReady || !srvReady) return;
                 tmrReconnect.Enabled = false;
                 ReconnectGroup.DisposeReconnectGroup();
-                //SetProps()
+                SetResolution();
                 _rdpClient.Connect();
             }
             catch (Exception ex)
