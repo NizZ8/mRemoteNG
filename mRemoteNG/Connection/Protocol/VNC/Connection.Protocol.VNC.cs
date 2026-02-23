@@ -366,6 +366,13 @@ namespace mRemoteNG.Connection.Protocol.VNC
             catch (Exception ex)
             {
                 DisposeProxyTunnel();
+                string traceLogs = CleanupTraceListener();
+                if (!string.IsNullOrWhiteSpace(traceLogs))
+                {
+                    Runtime.MessageCollector.AddMessage(Messages.MessageClass.DebugMsg,
+                        "VNC Trace Logs for " + (_info?.Hostname ?? "Unknown") + ":" + Environment.NewLine + traceLogs,
+                        false);
+                }
                 Runtime.MessageCollector.AddMessage(Messages.MessageClass.ErrorMsg,
                                                     Language.ConnectionOpenFailed + Environment.NewLine +
                                                     ex.Message);
