@@ -13,7 +13,7 @@
   "created_at": "2022-04-07T21:56:39Z",
   "github_updated_at": "2026-02-21T10:23:24Z",
   "body_snippet": "It is possible to craft a connection that executes arbitrary PowerShell commands when it is double-clicked. This is problematic because an attacker could export a code-executing connection and then trick someone into importing and clicking on it, allowing the attacker to execute code on their machine. The root of the issue is this piece of code that is used for making PowerShell connections:\r\n\r\n![image](https://user-images.githubusercontent.com/29503289/162325436-c75e93dc-7ab3-4e49-b30d-4ccf73dc...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -24,6 +24,18 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "While `SecureXmlHelper` effectively prevents XXE attacks during XML deserialization, a comprehensive audit is required to confirm that no other forms of code execution are possible through the subsequent use of deserialized data, especially in fields that may trigger external commands."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in bd121bcf",
+      "token_usage": {
+        "input_tokens": 11,
+        "output_tokens": 6048,
+        "cost_usd": 0.585818,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -87,5 +99,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): While `SecureXmlHelper` effectively prevents XXE attacks during XML deserialization, a comprehensive audit is required to confirm that no other forms of code execution are possible through the subsequent use of deserialized data, especially in fields that may trigger external commands.\nApproach: Conduct a detailed security review of how deserialized `ConnectionInfo` properties (especially those related to external commands or scripting) are handled to identify and mitigate any command injection or arbitrary code execution vulnerabilities."
+  "notes": "AI triage (gemini): While `SecureXmlHelper` effectively prevents XXE attacks during XML deserialization, a comprehensive audit is required to confirm that no other forms of code execution are possible through the subsequent use of deserialized data, especially in fields that may trigger external commands.\nApproach: Conduct a detailed security review of how deserialized `ConnectionInfo` properties (especially those related to external commands or scripting) are handled to identify and mitigate any command injection or arbitrary code execution vulnerabilities.",
+  "token_usage": {
+    "input_tokens": 11,
+    "output_tokens": 6048,
+    "cost_usd": 0.585818
+  }
 }
