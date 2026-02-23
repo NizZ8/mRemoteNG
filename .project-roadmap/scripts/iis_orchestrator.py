@@ -62,10 +62,10 @@ STATUS_FILE = SCRIPTS_DIR / "orchestrator-status.json"
 LOG_FILE = SCRIPTS_DIR / "orchestrator.log"
 CHAIN_CONTEXT_DIR = SCRIPTS_DIR / "chain-context"
 TIMEOUT_HISTORY_FILE = CHAIN_CONTEXT_DIR / "_timeout_history.json"
-TIMEOUT_ESCALATION_FACTOR = 1.5   # multiply timeout after each timeout failure
-TIMEOUT_MAX_MULTIPLIER = 4.0      # cap — don't let timeouts grow past 4x estimated
+TIMEOUT_ESCALATION_FACTOR = 1.3   # multiply timeout after each timeout failure (was 1.5)
+TIMEOUT_MAX_MULTIPLIER = 2.0      # cap — don't let timeouts grow past 2x estimated (was 4.0)
 TIMEOUT_MIN = 60                  # absolute minimum (seconds)
-TIMEOUT_MAX = 3600                # absolute cap (1 hour)
+TIMEOUT_MAX = 1200                # absolute cap (20 min, was 3600)
 TIMEOUT_HISTORY_MAX_SAMPLES = 50  # keep last N durations per agent/task for p80
 TEST_PASS_THRESHOLD = 0.99        # accept commit if ≥99% tests pass (1-3 failures OK)
 TEST_MIN_DURATION_SECS = 10       # tests taking less than this = phantom (didn't run)
@@ -76,6 +76,13 @@ TEST_FIX_MAX_ATTEMPTS = 2         # how many times to ask an agent to fix failin
 TEST_HYGIENE_MAX_GROUPS = 10      # max failure groups to attempt fixing in hygiene phase
 TEST_HYGIENE_FIX_ATTEMPTS = 2    # attempts per failure group during hygiene
 TEST_HYGIENE_AGENT = "claude"    # best agent for test analysis/fix (needs arch understanding)
+
+# ── PRE-ANALYSIS CONFIG ──────────────────────────────────────────────────
+PRE_ANALYSIS_TIMEOUT = 180          # 3 min max — read-only analysis
+PRE_ANALYSIS_ENABLED = True         # flag to disable pre-analysis
+PRE_ANALYSIS_MAX_TURNS = 10         # limited turns — read-only codebase scan
+
+ISSUE_TOTAL_TIME_CAP = 1200         # 20 min total per issue per session (all agents combined)
 
 BUILD_CMD = [
     "powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
@@ -169,6 +176,7 @@ GEMINI_MODEL = "gemini-3-pro-preview"   # powerful — implementation, analysis
 GEMINI_MODEL_FLASH = "gemini-2.5-flash" # fast — triage
 GEMINI_MODEL_BY_TASK = {
     "triage":               GEMINI_MODEL_FLASH,
+    "pre_analysis":         GEMINI_MODEL_FLASH,
     "implement":            GEMINI_MODEL,
     "test_fix":             GEMINI_MODEL,
     "warning_fix":          GEMINI_MODEL,
@@ -183,6 +191,7 @@ CODEX_MODEL_FAST = "gpt-4.1-mini"      # fast — triage
 CODEX_REASONING = "xhigh"               # reasoning effort for implementation
 CODEX_MODEL_BY_TASK = {
     "triage":               CODEX_MODEL_FAST,
+    "pre_analysis":         CODEX_MODEL_FAST,
     "implement":            CODEX_MODEL,
     "test_fix":             CODEX_MODEL,
     "warning_fix":          CODEX_MODEL,
@@ -193,6 +202,7 @@ CODEX_MODEL_BY_TASK = {
 # Codex reasoning effort per task (verified: -c model_reasoning_effort="<value>")
 CODEX_REASONING_BY_TASK = {
     "triage":               "medium",   # fast classification, no deep reasoning needed
+    "pre_analysis":         "medium",   # read-only scan, no deep reasoning
     "implement":            "xhigh",    # complex code changes
     "test_fix":             "xhigh",    # needs careful analysis
     "warning_fix":          "high",     # moderate complexity
@@ -206,6 +216,7 @@ CLAUDE_MODEL_SONNET = "claude-sonnet-4-6"  # fast, cheap — triage & code writi
 CLAUDE_MODEL_OPUS = "claude-opus-4-6"      # deep analysis — complex issues, fallback
 CLAUDE_MODEL_BY_TASK = {
     "triage":               CLAUDE_MODEL_SONNET,
+    "pre_analysis":         CLAUDE_MODEL_SONNET,  # fast model for read-only analysis
     "implement":            CLAUDE_MODEL_SONNET,  # Sonnet primary; Opus only as fallback
     "test_fix":             CLAUDE_MODEL_SONNET,
     "warning_fix":          CLAUDE_MODEL_SONNET,
@@ -1978,6 +1989,104 @@ Reply with ONLY a JSON object:
     return None, None
 
 
+def chain_pre_analysis(issue, triage):
+    """Pre-analysis step: READ-ONLY codebase scan to refine triage before implementation.
+
+    Runs a fast agent to verify triage's estimated_files and identify root cause.
+    Returns refined triage dict or None (fallback to original triage).
+    """
+    if not PRE_ANALYSIS_ENABLED:
+        return None
+
+    num = issue["number"]
+    title = issue.get("title", "")
+    body = (issue.get("body") or "")[:2000]
+    files = triage.get("estimated_files", [])
+    approach = triage.get("approach", "")
+
+    log.info("  [PRE-ANALYSIS] Starting read-only analysis for #%d (files: %s)", num, files)
+    _set_token_context(issue_num=num, operation="pre_analysis")
+
+    prompt = f"""READ-ONLY analysis. Do NOT modify any files. Do NOT run build or tests.
+Do NOT run git commit, git add, or ANY git operations.
+Do NOT modify or read files in .project-roadmap/.
+
+Project: mRemoteNG (.NET 10, WinForms, COM references)
+Working directory: D:\\github\\mRemoteNG
+
+Issue #{num}: {title}
+Description:
+{body}
+
+Triage suggested files: {', '.join(files) if files else 'none specified'}
+Triage approach: {approach}
+
+YOUR TASK (READ-ONLY — do not edit any files):
+1. Read each suggested file (if they exist)
+2. Search the codebase for keywords from the issue description (use grep/glob)
+3. Trace the code path — who calls what, where is the actual logic
+4. Identify the SPECIFIC file(s) and line(s) where the root cause lives
+5. If triage files are WRONG or INCOMPLETE, find the correct ones
+
+Reply with ONLY a JSON object (no markdown, no explanation):
+{{"root_cause": "one sentence describing the actual root cause",
+  "specific_files": ["exact/path/to/file.cs"],
+  "fix_plan": "concise description of what needs to change",
+  "confidence": "high or medium or low",
+  "triage_files_correct": true}}"""
+
+    # Try agents in chain order, stop at first success
+    for agent in AGENT_CHAIN:
+        is_limited, _ = _is_agent_rate_limited(agent)
+        if is_limited:
+            continue
+
+        t0 = time.time()
+        raw_output = _agent_dispatch(agent, prompt,
+                                     max_turns=PRE_ANALYSIS_MAX_TURNS,
+                                     timeout=PRE_ANALYSIS_TIMEOUT,
+                                     retries=0,
+                                     task_type="pre_analysis")
+        elapsed = time.time() - t0
+        kill_stale_processes()
+
+        # Safety: ensure no files were modified (read-only contract)
+        modified, _ = _capture_post_timeout_state()
+        if modified:
+            log.warning("  [PRE-ANALYSIS] Agent %s modified %d files — restoring (read-only violation)",
+                        agent, len(modified))
+            git_restore()
+
+        if raw_output:
+            result = _extract_json(raw_output)
+            if result and "specific_files" in result:
+                # Merge pre-analysis into triage
+                refined = dict(triage)
+                refined["estimated_files"] = result.get("specific_files", files)
+                refined["root_cause"] = result.get("root_cause", "")
+                refined["fix_plan"] = result.get("fix_plan", approach)
+                refined["pre_analysis_confidence"] = result.get("confidence", "low")
+                refined["triage_files_correct"] = result.get("triage_files_correct", True)
+
+                if not result.get("triage_files_correct", True):
+                    log.info("  [PRE-ANALYSIS] Triage files INCORRECT — corrected: %s → %s",
+                             files, result.get("specific_files", []))
+                else:
+                    log.info("  [PRE-ANALYSIS] Triage files confirmed. Root cause: %s",
+                             result.get("root_cause", "?")[:100])
+
+                log.info("  [PRE-ANALYSIS] Done in %.0fs (agent=%s, confidence=%s)",
+                         elapsed, agent, result.get("confidence", "?"))
+                return refined
+            else:
+                log.warning("  [PRE-ANALYSIS] %s returned invalid JSON — trying next agent", agent)
+        else:
+            log.warning("  [PRE-ANALYSIS] %s returned nothing (%.0fs) — trying next agent", agent, elapsed)
+
+    log.warning("  [PRE-ANALYSIS] All agents failed — proceeding with original triage")
+    return None
+
+
 def _attempt_test_fix(num, title, impl_agent, failed_tests, test_output, status, ctx):
     """Try to fix failing tests instead of reverting the implementation.
 
@@ -2086,6 +2195,22 @@ def chain_implement(issue, triage, status):
     body = (issue.get("body") or "")[:3000]
     approach = triage.get("approach", "")
     files = triage.get("estimated_files", [])
+    issue_start_time = time.time()  # for ISSUE_TOTAL_TIME_CAP
+
+    # Include pre-analysis context if available
+    root_cause = triage.get("root_cause", "")
+    fix_plan = triage.get("fix_plan", "")
+
+    # Build pre-analysis section if available
+    pre_analysis_section = ""
+    if root_cause or fix_plan:
+        pre_analysis_section = f"""
+PRE-ANALYSIS (verified by codebase scan):
+  Root cause: {root_cause}
+  Fix plan: {fix_plan}
+  Confidence: {triage.get('pre_analysis_confidence', 'unknown')}
+  Triage files correct: {triage.get('triage_files_correct', 'unknown')}
+"""
 
     impl_prompt = f"""Project: mRemoteNG (.NET 10, WinForms, COM references)
 Working directory: D:\\github\\mRemoteNG
@@ -2098,11 +2223,11 @@ Description:
 
 Recommended approach: {approach}
 Likely files: {', '.join(files) if files else 'search the codebase'}
-
+{pre_analysis_section}
 WORKFLOW (MANDATORY — follow steps in order, do NOT skip any step):
 
 Step 1 — PLAN (before ANY edits):
-  - Read ALL likely files and related code that may be affected
+  - Read the likely files listed above{' (pre-analysis confirmed these)' if root_cause else ' and related code'}
   - If previous attempts exist below, analyze WHY each one failed
   - Write a brief plan (max 5 lines): what to change, in which files, what could go wrong
   - Only proceed to Step 2 after you have a clear plan
@@ -2121,12 +2246,10 @@ Step 4 — FIX if needed:
   - If tests fail for unrelated reasons, ignore
 
 RULES (CRITICAL):
-- Do NOT skip Step 1. Do NOT start editing before you have a plan.
 - Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
 - Do NOT run git commit, git add, git push, or ANY git operations. The orchestrator handles all commits.
-- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY.
-- NEVER modify or read files in .project-roadmap/ — no JSON issue files, no scripts, no orchestrator files. You are a CODE FIXER, not a project manager.
-- Do NOT run iis_orchestrator.py, sync, analyze, or any IIS commands. Focus ONLY on source code (.cs, .config, .resx, .csproj).
+- NEVER modify infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*.
+- NEVER modify or read files in .project-roadmap/. You are a CODE FIXER, not a project manager.
 - ONLY modify files under mRemoteNG/, mRemoteNGTests/, or mRemoteNGSpecs/ directories."""
 
     ctx = ChainContext("implement", str(num))
@@ -2219,6 +2342,17 @@ RULES (CRITICAL):
     for i, agent in enumerate(AGENT_CHAIN):
         is_last = (i == len(AGENT_CHAIN) - 1)
         _session_agents_used.add(agent)
+
+        # ── PER-ISSUE TIME CAP ──
+        elapsed_total = time.time() - issue_start_time
+        if elapsed_total > ISSUE_TOTAL_TIME_CAP:
+            log.error("  [CHAIN] Time cap (%.0fs > %ds) for #%d — aborting",
+                       elapsed_total, ISSUE_TOTAL_TIME_CAP, num)
+            git_restore()
+            ctx.save()
+            update_issue_json(num, "triaged", f"Time cap exceeded ({int(elapsed_total)}s)",
+                              impl_failed=True)
+            return False
 
         # Build prompt: first agent gets base, others get base + chain context
         if i == 0:
@@ -2616,6 +2750,39 @@ def _count_impl_attempts(issue_num):
     return count
 
 
+def _count_available_agents():
+    """Count agents not rate-limited. Returns (count, [names])."""
+    available = []
+    for agent in AGENT_CHAIN:
+        is_limited, _ = _is_agent_rate_limited(agent)
+        if not is_limited:
+            available.append(agent)
+        else:
+            # For gemini, check if at least Flash model is available
+            if agent == "gemini":
+                flash_key = f"gemini:{GEMINI_MODEL_FLASH}"
+                flash_limited, _ = _is_agent_rate_limited(flash_key)
+                if not flash_limited:
+                    available.append(agent)
+    return len(available), available
+
+
+def _count_issue_timeouts(issue_num):
+    """Count total timeouts for an issue across all chain-context files."""
+    count = 0
+    for f in CHAIN_CONTEXT_DIR.glob(f"*_{issue_num}.json"):
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            count += data.get("timeout_count", 0)
+            # Also count timeout attempts individually
+            for attempt in data.get("attempts", []):
+                if attempt.get("timed_out"):
+                    count += 1
+        except Exception:
+            pass
+    return count
+
+
 # ── FLUX 1: OPEN ISSUES ────────────────────────────────────────────────────
 def load_actionable_issues():
     """Load issues from JSON DB that need triage or implementation.
@@ -2654,6 +2821,16 @@ def load_actionable_issues():
                                       f"Skipped: {attempt_count} failed auto-fix attempts",
                                       impl_failed=False,
                                       notes=f"Needs human intervention after {attempt_count} AI attempts")
+                    continue
+                # Skip issues with excessive timeouts (agents waste time on these)
+                timeout_count = _count_issue_timeouts(data["number"])
+                if timeout_count >= 3:
+                    log.info("  [SKIP] #%d — %d timeouts, marking needs_human",
+                             data["number"], timeout_count)
+                    update_issue_json(data["number"], "triaged",
+                                      f"Skipped: {timeout_count} timeouts across sessions",
+                                      impl_failed=False,
+                                      notes=f"Needs human intervention ({timeout_count} timeouts)")
                     continue
                 data["_is_retry"] = True  # marker for chain_implement to know
                 issues.append(data)
@@ -3151,6 +3328,22 @@ def flux_issues(status, dry_run=False, max_issues=None):
                 update_issue_json(num, "testing", "Already committed (dedup)",
                                   impl_failed=False)
                 continue
+
+            # ── FAIL-FAST: skip complex issues if too few agents available ──
+            avail_count, avail_agents = _count_available_agents()
+            est_files = triage.get("estimated_files", [])
+            if avail_count <= 1 and len(est_files) > 1:
+                log.warning("  [SKIP] Only %d agent(s) (%s) for multi-file #%d — deferring",
+                            avail_count, avail_agents, num)
+                update_issue_json(num, "triaged", f"Deferred: only {avail_count} agent(s) available",
+                                  priority=ai_priority, notes=ai_notes, impl_failed=True)
+                continue
+
+            # ── PRE-ANALYSIS: refine triage with read-only codebase scan ──
+            if PRE_ANALYSIS_ENABLED:
+                refined = chain_pre_analysis(issue, triage)
+                if refined is not None:
+                    triage = refined
 
             status.data["issues"]["to_implement"] += 1
             update_issue_json(num, "triaged", ai_reason,

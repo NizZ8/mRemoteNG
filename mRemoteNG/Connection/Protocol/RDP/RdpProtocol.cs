@@ -306,6 +306,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     Control!.GotFocus += RdpClient_GotFocus;
                 }
 
+                // Release stuck modifier keys when the RDP control loses focus (#354).
+                Control!.Leave += RdpControl_Leave;
+
                 Control!.CreateControl();
 
                 // ActiveX controls require the message pump to complete creation.
@@ -353,6 +356,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 {
                     Control!.GotFocus += RdpClient_GotFocus;
                 }
+
+                // Release stuck modifier keys when the RDP control loses focus (#354).
+                Control!.Leave += RdpControl_Leave;
 
                 Control!.CreateControl();
 
@@ -1795,8 +1801,43 @@ namespace mRemoteNG.Connection.Protocol.RDP
             (Control?.Parent?.Parent as ConnectionTab)?.Focus();
         }
 
+        private static void RdpControl_Leave(object sender, EventArgs e)
+        {
+            // When focus leaves the RDP control, release any modifier keys that the
+            // RDP ActiveX may have left stuck in the "pressed" state on the local machine.
+            // This restores AltGr-based character input (e.g. Polish: śćźżąćłó) which
+            // relies on Left-Ctrl + Right-Alt and is broken when Ctrl or Alt remain stuck
+            // after switching focus away from an RDP session (#354).
+            ReleaseLocalModifierKeys();
+        }
+
+        /// <summary>
+        /// Sends key-up events for common modifier keys on the local machine.
+        /// The RDP ActiveX control can consume modifier key-up messages (sending them to
+        /// the remote server instead of the local OS), leaving Ctrl/Alt/Shift stuck in the
+        /// pressed state.  Sending KEYEVENTF_KEYUP for a key that is already up is a no-op.
+        /// </summary>
+        private static void ReleaseLocalModifierKeys()
+        {
+            const uint KEYEVENTF_KEYUP = 0x0002;
+            const byte VK_SHIFT   = 0x10;
+            const byte VK_CONTROL = 0x11;
+            const byte VK_MENU    = 0x12; // Alt / AltGr
+            try
+            {
+                NativeMethods.keybd_event(VK_SHIFT,   0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                NativeMethods.keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                NativeMethods.keybd_event(VK_MENU,    0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+            }
+            catch { }
+        }
+
         private static void RestoreLocalKeyboardLayout()
         {
+            // Release any stuck modifier keys before restoring the layout so that
+            // AltGr-based characters (e.g. Polish: śćźżąćłó) work immediately (#354).
+            ReleaseLocalModifierKeys();
+
             // Refresh the Windows language bar indicator after RDP session ends (#2269).
             // The RDP ActiveX control intercepts keyboard input and suppresses the language
             // bar during a session. On disconnect, re-activating the current local layout
@@ -1817,6 +1858,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 if (Control != null)
                 {
                     Control.Disposed -= OnControlDisposed;
+                    Control.Leave -= RdpControl_Leave;
                 }
 
                 Application.RemoveMessageFilter(this);

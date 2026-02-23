@@ -175,6 +175,13 @@ namespace mRemoteNG.App
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr ActivateKeyboardLayout(IntPtr hkl, uint Flags);
 
+        /// <summary>
+        /// Synthesizes a keystroke. Used to release stuck modifier keys on the local machine
+        /// after the RDP control consumes their key-up messages (issue #354).
+        /// </summary>
+        [DllImport("user32.dll")]
+        internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+
         #endregion
 
         #region Structures
