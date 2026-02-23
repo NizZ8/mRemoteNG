@@ -60,7 +60,6 @@ namespace mRemoteNG.Config.DatabaseConnectors
             _dbConnectionString = new SqlConnectionStringBuilder
             {
                 ApplicationName = "mRemoteNG",
-                ApplicationIntent = ApplicationIntent.ReadOnly,
                 DataSource = $"{hostParts[0]},{_dbPort}",
                 InitialCatalog = _dbCatalog,
                 UserID = _dbUsername,
