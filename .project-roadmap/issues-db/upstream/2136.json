@@ -10,12 +10,19 @@
   "created_at": "2022-01-19T12:47:11Z",
   "github_updated_at": "2022-01-21T09:48:22Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI would like to use the same settings I have on one computer on another computer\r\n\r\n## Expected Behavior // ## Current Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\ncopying C:\\Users\\%username%\\AppData\\Roaming\\mRemoteNG -> new PC same place\r\n&\r\ncopying C:\\Users\\%username%\\AppData\\Local\\mRemoteNG -> new PC same place\r\n\r\nand then opening mRemoteNG should result in the same config on the new PC I thoug...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Users need a reliable way to transfer all settings to a new computer, which is currently hampered by an incomplete settings upgrade mechanism."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM48lnCJ",
@@ -59,5 +66,5 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-15T09:52:50Z",
-  "notes": ""
+  "notes": "AI triage (gemini): Users need a reliable way to transfer all settings to a new computer, which is currently hampered by an incomplete settings upgrade mechanism.\nApproach: Implement a comprehensive settings migration mechanism in SettingsLoader.cs by dynamically finding and upgrading all ApplicationSettingsBase subclasses to ensure all user-defined settings are correctly transferred or upgraded."
 }

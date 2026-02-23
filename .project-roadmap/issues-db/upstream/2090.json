@@ -11,12 +11,19 @@
   "created_at": "2021-12-16T21:00:39Z",
   "github_updated_at": "2022-03-23T08:34:18Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\nI am using the PREVIEW version 1.77.1.27713 and i noticed that after i have opened around 8 to 10 RDP sessions, if i try to open another RDP session, it fails. in order to be able to connect using RDP again i have to close MRemoteNG and then RDP starts to work again.\r\n\r\nThank you.\r\n\r\n\r\n\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, t...",
-  "our_status": "new",
+  "our_status": "testing",
   "priority": null,
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Already committed (dedup)"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM47Zu6b",

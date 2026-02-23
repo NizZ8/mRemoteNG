@@ -22,6 +22,7 @@ namespace mRemoteNG.UI.Menu
         private ToolStripMenuItem _mMenReconnectAll = null!;
         private ToolStripSeparator _mMenViewSep1 = null!;
         public ToolStripMenuItem _mMenViewErrorsAndInfos = null!;
+        private ToolStripMenuItem _mMenViewConfigPanel = null!;
         public ToolStripMenuItem _mMenViewFileMenu = null!;
         private ToolStripMenuItem _mMenViewAddConnectionPanel = null!;
         private ToolStripSeparator _mMenViewSep2 = null!;
@@ -58,6 +59,7 @@ namespace mRemoteNG.UI.Menu
             _mMenViewSep1 = new ToolStripSeparator();
             _mMenViewFileMenu = new ToolStripMenuItem();
             _mMenViewErrorsAndInfos = new ToolStripMenuItem();
+            _mMenViewConfigPanel = new ToolStripMenuItem();
             _mMenViewResetLayout = new ToolStripMenuItem();
             _mMenViewLoadLayout = new ToolStripMenuItem();
             _mMenViewSaveLayout = new ToolStripMenuItem();
@@ -77,6 +79,7 @@ namespace mRemoteNG.UI.Menu
             {
                 _mMenViewFileMenu,
                 _mMenViewErrorsAndInfos,
+                _mMenViewConfigPanel,
                 _mMenViewQuickConnectToolbar,
                 _mMenViewExtAppsToolbar,
                 _mMenViewMultiSshToolbar,
@@ -142,9 +145,18 @@ namespace mRemoteNG.UI.Menu
             _mMenViewErrorsAndInfos.Size = new System.Drawing.Size(228, 22);
             _mMenViewErrorsAndInfos.Text = Language.Notifications;
             _mMenViewErrorsAndInfos.Click += mMenViewErrorsAndInfos_Click;
-            // 
+            //
+            // mMenViewConfigPanel
+            //
+            _mMenViewConfigPanel.Checked = true;
+            _mMenViewConfigPanel.CheckState = CheckState.Checked;
+            _mMenViewConfigPanel.Name = "mMenViewConfigPanel";
+            _mMenViewConfigPanel.Size = new System.Drawing.Size(228, 22);
+            _mMenViewConfigPanel.Text = Language.Config;
+            _mMenViewConfigPanel.Click += mMenViewConfigPanel_Click;
+            //
             // mMenViewResetLayout
-            // 
+            //
             _mMenViewResetLayout.Name = "mMenViewResetLayout";
             _mMenViewResetLayout.Size = new System.Drawing.Size(228, 22);
             _mMenViewResetLayout.Text = Language.ResetLayout;
@@ -224,6 +236,7 @@ namespace mRemoteNG.UI.Menu
             _mMenViewAddConnectionPanel.Text = Language.AddConnectionPanel;
             _mMenViewConnectionPanels.Text = Language.ConnectionPanels;
             _mMenViewErrorsAndInfos.Text = Language.Notifications;
+            _mMenViewConfigPanel.Text = Language.Config;
             _mMenViewResetLayout.Text = Language.ResetLayout;
             _mMenViewLoadLayout.Text = "Load Layout";
             _mMenViewSaveLayout.Text = "Save Layout...";
@@ -240,6 +253,7 @@ namespace mRemoteNG.UI.Menu
         internal void mMenView_DropDownOpening(object sender, EventArgs e)
         {
             _mMenViewErrorsAndInfos.Checked = !AppWindows.ErrorsForm.IsHidden;
+            _mMenViewConfigPanel.Checked = !AppWindows.ConfigForm.IsHidden;
             _mMenViewLockToolbars.Checked = mRemoteNG.Properties.Settings.Default.LockToolbars;
 
             if (TsExternalTools is not null)
@@ -283,6 +297,21 @@ namespace mRemoteNG.UI.Menu
             {
                 AppWindows.ErrorsForm.Hide();
                 _mMenViewErrorsAndInfos.Checked = false;
+            }
+        }
+
+        private void mMenViewConfigPanel_Click(object sender, EventArgs e)
+        {
+            if (_mMenViewConfigPanel.Checked == false)
+            {
+                if (MainForm is not null)
+                    AppWindows.ConfigForm.Show(MainForm.pnlDock);
+                _mMenViewConfigPanel.Checked = true;
+            }
+            else
+            {
+                AppWindows.ConfigForm.Hide();
+                _mMenViewConfigPanel.Checked = false;
             }
         }
 

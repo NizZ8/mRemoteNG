@@ -11,12 +11,19 @@
   "created_at": "2022-01-21T03:49:42Z",
   "github_updated_at": "2026-02-21T10:22:48Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\nadd an external tools with \r\n\r\n- Display name: telnet\r\n- Filename: `CMD`\r\n- Arguments: `/k telnet %HOSTNAME% %PORT%`  ​\r\n​\r\n## Expected Behavior\r\n\r\nmremoteng shoudld display CMND windows with telnet result \r\n\r\n## Current Behavior\r\n\r\nalthough I could run telnet successfully with standard CMD, when I try with mremoteng it throws error that `'telnet' is no recognized as an internal or external command operable program or batch f...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM482wmX",
@@ -42,5 +49,5 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly.\nApproach: Modify SetProcessProperties in ExternalTool.cs for non-batch, non-elevated processes to use process.StartInfo.Arguments = parsedArguments; instead of splitting arguments and adding them to ArgumentList. This ensures that the argument string (including any necessary quotes) is passed directly to the external tool."
 }
