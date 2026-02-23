@@ -1038,6 +1038,13 @@ namespace mRemoteNG.UI.Forms
                                     // only focus the autohide toolstrip
                                     controlThatWasClicked.Focus();
                                 }
+                                else if (controlThatWasClicked.GetType().Namespace?.Contains("WinFormsUI") == true)
+                                {
+                                    // DockPanel infrastructure controls (splitters, pane dividers) handle their
+                                    // own mouse drag. Calling ActivateConnection() here would refocus the
+                                    // embedded connection (e.g. PuTTY via SetForegroundWindow) and break the
+                                    // panel resize drag operation. (#2179)
+                                }
                                 else
                                 {
                                     // This handles activations from clicks that did not start a size/move operation
