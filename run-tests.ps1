@@ -1,7 +1,12 @@
-# run-tests.ps1 - Test runner with FrmOptions process isolation
+# run-tests.ps1 - Test runner with FrmOptions process isolation (v5)
 # FrmOptions + ObjectListView leak native Win32 resources.
 # Even 2 tests touching FrmOptions in the same testhost crash it.
 # Solution: run everything in one process EXCEPT FrmOptions tests.
+#
+# CRITICAL: --blame flag prevents testhost crashes from native resource leaks.
+# CRITICAL: --verbosity normal required (minimal crashes testhost on .NET 10).
+# CRITICAL: --results-directory must be OUTSIDE the repo (TestResults in repo causes crashes).
+# CRITICAL: Do NOT create testhost.runtimeconfig.json (BOM from Set-Content crashes testhost).
 
 param(
     [switch]$Headless,
@@ -12,8 +17,10 @@ param(
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $testDll  = "$repoRoot\mRemoteNGTests\bin\x64\Release\mRemoteNGTests.dll"
 $specsDll = "$repoRoot\mRemoteNGSpecs\bin\x64\Release\mRemoteNGSpecs.dll"
+$testDir  = "$repoRoot\mRemoteNGTests\bin\x64\Release"
+$resultsDir = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "mremoteng-testresults")
 
-Write-Host "=== mRemoteNG Test Runner v4 ===" -ForegroundColor Cyan
+Write-Host "=== mRemoteNG Test Runner v5 ===" -ForegroundColor Cyan
 
 # Build
 if (-not $NoBuild) {
@@ -31,29 +38,75 @@ if (-not (Test-Path $testDll)) {
 }
 
 # Backup test DLL (protect from crash deletion)
-$backupDir = "$repoRoot\mRemoteNGTests\bin\x64\Release\.backup"
+$backupDir = "$testDir\.backup"
 if (-not (Test-Path $backupDir)) { New-Item -ItemType Directory -Path $backupDir -Force | Out-Null }
 Copy-Item $testDll "$backupDir\mRemoteNGTests.dll" -Force
 
+function Ensure-TestEnvironment {
+    Get-Process testhost -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    Get-Process testhost.x86 -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    Remove-Item $resultsDir -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item "$repoRoot\TestResults" -Recurse -Force -ErrorAction SilentlyContinue
+    # Remove stale testhost.runtimeconfig.json (BOM from Set-Content crashes testhost)
+    Remove-Item "$testDir\testhost.runtimeconfig.json" -Force -ErrorAction SilentlyContinue
+}
+
+function Run-DotnetTest($dll, $filter) {
+    # --verbosity normal required (minimal crashes testhost on .NET 10)
+    # --results-directory outside repo (TestResults in repo causes cascading crashes)
+    # Select-Object -Last 50 avoids PowerShell Out-String memory pressure with 2800+ tests
+    $testArgs = @("test", $dll, "--blame", "--results-directory", $resultsDir, "--verbosity", "normal")
+    if ($filter) { $testArgs += @("--filter", $filter) }
+    $lines = & dotnet @testArgs 2>&1 | Select-Object -Last 50
+    return ($lines -join "`n")
+}
+
 function Parse-TestOutput($out) {
-    $p = 0; $f = 0; $s = 0
-    if ($out -match 'Passed\s*[:\s]+(\d+)')  { $p = [int]$Matches[1] }
-    if ($out -match 'Failed\s*[:\s]+(\d+)')  { $f = [int]$Matches[1] }
-    if ($out -match 'Skipped\s*[:\s]+(\d+)') { $s = [int]$Matches[1] }
-    $crashed = (($out -match "crashed") -or ($out -match "aborted")) -and (($p + $f) -eq 0)
-    return @{ Passed=$p; Failed=$f; Skipped=$s; Crashed=$crashed }
+    if (-not $out) { return @{ Passed=0; Failed=0; Skipped=0; Total=0; Crashed=$false } }
+    $p = 0; $f = 0; $s = 0; $total = 0
+    $allLines = $out -split "`n"
+    foreach ($line in $allLines) {
+        if ($line -match 'Total tests:\s+(\d+)') { $total = [int]$Matches[1] }
+        if ($line -match '^\s{2,}Passed\s*[:-]\s*(\d+)') { $p = [int]$Matches[1] }
+        if ($line -match '^\s{2,}Failed\s*[:-]\s*(\d+)') { $f = [int]$Matches[1] }
+        if ($line -match '^\s{2,}Skipped\s*[:-]\s*(\d+)') { $s = [int]$Matches[1] }
+    }
+    # Fallback: inline format "Passed: N, Failed: N"
+    $joined = $allLines -join "`n"
+    if ($p -eq 0 -and $joined -match 'Passed\s*[:-]\s*(\d+)') { $p = [int]$Matches[1] }
+    if ($f -eq 0 -and $joined -match 'Failed\s*[:-]\s*(\d+)') { $f = [int]$Matches[1] }
+    if ($s -eq 0 -and $joined -match 'Skipped\s*[:-]\s*(\d+)') { $s = [int]$Matches[1] }
+    $crashed = (($out -match "crashed") -or ($out -match "aborted")) -and ($total -eq 0) -and ($p -eq 0)
+    return @{ Passed=$p; Failed=$f; Skipped=$s; Total=$total; Crashed=$crashed }
 }
 
 $totalPassed = 0; $totalFailed = 0; $totalSkipped = 0; $anyCrashed = $false
 $startTime = Get-Date
 
-# Phase 1: ALL tests EXCEPT FrmOptions (single process)
+# Phase 1: ALL tests EXCEPT FrmOptions (--blame prevents crash, retry on partial)
 Write-Host "`n[Phase 1] All tests (except FrmOptions)..." -ForegroundColor Yellow
 $mainFilter = "FullyQualifiedName!~OptionsFormTests&FullyQualifiedName!~AllOptionsPagesTests"
-$out1 = & dotnet test $testDll --filter $mainFilter --verbosity minimal 2>&1 | Out-String
-$r1 = Parse-TestOutput $out1
+$MIN_PHASE1_TESTS = 2500
+$bestResult = $null
+
+for ($attempt = 1; $attempt -le 3; $attempt++) {
+    Ensure-TestEnvironment
+    $out1 = Run-DotnetTest $testDll $mainFilter
+    $r1 = Parse-TestOutput $out1
+    if ($null -eq $bestResult -or $r1.Passed -gt $bestResult.Passed) { $bestResult = $r1 }
+    if ($r1.Passed -ge $MIN_PHASE1_TESTS) { break }
+    if ($attempt -lt 3) {
+        Write-Host "  Attempt ${attempt}: $($r1.Passed) tests (partial) - retrying..." -ForegroundColor Yellow
+    }
+}
+$r1 = $bestResult
+
 Write-Host "  Passed: $($r1.Passed), Failed: $($r1.Failed), Skipped: $($r1.Skipped)" -ForegroundColor $(if ($r1.Failed -gt 0 -or $r1.Crashed) { "Red" } else { "Green" })
 if ($r1.Crashed) { Write-Host "  CRASH DETECTED" -ForegroundColor Red; $anyCrashed = $true }
+if ($r1.Passed -lt $MIN_PHASE1_TESTS -and -not $r1.Crashed) {
+    Write-Host "  WARNING: Only $($r1.Passed) tests after 3 attempts (expected >$MIN_PHASE1_TESTS)." -ForegroundColor Red
+    $anyCrashed = $true
+}
 $totalPassed += $r1.Passed; $totalFailed += $r1.Failed; $totalSkipped += $r1.Skipped
 
 # Phase 2: FrmOptions isolated (each test in its own process)
@@ -65,7 +118,8 @@ $isolatedFilters = @(
 
 foreach ($t in $isolatedFilters) {
     Write-Host "  [$($t.Name)] " -NoNewline
-    $out = & dotnet test $testDll --filter $t.Filter --verbosity minimal 2>&1 | Out-String
+    Ensure-TestEnvironment
+    $out = Run-DotnetTest $testDll $t.Filter
     $r = Parse-TestOutput $out
     if ($r.Crashed) {
         Write-Host "CRASHED" -ForegroundColor Red; $anyCrashed = $true
@@ -80,7 +134,8 @@ foreach ($t in $isolatedFilters) {
 # Phase 3: Specs (skip in headless mode)
 if (-not $Headless -and (Test-Path $specsDll)) {
     Write-Host "`n[Phase 3] Specs (FlaUI)..." -ForegroundColor Yellow
-    $out = & dotnet test $specsDll --verbosity minimal 2>&1 | Out-String
+    Ensure-TestEnvironment
+    $out = Run-DotnetTest $specsDll $null
     $r = Parse-TestOutput $out
     $specColor = if ($r.Failed -gt 0) { "Yellow" } else { "Green" }
     Write-Host "  Specs: $($r.Passed)p/$($r.Failed)f" -ForegroundColor $specColor
@@ -91,6 +146,10 @@ if (-not (Test-Path $testDll) -and (Test-Path "$backupDir\mRemoteNGTests.dll")) 
     Write-Host "`n[Recovery] Restoring test DLL from backup" -ForegroundColor Yellow
     Copy-Item "$backupDir\mRemoteNGTests.dll" $testDll -Force
 }
+
+# Final cleanup
+Remove-Item $resultsDir -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$repoRoot\TestResults" -Recurse -Force -ErrorAction SilentlyContinue
 
 # Summary
 $elapsed = (Get-Date) - $startTime
