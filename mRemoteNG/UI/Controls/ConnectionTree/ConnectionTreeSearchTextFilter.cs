@@ -7,6 +7,7 @@ using BrightIdeasSoftware;
 using mRemoteNG.Connection;
 using mRemoteNG.Connection.Protocol;
 using mRemoteNG.Container;
+using mRemoteNG.Tree.Root;
 
 namespace mRemoteNG.UI.Controls.ConnectionTree
 {
@@ -43,6 +44,11 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             if (NodeMatchesFilter(objectAsConnectionInfo))
                 return true;
 
+            // Show all descendants of a folder whose name directly matches the
+            // filter (issue #2178: "search folder name not the connections").
+            if (AnyAncestorContainerMatchesFilter(objectAsConnectionInfo))
+                return true;
+
             // For containers, keep visible if any descendant matches so that
             // search finds connections inside collapsed/non-matching folders.
             if (objectAsConnectionInfo is ContainerInfo container)
@@ -50,6 +56,25 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                                 .Where(child => !IsUnderExcludedContainer(child))
                                 .Any(NodeMatchesFilter);
 
+            return false;
+        }
+
+        /// <summary>
+        /// Returns true if any ancestor folder (non-root <see cref="ContainerInfo"/>)
+        /// directly matches the filter text, so that all descendants of a
+        /// matching folder are included in the search results (issue #2178).
+        /// Root nodes are excluded because they have generic names (e.g.
+        /// "Connections") that would otherwise match many unrelated searches.
+        /// </summary>
+        private bool AnyAncestorContainerMatchesFilter(ConnectionInfo node)
+        {
+            ContainerInfo? parent = node.Parent;
+            while (parent != null && parent is not RootNodeInfo)
+            {
+                if (NodeMatchesFilter(parent))
+                    return true;
+                parent = parent.Parent;
+            }
             return false;
         }
 

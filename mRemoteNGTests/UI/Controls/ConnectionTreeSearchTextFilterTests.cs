@@ -1,6 +1,7 @@
 using System;
 using mRemoteNG.Connection;
 using mRemoteNG.Connection.Protocol;
+using mRemoteNG.Container;
 using mRemoteNG.UI.Controls.ConnectionTree;
 using NUnit.Framework;
 
@@ -111,6 +112,49 @@ namespace mRemoteNGTests.UI.Controls
             _filter.SpecialInclusionList.Add(_rdpConnection);
             _filter.FilterText = "something-that-wont-match";
             Assert.That(_filter.Filter(_rdpConnection), Is.True);
+        }
+
+        // --- Issue #2178: searching a folder name should reveal its children ---
+
+        [Test]
+        public void Filter_FolderNameMatch_ShowsDirectChildConnections()
+        {
+            var folder = new ContainerInfo { Name = "Production" };
+            folder.AddChild(_rdpConnection);
+
+            _filter.FilterText = "Production";
+
+            // The folder itself is visible
+            Assert.That(_filter.Filter(folder), Is.True);
+            // Its child connection is also visible (issue #2178)
+            Assert.That(_filter.Filter(_rdpConnection), Is.True);
+        }
+
+        [Test]
+        public void Filter_FolderNameMatch_ShowsNestedChildConnections()
+        {
+            var root = new ContainerInfo { Name = "DataCenter" };
+            var sub = new ContainerInfo { Name = "Servers" };
+            root.AddChild(sub);
+            sub.AddChild(_rdpConnection);
+
+            _filter.FilterText = "DataCenter";
+
+            Assert.That(_filter.Filter(root), Is.True);
+            Assert.That(_filter.Filter(sub), Is.True);
+            Assert.That(_filter.Filter(_rdpConnection), Is.True);
+        }
+
+        [Test]
+        public void Filter_FolderNameNoMatch_HidesChildrenThatDontMatch()
+        {
+            var folder = new ContainerInfo { Name = "OtherFolder" };
+            folder.AddChild(_rdpConnection);
+
+            _filter.FilterText = "xyz-no-match";
+
+            Assert.That(_filter.Filter(folder), Is.False);
+            Assert.That(_filter.Filter(_rdpConnection), Is.False);
         }
     }
 }
