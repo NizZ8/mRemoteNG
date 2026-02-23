@@ -737,6 +737,25 @@ namespace mRemoteNG.UI.Controls
                     ShowHideMenuItemsForConnectionNode(_connectionTree.SelectedNode);
                 }
 
+                if (IsReadOnly)
+                {
+                    _cMenTreeAddConnection.Enabled = false;
+                    _cMenTreeAddEntity.Enabled = false;
+                    _cMenTreeAddFolder.Enabled = false;
+                    _cMenTreeAddRootFolder.Enabled = false;
+                    _cMenTreeRename.Enabled = false;
+                    _cMenTreeDelete.Enabled = false;
+                    _cMenTreeDuplicate.Enabled = false;
+                    _cMenTreeCreateLink.Enabled = false;
+                    _cMenTreeImport.Enabled = false;
+                    _cMenTreeExportFile.Enabled = false;
+                    _cMenTreeToolsSort.Enabled = false;
+                    _cMenTreeMoveUp.Enabled = false;
+                    _cMenTreeMoveDown.Enabled = false;
+                    _cMenTreeApplyInheritanceToChildren.Enabled = false;
+                    _cMenTreeApplyDefaultInheritance.Enabled = false;
+                }
+
                 _cMenInheritanceSubMenu.Enabled = _cMenInheritanceSubMenu.DropDownItems
                     .OfType<ToolStripMenuItem>().Any(i => i.Enabled);
             }
@@ -747,6 +766,8 @@ namespace mRemoteNG.UI.Controls
                                                                 ex);
             }
         }
+
+        private bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
 
         internal void ShowHideMenuItemsForRootPuttyNode()
         {

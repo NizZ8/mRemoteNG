@@ -23,7 +23,7 @@ namespace mRemoteNG.Tree
 
         public void HandleEvent_ModelDropped(object sender, ModelDropEventArgs e)
         {
-            if (Properties.Settings.Default.DisableTreeDragAndDrop) return;
+            if (Properties.Settings.Default.DisableTreeDragAndDrop || Properties.OptionsDBsPage.Default.SQLReadOnly) return;
             if (e.TargetModel is not ConnectionInfo dropTarget) return;
 
             IEnumerable<ConnectionInfo> dropSources = e.SourceModels?.OfType<ConnectionInfo>() ?? [];
@@ -79,7 +79,7 @@ namespace mRemoteNG.Tree
 
         public void HandleEvent_ModelCanDrop(object sender, ModelDropEventArgs e)
         {
-            if (Properties.Settings.Default.DisableTreeDragAndDrop)
+            if (Properties.Settings.Default.DisableTreeDragAndDrop || Properties.OptionsDBsPage.Default.SQLReadOnly)
             {
                 e.Effect = DragDropEffects.None;
                 e.Handled = true;

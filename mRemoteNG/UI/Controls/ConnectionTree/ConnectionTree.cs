@@ -329,8 +329,11 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             return Objects.OfType<RootPuttySessionsNodeInfo>();
         }
 
+        private bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
+
         public void AddConnection()
         {
+            if (IsReadOnly) return;
             try
             {
                 AddNode(new ConnectionInfo());
@@ -343,6 +346,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void AddFolder()
         {
+            if (IsReadOnly) return;
             try
             {
                 AddNode(new ContainerInfo());
@@ -355,6 +359,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void AddEntity()
         {
+            if (IsReadOnly) return;
             try
             {
                 ContainerInfo entity = new() { IsEntity = true, Name = "New Entity" };
@@ -368,6 +373,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void AddRootFolder()
         {
+            if (IsReadOnly) return;
             try
             {
                 ContainerInfo newFolder = new();
@@ -442,6 +448,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void DuplicateSelectedNode()
         {
+            if (IsReadOnly) return;
             ExecuteInBatchedSaveContext(() =>
             {
                 foreach (ConnectionInfo selectedNode in GetSelectedNodes())
@@ -460,6 +467,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void CreateLinkToSelectedNode()
         {
+            if (IsReadOnly) return;
             ExecuteInBatchedSaveContext(() =>
             {
                 foreach (ConnectionInfo selectedNode in GetSelectedNodes())
@@ -482,6 +490,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void RenameSelectedNode()
         {
+            if (IsReadOnly) return;
             if (SelectedItem == null) return;
             _allowEdit = true;
             SelectedItem.BeginEdit();
@@ -489,6 +498,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void DeleteSelectedNode()
         {
+            if (IsReadOnly) return;
             ExecuteInBatchedSaveContext(() =>
             {
                 foreach (ConnectionInfo selectedNode in GetSelectedNodes())
@@ -531,6 +541,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void SortRecursive(ConnectionInfo sortTarget, ListSortDirection sortDirection)
         {
+            if (IsReadOnly) return;
             sortTarget ??= GetRootConnectionNode();
 
             Runtime.ConnectionsService.BeginBatchingSaves();
@@ -545,6 +556,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void SortSelectedNodesRecursive(ListSortDirection sortDirection)
         {
+            if (IsReadOnly) return;
             List<ContainerInfo> sortTargets = GetSelectedNodes()
                 .Select(selectedNode => selectedNode as ContainerInfo ?? selectedNode.Parent)
                 .Where(sortTarget => sortTarget != null)
@@ -569,6 +581,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void MoveSelectedNodesUp()
         {
+            if (IsReadOnly) return;
             ExecuteInBatchedSaveContext(() =>
             {
                 foreach (IGrouping<ContainerInfo, ConnectionInfo> parentGroup in
@@ -586,6 +599,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         public void MoveSelectedNodesDown()
         {
+            if (IsReadOnly) return;
             ExecuteInBatchedSaveContext(() =>
             {
                 foreach (IGrouping<ContainerInfo, ConnectionInfo> parentGroup in
@@ -790,7 +804,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             if (_nodeInEditMode || sender is not ConnectionTree)
                 return;
 
-            if (!_allowEdit || SelectedNode is PuttySessionInfo || SelectedNode is RootPuttySessionsNodeInfo)
+            if (IsReadOnly || !_allowEdit || SelectedNode is PuttySessionInfo || SelectedNode is RootPuttySessionsNodeInfo)
             {
                 e.CancelEdit = true;
                 return;
