@@ -434,12 +434,14 @@ namespace mRemoteNG.UI.Menu
             if (_mMenViewQuickConnectToolbar.Checked)
             {
                 mRemoteNG.Properties.Settings.Default.ViewMenuQuickConnect = false;
+                mRemoteNG.Properties.Settings.Default.QuickyTBVisible = false;
                 _mMenViewQuickConnectToolbar.Checked = false;
                 if (TsQuickConnect is not null) TsQuickConnect.Visible = false;
             }
             else
             {
                 mRemoteNG.Properties.Settings.Default.ViewMenuQuickConnect = true;
+                mRemoteNG.Properties.Settings.Default.QuickyTBVisible = true;
                 _mMenViewQuickConnectToolbar.Checked = true;
                 if (TsQuickConnect is not null) TsQuickConnect.Visible = true;
             }

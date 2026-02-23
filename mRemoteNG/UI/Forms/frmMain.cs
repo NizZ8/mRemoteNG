@@ -1440,7 +1440,7 @@ namespace mRemoteNG.UI.Forms
                 viewMenu._mMenViewMultiSshToolbar.Checked = false;
             }
 
-            if (Settings.ViewMenuQuickConnect == true)
+            if (Settings.QuickyTBVisible)
             {
                 if (viewMenu.TsQuickConnect is not null) viewMenu.TsQuickConnect.Visible = true;
                 viewMenu._mMenViewQuickConnectToolbar.Checked = true;
