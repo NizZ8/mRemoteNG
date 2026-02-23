@@ -17,7 +17,7 @@ namespace mRemoteNG.Themes
         /// <param name="baseTheme"></param>
         public static void SaveToXmlFile(ThemeInfo themeToSave, ThemeInfo baseTheme)
         {
-            if (baseTheme.URI == null || baseTheme.URI.Contains("../") || baseTheme.URI.Contains(@"..\"))
+            if (string.IsNullOrEmpty(baseTheme.URI) || baseTheme.URI.Contains("../") || baseTheme.URI.Contains(@"..\"))
                 throw new ArgumentException("Invalid file path");
             if (themeToSave.Name == null || themeToSave.Name.Contains("../") || themeToSave.Name.Contains(@"..\"))
                 throw new ArgumentException("Invalid file path");

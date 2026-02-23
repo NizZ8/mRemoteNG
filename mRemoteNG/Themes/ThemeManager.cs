@@ -232,11 +232,22 @@ namespace mRemoteNG.Themes
         public ThemeInfo? addTheme(ThemeInfo baseTheme, string newThemeName)
         {
             if (themes.Contains(newThemeName)) return null;
+
+            // Embedded themes (vs2015Light/Dark/Blue) have empty URIs because they are built-in.
+            // Resolve the corresponding NG file-based variant to use as the copy template.
+            ThemeInfo fileBase = baseTheme;
+            if (string.IsNullOrEmpty(fileBase.URI) && baseTheme.Name != null)
+            {
+                string ngName = baseTheme.Name.ToLowerInvariant() + "NG";
+                if (themes[ngName] is ThemeInfo ngTheme && !string.IsNullOrEmpty(ngTheme.URI))
+                    fileBase = ngTheme;
+            }
+
             ThemeInfo modifiedTheme = (ThemeInfo)baseTheme.Clone();
             modifiedTheme.Name = newThemeName;
             modifiedTheme.IsExtendable = true;
             modifiedTheme.IsThemeBase = false;
-            ThemeSerializer.SaveToXmlFile(modifiedTheme, baseTheme);
+            ThemeSerializer.SaveToXmlFile(modifiedTheme, fileBase);
             themes.Add(newThemeName, modifiedTheme);
             return modifiedTheme;
         }
