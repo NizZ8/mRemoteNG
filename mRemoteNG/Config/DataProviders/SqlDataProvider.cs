@@ -123,6 +123,12 @@ namespace mRemoteNG.Config.DataProviders
                     if (dataTable.Columns.Contains("RowVersion"))
                         conflictOption = ConflictOption.CompareRowVersion;
                     cb.ConflictOption = conflictOption;
+                    // Quote column names with backticks so the MySqlCommandBuilder internal
+                    // parameter-to-column dictionary lookup succeeds on MariaDB/MySQL.
+                    // Without this, GetUpdateCommand/GetDeleteCommand/GetInsertCommand throw
+                    // "Given key was not present in dictionary" (#2257).
+                    cb.QuotePrefix = "`";
+                    cb.QuoteSuffix = "`";
 
                     // Explicitly retrieve commands after setting ConflictOption so the
                     // generated UPDATE/DELETE/INSERT use only the primary key in their

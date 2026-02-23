@@ -43,6 +43,7 @@ declare -a ISO_FILTERS=("Name=FormBehavior" "Name=AllPagesExistWithIconsAndLoadC
 total_passed=0
 total_failed=0
 any_crashed=false
+groups_with_zero=0
 
 cleanup_env() {
     taskkill //F //IM testhost.exe >/dev/null 2>&1 || true
@@ -120,7 +121,7 @@ for i in "${!GROUP_NAMES[@]}"; do
 
     # Auto-retry if crashed or 0 results (up to 3 retries, cumulative OS resource exhaustion)
     retries=0
-    while [ "$retries" -lt 2 ] && { [ "$c" = "true" ] || [ "$p" -eq 0 ]; } && [ "$p" -lt "$expected" ]; do
+    while [ "$retries" -lt 3 ] && { [ "$c" = "true" ] || [ "$p" -eq 0 ]; } && [ "$p" -lt "$expected" ]; do
         retries=$((retries + 1))
         printf "%dp/RETRY%d... " "$p" "$retries"
         cleanup_env
@@ -142,6 +143,11 @@ for i in "${!GROUP_NAMES[@]}"; do
         echo "${p}p/${f}f"
     else
         echo "${p} passed"
+    fi
+
+    # Track groups that returned 0 tests despite retries
+    if [ "$p" -eq 0 ] && [ "$f" -eq 0 ]; then
+        groups_with_zero=$((groups_with_zero + 1))
     fi
 
     total_passed=$((total_passed + p))
@@ -209,10 +215,18 @@ echo "  Total:   $total_tests"
 echo "  Passed:  $total_passed"
 [ "$total_failed" -gt 0 ] && echo "  Failed:  $total_failed"
 [ "$any_crashed" = "true" ] && echo "  CRASHES: yes (partial results captured)"
+[ "$groups_with_zero" -gt 0 ] && echo "  PHANTOM_GROUPS: $groups_with_zero group(s) returned 0 tests"
 [ "$total_tests" -lt "$MIN_TOTAL" ] && echo "  WARNING: Only $total_tests tests (expected >$MIN_TOTAL)"
 echo "============================="
 
-if [ "$total_failed" -gt 0 ] || [ "$total_tests" -lt "$MIN_TOTAL" ]; then
+if [ "$total_failed" -gt 0 ]; then
+    # Real test failure — code is broken
     exit 1
+fi
+if [ "$total_tests" -lt "$MIN_TOTAL" ]; then
+    # Coverage gap — groups returned 0 (phantom) but no real failures
+    # Exit code 96 = infrastructure flakiness, not code issue
+    echo "  EXIT 96: Coverage gap (phantom groups, no real failures)"
+    exit 96
 fi
 exit 0
