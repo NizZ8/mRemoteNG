@@ -157,6 +157,39 @@ namespace mRemoteNGTests.UI.Controls
             Assert.That(_filter.Filter(_rdpConnection), Is.False);
         }
 
+        // --- Issue #2293: folder-name ancestor check is name-only (not hostname/description/tags) ---
+
+        [Test]
+        public void Filter_FolderNameMatch_ShowsAllChildrenViaAncestorRule_Issue2293()
+        {
+            // Folder name matches; child connection name does NOT match by itself
+            var folder = new ContainerInfo { Name = "WebServers" };
+            var conn = new ConnectionInfo { Name = "Apache", Hostname = "web01" };
+            folder.AddChild(conn);
+
+            _filter.FilterText = "WebServers";
+
+            Assert.That(_filter.Filter(folder), Is.True, "folder itself must be visible");
+            Assert.That(_filter.Filter(conn), Is.True, "child must be visible because parent folder name matches");
+        }
+
+        [Test]
+        public void Filter_FolderHostnameMatch_DoesNotRevealChildrenViaAncestorRule_Issue2293()
+        {
+            // Folder hostname matches the filter text, but folder NAME does NOT.
+            // The ancestor rule (issue #2293) must check name only — a hostname match
+            // on a folder must NOT cause its children to appear via the ancestor path.
+            var folder = new ContainerInfo { Name = "Unrelated", Hostname = "webservers-host" };
+            var conn = new ConnectionInfo { Name = "Apache", Hostname = "web01" };
+            folder.AddChild(conn);
+
+            _filter.FilterText = "webservers";
+
+            // conn itself does not match ("Apache" / "web01" don't contain "webservers")
+            Assert.That(_filter.Filter(conn), Is.False,
+                "child must not appear — folder matched via hostname, not name");
+        }
+
         // --- Issue #2180: multiple space-separated search terms (AND logic) ---
 
         [Test]

@@ -61,21 +61,61 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         /// <summary>
         /// Returns true if any ancestor folder (non-root <see cref="ContainerInfo"/>)
-        /// directly matches the filter text, so that all descendants of a
-        /// matching folder are included in the search results (issue #2178).
+        /// directly matches the filter text by name, so that all descendants of a
+        /// matching folder are included in the search results (issues #2178, #2293).
         /// Root nodes are excluded because they have generic names (e.g.
         /// "Connections") that would otherwise match many unrelated searches.
+        /// Only the folder's <em>name</em> is checked — hostname, description and
+        /// tags are connection-specific fields and are not meaningful on folders.
         /// </summary>
         private bool AnyAncestorContainerMatchesFilter(ConnectionInfo node)
         {
             ContainerInfo? parent = node.Parent;
             while (parent != null && parent is not RootNodeInfo)
             {
-                if (NodeMatchesFilter(parent))
+                if (NodeMatchesFolderNameFilter(parent))
                     return true;
                 parent = parent.Parent;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Checks whether <paramref name="node"/> matches the filter by name only,
+        /// ignoring protocol, hostname, description and tags.  Used for the ancestor
+        /// folder check (issue #2293) so that typing a folder name reveals all
+        /// connections inside it without accidentally matching on connection-only fields.
+        /// </summary>
+        private bool NodeMatchesFolderNameFilter(ConnectionInfo node)
+        {
+            string filterTextLower = FilterText.ToLowerInvariant();
+
+            // regex: prefix — match against folder name only
+            if (filterTextLower.StartsWith("regex:", StringComparison.Ordinal))
+            {
+                try
+                {
+                    string pattern = FilterText.Substring(6);
+                    return new Regex(pattern, RegexOptions.IgnoreCase).IsMatch(node.Name);
+                }
+                catch (ArgumentException)
+                {
+                    return false;
+                }
+            }
+
+            // protocol: and tag: prefixes are connection-specific — no folder match
+            if (filterTextLower.StartsWith("protocol:", StringComparison.Ordinal) ||
+                filterTextLower.StartsWith("tag:", StringComparison.Ordinal))
+                return false;
+
+            // AND-logic across space-separated terms, name only
+            string[] terms = filterTextLower.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (terms.Length == 0)
+                return true;
+
+            string nameLower = node.Name.ToLowerInvariant();
+            return terms.All(term => nameLower.Contains(term));
         }
 
         /// <summary>
