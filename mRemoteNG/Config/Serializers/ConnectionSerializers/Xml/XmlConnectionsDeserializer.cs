@@ -616,6 +616,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.Inheritance.RDPUseMultimon = xmlnode.GetAttributeAsBool("InheritRDPUseMultimon");
                     connectionInfo.Inheritance.Notes = xmlnode.GetAttributeAsBool("InheritNotes");
                     connectionInfo.Inheritance.RetryOnFirstConnect = xmlnode.GetAttributeAsBool("InheritRetryOnFirstConnect");
+                    connectionInfo.CredentialId = xmlnode.GetAttributeAsString("CredentialId");
                 }
 
                 switch (_confVersion)

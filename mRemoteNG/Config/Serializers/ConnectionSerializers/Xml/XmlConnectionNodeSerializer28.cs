@@ -206,6 +206,10 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             element.Add(new XAttribute("VaultOpenbaoMount", connectionInfo.VaultOpenbaoMount ?? string.Empty));
             element.Add(new XAttribute("VaultOpenbaoRole", connectionInfo.VaultOpenbaoRole ?? string.Empty));
             element.Add(new XAttribute("VaultOpenbaoSecretEngine", connectionInfo.VaultOpenbaoSecretEngine));
+
+            // Credential record link
+            if (_saveFilter.SaveCredentialId)
+                element.Add(new XAttribute("CredentialId", connectionInfo.CredentialId ?? string.Empty));
         }
 
         private void SetInheritanceAttributes(XContainer element, IInheritable connectionInfo)

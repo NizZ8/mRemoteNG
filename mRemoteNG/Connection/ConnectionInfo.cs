@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using mRemoteNG.App;
 using mRemoteNG.Connection.Protocol;
+using mRemoteNG.Credential;
+using mRemoteNG.Security;
 using mRemoteNG.Connection.Protocol.ARD;
 using mRemoteNG.Connection.Protocol.Http;
 using mRemoteNG.Connection.Protocol.PowerShell;
@@ -271,6 +273,9 @@ namespace mRemoteNG.Connection
 
         protected override TPropertyType GetPropertyValue<TPropertyType>(string propertyName, TPropertyType value)
         {
+            if (TryGetCredentialRecordValue(propertyName, out TPropertyType credentialValue))
+                return credentialValue;
+
             if (TryGetLinkedPropertyValue(propertyName, out TPropertyType linkedValue))
                 return linkedValue;
 
@@ -291,6 +296,32 @@ namespace mRemoteNG.Connection
                 Inheritance.InheritanceActive &&
                 ParentIsValidInheritanceTarget() &&
                 IsInheritanceTurnedOnForThisProperty(propertyName);
+        }
+
+        private bool TryGetCredentialRecordValue<TPropertyType>(string propertyName, out TPropertyType credentialValue)
+        {
+            credentialValue = default!;
+
+            if (!IsCredentialProperty(propertyName)) return false;
+
+            string credId = CredentialId;
+            if (string.IsNullOrEmpty(credId)) return false;
+            if (!Guid.TryParse(credId, out Guid credentialId)) return false;
+
+            ICredentialRecord? record = Runtime.CredentialProviderCatalog.GetCredentialRecord(credentialId);
+            if (record == null) return false;
+
+            object? rawValue = propertyName switch
+            {
+                nameof(Username) => record.Username,
+                nameof(Password) => record.Password?.ConvertToUnsecureString() ?? string.Empty,
+                nameof(Domain) => record.Domain,
+                _ => null
+            };
+
+            if (rawValue is not TPropertyType typed) return false;
+            credentialValue = typed;
+            return true;
         }
 
         private bool TryGetLinkedPropertyValue<TPropertyType>(string propertyName, out TPropertyType linkedValue)
