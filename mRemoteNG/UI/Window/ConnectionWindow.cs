@@ -1088,6 +1088,10 @@ namespace mRemoteNG.UI.Window
             ConnectionInfo? selectedConnectionInfo = GetConnectionInfoForTab(selectedTab);
             if (selectedConnectionInfo == null) return;
             FrmMain.Default.SelectedConnection = selectedConnectionInfo;
+
+            // Refocus the protocol window so the embedded process (e.g. PuTTY) regains input (#2237)
+            if (selectedTab?.Tag is InterfaceControl activeIc)
+                activeIc.Protocol?.Focus();
         }
 
         private bool HasConnectionTabs()
