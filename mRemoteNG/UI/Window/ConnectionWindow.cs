@@ -724,8 +724,24 @@ namespace mRemoteNG.UI.Window
                         Show(FrmMain.Default.pnlDock, DockState.Document);
                     }
 
-                    //Show the tab
-                    conTab.Show(connDock, DockState.Document);
+                    //Show the tab — insert after the currently active tab (issue #2159)
+                    DockPane? activePane = connDock.ActivePane;
+                    if (activePane != null)
+                    {
+                        IDockContent? activeContent = connDock.ActiveContent;
+                        IDockContent? beforeContent = null;
+                        if (activeContent != null)
+                        {
+                            int activeIndex = activePane.Contents.IndexOf(activeContent);
+                            if (activeIndex >= 0 && activeIndex + 1 < activePane.Contents.Count)
+                                beforeContent = activePane.Contents[activeIndex + 1];
+                        }
+                        conTab.Show(activePane, beforeContent);
+                    }
+                    else
+                    {
+                        conTab.Show(connDock, DockState.Document);
+                    }
                 }
                 finally
                 {

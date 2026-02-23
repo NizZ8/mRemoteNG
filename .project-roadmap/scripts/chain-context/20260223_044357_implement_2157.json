@@ -1,0 +1,60 @@
+{
+  "task_type": "implement",
+  "task_id": "2157",
+  "started_at": "2026-02-23T04:34:04",
+  "finished_at": "2026-02-23T04:43:57",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "implement #2157",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T04:34:04"
+    },
+    {
+      "agent": "gemini",
+      "task": "implement #2157",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T04:34:04"
+    },
+    {
+      "agent": "claude",
+      "task": "implement #2157",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Build OK but tests failed. Test fix attempted but failed.",
+      "files_modified": [
+        ".project-roadmap/issues-db/upstream/2153.json",
+        ".project-roadmap/issues-db/upstream/2154.json",
+        ".project-roadmap/issues-db/upstream/2157.json",
+        ".project-roadmap/scripts/chain-context/_timeout_history.json"
+      ],
+      "build_result": "OK",
+      "test_result": "FAIL",
+      "timed_out": false,
+      "diff_summary": ".project-roadmap/issues-db/upstream/2153.json       | 21 +++++++++++++++++++--\n .project-roadmap/issues-db/upstream/2154.json       | 15 +++++++++++----\n .project-roadmap/issues-db/upstream/2157.json       | 15 +++++++++++----\n .../scripts/chain-context/_timeout_history.json     | 12 ++++++------\n 4 files changed, 47 insertions(+), 16 deletions(-)",
+      "timestamp": "2026-02-23T04:43:57",
+      "diff_output": "diff --git a/.project-roadmap/issues-db/upstream/2153.json b/.project-roadmap/issues-db/upstream/2153.json\nindex a931a85df..b6867712b 100644\n--- a/.project-roadmap/issues-db/upstream/2153.json\n+++ b/.project-roadmap/issues-db/upstream/2153.json\n@@ -12,7 +12,7 @@\n   \"created_at\": \"2022-02-03T10:02:11Z\",\n   \"github_updated_at\": \"2026-02-21T10:23:14Z\",\n   \"body_snippet\": \"Once the Config Panel has been closed I don't see a \\\"View\\\" option to bring it back.  Only a Layout Reset seems to bring it back.\\r\\n\\r\\n## Expected Behavior\\r\\nI expect to see a View option to enable the Config Panel.\\r\\n\\r\\n## Current Behavior\\r\\nOnly a Layout Reset re-enables the Config Panel.\\r\\n\\r\\n## Context\\r\\nIt makes changing the layout tricky.\\r\\n\\r\\n## Your Environment\\r\\nWindows 10 Enterprise 64-bit 20H2.\",\n-  \"our_status\": \"triaged\",\n+  \"our_status\": \"testing\",\n   \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n@@ -23,6 +23,18 @@\n       \"date\": \"2026-02-23\",\n       \"type\": \"triaged\",\n       \"description\": \"The configuration panel becomes inaccessible to the user, hindering usability.\"\n+    },\n+    {\n+      \"seq\": 2,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"testing\",\n+      \"description\": \"Fix in 5565dea2\",\n+      \"token_usage\": {\n+        \"input_tokens\": 26,\n+        \"output_tokens\": 8162,\n+        \"cost_usd\": 1.418725,\n+        \"operations\": 1\n+      }\n     }\n   ],\n   \"comments\": [\n@@ -50,5 +62,10 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"AI triage (gemini): The configuration panel becomes inaccessible to the user, hindering usability.\\nApproach: Investigate the lifecycle of FrmOptions, focusing on its closing and reopening behavior in FrmMain, to ensure it's either correctly shown if hidden, or a new instance is created and shown.\"\n+  \"notes\": \"AI triage (gemini): The configuration panel becomes inaccessible to the user, hindering usability.\\nApproach: Investigate the lifecycle of FrmOptions, focusing on its closing and reopening behavior in FrmMain, to ensure it's either correctly shown if hidden, or a new instance is created and shown.\",\n+  \"token_usage\": {\n+    \"input_tokens\": 26,\n+    \"output_tokens\": 8162,\n+    \"cost_usd\": 1.418725\n+  }\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2154.json b/.project-roadmap/issues-db/upstream/2154.json\nindex 6cf29732c..82866dac4 100644\n--- a/.project-roadmap/issues-db/upstream/2154.json\n+++ b/.project-roadmap/issues-db/upstream/2154.json\n@@ -14,12 +14,19 @@\n   \"created_at\": \"2022-02-03T10:04:09Z\",\n   \"github_updated_at\": \"2026-02-21T10:23:19Z\",\n   \"body_snippet\": \"Under \\\"Inheritance\\\", there are 2 sets of fields with the same names, even though their functions are different:\\r\\n1) \\\"Minutes To Idle\\\".  The 2nd field with this name should probably be labelled \\\"Alert on disconnect due to idle\\\".\\r\\n2) \\\"Disable Cursor Shadow\\\".  Both fields with this name appear to have the same help text.  One should probably be deleted.\\r\\n\\r\\n## Expected Behavior\\r\\nEach field name & function should be unique.\\r\\n\\r\\n## Current Behavior\\r\\nDuplicate field names.\\r\\n\\r\\n## Your Environment\\r\\nWindow...\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"The 'Duplicate field names' issue likely originates from a conflict in how 'UserField' and 'UserFieldX' properties are processed during XML serialization or deserialization, potentially causing data mapping collisions.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM7mYhCr\",\n@@ -36,5 +43,5 @@\n   \"needs_action\": false,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): The 'Duplicate field names' issue likely originates from a conflict in how 'UserField' and 'UserFieldX' properties are processed during XML serialization or deserialization, potentially causing data mapping collisions.\\nApproach: Analyze the handling of 'UserField' and 'UserFieldX' properties within XmlConnectionsDeserializer.cs and XmlConnectionsSaver.cs, and related ConnectionInfo logic, to identify and correct any logic that leads to ambiguous or duplicate field interpretations during data operations.\"\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2157.json b/.project-roadmap/issues-db/upstream/2157.json\nindex 30649547e..b4cc94968 100644\n--- a/.project-roadmap/issues-db/upstream/2157.json\n+++ b/.project-roadmap/issues-db/upstream/2157.json\n@@ -13,12 +13,19 @@\n   \"created_at\": \"2022-02-03T10:13:22Z\",\n   \"github_updated_at\": \"2026-02-21T10:23:19Z\",\n   \"body_snippet\": \"If the PC is put into Sleep or Hibernation, when resuming and switching to mRemoteNG it attempts to reconnect to the host which it was connected to at the time of Sleep/Hibernate.  Once reconnected, the window size of the remote host is much smaller than it should be.  Signing out of the host & connecting again sorts out the issue.\\r\\n\\r\\n## Expected Behavior\\r\\nReconnecting should result in a regular window size.\\r\\n\\r\\n## Current Behavior\\r\\nReconnecting results in a much smaller window size.\\r\\n\\r\\n## Steps ...\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"Auto-reconnect does not preserve the previous window size, leading to an inconsistent user experience.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM49UuHi\",\n@@ -53,5 +60,5 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): Auto-reconnect does not preserve the previous window size, leading to an inconsistent user experience.\\nApproach: Investigate how 'LockWindowSize' interacts with connection window sizing during auto-reconnect. Trace how window dimensions are stored for connections and ensure the correct size is applied when re-establishing a connection, respecting user preferences.\"\n }\ndiff --git a/.project-roadmap/scripts/chain-context/_timeout_history.json b/.project-roadmap/scripts/chain-context/_timeout_history.json\nindex 5cd9a7c88..ccdebb4f6 100644\n--- a/.project-roadmap/scripts/chain-context/_timeout_history.json\n+++ b/.project-roadmap/scripts/chain-context/_timeout_history.json\n@@ -2,8 +2,6 @@\n   \"durations\": {\n     \"claude\": {\n       \"implement\": [\n-        549.2,\n-        398.1,\n         271.5,\n         168.3,\n         544.6,\n@@ -51,7 +49,9 @@\n         466.4,\n         472.2,\n         484.1,\n-        452.7\n+        452.7,\n+        484.5,\n+        351.0\n       ],\n       \"triage\": [\n         30.0,\n@@ -160,8 +160,6 @@\n         328.1\n       ],\n       \"triage\": [\n-        21.8,\n-        21.3,\n         37.9,\n         26.5,\n         100.2,\n@@ -209,7 +207,9 @@\n         24.5,\n         39.9,\n         29.5,\n-        24.5\n+        24.5,\n+        46.4,\n+        31.2\n       ]\n     },\n     \"gpt41\": {",
+      "test_output": "=== mRemoteNG Test Runner v9 ===\n[Run] Delegating to bash runner...\n\n[Phase 1] Running 9 test groups (with auto-retry on crash)...\n  [Connection          ] 1024 passed\n  [Config.Xml          ] 0p/RETRY1... 0p/RETRY2... 0 passed\n  [Config.Other        ] 544 passed\n  [UI                  ] 348 passed\n  [Tools               ] 329 passed\n  [Security            ] 164 passed\n  [Tree+Container+Cred ] 178 passed\n  [Remaining           ] 83 passed\n  [Integration         ] 0p/RETRY1... 21 passed\n\n[Phase 2] FrmOptions isolated...\n  [FormBehavior        ] passed\n  [AllPages            ] passed\n\n========== RESULTS ==========\n  Total:   2693\n  Passed:  2693\n  WARNING: Only 2693 tests (expected >2800)\n=============================\n\n"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": false
+}
