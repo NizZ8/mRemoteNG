@@ -121,7 +121,7 @@ namespace mRemoteNG.UI.Tabs
             {
                 Rectangle rect = ClientRectangle;
                 return new Rectangle(rect.X, rect.Top + DocumentStripGapTop, rect.Width,
-                                     rect.Height + DocumentStripGapTop - DocumentStripGapBottom);
+                                     rect.Height - DocumentStripGapTop - DocumentStripGapBottom);
             }
         }
 
