@@ -1786,9 +1786,37 @@ namespace mRemoteNG.UI.Window
                 // receives a "click elsewhere" notification and stays open (#330).
                 if (cmenTab.Visible)
                     cmenTab.Close();
+
+                // Issue #2175: Forward keyboard focus to the active InterfaceControl when
+                // the user clicks while the cursor is over the remote session area. Using
+                // BeginInvoke defers the focus call until after window activation completes,
+                // so the RDP control reliably receives keyboard input on the first click.
+                if (IsHandleCreated && !IsDisposed && !Disposing)
+                    BeginInvoke((MethodInvoker)FocusInterfaceControlIfMouseOver);
             }
 
             base.WndProc(ref m);
+        }
+
+        private void FocusInterfaceControlIfMouseOver()
+        {
+            try
+            {
+                InterfaceControl? ic = GetInterfaceControl();
+                if (ic?.Protocol == null || ic.IsDisposed) return;
+
+                Point mouseScreen = Control.MousePosition;
+                Rectangle icScreenBounds = ic.RectangleToScreen(ic.ClientRectangle);
+                if (icScreenBounds.Contains(mouseScreen))
+                {
+                    ic.Protocol.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage(
+                    "FocusInterfaceControlIfMouseOver (UI.Window.ConnectionWindow) failed", ex);
+            }
         }
 
         #region Protocols
