@@ -1112,8 +1112,10 @@ CLAUDE_MODEL_BY_TASK = {
 
 **Supervisor (`orchestrator_supervisor.py`):**
 - Self-healing wrapper, monitorizează la 30s
-- Auto-recovery din 8 tipuri de eșec
+- Auto-recovery din 12 tipuri de eșec (FM1-FM12)
 - Lansează orchestratorul ca subprocess
+- **Lock file:** `supervisor.lock` — previne instanțe concurente
+- **Git stash:** salvează automat lucrul necommitat înainte de recovery distructiv
 
 **Problemă:** Supervisorul moștenește env-ul (inclusiv CLAUDECODE). Fix: lansare cu `env -u CLAUDECODE`.
 
@@ -1121,6 +1123,23 @@ CLAUDE_MODEL_BY_TASK = {
 ```bash
 cd scripts && env -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT nohup python iis_orchestrator.py issues > orchestrator-stdout.log 2>&1 &
 ```
+
+### Supervisor robustness (2026-02-23) — 10 bug-uri fixate
+
+| ID | Problemă | Fix |
+|----|----------|-----|
+| P1 | Supervisor fără lock → instanțe concurente | `supervisor.lock` cu PID check + stale removal |
+| P2 | Orchestrator manual conflictă cu supervisor | Check `supervisor.lock` în main(), `--force` override |
+| P3 | Recovery pierde lucru necommitat permanent | `_git_stash_if_dirty()` ÎNAINTE de git checkout/clean |
+| P4 | Strikes resetate la fiecare restart (5+/zi) | Eliminat reset din `_pre_run_cleanup()`, adăugat time-decay (>60min) |
+| P5 | FM12 kill MSBuild.exe în timpul build activ | `_is_active_task("build")` check înainte de kill |
+| P6 | FM8 kill dotnet.exe la fiecare 30s inclusiv activ | Skip dotnet.exe dacă orchestrator building/testing |
+| P7 | Exit code 96 acceptat orbește | Validare `Passed: N >= TEST_MIN_COUNT`, reject dacă sub minim |
+| P8 | Lock file bypass la os._exit() | `atexit.register()` ca safety net |
+| P9 | 20+ `except Exception: pass` ascund bug-uri | `log.warning/debug()` pe 5 handlere critice |
+| P10 | FM3 nu verifică dacă se construiește | Skip testhost.exe check și dacă building |
+
+**Lecție cheie:** Supervisorul trebuie să fie **conștient** dacă orchestratorul e activ (build/test) înainte de a kill-ui procese. Pattern: `_is_active_task(keyword)` — citește `orchestrator-status.json` și verifică `current_task`/`current_phase`.
 
 ### Agent chain — ordine și fallback
 

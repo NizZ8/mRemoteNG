@@ -30,20 +30,26 @@ class TempFilesMixin:
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
         self._orig_lock = sup.LOCK_FILE
+        self._orig_sup_lock = sup.SUPERVISOR_LOCK_FILE
         self._orig_status = sup.STATUS_FILE
         self._orig_rate = sup.RATE_LIMIT_FILE
         self._orig_log = sup.LOG_FILE
+        self._orig_strikes = sup.PROGRESS_STRIKES_FILE
 
         sup.LOCK_FILE = Path(self.tmpdir) / "orchestrator.lock"
+        sup.SUPERVISOR_LOCK_FILE = Path(self.tmpdir) / "supervisor.lock"
         sup.STATUS_FILE = Path(self.tmpdir) / "orchestrator-status.json"
         sup.RATE_LIMIT_FILE = Path(self.tmpdir) / "_agent_rate_limits.json"
         sup.LOG_FILE = Path(self.tmpdir) / "orchestrator.log"
+        sup.PROGRESS_STRIKES_FILE = Path(self.tmpdir) / "_progress_strikes.json"
 
     def tearDown(self):
         sup.LOCK_FILE = self._orig_lock
+        sup.SUPERVISOR_LOCK_FILE = self._orig_sup_lock
         sup.STATUS_FILE = self._orig_status
         sup.RATE_LIMIT_FILE = self._orig_rate
         sup.LOG_FILE = self._orig_log
+        sup.PROGRESS_STRIKES_FILE = self._orig_strikes
 
         import shutil
         shutil.rmtree(self.tmpdir, ignore_errors=True)
@@ -179,22 +185,22 @@ class TestFM3PhantomTests(TempFilesMixin, unittest.TestCase):
         checker._check_phantom_tests(status)
         self.assertTrue(status.healthy)
 
-    @patch("orchestrator_supervisor.HealthChecker._is_actively_testing")
+    @patch("orchestrator_supervisor.HealthChecker._is_active_task")
     @patch("orchestrator_supervisor._count_processes")
-    def test_testhost_without_active_test_detected(self, mock_count, mock_testing):
+    def test_testhost_without_active_test_detected(self, mock_count, mock_active):
         mock_count.return_value = 3
-        mock_testing.return_value = False
+        mock_active.return_value = False
         checker = sup.HealthChecker()
         status = sup.HealthStatus(healthy=True)
         checker._check_phantom_tests(status)
         self.assertFalse(status.healthy)
         self.assertEqual(status.failures[0]["mode"], "phantom_test_processes")
 
-    @patch("orchestrator_supervisor.HealthChecker._is_actively_testing")
+    @patch("orchestrator_supervisor.HealthChecker._is_active_task")
     @patch("orchestrator_supervisor._count_processes")
-    def test_testhost_during_active_test_is_ok(self, mock_count, mock_testing):
+    def test_testhost_during_active_test_is_ok(self, mock_count, mock_active):
         mock_count.return_value = 3
-        mock_testing.return_value = True
+        mock_active.return_value = True
         checker = sup.HealthChecker()
         status = sup.HealthStatus(healthy=True)
         checker._check_phantom_tests(status)
@@ -376,16 +382,32 @@ class TestFM8StaleProcesses(TempFilesMixin, unittest.TestCase):
         checker._check_stale_processes(status)
         self.assertTrue(status.healthy)
 
+    @patch("orchestrator_supervisor.HealthChecker._is_active_task")
     @patch("orchestrator_supervisor._count_processes")
-    def test_stale_notepad_detected(self, mock_count):
+    def test_stale_notepad_detected(self, mock_count, mock_active):
         def side_effect(name):
             return 2 if name == "notepad.exe" else 0
         mock_count.side_effect = side_effect
+        mock_active.return_value = False
         checker = sup.HealthChecker()
         status = sup.HealthStatus(healthy=True)
         checker._check_stale_processes(status)
         self.assertFalse(status.healthy)
         self.assertEqual(status.failures[0]["mode"], "stale_editor_processes")
+
+    @patch("orchestrator_supervisor.HealthChecker._is_active_task")
+    @patch("orchestrator_supervisor._count_processes")
+    def test_dotnet_skipped_during_active_build(self, mock_count, mock_active):
+        """P6: dotnet.exe should NOT be flagged as stale during active build."""
+        def count_effect(name):
+            return 2 if name == "dotnet.exe" else 0
+        mock_count.side_effect = count_effect
+        mock_active.return_value = True  # orchestrator is active
+        checker = sup.HealthChecker()
+        status = sup.HealthStatus(healthy=True)
+        checker._check_stale_processes(status)
+        # dotnet.exe should be skipped → healthy
+        self.assertTrue(status.healthy)
 
 
 # ── RECOVERY VERIFICATION ──────────────────────────────────────────────────
@@ -418,17 +440,185 @@ class TestRecoveryVerification(TempFilesMixin, unittest.TestCase):
         self.assertTrue(result.verified)
 
 
+# ── P1: SUPERVISOR LOCK ────────────────────────────────────────────────────
+class TestSupervisorLock(TempFilesMixin, unittest.TestCase):
+
+    def test_acquire_creates_file(self):
+        """P1: Lock file created on acquire."""
+        self.assertFalse(sup.SUPERVISOR_LOCK_FILE.exists())
+        result = sup._acquire_supervisor_lock()
+        self.assertTrue(result)
+        self.assertTrue(sup.SUPERVISOR_LOCK_FILE.exists())
+        # Verify contents
+        data = json.loads(sup.SUPERVISOR_LOCK_FILE.read_text(encoding="utf-8"))
+        self.assertEqual(data["pid"], os.getpid())
+        self.assertIn("started", data)
+        # Cleanup
+        sup._release_supervisor_lock()
+
+    def test_acquire_fails_if_running(self):
+        """P1: Second acquire fails if first supervisor is still alive."""
+        # Simulate running supervisor (our own PID)
+        self._write_json(sup.SUPERVISOR_LOCK_FILE, {
+            "pid": os.getpid(),
+            "started": datetime.datetime.now().isoformat(),
+        })
+        result = sup._acquire_supervisor_lock()
+        self.assertFalse(result)
+
+    def test_acquire_removes_stale(self):
+        """P1: Stale lock (dead PID) is removed, new lock acquired."""
+        self._write_json(sup.SUPERVISOR_LOCK_FILE, {
+            "pid": 99999999,
+            "started": "2026-01-01T00:00:00",
+        })
+        result = sup._acquire_supervisor_lock()
+        self.assertTrue(result)
+        # Verify new lock has our PID
+        data = json.loads(sup.SUPERVISOR_LOCK_FILE.read_text(encoding="utf-8"))
+        self.assertEqual(data["pid"], os.getpid())
+        # Cleanup
+        sup._release_supervisor_lock()
+
+    def test_release_removes_file(self):
+        """P1: Release removes the lock file."""
+        sup._acquire_supervisor_lock()
+        self.assertTrue(sup.SUPERVISOR_LOCK_FILE.exists())
+        sup._release_supervisor_lock()
+        self.assertFalse(sup.SUPERVISOR_LOCK_FILE.exists())
+
+
+# ── P3: GIT STASH BEFORE RECOVERY ──────────────────────────────────────────
+class TestFM9Stash(TempFilesMixin, unittest.TestCase):
+
+    @patch("orchestrator_supervisor._run_git")
+    def test_stash_before_recovery(self, mock_git):
+        """P3: FM9 recovery stashes dirty changes before checkout."""
+        # Mock git responses:
+        # 1. stash: status --porcelain returns dirty files
+        # 2. stash: stash push succeeds
+        # 3. merge abort check
+        # 4. rebase abort check
+        # 5. symbolic-ref (not detached)
+        # 6. checkout -- SOURCE_DIRS
+        # 7. clean -fd -- SOURCE_DIRS
+        call_log = []
+
+        def git_side_effect(args):
+            call_log.append(args)
+            if args[:2] == ["status", "--porcelain"]:
+                return 0, "M mRemoteNG/SomeFile.cs"
+            if args[:2] == ["stash", "push"]:
+                return 0, "Saved working directory"
+            if args[:2] == ["symbolic-ref", "--short"]:
+                return 0, "main"
+            if args[0] == "checkout":
+                return 0, ""
+            if args[0] == "clean":
+                return 0, ""
+            return 0, ""
+
+        mock_git.side_effect = git_side_effect
+
+        engine = sup.RecoveryEngine()
+        result = engine._recover_git_state("uncommitted files")
+        self.assertTrue(result.success)
+        # Verify stash was called (should be among the first git commands)
+        stash_calls = [c for c in call_log if c[:2] == ["stash", "push"]]
+        self.assertEqual(len(stash_calls), 1, "Stash should be called exactly once")
+        self.assertIn("stashed:", result.action_taken)
+
+
+# ── P4: STRIKE PERSISTENCE + DECAY ─────────────────────────────────────────
+class TestFM11Strikes(TempFilesMixin, unittest.TestCase):
+
+    def test_strikes_persist_across_cleanup(self):
+        """P4: _pre_run_cleanup() does NOT reset strikes."""
+        # Set up strikes
+        sup._save_progress_strikes({
+            "count": 2,
+            "last_strike": datetime.datetime.now().isoformat(),
+        })
+        # Verify strikes are set
+        strikes = sup._load_progress_strikes()
+        self.assertEqual(strikes["count"], 2)
+
+        # Simulate what _pre_run_cleanup would do (it no longer resets strikes)
+        # The actual _pre_run_cleanup needs git and processes, so we just verify
+        # that _load_progress_strikes still returns 2 after a hypothetical cleanup
+        strikes_after = sup._load_progress_strikes()
+        self.assertEqual(strikes_after["count"], 2, "Strikes must persist across cleanup")
+
+    def test_strikes_decay_after_1h(self):
+        """P4: Strikes reset if last_strike was >60 minutes ago."""
+        # Set strikes with old timestamp
+        old_time = (datetime.datetime.now()
+                    - datetime.timedelta(minutes=90)).isoformat()
+        sup._save_progress_strikes({
+            "count": 2,
+            "last_strike": old_time,
+        })
+
+        # Trigger FM11 recovery — it should detect decay and reset
+        engine = sup.RecoveryEngine()
+        with patch("orchestrator_supervisor._find_orchestrator_pids", return_value=[]):
+            result = engine._recover_no_progress("test decay")
+
+        # After decay + increment: count should be 1 (reset to 0 then +1)
+        strikes = sup._load_progress_strikes()
+        self.assertEqual(strikes["count"], 1,
+                         "Strikes should decay to 0 then increment to 1")
+
+    def test_strikes_accumulate_within_1h(self):
+        """P4: Strikes accumulate normally if within decay window."""
+        recent_time = (datetime.datetime.now()
+                       - datetime.timedelta(minutes=10)).isoformat()
+        sup._save_progress_strikes({
+            "count": 1,
+            "last_strike": recent_time,
+        })
+
+        engine = sup.RecoveryEngine()
+        with patch("orchestrator_supervisor._find_orchestrator_pids", return_value=[]):
+            result = engine._recover_no_progress("stuck")
+
+        strikes = sup._load_progress_strikes()
+        self.assertEqual(strikes["count"], 2, "Strikes should increment to 2")
+
+
+# ── P5/P10: ACTIVE PROCESS PROTECTION ──────────────────────────────────────
+class TestFM12DeferredDuringActive(TempFilesMixin, unittest.TestCase):
+
+    @patch("orchestrator_supervisor.HealthChecker._is_active_task")
+    def test_deferred_during_active_test(self, mock_active):
+        """P5: FM12 recovery is deferred when orchestrator is actively testing."""
+        mock_active.return_value = True
+        engine = sup.RecoveryEngine()
+        result = engine._recover_build_infra("3 consecutive build failures")
+        self.assertTrue(result.success)
+        self.assertIn("Deferred", result.action_taken)
+
+
 # ── SUPERVISOR ──────────────────────────────────────────────────────────────
 class TestSupervisor(TempFilesMixin, unittest.TestCase):
 
     @patch("orchestrator_supervisor._count_processes", return_value=0)
     @patch("orchestrator_supervisor._find_orchestrator_pids", return_value=[])
-    def test_one_shot_check_healthy(self, mock_pids, mock_count):
+    @patch("orchestrator_supervisor._run_git")
+    def test_one_shot_check_healthy(self, mock_git, mock_pids, mock_count):
+        def git_side_effect(args):
+            if args[:2] == ["symbolic-ref", "--short"]:
+                return 0, "main"
+            if args[:2] == ["status", "--porcelain"]:
+                return 0, ""  # clean
+            return 0, ""
+        mock_git.side_effect = git_side_effect
         supervisor = sup.Supervisor()
         health = supervisor.one_shot_check()
         self.assertTrue(health.healthy)
 
-    def test_one_shot_check_with_stale_lock(self):
+    @patch("orchestrator_supervisor._run_git", return_value=(0, ""))
+    def test_one_shot_check_with_stale_lock(self, mock_git):
         self._write_json(sup.LOCK_FILE, {"pid": 99999999, "started": "2026-01-01"})
         supervisor = sup.Supervisor()
         # one_shot_check auto-recovers

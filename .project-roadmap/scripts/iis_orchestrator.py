@@ -113,8 +113,8 @@ def _read_version_from_csproj():
         m = re.search(r"<Version>([^<]+)</Version>", content)
         if m:
             return m.group(1).strip()
-    except Exception:
-        pass
+    except Exception as e:
+        log.debug("  [VERSION] Read failed: %s", e)
     return "0.0.0"
 
 
@@ -291,7 +291,8 @@ def _load_agent_rate_limits():
     try:
         with open(_AGENT_RATE_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-    except Exception:
+    except Exception as e:
+        log.warning("  [RATE] Could not load: %s", e)
         return {}
 
 
@@ -393,8 +394,8 @@ def _load_timeout_history():
             if "durations" not in data:
                 data = {"durations": {}, "escalations": data}
             return data
-        except Exception:
-            pass
+        except Exception as e:
+            log.debug("  [TIMEOUT] History load failed: %s", e)
     return {"durations": {}, "escalations": {}}
 
 
@@ -641,8 +642,8 @@ def kill_stale_processes():
         try:
             subprocess.run(["taskkill", "//F", "//IM", proc],
                            capture_output=True, timeout=10)
-        except Exception:
-            pass
+        except Exception as e:
+            log.debug("  [KILL] taskkill failed for %s: %s", proc, e)
 
 
 _ORCHESTRATOR_PROTECTED_FILES = {
@@ -1108,13 +1109,19 @@ def run_tests(return_details=False):
             is_phantom = r.returncode in (96, 99) or "PHANTOM_TEST_RUN" in out or "PHANTOM_GROUPS" in out
             if r.returncode == 96:
                 log.warning("    [TEST] COVERAGE GAP: some groups returned 0 tests (phantom) but no real failures [%.0fs]", elapsed)
-                log.warning("    [TEST] Treating exit 96 as infrastructure flakiness — code changes are OK")
-                # Parse passed count from output to log it
+                # P7: Parse passed count — only accept if enough tests actually ran
                 m = re.search(r"Passed:\s+(\d+)", out)
-                if m:
-                    log.warning("    [TEST] %s tests actually passed (groups with phantom: see PHANTOM_GROUPS)", m.group(0))
-                kill_stale_processes()
-                return _result(True, out, [])  # Treat as OK — no real failures
+                passed_count = int(m.group(1)) if m else 0
+                if passed_count >= TEST_MIN_COUNT:
+                    log.warning("    [TEST] Exit 96 accepted: %d tests passed (>= %d min) — __COVERAGE_GAP__",
+                                passed_count, TEST_MIN_COUNT)
+                    kill_stale_processes()
+                    return _result(True, out + "\n__COVERAGE_GAP__", [])
+                else:
+                    log.error("    [TEST] Exit 96 REJECTED: only %d tests passed (< %d min) — treating as phantom",
+                              passed_count, TEST_MIN_COUNT)
+                    kill_stale_processes()
+                    return _result(False, out, [], phantom=True)
             log.error("    [TEST] FAILED: run-tests.ps1 exit code %d [%.0fs]", r.returncode, elapsed)
             kill_stale_processes()
             return _result(False, out, _parse_failed_tests(out), phantom=is_phantom)
@@ -1325,8 +1332,8 @@ def _is_issue_already_committed(issue_num, lookback=100):
             if f"#{issue_num}" in line:
                 _committed_issues_cache.add(issue_num)
                 return True
-    except Exception:
-        pass
+    except Exception as e:
+        log.debug("  [DEDUP] Check failed: %s", e)
     return False
 
 
@@ -4721,6 +4728,8 @@ def main():
                         help="Post templated comment to GitHub")
     parser.add_argument("--force-comments", action="store_true",
                         help="Override daily comment limit (use with caution!)")
+    parser.add_argument("--force", action="store_true",
+                        help="Override supervisor lock check (use with caution!)")
     parser.add_argument("--notes", default=None,
                         help="Notes to add/update on the issue")
     parser.add_argument("--add-to-roadmap", action="store_true",
@@ -4792,6 +4801,29 @@ def main():
         CODEX_MODEL = args.codex_model
         log.info("Codex model override: %s", CODEX_MODEL)
 
+    # ── P2: CHECK IF SUPERVISOR IS ACTIVE ──
+    # If a supervisor is managing the orchestrator, refuse to start manually.
+    supervisor_lock = SCRIPTS_DIR / "supervisor.lock"
+    if supervisor_lock.exists():
+        try:
+            sup_data = json.loads(supervisor_lock.read_text(encoding="utf-8"))
+            sup_pid = sup_data.get("pid", 0)
+            try:
+                os.kill(sup_pid, 0)
+                sup_alive = True
+            except (OSError, ProcessLookupError):
+                sup_alive = False
+
+            if sup_alive and not args.force:
+                print(f"ERROR: Supervisor is active (PID {sup_pid}, started {sup_data.get('started', 'unknown')})")
+                print("       The orchestrator is managed by the supervisor.")
+                print("       Use --force to override, or stop the supervisor first.")
+                sys.exit(1)
+            elif sup_alive:
+                log.warning("  [LOCK] Supervisor active (PID %d) — overriding with --force", sup_pid)
+        except (json.JSONDecodeError, OSError):
+            pass  # Corrupt or unreadable — ignore
+
     # ── SINGLE INSTANCE LOCK ──
     # Prevent multiple orchestrator instances from running simultaneously.
     # Concurrent instances cause race conditions on git, garbled test output,
@@ -4817,8 +4849,8 @@ def main():
             else:
                 log.warning("  [LOCK] Stale lock found (PID %d dead) — removing", lock_pid)
                 lock_file.unlink()
-        except Exception:
-            log.warning("  [LOCK] Corrupt lock file — removing")
+        except Exception as e:
+            log.warning("  [LOCK] Corrupt lock file — removing: %s", e)
             lock_file.unlink()
 
     # Create lock file
@@ -4826,6 +4858,10 @@ def main():
         json.dumps({"pid": os.getpid(), "started": _now_iso()}, indent=2),
         encoding="utf-8",
     )
+
+    # P8: atexit handler for lock file (guards against os._exit() from libraries)
+    import atexit
+    atexit.register(lambda: lock_file.unlink(missing_ok=True))
 
     # Preflight checks
     agents_needed = set(AGENT_CONFIG.values())

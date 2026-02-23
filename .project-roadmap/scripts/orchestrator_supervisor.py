@@ -20,6 +20,10 @@ Failure modes detected (from /insights analysis + code audit):
     FM6: Orchestrator process hung (no status update for N minutes)
     FM7: Orchestrator crashed (process dead, lock still present)
     FM8: Stale editor/tool processes (notepad.exe, mstsc.exe)
+    FM9: Git state dirty (merge conflicts, uncommitted changes, detached HEAD)
+    FM10: All agents rate-limited (no available agent to process issues)
+    FM11: No progress (stuck on issue >30min or 0 commits after 60min)
+    FM12: Build infrastructure failure (persistent build failures)
 """
 
 import sys
@@ -41,24 +45,72 @@ from pathlib import Path
 from typing import Optional
 
 # ── CONFIG ──────────────────────────────────────────────────────────────────
-SCRIPTS_DIR = Path(r"D:\github\mRemoteNG\.project-roadmap\scripts")
+REPO_ROOT = Path(r"D:\github\mRemoteNG")
+GIT_DIR = REPO_ROOT / ".git"
+SCRIPTS_DIR = REPO_ROOT / ".project-roadmap" / "scripts"
+CHAIN_CONTEXT_DIR = SCRIPTS_DIR / "chain-context"
 LOCK_FILE = SCRIPTS_DIR / "orchestrator.lock"
+SUPERVISOR_LOCK_FILE = SCRIPTS_DIR / "supervisor.lock"
 STATUS_FILE = SCRIPTS_DIR / "orchestrator-status.json"
 LOG_FILE = SCRIPTS_DIR / "orchestrator.log"
 RATE_LIMIT_FILE = SCRIPTS_DIR / "_agent_rate_limits.json"
 SUPERVISOR_LOG = SCRIPTS_DIR / "supervisor.log"
 ORCHESTRATOR_SCRIPT = SCRIPTS_DIR / "iis_orchestrator.py"
+PROGRESS_STRIKES_FILE = SCRIPTS_DIR / "_progress_strikes.json"
+BUILD_SCRIPT = REPO_ROOT / "build.ps1"
+
+# Source directories to restore on git cleanup (exclude orchestrator metadata)
+SOURCE_DIRS = ["mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"]
 
 # Thresholds
 HUNG_TIMEOUT_MINUTES = 15          # no status update = hung
 STALE_LOCK_HOURS = 24              # lock older than this = definitely stale
-MAX_RESTART_BACKOFF_SECONDS = 600  # cap backoff at 10 min
-INITIAL_BACKOFF_SECONDS = 10       # first restart delay
-HEALTH_CHECK_INTERVAL = 30        # seconds between checks in supervisor loop
-REPORT_INTERVAL_CYCLES = 10       # report every N health checks (~5 min at 30s interval)
+HEALTH_CHECK_INTERVAL = 30         # seconds between checks in supervisor loop
+REPORT_INTERVAL_CYCLES = 10        # report every N health checks (~5 min at 30s interval)
+
+# FM11: No progress thresholds
+ISSUE_STUCK_MINUTES = 30           # single issue with no progress
+SESSION_STALL_MINUTES = 60         # session running but 0 commits
+PROGRESS_MAX_STRIKES = 3           # strikes before hard kill
+STRIKE_DECAY_MINUTES = 60          # P4: reset strikes after this much idle time
+
+# FM12: Build infrastructure
+BUILD_FAIL_CONSECUTIVE_THRESHOLD = 3  # consecutive build failures = infra problem
+BUILD_INFRA_PATTERNS = [
+    "CS2012",           # DLL locked
+    "MSB3027",          # file copy failed
+    "NETSDK1094",       # publish failed
+    "Access is denied",
+    "being used by another process",
+]
 
 # Stale processes to monitor
 STALE_PROCESSES = ["notepad.exe", "testhost.exe", "mstsc.exe", "dotnet.exe"]
+
+# Processes to kill during pre-run cleanup
+CLEANUP_PROCESSES = [
+    "testhost.exe", "MSBuild.exe", "VBCSCompiler.exe",
+    "dotnet.exe", "notepad.exe",
+]
+
+# ── ADAPTIVE BACKOFF CONFIG (per failure mode) ──────────────────────────────
+# Each mode has its own initial/max backoff (seconds)
+BACKOFF_CONFIG = {
+    "stale_lock":              {"initial": 2,    "max": 30},
+    "multiple_instances":      {"initial": 10,   "max": 60},
+    "phantom_test_processes":  {"initial": 5,    "max": 30},
+    "rate_limit_corruption":   {"initial": 5,    "max": 30},
+    "status_corruption":       {"initial": 5,    "max": 30},
+    "hung_process":            {"initial": 30,   "max": 300},
+    "crashed_process":         {"initial": 10,   "max": 60},
+    "stale_editor_processes":  {"initial": 5,    "max": 30},
+    "git_state_dirty":         {"initial": 10,   "max": 60},
+    "all_agents_blocked":      {"initial": 3600, "max": 86400},  # 1h initial, 24h max
+    "no_progress":             {"initial": 60,   "max": 600},
+    "build_infra_failure":     {"initial": 60,   "max": 600},
+}
+# Fallback for unknown modes
+BACKOFF_DEFAULT = {"initial": 10, "max": 600}
 
 
 # ── LOGGING ─────────────────────────────────────────────────────────────────
@@ -88,6 +140,10 @@ class FailureMode(Enum):
     FM6_HUNG_PROCESS = "hung_process"
     FM7_CRASHED_PROCESS = "crashed_process"
     FM8_STALE_PROCESSES = "stale_editor_processes"
+    FM9_GIT_STATE_DIRTY = "git_state_dirty"
+    FM10_ALL_AGENTS_BLOCKED = "all_agents_blocked"
+    FM11_NO_PROGRESS = "no_progress"
+    FM12_BUILD_INFRA_FAILURE = "build_infra_failure"
 
 
 @dataclass
@@ -121,8 +177,12 @@ class RecoveryResult:
 class HealthChecker:
     """Detects all known failure modes by inspecting system state."""
 
-    def check_all(self) -> HealthStatus:
+    def __init__(self):
+        self._orchestrator_running = False  # set by caller before check_all
+
+    def check_all(self, orchestrator_running: bool = False) -> HealthStatus:
         status = HealthStatus(healthy=True)
+        self._orchestrator_running = orchestrator_running
         # Run all checks — order matters (some depend on others)
         self._check_lock_file(status)
         self._check_multiple_instances(status)
@@ -131,6 +191,11 @@ class HealthChecker:
         self._check_stale_processes(status)
         self._check_rate_limit_file(status)
         self._check_status_file(status)
+        # New checks (FM9-FM12)
+        self._check_git_state(status)
+        self._check_agent_availability(status)
+        self._check_progress(status)
+        self._check_build_health(status)
         return status
 
     def _check_lock_file(self, status: HealthStatus):
@@ -189,7 +254,9 @@ class HealthChecker:
             return
 
         try:
-            data = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+            data = _safe_read_status()
+            if data is None:
+                return
             last_updated = data.get("last_updated")
             running = data.get("running", False)
 
@@ -212,8 +279,8 @@ class HealthChecker:
         """FM3: testhost.exe processes lingering after test run."""
         count = _count_processes("testhost.exe")
         if count > 0:
-            # Check if orchestrator is actively running tests
-            if not self._is_actively_testing():
+            # P5/P10: Skip if orchestrator is actively running tests OR building
+            if not self._is_active_task("test") and not self._is_active_task("build"):
                 status.add_failure(FailureMode.FM3_PHANTOM_TESTS,
                                    f"{count} testhost.exe processes lingering")
         status.details["testhost_count"] = count
@@ -224,6 +291,10 @@ class HealthChecker:
         for proc in STALE_PROCESSES:
             if proc == "testhost.exe":
                 continue  # Handled by FM3
+            # P6: Skip dotnet.exe if orchestrator is actively building or testing
+            if proc == "dotnet.exe" and (self._is_active_task("build")
+                                         or self._is_active_task("test")):
+                continue
             count = _count_processes(proc)
             if count > 0:
                 stale[proc] = count
@@ -294,16 +365,203 @@ class HealthChecker:
             status.add_failure(FailureMode.FM5_STATUS_CORRUPTION,
                                f"Cannot read: {e}")
 
-    def _is_actively_testing(self) -> bool:
-        """Check if orchestrator is currently in a test phase."""
-        if not STATUS_FILE.exists():
-            return False
+    def _check_git_state(self, status: HealthStatus):
+        """FM9: Git state dirty — only checked when orchestrator is NOT running.
+
+        Detects: merge in progress, rebase in progress, detached HEAD,
+        uncommitted source changes (excluding orchestrator metadata).
+        """
+        if self._orchestrator_running:
+            return  # Avoid false positives on intentional changes
+
+        problems = []
+
+        # Check for merge in progress
+        if (GIT_DIR / "MERGE_HEAD").exists():
+            problems.append("merge in progress (MERGE_HEAD exists)")
+
+        # Check for rebase in progress
+        if (GIT_DIR / "rebase-merge").exists() or (GIT_DIR / "rebase-apply").exists():
+            problems.append("rebase in progress")
+
+        # Check for detached HEAD
+        rc, head_ref = _run_git(["symbolic-ref", "--short", "HEAD"])
+        if rc != 0:
+            problems.append("detached HEAD")
+
+        # Check for uncommitted source changes (exclude orchestrator metadata)
+        rc, porcelain = _run_git(["status", "--porcelain", "--"] + SOURCE_DIRS)
+        if rc == 0 and porcelain.strip():
+            changed_count = len([l for l in porcelain.strip().splitlines() if l.strip()])
+            if changed_count > 0:
+                problems.append(f"{changed_count} uncommitted source file(s)")
+
+        if problems:
+            status.add_failure(FailureMode.FM9_GIT_STATE_DIRTY,
+                               "; ".join(problems))
+        status.details["git_state"] = problems if problems else "clean"
+
+    def _check_agent_availability(self, status: HealthStatus):
+        """FM10: All agents rate-limited — no agent available to process issues."""
+        if not RATE_LIMIT_FILE.exists():
+            return  # No rate limits = all available
+
         try:
-            data = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
-            task = data.get("current_task", "")
-            return "test" in str(task).lower()
-        except Exception:
+            data = json.loads(RATE_LIMIT_FILE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            return  # Handled by FM4
+
+        if not data:
+            return  # Empty = all available
+
+        now = datetime.datetime.now()
+        blocked_agents = []
+        earliest_available = None
+
+        # Check all agents including model-specific keys (e.g. "gemini:gemini-3-pro-preview")
+        for agent_key, entry in data.items():
+            avail = entry.get("available_after")
+            if not avail:
+                continue
+            try:
+                avail_dt = datetime.datetime.fromisoformat(avail)
+                if now < avail_dt:
+                    blocked_agents.append(agent_key)
+                    if earliest_available is None or avail_dt < earliest_available:
+                        earliest_available = avail_dt
+            except (ValueError, TypeError):
+                continue  # Handled by FM4
+
+        # Determine base agent names (strip model suffixes)
+        base_agents = {"codex", "gemini", "claude"}
+        blocked_base = set()
+        for key in blocked_agents:
+            base = key.split(":")[0]  # "gemini:gemini-3-pro" → "gemini"
+            blocked_base.add(base)
+
+        if base_agents <= blocked_base:
+            # All base agents are blocked
+            wait_seconds = int((earliest_available - now).total_seconds()) if earliest_available else 3600
+            status.add_failure(
+                FailureMode.FM10_ALL_AGENTS_BLOCKED,
+                f"All agents blocked: {sorted(blocked_agents)}. "
+                f"Earliest available: {earliest_available.isoformat() if earliest_available else 'unknown'} "
+                f"(~{wait_seconds}s)")
+            status.details["agent_availability"] = {
+                "blocked": sorted(blocked_agents),
+                "earliest_available": earliest_available.isoformat() if earliest_available else None,
+                "wait_seconds": wait_seconds,
+            }
+        else:
+            available = base_agents - blocked_base
+            status.details["agent_availability"] = {
+                "available": sorted(available),
+                "blocked": sorted(blocked_agents),
+            }
+
+    def _check_progress(self, status: HealthStatus):
+        """FM11: No progress — stuck on issue or session with 0 commits."""
+        data = _safe_read_status()
+        if data is None or not data.get("running"):
+            return
+
+        now = datetime.datetime.now()
+        problems = []
+
+        # Check if stuck on a single issue
+        task = data.get("current_task")
+        if task and isinstance(task, dict):
+            started_at = task.get("started_at")
+            if started_at:
+                try:
+                    task_dt = datetime.datetime.fromisoformat(started_at)
+                    task_age_min = (now - task_dt).total_seconds() / 60
+                    if task_age_min > ISSUE_STUCK_MINUTES:
+                        issue = task.get("issue", "?")
+                        step = task.get("step", "?")
+                        problems.append(
+                            f"stuck on issue #{issue} ({step}) for {task_age_min:.0f}min")
+                except (ValueError, TypeError):
+                    pass
+
+        # Check if session running >60min with 0 commits
+        started = data.get("started_at")
+        commits = data.get("commits", [])
+        if started and len(commits) == 0:
+            try:
+                start_dt = datetime.datetime.fromisoformat(started)
+                session_age_min = (now - start_dt).total_seconds() / 60
+                if session_age_min > SESSION_STALL_MINUTES:
+                    problems.append(
+                        f"session running {session_age_min:.0f}min with 0 commits")
+            except (ValueError, TypeError):
+                pass
+
+        if problems:
+            status.add_failure(FailureMode.FM11_NO_PROGRESS,
+                               "; ".join(problems))
+        status.details["progress"] = problems if problems else "ok"
+
+    def _check_build_health(self, status: HealthStatus):
+        """FM12: Build infrastructure failure — persistent build failures in log."""
+        if not LOG_FILE.exists():
+            return
+
+        try:
+            # Read last 200 lines of orchestrator.log
+            lines = _tail_file(LOG_FILE, 200)
+        except OSError:
+            return
+
+        # Count consecutive build failures (scan from end)
+        consecutive_fails = 0
+        for line in reversed(lines):
+            if "[BUILD] FAILED" in line:
+                consecutive_fails += 1
+            elif "[BUILD] OK" in line:
+                break  # Found a success — stop counting
+
+        if consecutive_fails < BUILD_FAIL_CONSECUTIVE_THRESHOLD:
+            return
+
+        # Check for infrastructure-specific patterns
+        infra_hits = []
+        for line in lines[-50:]:  # Check recent lines only
+            for pattern in BUILD_INFRA_PATTERNS:
+                if pattern in line:
+                    infra_hits.append(pattern)
+                    break
+
+        detail = f"{consecutive_fails} consecutive build failures"
+        if infra_hits:
+            unique_hits = sorted(set(infra_hits))
+            detail += f" (infra patterns: {unique_hits})"
+
+        status.add_failure(FailureMode.FM12_BUILD_INFRA_FAILURE, detail)
+        status.details["build_health"] = {
+            "consecutive_fails": consecutive_fails,
+            "infra_patterns": sorted(set(infra_hits)),
+        }
+
+    def _is_active_task(self, keyword: str) -> bool:
+        """Check if orchestrator is currently in a task matching keyword.
+
+        Unified check for P5/P6/P10: replaces separate _is_actively_testing()
+        and _is_actively_building() with a single keyword-based check.
+        """
+        data = _safe_read_status()
+        if data is None:
             return False
+        task = data.get("current_task", "")
+        phase = data.get("current_phase", "")
+        return keyword in str(task).lower() or keyword in str(phase).lower()
+
+    # Keep backward-compatible alias
+    def _is_actively_testing(self) -> bool:
+        return self._is_active_task("test")
+
+    def _is_actively_building(self) -> bool:
+        return self._is_active_task("build")
 
 
 # ── RECOVERY ENGINE ─────────────────────────────────────────────────────────
@@ -323,6 +581,10 @@ class RecoveryEngine:
             FailureMode.FM6_HUNG_PROCESS: self._recover_hung_process,
             FailureMode.FM7_CRASHED_PROCESS: self._recover_crashed_process,
             FailureMode.FM8_STALE_PROCESSES: self._recover_stale_processes,
+            FailureMode.FM9_GIT_STATE_DIRTY: self._recover_git_state,
+            FailureMode.FM10_ALL_AGENTS_BLOCKED: self._recover_all_blocked,
+            FailureMode.FM11_NO_PROGRESS: self._recover_no_progress,
+            FailureMode.FM12_BUILD_INFRA_FAILURE: self._recover_build_infra,
         }
 
         handler = handlers.get(mode)
@@ -331,8 +593,12 @@ class RecoveryEngine:
                                   action_taken="no handler", detail=detail)
 
         result = handler(detail)
-        # Verify recovery
-        result.verified = self._verify_recovery(mode)
+        # Verify recovery (skip for FM10/FM11 — they have special semantics)
+        if mode not in (FailureMode.FM10_ALL_AGENTS_BLOCKED,
+                        FailureMode.FM11_NO_PROGRESS):
+            result.verified = self._verify_recovery(mode)
+        else:
+            result.verified = result.success
         return result
 
     def _recover_stale_lock(self, detail: str) -> RecoveryResult:
@@ -518,11 +784,19 @@ class RecoveryEngine:
             action_taken="Removed lock, killed stale processes")
 
     def _recover_stale_processes(self, detail: str) -> RecoveryResult:
-        """FM8: Kill stale editor/tool processes."""
+        """FM8: Kill stale editor/tool processes.
+        P5: Skip MSBuild.exe, VBCSCompiler.exe, dotnet.exe if orchestrator is active."""
+        checker = HealthChecker()
+        is_active = checker._is_active_task("build") or checker._is_active_task("test")
+
         killed = []
         for proc in STALE_PROCESSES:
             if proc == "testhost.exe":
                 continue  # Handled by FM3
+            # P5/P6: Don't kill build/test processes while orchestrator is active
+            if is_active and proc in ("dotnet.exe", "MSBuild.exe", "VBCSCompiler.exe"):
+                log.info("[RECOVERY] FM8: Skipping %s — orchestrator is active", proc)
+                continue
             count = _count_processes(proc)
             if count > 0:
                 if _kill_by_name(proc):
@@ -532,6 +806,176 @@ class RecoveryEngine:
             mode=FailureMode.FM8_STALE_PROCESSES,
             success=len(killed) > 0,
             action_taken=f"Killed: {killed}" if killed else "No processes to kill")
+
+    def _recover_git_state(self, detail: str) -> RecoveryResult:
+        """FM9: Recover git state — stash first (P3), then abort merge/rebase,
+        checkout main, restore sources."""
+        log.info("[RECOVERY] FM9: Recovering git state — %s", detail)
+        actions = []
+
+        # P3: Stash uncommitted changes BEFORE any destructive operation
+        stash_ref = _git_stash_if_dirty()
+        if stash_ref:
+            actions.append(f"stashed: {stash_ref}")
+
+        # Abort merge if in progress
+        if (GIT_DIR / "MERGE_HEAD").exists():
+            rc, _ = _run_git(["merge", "--abort"])
+            actions.append(f"merge --abort (rc={rc})")
+
+        # Abort rebase if in progress
+        if (GIT_DIR / "rebase-merge").exists() or (GIT_DIR / "rebase-apply").exists():
+            rc, _ = _run_git(["rebase", "--abort"])
+            actions.append(f"rebase --abort (rc={rc})")
+
+        # Checkout main if detached
+        rc, head = _run_git(["symbolic-ref", "--short", "HEAD"])
+        if rc != 0:
+            rc, _ = _run_git(["checkout", "main"])
+            actions.append(f"checkout main (rc={rc})")
+
+        # Restore source directories
+        rc, _ = _run_git(["checkout", "--"] + SOURCE_DIRS)
+        if rc == 0:
+            actions.append("restored source dirs")
+        else:
+            actions.append("source dir restore failed (may be clean)")
+
+        # Clean untracked files in source dirs
+        rc, _ = _run_git(["clean", "-fd", "--"] + SOURCE_DIRS)
+        if rc == 0:
+            actions.append("cleaned untracked in source dirs")
+
+        return RecoveryResult(
+            mode=FailureMode.FM9_GIT_STATE_DIRTY, success=True,
+            action_taken="; ".join(actions))
+
+    def _recover_all_blocked(self, detail: str) -> RecoveryResult:
+        """FM10: All agents blocked — nothing to do, supervisor will sleep."""
+        log.info("[RECOVERY] FM10: All agents blocked — supervisor will enter dormancy")
+        # No active recovery needed — the supervisor run() loop handles dormancy
+        return RecoveryResult(
+            mode=FailureMode.FM10_ALL_AGENTS_BLOCKED, success=True,
+            action_taken="Acknowledged — supervisor will sleep until agents available")
+
+    def _recover_no_progress(self, detail: str) -> RecoveryResult:
+        """FM11: No progress — progressive strikes: warn → kill → hard kill.
+        P4: Time-based decay — strikes reset if last_strike > STRIKE_DECAY_MINUTES."""
+        log.info("[RECOVERY] FM11: No progress detected — %s", detail)
+
+        # Load/update strikes
+        strikes = _load_progress_strikes()
+
+        # P4: Time-based decay — if last strike was >60min ago, reset
+        last_strike_str = strikes.get("last_strike")
+        if last_strike_str:
+            try:
+                last_dt = datetime.datetime.fromisoformat(last_strike_str)
+                minutes_since = (datetime.datetime.now() - last_dt).total_seconds() / 60
+                if minutes_since > STRIKE_DECAY_MINUTES:
+                    log.info("[RECOVERY] FM11: Last strike was %.0fmin ago (>%dmin) — resetting",
+                             minutes_since, STRIKE_DECAY_MINUTES)
+                    strikes = {"count": 0, "last_strike": None}
+            except (ValueError, TypeError):
+                pass
+
+        strikes["count"] = strikes.get("count", 0) + 1
+        strikes["last_strike"] = datetime.datetime.now().isoformat()
+        _save_progress_strikes(strikes)
+
+        strike_count = strikes["count"]
+        log.info("[RECOVERY] FM11: Strike %d/%d", strike_count, PROGRESS_MAX_STRIKES)
+
+        if strike_count < 2:
+            # Strike 1: Warning only, continue monitoring
+            return RecoveryResult(
+                mode=FailureMode.FM11_NO_PROGRESS, success=True,
+                action_taken=f"Warning (strike {strike_count}/{PROGRESS_MAX_STRIKES})")
+
+        if strike_count < PROGRESS_MAX_STRIKES:
+            # Strike 2: Kill orchestrator, let supervisor restart
+            pids = _find_orchestrator_pids()
+            killed = []
+            for pid in pids:
+                if _kill_pid(pid):
+                    killed.append(pid)
+            LOCK_FILE.unlink(missing_ok=True)
+            return RecoveryResult(
+                mode=FailureMode.FM11_NO_PROGRESS, success=True,
+                action_taken=f"Strike {strike_count}: killed orchestrator PIDs {killed}")
+
+        # Strike 3+: Hard kill + full cleanup
+        pids = _find_orchestrator_pids()
+        for pid in pids:
+            _kill_pid(pid)
+        LOCK_FILE.unlink(missing_ok=True)
+        for proc in CLEANUP_PROCESSES:
+            _kill_by_name(proc)
+        # Reset strikes after hard kill
+        strikes["count"] = 0
+        _save_progress_strikes(strikes)
+        return RecoveryResult(
+            mode=FailureMode.FM11_NO_PROGRESS, success=True,
+            action_taken=f"Strike {strike_count}: hard kill + full cleanup, strikes reset")
+
+    def _recover_build_infra(self, detail: str) -> RecoveryResult:
+        """FM12: Build infrastructure failure — kill build processes, test build.
+        P5: Check if orchestrator is actively building before killing."""
+        log.info("[RECOVERY] FM12: Build infrastructure failure — %s", detail)
+        actions = []
+
+        # P5: Don't kill build processes if orchestrator is actively building
+        checker = HealthChecker()
+        if checker._is_active_task("build") or checker._is_active_task("test"):
+            log.info("[RECOVERY] FM12: Orchestrator is active — deferring recovery")
+            return RecoveryResult(
+                mode=FailureMode.FM12_BUILD_INFRA_FAILURE, success=True,
+                action_taken="Deferred — orchestrator is actively building/testing")
+
+        # Kill build-related processes
+        for proc in ["MSBuild.exe", "VBCSCompiler.exe", "dotnet.exe"]:
+            if _count_processes(proc) > 0:
+                _kill_by_name(proc)
+                actions.append(f"killed {proc}")
+
+        # Wait for file handles to release
+        time.sleep(5)
+
+        # Test build
+        log.info("[RECOVERY] FM12: Running test build...")
+        try:
+            result = subprocess.run(
+                ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                 "-File", str(BUILD_SCRIPT), "-NoRestore"],
+                capture_output=True, text=True, timeout=300,
+                cwd=str(REPO_ROOT),
+            )
+            if result.returncode == 0:
+                actions.append("test build PASSED — safe to restart")
+                return RecoveryResult(
+                    mode=FailureMode.FM12_BUILD_INFRA_FAILURE, success=True,
+                    action_taken="; ".join(actions))
+            else:
+                # Extract last few error lines
+                stderr_tail = result.stderr[-500:] if result.stderr else ""
+                stdout_tail = result.stdout[-500:] if result.stdout else ""
+                actions.append(f"test build FAILED (rc={result.returncode})")
+                log.error("[RECOVERY] FM12: Test build failed:\n%s\n%s",
+                          stdout_tail, stderr_tail)
+                return RecoveryResult(
+                    mode=FailureMode.FM12_BUILD_INFRA_FAILURE, success=False,
+                    action_taken="; ".join(actions),
+                    detail="Build still broken — do NOT restart orchestrator")
+        except subprocess.TimeoutExpired:
+            actions.append("test build TIMED OUT (300s)")
+            return RecoveryResult(
+                mode=FailureMode.FM12_BUILD_INFRA_FAILURE, success=False,
+                action_taken="; ".join(actions))
+        except OSError as e:
+            actions.append(f"test build error: {e}")
+            return RecoveryResult(
+                mode=FailureMode.FM12_BUILD_INFRA_FAILURE, success=False,
+                action_taken="; ".join(actions))
 
     def _kill_process_by_name(self, name: str, mode: FailureMode) -> RecoveryResult:
         """Helper: kill all processes with given name."""
@@ -555,6 +999,8 @@ class RecoveryEngine:
             FailureMode.FM6_HUNG_PROCESS: checker._check_hung_process,
             FailureMode.FM7_CRASHED_PROCESS: checker._check_lock_file,
             FailureMode.FM8_STALE_PROCESSES: checker._check_stale_processes,
+            FailureMode.FM9_GIT_STATE_DIRTY: checker._check_git_state,
+            FailureMode.FM12_BUILD_INFRA_FAILURE: checker._check_build_health,
         }
 
         check_fn = verify_map.get(mode)
@@ -575,7 +1021,6 @@ class Supervisor:
         self.orchestrator_args = orchestrator_args
         self.max_restarts = max_restarts  # 0 = unlimited
         self.restart_count = 0
-        self.backoff = INITIAL_BACKOFF_SECONDS
         self.checker = HealthChecker()
         self.recovery = RecoveryEngine()
         self._running = True
@@ -584,12 +1029,17 @@ class Supervisor:
         self._last_report_triaged = 0
         self._last_report_implemented = 0
 
+        # Adaptive backoff: per-mode current values
+        self._mode_backoff: dict[str, float] = {}
+
         signal.signal(signal.SIGINT, self._handle_signal)
         signal.signal(signal.SIGTERM, self._handle_signal)
 
     def _handle_signal(self, signum, frame):
         log.info("[SUPERVISOR] Received signal %s — shutting down", signum)
         self._running = False
+        # P1: Release supervisor lock on signal
+        _release_supervisor_lock()
         if self._orchestrator_proc and self._orchestrator_proc.poll() is None:
             log.info("[SUPERVISOR] Stopping orchestrator (PID %d)",
                      self._orchestrator_proc.pid)
@@ -599,8 +1049,105 @@ class Supervisor:
             except subprocess.TimeoutExpired:
                 self._orchestrator_proc.kill()
 
+    def _get_backoff(self, mode_value: str) -> float:
+        """Get current backoff for a failure mode."""
+        if mode_value not in self._mode_backoff:
+            cfg = BACKOFF_CONFIG.get(mode_value, BACKOFF_DEFAULT)
+            self._mode_backoff[mode_value] = cfg["initial"]
+        return self._mode_backoff[mode_value]
+
+    def _increase_backoff(self, mode_value: str):
+        """Double backoff for a failure mode, capped at max."""
+        cfg = BACKOFF_CONFIG.get(mode_value, BACKOFF_DEFAULT)
+        current = self._mode_backoff.get(mode_value, cfg["initial"])
+        self._mode_backoff[mode_value] = min(current * 2, cfg["max"])
+
+    def _reset_backoff(self, mode_value: str):
+        """Reset backoff to initial for a failure mode."""
+        cfg = BACKOFF_CONFIG.get(mode_value, BACKOFF_DEFAULT)
+        self._mode_backoff[mode_value] = cfg["initial"]
+
+    def _pre_run_cleanup(self):
+        """Pre-run cleanup before starting orchestrator.
+
+        Kills stale processes, aborts stuck git operations, restores source
+        dirs, removes stale locks, and cleans old chain-context files.
+        P3: Stashes uncommitted changes before destructive git operations.
+        P4: Does NOT reset progress strikes (they persist across restarts).
+        """
+        log.info("[CLEANUP] Running pre-start cleanup...")
+
+        # 1. Kill stale processes
+        for proc in CLEANUP_PROCESSES:
+            count = _count_processes(proc)
+            if count > 0:
+                _kill_by_name(proc)
+                log.info("[CLEANUP] Killed %d × %s", count, proc)
+
+        # 2. Abort git merge/rebase if stuck
+        if (GIT_DIR / "MERGE_HEAD").exists():
+            rc, _ = _run_git(["merge", "--abort"])
+            log.info("[CLEANUP] Aborted merge (rc=%d)", rc)
+        if (GIT_DIR / "rebase-merge").exists() or (GIT_DIR / "rebase-apply").exists():
+            rc, _ = _run_git(["rebase", "--abort"])
+            log.info("[CLEANUP] Aborted rebase (rc=%d)", rc)
+
+        # 3. P3: Stash uncommitted source changes BEFORE restoring
+        rc, porcelain = _run_git(["status", "--porcelain", "--"] + SOURCE_DIRS)
+        if rc == 0 and porcelain.strip():
+            stash_ref = _git_stash_if_dirty()
+            if stash_ref:
+                log.info("[CLEANUP] Stashed uncommitted changes: %s", stash_ref)
+            else:
+                # Stash failed — still restore to ensure clean state
+                _run_git(["checkout", "--"] + SOURCE_DIRS)
+                _run_git(["clean", "-fd", "--"] + SOURCE_DIRS)
+                log.info("[CLEANUP] Restored source dirs to HEAD (stash failed)")
+        else:
+            log.info("[CLEANUP] Source dirs clean — no stash needed")
+
+        # 4. Remove stale lock if PID dead
+        if LOCK_FILE.exists():
+            try:
+                lock_data = json.loads(LOCK_FILE.read_text(encoding="utf-8"))
+                pid = lock_data.get("pid")
+                if pid and not _is_pid_alive(pid):
+                    LOCK_FILE.unlink(missing_ok=True)
+                    log.info("[CLEANUP] Removed stale lock (PID %d dead)", pid)
+            except (json.JSONDecodeError, OSError):
+                LOCK_FILE.unlink(missing_ok=True)
+                log.info("[CLEANUP] Removed corrupt lock file")
+
+        # 5. Clean chain-context files older than 7 days
+        if CHAIN_CONTEXT_DIR.exists():
+            cutoff = datetime.datetime.now().timestamp() - (7 * 86400)
+            cleaned = 0
+            for f in CHAIN_CONTEXT_DIR.iterdir():
+                if f.is_file() and f.suffix == ".json" and not f.name.startswith("_"):
+                    try:
+                        if f.stat().st_mtime < cutoff:
+                            f.unlink()
+                            cleaned += 1
+                    except OSError:
+                        pass
+            if cleaned:
+                log.info("[CLEANUP] Removed %d old chain-context files", cleaned)
+
+        # 6. P3: Clean stale git stashes older than 7 days
+        _cleanup_old_stashes(max_age_days=7)
+
+        # P4: Do NOT reset progress strikes — they persist across restarts
+        # (was: _save_progress_strikes({"count": 0, "last_strike": None}))
+
+        log.info("[CLEANUP] Pre-start cleanup complete")
+
     def run(self):
         """Main supervisor loop."""
+        # P1: Acquire supervisor lock
+        if not _acquire_supervisor_lock():
+            log.error("[SUPERVISOR] Another supervisor is running — exiting")
+            sys.exit(1)
+
         log.info("=" * 60)
         log.info("[SUPERVISOR] Starting — monitoring orchestrator")
         log.info("[SUPERVISOR] Args: %s", self.orchestrator_args or "(default)")
@@ -608,83 +1155,115 @@ class Supervisor:
                  self.max_restarts or "unlimited")
         log.info("=" * 60)
 
-        while self._running:
-            # Phase 1: Health check + recovery
-            health = self.checker.check_all()
+        try:
+            while self._running:
+                orch_running = self._is_orchestrator_running()
 
-            if not health.healthy:
-                log.warning("[SUPERVISOR] Health check FAILED — %d issues",
-                            len(health.failures))
-                for f in health.failures:
-                    log.warning("  - %s: %s", f["mode"], f["detail"])
+                # Phase 1: Health check + recovery
+                health = self.checker.check_all(orchestrator_running=orch_running)
 
-                # Recover each failure
-                all_recovered = True
-                for failure in health.failures:
-                    result = self.recovery.recover(failure)
-                    if result.success and result.verified:
-                        log.info("[RECOVERY] %s: OK — %s (verified)",
-                                 result.mode.value, result.action_taken)
-                    elif result.success:
-                        log.warning("[RECOVERY] %s: action taken but not verified — %s",
-                                    result.mode.value, result.action_taken)
-                    else:
-                        log.error("[RECOVERY] %s: FAILED — %s",
-                                  result.mode.value, result.action_taken)
-                        all_recovered = False
+                if not health.healthy:
+                    log.warning("[SUPERVISOR] Health check FAILED — %d issues",
+                                len(health.failures))
+                    for f in health.failures:
+                        log.warning("  - %s: %s", f["mode"], f["detail"])
 
-                if not all_recovered:
-                    log.error("[SUPERVISOR] Some recoveries failed — "
-                              "waiting before retry")
-                    time.sleep(self.backoff)
-                    self.backoff = min(self.backoff * 2, MAX_RESTART_BACKOFF_SECONDS)
-                    continue
+                    # Check for FM10 (all agents blocked) — special dormancy handling
+                    fm10_failure = None
+                    for f in health.failures:
+                        if f["mode"] == FailureMode.FM10_ALL_AGENTS_BLOCKED.value:
+                            fm10_failure = f
+                            break
 
-            # Phase 2: Check if orchestrator is running
-            if not self._is_orchestrator_running():
-                if self.max_restarts > 0 and self.restart_count >= self.max_restarts:
-                    log.info("[SUPERVISOR] Max restarts (%d) reached — exiting",
-                             self.max_restarts)
-                    break
+                    if fm10_failure:
+                        # Enter dormancy — sleep until earliest agent available
+                        wait_secs = health.details.get("agent_availability", {}).get(
+                            "wait_seconds", 3600)
+                        # Cap at adaptive backoff max
+                        cfg = BACKOFF_CONFIG["all_agents_blocked"]
+                        wait_secs = min(wait_secs, cfg["max"])
+                        log.info("[SUPERVISOR] FM10: All agents blocked — "
+                                 "dormancy for %ds (~%.1fh)",
+                                 wait_secs, wait_secs / 3600)
+                        # Sleep in 1s chunks for SIGINT responsiveness
+                        for _ in range(wait_secs):
+                            if not self._running:
+                                break
+                            time.sleep(1)
+                        continue
 
-                log.info("[SUPERVISOR] Orchestrator not running — "
-                         "starting (attempt %d, backoff %ds)",
-                         self.restart_count + 1, self.backoff)
+                    # Recover each failure
+                    all_recovered = True
+                    worst_backoff = 0
+                    for failure in health.failures:
+                        result = self.recovery.recover(failure)
+                        mode_val = failure["mode"]
+                        if result.success and result.verified:
+                            log.info("[RECOVERY] %s: OK — %s (verified)",
+                                     result.mode.value, result.action_taken)
+                            self._reset_backoff(mode_val)
+                        elif result.success:
+                            log.warning("[RECOVERY] %s: action taken but not verified — %s",
+                                        result.mode.value, result.action_taken)
+                        else:
+                            log.error("[RECOVERY] %s: FAILED — %s",
+                                      result.mode.value, result.action_taken)
+                            all_recovered = False
+                            backoff = self._get_backoff(mode_val)
+                            worst_backoff = max(worst_backoff, backoff)
+                            self._increase_backoff(mode_val)
 
-                self._start_orchestrator()
-                self.restart_count += 1
-                # Reset backoff on successful start
-                time.sleep(5)  # Give it time to initialize
-                if self._is_orchestrator_running():
-                    self.backoff = INITIAL_BACKOFF_SECONDS
-                else:
-                    self.backoff = min(self.backoff * 2, MAX_RESTART_BACKOFF_SECONDS)
-                    log.error("[SUPERVISOR] Orchestrator failed to start — "
-                              "next backoff: %ds", self.backoff)
+                    if not all_recovered:
+                        log.error("[SUPERVISOR] Some recoveries failed — "
+                                  "waiting %ds before retry", worst_backoff)
+                        _interruptible_sleep(worst_backoff, lambda: self._running)
+                        continue
 
-            # Phase 3: Periodic progress report
-            self._cycle_count += 1
-            if self._cycle_count % REPORT_INTERVAL_CYCLES == 0:
-                self._periodic_report()
+                # Phase 2: Check if orchestrator is running
+                if not self._is_orchestrator_running():
+                    if self.max_restarts > 0 and self.restart_count >= self.max_restarts:
+                        log.info("[SUPERVISOR] Max restarts (%d) reached — exiting",
+                                 self.max_restarts)
+                        break
 
-            # Phase 4: Wait before next check
-            for _ in range(HEALTH_CHECK_INTERVAL):
-                if not self._running:
-                    break
-                time.sleep(1)
+                    log.info("[SUPERVISOR] Orchestrator not running — "
+                             "starting (attempt %d)",
+                             self.restart_count + 1)
+
+                    # Pre-run cleanup before starting
+                    self._pre_run_cleanup()
+
+                    self._start_orchestrator()
+                    self.restart_count += 1
+                    # Give it time to initialize
+                    time.sleep(5)
+                    if not self._is_orchestrator_running():
+                        log.error("[SUPERVISOR] Orchestrator failed to start")
+
+                # Phase 3: Periodic progress report
+                self._cycle_count += 1
+                if self._cycle_count % REPORT_INTERVAL_CYCLES == 0:
+                    self._periodic_report()
+
+                # Phase 4: Wait before next check
+                for _ in range(HEALTH_CHECK_INTERVAL):
+                    if not self._running:
+                        break
+                    time.sleep(1)
+
+        finally:
+            # P1: Always release supervisor lock
+            _release_supervisor_lock()
 
         log.info("[SUPERVISOR] Shutting down — %d restarts total",
                  self.restart_count)
 
     def _periodic_report(self):
         """Log a concise progress summary from orchestrator-status.json."""
-        if not STATUS_FILE.exists():
+        data = _safe_read_status()
+        if data is None or not data.get("running"):
             return
         try:
-            data = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
-            if not data.get("running"):
-                return
-
             issues = data.get("issues", {})
             tokens = data.get("token_usage", {})
             task = data.get("current_task", {})
@@ -799,26 +1378,37 @@ class Supervisor:
             pass
 
     def one_shot_check(self) -> HealthStatus:
-        """Run a single health check and return results."""
-        health = self.checker.check_all()
+        """Run a single health check and return results.
+        P1: Acquires/releases supervisor lock for the check."""
+        if not _acquire_supervisor_lock():
+            log.error("[CHECK] Another supervisor is running — cannot check")
+            return HealthStatus(healthy=False,
+                                failures=[{"mode": "supervisor_conflict",
+                                           "detail": "Another supervisor is running"}])
 
-        if health.healthy:
-            log.info("[CHECK] All healthy")
-        else:
-            log.warning("[CHECK] %d issues found:", len(health.failures))
-            for f in health.failures:
-                log.warning("  - %s: %s", f["mode"], f["detail"])
+        try:
+            orch_running = self._is_orchestrator_running()
+            health = self.checker.check_all(orchestrator_running=orch_running)
 
-            # Auto-recover
-            for failure in health.failures:
-                result = self.recovery.recover(failure)
-                status = "OK" if result.success else "FAILED"
-                verified = " (verified)" if result.verified else ""
-                log.info("[RECOVERY] %s: %s — %s%s",
-                         result.mode.value, status,
-                         result.action_taken, verified)
+            if health.healthy:
+                log.info("[CHECK] All healthy")
+            else:
+                log.warning("[CHECK] %d issues found:", len(health.failures))
+                for f in health.failures:
+                    log.warning("  - %s: %s", f["mode"], f["detail"])
 
-        return health
+                # Auto-recover
+                for failure in health.failures:
+                    result = self.recovery.recover(failure)
+                    status = "OK" if result.success else "FAILED"
+                    verified = " (verified)" if result.verified else ""
+                    log.info("[RECOVERY] %s: %s — %s%s",
+                             result.mode.value, status,
+                             result.action_taken, verified)
+
+            return health
+        finally:
+            _release_supervisor_lock()
 
 
 # ── UTILITIES ───────────────────────────────────────────────────────────────
@@ -896,6 +1486,172 @@ def _kill_by_name(name: str) -> bool:
         return True
     except Exception:
         return False
+
+
+def _run_git(args: list) -> tuple:
+    """Run a git command in the repo root. Returns (returncode, stdout)."""
+    try:
+        result = subprocess.run(
+            ["git"] + args,
+            capture_output=True, text=True, timeout=30,
+            cwd=str(REPO_ROOT),
+        )
+        return result.returncode, result.stdout.strip()
+    except Exception as e:
+        return -1, str(e)
+
+
+def _safe_read_status() -> Optional[dict]:
+    """Read status file with retries (handles atomic write races)."""
+    for attempt in range(3):
+        try:
+            if not STATUS_FILE.exists():
+                return None
+            return json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            if attempt < 2:
+                time.sleep(0.2)
+    return None
+
+
+def _tail_file(path: Path, n: int) -> list:
+    """Read the last N lines of a file."""
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        lines = text.splitlines()
+        return lines[-n:]
+    except OSError:
+        return []
+
+
+def _load_progress_strikes() -> dict:
+    """Load progress strike state from persistent file."""
+    try:
+        if PROGRESS_STRIKES_FILE.exists():
+            return json.loads(PROGRESS_STRIKES_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        pass
+    return {"count": 0, "last_strike": None}
+
+
+def _save_progress_strikes(data: dict):
+    """Save progress strike state to persistent file."""
+    try:
+        PROGRESS_STRIKES_FILE.write_text(
+            json.dumps(data, indent=2, ensure_ascii=False),
+            encoding="utf-8")
+    except OSError as e:
+        log.warning("[PROGRESS] Could not save strikes: %s", e)
+
+
+def _interruptible_sleep(seconds: float, check_running):
+    """Sleep for `seconds` in 1s chunks, breaking early if check_running() is False."""
+    for _ in range(int(seconds)):
+        if not check_running():
+            break
+        time.sleep(1)
+
+
+# ── P1: SUPERVISOR LOCK ────────────────────────────────────────────────────
+def _acquire_supervisor_lock() -> bool:
+    """Acquire supervisor lock file to prevent concurrent supervisors.
+
+    Returns True if lock acquired, False if another supervisor is running.
+    Removes stale locks (dead PID) automatically.
+    """
+    if SUPERVISOR_LOCK_FILE.exists():
+        try:
+            lock_data = json.loads(SUPERVISOR_LOCK_FILE.read_text(encoding="utf-8"))
+            pid = lock_data.get("pid")
+            if pid and _is_pid_alive(pid):
+                log.error("[LOCK] Supervisor already running (PID %d, started %s)",
+                          pid, lock_data.get("started", "unknown"))
+                return False
+            else:
+                log.warning("[LOCK] Stale supervisor lock (PID %d dead) — removing", pid)
+                SUPERVISOR_LOCK_FILE.unlink(missing_ok=True)
+        except (json.JSONDecodeError, OSError):
+            log.warning("[LOCK] Corrupt supervisor lock — removing")
+            SUPERVISOR_LOCK_FILE.unlink(missing_ok=True)
+
+    try:
+        SUPERVISOR_LOCK_FILE.write_text(
+            json.dumps({
+                "pid": os.getpid(),
+                "started": datetime.datetime.now().isoformat(),
+            }, indent=2),
+            encoding="utf-8",
+        )
+        log.info("[LOCK] Supervisor lock acquired (PID %d)", os.getpid())
+        return True
+    except OSError as e:
+        log.error("[LOCK] Failed to create supervisor lock: %s", e)
+        return False
+
+
+def _release_supervisor_lock():
+    """Release supervisor lock file."""
+    try:
+        SUPERVISOR_LOCK_FILE.unlink(missing_ok=True)
+    except OSError:
+        pass
+
+
+# ── P3: GIT STASH SAFETY NET ───────────────────────────────────────────────
+def _git_stash_if_dirty() -> Optional[str]:
+    """Stash uncommitted source changes before destructive git operations.
+
+    Returns the stash message (ref) if stash was created, or None.
+    Only stashes changes in SOURCE_DIRS to avoid touching orchestrator metadata.
+    """
+    rc, porcelain = _run_git(["status", "--porcelain", "--"] + SOURCE_DIRS)
+    if rc != 0 or not porcelain.strip():
+        return None  # Clean or error
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    msg = f"supervisor-recovery-{timestamp}"
+
+    rc, output = _run_git(["stash", "push", "-m", msg, "--"] + SOURCE_DIRS)
+    if rc == 0:
+        log.info("[STASH] Saved uncommitted changes: %s", msg)
+        return msg
+    else:
+        log.warning("[STASH] Failed to stash: %s", output)
+        return None
+
+
+def _cleanup_old_stashes(max_age_days: int = 7):
+    """Remove supervisor-created stashes older than max_age_days."""
+    rc, stash_list = _run_git(["stash", "list"])
+    if rc != 0 or not stash_list.strip():
+        return
+
+    now = datetime.datetime.now()
+    # Parse stash entries and drop old supervisor-created ones (from bottom up)
+    indices_to_drop = []
+    for line in stash_list.splitlines():
+        if "supervisor-recovery-" not in line:
+            continue
+        # Extract timestamp from stash message
+        try:
+            # Format: stash@{N}: ... supervisor-recovery-YYYYMMDD-HHMMSS
+            import re
+            idx_match = re.search(r"stash@\{(\d+)\}", line)
+            ts_match = re.search(r"supervisor-recovery-(\d{8}-\d{6})", line)
+            if idx_match and ts_match:
+                idx = int(idx_match.group(1))
+                ts = datetime.datetime.strptime(ts_match.group(1), "%Y%m%d-%H%M%S")
+                age_days = (now - ts).total_seconds() / 86400
+                if age_days > max_age_days:
+                    indices_to_drop.append(idx)
+        except (ValueError, TypeError):
+            continue
+
+    # Drop from highest index to lowest to avoid index shifting
+    for idx in sorted(indices_to_drop, reverse=True):
+        rc, _ = _run_git(["stash", "drop", f"stash@{{{idx}}}"])
+        if rc == 0:
+            log.info("[STASH] Dropped old stash@{%d}", idx)
 
 
 # ── MAIN ────────────────────────────────────────────────────────────────────
