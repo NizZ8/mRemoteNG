@@ -1276,6 +1276,22 @@ Missing any layer causes `InheritancePropertiesDeserializedCorrectly` test failu
 
 **Fix:** Backup the test DLL to `.backup/` before running tests. Restore from backup if the DLL is missing after a crash. The backup is created at the start of each test run.
 
+### Chain context trebuie reutilizat între sesiuni (CRITICAL — TODO)
+
+**Problemă:** Orchestratorul salvează chain context JSON (attempts, diffs, build/test results) dar NU le recitește la restart. Când un issue pică pe phantom tests (build OK, teste phantom), codul era bun dar se pierde. La restart, agentul rescrie totul de la zero — potențial mai prost.
+
+**Impact concret (2026-02-23):** 5 din 6 eșecuri erau false rejections (Config.Xml phantom). Build-ul trecuse, codul era corect. La restart, orchestratorul a aruncat tot și a reprodus de la zero. Risipă de timp și bani.
+
+**Lecție:** Dacă build-ul a trecut, codul e valid. Chain context-ul trebuie:
+1. **Citit la restart** — pentru issues netrimiese, verifică dacă există context din sesiunea anterioară
+2. **Reutilizat** — dacă build OK dar test phantom → aplică diff-ul salvat, nu regenera
+3. **Evitat greșelile** — dacă agentul X a eșuat cu eroarea Y, nu repeta aceeași abordare
+4. **Păstrat reușitele** — dacă agentul X a produs cod care compilează, pornește de acolo
+
+**Status:** TODO — de implementat în `chain_implement()` și `flux_issues()`. Fișierele context există deja în `chain-context/`, trebuie doar logica de reload.
+
+**Workaround actual (2026-02-23):** Exit code 96 pentru coverage gap (phantom groups, 0 real failures) → orchestratorul acceptă codul ca valid. Reduce problema dar nu o elimină complet.
+
 - Rules: `D:\github\mRemoteNG\.project-roadmap\LESSONS.md`
 - Human log: `D:\github\mRemoteNG\.project-roadmap\COMMAND_FEEDBACK_LOG.md`
 - Machine log: `D:\github\mRemoteNG\.project-roadmap\command-feedback.jsonl`
