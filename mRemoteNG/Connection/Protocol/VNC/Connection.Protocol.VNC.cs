@@ -930,41 +930,96 @@ namespace mRemoteNG.Connection.Protocol.VNC
             {
                 if (ReconnectGroup == null || _vnc == null || _info == null || _reconnectAttemptInProgress) return;
 
-                (string probeHost, int probePort) = GetReconnectProbeEndpoint(_info);
-                bool srvReady = PortScanner.IsPortOpen(probeHost, Convert.ToString(probePort));
-                ReconnectGroup.ServerReady = srvReady;
-
-                if (!ReconnectGroup.ReconnectWhenReady || !srvReady) return;
-
+                // Mark in-progress immediately on the UI thread to prevent re-entry.
                 _reconnectAttemptInProgress = true;
 
-                SetupTraceListener();
-                (string connectHost, int connectPort) = ResolveConnectionEndpoint();
-                _vnc.VncPort = connectPort;
-                bool viewOnly = _info.VNCViewOnly || Force.HasFlag(ConnectionInfo.Force.ViewOnly);
-                ConnectWithTimeout(_vnc, connectHost, _info, viewOnly, VncConnectTimeoutMs);
-
-                tmrReconnect.Enabled = false;
-                if (ReconnectGroup != null && !ReconnectGroup.IsDisposed)
-                {
-                    ReconnectGroup.DisposeReconnectGroup();
-                }
-                ReconnectGroup = null;
-
-                // Re-install lock key filter after reconnect
-                _lockKeyFilter = new VncLockKeyFilter(_vnc);
-                Application.AddMessageFilter(_lockKeyFilter);
+                // Run the port probe (and reconnect if needed) on a background thread so that
+                // PortScanner.IsPortOpen — which uses a blocking TcpClient with no timeout —
+                // cannot freeze the UI when the VNC server (e.g. a VirtualBox VM) is temporarily
+                // unreachable (OS TCP connect timeout on Windows is up to 20 seconds).
+                var capturedInfo = _info;
+                Task.Run(() => ProbeAndReconnectBG(capturedInfo));
             }
             catch (Exception ex)
             {
+                _reconnectAttemptInProgress = false;
                 DisposeProxyTunnel();
                 Runtime.MessageCollector.AddExceptionMessage(
                     string.Format(Language.AutomaticReconnectError, _info?.Hostname),
                     ex, Messages.MessageClass.WarningMsg, false);
             }
-            finally
+        }
+
+        /// <summary>
+        /// Runs on a background thread: probes the VNC server port and, if reachable and
+        /// auto-reconnect is enabled, attempts to re-establish the VNC connection.
+        /// Keeping these blocking network calls off the UI thread prevents the application
+        /// from appearing frozen when the server is temporarily unreachable.
+        /// </summary>
+        private void ProbeAndReconnectBG(ConnectionInfo capturedInfo)
+        {
+            try
+            {
+                (string probeHost, int probePort) = GetReconnectProbeEndpoint(capturedInfo);
+                bool srvReady = PortScanner.IsPortOpen(probeHost, Convert.ToString(probePort));
+
+                // ServerReady setter already handles InvokeRequired internally.
+                if (ReconnectGroup != null)
+                    ReconnectGroup.ServerReady = srvReady;
+
+                if (!srvReady || ReconnectGroup == null || !ReconnectGroup.ReconnectWhenReady)
+                {
+                    _reconnectAttemptInProgress = false;
+                    return;
+                }
+
+                // Server is reachable and reconnect is requested.
+                // ConnectWithTimeout blocks this background thread — not the UI — for up to
+                // VncConnectTimeoutMs while the VNC handshake completes.
+                SetupTraceListener();
+                (string connectHost, int connectPort) = ResolveConnectionEndpoint();
+                if (_vnc == null || _info == null) { _reconnectAttemptInProgress = false; return; }
+                _vnc.VncPort = connectPort;
+                bool viewOnly = _info.VNCViewOnly || Force.HasFlag(ConnectionInfo.Force.ViewOnly);
+                ConnectWithTimeout(_vnc, connectHost, capturedInfo, viewOnly, VncConnectTimeoutMs);
+
+                // Reconnect succeeded — perform UI-thread-only cleanup via BeginInvoke.
+                var control = Control;
+                if (control != null && !control.IsDisposed)
+                {
+                    control.BeginInvoke(new Action(() =>
+                    {
+                        try
+                        {
+                            tmrReconnect.Enabled = false;
+                            if (ReconnectGroup != null && !ReconnectGroup.IsDisposed)
+                                ReconnectGroup.DisposeReconnectGroup();
+                            ReconnectGroup = null;
+
+                            if (_vnc != null)
+                            {
+                                _lockKeyFilter = new VncLockKeyFilter(_vnc);
+                                Application.AddMessageFilter(_lockKeyFilter);
+                            }
+                        }
+                        finally
+                        {
+                            _reconnectAttemptInProgress = false;
+                        }
+                    }));
+                }
+                else
+                {
+                    _reconnectAttemptInProgress = false;
+                }
+            }
+            catch (Exception ex)
             {
                 _reconnectAttemptInProgress = false;
+                DisposeProxyTunnel();
+                Runtime.MessageCollector.AddExceptionMessage(
+                    string.Format(Language.AutomaticReconnectError, capturedInfo.Hostname),
+                    ex, Messages.MessageClass.WarningMsg, false);
             }
         }
 

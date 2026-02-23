@@ -11,12 +11,19 @@
   "created_at": "2022-05-26T09:42:34Z",
   "github_updated_at": "2026-02-21T10:22:46Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nIn some situations during the connection VNC Freeze.\r\nExiting from the Window and connecting again it work perfectly.\r\n\r\nS.O: Local Win10 Pro 21H2, in virtual machine Win10 Home 21H2",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Investigate and fix the application freeze occurring when mRemoteNG is used on Windows 10 within a VirtualBox environment, which significantly impacts usability for users in this specific environment."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5D3WEz",
@@ -51,5 +58,5 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): Investigate and fix the application freeze occurring when mRemoteNG is used on Windows 10 within a VirtualBox environment, which significantly impacts usability for users in this specific environment.\nApproach: Debug the application in a Windows 10 VirtualBox environment to pinpoint the exact cause of the freeze. This will likely involve examining UI rendering loops, threading interactions, and specific API calls made in the affected environment to identify deadlocks, infinite loops, or unhandled exceptions."
 }
