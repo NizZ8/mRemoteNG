@@ -205,11 +205,11 @@ CLAUDE_MODEL_SONNET = "claude-sonnet-4-6"  # fast, cheap — triage & code writi
 CLAUDE_MODEL_OPUS = "claude-opus-4-6"      # deep analysis — complex issues, fallback
 CLAUDE_MODEL_BY_TASK = {
     "triage":               CLAUDE_MODEL_SONNET,
-    "implement":            CLAUDE_MODEL_OPUS,   # Opus for complex multi-file implementations
-    "test_fix":             CLAUDE_MODEL_OPUS,   # Opus for test analysis & fix
+    "implement":            CLAUDE_MODEL_SONNET,  # Sonnet primary; Opus only as fallback
+    "test_fix":             CLAUDE_MODEL_SONNET,
     "warning_fix":          CLAUDE_MODEL_SONNET,
     "warning_fix_parallel": CLAUDE_MODEL_SONNET,
-    "test_hygiene":         CLAUDE_MODEL_OPUS,   # Opus for test architecture understanding
+    "test_hygiene":         CLAUDE_MODEL_SONNET,
     "analysis":             CLAUDE_MODEL_OPUS,   # deep analysis fallback
 }
 _session_agents_used = set()            # tracks which agents contributed (for co-author)

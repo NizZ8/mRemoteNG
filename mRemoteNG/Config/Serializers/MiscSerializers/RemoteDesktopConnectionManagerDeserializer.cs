@@ -19,7 +19,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
     public class RemoteDesktopConnectionManagerDeserializer : IDeserializer<string, ConnectionTreeModel>
     {
         private int _schemaVersion; /* 1 = RDCMan v2.2
-                                       3 = RDCMan v2.7  */
+                                       3 = RDCMan v2.7+  (v2.7 through v2.93+, schema unchanged) */
 
         public ConnectionTreeModel Deserialize(string rdcmConnectionsXml)
         {
@@ -48,7 +48,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
 	        if (!int.TryParse(rdcManNode?.Attributes?["schemaVersion"]?.Value, out int version))
 		        throw new FileFormatException("Could not find schema version attribute.");
 
-            if (version != 1 && version != 3)
+            if (version != 1 && version < 3)
             {
                 throw new FileFormatException($"Unsupported schema version ({version}).");
             }
@@ -118,9 +118,9 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             ConnectionInfo connectionInfo = ConnectionInfoFromXml(containerPropertiesNode);
             newContainer.CopyFrom(connectionInfo);
 
-            if (_schemaVersion == 3)
+            if (_schemaVersion >= 3)
             {
-                // Program Version 2.7 wraps these properties
+                // Program Version 2.7+ wraps these properties
                 containerPropertiesNode = containerPropertiesNode.SelectSingleNode("./properties") ?? containerPropertiesNode;
             }
             newContainer.Name = containerPropertiesNode?.SelectSingleNode("./name")?.InnerText ?? Language.NewFolder;
