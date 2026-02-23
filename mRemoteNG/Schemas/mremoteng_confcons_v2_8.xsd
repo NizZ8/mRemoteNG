@@ -270,6 +270,7 @@
     <xs:attribute name="InheritVNCClipboardRedirect" type="xs:boolean" use="optional" />
     <xs:attribute name="InheritAlternativeAddress" type="xs:boolean" use="optional" />
     <xs:attribute name="InheritShowBrowserNavigationBar" type="xs:boolean" use="optional" />
+    <xs:attribute name="CredentialId" type="xs:string" use="optional" />
 
   </xs:complexType>
 </xs:schema>
