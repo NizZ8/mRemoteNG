@@ -281,6 +281,10 @@ namespace mRemoteNG.Connection.Protocol.VNC
         #region Private Declarations
 
         private const int VncConnectTimeoutMs = 10_000;
+        // Keep-alive interval (ms). Sends a periodic FramebufferUpdateRequest to prevent
+        // silent TCP drops caused by firewall/NAT state-table expiry or server idle timeouts
+        // (issue #678). 30 seconds is well below any real-world firewall timeout.
+        private const int VncKeepAliveIntervalMs = 30_000;
         private VncSharpCore.RemoteDesktop? _vnc;
         private ConnectionInfo? _info;
         private VncLockKeyFilter? _lockKeyFilter;
@@ -293,6 +297,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
         private StringWriter? _traceWriter;
         private ProxyTunnel? _proxyTunnel;
         private bool _reconnectAttemptInProgress;
+        private readonly System.Windows.Forms.Timer _keepAliveTimer = new() { Interval = VncKeepAliveIntervalMs };
 
         #endregion
 
@@ -302,6 +307,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
         {
             Control = new VncSharpCore.RemoteDesktop();
             tmrReconnect.Tick += tmrReconnect_Tick;
+            _keepAliveTimer.Tick += KeepAlive_Tick;
         }
 
         public override bool Initialize()
@@ -386,6 +392,8 @@ namespace mRemoteNG.Connection.Protocol.VNC
         {
             try
             {
+                _keepAliveTimer.Enabled = false;
+
                 if (_lockKeyFilter != null)
                 {
                     Application.RemoveMessageFilter(_lockKeyFilter);
@@ -413,6 +421,8 @@ namespace mRemoteNG.Connection.Protocol.VNC
         {
             if (disposing)
             {
+                _keepAliveTimer.Enabled = false;
+                _keepAliveTimer.Dispose();
                 DisposeProxyTunnel();
                 CleanupTraceListener();
             }
@@ -883,6 +893,10 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 ReconnectGroup = null;
             }
 
+            // Start keep-alive to prevent silent TCP drops through firewalls/NAT and
+            // to prevent VNC server idle timeouts (issue #678).
+            _keepAliveTimer.Enabled = true;
+
             Event_Connected(this);
             if (_vnc != null && _info != null)
                 _vnc.AutoScroll = _info.VNCSmartSizeMode == SmartSizeMode.SmartSNo;
@@ -890,6 +904,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
 
         private void VNCEvent_Disconnected(object sender, EventArgs e)
         {
+            _keepAliveTimer.Enabled = false;
             _reconnectAttemptInProgress = false;
             DisposeProxyTunnel();
 
@@ -1027,6 +1042,23 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 Runtime.MessageCollector.AddExceptionMessage(
                     string.Format(Language.AutomaticReconnectError, capturedInfo.Hostname),
                     ex, Messages.MessageClass.WarningMsg, false);
+            }
+        }
+
+        /// <summary>
+        /// Fires every <see cref="VncKeepAliveIntervalMs"/> ms while connected.
+        /// Sends a non-incremental FramebufferUpdateRequest so the TCP connection is not
+        /// silently dropped by stateful firewalls or VNC server idle-timeout logic (issue #678).
+        /// </summary>
+        private void KeepAlive_Tick(object? sender, EventArgs e)
+        {
+            try
+            {
+                _vnc?.FullScreenUpdate();
+            }
+            catch
+            {
+                // Best-effort — if the connection is already gone, ConnectionLost will fire.
             }
         }
 
