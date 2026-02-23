@@ -83,4 +83,14 @@ public class ConnectionsServiceQuickConnectTests
             Assert.That(quickConnect.Username, Is.EqualTo("root"));
         });
     }
+
+    [Test]
+    public void CreateQuickConnectReturnsNullWhenHostnameIsEmpty()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("   ", ProtocolType.SSH2);
+
+        Assert.That(quickConnect, Is.Null);
+    }
 }

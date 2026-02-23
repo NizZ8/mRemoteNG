@@ -72,6 +72,12 @@ namespace mRemoteNG.Connection
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(connectionString))
+                {
+                    Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, Language.QuickConnectNoHostname);
+                    return null;
+                }
+
                 UriBuilder uriBuilder = new()
                 {
                     Scheme = "dummyscheme"

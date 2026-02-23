@@ -5225,6 +5225,15 @@ namespace mRemoteNG.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No hostname specified!.
+        /// </summary>
+        internal static string QuickConnectNoHostname {
+            get {
+                return ResourceManager.GetString("QuickConnectNoHostname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quick Connect Toolbar.
         /// </summary>
         internal static string QuickConnectToolbar {

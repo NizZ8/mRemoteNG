@@ -2706,4 +2706,7 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="DoNotRestoreOnRdpMinimize" xml:space="preserve">
     <value>Do not dock to tab when minimizing from Full screen</value>
   </data>
+  <data name="QuickConnectNoHostname" xml:space="preserve">
+    <value>No hostname specified!</value>
+  </data>
 </root>
