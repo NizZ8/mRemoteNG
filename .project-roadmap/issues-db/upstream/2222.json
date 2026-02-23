@@ -12,7 +12,7 @@
   "created_at": "2022-05-09T02:48:59Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "My client monitor is 4K. I use 200% DPI. If I set \"Fullscreen\" like below, the server's screen becomes 1080p. That is fine because 4K would be slower, but the problem is that the mouse pointer remains unscaled.\r\n\r\n![image](https://user-images.githubusercontent.com/10900489/167331538-7d832cf7-2337-4b02-9f6c-087e6c49c5a9.png)\r\n\r\nPS: If I disable \"Automatic Resize\", which makes the remote resolution 4K, I think, the cursor is still the same as when \"Automatic Size\" is enabled.\r\n\r\n## Expected Behavi...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,18 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The mouse pointer in RDP sessions does not scale correctly on high-DPI client machines, leading to a poor user experience."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in a2918ac3",
+      "token_usage": {
+        "input_tokens": 15,
+        "output_tokens": 27613,
+        "cost_usd": 1.69704,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -50,5 +62,10 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The mouse pointer in RDP sessions does not scale correctly on high-DPI client machines, leading to a poor user experience.\nApproach: Investigate how RDP DPI settings are passed to the MSTSCLib control, specifically looking for properties or methods related to display scaling or smart sizing that might affect mouse pointer rendering."
+  "notes": "AI triage (gemini): The mouse pointer in RDP sessions does not scale correctly on high-DPI client machines, leading to a poor user experience.\nApproach: Investigate how RDP DPI settings are passed to the MSTSCLib control, specifically looking for properties or methods related to display scaling or smart sizing that might affect mouse pointer rendering.",
+  "token_usage": {
+    "input_tokens": 15,
+    "output_tokens": 27613,
+    "cost_usd": 1.69704
+  }
 }
