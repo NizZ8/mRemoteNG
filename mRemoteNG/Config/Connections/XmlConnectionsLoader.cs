@@ -46,6 +46,20 @@ namespace mRemoteNG.Config.Connections
             string xmlString = dataProvider.Load();
             XmlConnectionsDeserializer deserializer = new(_connectionFilePath, () => PromptForPassword());
 
+            // An empty file may indicate crash-time corruption (#1395).
+            // Deserialize() returns null silently for empty input, so we must intercept here
+            // before backup recovery is bypassed.
+            if (string.IsNullOrWhiteSpace(xmlString))
+            {
+                _messageCollector.AddMessage(MessageClass.WarningMsg,
+                    $"Connection file '{_connectionFilePath}' is empty. Attempting backup recovery.");
+
+                if (TryRecoverFromBackup(deserializer, out ConnectionTreeModel? recovered))
+                    return recovered!;
+
+                throw new XmlException($"Connection file '{_connectionFilePath}' is empty and no valid backup was found.");
+            }
+
             try
             {
                 return deserializer.Deserialize(xmlString);

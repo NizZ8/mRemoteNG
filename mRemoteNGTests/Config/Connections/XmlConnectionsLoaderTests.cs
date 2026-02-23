@@ -115,4 +115,36 @@ internal class XmlConnectionsLoaderTests
             Assert.That(loadedTree, Is.Not.Null);
         }
     }
+
+    [Test]
+    public void FallsBackToValidBackupWhenPrimaryFileIsEmpty()
+    {
+        using (FileTestHelpers.DisposableTempFile(out var filePath, ".xml"))
+        {
+            // Simulate crash-corrupted (empty) primary file
+            File.WriteAllText(filePath, "");
+
+            string validBackup = $"{filePath}.20250207-1200000000.backup";
+            File.WriteAllText(validBackup, ValidConnectionsXml);
+
+            XmlConnectionsLoader loader = new(filePath, new MessageCollector(), NoPasswordRequestor);
+            var loadedTree = loader.Load();
+
+            Assert.That(loadedTree, Is.Not.Null);
+            Assert.That(File.ReadAllText(filePath), Is.EqualTo(ValidConnectionsXml));
+        }
+    }
+
+    [Test]
+    public void ThrowsXmlExceptionWhenFileIsEmptyAndNoBackupsExist()
+    {
+        using (FileTestHelpers.DisposableTempFile(out var filePath, ".xml"))
+        {
+            File.WriteAllText(filePath, "");
+
+            XmlConnectionsLoader loader = new(filePath, new MessageCollector(), NoPasswordRequestor);
+
+            Assert.Throws<XmlException>(() => loader.Load());
+        }
+    }
 }
