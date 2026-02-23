@@ -306,8 +306,13 @@ namespace mRemoteNG.Connection.Protocol.Http
 
         private void CoreWebView2_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
         {
-            // Suppress the popup (prevent it from opening in a new window)
+            // Navigate to the popup URL in the current WebView2 rather than suppressing it.
+            // This allows pop-up windows (e.g. login dialogs on management interfaces like Intel MEB) to work.
             e.Handled = true;
+            if (sender is CoreWebView2 coreWebView2 && !string.IsNullOrEmpty(e.Uri))
+            {
+                coreWebView2.Navigate(e.Uri);
+            }
         }
 
         private void CoreWebView2_ServerCertificateErrorDetected(object sender, CoreWebView2ServerCertificateErrorDetectedEventArgs e)
