@@ -252,27 +252,7 @@ namespace mRemoteNG.UI.Forms
             this.ResumeLayout(false);
 		}
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Alt | Keys.Menu))
-            {
-                if(!msMain.Visible)
-                {
-                    msMain.Visible = true;
-                }
-            }
-            else if (keyData == (Keys.Shift | Keys.F11))
-            {
-                // Ensure PresentationMode is initialized (it might be null if called too early, though unlikely for this shortcut)
-                if (PresentationMode != null)
-                {
-                    PresentationMode.Active = !PresentationMode.Active;
-                    return true;
-                }
-            }
 
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
 
         internal WeifenLuo.WinFormsUI.Docking.DockPanel pnlDock;
 		internal System.Windows.Forms.MenuStrip msMain;

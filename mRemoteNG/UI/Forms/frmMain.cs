@@ -1138,6 +1138,36 @@ namespace mRemoteNG.UI.Forms
             base.WndProc(ref m);
         }
 
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Alt | Keys.Menu))
+            {
+                if (!msMain.Visible)
+                {
+                    msMain.Visible = true;
+                }
+            }
+            else if (keyData == (Keys.Shift | Keys.F11))
+            {
+                // Ensure PresentationMode is initialized (it might be null if called too early, though unlikely for this shortcut)
+                if (PresentationMode != null)
+                {
+                    PresentationMode.Active = !PresentationMode.Active;
+                    return true;
+                }
+            }
+            else if (keyData == (Keys.Control | Keys.F))
+            {
+                if (pnlDock.ActiveDocument is ConnectionWindow connectionWindow)
+                {
+                    connectionWindow.FindInSession();
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void HandleStartupArgs(string? argsMessage)
         {
             if (string.IsNullOrEmpty(argsMessage))
