@@ -2089,16 +2089,32 @@ Description:
 Recommended approach: {approach}
 Likely files: {', '.join(files) if files else 'search the codebase'}
 
+WORKFLOW (MANDATORY — follow steps in order, do NOT skip any step):
+
+Step 1 — PLAN (before ANY edits):
+  - Read ALL likely files and related code that may be affected
+  - If previous attempts exist below, analyze WHY each one failed
+  - Write a brief plan (max 5 lines): what to change, in which files, what could go wrong
+  - Only proceed to Step 2 after you have a clear plan
+
+Step 2 — IMPLEMENT:
+  - Make changes according to your plan
+  - Do NOT change existing behavior — only fix the reported issue
+  - Do ONLY the fix, nothing else
+
+Step 3 — VERIFY:
+  - Run build: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\build.ps1"
+  - Run tests: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\run-tests.ps1" -NoBuild
+
+Step 4 — FIX if needed:
+  - If YOUR change breaks build or tests, fix it
+  - If tests fail for unrelated reasons, ignore
+
 RULES (CRITICAL):
-- Read code BEFORE modifying
-- Do NOT change existing behavior — only fix the reported issue
+- Do NOT skip Step 1. Do NOT start editing before you have a plan.
 - Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
 - Do NOT run git commit, git add, git push, or ANY git operations. The orchestrator handles all commits.
-- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY.
-- After fixing, run build: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\build.ps1"
-- After build passes, run tests: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\run-tests.ps1" -NoBuild
-- If YOUR change breaks tests, fix it.  If tests fail for unrelated reasons, ignore.
-- Do ONLY the fix.  Nothing else."""
+- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY."""
 
     ctx = ChainContext("implement", str(num))
     issue_key = f"impl_{num}"
@@ -2209,9 +2225,31 @@ Their changes may still be in the working tree.
 
 {ctx.format_for_prompt()}
 
-Review the current state of the code, correct any issues, and make the fix work.
+WORKFLOW (MANDATORY — follow steps in order, do NOT skip any step):
 
-RULES: Read code first. Do NOT change existing behavior. NEVER modify infrastructure files (run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props). Run build.ps1 then run-tests.ps1 -NoBuild.
+Step 1 — PLAN (before ANY edits):
+  - Read the current state of the code (files may have partial changes from previous agents)
+  - Analyze the previous attempts above: what was tried, WHY it failed
+  - Write a brief plan (max 5 lines): what to fix/change, in which files, what to avoid
+  - Only proceed to Step 2 after you have a clear plan
+
+Step 2 — IMPLEMENT:
+  - Correct any issues from previous agents and make the fix work
+  - Do NOT change existing behavior — only fix the reported issue
+
+Step 3 — VERIFY:
+  - Run build: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\build.ps1"
+  - Run tests: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\run-tests.ps1" -NoBuild
+
+Step 4 — FIX if needed:
+  - If YOUR change breaks build or tests, fix it
+  - If tests fail for unrelated reasons, ignore
+
+RULES (CRITICAL):
+- Do NOT skip Step 1. Do NOT start editing before you have a plan.
+- Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
+- Do NOT run git commit, git add, git push, or ANY git operations.
+- NEVER modify infrastructure files (run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props).
 Do ONLY the fix. Nothing else."""
 
         timeout = _estimate_timeout(agent, "implement", issue_key=issue_key,
