@@ -1,4 +1,4 @@
-# run-tests.ps1 - Multi-group test runner (v6)
+# run-tests.ps1 - Multi-group test runner (v7)
 # Runs tests in namespace-based groups to avoid native resource exhaustion.
 # Single-process runs crash at ~460 tests due to BouncyCastle/GDI handle leaks.
 # FrmOptions tests are isolated (1 per process) due to ObjectListView resource leaks.
@@ -6,6 +6,7 @@
 # CRITICAL: --verbosity normal required (minimal crashes testhost on .NET 10).
 # CRITICAL: --results-directory must be OUTSIDE the repo (TestResults in repo causes crashes).
 # CRITICAL: Do NOT create testhost.runtimeconfig.json (BOM from Set-Content crashes testhost).
+# v7: Uses .NET Process API instead of PowerShell pipeline to avoid back-pressure crashes.
 
 param(
     [switch]$Headless,
@@ -19,7 +20,7 @@ $specsDll = "$repoRoot\mRemoteNGSpecs\bin\x64\Release\mRemoteNGSpecs.dll"
 $testDir  = "$repoRoot\mRemoteNGTests\bin\x64\Release"
 $resultsBase = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "mremoteng-testresults")
 
-Write-Host "=== mRemoteNG Test Runner v6 ===" -ForegroundColor Cyan
+Write-Host "=== mRemoteNG Test Runner v7 ===" -ForegroundColor Cyan
 
 # Build
 if (-not $NoBuild) {
@@ -49,14 +50,39 @@ function Ensure-TestEnvironment {
 }
 
 function Run-DotnetTest($dll, $filter) {
-    # Each call gets a unique results directory to avoid blame data conflicts
+    # Uses .NET Process API to avoid PowerShell pipeline back-pressure.
+    # Reads stdout line-by-line keeping only last 30 lines (zero memory accumulation).
+    # Reads stderr async to avoid deadlock.
     $uid = [guid]::NewGuid().ToString("N").Substring(0,8)
     $resultsDir = "$resultsBase-$uid"
-    $testArgs = @("test", $dll, "--results-directory", $resultsDir, "--verbosity", "normal")
-    if ($filter) { $testArgs += @("--filter", $filter) }
-    $lines = & dotnet @testArgs 2>&1 | Select-Object -Last 30
+    $procArgs = "test `"$dll`" --results-directory `"$resultsDir`" --verbosity normal"
+    if ($filter) { $procArgs += " --filter `"$filter`"" }
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "dotnet"
+    $psi.Arguments = $procArgs
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+
+    $proc = [System.Diagnostics.Process]::Start($psi)
+    $stderrTask = $proc.StandardError.ReadToEndAsync()
+
+    # Read stdout line-by-line, keep only last 30 lines
+    $tail = New-Object System.Collections.Generic.Queue[string]
+    while ($null -ne ($line = $proc.StandardOutput.ReadLine())) {
+        $tail.Enqueue($line)
+        while ($tail.Count -gt 30) { [void]$tail.Dequeue() }
+    }
+
+    $proc.WaitForExit()
+    $stderr = $stderrTask.GetAwaiter().GetResult()
     Remove-Item $resultsDir -Recurse -Force -ErrorAction SilentlyContinue
-    return ($lines -join "`n")
+
+    $result = ($tail.ToArray() -join "`n")
+    if ($stderr -and ($stderr -match "crashed|aborted")) { $result += "`n$stderr" }
+    return $result
 }
 
 function Parse-TestOutput($out) {
