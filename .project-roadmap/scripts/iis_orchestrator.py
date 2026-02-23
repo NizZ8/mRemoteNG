@@ -892,6 +892,50 @@ class ChainContext:
         log.info("    [CHAIN] Context saved to %s", fname)
         return path
 
+    @staticmethod
+    def load_previous(task_type, task_id):
+        """Load the most recent chain context for this task from a previous session.
+        Returns a list of attempts (dicts) or empty list if none found."""
+        pattern = f"*_{task_type}_{task_id}.json"
+        matches = sorted(CHAIN_CONTEXT_DIR.glob(pattern))
+        if not matches:
+            return []
+        # Read the LATEST context file
+        latest = matches[-1]
+        try:
+            data = json.loads(latest.read_text(encoding="utf-8"))
+            attempts = data.get("attempts", [])
+            if attempts:
+                log.info("    [CHAIN] Loaded %d previous attempts from %s", len(attempts), latest.name)
+            return attempts
+        except Exception as e:
+            log.warning("    [CHAIN] Failed to load previous context %s: %s", latest.name, e)
+            return []
+
+    @staticmethod
+    def find_best_diff(task_type, task_id):
+        """Find the best diff from previous attempts: build OK takes priority.
+        Returns (diff_text, agent, build_result, test_result) or (None, ...) if none found."""
+        pattern = f"*_{task_type}_{task_id}.json"
+        matches = sorted(CHAIN_CONTEXT_DIR.glob(pattern))
+        if not matches:
+            return None, None, None, None
+        latest = matches[-1]
+        try:
+            data = json.loads(latest.read_text(encoding="utf-8"))
+            attempts = data.get("attempts", [])
+            # Prefer: build OK attempts (best code, even if tests were phantom/flaky)
+            for a in reversed(attempts):
+                if a.get("build_result") == "OK" and a.get("diff_output"):
+                    return a["diff_output"], a.get("agent", "unknown"), a.get("build_result"), a.get("test_result")
+            # Fallback: any attempt with a diff
+            for a in reversed(attempts):
+                if a.get("diff_output"):
+                    return a["diff_output"], a.get("agent", "unknown"), a.get("build_result"), a.get("test_result")
+        except Exception as e:
+            log.warning("    [CHAIN] Failed to read previous diff from %s: %s", latest.name, e)
+        return None, None, None, None
+
     def format_for_prompt(self):
         """Format accumulated attempts as context for the next agent in the chain."""
         if not self.attempts:
@@ -2054,6 +2098,87 @@ RULES (CRITICAL):
     chain_esc = 1.0  # grows within this run on each timeout
     _set_token_context(issue_num=num, operation="implement")
 
+    # ── REUSE PREVIOUS SESSION'S WORK ──
+    # If a previous session produced a diff that built OK (but tests were phantom/flaky),
+    # re-apply it instead of regenerating from scratch.
+    prev_diff, prev_agent, prev_build, prev_test = ChainContext.find_best_diff("implement", str(num))
+    if prev_diff and prev_build == "OK":
+        log.info("  [CHAIN] Found previous diff for #%d (agent=%s, build=%s, test=%s) — re-applying",
+                 num, prev_agent, prev_build, prev_test)
+        # Apply the saved diff
+        try:
+            apply_proc = _run(["git", "apply", "--allow-empty", "-"], timeout=30,
+                              cwd=str(REPO_ROOT), capture=True)
+            # git apply from stdin doesn't work well; write to temp file instead
+        except Exception:
+            pass
+        # Write diff to temp file and apply
+        import tempfile
+        diff_file = None
+        try:
+            with tempfile.NamedTemporaryFile(mode="w", suffix=".patch", delete=False,
+                                             encoding="utf-8") as f:
+                f.write(prev_diff)
+                diff_file = f.name
+            apply_result = _run(["git", "apply", "--allow-empty", diff_file],
+                                timeout=30, cwd=str(REPO_ROOT))
+            if apply_result.returncode == 0:
+                log.info("  [CHAIN] Previous diff applied successfully — verifying build+test")
+                # Verify it still builds
+                build_ok, build_output = run_build(capture_output=True)
+                if build_ok:
+                    test_result = run_tests(return_details=True)
+                    if len(test_result) == 4:
+                        test_ok, test_output, failed_tests, is_phantom = test_result
+                    else:
+                        test_ok, test_output, failed_tests = test_result
+                        is_phantom = False
+                    if test_ok:
+                        # SUCCESS — commit the reused diff
+                        ctx.add_attempt(prev_agent or "reuse", f"implement #{num} (reused)", True,
+                                        build_result="OK", test_result="OK")
+                        ctx.save()
+                        status.set_task(type="issue_fix", issue=num, step="committing")
+                        short = (approach or title)[:60]
+                        msg = f"fix(#{num}): {short}"
+                        h = git_commit(msg)
+                        if h:
+                            status.add_commit(h, msg, True)
+                            status.data["issues"]["implemented"] += 1
+                            log.info("  [CHAIN] Reused previous diff — committed %s", h[:8])
+                            status.set_task(type="issue_fix", issue=num, step="pushing")
+                            git_push()
+                            if post_github_comment(num, h, short):
+                                status.data["issues"]["commented_on_github"] += 1
+                            update_issue_json(num, "testing", f"Fix in {h[:8]} (reused)")
+                            status.clear_task()
+                            return True
+                    else:
+                        log.warning("  [CHAIN] Reused diff builds but tests fail (real failure) — regenerating")
+                        git_restore()
+                else:
+                    log.warning("  [CHAIN] Reused diff no longer builds — regenerating from scratch")
+                    git_restore()
+            else:
+                log.warning("  [CHAIN] Could not apply previous diff (conflicts?) — regenerating")
+                git_restore()
+        except Exception as e:
+            log.warning("  [CHAIN] Error applying previous diff: %s — regenerating", e)
+            git_restore()
+        finally:
+            if diff_file:
+                try:
+                    os.unlink(diff_file)
+                except OSError:
+                    pass
+
+    # Load previous attempts as context for agents (avoid repeating mistakes)
+    prev_attempts = ChainContext.load_previous("implement", str(num))
+    if prev_attempts:
+        for pa in prev_attempts:
+            ctx.attempts.append(pa)
+        log.info("  [CHAIN] Loaded %d previous attempts as context for agents", len(prev_attempts))
+
     for i, agent in enumerate(AGENT_CHAIN):
         is_last = (i == len(AGENT_CHAIN) - 1)
         _session_agents_used.add(agent)
@@ -2166,10 +2291,15 @@ Do ONLY the fix. Nothing else."""
                         is_phantom2 = False
                     if is_phantom2:
                         log.error("  [CHAIN] PHANTOM persists after rebuild for #%d — infrastructure issue!", num)
-                        # Mark as phantom failure — don't count against the implementation
+                        # Capture diff BEFORE reverting — code is valid (build OK), save for reuse
+                        phantom_diff = _capture_full_diff()
+                        phantom_modified, phantom_stat = _capture_post_timeout_state()
                         ctx.add_attempt(agent, f"implement #{num}", False,
                                         build_result="OK", test_result="PHANTOM",
-                                        errors="Tests could not run (phantom). Infrastructure issue.")
+                                        errors="Tests could not run (phantom). Infrastructure issue.",
+                                        diff_output=phantom_diff,
+                                        files_modified=phantom_modified,
+                                        diff_summary=phantom_stat)
                         git_restore()
                         ctx.save()
                         return False

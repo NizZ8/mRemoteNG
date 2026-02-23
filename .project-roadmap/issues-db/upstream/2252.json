@@ -10,12 +10,19 @@
   "created_at": "2022-06-22T13:51:13Z",
   "github_updated_at": "2022-06-28T08:14:36Z",
   "body_snippet": "Hi,\r\n\r\nIs there a limitation on how many connections can be stored when using MSSQL database?\r\nI'm facing a strange issue where an import of an XML connection file is not saved when I exit mRemoteNG.\r\nOf course, I have RW access to the DB and I checked the DB: it's not full or in RO mode.\r\n\r\nmRemoteNG v1.76.20\r\n",
-  "our_status": "new",
+  "our_status": "testing",
   "priority": null,
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Already committed (dedup)"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5FpDHR",
