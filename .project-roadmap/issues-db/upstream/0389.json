@@ -96,5 +96,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Valid enhancement request to hide PuTTY saved sessions from the connection tree, with community support (+1) and clear use case since mRemoteNG users manage connections natively\nApproach: Add a boolean setting (e.g. ShowPuttySavedSessions, default true) in Options > Connections page. When false, skip loading/displaying PuTTY saved sessions in the connection tree by short-circuiting PuttySessionsManager refresh. Persist the setting in the existing settings infrastructure."
+  "notes": "AI triage: Valid enhancement request to hide PuTTY saved sessions from the connection tree, with community support (+1) and clear use case since mRemoteNG users manage connections natively\nApproach: Add a boolean setting (e.g. ShowPuttySavedSessions, default true) in Options > Connections page. When false, skip loading/displaying PuTTY saved sessions in the connection tree by short-circuiting PuttySessionsManager refresh. Persist the setting in the existing settings infrastructure.",
+  "impl_failed": true
 }

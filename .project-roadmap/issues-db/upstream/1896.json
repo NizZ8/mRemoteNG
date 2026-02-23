@@ -248,5 +248,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Feature request to integrate VMWare Horizon Client functionality, enhancing mRemoteNG's connection capabilities.\nApproach: Implement a new VMWare Horizon protocol handler by creating a dedicated directory and developing classes to interface with the VMWare Horizon Client, leveraging existing protocol integration patterns within mRemoteNG."
+  "notes": "AI triage (gemini): Feature request to integrate VMWare Horizon Client functionality, enhancing mRemoteNG's connection capabilities.\nApproach: Implement a new VMWare Horizon protocol handler by creating a dedicated directory and developing classes to interface with the VMWare Horizon Client, leveraging existing protocol integration patterns within mRemoteNG.",
+  "impl_failed": true
 }

@@ -115,5 +115,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude-retry): Quick Connect does not enable clipboard redirect by default — workaround documented by maintainer (change Default Connection Properties). Documentation already created. Not a code bug, just a discoverability issue."
+  "notes": "AI triage (claude-retry): Quick Connect does not enable clipboard redirect by default — workaround documented by maintainer (change Default Connection Properties). Documentation already created. Not a code bug, just a discoverability issue.",
+  "impl_failed": true
 }

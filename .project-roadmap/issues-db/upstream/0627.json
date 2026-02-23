@@ -86,5 +86,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue is from 2017 with no recent reproduction on current builds (v1.80+), and our triage comments already asked for retest confirmation with no response — cannot act without confirmed repro steps on modern .NET 10 WinForms\nApproach: Wait for reporter to confirm issue still exists on latest build; if no response within 30 days, close as stale/not reproducible"
+  "notes": "AI triage: Issue is from 2017 with no recent reproduction on current builds (v1.80+), and our triage comments already asked for retest confirmation with no response — cannot act without confirmed repro steps on modern .NET 10 WinForms\nApproach: Wait for reporter to confirm issue still exists on latest build; if no response within 30 days, close as stale/not reproducible",
+  "impl_failed": true
 }

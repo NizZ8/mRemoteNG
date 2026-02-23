@@ -246,5 +246,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): mRemoteNG crashes during RDP connection establishment, indicating a critical bug that needs immediate attention.\nApproach: Investigate the RDP connection establishment process within `RdpProtocol.cs` to identify potential unhandled exceptions, race conditions, or resource management issues that lead to application crashes. Debug by setting breakpoints at connection initiation, authentication, and display rendering."
+  "notes": "AI triage (gemini): mRemoteNG crashes during RDP connection establishment, indicating a critical bug that needs immediate attention.\nApproach: Investigate the RDP connection establishment process within `RdpProtocol.cs` to identify potential unhandled exceptions, race conditions, or resource management issues that lead to application crashes. Debug by setting breakpoints at connection initiation, authentication, and display rendering.",
+  "impl_failed": true
 }

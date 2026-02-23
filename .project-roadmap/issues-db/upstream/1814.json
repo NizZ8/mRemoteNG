@@ -72,5 +72,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty — no details provided about what 'Credentials Profiles' means (named profile sets, profile switching, profile inheritance, etc.), making implementation scope impossible to determine.\nApproach: Request clarification on scope: named credential profiles for grouping/switching, vs. per-connection credential inheritance profiles, vs. something else entirely"
+  "notes": "AI triage (claude): Issue body is empty — no details provided about what 'Credentials Profiles' means (named profile sets, profile switching, profile inheritance, etc.), making implementation scope impossible to determine.\nApproach: Request clarification on scope: named credential profiles for grouping/switching, vs. per-connection credential inheritance profiles, vs. something else entirely",
+  "impl_failed": true
 }

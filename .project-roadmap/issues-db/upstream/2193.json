@@ -86,5 +86,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Users commonly expect to be able to copy passwords from connection entries for convenience, enhancing user experience.\nApproach: Add a public method to AbstractConnectionRecord.cs to retrieve the password string safely. Implement a 'Copy Password' context menu item in ConnectionContextMenu.cs. The menu item will retrieve the selected connection's password via the new method and use WindowsClipboard.SetText() to copy it. Ensure the menu item's visibility/enabled state is appropriate (e.g., only for connections with passwords). Add unit tests to verify functionality."
+  "notes": "AI triage (gemini): Users commonly expect to be able to copy passwords from connection entries for convenience, enhancing user experience.\nApproach: Add a public method to AbstractConnectionRecord.cs to retrieve the password string safely. Implement a 'Copy Password' context menu item in ConnectionContextMenu.cs. The menu item will retrieve the selected connection's password via the new method and use WindowsClipboard.SetText() to copy it. Ensure the menu item's visibility/enabled state is appropriate (e.g., only for connections with passwords). Add unit tests to verify functionality.",
+  "impl_failed": true
 }

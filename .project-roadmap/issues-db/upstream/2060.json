@@ -67,5 +67,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): To provide users with quick access to recently opened connections, improving usability and efficiency.\nApproach: Implement a ConnectionHistoryManager class that maintains a list of recently opened connections, storing their unique identifiers or connection strings. This manager will serialize and deserialize its list to and from the application's user settings. FrmMain will be modified to interact with this manager: adding connections to the history when they are opened, and displaying the history in a new menu item (e.g., under \"File\" -> \"Recent Connections\"). Clicking on a history item will open the corresponding connection."
+  "notes": "AI triage (gemini): To provide users with quick access to recently opened connections, improving usability and efficiency.\nApproach: Implement a ConnectionHistoryManager class that maintains a list of recently opened connections, storing their unique identifiers or connection strings. This manager will serialize and deserialize its list to and from the application's user settings. FrmMain will be modified to interact with this manager: adding connections to the history when they are opened, and displaying the history in a new menu item (e.g., under \"File\" -> \"Recent Connections\"). Clicking on a history item will open the corresponding connection.",
+  "impl_failed": true
 }

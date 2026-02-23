@@ -55,5 +55,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue reports Telnet login failing on first attempt via PuTTYNG with a specific third-party device (Netping TPE), no reproduction on standard Telnet port, likely a device-specific or French locale prompt-matching issue that needs updated steps to reproduce on current build.\nApproach: Request user to retest on latest build with standard Telnet device; if reproducible, investigate PuTTY terminal emulation locale/prompt detection in ProtocolPutty or PuttyNG integration"
+  "notes": "AI triage (claude): Issue reports Telnet login failing on first attempt via PuTTYNG with a specific third-party device (Netping TPE), no reproduction on standard Telnet port, likely a device-specific or French locale prompt-matching issue that needs updated steps to reproduce on current build.\nApproach: Request user to retest on latest build with standard Telnet device; if reproducible, investigate PuTTY terminal emulation locale/prompt detection in ProtocolPutty or PuttyNG integration",
+  "impl_failed": true
 }

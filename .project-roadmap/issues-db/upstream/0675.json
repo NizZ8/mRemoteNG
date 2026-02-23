@@ -41,5 +41,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Feature request for certificate-based password encryption lacks concrete specification (which certificate store, X.509 vs DPAPI, key management workflow) and has no recent community demand beyond the legacy triage refresh comment\nApproach: Would require a new ICryptographyProvider implementation using X.509 certificate public/private key pairs (RSA/ECDH) to wrap the symmetric encryption key, plus UI for certificate selection and key escrow strategy — needs detailed design spec and user input before implementation"
+  "notes": "AI triage: Feature request for certificate-based password encryption lacks concrete specification (which certificate store, X.509 vs DPAPI, key management workflow) and has no recent community demand beyond the legacy triage refresh comment\nApproach: Would require a new ICryptographyProvider implementation using X.509 certificate public/private key pairs (RSA/ECDH) to wrap the symmetric encryption key, plus UI for certificate selection and key escrow strategy — needs detailed design spec and user input before implementation",
+  "impl_failed": true
 }

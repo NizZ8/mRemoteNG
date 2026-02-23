@@ -67,5 +67,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue title mentions importing CSV into MS SQL storage but the body is empty — unclear whether this is a feature request for CSV import support or a bug with existing CSV/SQL import functionality, and no steps to reproduce or expected behavior are provided.\nApproach: Request clarification: is this a feature request to add CSV import capability for the SQL Server connection store, or a bug report? Ask for sample CSV format and expected behavior."
+  "notes": "AI triage (claude): Issue title mentions importing CSV into MS SQL storage but the body is empty — unclear whether this is a feature request for CSV import support or a bug with existing CSV/SQL import functionality, and no steps to reproduce or expected behavior are provided.\nApproach: Request clarification: is this a feature request to add CSV import capability for the SQL Server connection store, or a bug report? Ask for sample CSV format and expected behavior.",
+  "impl_failed": true
 }

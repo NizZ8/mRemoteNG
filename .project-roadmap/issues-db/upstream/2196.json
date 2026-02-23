@@ -96,5 +96,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The 'Username' field (AuthenticationUsernameTextBox) becomes invisible, likely due to a UI rendering or sizing issue within the TableLayoutPanel or its parent container, as no explicit hiding logic is found in the code-behind.\nApproach: Adjust the minimum height of the 'PropertiesGroupBox' and TableLayoutPanel to ensure sufficient space for all authentication-related controls, preventing them from being clipped or pushed out of view."
+  "notes": "AI triage (gemini): The 'Username' field (AuthenticationUsernameTextBox) becomes invisible, likely due to a UI rendering or sizing issue within the TableLayoutPanel or its parent container, as no explicit hiding logic is found in the code-behind.\nApproach: Adjust the minimum height of the 'PropertiesGroupBox' and TableLayoutPanel to ensure sufficient space for all authentication-related controls, preventing them from being clipped or pushed out of view.",
+  "impl_failed": true
 }

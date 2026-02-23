@@ -94,5 +94,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue body is empty with no description of the actual bug, and while reporter confirms it still happens with Winbox 3.42 64-bit, we need details on what exactly fails (embedding, focus, crash?), steps to reproduce, and error logs\nApproach: Need reporter to describe the specific Winbox integration failure (embedding issue, focus loss, crash, etc.), provide steps to reproduce, and share any error output before we can investigate the IntApp protocol handler"
+  "notes": "AI triage: Issue body is empty with no description of the actual bug, and while reporter confirms it still happens with Winbox 3.42 64-bit, we need details on what exactly fails (embedding, focus, crash?), steps to reproduce, and error logs\nApproach: Need reporter to describe the specific Winbox integration failure (embedding issue, focus loss, crash, etc.), provide steps to reproduce, and share any error output before we can investigate the IntApp protocol handler",
+  "impl_failed": true
 }

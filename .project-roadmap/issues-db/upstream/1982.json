@@ -96,5 +96,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The default setting for inheriting the 'Panel' property is currently false, preventing new connections from automatically adopting the parent folder's panel.\nApproach: Change the default value of the InhDefaultPanel setting in mRemoteNG\\Properties\\Settings.settings from False to True."
+  "notes": "AI triage (gemini): The default setting for inheriting the 'Panel' property is currently false, preventing new connections from automatically adopting the parent folder's panel.\nApproach: Change the default value of the InhDefaultPanel setting in mRemoteNG\\Properties\\Settings.settings from False to True.",
+  "impl_failed": true
 }

@@ -1276,21 +1276,28 @@ Missing any layer causes `InheritancePropertiesDeserializedCorrectly` test failu
 
 **Fix:** Backup the test DLL to `.backup/` before running tests. Restore from backup if the DLL is missing after a crash. The backup is created at the start of each test run.
 
-### Chain context trebuie reutilizat între sesiuni (CRITICAL — TODO)
+### Chain context trebuie reutilizat între sesiuni (IMPLEMENTED 2026-02-23)
 
 **Problemă:** Orchestratorul salvează chain context JSON (attempts, diffs, build/test results) dar NU le recitește la restart. Când un issue pică pe phantom tests (build OK, teste phantom), codul era bun dar se pierde. La restart, agentul rescrie totul de la zero — potențial mai prost.
 
 **Impact concret (2026-02-23):** 5 din 6 eșecuri erau false rejections (Config.Xml phantom). Build-ul trecuse, codul era corect. La restart, orchestratorul a aruncat tot și a reprodus de la zero. Risipă de timp și bani.
 
-**Lecție:** Dacă build-ul a trecut, codul e valid. Chain context-ul trebuie:
-1. **Citit la restart** — pentru issues netrimiese, verifică dacă există context din sesiunea anterioară
-2. **Reutilizat** — dacă build OK dar test phantom → aplică diff-ul salvat, nu regenera
-3. **Evitat greșelile** — dacă agentul X a eșuat cu eroarea Y, nu repeta aceeași abordare
-4. **Păstrat reușitele** — dacă agentul X a produs cod care compilează, pornește de acolo
+**Fix:** Implementat `ChainContext.load_previous()` și `ChainContext.find_best_diff()` — la restart, dacă există un diff cu build OK, se aplică direct fără regenerare. Exit code 96 pentru phantom groups.
 
-**Status:** TODO — de implementat în `chain_implement()` și `flux_issues()`. Fișierele context există deja în `chain-context/`, trebuie doar logica de reload.
+### Failed issues se pierdeau la restart (CRITICAL — Fixed 2026-02-23)
 
-**Workaround actual (2026-02-23):** Exit code 96 pentru coverage gap (phantom groups, 0 real failures) → orchestratorul acceptă codul ca valid. Reduce problema dar nu o elimină complet.
+**Problemă:** `load_actionable_issues()` sare TOATE issue-urile cu status `triaged` + "AI triage" in notes. Dar la eșecul implementării, issue-ul rămâne `triaged` cu "AI triage" — deci nu mai e niciodată reîncercat. **164 issue-uri pierdute** descoperite pe 23 feb.
+
+**Root cause:** `flux_issues()` setează `update_issue_json(num, "triaged", ...)` ÎNAINTE de implementare (linia ~3037). La succes, se schimbă în `testing`. La eșec, rămâne `triaged` + "AI triage" → filtrul din `load_actionable_issues()` îl sare.
+
+**Fix (3 părți):**
+1. `update_issue_json()` — parametru nou `impl_failed` (bool) salvat în JSON
+2. `chain_implement()` — la eșec setează `impl_failed=True`, la succes `impl_failed=False`
+3. `load_actionable_issues()` — include issue-urile cu `impl_failed=True` (marcher `_is_retry=True`)
+4. `flux_issues()` — issue-urile retry sar triajul și merg direct la implementare
+5. Backfill: 165 issue-uri existente marcate retroactiv cu `impl_failed=True`
+
+**Rezultat:** 313 issue-uri actionable (165 retries + 148 new) vs. 169 anterior.
 
 - Rules: `D:\github\mRemoteNG\.project-roadmap\LESSONS.md`
 - Human log: `D:\github\mRemoteNG\.project-roadmap\COMMAND_FEEDBACK_LOG.md`

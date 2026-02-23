@@ -68,5 +68,6 @@
     "input_tokens": 7,
     "output_tokens": 1362,
     "cost_usd": 0.256901
-  }
+  },
+  "impl_failed": true
 }

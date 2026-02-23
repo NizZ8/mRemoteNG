@@ -85,5 +85,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue description 'Random freeze' lacks sufficient detail (e.g., stack traces, steps to reproduce, specific context) to diagnose the root cause and plan an implementation.\nApproach: Request more information from the user, such as steps to reliably reproduce the freeze, any error messages or logs, and the version of mRemoteNG being used."
+  "notes": "AI triage (gemini): The issue description 'Random freeze' lacks sufficient detail (e.g., stack traces, steps to reproduce, specific context) to diagnose the root cause and plan an implementation.\nApproach: Request more information from the user, such as steps to reliably reproduce the freeze, any error messages or logs, and the version of mRemoteNG being used.",
+  "impl_failed": true
 }

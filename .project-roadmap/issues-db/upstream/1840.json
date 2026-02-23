@@ -140,5 +140,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue describes a failure to save new connections and folders in MSSQL mode, which, according to documentation, is an unimplemented feature critical for core functionality.\nApproach: Implement the necessary SQL INSERT operations within SqlDataProvider and MSSqlDatabaseConnector to correctly persist new ConnectionInfo and folder objects created in MSSQL mode, ensuring ConnectionTreeModel properly invokes these save operations."
+  "notes": "AI triage (gemini): The issue describes a failure to save new connections and folders in MSSQL mode, which, according to documentation, is an unimplemented feature critical for core functionality.\nApproach: Implement the necessary SQL INSERT operations within SqlDataProvider and MSSqlDatabaseConnector to correctly persist new ConnectionInfo and folder objects created in MSSQL mode, ensuring ConnectionTreeModel properly invokes these save operations.",
+  "impl_failed": true
 }

@@ -131,5 +131,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Enhance security by providing an option to encrypt sensitive data using the Windows Data Protection API (DPAPI), leveraging the current user's Windows account for key management.\nApproach: Create a new `DpapiCryptographyProvider` implementing `ICryptographyProvider` to handle encryption/decryption via DPAPI. Integrate this new provider into the `SecurityPage` options, allowing users to select DPAPI for protecting sensitive configurations and potentially the symmetric encryption key."
+  "notes": "AI triage (gemini): Enhance security by providing an option to encrypt sensitive data using the Windows Data Protection API (DPAPI), leveraging the current user's Windows account for key management.\nApproach: Create a new `DpapiCryptographyProvider` implementing `ICryptographyProvider` to handle encryption/decryption via DPAPI. Integrate this new provider into the `SecurityPage` options, allowing users to select DPAPI for protecting sensitive configurations and potentially the symmetric encryption key.",
+  "impl_failed": true
 }

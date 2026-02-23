@@ -66,5 +66,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): New feature to link the connection panel to the currently active tab for improved usability and navigation.\nApproach: Implement modifications in ConnectionTab to manage a reference to a ConnectionTree panel, dynamically updating its content based on the active connection within the tab. Adjust PanelBinder to establish and maintain this connection between the tab and the panel."
+  "notes": "AI triage (gemini): New feature to link the connection panel to the currently active tab for improved usability and navigation.\nApproach: Implement modifications in ConnectionTab to manage a reference to a ConnectionTree panel, dynamically updating its content based on the active connection within the tab. Adjust PanelBinder to establish and maintain this connection between the tab and the panel.",
+  "impl_failed": true
 }

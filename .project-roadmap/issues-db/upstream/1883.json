@@ -131,5 +131,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The user is reporting an error when saving to SQL. Adding more specific error logging will help diagnose the root cause of the issue when `dataAdapter.Update(dataTable)` fails.\nApproach: Enhance error handling in `SqlDataProvider.cs` by wrapping `dataAdapter.Update(dataTable)` in a `try-catch (Exception ex)` block for general exceptions, logging the exception details, and re-throwing to ensure the original error is not masked. This will be done for MSSQL, MySQL, and ODBC data providers within the `Save` method."
+  "notes": "AI triage (gemini): The user is reporting an error when saving to SQL. Adding more specific error logging will help diagnose the root cause of the issue when `dataAdapter.Update(dataTable)` fails.\nApproach: Enhance error handling in `SqlDataProvider.cs` by wrapping `dataAdapter.Update(dataTable)` in a `try-catch (Exception ex)` block for general exceptions, logging the exception details, and re-throwing to ensure the original error is not masked. This will be done for MSSQL, MySQL, and ODBC data providers within the `Save` method.",
+  "impl_failed": true
 }

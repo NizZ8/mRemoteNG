@@ -73,5 +73,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): confCons.xml corruption causing startup failure is a known class of issues, but the reporter provides no logs, no error details, and no reproducible steps; we already posted a triage-refresh comment asking for confirmation on the latest build with no response.\nApproach: Wait for reporter to retest on latest build and provide logs/steps; close as stale if no response within 30 days."
+  "notes": "AI triage (claude): confCons.xml corruption causing startup failure is a known class of issues, but the reporter provides no logs, no error details, and no reproducible steps; we already posted a triage-refresh comment asking for confirmation on the latest build with no response.\nApproach: Wait for reporter to retest on latest build and provide logs/steps; close as stale if no response within 30 days.",
+  "impl_failed": true
 }

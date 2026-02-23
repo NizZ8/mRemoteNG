@@ -48,5 +48,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue indicates a failure in core VNC connection functionality, resulting in a blank display.\nApproach: Investigate VNC connection establishment and rendering within ProtocolVNC and UltraVNCWindow.cs, focusing on ActiveX control initialization, error handling, and parameter passing to resolve the white screen issue."
+  "notes": "AI triage (gemini): The issue indicates a failure in core VNC connection functionality, resulting in a blank display.\nApproach: Investigate VNC connection establishment and rendering within ProtocolVNC and UltraVNCWindow.cs, focusing on ActiveX control initialization, error handling, and parameter passing to resolve the white screen issue.",
+  "impl_failed": true
 }

@@ -48,5 +48,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The error 'Column 'DomainName' does not belong to table tblCons' indicates a schema mismatch where the code expects a 'DomainName' column but the database table 'tblCons' only has a 'Domain' column, as confirmed by SqlVersion31To32Upgrader.cs and ConnectionInfo.cs. The fix is to use the correct column name 'Domain'.\nApproach: Modify DataTableDeserializer.cs to replace any access to 'DomainName' with 'Domain' when retrieving values from the DataRow, ensuring proper column existence checks are in place."
+  "notes": "AI triage (gemini): The error 'Column 'DomainName' does not belong to table tblCons' indicates a schema mismatch where the code expects a 'DomainName' column but the database table 'tblCons' only has a 'Domain' column, as confirmed by SqlVersion31To32Upgrader.cs and ConnectionInfo.cs. The fix is to use the correct column name 'Domain'.\nApproach: Modify DataTableDeserializer.cs to replace any access to 'DomainName' with 'Domain' when retrieving values from the DataRow, ensuring proper column existence checks are in place.",
+  "impl_failed": true
 }

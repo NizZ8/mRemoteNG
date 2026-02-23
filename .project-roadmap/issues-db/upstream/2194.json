@@ -49,5 +49,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention.\nApproach: Analyze nightly build logs to pinpoint the exact failure, then investigate recent code changes or build environment configuration."
+  "notes": "AI triage (gemini): The nightly build is crashing, which blocks automated integration and release processes and requires immediate attention.\nApproach: Analyze nightly build logs to pinpoint the exact failure, then investigate recent code changes or build environment configuration.",
+  "impl_failed": true
 }

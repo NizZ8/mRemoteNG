@@ -40,5 +40,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Implement a visual notification system on connection tabs to alert users to events of interest related to a specific connection, such as status changes or new data.\nApproach: Introduce a new property or method in `ConnectionTab.cs` to manage the visual display of a notification (e.g., background color change, icon, or bolded text). Integrate this functionality into `ConnectionWindow.cs` to allow triggering and clearing these notifications dynamically based on relevant connection-related events."
+  "notes": "AI triage (gemini): Implement a visual notification system on connection tabs to alert users to events of interest related to a specific connection, such as status changes or new data.\nApproach: Introduce a new property or method in `ConnectionTab.cs` to manage the visual display of a notification (e.g., background color change, icon, or bolded text). Integrate this functionality into `ConnectionWindow.cs` to allow triggering and clearing these notifications dynamically based on relevant connection-related events.",
+  "impl_failed": true
 }

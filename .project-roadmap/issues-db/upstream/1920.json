@@ -58,5 +58,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Implement configurable border size for UI elements, starting with connection tabs, to enhance user customization and accessibility.\nApproach: Add a new configuration setting for border thickness. Update DockPaneStripNG.cs to use this setting when creating Pen objects for drawing borders. Add a UI element in FrmOptions for users to modify this setting."
+  "notes": "AI triage (gemini): Implement configurable border size for UI elements, starting with connection tabs, to enhance user customization and accessibility.\nApproach: Add a new configuration setting for border thickness. Update DockPaneStripNG.cs to use this setting when creating Pen objects for drawing borders. Add a UI element in FrmOptions for users to modify this setting.",
+  "impl_failed": true
 }

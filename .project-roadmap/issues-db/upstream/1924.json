@@ -103,5 +103,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (gemini): Implement keyboard shortcuts for switching between open sessions/tabs to enhance user navigation and productivity.\nApproach: Add keydown event handlers to FrmMain to detect keyboard shortcuts (e.g., Ctrl+Tab, Ctrl+Shift+Tab). Use the pnlDock (DockPanel) to programmatically activate the next or previous ConnectionWindow (tab)."
+  "notes": "AI triage (gemini): Implement keyboard shortcuts for switching between open sessions/tabs to enhance user navigation and productivity.\nApproach: Add keydown event handlers to FrmMain to detect keyboard shortcuts (e.g., Ctrl+Tab, Ctrl+Shift+Tab). Use the pnlDock (DockPanel) to programmatically activate the next or previous ConnectionWindow (tab).",
+  "impl_failed": true
 }

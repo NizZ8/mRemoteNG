@@ -122,5 +122,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Clear feature request with community support (+1) to add a global SmartSize default option for RDP/VNC connections, reducing repetitive per-connection configuration\nApproach: Add SmartSize to DefaultConnectionInfo so new connections inherit the global default, and expose the option in the Options/Connections UI page"
+  "notes": "AI triage: Clear feature request with community support (+1) to add a global SmartSize default option for RDP/VNC connections, reducing repetitive per-connection configuration\nApproach: Add SmartSize to DefaultConnectionInfo so new connections inherit the global default, and expose the option in the Options/Connections UI page",
+  "impl_failed": true
 }

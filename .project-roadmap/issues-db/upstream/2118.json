@@ -66,5 +66,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Prevent unhandled exceptions during application shutdown by allowing DockPanelSuite to manage tab closure when FrmMain is closing, avoiding race conditions or object disposed exceptions.\nApproach: Modify Connection_FormClosing to conditionally skip explicit tab closing if FrmMain is shutting down, deferring to DockPanelSuite's handling."
+  "notes": "AI triage (gemini): Prevent unhandled exceptions during application shutdown by allowing DockPanelSuite to manage tab closure when FrmMain is closing, avoiding race conditions or object disposed exceptions.\nApproach: Modify Connection_FormClosing to conditionally skip explicit tab closing if FrmMain is shutting down, deferring to DockPanelSuite's handling.",
+  "impl_failed": true
 }

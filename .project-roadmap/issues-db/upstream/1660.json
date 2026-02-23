@@ -46,5 +46,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue title is too vague to determine root cause — no steps to reproduce, no protocol specified (RDP/SSH/VNC), and no error details provided about what fails during reconnect.\nApproach: Request reproduction steps, protocol type, and error/log output; then investigate reconnect logic in AbstractProtocol and ConnectionInitiator for the specific protocol"
+  "notes": "AI triage (claude): Issue title is too vague to determine root cause — no steps to reproduce, no protocol specified (RDP/SSH/VNC), and no error details provided about what fails during reconnect.\nApproach: Request reproduction steps, protocol type, and error/log output; then investigate reconnect logic in AbstractProtocol and ConnectionInitiator for the specific protocol",
+  "impl_failed": true
 }

@@ -75,5 +75,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue is from 2018 with no recent confirmation on current builds; the triage comment already requested retest and reproducible steps but no response was provided.\nApproach: Wait for reporter confirmation on latest build before investigating PuTTY connect field input handling."
+  "notes": "AI triage: Issue is from 2018 with no recent confirmation on current builds; the triage comment already requested retest and reproducible steps but no response was provided.\nApproach: Wait for reporter confirmation on latest build before investigating PuTTY connect field input handling.",
+  "impl_failed": true
 }

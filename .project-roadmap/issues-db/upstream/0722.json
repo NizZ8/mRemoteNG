@@ -41,5 +41,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Enhancement request for configurable ExternalTools XML path has no concrete design proposal or user feedback after triage refresh comment asking for retest on latest build\nApproach: If validated, add a setting for custom ExternalTools XML path and update loader/saver to use it instead of hardcoded default location"
+  "notes": "AI triage: Enhancement request for configurable ExternalTools XML path has no concrete design proposal or user feedback after triage refresh comment asking for retest on latest build\nApproach: If validated, add a setting for custom ExternalTools XML path and update loader/saver to use it instead of hardcoded default location",
+  "impl_failed": true
 }

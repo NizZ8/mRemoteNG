@@ -86,5 +86,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The Connections panel (ConnectionTree, a TreeListView) scrolls unnecessarily when a node gains focus, likely due to an aggressive auto-scroll-on-focus behavior in the underlying TreeListView control.\nApproach: Investigate and disable or modify the TreeListView's auto-scroll-on-focus behavior in ConnectionTree.cs to prevent unwanted scrolling while ensuring the focused item remains visible when necessary (e.g., after adding a new node)."
+  "notes": "AI triage (gemini): The Connections panel (ConnectionTree, a TreeListView) scrolls unnecessarily when a node gains focus, likely due to an aggressive auto-scroll-on-focus behavior in the underlying TreeListView control.\nApproach: Investigate and disable or modify the TreeListView's auto-scroll-on-focus behavior in ConnectionTree.cs to prevent unwanted scrolling while ensuring the focused item remains visible when necessary (e.g., after adding a new node).",
+  "impl_failed": true
 }

@@ -77,5 +77,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue involves PuTTY focus/Alt-Tab behavior which is a known architectural limitation of embedding external processes; last triage comment asked reporter to retest on latest build but no response yet confirming if still reproducible\nApproach: If confirmed still present, investigate WM_ACTIVATE/WM_SETFOCUS message forwarding between the embedded PuTTY HWND and the mRemoteNG parent window, potentially using SetForegroundWindow or AttachThreadInput when the PuTTY panel receives focus"
+  "notes": "AI triage: Issue involves PuTTY focus/Alt-Tab behavior which is a known architectural limitation of embedding external processes; last triage comment asked reporter to retest on latest build but no response yet confirming if still reproducible\nApproach: If confirmed still present, investigate WM_ACTIVATE/WM_SETFOCUS message forwarding between the embedded PuTTY HWND and the mRemoteNG parent window, potentially using SetForegroundWindow or AttachThreadInput when the PuTTY panel receives focus",
+  "impl_failed": true
 }

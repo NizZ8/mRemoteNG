@@ -89,5 +89,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): This is a feature request to enhance the connection filtering behavior by hiding non-matching entries in the connection tree.\nApproach: Modify the existing ConnectionTree and ConnectionTreeSearchTextFilter to ensure that connections that do not match the filter input are hidden from the tree view."
+  "notes": "AI triage (gemini): This is a feature request to enhance the connection filtering behavior by hiding non-matching entries in the connection tree.\nApproach: Modify the existing ConnectionTree and ConnectionTreeSearchTextFilter to ensure that connections that do not match the filter input are hidden from the tree view.",
+  "impl_failed": true
 }

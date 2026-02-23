@@ -57,5 +57,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue body is empty with no reproducible steps, and the triage comment already requested retest/details with no substantive response from the reporter.\nApproach: If confirmed, investigate WinForms mouse wheel message routing to ensure scroll events reach the active RDP/remote panel instead of the config panel when the cursor is over the remote desktop area."
+  "notes": "AI triage: Issue body is empty with no reproducible steps, and the triage comment already requested retest/details with no substantive response from the reporter.\nApproach: If confirmed, investigate WinForms mouse wheel message routing to ensure scroll events reach the active RDP/remote panel instead of the config panel when the cursor is over the remote desktop area.",
+  "impl_failed": true
 }

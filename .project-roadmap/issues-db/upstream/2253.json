@@ -57,5 +57,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue describes UI rendering and layout problems after renaming panels and changing display resolutions, suggesting a bug in how mRemoteNG handles dynamic UI updates and panel state persistence within its docking framework.\nApproach: Investigate how mRemoteNG's docking framework (WeifenLuo.WinFormsUI.Docking.DockPanel) handles panel renaming and display resolution changes, focusing on UI refresh mechanisms and the serialization/deserialization of panel layouts via `DockPanelLayoutLoader` and `DockPanelLayoutSaver` to ensure proper state persistence and rendering."
+  "notes": "AI triage (gemini): The issue describes UI rendering and layout problems after renaming panels and changing display resolutions, suggesting a bug in how mRemoteNG handles dynamic UI updates and panel state persistence within its docking framework.\nApproach: Investigate how mRemoteNG's docking framework (WeifenLuo.WinFormsUI.Docking.DockPanel) handles panel renaming and display resolution changes, focusing on UI refresh mechanisms and the serialization/deserialization of panel layouts via `DockPanelLayoutLoader` and `DockPanelLayoutSaver` to ensure proper state persistence and rendering.",
+  "impl_failed": true
 }

@@ -48,5 +48,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Add specific support or improve compatibility with TightVNC's features, extending existing VNC implementation.\nApproach: Investigate TightVNC's unique features (e.g., compression, authentication, encoding) that are not currently supported by mRemoteNG's generic VNC implementation. Implement these features by extending the VNC protocol handler and adding necessary configuration options to ConnectionInfo. Focus on maintaining compatibility with other VNC servers while enabling TightVNC-specific optimizations."
+  "notes": "AI triage (gemini): Add specific support or improve compatibility with TightVNC's features, extending existing VNC implementation.\nApproach: Investigate TightVNC's unique features (e.g., compression, authentication, encoding) that are not currently supported by mRemoteNG's generic VNC implementation. Implement these features by extending the VNC protocol handler and adding necessary configuration options to ConnectionInfo. Focus on maintaining compatibility with other VNC servers while enabling TightVNC-specific optimizations.",
+  "impl_failed": true
 }

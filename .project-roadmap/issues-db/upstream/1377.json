@@ -101,5 +101,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and provides no reproduction steps, mRemoteNG version, OS version, or description of the foreground/focus failure behavior; may be an Intel HD 520 driver-specific window activation quirk that requires more context to diagnose.\nApproach: Request mRemoteNG version, Windows version, Intel HD 520 driver version, and whether disabling hardware acceleration (or toggling DwmExtendFrameIntoClientArea) resolves the issue."
+  "notes": "AI triage (claude): Issue body is empty and provides no reproduction steps, mRemoteNG version, OS version, or description of the foreground/focus failure behavior; may be an Intel HD 520 driver-specific window activation quirk that requires more context to diagnose.\nApproach: Request mRemoteNG version, Windows version, Intel HD 520 driver version, and whether disabling hardware acceleration (or toggling DwmExtendFrameIntoClientArea) resolves the issue.",
+  "impl_failed": true
 }

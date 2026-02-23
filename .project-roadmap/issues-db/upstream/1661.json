@@ -54,5 +54,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty — cannot determine reproduction steps, Windows version, DPI settings, or monitor configuration needed to diagnose why RDP appears too small after 'Send To Screen' action.\nApproach: Reproduce with 'Send To Screen' on a multi-monitor setup; likely needs RDP control resize/SmartSize recalculation after panel is moved to target screen — similar pattern to #2142 (RDP auto-resize on monitor change)."
+  "notes": "AI triage (claude): Issue body is empty — cannot determine reproduction steps, Windows version, DPI settings, or monitor configuration needed to diagnose why RDP appears too small after 'Send To Screen' action.\nApproach: Reproduce with 'Send To Screen' on a multi-monitor setup; likely needs RDP control resize/SmartSize recalculation after panel is moved to target screen — similar pattern to #2142 (RDP auto-resize on monitor change).",
+  "impl_failed": true
 }

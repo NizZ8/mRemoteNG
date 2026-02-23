@@ -49,5 +49,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Implement new feature to allow autostarting a specified connection via command-line argument and closing the application when that connection terminates.\nApproach: Introduce a new command-line argument (e.g., --autostart-connection) to specify a connection by name. Implement logic in StartupArgumentsInterpreter and FrmMain to parse this argument, initiate the specified connection, and subscribe to the ConnectionInitiator.ConnectionClosed event. Upon closure of the autostarted connection, and if no other active connections exist, trigger Application.Exit(). Add a new option to control if other connections should prevent the application from closing."
+  "notes": "AI triage (gemini): Implement new feature to allow autostarting a specified connection via command-line argument and closing the application when that connection terminates.\nApproach: Introduce a new command-line argument (e.g., --autostart-connection) to specify a connection by name. Implement logic in StartupArgumentsInterpreter and FrmMain to parse this argument, initiate the specified connection, and subscribe to the ConnectionInitiator.ConnectionClosed event. Upon closure of the autostarted connection, and if no other active connections exist, trigger Application.Exit(). Add a new option to control if other connections should prevent the application from closing.",
+  "impl_failed": true
 }

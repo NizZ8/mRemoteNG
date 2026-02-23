@@ -157,5 +157,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The RDP connection logic is ignoring the 'AzureAD\\' prefix for usernames, forcing manual re-entry, which is a functional bug.\nApproach: Investigate how the username field, especially when containing 'AzureAD\\' prefixes, is parsed and passed to the underlying RDP control. Ensure the full prefixed username is preserved and correctly utilized during connection establishment."
+  "notes": "AI triage (gemini): The RDP connection logic is ignoring the 'AzureAD\\' prefix for usernames, forcing manual re-entry, which is a functional bug.\nApproach: Investigate how the username field, especially when containing 'AzureAD\\' prefixes, is parsed and passed to the underlying RDP control. Ensure the full prefixed username is preserved and correctly utilized during connection establishment.",
+  "impl_failed": true
 }

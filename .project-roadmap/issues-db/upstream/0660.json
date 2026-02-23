@@ -52,5 +52,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Enhancement for credential manager confcons upgrader requires significant refactoring as noted by sparerd, and the last triage comment requested retesting on latest builds with reproducible steps — no response yet confirming this is still needed or providing updated requirements.\nApproach: Await confirmation that this enhancement is still relevant after v1.79+/v1.80+ changes, then scope the confcons upgrade refactoring needed to break out of the deserialization decorator pattern."
+  "notes": "AI triage: Enhancement for credential manager confcons upgrader requires significant refactoring as noted by sparerd, and the last triage comment requested retesting on latest builds with reproducible steps — no response yet confirming this is still needed or providing updated requirements.\nApproach: Await confirmation that this enhancement is still relevant after v1.79+/v1.80+ changes, then scope the confcons upgrade refactoring needed to break out of the deserialization decorator pattern.",
+  "impl_failed": true
 }

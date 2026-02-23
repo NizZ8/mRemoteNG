@@ -49,5 +49,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The password dialog's height is incorrectly calculated due to a manual sizing adjustment that doesn't account for dynamic content changes, leading to an incomplete display.\nApproach: Remove manual form height adjustment in code and enable AutoSize and AutoSizeMode.GrowAndShrink on the form to allow dynamic resizing based on content."
+  "notes": "AI triage (gemini): The password dialog's height is incorrectly calculated due to a manual sizing adjustment that doesn't account for dynamic content changes, leading to an incomplete display.\nApproach: Remove manual form height adjustment in code and enable AutoSize and AutoSizeMode.GrowAndShrink on the form to allow dynamic resizing based on content.",
+  "impl_failed": true
 }

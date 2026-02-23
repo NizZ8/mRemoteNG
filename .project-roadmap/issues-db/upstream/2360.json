@@ -104,5 +104,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Confirmed reproducible feature request with clear technical path — mRemoteNG needs to expose the redirectwebauthn:i:1 RDP option for FIDO2/WebAuthn passkey forwarding\nApproach: Add a WebAuthn/FIDO2 redirection property to ConnectionInfo and wire it to set redirectwebauthn:i:1 on the RDP client ActiveX control via the newer IConnectionPointContainer/IMsRdpExtendedSettings interfaces"
+  "notes": "AI triage: Confirmed reproducible feature request with clear technical path — mRemoteNG needs to expose the redirectwebauthn:i:1 RDP option for FIDO2/WebAuthn passkey forwarding\nApproach: Add a WebAuthn/FIDO2 redirection property to ConnectionInfo and wire it to set redirectwebauthn:i:1 on the RDP client ActiveX control via the newer IConnectionPointContainer/IMsRdpExtendedSettings interfaces",
+  "impl_failed": true
 }

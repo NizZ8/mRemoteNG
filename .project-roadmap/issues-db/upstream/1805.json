@@ -82,5 +82,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty with no crash log, stack trace, or reproduction steps; 'quit suddenly on remote desktop machine' is too vague to diagnose without knowing if it's an unhandled exception, RDP session disconnect event, or rendering issue.\nApproach: Request crash log from %APPDATA%\\mRemoteNG\\mRemoteNG.log and steps to reproduce (OS version, RDP client version, connection type being used when crash occurs)"
+  "notes": "AI triage (claude): Issue body is empty with no crash log, stack trace, or reproduction steps; 'quit suddenly on remote desktop machine' is too vague to diagnose without knowing if it's an unhandled exception, RDP session disconnect event, or rendering issue.\nApproach: Request crash log from %APPDATA%\\mRemoteNG\\mRemoteNG.log and steps to reproduce (OS version, RDP client version, connection type being used when crash occurs)",
+  "impl_failed": true
 }

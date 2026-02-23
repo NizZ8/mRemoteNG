@@ -350,5 +350,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue is very old with no recent reproduction steps, no confirmation it still occurs on current builds (v1.80+), and multiple triage pings went unanswered — cannot act without a confirmed repro on latest version.\nApproach: If reproduced, investigate VNC authentication negotiation to ensure unauthenticated (SecurityType None/1) connections are handled correctly in the VNC protocol handler."
+  "notes": "AI triage: Issue is very old with no recent reproduction steps, no confirmation it still occurs on current builds (v1.80+), and multiple triage pings went unanswered — cannot act without a confirmed repro on latest version.\nApproach: If reproduced, investigate VNC authentication negotiation to ensure unauthenticated (SecurityType None/1) connections are handled correctly in the VNC protocol handler.",
+  "impl_failed": true
 }

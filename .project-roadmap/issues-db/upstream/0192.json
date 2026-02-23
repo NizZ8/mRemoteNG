@@ -267,5 +267,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Enhancement request for multi-monitor RDP support with no clear reproducible steps, empty body, and last triage comment already asked reporter to retest on latest build and provide details\nApproach: Awaiting reporter confirmation if issue persists on v1.80+; if valid, would involve exposing mstscax UseMultimon/SelectedMonitors properties in connection settings UI"
+  "notes": "AI triage: Enhancement request for multi-monitor RDP support with no clear reproducible steps, empty body, and last triage comment already asked reporter to retest on latest build and provide details\nApproach: Awaiting reporter confirmation if issue persists on v1.80+; if valid, would involve exposing mstscax UseMultimon/SelectedMonitors properties in connection settings UI",
+  "impl_failed": true
 }

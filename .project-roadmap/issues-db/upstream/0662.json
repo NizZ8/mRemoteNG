@@ -103,5 +103,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds\nApproach: If confirmed reproducible, investigate RDP control resize handling after minimize/restore cycle to ensure scrollbars are not incorrectly added"
+  "notes": "AI triage: Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds\nApproach: If confirmed reproducible, investigate RDP control resize handling after minimize/restore cycle to ensure scrollbars are not incorrectly added",
+  "impl_failed": true
 }

@@ -97,5 +97,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude-retry): Alt Gr stops working after RDP reconnection — known Windows RDP issue that also affects mstsc.exe (confirmed by commenter simonai1254). Not specific to mRemoteNG, out of scope to fix."
+  "notes": "AI triage (claude-retry): Alt Gr stops working after RDP reconnection — known Windows RDP issue that also affects mstsc.exe (confirmed by commenter simonai1254). Not specific to mRemoteNG, out of scope to fix.",
+  "impl_failed": true
 }

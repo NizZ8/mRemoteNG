@@ -68,5 +68,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Reporter confirmed upgrading fixed the issue, and our triage comment requested retest on latest build — no confirmation it still reproduces on v1.79.x+ so cannot act on it\nApproach: Wait for reporter to confirm if issue persists on current builds; if no response after reasonable time, close as resolved by upgrade"
+  "notes": "AI triage: Reporter confirmed upgrading fixed the issue, and our triage comment requested retest on latest build — no confirmation it still reproduces on v1.79.x+ so cannot act on it\nApproach: Wait for reporter to confirm if issue persists on current builds; if no response after reasonable time, close as resolved by upgrade",
+  "impl_failed": true
 }

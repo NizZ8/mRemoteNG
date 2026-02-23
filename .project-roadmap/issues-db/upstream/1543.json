@@ -42,5 +42,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude-retry): Config panel shows wrong connection after duplicating and switching via Inheritance tab — UI state tracking bug in Config/Inheritance panel interaction."
+  "notes": "AI triage (claude-retry): Config panel shows wrong connection after duplicating and switching via Inheritance tab — UI state tracking bug in Config/Inheritance panel interaction.",
+  "impl_failed": true
 }

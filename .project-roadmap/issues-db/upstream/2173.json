@@ -140,5 +140,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue requests disabling the port scan feature, which involves removing the UI and underlying functionality for security or feature obsolescence reasons.\nApproach: Delete PortScanWindow.cs, PortScanWindow.Designer.cs, and PortScanWindow.resx. Remove '_cMenTreeImportPortScan' and its associated logic from ConnectionContextMenu.cs. Clean up 'Port Scan' related strings from all language resource files."
+  "notes": "AI triage (gemini): The issue requests disabling the port scan feature, which involves removing the UI and underlying functionality for security or feature obsolescence reasons.\nApproach: Delete PortScanWindow.cs, PortScanWindow.Designer.cs, and PortScanWindow.resx. Remove '_cMenTreeImportPortScan' and its associated logic from ConnectionContextMenu.cs. Clean up 'Port Scan' related strings from all language resource files.",
+  "impl_failed": true
 }

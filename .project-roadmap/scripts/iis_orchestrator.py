@@ -2150,7 +2150,8 @@ RULES (CRITICAL):
                             git_push()
                             if post_github_comment(num, h, short):
                                 status.data["issues"]["commented_on_github"] += 1
-                            update_issue_json(num, "testing", f"Fix in {h[:8]} (reused)")
+                            update_issue_json(num, "testing", f"Fix in {h[:8]} (reused)",
+                                              impl_failed=False)
                             status.clear_task()
                             return True
                     else:
@@ -2327,7 +2328,8 @@ Do ONLY the fix. Nothing else."""
                 git_push()
                 if post_github_comment(num, h, short):
                     status.data["issues"]["commented_on_github"] += 1
-                update_issue_json(num, "testing", f"Fix in {h[:8]}")
+                update_issue_json(num, "testing", f"Fix in {h[:8]}",
+                                  impl_failed=False)
                 status.clear_task()
                 return True
             else:
@@ -2368,7 +2370,8 @@ Do ONLY the fix. Nothing else."""
                     git_push()
                     if post_github_comment(num, h, short):
                         status.data["issues"]["commented_on_github"] += 1
-                    update_issue_json(num, "testing", f"Fix in {h[:8]}")
+                    update_issue_json(num, "testing", f"Fix in {h[:8]}",
+                                      impl_failed=False)
                     status.clear_task()
                     return True
                 else:
@@ -2398,16 +2401,22 @@ Do ONLY the fix. Nothing else."""
             status.add_error(f"issue_{num}", "chain", "all agents failed")
             git_restore()
             ctx.save()
+            # Mark issue as impl_failed so it gets retried on next run
+            update_issue_json(num, "triaged", "Implementation failed (all agents)",
+                              impl_failed=True)
             return False
 
         if not AGENT_FALLBACK_ENABLED:
             git_restore()
             ctx.save()
+            update_issue_json(num, "triaged", "Implementation failed (fallback disabled)",
+                              impl_failed=True)
             return False
 
         log.warning("  [CHAIN] %s failed for #%d — passing to next agent", agent, num)
 
     ctx.save()
+    update_issue_json(num, "triaged", "Implementation failed", impl_failed=True)
     return False
 
 
@@ -2441,12 +2450,14 @@ def post_github_comment(issue_num, commit_hash, description):
 
 
 def update_issue_json(issue_num, new_status, description="", *,
-                      priority=None, notes=None):
+                      priority=None, notes=None, impl_failed=None):
     """Update issue status in local IIS JSON DB.
 
     Args:
-        priority: e.g. "P2-bug" — written to data["priority"] if provided.
-        notes:    appended to data["notes"] if provided.
+        priority:    e.g. "P2-bug" — written to data["priority"] if provided.
+        notes:       appended to data["notes"] if provided.
+        impl_failed: True/False — marks whether implementation was attempted and failed.
+                     Used by load_actionable_issues() to retry failed issues.
     """
     json_file = ISSUES_DB_DIR / f"{issue_num:04d}.json"
     if not json_file.exists():
@@ -2456,6 +2467,8 @@ def update_issue_json(issue_num, new_status, description="", *,
         data["our_status"] = new_status
         if priority:
             data["priority"] = priority
+        if impl_failed is not None:
+            data["impl_failed"] = impl_failed
         if notes:
             prev = (data.get("notes") or "").rstrip()
             data["notes"] = f"{prev}\n{notes}".strip() if prev else notes
@@ -2534,10 +2547,16 @@ def find_dependents(fpath, all_warnings):
 def load_actionable_issues():
     """Load issues from JSON DB that need triage or implementation.
 
-    Skips issues already triaged by AI (have 'AI triage' in notes)
-    to avoid re-processing on orchestrator restart.
+    Includes:
+      - Issues with status 'new', 'triaged', or 'roadmap' that haven't been AI-triaged yet
+      - Issues with impl_failed=True (AI triaged, implementation failed — need retry)
+
+    Skips:
+      - Issues already successfully AI-triaged and implemented (status 'triaged' + 'AI triage'
+        in notes, but impl_failed is NOT True)
     """
     issues = []
+    retry_count = 0
     if not ISSUES_DB_DIR.exists():
         log.warning("Issues DB not found: %s", ISSUES_DB_DIR)
         return issues
@@ -2549,13 +2568,26 @@ def load_actionable_issues():
             status = data.get("our_status", "new")
             if status not in ("new", "triaged", "roadmap"):
                 continue
-            # Skip issues already processed by AI orchestrator
             notes = data.get("notes") or ""
+            impl_failed = data.get("impl_failed", False)
+
+            # Include impl_failed issues for retry (even if already AI-triaged)
+            if impl_failed:
+                data["_is_retry"] = True  # marker for chain_implement to know
+                issues.append(data)
+                retry_count += 1
+                continue
+
+            # Skip issues already successfully processed by AI orchestrator
             if status == "triaged" and "AI triage" in notes:
                 continue
+
             issues.append(data)
         except Exception:
             pass
+
+    if retry_count:
+        log.info("  Including %d impl_failed issues for retry", retry_count)
 
     prio = {"P0-critical": 0, "P1-security": 1, "P2-bug": 2, "P3-enhancement": 3, "P4-debt": 4}
     issues.sort(key=lambda x: prio.get(x.get("priority", "P4-debt"), 5))
@@ -2684,7 +2716,8 @@ RULES (CRITICAL):
     status.set_task(type="issue_fix", issue=num, step="commenting")
     if post_github_comment(num, h, short):
         status.data["issues"]["commented_on_github"] += 1
-    update_issue_json(num, "testing", f"Fix in {h[:8]}")
+    update_issue_json(num, "testing", f"Fix in {h[:8]}",
+                      impl_failed=False)
 
     status.clear_task()
     return True
@@ -2961,6 +2994,41 @@ def flux_issues(status, dry_run=False, max_issues=None):
         log.info("[%d/%d] Issue #%d: %s", i, len(issues), num, title)
         print_progress("ISSUES", i, len(issues), f"#{num} {title}", status)
 
+        # ── RETRY PATH: impl_failed issues skip triage, go straight to implementation ──
+        is_retry = issue.get("_is_retry", False)
+        if is_retry:
+            log.info("  [RETRY] #%d — previous implementation failed, retrying directly", num)
+            status.set_task(type="issue_fix", issue=num, step="retrying")
+
+            # DEDUP: skip if already committed (e.g. fixed manually)
+            if _is_issue_already_committed(num):
+                log.info("  [DEDUP] #%d already committed — skipping retry", num)
+                update_issue_json(num, "testing", "Already committed (dedup)",
+                                  impl_failed=False)
+                continue
+
+            if i > 1:
+                time.sleep(2)
+
+            status.data["issues"]["to_implement"] += 1
+            # Use existing triage data from the JSON (no re-triage needed)
+            existing_notes = issue.get("notes", "")
+            triage = {"decision": "implement", "reason": f"Retry (prev failed). {existing_notes[:200]}"}
+            impl_ok = chain_implement(issue, triage, status)
+
+            if impl_ok:
+                consecutive_impl_failures = 0
+                consecutive_phantom_tests = 0
+            else:
+                consecutive_impl_failures += 1
+                if consecutive_impl_failures >= IMPL_CONSECUTIVE_FAIL_LIMIT:
+                    log.error("  [CIRCUIT BREAKER] %d consecutive failures — stopping", consecutive_impl_failures)
+                    break
+
+            status.save()
+            continue
+
+        # ── NORMAL PATH: triage + implement ──
         status.set_task(type="triage", issue=num, step="analyzing")
         if dry_run:
             log.info("  [DRY RUN] skip triage")
@@ -2996,7 +3064,8 @@ def flux_issues(status, dry_run=False, max_issues=None):
             # ── DEDUP: skip if already committed ──
             if _is_issue_already_committed(num):
                 log.info("  [DEDUP] #%d already committed — skipping", num)
-                update_issue_json(num, "testing", "Already committed (dedup)")
+                update_issue_json(num, "testing", "Already committed (dedup)",
+                                  impl_failed=False)
                 continue
 
             status.data["issues"]["to_implement"] += 1

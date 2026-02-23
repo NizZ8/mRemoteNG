@@ -55,5 +55,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue lacks detail on protocol (RDP/VNC), whether clipboard and drive redirection are enabled in connection settings, and whether the failure is for text or files — RDP file copy requires both RedirectClipboard and RedirectDrives to be enabled.\nApproach: Ask reporter to confirm protocol, enable RedirectClipboard + RedirectDrives in connection properties, and share exact mRemoteNG version; if redirection settings are correctly enabled but copy-paste still fails, investigate RDP session options passed to MSTSCLib ActiveX control."
+  "notes": "AI triage (claude): Issue lacks detail on protocol (RDP/VNC), whether clipboard and drive redirection are enabled in connection settings, and whether the failure is for text or files — RDP file copy requires both RedirectClipboard and RedirectDrives to be enabled.\nApproach: Ask reporter to confirm protocol, enable RedirectClipboard + RedirectDrives in connection properties, and share exact mRemoteNG version; if redirection settings are correctly enabled but copy-paste still fails, investigate RDP session options passed to MSTSCLib ActiveX control.",
+  "impl_failed": true
 }

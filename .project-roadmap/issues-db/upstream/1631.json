@@ -152,5 +152,6 @@
     "input_tokens": 3,
     "output_tokens": 757,
     "cost_usd": 0.143004
-  }
+  },
+  "impl_failed": true
 }

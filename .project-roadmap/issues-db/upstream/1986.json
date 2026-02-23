@@ -78,5 +78,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Users are reporting an inability to connect to a SQL database for connection storage, indicating a critical bug in a core feature.\nApproach: Investigate the SQL connection establishment and authentication process within the `mRemoteNG.Config.DatabaseConnectors` namespace and related UI components to pinpoint the failure point."
+  "notes": "AI triage (gemini): Users are reporting an inability to connect to a SQL database for connection storage, indicating a critical bug in a core feature.\nApproach: Investigate the SQL connection establishment and authentication process within the `mRemoteNG.Config.DatabaseConnectors` namespace and related UI components to pinpoint the failure point.",
+  "impl_failed": true
 }

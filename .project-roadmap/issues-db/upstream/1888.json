@@ -39,5 +39,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Connecting to an RDP server fails with a specific error code (2056), indicating a bug in the RDP connection handling.\nApproach: Investigate the RDP connection and error handling logic within RdpProtocol.cs to understand the cause of error 2056 and implement a fix, potentially involving adjustments to connection parameters or improved error reporting."
+  "notes": "AI triage (gemini): Connecting to an RDP server fails with a specific error code (2056), indicating a bug in the RDP connection handling.\nApproach: Investigate the RDP connection and error handling logic within RdpProtocol.cs to understand the cause of error 2056 and implement a fix, potentially involving adjustments to connection parameters or improved error reporting.",
+  "impl_failed": true
 }

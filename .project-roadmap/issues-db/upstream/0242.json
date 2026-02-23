@@ -96,5 +96,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue has no description, no reproducible steps, and last triage comment asked reporter to retest on latest build and provide steps - no response yet\nApproach: Wait for reporter to confirm if still reproducible on v1.81.0-beta.2 and provide specific steps showing what is wrong with the RootNodeInfo object graph"
+  "notes": "AI triage: Issue has no description, no reproducible steps, and last triage comment asked reporter to retest on latest build and provide steps - no response yet\nApproach: Wait for reporter to confirm if still reproducible on v1.81.0-beta.2 and provide specific steps showing what is wrong with the RootNodeInfo object graph",
+  "impl_failed": true
 }

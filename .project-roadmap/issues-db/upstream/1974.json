@@ -67,5 +67,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Implementing a bypass for Windows proxy settings would allow users to connect directly to internal resources, enhancing connectivity flexibility.\nApproach: Add a boolean 'BypassSystemProxy' property to ConnectionInfo to control proxy usage per connection. Expose this setting in the connection properties UI. Modify the connection establishment logic within each protocol handler (e.g., RdpProtocol, VncProtocol, SshProtocol) to explicitly configure the underlying network client (e.g., HttpClient, WebRequest) to bypass the system proxy if 'BypassSystemProxy' is enabled for that connection."
+  "notes": "AI triage (gemini): Implementing a bypass for Windows proxy settings would allow users to connect directly to internal resources, enhancing connectivity flexibility.\nApproach: Add a boolean 'BypassSystemProxy' property to ConnectionInfo to control proxy usage per connection. Expose this setting in the connection properties UI. Modify the connection establishment logic within each protocol handler (e.g., RdpProtocol, VncProtocol, SshProtocol) to explicitly configure the underlying network client (e.g., HttpClient, WebRequest) to bypass the system proxy if 'BypassSystemProxy' is enabled for that connection.",
+  "impl_failed": true
 }

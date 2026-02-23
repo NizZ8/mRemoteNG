@@ -185,5 +185,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue is stale with no recent confirmation; the sysnative workaround suggests a WoW64 filesystem redirection problem rather than an mRemoteNG bug, and reporter was asked to retest on latest build with no follow-up\nApproach: If confirmed, add documentation or auto-detect sysnative path for WSL when running as 32-bit process on 64-bit Windows; otherwise close as stale"
+  "notes": "AI triage: Issue is stale with no recent confirmation; the sysnative workaround suggests a WoW64 filesystem redirection problem rather than an mRemoteNG bug, and reporter was asked to retest on latest build with no follow-up\nApproach: If confirmed, add documentation or auto-detect sysnative path for WSL when running as 32-bit process on 64-bit Windows; otherwise close as stale",
+  "impl_failed": true
 }

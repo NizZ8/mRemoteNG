@@ -102,5 +102,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): SQL NOT NULL constraint violation on 'RedirectAudioCapture' when saving a new folder — DataTableSerializer omits default values for RDP-specific columns on ContainerInfo nodes.\nApproach: In SerializeConnectionInfo(), ensure all NOT NULL columns (RedirectAudioCapture and similar RDP boolean columns) receive a default value (false/empty string) when the node is a ContainerInfo, either via DBNull.Value handling in CreateSchema() or by explicitly setting defaults before INSERT."
+  "notes": "AI triage (claude): SQL NOT NULL constraint violation on 'RedirectAudioCapture' when saving a new folder — DataTableSerializer omits default values for RDP-specific columns on ContainerInfo nodes.\nApproach: In SerializeConnectionInfo(), ensure all NOT NULL columns (RedirectAudioCapture and similar RDP boolean columns) receive a default value (false/empty string) when the node is a ContainerInfo, either via DBNull.Value handling in CreateSchema() or by explicitly setting defaults before INSERT.",
+  "impl_failed": true
 }

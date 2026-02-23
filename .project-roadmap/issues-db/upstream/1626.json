@@ -54,5 +54,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue requests running mRemoteNG from a WebDAV-mapped drive but provides no error details, OS version, or WebDAV provider (IIS, SharePoint, etc.) to diagnose path resolution or startup failures.\nApproach: Reproduce with a WebDAV mapped drive; check if Application.StartupPath resolves correctly on WebDAV paths and whether config/temp file writes fail due to UNC or permission restrictions; add fallback to %APPDATA% if startup path is unreachable."
+  "notes": "AI triage (claude): Issue requests running mRemoteNG from a WebDAV-mapped drive but provides no error details, OS version, or WebDAV provider (IIS, SharePoint, etc.) to diagnose path resolution or startup failures.\nApproach: Reproduce with a WebDAV mapped drive; check if Application.StartupPath resolves correctly on WebDAV paths and whether config/temp file writes fail due to UNC or permission restrictions; add fallback to %APPDATA% if startup path is unreachable.",
+  "impl_failed": true
 }

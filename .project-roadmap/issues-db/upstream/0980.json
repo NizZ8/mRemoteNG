@@ -51,5 +51,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (codex): The issue is stale and does not include current reproducible steps on v1.79.x, so the multi-select delete/inheritance bug cannot be confirmed yet.\nApproach: Request a retest on the latest build with exact steps, expected vs actual behavior, and whether Delete via keyboard and context menu differ."
+  "notes": "AI triage (codex): The issue is stale and does not include current reproducible steps on v1.79.x, so the multi-select delete/inheritance bug cannot be confirmed yet.\nApproach: Request a retest on the latest build with exact steps, expected vs actual behavior, and whether Delete via keyboard and context menu differ.",
+  "impl_failed": true
 }

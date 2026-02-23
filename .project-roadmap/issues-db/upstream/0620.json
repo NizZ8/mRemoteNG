@@ -77,5 +77,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Mouse cursor issue after Windows 10 Creator Update (2017) is likely resolved by newer Windows/RDP updates; no recent confirmation of reproduction on current builds despite two triage refresh requests\nApproach: Close as stale if no response within 30 days; if reproduced, investigate RDP ActiveX cursor rendering settings in ProtocolRDP.cs"
+  "notes": "AI triage: Mouse cursor issue after Windows 10 Creator Update (2017) is likely resolved by newer Windows/RDP updates; no recent confirmation of reproduction on current builds despite two triage refresh requests\nApproach: Close as stale if no response within 30 days; if reproduced, investigate RDP ActiveX cursor rendering settings in ProtocolRDP.cs",
+  "impl_failed": true
 }

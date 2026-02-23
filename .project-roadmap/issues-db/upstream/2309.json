@@ -13,12 +13,19 @@
   "created_at": "2022-12-05T14:35:16Z",
   "github_updated_at": "2026-02-21T10:22:45Z",
   "body_snippet": "## Expected Behavior\r\nWhen using RDP and i doubleclick, I expect only a doubleclick will happen on the remote server\r\n\r\n## Current Behavior\r\nThe letter 'c' is typed, \r\n\r\n## Possible Solution1\r\n?\r\n\r\n## Steps to Reproduce (for bugs)\r\n1.  Key combinations are enabled in the config of remote connection, when disabled, the behaviour is normal. The behaviour does not appear with windows built-in RDP tool or on host.\r\n\r\n## Context\r\n\r\n## Your Environment\r\n* Version used:\r\nHost:\r\nWindows 10 enterprise bu...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "Unintended character input ('c') on double-click indicates a bug in low-level input message processing, likely related to how mouse events interact with keyboard character generation, especially in VNC or RDP sessions."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5PusJI",
@@ -44,5 +51,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): Unintended character input ('c') on double-click indicates a bug in low-level input message processing, likely related to how mouse events interact with keyboard character generation, especially in VNC or RDP sessions.\nApproach: Investigate potential spurious WM_CHAR messages generated during rapid mouse events, particularly for VNC sessions where ASCII WM_CHAR messages are explicitly allowed to pass through, or RDP sessions if ViewOnly filtering is bypassed or not active. Evaluate if a more robust IMessageFilter or WndProc handling is required to suppress these unintended key presses.",
+  "impl_failed": true
 }

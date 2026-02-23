@@ -157,5 +157,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue has no reproducible steps, no logs, and the reporter's own workaround (use console session) suggests a local configuration problem rather than an mRemoteNG bug; last triage comment already requested retest on latest build with no response.\nApproach: Keep waiting for reporter to retest on v1.80+ and provide reproducible steps; close as stale if no response after reasonable period."
+  "notes": "AI triage: Issue has no reproducible steps, no logs, and the reporter's own workaround (use console session) suggests a local configuration problem rather than an mRemoteNG bug; last triage comment already requested retest on latest build with no response.\nApproach: Keep waiting for reporter to retest on v1.80+ and provide reproducible steps; close as stale if no response after reasonable period.",
+  "impl_failed": true
 }

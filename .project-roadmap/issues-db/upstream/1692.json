@@ -76,5 +76,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The issue description 'mRemoteNG from command line' is too vague to determine the exact problem or request. More information is needed to triage properly."
+  "notes": "AI triage (gemini): The issue description 'mRemoteNG from command line' is too vague to determine the exact problem or request. More information is needed to triage properly.",
+  "impl_failed": true
 }

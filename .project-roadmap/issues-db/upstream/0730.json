@@ -40,5 +40,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue has no description, no reproducible steps, and the triage comment requesting details has received no response, making it impossible to determine what the actual problem is.\nApproach: Wait for reporter to provide details about what 'remote printing' means in context (RDP printer redirection settings, specific protocol, error encountered). If no response, close as stale."
+  "notes": "AI triage: Issue has no description, no reproducible steps, and the triage comment requesting details has received no response, making it impossible to determine what the actual problem is.\nApproach: Wait for reporter to provide details about what 'remote printing' means in context (RDP printer redirection settings, specific protocol, error encountered). If no response, close as stale.",
+  "impl_failed": true
 }
