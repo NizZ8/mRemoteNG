@@ -345,40 +345,56 @@ namespace mRemoteNG.Connection.Protocol.Http
         {
             try
             {
-                string strHost = InterfaceControl.Info.Hostname;
+                string rawHost = InterfaceControl.Info.Hostname?.Trim() ?? string.Empty;
+                int explicitPort = InterfaceControl.Info.Port;
+                string httpPath = InterfaceControl.Info.HttpPath?.Trim() ?? string.Empty;
 
-                if (InterfaceControl.Info.Port != defaultPort)
+                // Ensure hostname has a scheme so Uri.TryCreate can parse host and embedded port
+                if (!rawHost.Contains("://"))
+                    rawHost = httpOrS + "://" + rawHost;
+
+                if (!Uri.TryCreate(rawHost, UriKind.Absolute, out Uri? parsed))
                 {
-                    if (strHost.EndsWith("/"))
-                    {
-                        strHost = strHost[..^1];
-                    }
+                    // Fallback for malformed hostnames
+                    return httpOrS + "://" + (InterfaceControl.Info.Hostname?.Trim() ?? string.Empty);
+                }
 
-                    if (strHost.Contains(httpOrS + "://") == false)
-                    {
-                        strHost = httpOrS + "://" + strHost;
-                    }
+                var builder = new UriBuilder(parsed)
+                {
+                    Scheme = httpOrS  // Always enforce the correct scheme for this protocol
+                };
 
-                    strHost = strHost + ":" + InterfaceControl.Info.Port;
+                // Determine the port to include in the URL:
+                // - Explicit port field (if non-default) always wins, preventing double-port issues
+                // - Otherwise preserve any port embedded in the hostname field
+                // - Otherwise omit port (let the browser use the protocol default)
+                if (explicitPort != defaultPort)
+                {
+                    builder.Port = explicitPort;
+                }
+                else if (parsed.Port != defaultPort)
+                {
+                    builder.Port = parsed.Port;
                 }
                 else
                 {
-                    if (strHost.Contains(httpOrS + "://") == false)
-                        strHost = httpOrS + "://" + strHost;
+                    builder.Port = -1;
                 }
 
-                string path = InterfaceControl.Info.HttpPath?.Trim() ?? string.Empty;
-                if (!string.IsNullOrEmpty(path))
+                // Combine the path component from the hostname with the HttpPath setting
+                string combinedPath = parsed.AbsolutePath;
+                if (!string.IsNullOrEmpty(httpPath))
                 {
-                    if (!strHost.EndsWith("/") && !path.StartsWith("/"))
-                        strHost = strHost + "/" + path;
-                    else if (strHost.EndsWith("/") && path.StartsWith("/"))
-                        strHost = strHost + path[1..];
+                    if (!combinedPath.EndsWith("/") && !httpPath.StartsWith("/"))
+                        combinedPath = combinedPath + "/" + httpPath;
+                    else if (combinedPath.EndsWith("/") && httpPath.StartsWith("/"))
+                        combinedPath = combinedPath + httpPath[1..];
                     else
-                        strHost = strHost + path;
+                        combinedPath = combinedPath + httpPath;
                 }
+                builder.Path = combinedPath;
 
-                return strHost;
+                return builder.Uri.ToString();
             }
             catch (Exception ex)
             {
