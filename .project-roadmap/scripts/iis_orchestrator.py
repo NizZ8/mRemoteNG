@@ -3272,6 +3272,13 @@ def flux_issues(status, dry_run=False, max_issues=None):
             # Use existing triage data from the JSON (no re-triage needed)
             existing_notes = issue.get("notes", "")
             triage = {"decision": "implement", "reason": f"Retry (prev failed). {existing_notes[:200]}"}
+
+            # ── PRE-ANALYSIS on retry: previous attempts failed, so re-analyze ──
+            if PRE_ANALYSIS_ENABLED:
+                refined = chain_pre_analysis(issue, triage)
+                if refined is not None:
+                    triage = refined
+
             impl_ok = chain_implement(issue, triage, status)
 
             if impl_ok:
