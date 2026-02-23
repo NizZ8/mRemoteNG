@@ -2768,16 +2768,13 @@ def _count_available_agents():
 
 
 def _count_issue_timeouts(issue_num):
-    """Count total timeouts for an issue across all chain-context files."""
+    """Count total timeouts for an issue across all chain-context files.
+    Uses the timeout_count field from ChainContext (already tracks per-agent timeouts)."""
     count = 0
     for f in CHAIN_CONTEXT_DIR.glob(f"*_{issue_num}.json"):
         try:
             data = json.loads(f.read_text(encoding="utf-8"))
             count += data.get("timeout_count", 0)
-            # Also count timeout attempts individually
-            for attempt in data.get("attempts", []):
-                if attempt.get("timed_out"):
-                    count += 1
         except Exception:
             pass
     return count
