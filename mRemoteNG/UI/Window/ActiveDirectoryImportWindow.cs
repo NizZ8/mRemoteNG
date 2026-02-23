@@ -24,10 +24,8 @@ namespace mRemoteNG.UI.Window
             FontOverrider.FontOverride(this);
             ApplyTheme();
             ApplyLanguage();
-            txtDomain.Text = _currentDomain;
+            txtDomain.Text = Environment.UserDomainName;
             EnableDisableImportButton();
-            // Domain doesn't refresh on load, so it defaults to DOMAIN without this...
-            _currentDomain = Environment.UserDomainName;
             ChangeDomain();
         }
 
