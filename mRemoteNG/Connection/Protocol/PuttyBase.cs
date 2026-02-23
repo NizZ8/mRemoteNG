@@ -47,6 +47,8 @@ namespace mRemoteNG.Connection.Protocol
         private System.Windows.Forms.Timer? _windowSearchTimer;
         private int _windowSearchStartTime;
         private long _processStartTicks;
+        private bool _pendingResumeReconnect;
+        private long _resumeEventTickCount;
 
         #region Public Properties
 
@@ -70,6 +72,23 @@ namespace mRemoteNG.Connection.Protocol
         {
             StopTerminalTitleTracking();
 
+            // Check whether this exit should trigger an auto-reconnect due to sleep/resume.
+            // Only applies to SSH sessions that exited with a network error (non-zero code)
+            // within 30 seconds of the last system resume event.
+            if (_pendingResumeReconnect)
+            {
+                _pendingResumeReconnect = false;
+                int resumeExitCode = PuttyProcess?.ExitCode ?? 0;
+                long elapsedSinceResume = Environment.TickCount64 - _resumeEventTickCount;
+
+                if (resumeExitCode != 0 && elapsedSinceResume < 30_000)
+                {
+                    // Network error caused by sleep — reconnect after a delay instead of closing.
+                    ScheduleAutoReconnect();
+                    return;
+                }
+            }
+
             // If PuTTY exited with an error within 30 seconds, it likely indicates
             // an authentication failure. Prompt the user to update the stored password.
             try
@@ -89,6 +108,49 @@ namespace mRemoteNG.Connection.Protocol
             }
 
             Event_Closed(this);
+        }
+
+        private void ScheduleAutoReconnect()
+        {
+            const int ReconnectDelayMs = 5000;
+
+            System.Threading.Tasks.Task.Delay(ReconnectDelayMs).ContinueWith(_ =>
+            {
+                try
+                {
+                    if (InterfaceControl == null || InterfaceControl.IsDisposed || !InterfaceControl.IsHandleCreated)
+                        return;
+
+                    InterfaceControl.BeginInvoke((MethodInvoker)ExecuteAutoReconnect);
+                }
+                catch (ObjectDisposedException) { }
+                catch (InvalidOperationException) { }
+            }, System.Threading.Tasks.TaskScheduler.Default);
+        }
+
+        private void ExecuteAutoReconnect()
+        {
+            try
+            {
+                if (InterfaceControl == null || InterfaceControl.IsDisposed)
+                    return;
+
+                // Dispose the old (already exited) process before starting a new one.
+                try { PuttyProcess?.Dispose(); } catch { }
+                PuttyProcess = null;
+
+                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                    "Auto-reconnecting SSH session after sleep/resume...", true);
+
+                if (!Connect())
+                    Event_Closed(this);
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace(
+                    "SSH auto-reconnect after resume failed", ex);
+                Event_Closed(this);
+            }
         }
 
         #endregion
@@ -894,6 +956,15 @@ namespace mRemoteNG.Connection.Protocol
             foreach (int delay in delays)
             {
                 ScheduleResizeAfterDelay(delay);
+            }
+
+            // Mark SSH sessions for auto-reconnect: if the PuTTY process exits with a
+            // network error shortly after resume, we reconnect automatically instead of
+            // showing the "connection closed" state.
+            if (PuttyProtocol == Putty_Protocol.ssh && isRunning())
+            {
+                _pendingResumeReconnect = true;
+                _resumeEventTickCount = Environment.TickCount64;
             }
         }
 
