@@ -11,7 +11,7 @@
   "created_at": "2022-04-28T05:14:56Z",
   "github_updated_at": "2026-02-21T10:23:27Z",
   "body_snippet": "Quick connect is not working. Please see screenshot.\r\n\r\nOS Win 10 -  64bit\r\nClient Ver: 1.77.2\r\n\r\n@sparerd \r\n@kmscode \r\n@Kvarkas \r\n@farosch \r\n\r\n![image](https://user-images.githubusercontent.com/53462528/165680986-7f4829b3-f250-4c90-a3fc-2150d4850eab.png)\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,18 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The `CreateQuickConnect` method does not validate if the provided `connectionString` (hostname) is null or whitespace, leading to the creation of an invalid `ConnectionInfo` object."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in b476113e",
+      "token_usage": {
+        "input_tokens": 8,
+        "output_tokens": 1260,
+        "cost_usd": 0.301334,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -76,5 +88,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The `CreateQuickConnect` method does not validate if the provided `connectionString` (hostname) is null or whitespace, leading to the creation of an invalid `ConnectionInfo` object.\nApproach: Add a `string.IsNullOrWhiteSpace` check at the beginning of `CreateQuickConnect` to return `null` early if the `connectionString` is invalid, and add a corresponding error message to the language resource file."
+  "notes": "AI triage (gemini): The `CreateQuickConnect` method does not validate if the provided `connectionString` (hostname) is null or whitespace, leading to the creation of an invalid `ConnectionInfo` object.\nApproach: Add a `string.IsNullOrWhiteSpace` check at the beginning of `CreateQuickConnect` to return `null` early if the `connectionString` is invalid, and add a corresponding error message to the language resource file.",
+  "token_usage": {
+    "input_tokens": 8,
+    "output_tokens": 1260,
+    "cost_usd": 0.301334
+  }
 }
