@@ -11,12 +11,25 @@
   "created_at": "2022-06-03T18:17:51Z",
   "github_updated_at": "2026-02-21T10:23:29Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nif username is set to `john` and domain is set to `acme.local` then putty should receive a username of `john@acme.local`\r\n\r\n## Current Behavior\r\nif username is set to `john` and domain is set to `acme.local` then putty receives a username of `john` (domain is ignored)\r\n\r\n## Possible Solution\r\ninclude the domain value if it is not blank\r\n\r\n## Steps to Reproduce (for bugs)\r\n<!--- Provide an unambiguous set...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "PuttyBase.cs SSH path (line 499) reads only Username but ignores Domain when building the -l argument for PuTTY, while the tab-title code (line 294) correctly combines domain+username.",
+      "token_usage": {
+        "input_tokens": 8,
+        "output_tokens": 1282,
+        "cost_usd": 0.267875,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mYhj3",
@@ -33,5 +46,10 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): PuttyBase.cs SSH path (line 499) reads only Username but ignores Domain when building the -l argument for PuTTY, while the tab-title code (line 294) correctly combines domain+username.\nApproach: After reading username, also read domain and if non-empty prepend 'domain\\' to username before passing to -l argument (mirroring the tab-title logic at line 294-306)",
+  "token_usage": {
+    "input_tokens": 8,
+    "output_tokens": 1282,
+    "cost_usd": 0.267875
+  }
 }

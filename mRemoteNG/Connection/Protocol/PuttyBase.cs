@@ -497,6 +497,7 @@ namespace mRemoteNG.Connection.Protocol
                     {
 
                         string username = InterfaceControl.Info?.Username ?? "";
+                        string domain = InterfaceControl.Info?.Domain ?? "";
                         //string password = InterfaceControl.Info?.Password?.ConvertToUnsecureString() ?? "";
                         string password = InterfaceControl.Info?.Password ?? "";
                         string UserViaAPI = InterfaceControl.Info?.UserViaAPI ?? "";
@@ -663,7 +664,11 @@ namespace mRemoteNG.Connection.Protocol
                         {
                             if (!string.IsNullOrEmpty(username))
                             {
-                                arguments.Add("-l", username);
+                                // Prepend domain if set and username isn't already domain-qualified
+                                string loginName = !string.IsNullOrEmpty(domain) && !username.Contains('\\') && !username.Contains('@')
+                                    ? domain + @"\" + username
+                                    : username;
+                                arguments.Add("-l", loginName);
                             }
 
                                                     if (!string.IsNullOrEmpty(password))
