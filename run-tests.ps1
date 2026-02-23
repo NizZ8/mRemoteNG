@@ -1,4 +1,4 @@
-# run-tests.ps1 - Multi-group test runner (v7)
+# run-tests.ps1 - Multi-group test runner (v8)
 # Runs tests in namespace-based groups to avoid native resource exhaustion.
 # Single-process runs crash at ~460 tests due to BouncyCastle/GDI handle leaks.
 # FrmOptions tests are isolated (1 per process) due to ObjectListView resource leaks.
@@ -6,7 +6,8 @@
 # CRITICAL: --verbosity normal required (minimal crashes testhost on .NET 10).
 # CRITICAL: --results-directory must be OUTSIDE the repo (TestResults in repo causes crashes).
 # CRITICAL: Do NOT create testhost.runtimeconfig.json (BOM from Set-Content crashes testhost).
-# v7: Uses .NET Process API instead of PowerShell pipeline to avoid back-pressure crashes.
+# v8: Uses TRX logger for reliable results even on partial crashes.
+#     .NET Process API drains stdout to prevent buffer deadlock.
 
 param(
     [switch]$Headless,
@@ -20,7 +21,7 @@ $specsDll = "$repoRoot\mRemoteNGSpecs\bin\x64\Release\mRemoteNGSpecs.dll"
 $testDir  = "$repoRoot\mRemoteNGTests\bin\x64\Release"
 $resultsBase = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "mremoteng-testresults")
 
-Write-Host "=== mRemoteNG Test Runner v7 ===" -ForegroundColor Cyan
+Write-Host "=== mRemoteNG Test Runner v8 ===" -ForegroundColor Cyan
 
 # Build
 if (-not $NoBuild) {
@@ -47,15 +48,17 @@ function Ensure-TestEnvironment {
     Get-Process testhost.x86 -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
     Remove-Item "$repoRoot\TestResults" -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item "$testDir\testhost.runtimeconfig.json" -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 500
 }
 
 function Run-DotnetTest($dll, $filter) {
-    # Uses .NET Process API to avoid PowerShell pipeline back-pressure.
-    # Reads stdout line-by-line keeping only last 30 lines (zero memory accumulation).
-    # Reads stderr async to avoid deadlock.
+    # Uses TRX logger for reliable result capture (survives partial crashes).
+    # .NET Process API drains stdout to prevent buffer deadlock.
     $uid = [guid]::NewGuid().ToString("N").Substring(0,8)
     $resultsDir = "$resultsBase-$uid"
+    $trxFile = "results.trx"
     $procArgs = "test `"$dll`" --results-directory `"$resultsDir`" --verbosity normal"
+    $procArgs += " --logger `"trx;LogFileName=$trxFile`""
     if ($filter) { $procArgs += " --filter `"$filter`"" }
 
     $psi = New-Object System.Diagnostics.ProcessStartInfo
@@ -69,38 +72,56 @@ function Run-DotnetTest($dll, $filter) {
     $proc = [System.Diagnostics.Process]::Start($psi)
     $stderrTask = $proc.StandardError.ReadToEndAsync()
 
-    # Read stdout line-by-line, keep only last 30 lines
+    # Drain stdout line-by-line, keep last 10 for crash detection
     $tail = New-Object System.Collections.Generic.Queue[string]
     while ($null -ne ($line = $proc.StandardOutput.ReadLine())) {
         $tail.Enqueue($line)
-        while ($tail.Count -gt 30) { [void]$tail.Dequeue() }
+        while ($tail.Count -gt 10) { [void]$tail.Dequeue() }
     }
 
     $proc.WaitForExit()
+    $exitCode = $proc.ExitCode
     $stderr = $stderrTask.GetAwaiter().GetResult()
+
+    # Try to parse TRX file first (most reliable)
+    $trxPath = Join-Path $resultsDir $trxFile
+    $p = 0; $f = 0; $s = 0; $total = 0; $crashed = $false
+
+    if (Test-Path $trxPath) {
+        try {
+            [xml]$trx = Get-Content $trxPath -Raw
+            $counters = $trx.TestRun.ResultSummary.Counters
+            $p = [int]$counters.passed
+            $f = [int]$counters.failed
+            $total = [int]$counters.total
+            $s = $total - $p - $f
+            # Check if test run was aborted
+            $outcome = $trx.TestRun.ResultSummary.outcome
+            if ($outcome -eq "Aborted" -or $outcome -eq "Error") {
+                $crashed = $true
+            }
+        } catch {
+            # TRX parse failed, fall back to stdout
+        }
+    }
+
+    # Fall back to stdout parsing if TRX unavailable or empty
+    if ($total -eq 0 -and $p -eq 0) {
+        $tailText = ($tail.ToArray() -join "`n")
+        if ($tailText -match 'Passed\s*[:-]\s*(\d+)') { $p = [int]$Matches[1] }
+        if ($tailText -match 'Failed\s*[:-]\s*(\d+)') { $f = [int]$Matches[1] }
+        if ($tailText -match 'Total tests:\s+(\d+)') { $total = [int]$Matches[1] }
+    }
+
+    # Crash detection from stderr and stdout
+    $allText = ($tail.ToArray() -join "`n") + "`n" + $stderr
+    if (($allText -match "crashed|aborted") -and ($p -eq 0)) {
+        $crashed = $true
+    }
+
     Remove-Item $resultsDir -Recurse -Force -ErrorAction SilentlyContinue
 
-    $result = ($tail.ToArray() -join "`n")
-    if ($stderr -and ($stderr -match "crashed|aborted")) { $result += "`n$stderr" }
-    return $result
-}
-
-function Parse-TestOutput($out) {
-    if (-not $out) { return @{ Passed=0; Failed=0; Skipped=0; Total=0; Crashed=$false } }
-    $p = 0; $f = 0; $s = 0; $total = 0
-    $allLines = $out -split "`n"
-    foreach ($line in $allLines) {
-        if ($line -match 'Total tests:\s+(\d+)') { $total = [int]$Matches[1] }
-        if ($line -match '^\s{2,}Passed\s*[:-]\s*(\d+)') { $p = [int]$Matches[1] }
-        if ($line -match '^\s{2,}Failed\s*[:-]\s*(\d+)') { $f = [int]$Matches[1] }
-        if ($line -match '^\s{2,}Skipped\s*[:-]\s*(\d+)') { $s = [int]$Matches[1] }
-    }
-    $joined = $allLines -join "`n"
-    if ($p -eq 0 -and $joined -match 'Passed\s*[:-]\s*(\d+)') { $p = [int]$Matches[1] }
-    if ($f -eq 0 -and $joined -match 'Failed\s*[:-]\s*(\d+)') { $f = [int]$Matches[1] }
-    if ($s -eq 0 -and $joined -match 'Skipped\s*[:-]\s*(\d+)') { $s = [int]$Matches[1] }
-    $crashed = (($out -match "crashed") -or ($out -match "aborted")) -and ($total -eq 0) -and ($p -eq 0)
-    return @{ Passed=$p; Failed=$f; Skipped=$s; Total=$total; Crashed=$crashed }
+    return @{ Passed=$p; Failed=$f; Skipped=$s; Total=$total; Crashed=$crashed; ExitCode=$exitCode }
 }
 
 $totalPassed = 0; $totalFailed = 0; $totalSkipped = 0; $anyCrashed = $false
@@ -125,10 +146,9 @@ foreach ($g in $groups) {
     Write-Host "  [$($g.Name)] " -NoNewline
     Ensure-TestEnvironment
     [GC]::Collect(); [GC]::WaitForPendingFinalizers()
-    $out = Run-DotnetTest $testDll $g.Filter
-    $r = Parse-TestOutput $out
+    $r = Run-DotnetTest $testDll $g.Filter
     if ($r.Crashed) {
-        Write-Host "CRASHED (0 tests)" -ForegroundColor Red; $anyCrashed = $true
+        Write-Host "$($r.Passed)p/CRASHED" -ForegroundColor Red; $anyCrashed = $true
     } elseif ($r.Failed -gt 0) {
         Write-Host "$($r.Passed)p/$($r.Failed)f" -ForegroundColor Red
     } else {
@@ -147,8 +167,7 @@ $isolatedFilters = @(
 foreach ($t in $isolatedFilters) {
     Write-Host "  [$($t.Name)] " -NoNewline
     Ensure-TestEnvironment
-    $out = Run-DotnetTest $testDll $t.Filter
-    $r = Parse-TestOutput $out
+    $r = Run-DotnetTest $testDll $t.Filter
     if ($r.Crashed) {
         Write-Host "CRASHED" -ForegroundColor Red; $anyCrashed = $true
     } elseif ($r.Failed -gt 0) {
@@ -163,8 +182,7 @@ foreach ($t in $isolatedFilters) {
 if (-not $Headless -and (Test-Path $specsDll)) {
     Write-Host "`n[Phase 3] Specs (FlaUI)..." -ForegroundColor Yellow
     Ensure-TestEnvironment
-    $out = Run-DotnetTest $specsDll $null
-    $r = Parse-TestOutput $out
+    $r = Run-DotnetTest $specsDll $null
     $specColor = if ($r.Failed -gt 0) { "Yellow" } else { "Green" }
     Write-Host "  Specs: $($r.Passed)p/$($r.Failed)f" -ForegroundColor $specColor
 }
@@ -189,7 +207,7 @@ Write-Host "  Total:   $totalTests"
 Write-Host "  Passed:  $totalPassed" -ForegroundColor Green
 if ($totalFailed -gt 0) { Write-Host "  Failed:  $totalFailed" -ForegroundColor Red }
 if ($totalSkipped -gt 0) { Write-Host "  Skipped: $totalSkipped" -ForegroundColor Yellow }
-if ($anyCrashed) { Write-Host "  CRASHES: yes" -ForegroundColor Red }
+if ($anyCrashed) { Write-Host "  CRASHES: yes (partial results included)" -ForegroundColor Red }
 if ($totalTests -lt $MIN_TOTAL_TESTS) { Write-Host "  WARNING: Only $totalTests tests (expected >$MIN_TOTAL_TESTS)" -ForegroundColor Red }
 Write-Host "  Time:    $($elapsed.ToString('mm\:ss'))"
 Write-Host "=============================" -ForegroundColor Cyan
