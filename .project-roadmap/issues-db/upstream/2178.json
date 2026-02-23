@@ -12,7 +12,7 @@
   "created_at": "2022-02-25T11:30:28Z",
   "github_updated_at": "2026-02-21T10:23:20Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\ni have over 100 connections and search option is the only way can i locate the conneciton quickly.\r\nhowever, i must name every single one of them to be searchable (include all the keywords that I can search in the connection name)\r\n\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nI want have a way to searc...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,18 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The current connection tree search functionality does not include child connections when their parent folder matches the search criteria, leading to an incomplete display of search results."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-23",
+      "type": "testing",
+      "description": "Fix in 5829cd7d",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 13845,
+        "cost_usd": 1.250268,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -41,5 +53,10 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The current connection tree search functionality does not include child connections when their parent folder matches the search criteria, leading to an incomplete display of search results.\nApproach: Refactor `ConnectionTreeSearchTextFilter` to pre-calculate a set of all `ConnectionInfo` objects that should be visible based on the filter text. This set will include: 1) objects directly matching the filter criteria; 2) all descendants of a matching `ContainerInfo`; and 3) all ancestors of any matching `ConnectionInfo` or `ContainerInfo`. The `Filter` method will then simply check for presence in this pre-calculated set."
+  "notes": "AI triage (gemini): The current connection tree search functionality does not include child connections when their parent folder matches the search criteria, leading to an incomplete display of search results.\nApproach: Refactor `ConnectionTreeSearchTextFilter` to pre-calculate a set of all `ConnectionInfo` objects that should be visible based on the filter text. This set will include: 1) objects directly matching the filter criteria; 2) all descendants of a matching `ContainerInfo`; and 3) all ancestors of any matching `ConnectionInfo` or `ContainerInfo`. The `Filter` method will then simply check for presence in this pre-calculated set.",
+  "token_usage": {
+    "input_tokens": 27,
+    "output_tokens": 13845,
+    "cost_usd": 1.250268
+  }
 }
