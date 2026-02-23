@@ -21,8 +21,12 @@ namespace mRemoteNG.Config.DataProviders
             DatabaseConnector.AssociateItemToThisConnector(dbQuery);
             if (!DatabaseConnector.IsConnected)
                 OpenConnection();
-            using System.Data.Common.DbDataReader dbDataReader = dbQuery.ExecuteReader(CommandBehavior.CloseConnection);
+            using System.Data.Common.DbDataReader dbDataReader = dbQuery.ExecuteReader();
             // Always load the reader so table schema is available even when tblCons has 0 rows.
+            // Note: CommandBehavior.CloseConnection must NOT be used here because Load() is
+            // called inside an open transaction (SqlConnectionsSaver.Save). Closing the
+            // connection mid-transaction rolls back the transaction in MySQL, causing all
+            // subsequent INSERT/UPDATE operations to fail with a stale transaction (#2290).
             dataTable.Load(dbDataReader);
             return dataTable;
         }

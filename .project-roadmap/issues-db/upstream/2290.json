@@ -12,12 +12,19 @@
   "created_at": "2022-09-21T09:20:33Z",
   "github_updated_at": "2026-02-21T10:23:52Z",
   "body_snippet": "Hi,\r\n\r\nI used mysql to store mremote configuration file. Every thing work fine since a few months\r\n\r\nI just notice that since a few days it is impossible for me to create new items. for exemple i want to duplicate and entry and i get this error message \"cannot save connection file as \"\"! the data key was missing from the dictionary\"\r\n\r\nchanges are not backup in mysql database\r\n\r\nIn preferences menu, when i chek my mysql connexion every thing is OK\r\n\r\nMy mremote version 1.77.2.4127\r\nMy Mysql vers...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "in-progress",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "New item creation is impossible for MySQL database users, indicating a critical bug in database interaction."
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5KtfbV",
@@ -151,5 +158,5 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (gemini): New item creation is impossible for MySQL database users, indicating a critical bug in database interaction.\nApproach: Investigate `MySqlDatabaseConnector.cs` and its usage in connection creation and saving workflows to identify and fix the underlying issue preventing new item creation in MySQL databases."
 }
