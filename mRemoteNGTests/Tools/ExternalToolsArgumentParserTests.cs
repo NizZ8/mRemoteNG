@@ -51,7 +51,15 @@ namespace mRemoteNGTests.Tools
                 UserField10 = TestString + "10",
                 EnvironmentTags = TestString,
                 SSHOptions = TestString,
-                PuttySession = TestString
+                PuttySession = TestString,
+                IPAddress = TestString,
+                LoadBalanceInfo = TestString,
+                PrivateKeyPath = TestString,
+                RDPStartProgram = TestString,
+                RDPStartProgramWorkDir = TestString,
+                Notes = TestString,
+                Panel = TestString,
+                OpeningCommand = TestString
             };
             var externalTool = new ExternalTool
             {
@@ -172,6 +180,38 @@ namespace mRemoteNGTests.Tools
                     yield return new TestCaseData("%-PASSPHRASE%").Returns(StringAfterMetacharacterEscaping);
                     yield return new TestCaseData("%!PASSPHRASE%").Returns(StringAfterNoEscaping);
                     yield return new TestCaseData("%+PASSPHRASE%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%IPADDRESS%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-IPADDRESS%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!IPADDRESS%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+IPADDRESS%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%LOADBALANCEINFO%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-LOADBALANCEINFO%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!LOADBALANCEINFO%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+LOADBALANCEINFO%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%PRIVATEKEYPATH%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-PRIVATEKEYPATH%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!PRIVATEKEYPATH%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+PRIVATEKEYPATH%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%RDPSTARTPROGRAM%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-RDPSTARTPROGRAM%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!RDPSTARTPROGRAM%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+RDPSTARTPROGRAM%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%RDPSTARTPROGRAMWORKDIR%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-RDPSTARTPROGRAMWORKDIR%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!RDPSTARTPROGRAMWORKDIR%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+RDPSTARTPROGRAMWORKDIR%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%NOTES%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-NOTES%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!NOTES%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+NOTES%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%PANEL%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-PANEL%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!PANEL%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+PANEL%").Returns(StringAfterUrlEncoding);
+                    yield return new TestCaseData("%OPENINGCOMMAND%").Returns(StringAfterAllEscaping);
+                    yield return new TestCaseData("%-OPENINGCOMMAND%").Returns(StringAfterMetacharacterEscaping);
+                    yield return new TestCaseData("%!OPENINGCOMMAND%").Returns(StringAfterNoEscaping);
+                    yield return new TestCaseData("%+OPENINGCOMMAND%").Returns(StringAfterUrlEncoding);
                     yield return new TestCaseData("%%") {TestName = "EmptyVariableTagsNotParsed" }.Returns("%%");
                     yield return new TestCaseData("/k echo %!USERNAME%") { TestName = "ParsingWorksWhenVariableIsNotInFirstPosition" }.Returns(SampleCommandString);
                     yield return new TestCaseData("%COMSPEC%") { TestName = "EnvironmentVariablesParsed" }.Returns(Environment.GetEnvironmentVariable("comspec"));

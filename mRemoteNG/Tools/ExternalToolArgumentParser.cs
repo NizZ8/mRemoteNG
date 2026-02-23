@@ -290,6 +290,30 @@ namespace mRemoteNG.Tools
                 case "passphrase":
                     replacement = _externalTool?.Passphrase ?? string.Empty;
                     break;
+                case "ipaddress":
+                    replacement = _connectionInfo.IPAddress;
+                    break;
+                case "loadbalanceinfo":
+                    replacement = _connectionInfo.LoadBalanceInfo;
+                    break;
+                case "privatekeypath":
+                    replacement = _connectionInfo.PrivateKeyPath;
+                    break;
+                case "rdpstartprogram":
+                    replacement = _connectionInfo.RDPStartProgram;
+                    break;
+                case "rdpstartprogramworkdir":
+                    replacement = _connectionInfo.RDPStartProgramWorkDir;
+                    break;
+                case "notes":
+                    replacement = _connectionInfo.Notes;
+                    break;
+                case "panel":
+                    replacement = _connectionInfo.Panel;
+                    break;
+                case "openingcommand":
+                    replacement = _connectionInfo.OpeningCommand;
+                    break;
                 default:
                     return original;
             }

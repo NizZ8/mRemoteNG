@@ -479,6 +479,14 @@ namespace mRemoteNG.UI.Window
             AddVariableMenuItem(variablesMenu, "AuthPassword");
             AddVariableMenuItem(variablesMenu, "PrivateKeyFile");
             AddVariableMenuItem(variablesMenu, "Passphrase");
+            AddVariableMenuItem(variablesMenu, "IPAddress");
+            AddVariableMenuItem(variablesMenu, "LoadBalanceInfo");
+            AddVariableMenuItem(variablesMenu, "PrivateKeyPath");
+            AddVariableMenuItem(variablesMenu, "RDPStartProgram");
+            AddVariableMenuItem(variablesMenu, "RDPStartProgramWorkDir");
+            AddVariableMenuItem(variablesMenu, "Notes");
+            AddVariableMenuItem(variablesMenu, "Panel");
+            AddVariableMenuItem(variablesMenu, "OpeningCommand");
 
             variablesMenu.Show(VariablesButton, new System.Drawing.Point(0, VariablesButton.Height));
         }
