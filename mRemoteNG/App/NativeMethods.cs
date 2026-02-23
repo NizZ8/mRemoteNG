@@ -169,6 +169,12 @@ namespace mRemoteNG.App
         [DllImport("user32.dll")]
         internal static extern int MapVirtualKey(int uCode, int uMapType);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern IntPtr GetKeyboardLayout(uint idThread);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern IntPtr ActivateKeyboardLayout(IntPtr hkl, uint Flags);
+
         #endregion
 
         #region Structures

@@ -1,13 +1,1 @@
-{
-  "decision": "implement",
-  "reason": "Adds support for connecting via bastion services to cloud instances, enhancing connectivity options for RDP.",
-  "priority": "P3-enhancement",
-  "estimated_files": [
-    "mRemoteNG/Connection/ConnectionInfo.cs",
-    "mRemoteNG/Connection/Protocol/RDP/RdpProtocol.cs",
-    "mRemoteNG/Connection/Protocol/ProtocolFactory.cs",
-    "mRemoteNG/UI/Forms/FrmConnectWithOptions.cs",
-    "mRemoteNG/Config/Connections/XmlConnectionNodeSerializer28.cs"
-  ],
-  "approach": "Extend ConnectionInfo with bastion host details. Implement bastion connection logic within a new or existing RDP protocol handler. Update FrmConnectWithOptions.cs for UI configuration. Update XmlConnectionNodeSerializer28.cs for persistence."
-}
+{"decision":"implement","reason":"The Windows language bar indicator (keyboard indicator) is not restored after an RDP session disconnects because the `RestoreLocalKeyboardLayout()` method is missing from the `RDPEvent_OnDisconnected` handler.","priority":"P2-bug","estimated_files":["mRemoteNG\\Connection\\Protocol\\RDP\\RdpProtocol.cs","mRemoteNGTests\\Connection\\Protocol\\RDP\\RdpProtocolTests.cs"],"approach":"Add a call to `RestoreLocalKeyboardLayout()` in `RdpProtocol.RDPEvent_OnDisconnected` before the `Close()` call. Then, create a new unit test file (`mRemoteNGTests\\Connection\\Protocol\\RDP\\RdpProtocolTests.cs`) to verify that `RestoreLocalKeyboardLayout()` is invoked upon RDP session disconnection."}

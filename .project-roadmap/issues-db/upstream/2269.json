@@ -10,12 +10,25 @@
   "created_at": "2022-08-02T09:59:05Z",
   "github_updated_at": "2026-02-21T10:22:45Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nWhen i switch between RDP and usual window - keyboard indicator hide or switch - it's normal.\r\n\r\n## Current Behavior\r\nWhen i close RDP connection - keyboard indicator don't show again.\r\nIf i shutdown remote rdp - indicator came back working.\r\nIf just close tab - it's not shown again.\r\n\r\n## Possible Solution\r\nNow i'm going to control panel and switch some settings for indicators to show it back.\r\n(switch ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-23",
+      "type": "triaged",
+      "description": "RDP ActiveX control suppresses the Windows keyboard/language indicator during a session and does not restore it on disconnect, leaving the taskbar language bar hidden after closing.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 676,
+        "cost_usd": 0.128589,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5Hq5P6",
@@ -59,5 +72,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): RDP ActiveX control suppresses the Windows keyboard/language indicator during a session and does not restore it on disconnect, leaving the taskbar language bar hidden after closing.\nApproach: In the RDP disconnect/closed event handler, post WM_INPUTLANGCHANGEREQUEST or call ActivateKeyboardLayout(GetKeyboardLayout(0), KLF_SETFORPROCESS) via P/Invoke to force Windows to refresh the language bar indicator after the RDP control releases keyboard focus.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 676,
+    "cost_usd": 0.128589
+  }
 }

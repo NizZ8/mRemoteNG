@@ -1537,6 +1537,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
         private void RDPEvent_OnIdleTimeoutNotification()
         {
+            RestoreLocalKeyboardLayout();
             Close(); //Simply close the RDP Session if the idle timeout has been triggered.
 
             if (!_alertOnIdleDisconnect) return;
@@ -1606,6 +1607,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             else
             {
+                RestoreLocalKeyboardLayout();
                 Close();
             }
         }
@@ -1798,6 +1800,21 @@ namespace mRemoteNG.Connection.Protocol.RDP
         private void RdpClient_GotFocus(object sender, EventArgs e)
         {
             (Control?.Parent?.Parent as ConnectionTab)?.Focus();
+        }
+
+        private static void RestoreLocalKeyboardLayout()
+        {
+            // Refresh the Windows language bar indicator after RDP session ends (#2269).
+            // The RDP ActiveX control intercepts keyboard input and suppresses the language
+            // bar during a session. On disconnect, re-activating the current local layout
+            // forces Windows to update the indicator in the taskbar.
+            try
+            {
+                IntPtr hkl = NativeMethods.GetKeyboardLayout(0);
+                if (hkl != IntPtr.Zero)
+                    NativeMethods.ActivateKeyboardLayout(hkl, 0);
+            }
+            catch { }
         }
 
         private void CleanupResources()
