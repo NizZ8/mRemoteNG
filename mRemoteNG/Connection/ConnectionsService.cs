@@ -78,6 +78,33 @@ namespace mRemoteNG.Connection
                     return null;
                 }
 
+                // Extract RDP-specific flags before parsing host/port.
+                // Supported flags: -ra[:true|false]  (UseRestrictedAdmin)
+                //                  -rcg[:true|false] (UseRemoteCredentialGuard)
+                // Example: "myserver -ra:false -rcg:false"
+                bool? rdpRestrictedAdminOverride = null;
+                bool? rdpRcgOverride = null;
+
+                if (connectionString.Contains(' '))
+                {
+                    string[] parts = connectionString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    connectionString = parts[0];
+
+                    foreach (string part in parts.Skip(1))
+                    {
+                        if (part.Equals("-ra", StringComparison.OrdinalIgnoreCase) ||
+                            part.Equals("-ra:true", StringComparison.OrdinalIgnoreCase))
+                            rdpRestrictedAdminOverride = true;
+                        else if (part.Equals("-ra:false", StringComparison.OrdinalIgnoreCase))
+                            rdpRestrictedAdminOverride = false;
+                        else if (part.Equals("-rcg", StringComparison.OrdinalIgnoreCase) ||
+                                 part.Equals("-rcg:true", StringComparison.OrdinalIgnoreCase))
+                            rdpRcgOverride = true;
+                        else if (part.Equals("-rcg:false", StringComparison.OrdinalIgnoreCase))
+                            rdpRcgOverride = false;
+                    }
+                }
+
                 UriBuilder uriBuilder = new()
                 {
                     Scheme = "dummyscheme"
@@ -132,6 +159,15 @@ namespace mRemoteNG.Connection
                 }
 
                 newConnectionInfo.IsQuickConnect = true;
+
+                // Apply RDP-specific flag overrides (only meaningful for RDP protocol)
+                if (protocol == ProtocolType.RDP)
+                {
+                    if (rdpRestrictedAdminOverride.HasValue)
+                        newConnectionInfo.UseRestrictedAdmin = rdpRestrictedAdminOverride.Value;
+                    if (rdpRcgOverride.HasValue)
+                        newConnectionInfo.UseRCG = rdpRcgOverride.Value;
+                }
 
                 return newConnectionInfo;
             }

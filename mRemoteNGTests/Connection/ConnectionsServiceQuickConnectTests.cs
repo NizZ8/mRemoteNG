@@ -93,4 +93,96 @@ public class ConnectionsServiceQuickConnectTests
 
         Assert.That(quickConnect, Is.Null);
     }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagDisablesRestrictedAdmin()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:false", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(quickConnect!.Hostname, Is.EqualTo("myserver"));
+            Assert.That(quickConnect.UseRestrictedAdmin, Is.False);
+        });
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagEnablesRestrictedAdmin()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.That(quickConnect!.UseRestrictedAdmin, Is.True);
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagDisablesRCG()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -rcg:false", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(quickConnect!.Hostname, Is.EqualTo("myserver"));
+            Assert.That(quickConnect.UseRCG, Is.False);
+        });
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagsBothDisabled()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:false -rcg:false", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(quickConnect!.Hostname, Is.EqualTo("myserver"));
+            Assert.That(quickConnect.UseRestrictedAdmin, Is.False);
+            Assert.That(quickConnect.UseRCG, Is.False);
+        });
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagsIgnoredForNonRdpProtocol()
+    {
+        // Default UseRestrictedAdmin is false; pass -ra:true — if correctly ignored for SSH2, result stays false
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.SSH2);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(quickConnect!.Hostname, Is.EqualTo("myserver"));
+            // Flag is ignored for non-RDP; UseRestrictedAdmin keeps the default value (false)
+            Assert.That(quickConnect.UseRestrictedAdmin, Is.False);
+        });
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpFlagsWithUsernameAndPort()
+    {
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("admin@myserver:3389 -ra:false -rcg:false", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(quickConnect!.Hostname, Is.EqualTo("myserver"));
+            Assert.That(quickConnect.Port, Is.EqualTo(3389));
+            Assert.That(quickConnect.Username, Is.EqualTo("admin"));
+            Assert.That(quickConnect.UseRestrictedAdmin, Is.False);
+            Assert.That(quickConnect.UseRCG, Is.False);
+        });
+    }
 }
