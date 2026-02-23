@@ -49,22 +49,14 @@ function Ensure-TestEnvironment {
 }
 
 function Run-DotnetTest($dll, $filter) {
-    # Run via cmd.exe batch file to bypass PowerShell pipeline back-pressure.
-    # PowerShell pipeline (even Select-Object -Last) causes testhost crashes in larger groups.
+    # Each call gets a unique results directory to avoid blame data conflicts
     $uid = [guid]::NewGuid().ToString("N").Substring(0,8)
     $resultsDir = "$resultsBase-$uid"
-    $outFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "mrt-out-$uid.txt")
-    $batFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "mrt-run-$uid.cmd")
-    $cmd = "dotnet test `"$dll`" --results-directory `"$resultsDir`" --verbosity normal"
-    if ($filter) { $cmd += " --filter `"$filter`"" }
-    [System.IO.File]::WriteAllText($batFile, "@echo off`r`n$cmd", [System.Text.Encoding]::ASCII)
-    & cmd /c "`"$batFile`" > `"$outFile`" 2>&1"
-    $result = ""
-    if (Test-Path $outFile) { $result = [System.IO.File]::ReadAllText($outFile) }
-    Remove-Item $batFile -Force -ErrorAction SilentlyContinue
-    Remove-Item $outFile -Force -ErrorAction SilentlyContinue
+    $testArgs = @("test", $dll, "--results-directory", $resultsDir, "--verbosity", "normal")
+    if ($filter) { $testArgs += @("--filter", $filter) }
+    $lines = & dotnet @testArgs 2>&1 | Select-Object -Last 30
     Remove-Item $resultsDir -Recurse -Force -ErrorAction SilentlyContinue
-    return $result
+    return ($lines -join "`n")
 }
 
 function Parse-TestOutput($out) {
@@ -106,6 +98,7 @@ Write-Host "`n[Phase 1] Running $($groups.Count) test groups sequentially..." -F
 foreach ($g in $groups) {
     Write-Host "  [$($g.Name)] " -NoNewline
     Ensure-TestEnvironment
+    [GC]::Collect(); [GC]::WaitForPendingFinalizers()
     $out = Run-DotnetTest $testDll $g.Filter
     $r = Parse-TestOutput $out
     if ($r.Crashed) {
