@@ -10,7 +10,7 @@
   ],
   "author": "sssergy",
   "created_at": "2026-02-22T14:42:56Z",
-  "github_updated_at": "2026-02-22T16:28:29Z",
+  "github_updated_at": "2026-02-23T11:16:17Z",
   "body_snippet": "Последняя версия\nmRemoteNG-20260222-v1.78.2-NB-3405-x64\n\nЭкран белый, ничего не видно.\n\n<img width=\"1128\" height=\"618\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/9503ef03-f885-47cb-89b0-878907b94b15\" />\n\nПри кликах на места кнопок появляется меню.",
   "our_status": "new",
   "priority": null,
@@ -27,12 +27,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rFwwO",
+      "author": "sssergy",
+      "date": "2026-02-23T11:16:17Z",
+      "snippet": "> Интнресненько, а уточните какой у вас виндовс?\n\nВыпуск\tWindows 10 Pro\nВерсия\t22H2\nДата установки\t‎07.‎07.‎2025\nСборка ОС\t19045.6456\nИмя устройства\tHOME-PC\nПроцессор\tAMD Ryzen 3 2200U with Radeon Vega Mobile Gfx     2.50 GHz\nОперативная память\t16,0 ГБ (доступно: 14,9 ГБ)\nПамять\t233 GB SSD Samsung SSD 860 EVO M.2 250GB, 466 GB SSD Samsung SSD 870 EVO 500GB\nВидеоадаптер\tAMD Radeon(TM) Vega 3 Mobile Graphics (1009 MB)\nКод устройства\t5875A0F1-93CC-4249-8301-535CC7D7255A\nКод продукта\t00330-80000-000...",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-22T16:28:29Z",
-  "unread_comments": 1,
+  "comments_cursor": "2026-02-23T11:16:17Z",
+  "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-22T16:36:27Z",
+  "last_synced": "2026-02-23T11:49:05Z",
   "notes": ""
 }

@@ -66,7 +66,21 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 };
             }
         }
-        protected uint DeviceScaleFactor => (uint)(ResolutionScalingFactor.Width * 100);
+        protected uint DeviceScaleFactor
+        {
+            get
+            {
+                uint raw = (uint)(ResolutionScalingFactor.Width * 100);
+                // DeviceScaleFactor only accepts 100, 140, or 180 per the RDP specification
+                // (devicescalefactor:i in .rdp files / IMsRdpExtendedSettings).
+                // Values outside this set (e.g. 200 at 200% DPI) are silently rejected by the
+                // COM control, breaking cursor scaling on high-DPI displays (#2222).
+                // Round to the nearest valid value, matching MSTSC.exe behavior.
+                if (raw <= 120) return 100;
+                if (raw <= 160) return 140;
+                return 180;
+            }
+        }
         protected readonly uint Orientation = 0;
         private AxHost AxHost => (AxHost)Control!;
 
