@@ -2114,7 +2114,10 @@ RULES (CRITICAL):
 - Do NOT skip Step 1. Do NOT start editing before you have a plan.
 - Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
 - Do NOT run git commit, git add, git push, or ANY git operations. The orchestrator handles all commits.
-- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY."""
+- NEVER modify these infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*. They are READ-ONLY.
+- NEVER modify or read files in .project-roadmap/ — no JSON issue files, no scripts, no orchestrator files. You are a CODE FIXER, not a project manager.
+- Do NOT run iis_orchestrator.py, sync, analyze, or any IIS commands. Focus ONLY on source code (.cs, .config, .resx, .csproj).
+- ONLY modify files under mRemoteNG/, mRemoteNGTests/, or mRemoteNGSpecs/ directories."""
 
     ctx = ChainContext("implement", str(num))
     issue_key = f"impl_{num}"
@@ -2250,6 +2253,9 @@ RULES (CRITICAL):
 - Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
 - Do NOT run git commit, git add, git push, or ANY git operations.
 - NEVER modify infrastructure files (run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props).
+- NEVER modify or read files in .project-roadmap/ — no JSON issue files, no scripts, no orchestrator files.
+- Do NOT run iis_orchestrator.py, sync, analyze, or any IIS commands. Focus ONLY on source code.
+- ONLY modify files under mRemoteNG/, mRemoteNGTests/, or mRemoteNGSpecs/ directories.
 Do ONLY the fix. Nothing else."""
 
         timeout = _estimate_timeout(agent, "implement", issue_key=issue_key,
@@ -2862,7 +2868,9 @@ RULES:
 5. Test: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\run-tests.ps1" -NoBuild
 6. Do NOT run git operations (no git add, commit, push)
 7. Do NOT create new test files — only modify existing tests or code
-8. NEVER modify infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props"""
+8. NEVER modify infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props
+9. NEVER modify or read files in .project-roadmap/ — no JSON files, no scripts, no orchestrator files
+10. ONLY modify files under mRemoteNG/, mRemoteNGTests/, or mRemoteNGSpecs/ directories"""
 
         status.set_task(type="test_hygiene", step=f"fix_{group['description']}_{attempt}")
         timeout = 600  # 10 min per hygiene fix attempt
