@@ -1306,12 +1306,22 @@ namespace mRemoteNG.Connection.Protocol.RDP
         {
             try
             {
-                SetDriveRedirection();
+                // Clipboard must be set independently of drive redirection so that a drive
+                // redirection failure (#1824) cannot silently prevent clipboard from working.
+                _rdpClient.AdvancedSettings6.RedirectClipboard = connectionInfo.RedirectClipboard;
                 _rdpClient.AdvancedSettings2.RedirectPorts = connectionInfo.RedirectPorts;
                 _rdpClient.AdvancedSettings2.RedirectPrinters = connectionInfo.RedirectPrinters;
                 _rdpClient.AdvancedSettings2.RedirectSmartCards = connectionInfo.RedirectSmartCards;
                 _rdpClient.SecuredSettings2.AudioRedirectionMode = (int)connectionInfo.RedirectSound;
-                _rdpClient.AdvancedSettings6.RedirectClipboard = connectionInfo.RedirectClipboard;
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace(Language.RdpSetRedirectionFailed, ex);
+            }
+
+            try
+            {
+                SetDriveRedirection();
             }
             catch (Exception ex)
             {

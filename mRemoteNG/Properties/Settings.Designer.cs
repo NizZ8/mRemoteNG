@@ -193,7 +193,7 @@ namespace mRemoteNG.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Local")]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
         public string ConDefaultRedirectDiskDrives {
             get {
                 return ((string)(this["ConDefaultRedirectDiskDrives"]));
