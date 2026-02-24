@@ -854,7 +854,7 @@ def _parse_failed_tests(test_output):
         failed.append({"name": m.group(1), "error": ""})
     # Pattern 2: "  X <TestName> [<time>]" with error on next line(s)
     for m in re.finditer(
-        r"^\s*X\s+([\w.]+)\s*\[.*?\]\s*\n((?:\s+.*\n)*?)\s*(?=\s*[X✓]|\Z)",
+        r"^\s*X\s+([\w.]+)\s*\[.*?\]\s*\n((?:[ \t]+[^\n]*\n)*)",
         test_output, re.MULTILINE
     ):
         failed.append({"name": m.group(1), "error": m.group(2).strip()[:500]})

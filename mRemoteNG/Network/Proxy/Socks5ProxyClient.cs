@@ -46,9 +46,11 @@ namespace mRemoteNG.Network.Proxy
 
         private void SendGreeting(NetworkStream stream)
         {
+            // Only offer username/password auth (0x02) when credentials are configured.
+            // Offering both 0x00 and 0x02 would let a compromised proxy downgrade to no-auth.
             byte[] methods = string.IsNullOrEmpty(_username)
                 ? new byte[] { 0x00 }
-                : new byte[] { 0x00, 0x02 };
+                : new byte[] { 0x02 };
 
             byte[] greeting = new byte[2 + methods.Length];
             greeting[0] = 0x05;
@@ -69,6 +71,10 @@ namespace mRemoteNG.Network.Proxy
             switch (methodSelection[1])
             {
                 case 0x00:
+                    if (!string.IsNullOrEmpty(_username))
+                        throw new IOException(
+                            "SOCKS5 proxy selected no-authentication but credentials were provided. " +
+                            "This may indicate a downgrade attack.");
                     return;
                 case 0x02:
                     AuthenticateWithUsernamePassword(stream);
