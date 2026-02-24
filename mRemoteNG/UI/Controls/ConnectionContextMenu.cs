@@ -53,6 +53,8 @@ namespace mRemoteNG.UI.Controls
         private ToolStripMenuItem _cMenTreeToolsSort = null!;
         private ToolStripMenuItem _cMenTreeToolsSortAscending = null!;
         private ToolStripMenuItem _cMenTreeToolsSortDescending = null!;
+        private ToolStripMenuItem _cMenTreeToolsSortByTagAscending = null!;
+        private ToolStripMenuItem _cMenTreeToolsSortByTagDescending = null!;
         private ToolStripSeparator _cMenTreeSep3 = null!;
         private ToolStripMenuItem _cMenTreeRename = null!;
         private ToolStripMenuItem _cMenTreeDelete = null!;
@@ -166,6 +168,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeToolsSort = new ToolStripMenuItem();
             _cMenTreeToolsSortAscending = new ToolStripMenuItem();
             _cMenTreeToolsSortDescending = new ToolStripMenuItem();
+            _cMenTreeToolsSortByTagAscending = new ToolStripMenuItem();
+            _cMenTreeToolsSortByTagDescending = new ToolStripMenuItem();
             _cMenTreeMoveUp = new ToolStripMenuItem();
             _cMenTreeMoveDown = new ToolStripMenuItem();
             _cMenTreeSep5 = new ToolStripSeparator();
@@ -583,7 +587,9 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeToolsSort.DropDownItems.AddRange(new ToolStripItem[]
             {
                 _cMenTreeToolsSortAscending,
-                _cMenTreeToolsSortDescending
+                _cMenTreeToolsSortDescending,
+                _cMenTreeToolsSortByTagAscending,
+                _cMenTreeToolsSortByTagDescending
             });
             _cMenTreeToolsSort.Name = "_cMenTreeToolsSort";
             _cMenTreeToolsSort.Size = new System.Drawing.Size(199, 22);
@@ -604,6 +610,22 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeToolsSortDescending.Size = new System.Drawing.Size(161, 22);
             _cMenTreeToolsSortDescending.Text = "Descending (Z-A)";
             _cMenTreeToolsSortDescending.Click += OnSortDescendingClicked;
+            //
+            // cMenTreeToolsSortByTagAscending
+            //
+            _cMenTreeToolsSortByTagAscending.Image = Properties.Resources.SortAscending_16x;
+            _cMenTreeToolsSortByTagAscending.Name = "_cMenTreeToolsSortByTagAscending";
+            _cMenTreeToolsSortByTagAscending.Size = new System.Drawing.Size(161, 22);
+            _cMenTreeToolsSortByTagAscending.Text = "By Tag (A-Z)";
+            _cMenTreeToolsSortByTagAscending.Click += OnSortByTagAscendingClicked;
+            //
+            // cMenTreeToolsSortByTagDescending
+            //
+            _cMenTreeToolsSortByTagDescending.Image = Properties.Resources.SortDescending_16x;
+            _cMenTreeToolsSortByTagDescending.Name = "_cMenTreeToolsSortByTagDescending";
+            _cMenTreeToolsSortByTagDescending.Size = new System.Drawing.Size(161, 22);
+            _cMenTreeToolsSortByTagDescending.Text = "By Tag (Z-A)";
+            _cMenTreeToolsSortByTagDescending.Click += OnSortByTagDescendingClicked;
             //
             // cMenTreeMoveUp
             //
@@ -1477,6 +1499,16 @@ namespace mRemoteNG.UI.Controls
         private void OnSortDescendingClicked(object sender, EventArgs e)
         {
             _connectionTree.SortSelectedNodesRecursive(ListSortDirection.Descending);
+        }
+
+        private void OnSortByTagAscendingClicked(object sender, EventArgs e)
+        {
+            _connectionTree.SortSelectedNodesByTagRecursive(ListSortDirection.Ascending);
+        }
+
+        private void OnSortByTagDescendingClicked(object sender, EventArgs e)
+        {
+            _connectionTree.SortSelectedNodesByTagRecursive(ListSortDirection.Descending);
         }
 
         private void OnMoveUpClicked(object sender, EventArgs e)

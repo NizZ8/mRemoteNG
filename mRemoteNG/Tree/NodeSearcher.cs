@@ -24,7 +24,8 @@ namespace mRemoteNG.Tree
             {
                 if (node.Name.ToLowerInvariant().Contains(searchTextLower) ||
                     node.Description.ToLowerInvariant().Contains(searchTextLower) ||
-                    node.Hostname.ToLowerInvariant().Contains(searchTextLower))
+                    node.Hostname.ToLowerInvariant().Contains(searchTextLower) ||
+                    (node.EnvironmentTags ?? "").ToLowerInvariant().Contains(searchTextLower))
                     Matches.Add(node);
             }
 

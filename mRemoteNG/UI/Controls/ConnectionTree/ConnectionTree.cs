@@ -579,6 +579,32 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             });
         }
 
+        public void SortSelectedNodesByTagRecursive(ListSortDirection sortDirection)
+        {
+            if (IsReadOnly) return;
+            List<ContainerInfo> sortTargets = GetSelectedNodes()
+                .Select(selectedNode => selectedNode as ContainerInfo ?? selectedNode.Parent)
+                .Where(sortTarget => sortTarget != null)
+                .Distinct()
+                .Cast<ContainerInfo>()
+                .ToList();
+
+            if (sortTargets.Count == 0)
+            {
+                if (GetRootConnectionNode() is ContainerInfo root)
+                    ExecuteInBatchedSaveContext(() => root.SortOnRecursive(ci => ci.EnvironmentTags ?? "", sortDirection));
+                return;
+            }
+
+            ExecuteInBatchedSaveContext(() =>
+            {
+                foreach (ContainerInfo sortTarget in sortTargets)
+                {
+                    sortTarget.SortOnRecursive(ci => ci.EnvironmentTags ?? "", sortDirection);
+                }
+            });
+        }
+
         public void MoveSelectedNodesUp()
         {
             if (IsReadOnly) return;
@@ -789,7 +815,18 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                 }
 
                 ConnectionInfo nodeProducingTooltip = (ConnectionInfo)e.Model;
-                e.Text = nodeProducingTooltip.Description;
+                string description = nodeProducingTooltip.Description;
+                string tags = nodeProducingTooltip.EnvironmentTags ?? "";
+                if (!string.IsNullOrWhiteSpace(tags))
+                {
+                    e.Text = string.IsNullOrWhiteSpace(description)
+                        ? $"Tags: {tags}"
+                        : $"{description}\nTags: {tags}";
+                }
+                else
+                {
+                    e.Text = description;
+                }
             }
             catch (Exception ex)
             {
