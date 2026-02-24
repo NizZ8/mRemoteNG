@@ -2284,6 +2284,9 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="StartMinimized" xml:space="preserve">
     <value>Start minimized</value>
   </data>
+  <data name="StartWithWindows" xml:space="preserve">
+    <value>Start automatically with Windows</value>
+  </data>
   <data name="PropertyDescriptionPasswordProtect" xml:space="preserve">
     <value>Set a password needed to encrypt the connection file with. You will be prompted to enter your passcode before starting mRemoteNG.</value>
   </data>

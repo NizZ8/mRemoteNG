@@ -6629,7 +6629,16 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("StartMinimized", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start automatically with Windows.
+        /// </summary>
+        internal static string StartWithWindows {
+            get {
+                return ResourceManager.GetString("StartWithWindows", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Startup/Exit.
         /// </summary>
