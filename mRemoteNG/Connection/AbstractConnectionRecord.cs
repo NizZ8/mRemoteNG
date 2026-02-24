@@ -137,6 +137,8 @@ namespace mRemoteNG.Connection
         private string _rdpSignature = string.Empty;
         private bool _favorite = default;
         private bool _retryOnFirstConnect = default;
+        private bool _waitForIPAvailability = default;
+        private int _waitForIPTimeout = 60;
         private bool _alwaysPromptForCredentials = default;
         private bool _isTemplate = default;
 
@@ -1317,6 +1319,27 @@ namespace mRemoteNG.Connection
         {
             get => GetPropertyValue("RetryOnFirstConnect", _retryOnFirstConnect);
             set => SetField(ref _retryOnFirstConnect, value, "RetryOnFirstConnect");
+        }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Miscellaneous), 7),
+         DisplayName("Wait For IP Availability"),
+         Description("If enabled, mRemoteNG will poll the host:port before connecting, waiting until it becomes reachable."),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter)),
+         AttributeUsedInAllProtocolsExcept()]
+        public bool WaitForIPAvailability
+        {
+            get => GetPropertyValue("WaitForIPAvailability", _waitForIPAvailability);
+            set => SetField(ref _waitForIPAvailability, value, "WaitForIPAvailability");
+        }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Miscellaneous), 7),
+         DisplayName("Wait For IP Timeout"),
+         Description("Timeout in seconds when waiting for a host to become reachable (default: 60)."),
+         AttributeUsedInAllProtocolsExcept()]
+        public int WaitForIPTimeout
+        {
+            get => GetPropertyValue("WaitForIPTimeout", _waitForIPTimeout);
+            set => SetField(ref _waitForIPTimeout, value, "WaitForIPTimeout");
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Connection), 2),
