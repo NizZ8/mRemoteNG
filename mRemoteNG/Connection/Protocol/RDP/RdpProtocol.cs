@@ -1642,6 +1642,11 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             catch { }
 
+            // Release any modifier keys (Ctrl/Alt/Shift) that may have been left stuck
+            // by the previous session. AltGr = Left-Ctrl + Right-Alt, so a stuck Ctrl
+            // from the disconnected session prevents AltGr from working after reconnect (#1461).
+            ReleaseLocalModifierKeys();
+
             Event_Connected(this);
         }
 
