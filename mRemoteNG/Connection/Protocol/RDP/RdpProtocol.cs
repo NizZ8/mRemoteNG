@@ -1701,6 +1701,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 {
                     try
                     {
+                        bool fixApplied = false;
                         for (int i = 0; i < 10; i++) // Try for ~1 second
                         {
                             await System.Threading.Tasks.Task.Delay(100);
@@ -1748,8 +1749,16 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                     NativeMethods.SetWindowPos(hwnd, IntPtr.Zero,
                                         screenBounds.X, screenBounds.Y, screenBounds.Width, screenBounds.Height,
                                         NativeMethods.SWP_NOZORDER | NativeMethods.SWP_FRAMECHANGED | NativeMethods.SWP_NOACTIVATE);
+
+                                    // Fix #1873: stop retrying once the window is found and positioned.
+                                    // Without this break the loop kept invoking SetWindowPos 10 times,
+                                    // flooding the UI thread and causing a ~1 s freeze on every
+                                    // fullscreen transition.
+                                    fixApplied = true;
                                 }
                             });
+
+                            if (fixApplied) break;
                         }
                     }
                     catch (Exception ex)
