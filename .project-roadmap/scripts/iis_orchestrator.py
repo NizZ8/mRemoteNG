@@ -681,6 +681,36 @@ _AGENT_FORBIDDEN_FILES = {
     ".github/workflows/Build_mR-NB.yml",
 }
 
+# ── PRE-AGENT DIRTY SNAPSHOT ─────────────────────────────────────────────
+# Set of files that were already modified BEFORE the current agent started.
+# GUARD and git_restore skip these files — they belong to the human/orchestrator,
+# not to the agent.  Updated by snapshot_pre_agent_dirty() before each agent call.
+_pre_agent_dirty: set[str] = set()
+# Also track untracked files so git_clean doesn't delete them
+_pre_agent_untracked: set[str] = set()
+
+
+def snapshot_pre_agent_dirty():
+    """Capture all modified + untracked files BEFORE launching an agent.
+    GUARD and git_restore will skip these files (they pre-date the agent)."""
+    global _pre_agent_dirty, _pre_agent_untracked
+    try:
+        r = _run(["git", "diff", "--name-only", "HEAD"], timeout=10)
+        staged = (r.stdout or "").strip().splitlines()
+        r2 = _run(["git", "diff", "--name-only"], timeout=10)
+        unstaged = (r2.stdout or "").strip().splitlines()
+        _pre_agent_dirty = set(f for f in staged + unstaged if f)
+        # Untracked files (would be deleted by git clean -fd)
+        r3 = _run(["git", "ls-files", "--others", "--exclude-standard"], timeout=10)
+        _pre_agent_untracked = set(f for f in (r3.stdout or "").strip().splitlines() if f)
+        if _pre_agent_dirty or _pre_agent_untracked:
+            log.info("    [GUARD] Snapshot: %d modified + %d untracked files pre-agent (protected from revert)",
+                     len(_pre_agent_dirty), len(_pre_agent_untracked))
+    except Exception as e:
+        log.warning("    [GUARD] Could not snapshot pre-agent state: %s", e)
+        _pre_agent_dirty = set()
+        _pre_agent_untracked = set()
+
 
 def _restore_triage_contamination(modified):
     """After triage timeout, revert any files the agent modified.
@@ -1266,25 +1296,32 @@ def git_has_changes():
 
 
 def _guard_forbidden_files():
-    """Restore any _AGENT_FORBIDDEN_FILES or .project-roadmap/ files modified by agents before commit.
+    """Restore forbidden/.project-roadmap/ files modified by the AGENT (not pre-existing changes).
+    Uses _pre_agent_dirty snapshot to distinguish agent changes from human/orchestrator changes.
     Returns list of files that were restored (for logging)."""
     restored = []
+    skipped = []
     try:
         r = _run(["git", "diff", "--name-only", "HEAD"], timeout=10)
         staged = (r.stdout or "").strip().splitlines()
-        # Also check unstaged
         r2 = _run(["git", "diff", "--name-only"], timeout=10)
         unstaged = (r2.stdout or "").strip().splitlines()
         all_modified = set(staged + unstaged)
         for f in all_modified:
-            # Guard forbidden infra files AND .project-roadmap/ files
             if f in _AGENT_FORBIDDEN_FILES or f.startswith(".project-roadmap/"):
+                # Skip files that were already dirty before the agent started
+                if f in _pre_agent_dirty:
+                    skipped.append(f)
+                    continue
                 try:
                     _run(["git", "checkout", "HEAD", "--", f], timeout=10)
                     restored.append(f)
                     log.warning("    [GUARD] Restored forbidden file modified by agent: %s", f)
                 except Exception:
                     log.error("    [GUARD] Failed to restore forbidden file: %s", f)
+        if skipped:
+            log.info("    [GUARD] Preserved %d pre-existing modified file(s): %s",
+                     len(skipped), ", ".join(skipped))
     except Exception as e:
         log.warning("    [GUARD] Could not check forbidden files: %s", e)
     return restored
@@ -1354,19 +1391,49 @@ def git_push():
 
 
 def git_restore():
-    """Revert all uncommitted changes in source dirs + .project-roadmap/ + forbidden infra files."""
+    """Revert uncommitted agent changes in source dirs + .project-roadmap/ + forbidden files.
+    Preserves files that were already modified/untracked before the agent started
+    (uses _pre_agent_dirty / _pre_agent_untracked snapshots)."""
     try:
-        # Restore source code directories
+        # Source code directories — always fully restored (agents only touch source code)
         _run(["git", "checkout", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
         _run(["git", "clean", "-fd", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
-        # Restore .project-roadmap/ files agents may have touched (safety net)
+
+        # .project-roadmap/ — selectively restore only agent-introduced changes
         try:
-            _run(["git", "checkout", "--", ".project-roadmap/"], timeout=10)
-            _run(["git", "clean", "-fd", "--", ".project-roadmap/"], timeout=10)
+            r = _run(["git", "diff", "--name-only", "HEAD", "--", ".project-roadmap/"], timeout=10)
+            r2 = _run(["git", "diff", "--name-only", "--", ".project-roadmap/"], timeout=10)
+            pm_modified = set((r.stdout or "").strip().splitlines() +
+                              (r2.stdout or "").strip().splitlines())
+            agent_modified = [f for f in pm_modified if f and f not in _pre_agent_dirty]
+            if agent_modified:
+                for f in agent_modified:
+                    try:
+                        _run(["git", "checkout", "HEAD", "--", f], timeout=5)
+                    except Exception:
+                        pass
+                log.info("    [GIT] Restored %d agent-modified .project-roadmap/ file(s)", len(agent_modified))
+            # Clean untracked files in .project-roadmap/ that the agent created (not pre-existing)
+            r3 = _run(["git", "ls-files", "--others", "--exclude-standard", "--", ".project-roadmap/"], timeout=10)
+            pm_untracked = set((r3.stdout or "").strip().splitlines())
+            agent_untracked = [f for f in pm_untracked if f and f not in _pre_agent_untracked]
+            for f in agent_untracked:
+                try:
+                    Path(f).unlink(missing_ok=True)
+                except Exception:
+                    pass
+            if _pre_agent_dirty or _pre_agent_untracked:
+                preserved = len([f for f in pm_modified if f in _pre_agent_dirty])
+                preserved += len([f for f in pm_untracked if f in _pre_agent_untracked])
+                if preserved:
+                    log.info("    [GIT] Preserved %d pre-existing .project-roadmap/ file(s)", preserved)
         except Exception:
             pass  # may not have changes — that's fine
-        # Always restore forbidden infrastructure files (agents must never change these)
+
+        # Forbidden infrastructure files — only restore if agent touched them (not pre-existing)
         for f in _AGENT_FORBIDDEN_FILES:
+            if f in _pre_agent_dirty:
+                continue  # was already modified before agent — preserve
             try:
                 _run(["git", "checkout", "HEAD", "--", f], timeout=5)
             except Exception:
@@ -1752,6 +1819,9 @@ def _agent_dispatch(agent, prompt, max_turns=15, json_output=False,
     global _last_dispatch_timed_out, _last_dispatch_partial_output
     _last_dispatch_timed_out = False
     _last_dispatch_partial_output = ""
+
+    # Snapshot dirty files BEFORE agent runs — GUARD will preserve these
+    snapshot_pre_agent_dirty()
 
     # Check rate limit before dispatching
     is_limited, available_after = _is_agent_rate_limited(agent)
