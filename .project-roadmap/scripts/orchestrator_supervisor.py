@@ -1278,7 +1278,7 @@ class Supervisor:
             wontfix = issues.get("skipped_wontfix", 0)
             needs_info = issues.get("skipped_needs_info", 0)
             duplicate = issues.get("skipped_duplicate", 0)
-            processed = triaged + wontfix + needs_info + duplicate
+            processed = triaged + implemented + failed + wontfix + needs_info + duplicate
 
             # Delta since last report
             d_triaged = triaged - self._last_report_triaged
