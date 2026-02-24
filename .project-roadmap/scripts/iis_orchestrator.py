@@ -79,7 +79,7 @@ TEST_HYGIENE_AGENT = "claude"    # best agent for test analysis/fix (needs arch 
 
 # ── PRE-ANALYSIS CONFIG ──────────────────────────────────────────────────
 PRE_ANALYSIS_TIMEOUT = 180          # 3 min max — read-only analysis
-PRE_ANALYSIS_ENABLED = True         # flag to disable pre-analysis
+PRE_ANALYSIS_ENABLED = False        # disabled: Claude does planning inline during implementation
 PRE_ANALYSIS_MAX_TURNS = 10         # limited turns — read-only codebase scan
 
 ISSUE_TOTAL_TIME_CAP = 1200         # 20 min total per issue per session (all agents combined)
@@ -159,12 +159,12 @@ CLAUDE_ENV = {k: v for k, v in os.environ.items()
 # ── AGENT CONFIG ──────────────────────────────────────────────────────────
 # Which AI agent to use for each task type: "codex", "claude", or "gemini"
 AGENT_CONFIG = {
-    "triage":               "codex",    # ai_triage() — JSON analysis
-    "implement":            "codex",    # implement_issue() — full code fix
-    "warning_fix":          "codex",    # _fix_single_file()
-    "warning_fix_parallel": "codex",    # _claude_fix_file_only()
+    "triage":               "claude",   # ai_triage() — JSON analysis
+    "implement":            "claude",   # implement_issue() — full code fix
+    "warning_fix":          "claude",   # _fix_single_file()
+    "warning_fix_parallel": "claude",   # _claude_fix_file_only()
 }
-AGENT_CHAIN = ["codex", "gemini", "claude"]  # fallback order: primary → secondary → tertiary
+AGENT_CHAIN = ["claude"]  # Claude Sonnet only — planning built into implementation prompt
 AGENT_FALLBACK_ENABLED = True           # if primary fails, try the next agent in chain
 
 # ── DUAL-MODEL STRATEGY (all agents) ─────────────────────────────────────
@@ -2197,21 +2197,6 @@ def chain_implement(issue, triage, status):
     files = triage.get("estimated_files", [])
     issue_start_time = time.time()  # for ISSUE_TOTAL_TIME_CAP
 
-    # Include pre-analysis context if available
-    root_cause = triage.get("root_cause", "")
-    fix_plan = triage.get("fix_plan", "")
-
-    # Build pre-analysis section if available
-    pre_analysis_section = ""
-    if root_cause or fix_plan:
-        pre_analysis_section = f"""
-PRE-ANALYSIS (verified by codebase scan):
-  Root cause: {root_cause}
-  Fix plan: {fix_plan}
-  Confidence: {triage.get('pre_analysis_confidence', 'unknown')}
-  Triage files correct: {triage.get('triage_files_correct', 'unknown')}
-"""
-
     impl_prompt = f"""Project: mRemoteNG (.NET 10, WinForms, COM references)
 Working directory: D:\\github\\mRemoteNG
 Branch: main
@@ -2221,16 +2206,20 @@ Fix GitHub issue #{num}: {title}
 Description:
 {body}
 
-Recommended approach: {approach}
-Likely files: {', '.join(files) if files else 'search the codebase'}
-{pre_analysis_section}
+Triage suggested approach: {approach}
+Triage suggested files: {', '.join(files) if files else 'not specified — you must find them'}
+
 WORKFLOW (MANDATORY — follow steps in order, do NOT skip any step):
 
-Step 1 — PLAN (before ANY edits):
-  - Read the likely files listed above{' (pre-analysis confirmed these)' if root_cause else ' and related code'}
-  - If previous attempts exist below, analyze WHY each one failed
-  - Write a brief plan (max 5 lines): what to change, in which files, what could go wrong
-  - Only proceed to Step 2 after you have a clear plan
+Step 1 — VERIFY & PLAN (before ANY edits):
+  CRITICAL: The triage files above may be WRONG. You MUST verify them.
+  a) Read each suggested file (if they exist). If a suggested file doesn't exist, that's a red flag.
+  b) Search the codebase for keywords from the issue (grep for error messages, class names, symptoms).
+  c) Trace the code path: who calls what, where does the actual bug live?
+  d) If the triage files are wrong, find the CORRECT file(s) with the root cause.
+  e) Write a brief plan (max 5 lines): root cause, which file(s) to change, what to change.
+  f) If previous attempts exist below, analyze WHY each one failed — avoid repeating their mistakes.
+  g) Only proceed to Step 2 after you have identified the correct file(s) and have a clear plan.
 
 Step 2 — IMPLEMENT:
   - Make changes according to your plan
