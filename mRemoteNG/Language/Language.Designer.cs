@@ -896,6 +896,15 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("CommandOpenConnectionFile", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Start with empty connections.
+        /// </summary>
+        internal static string CommandStartWithEmptyConnections {
+            get {
+                return ResourceManager.GetString("CommandStartWithEmptyConnections", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} has detected the Lenovo Auto Scroll Utility running on this system. This utility is known to cause problems with {0}. It is recommended that you disable or uninstall it..

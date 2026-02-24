@@ -321,6 +321,9 @@
   <data name="CommandOpenConnectionFile" xml:space="preserve">
     <value>&amp;Open a connection file</value>
   </data>
+  <data name="CommandStartWithEmptyConnections" xml:space="preserve">
+    <value>&amp;Start with empty connections</value>
+  </data>
   <data name="_TryAgain" xml:space="preserve">
     <value>&amp;Try again</value>
   </data>

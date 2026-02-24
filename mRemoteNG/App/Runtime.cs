@@ -146,7 +146,7 @@ namespace mRemoteNG.App
                 if (Properties.OptionsDBsPage.Default.UseSQLServer)
                 {
                     MessageCollector.AddExceptionMessage(Language.LoadFromSqlFailed, ex);
-                    string commandButtons = string.Join("|", Language._TryAgain, Language.CommandOpenConnectionFile, string.Format(Language.CommandExitProgram, Application.ProductName));
+                    string commandButtons = string.Join("|", Language._TryAgain, Language.CommandOpenConnectionFile, Language.CommandStartWithEmptyConnections, string.Format(Language.CommandExitProgram, Application.ProductName));
                     CTaskDialog.ShowCommandBox(Application.ProductName ?? GeneralAppInfo.ProductName, Language.LoadFromSqlFailed, Language.LoadFromSqlFailedContent, MiscTools.GetExceptionMessageRecursive(ex), "", "", commandButtons, false, ESysIcons.Error, ESysIcons.Error);
                     switch (CTaskDialog.CommandButtonResult)
                     {
@@ -156,6 +156,11 @@ namespace mRemoteNG.App
                         case 1:
                             Properties.OptionsDBsPage.Default.UseSQLServer = false;
                             LoadConnections(true);
+                            return;
+                        case 2:
+                            Properties.OptionsDBsPage.Default.UseSQLServer = false;
+                            Properties.OptionsDBsPage.Default.Save();
+                            ConnectionsService.NewConnectionsFile(ConnectionsService.GetStartupConnectionFileName());
                             return;
                         default:
                             Application.Exit();
