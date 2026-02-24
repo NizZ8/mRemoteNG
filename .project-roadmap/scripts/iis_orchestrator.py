@@ -2550,12 +2550,11 @@ Do ONLY the fix. Nothing else."""
             if is_last:
                 status.add_error(f"issue_{num}", agent, "returned None")
                 git_restore()
-                ctx.save()
                 if ctx.timeout_count > 0:
                     new_mult = _bump_escalation(issue_key)
                     log.warning("  [CHAIN] %d timeouts for #%d — next run escalation: %.1fx",
                                 ctx.timeout_count, num, new_mult)
-                return False
+                break  # fall through to Opus fallback
             if not AGENT_FALLBACK_ENABLED:
                 git_restore()
                 ctx.save()
@@ -2700,16 +2699,12 @@ Do ONLY the fix. Nothing else."""
                             files_modified=modified)
             log.warning("  [CHAIN] %s fix has build errors for #%d", agent, num)
 
-        # Last agent failed — revert
+        # Last agent failed — revert and fall through to Opus fallback
         if is_last:
-            log.error("  [CHAIN] All agents failed implementation for #%d — reverting", num)
+            log.error("  [CHAIN] All agents in chain failed for #%d — reverting (Opus fallback next)", num)
             status.add_error(f"issue_{num}", "chain", "all agents failed")
             git_restore()
-            ctx.save()
-            # Mark issue as impl_failed so it gets retried on next run
-            update_issue_json(num, "triaged", "Implementation failed (all agents)",
-                              impl_failed=True)
-            return False
+            break  # fall through to Opus fallback
 
         if not AGENT_FALLBACK_ENABLED:
             git_restore()
