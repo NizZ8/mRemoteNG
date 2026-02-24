@@ -78,6 +78,8 @@ namespace mRemoteNG.Connection.Protocol
 
         public bool IsSessionDisconnected { get; set; }
 
+        public DateTime? ConnectedAt { get; private set; }
+
         protected readonly System.Windows.Forms.Timer tmrReconnect = new() { Interval = 5000 };
         protected ReconnectGroup? ReconnectGroup;
 
@@ -452,6 +454,7 @@ namespace mRemoteNG.Connection.Protocol
         protected void Event_Connected(object sender)
         {
             IsSessionDisconnected = false;
+            ConnectedAt = DateTime.Now;
             ConnectedEvent?.Invoke(sender);
         }
 

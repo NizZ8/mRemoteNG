@@ -28,6 +28,7 @@ namespace mRemoteNG.UI.Window
         private ToolStripMenuItem cmenTabRefreshScreen;
         private ToolStripMenuItem cmenTabScreenshot;
         private ToolStripMenuItem cmenTabPuttySettings;
+        private ToolStripMenuItem cmenTabStatistics;
 
 
         private void InitializeComponent()
@@ -55,6 +56,7 @@ namespace mRemoteNG.UI.Window
             this.cmenTabSendSpecialKeysCtrlEsc = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenTabSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmenTabPuttySettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmenTabStatistics = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenTabExternalApps = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenTab.SuspendLayout();
             this.SuspendLayout();
@@ -88,6 +90,7 @@ namespace mRemoteNG.UI.Window
             this.cmenTabScreenshot,
             this.cmenTabTransferFile,
             this.cmenTabSendSpecialKeys,
+            this.cmenTabStatistics,
             this.cmenTabSep2,
             this.cmenTabPuttySettings,
             this.cmenTabExternalApps});
