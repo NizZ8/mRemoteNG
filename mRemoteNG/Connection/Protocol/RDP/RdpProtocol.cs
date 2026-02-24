@@ -1830,7 +1830,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
         private void RdpClient_GotFocus(object sender, EventArgs e)
         {
-            (Control?.Parent?.Parent as ConnectionTab)?.Focus();
+            // Update the current tab tracker without redirecting Win32 keyboard focus away from
+            // the RDP ActiveX control. Calling ConnectionTab.Focus() would steal focus, causing
+            // keystrokes from external tools (e.g. KeePass AutoType) to be delivered to the
+            // WinForms container instead of the RDP session (#1450).
+            if (Control?.Parent?.Parent is ConnectionTab tab)
+                TabHelper.Instance.CurrentTab = tab;
         }
 
         private static void RdpControl_Leave(object sender, EventArgs e)
