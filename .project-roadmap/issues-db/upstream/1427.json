@@ -15,7 +15,32 @@
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-24",
+      "type": "triaged",
+      "description": "Implementation failed (all agents)",
+      "token_usage": {
+        "input_tokens": 87,
+        "output_tokens": 27273,
+        "cost_usd": 1.886471,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-24",
+      "type": "triaged",
+      "description": "Implementation failed (all agents)",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 23205,
+        "cost_usd": 1.984014,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "MDEyOklzc3VlQ29tbWVudDQ4OTMyMTc3OA==",
@@ -113,6 +138,11 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (claude-retry): RDP ignores desktop DPI scaling since v1.77 — widespread issue (10+ comments, 4K users affected). Requires DPI-awareness manifest and RDP control configuration. Workaround: compatibility settings override.",
-  "impl_failed": true
+  "notes": "AI triage (claude-retry): RDP ignores desktop DPI scaling since v1.77 — widespread issue (10+ comments, 4K users affected). Requires DPI-awareness manifest and RDP control configuration. Workaround: compatibility settings override.\nFailed 5+ automated attempts (Sonnet). Requires manual fix or Opus-level agent.",
+  "impl_failed": true,
+  "token_usage": {
+    "input_tokens": 114,
+    "output_tokens": 50478,
+    "cost_usd": 3.870485
+  }
 }

@@ -9,7 +9,7 @@
   ],
   "author": "RolfWojtech",
   "created_at": "2022-12-04T22:23:31Z",
-  "github_updated_at": "2026-02-23T20:00:05Z",
+  "github_updated_at": "2026-02-24T12:32:39Z",
   "body_snippet": "This isn't really a bug, more of a documentation oversight:\r\n\r\nI have setup winscp as an external tool as outlined in https://mremoteng.readthedocs.io/en/latest/external_tools_cheat_sheet.html#id1\r\n\r\nI tried to use a winscp to a machine with a non-standard SSH port and a password that happens to include an exclamation mark.\r\n\r\nFirst part of the documentation error is that the suggested string omits the port:\r\n`scp://%Username%:%Password%@%Hostname%/`\r\ncorrect use of the port would be:\r\n`scp://%U...",
   "our_status": "testing",
   "priority": "P3-enhancement",
@@ -45,12 +45,30 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rhctA",
+      "author": "RolfWojtech",
+      "date": "2026-02-24T12:26:55Z",
+      "snippet": "I tested it further and it looks like different special characters cause different solutions to fail.\n\nMy original suggestion fails on  \"password+\".\nThe current \"implementation\" fails on \"password!\" and \"password&\"\n\nThe best solution I could come up with is combining both approaches (adding the exclamation mark to yours) and putting the password in quotes:\nscp://%Username%@%Hostname%:%Port%/ /password=\"%!Password%\"\n\nThis works with all the mentioned special characters.\nI then generated the final...",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rhk_L",
+      "author": "RolfWojtech",
+      "date": "2026-02-24T12:32:39Z",
+      "snippet": "I should note that using the quotes before and after the %!Password% makes trailing quotes like \"password\"\" work but not quotes within the password. I still added the quotes because its how the WinSCP member suggested to provide passwords in the second link and it works just as well.",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-23T20:00:05Z",
-  "unread_comments": 0,
-  "needs_action": false,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "comments_cursor": "2026-02-24T12:32:39Z",
+  "unread_comments": 2,
+  "needs_action": true,
+  "waiting_for_us": true,
+  "last_synced": "2026-02-24T14:53:33Z",
   "notes": "AI triage (gemini): The documentation for External Tools needs an update to include specific guidance for WinSCP, improving user experience.\nApproach: Add a new section or update an existing one in 'mRemoteNGDocumentation/external_tools_cheat_sheet.rst' to provide clear instructions and best practices for configuring WinSCP as an external tool."
 }

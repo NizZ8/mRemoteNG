@@ -25,6 +25,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The 'Duplicate field names' issue likely originates from a conflict in how 'UserField' and 'UserFieldX' properties are processed during XML serialization or deserialization, potentially causing data mapping collisions."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-24",
+      "type": "triaged",
+      "description": "Skipped: 12 failed auto-fix attempts"
     }
   ],
   "comments": [
@@ -43,6 +49,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): The 'Duplicate field names' issue likely originates from a conflict in how 'UserField' and 'UserFieldX' properties are processed during XML serialization or deserialization, potentially causing data mapping collisions.\nApproach: Analyze the handling of 'UserField' and 'UserFieldX' properties within XmlConnectionsDeserializer.cs and XmlConnectionsSaver.cs, and related ConnectionInfo logic, to identify and correct any logic that leads to ambiguous or duplicate field interpretations during data operations.",
-  "impl_failed": true
+  "notes": "AI triage (gemini): The 'Duplicate field names' issue likely originates from a conflict in how 'UserField' and 'UserFieldX' properties are processed during XML serialization or deserialization, potentially causing data mapping collisions.\nApproach: Analyze the handling of 'UserField' and 'UserFieldX' properties within XmlConnectionsDeserializer.cs and XmlConnectionsSaver.cs, and related ConnectionInfo logic, to identify and correct any logic that leads to ambiguous or duplicate field interpretations during data operations.\nNeeds human intervention after 12 AI attempts",
+  "impl_failed": false
 }

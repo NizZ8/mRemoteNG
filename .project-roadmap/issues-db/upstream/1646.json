@@ -10,7 +10,7 @@
   ],
   "author": "cguadall",
   "created_at": "2019-11-27T17:54:12Z",
-  "github_updated_at": "2026-02-21T23:37:36Z",
+  "github_updated_at": "2026-02-24T10:19:27Z",
   "body_snippet": "\r\n\r\n## Expected Behavior\r\n\r\nOnly ask for custom encryption password for connections at startup time.\r\n\r\n## Current Behavior\r\n\r\nWhen using SQL Server connections (tested on MySQL), after every change password is asked in a new popup window. This is quite annoying.\r\n\r\nBut what is more annoying is that if from another session someone doesn't enter the custom password (pop-up password window loose the focus) and make any change, previous change are lost.\r\n\r\n\r\n## Possible Solution\r\nStore custom encry...",
   "our_status": "triaged",
   "priority": "P3-enhancement",
@@ -40,12 +40,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rXxkK",
+      "author": "ductnone",
+      "date": "2026-02-24T04:16:17Z",
+      "snippet": "The issue seems to be fixed in 1.78.2 (Nightly Build 2932)",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T23:37:36Z",
-  "unread_comments": 1,
+  "comments_cursor": "2026-02-24T10:19:27Z",
+  "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-24T14:53:33Z",
   "notes": "AI triage (claude): SQL connections repeatedly prompt for a custom password after any settings change, instead of caching credentials for the session.\nApproach: Cache the SQL custom password in memory (SecureString) for the session lifetime and only re-prompt when credentials are explicitly cleared or authentication fails, rather than prompting on every settings change."
 }

@@ -23,6 +23,18 @@
       "date": "2026-02-21",
       "type": "triaged",
       "description": "The '14 parallel RDP connections' limit is likely due to client-side resource exhaustion (e.g., memory, GDI objects) when mRemoteNG hosts multiple instances of the RDP ActiveX control, which is a common limitation of the underlying Microsoft RDP component."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-24",
+      "type": "triaged",
+      "description": "Implementation failed (all agents)",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 33220,
+        "cost_usd": 2.58215,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -87,5 +99,10 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
   "notes": "AI triage (gemini): The '14 parallel RDP connections' limit is likely due to client-side resource exhaustion (e.g., memory, GDI objects) when mRemoteNG hosts multiple instances of the RDP ActiveX control, which is a common limitation of the underlying Microsoft RDP component.\nApproach: Guide the user to investigate client-side resource usage (memory, GDI/User objects) and optimize RDP connection settings (lower color depth, disable bitmap caching, reduce resolution) to mitigate resource consumption. For future enhancements, explore alternative RDP components or hosting strategies to potentially alleviate this limitation.",
-  "impl_failed": true
+  "impl_failed": true,
+  "token_usage": {
+    "input_tokens": 27,
+    "output_tokens": 33220,
+    "cost_usd": 2.58215
+  }
 }

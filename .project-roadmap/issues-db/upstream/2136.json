@@ -21,6 +21,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "Users need a reliable way to transfer all settings to a new computer, which is currently hampered by an incomplete settings upgrade mechanism."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-24",
+      "type": "triaged",
+      "description": "Skipped: 22 failed auto-fix attempts"
     }
   ],
   "comments": [
@@ -66,6 +72,6 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (gemini): Users need a reliable way to transfer all settings to a new computer, which is currently hampered by an incomplete settings upgrade mechanism.\nApproach: Implement a comprehensive settings migration mechanism in SettingsLoader.cs by dynamically finding and upgrading all ApplicationSettingsBase subclasses to ensure all user-defined settings are correctly transferred or upgraded.",
-  "impl_failed": true
+  "notes": "AI triage (gemini): Users need a reliable way to transfer all settings to a new computer, which is currently hampered by an incomplete settings upgrade mechanism.\nApproach: Implement a comprehensive settings migration mechanism in SettingsLoader.cs by dynamically finding and upgrading all ApplicationSettingsBase subclasses to ensure all user-defined settings are correctly transferred or upgraded.\nNeeds human intervention after 22 AI attempts",
+  "impl_failed": false
 }
