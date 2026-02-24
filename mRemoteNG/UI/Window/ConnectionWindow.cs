@@ -112,7 +112,10 @@ namespace mRemoteNG.UI.Window
 
         private ConnectionTab? GetSelectedTab()
         {
-            return connDock.ActiveDocument as ConnectionTab ?? GetInterfaceControl()?.Parent as ConnectionTab;
+            // ActiveDocument is null when the tab is floating (DockState.Float); fall back to ActiveContent (#1875)
+            return connDock.ActiveDocument as ConnectionTab
+                ?? connDock.ActiveContent as ConnectionTab
+                ?? GetInterfaceControl()?.Parent as ConnectionTab;
         }
 
         private static ConnectionInfo? GetConnectionInfoForTab(ConnectionTab? connectionTab)

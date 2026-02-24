@@ -103,6 +103,9 @@ namespace mRemoteNG.Connection
             // instead of repeating the code, call the routine using ConnectionTab if called by DockPanel
             if (DockPnl.ActiveDocument is ConnectionTab ct)
                 return FindInterfaceControl(ct);
+            // ActiveDocument is null when the tab is floating (DockState.Float); check ActiveContent too (#1875)
+            if (DockPnl.ActiveContent is ConnectionTab ft)
+                return FindInterfaceControl(ft);
             return null;
         }
 
