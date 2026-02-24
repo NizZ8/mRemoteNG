@@ -2,6 +2,7 @@
 using System.Runtime.Versioning;
 using System.Xml.Linq;
 using mRemoteNG.Security;
+using mRemoteNG.Security.AsymmetricEncryption;
 using mRemoteNG.Tree.Root;
 
 namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
@@ -19,6 +20,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             element.Add(new XAttribute(XName.Get("EncryptionEngine"), cryptographyProvider.CipherEngine));
             element.Add(new XAttribute(XName.Get("BlockCipherMode"), cryptographyProvider.CipherMode));
             element.Add(new XAttribute(XName.Get("KdfIterations"), cryptographyProvider.KeyDerivationIterations));
+            if (cryptographyProvider is CertificateCryptographyProvider certProvider)
+                element.Add(new XAttribute(XName.Get("CertificateThumbprint"), certProvider.Thumbprint));
             element.Add(new XAttribute(XName.Get("FullFileEncryption"), fullFileEncryption.ToString().ToLowerInvariant()));
             element.Add(new XAttribute(XName.Get("AutoLockOnMinimize"), rootNodeInfo.AutoLockOnMinimize.ToString().ToLowerInvariant()));
             element.Add(CreateProtectedAttribute(rootNodeInfo, cryptographyProvider));

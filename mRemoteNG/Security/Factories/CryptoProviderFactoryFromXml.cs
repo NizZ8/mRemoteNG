@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Versioning;
 using System.Xml.Linq;
+using mRemoteNG.Security.AsymmetricEncryption;
 using mRemoteNG.Security.SymmetricEncryption;
 
 namespace mRemoteNG.Security.Factories
@@ -20,6 +21,14 @@ namespace mRemoteNG.Security.Factories
 
         public ICryptographyProvider Build()
         {
+            // Certificate-based encryption takes precedence: if a thumbprint is stored
+            // in the file, route to CertificateCryptographyProvider regardless of the
+            // EncryptionEngine / BlockCipherMode attributes (which reflect the internal
+            // AES-GCM layer, not the outer RSA key-wrapping layer).
+            string? thumbprint = _element?.Attribute("CertificateThumbprint")?.Value;
+            if (!string.IsNullOrWhiteSpace(thumbprint))
+                return new CertificateCryptographyProvider(thumbprint);
+
             ICryptographyProvider cryptoProvider;
             try
             {
