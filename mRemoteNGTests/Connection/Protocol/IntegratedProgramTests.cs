@@ -42,6 +42,19 @@ public class IntegratedProgramTests
     [TestCase("wsl")]
     [TestCase("wsl.exe")]
     [TestCase(@"C:\Windows\System32\wsl.exe")]
+    // WSL distribution launchers (issue #693: ubuntu terminal as external tool)
+    [TestCase("ubuntu")]
+    [TestCase("ubuntu.exe")]
+    [TestCase("ubuntu2004")]
+    [TestCase("ubuntu2004.exe")]
+    [TestCase("ubuntu2204")]
+    [TestCase("ubuntu2204.exe")]
+    [TestCase("debian")]
+    [TestCase("debian.exe")]
+    [TestCase("kali-linux")]
+    [TestCase("kali-linux.exe")]
+    [TestCase("kali")]
+    [TestCase("kali.exe")]
     public void InitializeSucceedsForBuiltInShellPresetWhenExternalToolIsNotConfigured(string extAppName)
     {
         SetExternalToolList();

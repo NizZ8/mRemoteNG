@@ -460,7 +460,8 @@ namespace mRemoteNG.Connection.Protocol
 
         private static ExternalTool? CreateBuiltInShellPresetForIntegration(string extAppName)
         {
-            switch (NormalizeShellToolName(extAppName))
+            string normalized = NormalizeShellToolName(extAppName);
+            switch (normalized)
             {
                 case "cmd":
                 case "command prompt":
@@ -473,7 +474,16 @@ namespace mRemoteNG.Connection.Protocol
                 case "wsl":
                 case "bash":
                     return CreateBuiltInShellTool("wsl.exe", @"%windir%\system32\wsl.exe");
+                case "ubuntu":
+                case "debian":
+                case "kali-linux":
+                case "kali":
+                    // WSL distribution launchers installed via Windows Store
+                    return CreateBuiltInShellTool(normalized + ".exe", normalized + ".exe");
                 default:
+                    // Handle versioned Ubuntu launchers (e.g. ubuntu2004, ubuntu2204, ubuntu2404)
+                    if (normalized.Length > 6 && normalized.StartsWith("ubuntu") && char.IsDigit(normalized[6]))
+                        return CreateBuiltInShellTool(normalized + ".exe", normalized + ".exe");
                     return null;
             }
         }
@@ -501,7 +511,13 @@ namespace mRemoteNG.Connection.Protocol
                 || identifier == "powershell"
                 || identifier == "windows powershell"
                 || identifier == "wsl"
-                || identifier == "bash";
+                || identifier == "bash"
+                || identifier == "ubuntu"
+                || identifier == "debian"
+                || identifier == "kali-linux"
+                || identifier == "kali"
+                // Versioned Ubuntu launchers (e.g. ubuntu2004, ubuntu2204, ubuntu2404)
+                || (identifier.Length > 6 && identifier.StartsWith("ubuntu") && char.IsDigit(identifier[6]));
         }
 
         private static string NormalizeShellToolName(string value)
