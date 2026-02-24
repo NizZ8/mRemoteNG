@@ -933,6 +933,15 @@ namespace mRemoteNG.UI.Forms
                     NativeMethods.SendMessage(pb.PuttyHandle, m.Msg, m.WParam, m.LParam);
                     return true;
                 }
+
+                // For RDP, VNC, and other protocols: redirect scroll to the window under the
+                // mouse cursor rather than letting Windows route it to the focused window
+                // (which may be the config panel). Fix for #633.
+                if (ic != null && hWnd != IntPtr.Zero)
+                {
+                    NativeMethods.SendMessage(hWnd, m.Msg, m.WParam, m.LParam);
+                    return true;
+                }
             }
 
             return false;
