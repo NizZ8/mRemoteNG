@@ -972,10 +972,26 @@ namespace mRemoteNG.UI.Forms
                 switch (m.Msg)
                 {
                     case NativeMethods.WM_COPYDATA:
-                        if (m.GetLParam(typeof(NativeMethods.COPYDATASTRUCT)) is NativeMethods.COPYDATASTRUCT cds && (int)cds.dwData == 1)
+                        if (m.GetLParam(typeof(NativeMethods.COPYDATASTRUCT)) is NativeMethods.COPYDATASTRUCT cds)
                         {
-                            string? message = Marshal.PtrToStringUni(cds.lpData);
-                            HandleStartupArgs(message);
+                            if ((int)cds.dwData == 1)
+                            {
+                                string? message = Marshal.PtrToStringUni(cds.lpData);
+                                HandleStartupArgs(message);
+                            }
+                            else if ((int)cds.dwData == 2)
+                            {
+                                // Activate signal from a second instance: bring this window to front.
+                                // The running instance setting its own foreground is more reliable than
+                                // SetForegroundWindow called from another process (#398).
+                                if (WindowState == FormWindowState.Minimized)
+                                    WindowState = PreviousWindowState == FormWindowState.Minimized
+                                        ? FormWindowState.Normal
+                                        : PreviousWindowState;
+                                Activate();
+                                BringToFront();
+                                NativeMethods.SetForegroundWindow(Handle);
+                            }
                         }
                         break;
                     case NativeMethods.WM_MOUSEACTIVATE:

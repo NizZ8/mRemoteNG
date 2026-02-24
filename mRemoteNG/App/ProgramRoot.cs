@@ -207,10 +207,25 @@ namespace mRemoteNG.App
                 _ = NativeMethods.ShowWindow(singletonInstanceWindowHandle, (int)NativeMethods.SW_RESTORE);
             NativeMethods.SetForegroundWindow(singletonInstanceWindowHandle);
 
+            // Always send an activate signal so the running instance can bring itself
+            // to front from its own context. SetForegroundWindow from another process
+            // is blocked by Windows focus-stealing prevention; the running instance
+            // calling SetForegroundWindow on itself is reliable.
+            SendActivateToRunningInstance(singletonInstanceWindowHandle);
+
             if (args != null && args.Length > 0)
             {
                 SendArgsToRunningInstance(singletonInstanceWindowHandle, args);
             }
+        }
+
+        private static void SendActivateToRunningInstance(IntPtr hWnd)
+        {
+            NativeMethods.COPYDATASTRUCT cds;
+            cds.dwData = (IntPtr)2; // dwData == 2: "bring to front" signal
+            cds.cbData = 0;
+            cds.lpData = IntPtr.Zero;
+            NativeMethods.SendMessage(hWnd, NativeMethods.WM_COPYDATA, IntPtr.Zero, ref cds);
         }
 
         private static void SendArgsToRunningInstance(IntPtr hWnd, string[] args)
