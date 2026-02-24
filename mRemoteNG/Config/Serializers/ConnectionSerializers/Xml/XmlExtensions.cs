@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Xml;
 
@@ -6,6 +7,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 {
     public static class XmlExtensions
     {
+        private static readonly ConcurrentDictionary<(Type, string), object?> s_enumCache = new();
+
         public static string GetAttributeAsString(this XmlNode xmlNode, string attribute, string defaultValue = "")
         {
             string? value = xmlNode?.Attributes?[attribute]?.Value;
@@ -41,9 +44,13 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             if (string.IsNullOrWhiteSpace(value))
                 return defaultValue;
 
-            return Enum.TryParse<T>(value, true, out T valueAsEnum)
-                ? valueAsEnum
-                : defaultValue;
+            var cacheKey = (typeof(T), value);
+            if (s_enumCache.TryGetValue(cacheKey, out object? cached))
+                return cached is T t ? t : defaultValue;
+
+            bool parsed = Enum.TryParse<T>(value, true, out T result);
+            s_enumCache[cacheKey] = parsed ? result : null;
+            return parsed ? result : defaultValue;
         }
     }
 }

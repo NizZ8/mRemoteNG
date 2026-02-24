@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics; // Added
 using System.Globalization;
 using System.Security;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using mRemoteNG.App;
@@ -33,6 +36,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         private const double MaxSupportedConfVersion = 2.8;
         private readonly RootNodeInfo _rootNodeInfo = new(RootNodeType.Connection);
         private ConnectionTreeModel _connectionTreeModel = null!;
+        private ConcurrentDictionary<string, string>? _preDecryptedValues;
 
         public Func<Optional<SecureString>>? AuthenticationRequestor { get; set; } = authenticationRequestor;
 
@@ -79,6 +83,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                         rootXmlElement.InnerXml = decryptedContent;
                     }
                 }
+
+                _preDecryptedValues = PreDecryptPasswords(rootXmlElement);
 
                 AddNodesFromXmlRecursive(rootXmlElement, _rootNodeInfo);
 
@@ -200,7 +206,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                             if (_confVersion >= 2.8)
                             {
                                 containerInfo.AutoSort = xmlNode.GetAttributeAsBool("AutoSort");
-                                containerInfo.ContainerPassword = _decryptor.Decrypt(xmlNode.GetAttributeAsString("ContainerPassword"));
+                                containerInfo.ContainerPassword = DecryptField(xmlNode, "ContainerPassword");
                                 containerInfo.DynamicSource = xmlNode.GetAttributeAsEnum("DynamicSource", DynamicSourceType.None);
                                 containerInfo.DynamicSourceValue = xmlNode.GetAttributeAsString("DynamicSourceValue");
                                 containerInfo.DynamicRefreshInterval = xmlNode.GetAttributeAsInt("DynamicRefreshInterval");
@@ -258,7 +264,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     if (!Runtime.UseCredentialManager || _confVersion <= 2.6) // 0.2 - 2.6
                     {
                         connectionInfo.Username = xmlnode.GetAttributeAsString("Username");
-                        connectionInfo.Password = _decryptor.Decrypt(xmlnode.GetAttributeAsString("Password"));
+                        connectionInfo.Password = DecryptField(xmlnode, "Password");
                         //connectionInfo.Password = _decryptor.Decrypt(xmlnode.GetAttributeAsString("Password")).ConvertToSecureString();
                         connectionInfo.Domain = xmlnode.GetAttributeAsString("Domain");
                     }
@@ -429,7 +435,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.VNCProxyIP = xmlnode.GetAttributeAsString("VNCProxyIP");
                     connectionInfo.VNCProxyPort = xmlnode.GetAttributeAsInt("VNCProxyPort");
                     connectionInfo.VNCProxyUsername = xmlnode.GetAttributeAsString("VNCProxyUsername");
-                    connectionInfo.VNCProxyPassword = _decryptor.Decrypt(xmlnode.GetAttributeAsString("VNCProxyPassword"));
+                    connectionInfo.VNCProxyPassword = DecryptField(xmlnode, "VNCProxyPassword");
                     connectionInfo.VNCColors = xmlnode.GetAttributeAsEnum<ProtocolVNC.Colors>("VNCColors");
                     connectionInfo.VNCSmartSizeMode = xmlnode.GetAttributeAsEnum<ProtocolVNC.SmartSizeMode>("VNCSmartSizeMode");
                     connectionInfo.VNCViewOnly = xmlnode.GetAttributeAsBool("VNCViewOnly");
@@ -481,7 +487,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.RDGatewayHostname = xmlnode.GetAttributeAsString("RDGatewayHostname");
                     connectionInfo.RDGatewayUseConnectionCredentials = xmlnode.GetAttributeAsEnum<RDGatewayUseConnectionCredentials>("RDGatewayUseConnectionCredentials");
                     connectionInfo.RDGatewayUsername = xmlnode.GetAttributeAsString("RDGatewayUsername");
-                    connectionInfo.RDGatewayPassword = _decryptor.Decrypt(xmlnode.GetAttributeAsString("RDGatewayPassword"));
+                    connectionInfo.RDGatewayPassword = DecryptField(xmlnode, "RDGatewayPassword");
                     connectionInfo.RDGatewayDomain = xmlnode.GetAttributeAsString("RDGatewayDomain");
 
                     // Get inheritance settings
@@ -667,6 +673,51 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             }
 
             return connectionInfo;
+        }
+
+        private static readonly string[] EncryptedAttributes = { "Password", "VNCProxyPassword", "RDGatewayPassword", "ContainerPassword" };
+
+        private ConcurrentDictionary<string, string> PreDecryptPasswords(XmlElement rootElement)
+        {
+            List<(string key, string cipherText)> encryptedFields = [];
+            CollectEncryptedAttributes(rootElement, encryptedFields);
+            ConcurrentDictionary<string, string> results = new();
+            if (encryptedFields.Count == 0) return results;
+            Parallel.ForEach(encryptedFields, field =>
+            {
+                results[field.key] = _decryptor.Decrypt(field.cipherText);
+            });
+            return results;
+        }
+
+        private static void CollectEncryptedAttributes(XmlNode node, List<(string key, string cipherText)> fields)
+        {
+            if (node.Attributes != null)
+            {
+                string nodeId = node.Attributes["Id"]?.Value ?? node.GetHashCode().ToString();
+                foreach (string attr in EncryptedAttributes)
+                {
+                    string? val = node.Attributes[attr]?.Value;
+                    if (!string.IsNullOrEmpty(val))
+                        fields.Add(($"{nodeId}|{attr}", val));
+                }
+            }
+            foreach (XmlNode child in node.ChildNodes)
+                CollectEncryptedAttributes(child, fields);
+        }
+
+        private string DecryptField(XmlNode xmlNode, string attributeName)
+        {
+            string cipherText = xmlNode.GetAttributeAsString(attributeName);
+            if (string.IsNullOrEmpty(cipherText)) return string.Empty;
+            if (_preDecryptedValues != null)
+            {
+                string nodeId = xmlNode.Attributes?["Id"]?.Value ?? xmlNode.GetHashCode().ToString();
+                string key = $"{nodeId}|{attributeName}";
+                if (_preDecryptedValues.TryGetValue(key, out string? cached))
+                    return cached;
+            }
+            return _decryptor.Decrypt(cipherText);
         }
 
         private static RDGatewayUsageMethod GetRdGatewayUsageMethod(XmlNode xmlNode)

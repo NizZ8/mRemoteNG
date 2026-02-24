@@ -774,10 +774,7 @@ namespace mRemoteNG.Connection
             if (childConnection == null || parentConnection == null)
                 return;
 
-            IEnumerable<PropertyInfo> inheritanceProperties = GetProperties()
-                .Where(property => property.PropertyType == typeof(bool));
-
-            foreach (PropertyInfo inheritanceProperty in inheritanceProperties)
+            foreach (PropertyInfo inheritanceProperty in s_cachedBoolProperties)
             {
                 bool shouldInherit = PropertyValuesMatch(childConnection, parentConnection, inheritanceProperty.Name);
                 inheritanceProperty.SetValue(this, shouldInherit);
@@ -823,12 +820,22 @@ namespace mRemoteNG.Connection
             }
         }
 
-        public IEnumerable<PropertyInfo> GetProperties()
+        private static readonly string[] s_exclusions =
         {
-            PropertyInfo[] properties = typeof(ConnectionInfoInheritance).GetProperties();
-            IEnumerable<PropertyInfo> filteredProperties = properties.Where(FilterProperty);
-            return filteredProperties;
-        }
+            nameof(EverythingInherited),
+            nameof(Parent),
+            nameof(InheritanceActive)
+        };
+
+        private static readonly PropertyInfo[] s_cachedProperties =
+            typeof(ConnectionInfoInheritance).GetProperties()
+                .Where(p => !s_exclusions.Contains(p.Name))
+                .ToArray();
+
+        private static readonly PropertyInfo[] s_cachedBoolProperties =
+            s_cachedProperties.Where(p => p.PropertyType == typeof(bool)).ToArray();
+
+        public IEnumerable<PropertyInfo> GetProperties() => s_cachedProperties;
 
         /// <summary>
         /// Gets the name of all properties where inheritance is turned on
@@ -859,18 +866,15 @@ namespace mRemoteNG.Connection
 
         private void SetAllValues(bool value)
         {
-            IEnumerable<PropertyInfo> properties = GetProperties();
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in s_cachedBoolProperties)
             {
-                if (property.PropertyType.Name == typeof(bool).Name)
-                    property.SetValue(this, value, null);
+                property.SetValue(this, value, null);
             }
         }
 
         private void SetAllValues(ConnectionInfoInheritance otherInheritanceObject)
         {
-            IEnumerable<PropertyInfo> properties = GetProperties();
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in s_cachedProperties)
             {
                 object? newPropertyValue = property.GetValue(otherInheritanceObject, null);
                 property.SetValue(this, newPropertyValue, null);
