@@ -1440,7 +1440,11 @@ namespace mRemoteNG.UI.Forms
             pnlDock.Visible = false;
 
             AppWindows.TreeForm?.Show(pnlDock, DockState.DockLeft);
-            AppWindows.ConfigForm.Show(pnlDock, DockState.DockLeft);
+            // Show ConfigForm in its own pane below the Connections pane (#725)
+            if (AppWindows.TreeForm?.DockHandler.Pane != null)
+                AppWindows.ConfigForm.Show(AppWindows.TreeForm.DockHandler.Pane, DockAlignment.Bottom, 0.35);
+            else
+                AppWindows.ConfigForm.Show(pnlDock, DockState.DockLeft);
             AppWindows.ErrorsForm.Show(pnlDock, DockState.DockBottomAutoHide);
             _screenshotsBottomTab.Show(pnlDock, DockState.DockBottomAutoHide);
             viewMenu._mMenViewErrorsAndInfos.Checked = true;
