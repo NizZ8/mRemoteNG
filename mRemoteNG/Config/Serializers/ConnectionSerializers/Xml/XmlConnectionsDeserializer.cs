@@ -37,6 +37,9 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         private readonly RootNodeInfo _rootNodeInfo = new(RootNodeType.Connection);
         private ConnectionTreeModel _connectionTreeModel = null!;
         private ConcurrentDictionary<string, string>? _preDecryptedValues;
+        private BlockCipherEngines _cipherEngine;
+        private BlockCipherModes _cipherMode;
+        private int _kdfIterations;
 
         public Func<Optional<SecureString>>? AuthenticationRequestor { get; set; } = authenticationRequestor;
 
@@ -150,14 +153,14 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         {
             if (_confVersion >= 2.6 && connectionsRootElement != null)
             {
-                BlockCipherEngines engine = connectionsRootElement.GetAttributeAsEnum<BlockCipherEngines>("EncryptionEngine");
-                BlockCipherModes mode = connectionsRootElement.GetAttributeAsEnum<BlockCipherModes>("BlockCipherMode");
-                int keyDerivationIterations = connectionsRootElement.GetAttributeAsInt("KdfIterations");
+                _cipherEngine = connectionsRootElement.GetAttributeAsEnum<BlockCipherEngines>("EncryptionEngine");
+                _cipherMode = connectionsRootElement.GetAttributeAsEnum<BlockCipherModes>("BlockCipherMode");
+                _kdfIterations = connectionsRootElement.GetAttributeAsInt("KdfIterations");
 
-                _decryptor = new XmlConnectionsDecryptor(engine, mode, rootNodeInfo)
+                _decryptor = new XmlConnectionsDecryptor(_cipherEngine, _cipherMode, rootNodeInfo)
                 {
                     AuthenticationRequestor = AuthenticationRequestor,
-                    KeyDerivationIterations = keyDerivationIterations
+                    KeyDerivationIterations = _kdfIterations
                 };
             }
             else
@@ -683,10 +686,19 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             CollectEncryptedAttributes(rootElement, encryptedFields);
             ConcurrentDictionary<string, string> results = new();
             if (encryptedFields.Count == 0) return results;
-            Parallel.ForEach(encryptedFields, field =>
-            {
-                results[field.key] = _decryptor.Decrypt(field.cipherText);
-            });
+
+            // Each thread needs its own decryptor — BouncyCastle ciphers are not thread-safe
+            bool isAead = _confVersion >= 2.6;
+            Parallel.ForEach(encryptedFields,
+                () => isAead
+                    ? new XmlConnectionsDecryptor(_cipherEngine, _cipherMode, _rootNodeInfo) { KeyDerivationIterations = _kdfIterations }
+                    : new XmlConnectionsDecryptor(_rootNodeInfo),
+                (field, _, localDecryptor) =>
+                {
+                    results[field.key] = localDecryptor.Decrypt(field.cipherText);
+                    return localDecryptor;
+                },
+                _ => { });
             return results;
         }
 
