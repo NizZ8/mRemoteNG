@@ -47,6 +47,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         private bool _redirectKeys;
         private bool _alertOnIdleDisconnect;
         private bool _viewOnly;
+        private bool _smartSizeBeforeFullscreen;
         protected uint DesktopScaleFactor
         {
             get
@@ -432,7 +433,15 @@ namespace mRemoteNG.Connection.Protocol.RDP
         {
             try
             {
-                Fullscreen = !Fullscreen;
+                bool goingFullscreen = !Fullscreen;
+                if (goingFullscreen)
+                {
+                    // Save current SmartSize state and enable SmartSize so the remote desktop
+                    // content fills the entire fullscreen window, preventing black borders (#1402).
+                    _smartSizeBeforeFullscreen = SmartSize;
+                    SmartSize = true;
+                }
+                Fullscreen = goingFullscreen;
             }
             catch (Exception ex)
             {
@@ -1681,10 +1690,16 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                     {
                                         int newStyle = (exStyle | NativeMethods.WS_EX_APPWINDOW) & ~NativeMethods.WS_EX_TOOLWINDOW;
                                         NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE, newStyle);
-                                        // Force style update
-                                        NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0,
-                                            NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_FRAMECHANGED | NativeMethods.SWP_NOACTIVATE);
                                     }
+
+                                    // Fix #1402: position the fullscreen window to cover the entire monitor
+                                    // so there are no black borders on any side. Use the screen containing
+                                    // the mRemoteNG main window (correct for multi-monitor setups).
+                                    Screen screen = Screen.FromControl(_frmMain);
+                                    Rectangle screenBounds = screen.Bounds;
+                                    NativeMethods.SetWindowPos(hwnd, IntPtr.Zero,
+                                        screenBounds.X, screenBounds.Y, screenBounds.Width, screenBounds.Height,
+                                        NativeMethods.SWP_NOZORDER | NativeMethods.SWP_FRAMECHANGED | NativeMethods.SWP_NOACTIVATE);
                                 }
                             });
                         }
@@ -1704,6 +1719,8 @@ namespace mRemoteNG.Connection.Protocol.RDP
         private void RDPEvent_OnLeaveFullscreenMode()
         {
             Fullscreen = false;
+            // Restore SmartSize to the state it was in before entering fullscreen (#1402).
+            SmartSize = _smartSizeBeforeFullscreen;
             _leaveFullscreenEvent?.Invoke(this, EventArgs.Empty);
 
             try
