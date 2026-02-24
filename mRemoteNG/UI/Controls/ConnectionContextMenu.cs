@@ -866,7 +866,8 @@ namespace mRemoteNG.UI.Controls
 
             bool hasOpenConnections = containerInfo.Children.Any(child => child.OpenConnections.Count > 0);
             _cMenTreeDisconnect.Enabled = hasOpenConnections;
-            _cMenTreeReconnect.Enabled = hasOpenConnections;
+            // Reconnect is available as long as the container has children to reconnect (#1660)
+            _cMenTreeReconnect.Enabled = containerInfo.Children.Any();
             _cMenTreeTypePassword.Enabled = false;
             _cMenTreeTypeClipboard.Enabled = false;
 
@@ -893,7 +894,8 @@ namespace mRemoteNG.UI.Controls
             if (connectionInfo.OpenConnections.Count == 0)
             {
                 _cMenTreeDisconnect.Enabled = false;
-                _cMenTreeReconnect.Enabled = false;
+                // Reconnect stays enabled even with no open connections — e.g. after a lost connection
+                // the protocol is removed from OpenConnections but the user still wants to reconnect (#1660)
                 _cMenTreeTypePassword.Enabled = false;
                 _cMenTreeTypeClipboard.Enabled = false;
             }
@@ -931,7 +933,8 @@ namespace mRemoteNG.UI.Controls
             if (connectionInfo.OpenConnections.Count == 0)
             {
                 _cMenTreeDisconnect.Enabled = false;
-                _cMenTreeReconnect.Enabled = false;
+                // Reconnect stays enabled even with no open connections — e.g. after a lost connection
+                // the protocol is removed from OpenConnections but the user still wants to reconnect (#1660)
                 _cMenTreeTypePassword.Enabled = false;
                 _cMenTreeTypeClipboard.Enabled = false;
             }
@@ -1166,7 +1169,13 @@ namespace mRemoteNG.UI.Controls
         {
             foreach (ConnectionInfo node in _connectionTree.GetSelectedNodes())
             {
-                if (DisconnectConnectionInternal(node))
+                // If there are no open connections (e.g. connection was lost), skip the disconnect step
+                // to avoid showing a confusing confirmation dialog for a connection that isn't open (#1660).
+                bool hasOpenConnections = node is ContainerInfo c
+                    ? c.GetRecursiveChildList().Any(child => child.OpenConnections.Count > 0)
+                    : node.OpenConnections.Count > 0;
+
+                if (!hasOpenConnections || DisconnectConnectionInternal(node))
                 {
                     if (node is ContainerInfo container)
                         Runtime.ConnectionInitiator.OpenConnection(container, ConnectionInfo.Force.DoNotJump);
