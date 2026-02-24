@@ -12,7 +12,7 @@ We love mRemoteNG and we're committed to keeping it moving forward. This Communi
 
 <strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. We're tackling the entire backlog in one push — organize, automate, attend to every detail. Nothing gets left behind. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
 
-<strong>How we work:</strong> A Python <strong>orchestrator</strong> coordinates three AI agents — <strong>Codex</strong> (OpenAI) for fast triage, <strong>Gemini CLI</strong> (Google) for bulk code transformations, and <strong>Claude Code</strong> (Anthropic) for complex multi-file fixes and final review. Per issue, agents run as a fallback chain (Codex first, then Gemini, then Claude) with Sonnet-to-Opus escalation for the hardest problems. Every change is independently verified (build + 2,817 tests) before commit. A <strong>self-healing supervisor</strong> handles 8 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
+<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 2,817 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
 
 <strong>What's next:</strong> Once the backlog is current, ongoing maintenance — bug fixes, dependency updates, security patches — will run autonomously via <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code</a>, continuously monitoring new issues and shipping fixes with minimal human intervention.
 
@@ -76,7 +76,7 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 <summary><strong>What's in v1.81.0-beta.3?</strong> (585 issues addressed — largest release ever)</summary>
 
 ### Highlight: Marching to Zero Backlog
-**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,817 tests** passing with 0 failures. The multi-agent orchestrator was rearchitectured with a self-healing supervisor, chain context reuse, and Sonnet-to-Opus escalation.
+**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,817 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
 
 ### New Features
 - **Reconnect** in context menu (#1233), **folder path on tab names** (#3083), **ADMX/ADML Group Policy templates** (#738)
@@ -102,7 +102,7 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 - **Windows** (~30): DPI PerMonitorV2, splash screen, tab overflow
 
 ### Architecture
-- Multi-agent orchestrator v2 with self-healing supervisor (8 failure modes)
+- Orchestrator v2: Claude-only (Sonnet → Opus), self-healing supervisor (12 failure modes)
 - Chain context reuse, token tracking, duplicate commit prevention
 - Decoupled connection loaders via DI, new SQL abstractions
 
@@ -302,11 +302,11 @@ v1.80.0 consolidated status: [#3133](https://github.com/mRemoteNG/mRemoteNG/issu
 - **7 new protocols** — VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
 - **Security** — 4 code scanning alerts fixed, CVE-2020-0765, thread-safe encryption
 - **Performance** — 81s → ms deserialization, parallel decryption, 9s builds
-- **Orchestrator v2** — self-healing supervisor, chain context reuse, Sonnet→Opus escalation
+- **Orchestrator v2** — Claude-only (Sonnet→Opus escalation), self-healing supervisor (12 failure modes), chain context reuse
 - **Features** — Reconnect menu (#1233), folder path tabs (#3083), ADMX templates (#738)
 
 ### v1.81.0-beta.2 (2026-02-15)
-- **Zero Nullable Warnings** — 2,554 fixed across 242 files via multi-agent orchestrator
+- **Zero Nullable Warnings** — 2,554 fixed across 242 files via AI orchestrator
 - **2,349 tests**, testable architecture (DI), AnyDesk security fix
 
 ### v1.80.2 (2026-02-14)
@@ -335,51 +335,57 @@ Full details: [CHANGELOG.md](CHANGELOG.md) | [All releases](https://github.com/r
 
 ---
 
-## Multi-Agent Orchestrator
+## AI Orchestrator
 
-Development is driven by a Python orchestrator (`iis_orchestrator.py`) that coordinates three AI agents, with independent verification at every step.
+Development is driven by a Python orchestrator (`iis_orchestrator.py`) that uses **Claude Code** as its AI engine, with **Sonnet → Opus model escalation** and independent verification at every step.
 
 ### Architecture
 
 ```
-                           ┌─────────────────────────────┐
-                           │   iis_orchestrator.py        │
-                           │   (Python — control loop)    │
-                           │   + self-healing supervisor   │
-                           └──────────┬──────────────────┘
-                                      │
-              ┌───────────────────────┼───────────────────────┐
-              │                       │                       │
-   ┌──────────▼──────────┐ ┌─────────▼──────────┐ ┌─────────▼──────────┐
-   │  Codex (OpenAI)     │ │ Gemini CLI (Google) │ │ Claude Code        │
-   │                     │ │                     │ │ (Anthropic)        │
-   │  • Fast triage      │ │ • Bulk transforms   │ │ • Complex fixes    │
-   │  • Simple fixes     │ │ • Nullable cleanup  │ │ • Multi-file edits │
-   │  • ~15-30s/issue    │ │ • 466 warnings/run  │ │ • Sonnet → Opus    │
-   │  • Priority P0-P4   │ │ • Cascading types   │ │ • Corrects others  │
-   └──────────┬──────────┘ └─────────┬──────────┘ └─────────┬──────────┘
-              │                       │                       │
-              └───────────────────────┼───────────────────────┘
-                                      │ code changes
-                           ┌──────────▼──────────────────┐
-                           │  Independent Verification    │
-                           │  (no AI — deterministic)     │
-                           │                              │
-                           │  1. build.ps1 (MSBuild)      │
-                           │  2. run-tests.ps1 (2,817)    │
-                           │  3. git commit OR git restore │
-                           │  4. gh issue comment          │
-                           └──────────────────────────────┘
+              ┌──────────────────────────────────────┐
+              │   orchestrator_supervisor.py           │
+              │   (self-healing — 12 failure modes)    │
+              └──────────────────┬─────────────────────┘
+                                 │ monitors & restarts
+              ┌──────────────────▼─────────────────────┐
+              │   iis_orchestrator.py                    │
+              │   (Python — control loop)                │
+              │   sync → triage → implement → verify     │
+              └──────────────────┬─────────────────────┘
+                                 │
+                  ┌──────────────▼──────────────┐
+                  │   Claude Code (Anthropic)    │
+                  │                              │
+                  │  Sonnet (primary)             │
+                  │  • Fast triage & analysis     │
+                  │  • Code implementation        │
+                  │  • Warning fixes              │
+                  │                              │
+                  │  Opus (escalation)            │
+                  │  • Complex multi-file edits   │
+                  │  • Deep analysis fallback     │
+                  │  • When Sonnet fails          │
+                  └──────────────┬──────────────┘
+                                 │ code changes
+              ┌──────────────────▼─────────────────────┐
+              │  Independent Verification                │
+              │  (no AI — deterministic)                  │
+              │                                          │
+              │  1. build.ps1 (MSBuild)                  │
+              │  2. run-tests.ps1 (2,817 tests)          │
+              │  3. git commit OR git restore             │
+              │  4. gh issue comment                      │
+              └──────────────────────────────────────────┘
 ```
 
-### Agent selection (fallback chain)
+### Model escalation (Sonnet → Opus)
 
-Each issue flows through agents as a fallback chain — if the first agent fails to produce a passing build+test, the next one takes over:
+Each issue starts with the fastest model and escalates only when needed:
 
-1. **Codex** attempts first (fastest, cheapest)
-2. If Codex fails → **Gemini CLI** retries (better at bulk/pattern changes)
-3. If Gemini fails → **Claude Code** takes over (best at complex reasoning)
-4. If all fail → issue is logged, skipped, and flagged for human review
+1. **Sonnet** attempts first (fast, cost-effective) — handles triage, implementation, warning fixes
+2. If Sonnet fails → **Opus** retries (deep reasoning, complex multi-file edits)
+3. If Opus fails → issue is logged, skipped, and flagged for human review
+4. **Circuit breaker**: after 5 consecutive failures, orchestrator pauses and alerts
 
 ### Verification layer
 
@@ -401,7 +407,7 @@ The orchestrator **never trusts agent output**. After every code change:
 | Nullable warnings fixed | 2,554 (100% clean) |
 | Tests passing | 2,817 (0 failures) |
 | Upstream commits merged | 67 |
-| Orchestrator failure modes handled | 8 (self-healing) |
+| Supervisor failure modes handled | 12 (self-healing) |
 | Test regressions introduced | 0 |
 
 ## Issue Intelligence System

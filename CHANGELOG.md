@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Highlight: 585 Issues Addressed — Marching to Zero Backlog
 
-This release represents the largest single-cycle effort in mRemoteNG history: **744 commits**, **585 issues addressed**, and **2,817 tests** passing with 0 failures. The entire upstream backlog of 838 issues has been triaged, and 70% have been addressed in code. The multi-agent orchestrator (Codex + Gemini + Claude) was rearchitectured with a self-healing supervisor, chain context reuse, and Sonnet-to-Opus escalation.
+This release represents the largest single-cycle effort in mRemoteNG history: **744 commits**, **585 issues addressed**, and **2,817 tests** passing with 0 failures. The entire upstream backlog of 838 issues has been triaged, and 70% have been addressed in code. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse across sessions.
 
 **By the numbers:**
 - **744 commits** since v1.81.0-beta.2 (2026-02-15)
@@ -93,8 +93,8 @@ This release represents the largest single-cycle effort in mRemoteNG history: **
 - Window focus on startup (BringToFront/Activate)
 
 ### Architecture & Testability
-- **Multi-agent orchestrator v2**: Codex → Gemini → Claude fallback chain with Sonnet-to-Opus escalation
-- **Self-healing supervisor**: Handles 8 failure modes (rate limits, build failures, test regressions, git conflicts, token exhaustion, agent hangs, disk space, network)
+- **Orchestrator v2**: Claude-only engine with Sonnet → Opus model escalation (Sonnet primary, Opus for complex fallback)
+- **Self-healing supervisor**: Handles 12 failure modes (stale locks, multiple instances, phantom tests, rate-limit corruption, status corruption, hung process, crashed process, stale editors, dirty git state, all agents blocked, no progress, build infra failure)
 - **Chain context reuse**: Previous session context feeds into next session for continuity
 - **Token usage tracking**: Per-agent, per-session token consumption monitoring
 - **Duplicate commit prevention**: SHA-based deduplication prevents re-committing identical changes
