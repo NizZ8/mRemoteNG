@@ -13,6 +13,7 @@ using mRemoteNG.UI.Window;
 using WeifenLuo.WinFormsUI.Docking;
 using mRemoteNG.Resources.Language;
 using System.Runtime.Versioning;
+using System.Threading.Tasks;
 
 namespace mRemoteNG.Connection
 {
@@ -159,6 +160,23 @@ namespace mRemoteNG.Connection
                     {
                         connectionInfo.Name = "localhost";
                     }
+                }
+
+                if (connectionInfo.WaitForIPAvailability && !string.IsNullOrWhiteSpace(connectionInfo.Hostname))
+                {
+                    int portToCheck = connectionInfo.Port > 0 ? connectionInfo.Port : connectionInfo.GetDefaultPort();
+                    int timeoutSeconds = connectionInfo.WaitForIPTimeout > 0 ? connectionInfo.WaitForIPTimeout : 60;
+                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                        $"Waiting for '{connectionInfo.Hostname}:{portToCheck}' to become reachable (timeout: {timeoutSeconds}s)...");
+                    bool reachable = await WaitForIPAvailabilityAsync(connectionInfo.Hostname, portToCheck, timeoutSeconds).ConfigureAwait(false);
+                    if (!reachable)
+                    {
+                        Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
+                            $"'{connectionInfo.Hostname}' did not become reachable within {timeoutSeconds} seconds. Aborting connection.");
+                        return;
+                    }
+                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                        $"Host '{connectionInfo.Hostname}' is now reachable. Proceeding with connection.");
                 }
 
                 StartPreConnectionExternalApp(connectionInfo);
@@ -341,6 +359,34 @@ namespace mRemoteNG.Connection
         }
 
         #region Private
+        private static async Task<bool> WaitForIPAvailabilityAsync(string hostname, int port, int timeoutSeconds)
+        {
+            var deadline = DateTime.UtcNow.AddSeconds(timeoutSeconds);
+            const int retryIntervalMs = 2000;
+            const int connectTimeoutMs = 1000;
+
+            while (DateTime.UtcNow < deadline)
+            {
+                try
+                {
+                    using var tcpClient = new System.Net.Sockets.TcpClient();
+                    using var cts = new System.Threading.CancellationTokenSource(connectTimeoutMs);
+                    await tcpClient.ConnectAsync(hostname, port, cts.Token).ConfigureAwait(false);
+                    return true;
+                }
+                catch
+                {
+                    // Host not reachable yet — wait before retrying.
+                }
+
+                int remainingMs = (int)(deadline - DateTime.UtcNow).TotalMilliseconds;
+                if (remainingMs <= 0) break;
+                await Task.Delay(Math.Min(retryIntervalMs, remainingMs)).ConfigureAwait(false);
+            }
+
+            return false;
+        }
+
         private static void StartPreConnectionExternalApp(ConnectionInfo connectionInfo)
         {
             if (connectionInfo.PreExtApp == "") return;

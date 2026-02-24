@@ -100,7 +100,9 @@ Variables
 
 Variables and arguments can be used to tell the external tool what to do.
 
-This is the list of variables supported by mRemoteNG:
+For a complete list of available variables and their usage, see the :ref:`variables_reference` page.
+
+Quick Reference - Available Variables:
 
 - %NAME%
 - %HOSTNAME%
@@ -122,10 +124,7 @@ This is the list of variables supported by mRemoteNG:
 - %USERFIELD9%
 - %USERFIELD10%
 
-mRemoteNG will also expand environment variables such as %PATH% and %USERPROFILE%. If you need to use an environment
-variable with the same name as an mRemoteNG variable, use \\% instead of %. The most common use of this is for the
-USERNAME environment variable. %USERNAME% will be expanded to the username set in the currently selected connection.
-\\%USERNAME\\% will be expanded to the value set in the USERNAME environment variable.
+See the :ref:`variables_reference` page for detailed information about:
 
 If you need to send a variable name to a program without mRemoteNG expanding it, use ^% instead of %.
 mRemoteNG will remove the caret (^) and leave the rest unchanged.
@@ -172,3 +171,5 @@ To disable both argument splitting and shell metacharacter escaping for a variab
 For example, %!USERFIELD%. This is not recommended and may cause unexpected results.
 
 Only variables that have been expanded will be escaped. It is up to you to escape the rest of the arguments.
+
+See also the :ref:`variables_reference` page for detailed information about how to use environment variables, prevent variable expansion, rules for using variables, and special character escaping.

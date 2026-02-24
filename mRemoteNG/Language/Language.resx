@@ -120,6 +120,18 @@
   <data name="MenuItem_About" xml:space="preserve">
     <value>About...</value>
   </data>
+  <data name="_Sessions" xml:space="preserve">
+    <value>&amp;Sessions</value>
+  </data>
+  <data name="NextSession" xml:space="preserve">
+    <value>Next Session</value>
+  </data>
+  <data name="PreviousSession" xml:space="preserve">
+    <value>Previous Session</value>
+  </data>
+  <data name="JumpToSession" xml:space="preserve">
+    <value>Jump to Session {0}</value>
+  </data>
   <data name="ActiveDirectory" xml:space="preserve">
     <value>Active Directory</value>
   </data>

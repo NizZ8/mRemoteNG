@@ -372,6 +372,7 @@ namespace mRemoteNG.UI.Forms
         private void ApplyLanguage()
         {
             fileMenu.ApplyLanguage();
+            sessionsMenu.ApplyLanguage();
             viewMenu.ApplyLanguage();
             connectionsMenu.ApplyLanguage();
             toolsMenu.ApplyLanguage();
@@ -1338,6 +1339,7 @@ namespace mRemoteNG.UI.Forms
         {
             UpdateSelectedConnectionFromActiveDocument();
             ActivateConnection();
+            sessionsMenu.UpdateMenuState();
         }
 
         internal void UpdateWindowTitle()

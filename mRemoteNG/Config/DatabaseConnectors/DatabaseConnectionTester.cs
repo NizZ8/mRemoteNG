@@ -1,5 +1,6 @@
 using System;
 using System.Data.Odbc;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
@@ -9,6 +10,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
     /// <summary>
     /// A helper class for testing database connectivity.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     public class DatabaseConnectionTester
     {
         public async Task<ConnectionTestResult> TestConnectivity(string type, string server, string database, string username, string password, string? authType = null)
@@ -31,8 +33,20 @@ namespace mRemoteNG.Config.DatabaseConnectors
             {
                 return HandleOdbcException(ex);
             }
-            catch
+            catch (Exception ex)
             {
+                // Generic fallback using string matching (supports all connector types)
+                string message = ex.Message;
+                if (message.Contains("server was not found", StringComparison.OrdinalIgnoreCase)
+                    || message.Contains("network-related", StringComparison.OrdinalIgnoreCase)
+                    || message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase))
+                    return ConnectionTestResult.ServerNotAccessible;
+                if (message.Contains("Cannot open database", StringComparison.OrdinalIgnoreCase)
+                    || message.Contains("Unknown database", StringComparison.OrdinalIgnoreCase))
+                    return ConnectionTestResult.UnknownDatabase;
+                if (message.Contains("Login failed", StringComparison.OrdinalIgnoreCase)
+                    || message.Contains("Access denied", StringComparison.OrdinalIgnoreCase))
+                    return ConnectionTestResult.CredentialsRejected;
                 return ConnectionTestResult.UnknownError;
             }
         }

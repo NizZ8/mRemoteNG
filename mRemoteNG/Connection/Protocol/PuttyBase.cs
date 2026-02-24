@@ -159,7 +159,7 @@ namespace mRemoteNG.Connection.Protocol
 
         public virtual bool isRunning()
         {
-            return PuttyProcess != null && !PuttyProcess.HasExited;
+            return PuttyProcess?.HasExited == false;
         }
 
         public void CreatePipe(object oData)
@@ -267,7 +267,23 @@ namespace mRemoteNG.Connection.Protocol
                 else
                 {
                     PuttyProcess.Refresh();
-                    PuttyHandle = PuttyProcess.MainWindowHandle;
+                    IntPtr candidateHandle = PuttyProcess.MainWindowHandle;
+
+                    if (candidateHandle != IntPtr.Zero)
+                    {
+                        // Check the window class name to distinguish the actual PuTTY
+                        // terminal window ("PuTTY") from popup dialogs like the host key
+                        // verification alert (class "#32770"). Dialogs must remain as
+                        // top-level windows so the user can interact with them.
+                        StringBuilder className = new(256);
+                        NativeMethods.GetClassName(candidateHandle, className, className.Capacity);
+                        string cls = className.ToString();
+
+                        if (cls.Equals("PuTTY", StringComparison.OrdinalIgnoreCase))
+                        {
+                            PuttyHandle = candidateHandle;
+                        }
+                    }
                 }
 
                 if (PuttyHandle != IntPtr.Zero)
@@ -1057,9 +1073,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyKillFailed + Environment.NewLine + ex.Message,
-                                                    true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyKillFailed + Environment.NewLine + ex.Message, true);
             }
 
             try
@@ -1068,9 +1082,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyDisposeFailed + Environment.NewLine + ex.Message,
-                                                    true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyDisposeFailed + Environment.NewLine + ex.Message, true);
             }
 
             base.Close();
@@ -1085,9 +1097,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyShowSettingsDialogFailed + Environment.NewLine +
-                                                    ex.Message, true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyShowSettingsDialogFailed + Environment.NewLine + ex.Message, true);
             }
         }
 

@@ -9,6 +9,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- T4 transform settings: only active when VS2026 TextTemplating targets are available -->
+    <TransformOnBuild Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets')">true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
     <ApplicationIcon>Icons\mRemoteNG.ico</ApplicationIcon>
     <Version>1.81.0-beta.2</Version>
     <Description>Multi-protocol remote connections manager</Description>
@@ -399,6 +403,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <T4ParameterValues Include="platformType">
+      <Value>$(Platform)</Value>
+    </T4ParameterValues>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Properties\AssemblyInfo.tt">
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -666,10 +675,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="144.0.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="145.0.26" />
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)'=='arm64'">
-    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="144.0.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="145.0.26" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
@@ -728,4 +737,7 @@
     <RemoveDir Directories="$(TempBuildDir)" />
     <RemoveDir Directories="$(ProjectDir)bin\x64\Release Self-Contained" />
   </Target>
+  <!-- T4 TextTemplating: import only when the targets file exists (VS2026 BuildTools) -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets"
+          Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets')" />
 </Project>

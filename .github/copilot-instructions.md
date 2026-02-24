@@ -16,9 +16,9 @@ mRemoteNG is an open-source, multi-protocol, tabbed remote connections manager f
 ## Building the Project
 
 ### Prerequisites
-- Visual Studio 2022 (version 17.14.12 or later)
+- Visual Studio 2026 (version 18.4.0 or later)
 - .NET 10.0 Desktop Runtime
-- Windows 10/11 or Windows Server 2016+
+- Windows 10/11 or Windows Server 2022+
 
 ### Build Commands
 ```powershell
