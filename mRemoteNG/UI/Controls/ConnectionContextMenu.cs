@@ -974,16 +974,18 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDelete.ShortcutKeys = Keys.None;
             _cMenTreeMoveUp.ShortcutKeys = Keys.None;
             _cMenTreeMoveDown.ShortcutKeys = Keys.None;
+            _cMenTreeCopyHostname.ShortcutKeys = Keys.None;
         }
 
         internal void EnableShortcutKeys()
         {
-            _cMenTreeConnect.ShortcutKeys = ((Keys.Control | Keys.Shift) | Keys.C);
+            _cMenTreeConnect.ShortcutKeys = Keys.None;
             _cMenTreeDuplicate.ShortcutKeys = Keys.Control | Keys.D;
             _cMenTreeRename.ShortcutKeys = Keys.F2;
             _cMenTreeDelete.ShortcutKeys = Keys.Delete;
             _cMenTreeMoveUp.ShortcutKeys = Keys.Control | Keys.Up;
             _cMenTreeMoveDown.ShortcutKeys = Keys.Control | Keys.Down;
+            _cMenTreeCopyHostname.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
         }
 
         private static void EnableMenuItemsRecursive(ToolStripItemCollection items, bool enable = true)

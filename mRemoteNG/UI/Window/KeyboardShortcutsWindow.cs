@@ -74,7 +74,7 @@ namespace mRemoteNG.UI.Window
                 ("F2", "Rename selected connection/folder"),
                 ("Delete", "Delete selected connection/folder"),
                 ("Ctrl+D", "Duplicate selected connection"),
-                ("Ctrl+Shift+C", "Copy connection to clipboard"),
+                ("Ctrl+Shift+C", "Copy hostname to clipboard"),
                 ("Enter", "Open selected connection"),
                 ("Ctrl+Up", "Move selected item up"),
                 ("Ctrl+Down", "Move selected item down"),
