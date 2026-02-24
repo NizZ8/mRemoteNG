@@ -230,6 +230,33 @@ namespace mRemoteNG.App
             }
         }
 
+        public static void ImportFromMtputty(ContainerInfo importDestinationContainer)
+        {
+            try
+            {
+                using (Runtime.ConnectionsService.BatchedSavingContext())
+                {
+                    using (OpenFileDialog openFileDialog = new())
+                    {
+                        openFileDialog.CheckFileExists = true;
+                        openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                        openFileDialog.Multiselect = false;
+                        openFileDialog.Filter = $"mTTY Files (*.xml)|*.xml|{Language.FilterAll}|*.*";
+
+                        if (openFileDialog.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        MtputtyImporter importer = new();
+                        importer.Import(openFileDialog.FileName, importDestinationContainer);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("App.Import.ImportFromMtputty() failed.", ex);
+            }
+        }
+
         public static void ImportFromGuacamole(IDatabaseConnector connector, ContainerInfo destinationContainer)
         {
             try

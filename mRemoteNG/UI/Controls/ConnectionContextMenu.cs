@@ -82,6 +82,7 @@ namespace mRemoteNG.UI.Controls
         private ToolStripMenuItem _cMenTreeImportPortScan = null!;
         private ToolStripMenuItem _cMenTreeImportGuacamole = null!;
         private ToolStripMenuItem _cMenTreeImportPutty = null!;
+        private ToolStripMenuItem _cMenTreeImportMtputty = null!;
         private ToolStripMenuItem _cMenTreeApplyInheritanceToChildren = null!;
         private ToolStripMenuItem _cMenTreeApplyDefaultInheritance = null!;
         private ToolStripMenuItem _cMenTreeConfigureDynamicSource = null!;
@@ -152,6 +153,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeImportPortScan = new ToolStripMenuItem();
             _cMenTreeImportGuacamole = new ToolStripMenuItem();
             _cMenTreeImportPutty = new ToolStripMenuItem();
+            _cMenTreeImportMtputty = new ToolStripMenuItem();
             _cMenInheritanceSubMenu = new ToolStripMenuItem();
             _cMenTreeApplyInheritanceToChildren = new ToolStripMenuItem();
             _cMenTreeApplyDefaultInheritance = new ToolStripMenuItem();
@@ -478,6 +480,7 @@ namespace mRemoteNG.UI.Controls
                 _cMenTreeImportFromRemoteDesktopManager,
                 _cMenTreeImportActiveDirectory,
                 _cMenTreeImportPutty,
+                _cMenTreeImportMtputty,
                 _cMenTreeImportPortScan,
                 _cMenTreeImportGuacamole
             });
@@ -532,6 +535,13 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeImportPutty.Size = new System.Drawing.Size(226, 22);
             _cMenTreeImportPutty.Text = "Import from &Putty...";
             _cMenTreeImportPutty.Click += OnImportPuttyClicked;
+            //
+            // cMenTreeImportMtputty
+            //
+            _cMenTreeImportMtputty.Name = "_cMenTreeImportMtputty";
+            _cMenTreeImportMtputty.Size = new System.Drawing.Size(226, 22);
+            _cMenTreeImportMtputty.Text = "Import from m&TTY...";
+            _cMenTreeImportMtputty.Click += OnImportMtputtyClicked;
             //
             // cMenTreeExportFile
             //
@@ -1429,6 +1439,18 @@ namespace mRemoteNG.UI.Controls
                     _connectionTree.SelectedNode as ContainerInfo ?? _connectionTree.SelectedNode.Parent;
             if (selectedNodeAsContainer == null) return;
             Import.ImportFromPutty(selectedNodeAsContainer);
+        }
+
+        private void OnImportMtputtyClicked(object sender, EventArgs e)
+        {
+            ContainerInfo? selectedNodeAsContainer;
+            if (_connectionTree.SelectedNode == null)
+                selectedNodeAsContainer = Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes.First();
+            else
+                selectedNodeAsContainer =
+                    _connectionTree.SelectedNode as ContainerInfo ?? _connectionTree.SelectedNode.Parent;
+            if (selectedNodeAsContainer == null) return;
+            Import.ImportFromMtputty(selectedNodeAsContainer);
         }
 
         private void OnImportRemoteDesktopManagerClicked(object sender, EventArgs e)
