@@ -271,6 +271,8 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                 nameof(ConnectionInfo.ConnectionAddressPrimary),
                 nameof(ConnectionInfo.Notes),
                 nameof(ConnectionInfo.RetryOnFirstConnect),
+                nameof(ConnectionInfo.WaitForIPAvailability),
+                nameof(ConnectionInfo.WaitForIPTimeout),
             };
 
             if (!isContainer)

@@ -120,6 +120,8 @@
 		public TType RDPUseMultimon { get; set; }
 		public TType Notes { get; set; }
 		public TType RetryOnFirstConnect { get; set; }
+		public TType WaitForIPAvailability { get; set; }
+		public TType WaitForIPTimeout { get; set; }
 		public TType ShowBrowserNavigationBar { get; set; }
 		public TType VNCClipboardRedirect { get; set; }
 		public TType HttpPath { get; set; }

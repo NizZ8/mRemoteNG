@@ -1,15 +1,17 @@
 #!/bin/bash
-# run-tests-core.sh - Core test runner (bash, v2)
-# Runs tests in namespace-based groups to avoid native resource exhaustion.
-# Bash avoids PowerShell pipeline back-pressure that crashes testhost.
-# Auto-retries crashed groups (cumulative OS resource exhaustion causes crashes).
-# Uses TRX logger for reliable partial result capture on crashes.
+# run-tests-core.sh - Core test runner (bash, v4 — PARALLEL, SHARED DLL)
+# Launches ALL test groups in parallel from the SAME DLL.
+# No copies needed — each testhost gets its own results directory.
+# Crashed groups are retried sequentially with cleanup between them.
+# Target: ~35s for 2800+ tests (vs ~8min sequential in v2).
+# NOTE: grep -oE only — MSYS2 grep doesn't support -oP (Perl regex).
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 TEST_DLL="$REPO_ROOT/mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll"
 RESULTS_BASE="/tmp/mremoteng-testresults"
+PARALLEL_DIR="/tmp/mremoteng-parallel-$$"
 
-# Test groups - each runs in its own testhost process
+# Test groups
 declare -a GROUP_NAMES=(
     "Connection"
     "Config.Xml"
@@ -32,9 +34,7 @@ declare -a GROUP_FILTERS=(
     'FullyQualifiedName!~mRemoteNGTests.Connection&FullyQualifiedName!~mRemoteNGTests.Config&FullyQualifiedName!~mRemoteNGTests.UI&FullyQualifiedName!~mRemoteNGTests.Tools&FullyQualifiedName!~mRemoteNGTests.Security&FullyQualifiedName!~mRemoteNGTests.Tree&FullyQualifiedName!~mRemoteNGTests.Container&FullyQualifiedName!~mRemoteNGTests.Credential&FullyQualifiedName!~mRemoteNGTests.IntegrationTests&FullyQualifiedName!~OptionsFormTests&FullyQualifiedName!~AllOptionsPagesTests'
     'FullyQualifiedName~mRemoteNGTests.IntegrationTests'
 )
-
-# Expected test counts per group (for verification)
-declare -a GROUP_EXPECTED=(1024 124 544 348 329 164 178 83 21)
+declare -a GROUP_EXPECTED=(1049 124 555 367 361 166 178 83 21)
 
 # FrmOptions isolated tests
 declare -a ISO_NAMES=("FormBehavior" "AllPages")
@@ -48,127 +48,144 @@ groups_with_zero=0
 cleanup_env() {
     taskkill //F //IM testhost.exe >/dev/null 2>&1 || true
     taskkill //F //IM testhost.x86.exe >/dev/null 2>&1 || true
-    taskkill //F //IM dotnet.exe >/dev/null 2>&1 || true
     rm -rf "$REPO_ROOT/TestResults" 2>/dev/null || true
     rm -f "$REPO_ROOT/mRemoteNGTests/bin/x64/Release/testhost.runtimeconfig.json" 2>/dev/null || true
-    sleep 1
 }
 
 # Run a single test group. Returns: passed|failed|crashed
 run_group() {
-    local dll="$1"
-    local filter="$2"
+    local dll="$1" filter="$2"
     local uid=$(date +%s%N | tail -c 8)
     local results_dir="${RESULTS_BASE}-${uid}"
     local trx_file="results.trx"
 
-    # Build args as array to avoid shell interpretation of & | ! in filters
     local args=("test" "$dll" "--results-directory" "$results_dir" "--verbosity" "normal" "--logger" "trx;LogFileName=$trx_file")
-    if [ -n "$filter" ]; then
-        args+=("--filter" "$filter")
-    fi
+    [ -n "$filter" ] && args+=("--filter" "$filter")
 
-    # Run test (bash tail is efficient, no back-pressure)
     local output
     output=$(dotnet "${args[@]}" 2>&1 | tail -20)
 
-    # Try TRX first (most reliable, survives partial crashes)
     local passed=0 failed=0 crashed=false
     local trx_path="$results_dir/$trx_file"
     if [ -f "$trx_path" ]; then
         local trx_passed trx_failed trx_outcome
-        trx_passed=$(grep -oP 'passed="\K\d+' "$trx_path" | head -1)
-        trx_failed=$(grep -oP 'failed="\K\d+' "$trx_path" | head -1)
-        trx_outcome=$(grep -oP 'outcome="\K[^"]+' "$trx_path" | head -1)
+        trx_passed=$(grep -oE 'passed="[0-9]+"' "$trx_path" | head -1 | grep -oE '[0-9]+')
+        trx_failed=$(grep -oE 'failed="[0-9]+"' "$trx_path" | head -1 | grep -oE '[0-9]+')
+        trx_outcome=$(grep -oE 'outcome="[^"]+"' "$trx_path" | head -1 | sed 's/outcome="//;s/"//')
         [ -n "$trx_passed" ] && passed=$trx_passed
         [ -n "$trx_failed" ] && failed=$trx_failed
-        if [ "$trx_outcome" = "Aborted" ] || [ "$trx_outcome" = "Error" ]; then
-            crashed=true
-        fi
+        [ "$trx_outcome" = "Aborted" ] || [ "$trx_outcome" = "Error" ] && crashed=true
     fi
 
-    # Fall back to stdout parsing if TRX unavailable
     if [ "$passed" -eq 0 ] && [ "$failed" -eq 0 ]; then
-        local p=$(echo "$output" | grep -oP 'Passed\s*[:-]\s*\K\d+' | tail -1)
-        local f=$(echo "$output" | grep -oP 'Failed\s*[:-]\s*\K\d+' | tail -1)
+        local p f
+        p=$(echo "$output" | grep -oE 'Passed[[:space:]]*[:-][[:space:]]*[0-9]+' | tail -1 | grep -oE '[0-9]+')
+        f=$(echo "$output" | grep -oE 'Failed[[:space:]]*[:-][[:space:]]*[0-9]+' | tail -1 | grep -oE '[0-9]+')
         [ -n "$p" ] && passed=$p
         [ -n "$f" ] && failed=$f
     fi
 
-    # Crash detection from output
-    if echo "$output" | grep -qiE "crashed|aborted"; then
-        crashed=true
-    fi
-
+    echo "$output" | grep -qiE "crashed|aborted" && crashed=true
     rm -rf "$results_dir" 2>/dev/null || true
     echo "${passed}|${failed}|${crashed}"
 }
 
+# ─── Phase 1: ALL groups in parallel ──────────────────────────────────
 echo ""
-echo "[Phase 1] Running ${#GROUP_NAMES[@]} test groups (with auto-retry on crash)..."
+num_groups=${#GROUP_NAMES[@]}
+echo "[Phase 1] Running $num_groups test groups in PARALLEL..."
+phase1_start=$(date +%s)
 
-for i in "${!GROUP_NAMES[@]}"; do
+cleanup_env
+sleep 1
+mkdir -p "$PARALLEL_DIR"
+
+declare -a PIDS=()
+for i in $(seq 0 $((num_groups - 1))); do
+    (run_group "$TEST_DLL" "${GROUP_FILTERS[$i]}" > "$PARALLEL_DIR/result-$i.txt" 2>&1) &
+    PIDS+=($!)
+done
+for pid in "${PIDS[@]}"; do wait "$pid" 2>/dev/null; done
+phase1_elapsed=$(( $(date +%s) - phase1_start ))
+
+# Collect results
+declare -a RETRY_INDICES=()
+for i in $(seq 0 $((num_groups - 1))); do
     name="${GROUP_NAMES[$i]}"
-    filter="${GROUP_FILTERS[$i]}"
-    expected="${GROUP_EXPECTED[$i]}"
-    printf "  [%-20s] " "$name"
-
-    cleanup_env
-    result=$(run_group "$TEST_DLL" "$filter")
+    result=$(cat "$PARALLEL_DIR/result-$i.txt" 2>/dev/null)
     IFS='|' read -r p f c <<< "$result"
     p=${p//[^0-9]/}; [ -z "$p" ] && p=0
     f=${f//[^0-9]/}; [ -z "$f" ] && f=0
 
-    # Auto-retry if crashed or 0 results (up to 3 retries, cumulative OS resource exhaustion)
-    retries=0
-    while [ "$retries" -lt 3 ] && { [ "$c" = "true" ] || [ "$p" -eq 0 ]; } && [ "$p" -lt "$expected" ]; do
-        retries=$((retries + 1))
-        printf "%dp/RETRY%d... " "$p" "$retries"
-        cleanup_env
-        sleep 2
-        result2=$(run_group "$TEST_DLL" "$filter")
-        IFS='|' read -r p2 f2 c2 <<< "$result2"
-        p2=${p2//[^0-9]/}; [ -z "$p2" ] && p2=0
-        f2=${f2//[^0-9]/}; [ -z "$f2" ] && f2=0
-        # Take best result
-        if [ "$p2" -gt "$p" ]; then
-            p=$p2; f=$f2; c=$c2
-        fi
-    done
-
-    if [ "$c" = "true" ]; then
-        echo "${p}p/CRASHED"
+    if [ "$c" = "true" ] || [ "$p" -eq 0 ]; then
+        printf "  [%-20s] %dp/CRASHED — will retry\n" "$name" "$p"
+        RETRY_INDICES+=($i)
         any_crashed=true
     elif [ "$f" -gt 0 ] 2>/dev/null; then
-        echo "${p}p/${f}f"
+        printf "  [%-20s] %dp/%df\n" "$name" "$p" "$f"
+        total_passed=$((total_passed + p))
+        total_failed=$((total_failed + f))
     else
-        echo "${p} passed"
+        printf "  [%-20s] %d passed\n" "$name" "$p"
+        total_passed=$((total_passed + p))
     fi
-
-    # Track groups that returned 0 tests despite retries
-    if [ "$p" -eq 0 ] && [ "$f" -eq 0 ]; then
-        groups_with_zero=$((groups_with_zero + 1))
-    fi
-
-    total_passed=$((total_passed + p))
-    total_failed=$((total_failed + f))
 done
+echo "  (parallel phase: ${phase1_elapsed}s)"
 
+# ─── Phase 2: Retry crashed groups sequentially ───────────────────────
+if [ ${#RETRY_INDICES[@]} -gt 0 ]; then
+    echo ""
+    echo "[Phase 2] Retrying ${#RETRY_INDICES[@]} crashed group(s) sequentially..."
+    cleanup_env
+    sleep 2
+
+    for i in "${RETRY_INDICES[@]}"; do
+        name="${GROUP_NAMES[$i]}"
+        expected="${GROUP_EXPECTED[$i]}"
+        printf "  [%-20s] " "$name"
+
+        best_p=0 best_f=0 best_c=false
+        for attempt in 1 2 3; do
+            cleanup_env
+            sleep 1
+            result=$(run_group "$TEST_DLL" "${GROUP_FILTERS[$i]}")
+            IFS='|' read -r p f c <<< "$result"
+            p=${p//[^0-9]/}; [ -z "$p" ] && p=0
+            f=${f//[^0-9]/}; [ -z "$f" ] && f=0
+            [ "$p" -gt "$best_p" ] && { best_p=$p; best_f=$f; best_c=$c; }
+            [ "$best_p" -ge "$expected" ] && break
+            [ "$attempt" -lt 3 ] && printf "RETRY%d(%dp)... " "$attempt" "$p"
+        done
+
+        if [ "$best_c" = "true" ] && [ "$best_p" -eq 0 ]; then
+            echo "CRASHED"
+        elif [ "$best_f" -gt 0 ] 2>/dev/null; then
+            echo "${best_p}p/${best_f}f"
+        else
+            echo "${best_p} passed"
+        fi
+        [ "$best_p" -eq 0 ] && [ "$best_f" -eq 0 ] && groups_with_zero=$((groups_with_zero + 1))
+        total_passed=$((total_passed + best_p))
+        total_failed=$((total_failed + best_f))
+    done
+fi
+
+# ─── Phase 3: FrmOptions isolated tests ───────────────────────────────
 echo ""
-echo "[Phase 2] FrmOptions isolated..."
+echo "[Phase 3] FrmOptions isolated..."
 
-for i in "${!ISO_NAMES[@]}"; do
+for i in $(seq 0 $((${#ISO_NAMES[@]} - 1))); do
     name="${ISO_NAMES[$i]}"
     filter="${ISO_FILTERS[$i]}"
     printf "  [%-20s] " "$name"
 
     cleanup_env
+    sleep 1
     result=$(run_group "$TEST_DLL" "$filter")
     IFS='|' read -r p f c <<< "$result"
     p=${p//[^0-9]/}; [ -z "$p" ] && p=0
     f=${f//[^0-9]/}; [ -z "$f" ] && f=0
 
-    # Auto-retry crashed FrmOptions tests (up to 3 retries)
     retries=0
     while [ "$retries" -lt 2 ] && { [ "$c" = "true" ] || [ "$p" -eq 0 ]; }; do
         retries=$((retries + 1))
@@ -179,25 +196,23 @@ for i in "${!ISO_NAMES[@]}"; do
         IFS='|' read -r p2 f2 c2 <<< "$result2"
         p2=${p2//[^0-9]/}; [ -z "$p2" ] && p2=0
         f2=${f2//[^0-9]/}; [ -z "$f2" ] && f2=0
-        if [ "$p2" -gt "$p" ]; then
-            p=$p2; f=$f2; c=$c2
-        fi
+        [ "$p2" -gt "$p" ] && { p=$p2; f=$f2; c=$c2; }
     done
 
     if [ "$c" = "true" ]; then
-        echo "CRASHED"
-        any_crashed=true
+        echo "CRASHED"; any_crashed=true
     elif [ "$f" -gt 0 ] 2>/dev/null; then
         echo "FAILED"
     else
         echo "passed"
     fi
-
     total_passed=$((total_passed + p))
     total_failed=$((total_failed + f))
 done
 
-# Restore DLL if crash deleted it
+# ─── Cleanup + Summary ────────────────────────────────────────────────
+rm -rf "$PARALLEL_DIR" 2>/dev/null || true
+
 BACKUP="$REPO_ROOT/mRemoteNGTests/bin/x64/Release/.backup/mRemoteNGTests.dll"
 if [ ! -f "$TEST_DLL" ] && [ -f "$BACKUP" ]; then
     echo ""
@@ -205,7 +220,6 @@ if [ ! -f "$TEST_DLL" ] && [ -f "$BACKUP" ]; then
     cp "$BACKUP" "$TEST_DLL"
 fi
 
-# Summary
 total_tests=$((total_passed + total_failed))
 MIN_TOTAL=2800
 
@@ -219,13 +233,8 @@ echo "  Passed:  $total_passed"
 [ "$total_tests" -lt "$MIN_TOTAL" ] && echo "  WARNING: Only $total_tests tests (expected >$MIN_TOTAL)"
 echo "============================="
 
-if [ "$total_failed" -gt 0 ]; then
-    # Real test failure — code is broken
-    exit 1
-fi
+if [ "$total_failed" -gt 0 ]; then exit 1; fi
 if [ "$total_tests" -lt "$MIN_TOTAL" ]; then
-    # Coverage gap — groups returned 0 (phantom) but no real failures
-    # Exit code 96 = infrastructure flakiness, not code issue
     echo "  EXIT 96: Coverage gap (phantom groups, no real failures)"
     exit 96
 fi

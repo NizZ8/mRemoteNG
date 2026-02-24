@@ -146,7 +146,7 @@ WARNING_CODES = [
 ]
 
 BUILD_TIMEOUT = 300   # 5 min
-TEST_TIMEOUT = 300    # 5 min
+TEST_TIMEOUT = 600    # 10 min (2817 tests take 3-8 min depending on retries)
 CLAUDE_TIMEOUT = 900  # 15 min per task (Opus needs more time)
 CLAUDE_RETRIES = 2    # retry on failure
 CODEX_TIMEOUT = 1800  # 30 min — codex needs more time for complex implementations
@@ -1029,6 +1029,89 @@ def _run(cmd, timeout=60, cwd=None, capture=True):
     )
 
 
+def _run_streaming(cmd, timeout=60, cwd=None, progress_cb=None, heartbeat_secs=30):
+    """Run a command with real-time line streaming and heartbeat.
+
+    Args:
+        cmd: Command to run (list).
+        timeout: Max seconds before killing.
+        cwd: Working directory.
+        progress_cb: Callable(line: str) called for each stdout line.
+        heartbeat_secs: Log a heartbeat if no output for this many seconds.
+
+    Returns:
+        A subprocess.CompletedProcess-like object with .returncode, .stdout, .stderr.
+    """
+    import threading
+
+    proc = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        cwd=cwd or str(REPO_ROOT),
+        encoding="utf-8",
+        errors="replace",
+        bufsize=1,          # line-buffered
+    )
+
+    lines = []
+    t_start = time.time()
+    last_output_time = t_start
+    timed_out = False
+
+    def _reader():
+        """Read lines from proc in a thread (Windows has no select on pipes)."""
+        nonlocal last_output_time
+        try:
+            for raw_line in proc.stdout:
+                line = raw_line.rstrip("\n\r")
+                lines.append(line)
+                last_output_time = time.time()
+                if progress_cb:
+                    try:
+                        progress_cb(line)
+                    except Exception:
+                        pass
+        except (ValueError, OSError):
+            pass  # pipe closed
+
+    reader_t = threading.Thread(target=_reader, daemon=True)
+    reader_t.start()
+
+    # Wait for process with heartbeat
+    while True:
+        reader_t.join(timeout=heartbeat_secs)
+        elapsed = time.time() - t_start
+        if not reader_t.is_alive():
+            break
+        if elapsed > timeout:
+            log.warning("    [TEST] Killing process after %ds timeout", timeout)
+            proc.kill()
+            timed_out = True
+            reader_t.join(timeout=5)
+            break
+        # Heartbeat: log if no output for heartbeat_secs
+        silence = time.time() - last_output_time
+        if silence >= heartbeat_secs:
+            log.info("    [TEST] ... still running (%.0fs elapsed, %.0fs since last output)",
+                     elapsed, silence)
+
+    proc.wait()
+    out = "\n".join(lines)
+
+    if timed_out:
+        raise subprocess.TimeoutExpired(cmd, timeout, output=out)
+
+    # Return CompletedProcess-compatible object
+    class _Result:
+        def __init__(self, rc, stdout, stderr):
+            self.returncode = rc
+            self.stdout = stdout
+            self.stderr = stderr
+    return _Result(proc.returncode, out, "")
+
+
 def _extract_json(text):
     """Extract a JSON object from Claude/Gemini output (may be wrapped in envelope)."""
     if not text:
@@ -1183,9 +1266,85 @@ def run_tests(return_details=False):
             return ok, out, failed_list or [], phantom
         return ok
 
+    # ── Progress callback: log each test group result in real-time ──
+    _test_groups_done = [0]
+    _test_running_total = [0, 0]  # [passed, failed]
+    _last_group_name = [None]  # track last group for result-on-next-line
+
+    def _test_progress(line):
+        """Called for each output line from the test runner."""
+        stripped = line.strip()
+        if not stripped:
+            return
+        # Skip grep/locale warnings from MSYS2
+        if "grep:" in stripped or "supports only unibyte" in stripped:
+            return
+        # Phase headers
+        if stripped.startswith("[Phase"):
+            log.info("    [TEST] %s", stripped)
+            return
+        # Group results: "  [Connection           ] 1024 passed" or "  [UI] 348p/2f"
+        m_group = re.match(r'\s*\[(\S.*?)\]\s+(.*)', stripped)
+        if m_group:
+            gname = m_group.group(1).strip()
+            gresult = m_group.group(2).strip()
+            # Parse passed count from result (may be on this line)
+            m_p = re.search(r'(\d+)\s*(?:p(?:assed)?)', gresult)
+            if m_p:
+                _test_groups_done[0] += 1
+                _test_running_total[0] += int(m_p.group(1))
+                m_f = re.search(r'(\d+)\s*f(?:ailed)?', gresult)
+                if m_f:
+                    _test_running_total[1] += int(m_f.group(1))
+                log.info("    [TEST] Group %d: [%-20s] %s  (total: %dp/%df)",
+                         _test_groups_done[0], gname, gresult,
+                         _test_running_total[0], _test_running_total[1])
+                _last_group_name[0] = None
+            else:
+                # Result might come on the next line — remember the group name
+                _last_group_name[0] = gname
+            return
+        # Standalone result line after a group name (e.g. "1024 passed" on its own line)
+        m_standalone = re.match(r'^(\d+)\s*(?:p(?:assed)?|p/)', stripped)
+        if m_standalone or re.match(r'^(\d+)p/', stripped):
+            m_p = re.search(r'(\d+)\s*(?:p(?:assed)?)', stripped)
+            if m_p:
+                _test_groups_done[0] += 1
+                _test_running_total[0] += int(m_p.group(1))
+                m_f = re.search(r'(\d+)\s*f(?:ailed)?', stripped)
+                if m_f:
+                    _test_running_total[1] += int(m_f.group(1))
+                gname = _last_group_name[0] or f"group-{_test_groups_done[0]}"
+                log.info("    [TEST] Group %d: [%-20s] %s  (total: %dp/%df)",
+                         _test_groups_done[0], gname, stripped,
+                         _test_running_total[0], _test_running_total[1])
+                _last_group_name[0] = None
+                return
+        # "passed" standalone (FrmOptions isolated)
+        if stripped == "passed":
+            _test_groups_done[0] += 1
+            gname = _last_group_name[0] or f"isolated-{_test_groups_done[0]}"
+            log.info("    [TEST] Group %d: [%-20s] passed  (total: %dp/%df)",
+                     _test_groups_done[0], gname, _test_running_total[0],
+                     _test_running_total[1])
+            _last_group_name[0] = None
+            return
+        # Summary lines
+        if "RESULTS" in stripped or stripped.startswith("Total:") or stripped.startswith("Passed:"):
+            log.info("    [TEST] %s", stripped)
+            return
+        # Recovery/warning lines
+        if "Recovery" in stripped or "PHANTOM" in stripped or "CRASHED" in stripped:
+            log.warning("    [TEST] %s", stripped)
+            return
+        # RETRY lines
+        if "RETRY" in stripped:
+            log.warning("    [TEST] %s", stripped)
+
     t_start = time.time()
     try:
-        r = _run(TEST_CMD, timeout=TEST_TIMEOUT)
+        r = _run_streaming(TEST_CMD, timeout=TEST_TIMEOUT,
+                           progress_cb=_test_progress, heartbeat_secs=30)
         elapsed = time.time() - t_start
         out = (r.stdout or "") + "\n" + (r.stderr or "")
 
