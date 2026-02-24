@@ -55,7 +55,11 @@ namespace mRemoteNG.Config.Connections
                 SqlDatabaseMetaDataRetriever metaDataRetriever = new();
                 SqlConnectionListMetaData? metaData = metaDataRetriever.GetDatabaseMetaData(dbConnector);
 
-                if (metaData == null || !databaseVersionVerifier.VerifyDatabaseVersion(metaData.ConfVersion))
+                // metaData == null means a brand-new database whose schema was just
+                // initialized (tblRoot exists but has no rows yet). In that case skip
+                // the version check — WriteDatabaseMetaData will insert the tblRoot row
+                // with the current version during this save. (#1883)
+                if (metaData != null && !databaseVersionVerifier.VerifyDatabaseVersion(metaData.ConfVersion))
                 {
                     Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.ErrorConnectionListSaveFailed);
                     throw new Exception(Language.ErrorConnectionListSaveFailed);
