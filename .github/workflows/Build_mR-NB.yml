@@ -149,9 +149,9 @@ jobs:
         shell: pwsh
         run: |
           if ('${{ matrix.selfcontained }}' -eq 'true') {
-            dotnet restore --runtime win-${{ matrix.arch }} /p:PublishReadyToRun=true
+            dotnet restore mRemoteNG.sln --runtime win-${{ matrix.arch }} /p:PublishReadyToRun=true
           } else {
-            dotnet restore
+            dotnet restore mRemoteNG.sln
           }
 
       - name: (07) Build Release
