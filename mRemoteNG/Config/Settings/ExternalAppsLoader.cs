@@ -36,27 +36,27 @@ namespace mRemoteNG.Config.Settings
 
         public void LoadExternalAppsFromXML()
         {
+            string resolvedPath = SettingsFileInfo.ExtAppsFilePath;
+            bool hasCustomPath = !string.IsNullOrWhiteSpace(Properties.Settings.Default.CustomExtAppsFilePath?.Trim());
 #if !PORTABLE
             string oldPath =
  Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GeneralAppInfo.ProductName, SettingsFileInfo.ExtAppsFilesName);
 #endif
-            string newPath = Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.ExtAppsFilesName);
             XmlDocument? xDom = null;
             bool fallbackToBuiltInShellPresets = false;
 
-            if (File.Exists(newPath))
+            if (File.Exists(resolvedPath))
             {
-                _messageCollector.AddMessage(MessageClass.InformationMsg, $"Loading External Apps from: {newPath}",
+                _messageCollector.AddMessage(MessageClass.InformationMsg, $"Loading External Apps from: {resolvedPath}",
                                              true);
-                xDom = SecureXmlHelper.LoadXmlFromFile(newPath);
+                xDom = SecureXmlHelper.LoadXmlFromFile(resolvedPath);
             }
 #if !PORTABLE
-			else if (File.Exists(oldPath))
-			{
+            else if (!hasCustomPath && File.Exists(oldPath))
+            {
                 _messageCollector.AddMessage(MessageClass.InformationMsg, $"Loading External Apps from: {oldPath}", true);
                 xDom = SecureXmlHelper.LoadXmlFromFile(oldPath);
-
-			}
+            }
 #endif
             else
             {

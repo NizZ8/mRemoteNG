@@ -2632,5 +2632,17 @@ namespace mRemoteNG.Properties {
                         this["CustomConfigurationPath"] = value;
                     }
                 }
+
+                [global::System.Configuration.UserScopedSettingAttribute()]
+                [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+                [global::System.Configuration.DefaultSettingValueAttribute("")]
+                public string CustomExtAppsFilePath {
+                    get {
+                        return ((string)(this["CustomExtAppsFilePath"]));
+                    }
+                    set {
+                        this["CustomExtAppsFilePath"] = value;
+                    }
+                }
             }
         }

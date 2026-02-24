@@ -31,22 +31,27 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             lblConfigurationDirectory.Text = "Configuration directory:";
             btnBrowseConfigurationDirectory.Text = Language.strBrowse;
+            lblExtAppsFile.Text = "External apps file:";
+            btnBrowseExtAppsFile.Text = Language.strBrowse;
             lblConfigurationRestartRequired.Text =
                 $"{Application.ProductName ?? "mRemoteNG"} must be restarted before configuration directory changes take effect.";
 
             lblPortableInfo.Text = Runtime.IsPortableEdition
                 ? "Portable edition always uses the application folder and does not support a custom configuration directory."
-                : "Leave this value empty to use the default per-user configuration directory.";
+                : "Leave these values empty to use the default per-user configuration directory.";
         }
 
         public override void LoadSettings()
         {
             txtConfigurationDirectory.Text = Properties.Settings.Default.CustomConfigurationPath;
+            txtExtAppsFilePath.Text = Properties.Settings.Default.CustomExtAppsFilePath;
             ToggleControlsForEdition();
         }
 
         public override void SaveSettings()
         {
+            SaveExtAppsFilePathSetting();
+
             if (Runtime.IsPortableEdition)
                 return;
 
@@ -139,6 +144,33 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             btnBrowseConfigurationDirectory.Enabled = enabled;
         }
 
+        private void SaveExtAppsFilePathSetting()
+        {
+            string rawInput = txtExtAppsFilePath.Text?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(rawInput))
+            {
+                Properties.Settings.Default.CustomExtAppsFilePath = string.Empty;
+                txtExtAppsFilePath.Text = string.Empty;
+                return;
+            }
+
+            if (!TryNormalizePath(rawInput, out string normalizedPath))
+            {
+                MessageBox.Show(
+                    this,
+                    $"The external apps file path is not valid:{Environment.NewLine}{rawInput}",
+                    "External Apps File",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                txtExtAppsFilePath.Text = Properties.Settings.Default.CustomExtAppsFilePath;
+                return;
+            }
+
+            Properties.Settings.Default.CustomExtAppsFilePath = normalizedPath;
+            txtExtAppsFilePath.Text = normalizedPath;
+        }
+
         private void btnBrowseConfigurationDirectory_Click(object sender, EventArgs e)
         {
             using FolderBrowserDialog dialog = new()
@@ -155,6 +187,31 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             if (dialog.ShowDialog(this) == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
                 txtConfigurationDirectory.Text = dialog.SelectedPath;
+            }
+        }
+
+        private void btnBrowseExtAppsFile_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog dialog = new()
+            {
+                Title = "Select external apps file",
+                Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*",
+                DefaultExt = "xml",
+                CheckFileExists = false
+            };
+
+            string currentPath = txtExtAppsFilePath.Text?.Trim() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(currentPath))
+            {
+                string? dir = Path.GetDirectoryName(currentPath);
+                if (!string.IsNullOrWhiteSpace(dir) && Directory.Exists(dir))
+                    dialog.InitialDirectory = dir;
+                dialog.FileName = Path.GetFileName(currentPath);
+            }
+
+            if (dialog.ShowDialog(this) == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.FileName))
+            {
+                txtExtAppsFilePath.Text = dialog.FileName;
             }
         }
 

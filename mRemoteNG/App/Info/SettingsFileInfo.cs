@@ -37,6 +37,26 @@ namespace mRemoteNG.App.Info
 
         public static string LayoutFileName { get; } = "pnlLayout.xml";
         public static string ExtAppsFilesName { get; } = "extApps.xml";
+
+        public static string ExtAppsFilePath
+        {
+            get
+            {
+                string customPath = Settings.Default.CustomExtAppsFilePath?.Trim() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(customPath))
+                {
+                    try
+                    {
+                        string expandedPath = Environment.ExpandEnvironmentVariables(customPath);
+                        return Path.GetFullPath(expandedPath);
+                    }
+                    catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
+                    {
+                    }
+                }
+                return Path.Combine(SettingsPath, ExtAppsFilesName);
+            }
+        }
         public static string CmdSnippetsFileName { get; } = "cmdSnippets.xml";
         public static string ThemesFileName { get; } = "Themes.xml";
         public static string LocalConnectionProperties { get; } = "LocalConnectionProperties.xml";
