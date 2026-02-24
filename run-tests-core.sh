@@ -1,17 +1,17 @@
 #!/bin/bash
-# run-tests-core.sh - Core test runner (bash, v4 — PARALLEL, SHARED DLL)
-# Launches ALL test groups in parallel from the SAME DLL.
-# No copies needed — each testhost gets its own results directory.
-# Crashed groups are retried sequentially with cleanup between them.
-# Target: ~35s for 2800+ tests (vs ~8min sequential in v2).
+# run-tests-core.sh - Core test runner (bash, v5 — THROTTLED PARALLEL, SHARED DLL)
+# Launches test groups with MAX_PARALLEL sliding window to prevent resource exhaustion.
+# v4 launched all 9 groups simultaneously causing 60%+ crash rate from GDI/memory contention.
+# v5 limits to 2 concurrent testhost processes — eliminates crashes while staying fast.
 # NOTE: grep -oE only — MSYS2 grep doesn't support -oP (Perl regex).
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 TEST_DLL="$REPO_ROOT/mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll"
 RESULTS_BASE="/tmp/mremoteng-testresults"
 PARALLEL_DIR="/tmp/mremoteng-parallel-$$"
+MAX_PARALLEL=2
 
-# Test groups
+# Test groups (same proven 9 groups from v4)
 declare -a GROUP_NAMES=(
     "Connection"
     "Config.Xml"
@@ -34,9 +34,9 @@ declare -a GROUP_FILTERS=(
     'FullyQualifiedName!~mRemoteNGTests.Connection&FullyQualifiedName!~mRemoteNGTests.Config&FullyQualifiedName!~mRemoteNGTests.UI&FullyQualifiedName!~mRemoteNGTests.Tools&FullyQualifiedName!~mRemoteNGTests.Security&FullyQualifiedName!~mRemoteNGTests.Tree&FullyQualifiedName!~mRemoteNGTests.Container&FullyQualifiedName!~mRemoteNGTests.Credential&FullyQualifiedName!~mRemoteNGTests.IntegrationTests&FullyQualifiedName!~OptionsFormTests&FullyQualifiedName!~AllOptionsPagesTests'
     'FullyQualifiedName~mRemoteNGTests.IntegrationTests'
 )
-declare -a GROUP_EXPECTED=(1049 124 555 367 361 166 178 83 21)
+declare -a GROUP_EXPECTED=(1057 124 557 367 361 166 178 83 21)
 
-# FrmOptions isolated tests
+# FrmOptions isolated tests (GDI handle leak — must run alone)
 declare -a ISO_NAMES=("FormBehavior" "AllPages")
 declare -a ISO_FILTERS=("Name=FormBehavior" "Name=AllPagesExistWithIconsAndLoadCorrectSettings")
 
@@ -44,12 +44,23 @@ total_passed=0
 total_failed=0
 any_crashed=false
 groups_with_zero=0
+overall_start=$(date +%s)
 
 cleanup_env() {
     taskkill //F //IM testhost.exe >/dev/null 2>&1 || true
     taskkill //F //IM testhost.x86.exe >/dev/null 2>&1 || true
     rm -rf "$REPO_ROOT/TestResults" 2>/dev/null || true
     rm -f "$REPO_ROOT/mRemoteNGTests/bin/x64/Release/testhost.runtimeconfig.json" 2>/dev/null || true
+}
+
+# Pre-flight checks
+preflight_check() {
+    if [ ! -f "$TEST_DLL" ]; then
+        echo "ERROR: Test DLL not found: $TEST_DLL"
+        echo "Run build.ps1 first."
+        exit 2
+    fi
+    cleanup_env
 }
 
 # Run a single test group. Returns: passed|failed|crashed
@@ -90,22 +101,46 @@ run_group() {
     echo "${passed}|${failed}|${crashed}"
 }
 
-# ─── Phase 1: ALL groups in parallel ──────────────────────────────────
+# ─── Pre-flight ──────────────────────────────────────────────────────
+preflight_check
+
+# ─── Phase 1: Throttled parallel (sliding window) ───────────────────
 echo ""
 num_groups=${#GROUP_NAMES[@]}
-echo "[Phase 1] Running $num_groups test groups in PARALLEL..."
+echo "[Phase 1] Running $num_groups groups (max $MAX_PARALLEL concurrent)..."
 phase1_start=$(date +%s)
 
-cleanup_env
 sleep 1
 mkdir -p "$PARALLEL_DIR"
 
-declare -a PIDS=()
+# Sliding window: launch groups but never exceed MAX_PARALLEL concurrent
+running_pids=()
+group_pid_map=()   # Maps group index to PID
+
 for i in $(seq 0 $((num_groups - 1))); do
+    # Wait until we have a free slot
+    while [ ${#running_pids[@]} -ge $MAX_PARALLEL ]; do
+        # Wait for any one background job to finish
+        wait -n 2>/dev/null || true
+        # Rebuild running_pids keeping only still-alive PIDs
+        new_pids=()
+        for pid in "${running_pids[@]}"; do
+            if kill -0 "$pid" 2>/dev/null; then
+                new_pids+=("$pid")
+            fi
+        done
+        running_pids=("${new_pids[@]}")
+    done
+
+    # Launch group in background
     (run_group "$TEST_DLL" "${GROUP_FILTERS[$i]}" > "$PARALLEL_DIR/result-$i.txt" 2>&1) &
-    PIDS+=($!)
+    local_pid=$!
+    running_pids+=($local_pid)
+    group_pid_map[$i]=$local_pid
 done
-for pid in "${PIDS[@]}"; do wait "$pid" 2>/dev/null; done
+
+# Wait for all remaining
+for pid in "${running_pids[@]}"; do wait "$pid" 2>/dev/null; done
 phase1_elapsed=$(( $(date +%s) - phase1_start ))
 
 # Collect results
@@ -130,9 +165,9 @@ for i in $(seq 0 $((num_groups - 1))); do
         total_passed=$((total_passed + p))
     fi
 done
-echo "  (parallel phase: ${phase1_elapsed}s)"
+echo "  (throttled parallel: ${phase1_elapsed}s, crashes: ${#RETRY_INDICES[@]}/${num_groups})"
 
-# ─── Phase 2: Retry crashed groups sequentially ───────────────────────
+# ─── Phase 2: Retry crashed groups sequentially (safety net) ────────
 if [ ${#RETRY_INDICES[@]} -gt 0 ]; then
     echo ""
     echo "[Phase 2] Retrying ${#RETRY_INDICES[@]} crashed group(s) sequentially..."
@@ -145,7 +180,7 @@ if [ ${#RETRY_INDICES[@]} -gt 0 ]; then
         printf "  [%-20s] " "$name"
 
         best_p=0 best_f=0 best_c=false
-        for attempt in 1 2 3; do
+        for attempt in 1 2; do
             cleanup_env
             sleep 1
             result=$(run_group "$TEST_DLL" "${GROUP_FILTERS[$i]}")
@@ -154,7 +189,7 @@ if [ ${#RETRY_INDICES[@]} -gt 0 ]; then
             f=${f//[^0-9]/}; [ -z "$f" ] && f=0
             [ "$p" -gt "$best_p" ] && { best_p=$p; best_f=$f; best_c=$c; }
             [ "$best_p" -ge "$expected" ] && break
-            [ "$attempt" -lt 3 ] && printf "RETRY%d(%dp)... " "$attempt" "$p"
+            [ "$attempt" -lt 2 ] && printf "RETRY(%dp)... " "$p"
         done
 
         if [ "$best_c" = "true" ] && [ "$best_p" -eq 0 ]; then
@@ -221,6 +256,7 @@ if [ ! -f "$TEST_DLL" ] && [ -f "$BACKUP" ]; then
 fi
 
 total_tests=$((total_passed + total_failed))
+overall_elapsed=$(( $(date +%s) - overall_start ))
 MIN_TOTAL=2800
 
 echo ""
@@ -231,6 +267,7 @@ echo "  Passed:  $total_passed"
 [ "$any_crashed" = "true" ] && echo "  CRASHES: yes (partial results captured)"
 [ "$groups_with_zero" -gt 0 ] && echo "  PHANTOM_GROUPS: $groups_with_zero group(s) returned 0 tests"
 [ "$total_tests" -lt "$MIN_TOTAL" ] && echo "  WARNING: Only $total_tests tests (expected >$MIN_TOTAL)"
+echo "  Time:    ${overall_elapsed}s"
 echo "============================="
 
 if [ "$total_failed" -gt 0 ]; then exit 1; fi

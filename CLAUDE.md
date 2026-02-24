@@ -72,7 +72,7 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 ### 100% DLL Coverage:
 `run-tests.ps1` runs parallel groups + sequential Remnants. If coverage gap detected, exit 96. New namespaces: update `$groups` in `run-tests.ps1` or let Remnants handle them.
 
-### Current status: 2817/2817 passed, 0 failed
+### Current status: 2916/2916 passed, 0 failed
 
 ## CI/CD
 - Runners: `windows-2025-vs2026` with MSBuild 18.x (VS2026)

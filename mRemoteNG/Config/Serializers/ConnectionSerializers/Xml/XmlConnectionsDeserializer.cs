@@ -614,6 +614,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.RDPUseMultimon = xmlnode.GetAttributeAsBool("RDPUseMultimon");
                     connectionInfo.Notes = xmlnode.GetAttributeAsString("Notes");
                     connectionInfo.RetryOnFirstConnect = xmlnode.GetAttributeAsBool("RetryOnFirstConnect");
+                    connectionInfo.WaitForIPAvailability = xmlnode.GetAttributeAsBool("WaitForIPAvailability");
+                    connectionInfo.WaitForIPTimeout = xmlnode.GetAttributeAsInt("WaitForIPTimeout");
                     connectionInfo.ShowBrowserNavigationBar = xmlnode.GetAttributeAsBool("ShowBrowserNavigationBar");
                     connectionInfo.HttpPath = xmlnode.GetAttributeAsString("HttpPath");
                     connectionInfo.AlwaysPromptForCredentials = xmlnode.GetAttributeAsBool("AlwaysPromptForCredentials");
@@ -625,6 +627,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.Inheritance.RDPUseMultimon = xmlnode.GetAttributeAsBool("InheritRDPUseMultimon");
                     connectionInfo.Inheritance.Notes = xmlnode.GetAttributeAsBool("InheritNotes");
                     connectionInfo.Inheritance.RetryOnFirstConnect = xmlnode.GetAttributeAsBool("InheritRetryOnFirstConnect");
+                    connectionInfo.Inheritance.WaitForIPAvailability = xmlnode.GetAttributeAsBool("InheritWaitForIPAvailability");
+                    connectionInfo.Inheritance.WaitForIPTimeout = xmlnode.GetAttributeAsBool("InheritWaitForIPTimeout");
                     connectionInfo.CredentialId = xmlnode.GetAttributeAsString("CredentialId");
                 }
 

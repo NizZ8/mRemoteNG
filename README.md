@@ -8,11 +8,11 @@
 
 <strong>This fork is alive.</strong>
 
-We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>2,817 automated tests</strong>, and builds for x64, x86, and ARM64.
+We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>2,916 automated tests</strong>, and builds for x64, x86, and ARM64.
 
 <strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. We're tackling the entire backlog in one push — organize, automate, attend to every detail. Nothing gets left behind. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
 
-<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 2,817 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
+<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 2,916 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
 
 <strong>What's next:</strong> Once the backlog is current, ongoing maintenance — bug fixes, dependency updates, security patches — will run autonomously via <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code</a>, continuously monitoring new issues and shipping fixes with minimal human intervention.
 
@@ -76,7 +76,7 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 <summary><strong>What's in v1.81.0-beta.3?</strong> (585 issues addressed — largest release ever)</summary>
 
 ### Highlight: Marching to Zero Backlog
-**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,817 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
+**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,916 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
 
 ### New Features
 - **Reconnect** in context menu (#1233), **folder path on tab names** (#3083), **ADMX/ADML Group Policy templates** (#738)
@@ -262,27 +262,32 @@ MSBuild `-m` parallelizes at project level (3 projects), while Roslyn paralleliz
 ## Testing
 
 ```powershell
-# Parallel (5 processes, ~2 min) — recommended:
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1
+# Recommended (bash runner, 9 groups, max 2 concurrent, ~80s):
+bash run-tests-core.sh
+
+# PowerShell wrapper (builds first):
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 
 # Skip build (use existing binaries):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild
-
-# Sequential (single process):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Sequential
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**Current status:** 2,817 tests across 5 parallel processes, 0 failures, 0 skipped.
+**Current status:** 2,916 tests, 9 groups with sliding-window concurrency (max 2), 0 failures, 0 crashes.
 
-Multi-process parallelism is required because the production code uses shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey`) — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
+Multi-process parallelism is required because the production code uses shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey`) — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state. A `TestScope` class snapshots/restores all singletons per test fixture to prevent state leaks.
 
-| Process | Namespace | Tests |
-|---------|-----------|-------|
-| 1 | Security | 198 |
-| 2 | Tools + Messages + App + misc | 421 |
-| 3 | Config | 697 |
-| 4 | Connection + Credential + Tree + misc | 1,143 |
-| 5 | UI (RunWithMessagePump pattern) | 358 |
+| Group | Namespace | Tests |
+|-------|-----------|-------|
+| 1 | Connection | 1,057 |
+| 2 | Config.Xml | 124 |
+| 3 | Config.Other | 557 |
+| 4 | UI | 367 |
+| 5 | Tools | 361 |
+| 6 | Security | 166 |
+| 7 | Tree + Container + Credential | 178 |
+| 8 | Remaining | 83 |
+| 9 | Integration | 21 |
+| Isolated | FrmOptions (GDI handle leak) | 2 |
 
 ---
 
@@ -298,7 +303,7 @@ v1.80.0 consolidated status: [#3133](https://github.com/mRemoteNG/mRemoteNG/issu
 
 ### v1.81.0-beta.3 (2026-02-24) — 585 Issues Addressed
 - **Marching to Zero Backlog** — 838 issues tracked, 585 addressed (70%), 25 released
-- **744 commits**, 67 upstream commits merged, 2,817 tests (0 failures)
+- **744 commits**, 67 upstream commits merged, 2,916 tests (0 failures)
 - **7 new protocols** — VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
 - **Security** — 4 code scanning alerts fixed, CVE-2020-0765, thread-safe encryption
 - **Performance** — 81s → ms deserialization, parallel decryption, 9s builds
@@ -372,7 +377,7 @@ Development is driven by a Python orchestrator (`iis_orchestrator.py`) that uses
               │  (no AI — deterministic)                  │
               │                                          │
               │  1. build.ps1 (MSBuild)                  │
-              │  2. run-tests.ps1 (2,817 tests)          │
+              │  2. run-tests-core.sh (2,916 tests)       │
               │  3. git commit OR git restore             │
               │  4. gh issue comment                      │
               └──────────────────────────────────────────┘
@@ -391,7 +396,7 @@ Each issue starts with the fastest model and escalates only when needed:
 
 The orchestrator **never trusts agent output**. After every code change:
 - `build.ps1` must compile cleanly (MSBuild, all 3 projects)
-- `run-tests.ps1` must pass all 2,817 tests (5 parallel processes)
+- `run-tests.ps1` must pass all 2,916 tests (9 groups, max 2 concurrent)
 - On success: atomic commit (`fix(#NNNN): description`) + push
 - On failure: `git restore` immediately, log error, move to next issue
 - On release: templated comment posted to upstream issue via `gh`
@@ -405,7 +410,7 @@ The orchestrator **never trusts agent output**. After every code change:
 | Issues addressed in code | 585 (70%) |
 | Issues released + confirmed | 25 |
 | Nullable warnings fixed | 2,554 (100% clean) |
-| Tests passing | 2,817 (0 failures) |
+| Tests passing | 2,916 (0 failures) |
 | Upstream commits merged | 67 |
 | Supervisor failure modes handled | 12 (self-healing) |
 | Test regressions introduced | 0 |

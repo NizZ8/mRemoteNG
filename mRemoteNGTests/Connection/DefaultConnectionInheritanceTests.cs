@@ -1,13 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Versioning;
 using mRemoteNG.Connection;
+using mRemoteNGTests.TestHelpers;
 using NUnit.Framework;
 
 
 namespace mRemoteNGTests.Connection
 {
+    [SupportedOSPlatform("windows")]
 	public class DefaultConnectionInheritanceTests
     {
+        private TestScope? _scope;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _scope = TestScope.Begin();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _scope?.Dispose();
+        }
+
 	    [TestCaseSource(nameof(GetInheritanceProperties))]
 		public void LoadingDefaultInheritanceUpdatesAllProperties(PropertyInfo property)
         {

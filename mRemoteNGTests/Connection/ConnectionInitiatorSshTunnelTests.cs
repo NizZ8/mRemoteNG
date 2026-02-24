@@ -29,10 +29,12 @@ namespace mRemoteNGTests.Connection
         private ConnectionInfo _targetConnection;
         private ConnectionInfo _tunnelConnection;
         private string _tempFilePath;
+        private TestHelpers.TestScope? _scope;
 
         [SetUp]
         public void Setup()
         {
+            _scope = TestHelpers.TestScope.Begin();
             _mockProtocolFactory = Substitute.For<IProtocolFactory>();
             _mockTunnelPortValidator = Substitute.For<ITunnelPortValidator>();
             _connectionInitiator = new ConnectionInitiator(_mockProtocolFactory, _mockTunnelPortValidator);
@@ -89,6 +91,7 @@ namespace mRemoteNGTests.Connection
         [TearDown]
         public void Cleanup()
         {
+            _scope?.Dispose();
             if (File.Exists(_tempFilePath))
             {
                 File.Delete(_tempFilePath);

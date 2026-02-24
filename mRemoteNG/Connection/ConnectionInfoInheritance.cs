@@ -635,6 +635,18 @@ namespace mRemoteNG.Connection
          Description("Inherit the Retry On First Connect property from the parent."),
          TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
         public bool RetryOnFirstConnect { get; set; }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Miscellaneous), 8),
+         DisplayName("Inherit Wait For IP Availability"),
+         Description("Inherit the Wait For IP Availability property from the parent."),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
+        public bool WaitForIPAvailability { get; set; }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Miscellaneous), 8),
+         DisplayName("Inherit Wait For IP Timeout"),
+         Description("Inherit the Wait For IP Timeout property from the parent."),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
+        public bool WaitForIPTimeout { get; set; }
         #endregion
 
         #region VNC

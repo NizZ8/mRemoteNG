@@ -710,6 +710,18 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                     connectionRecord.RetryOnFirstConnect = value;
             }
 
+            if (headers.Contains("WaitForIPAvailability"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("WaitForIPAvailability")], out bool value))
+                    connectionRecord.WaitForIPAvailability = value;
+            }
+
+            if (headers.Contains("WaitForIPTimeout"))
+            {
+                if (int.TryParse(connectionCsv[headers.IndexOf("WaitForIPTimeout")], out int value))
+                    connectionRecord.WaitForIPTimeout = value;
+            }
+
             if (headers.Contains("ConnectionAddressPrimary"))
             {
                 if (Enum.TryParse(connectionCsv[headers.IndexOf("ConnectionAddressPrimary")], out ConnectionAddressPrimary value))
@@ -1310,6 +1322,18 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
             {
                 if (bool.TryParse(connectionCsv[headers.IndexOf("InheritRetryOnFirstConnect")], out bool value))
                     connectionRecord.Inheritance.RetryOnFirstConnect = value;
+            }
+
+            if (headers.Contains("InheritWaitForIPAvailability"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("InheritWaitForIPAvailability")], out bool value))
+                    connectionRecord.Inheritance.WaitForIPAvailability = value;
+            }
+
+            if (headers.Contains("InheritWaitForIPTimeout"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("InheritWaitForIPTimeout")], out bool value))
+                    connectionRecord.Inheritance.WaitForIPTimeout = value;
             }
 
             #endregion

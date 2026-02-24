@@ -146,6 +146,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             element.Add(new XAttribute("EnvironmentTags", connectionInfo.EnvironmentTags ?? string.Empty));
             element.Add(new XAttribute("Favorite", connectionInfo.Favorite));
             element.Add(new XAttribute("RetryOnFirstConnect", connectionInfo.RetryOnFirstConnect.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("WaitForIPAvailability", connectionInfo.WaitForIPAvailability.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("WaitForIPTimeout", connectionInfo.WaitForIPTimeout));
             element.Add(new XAttribute("AlwaysPromptForCredentials", connectionInfo.AlwaysPromptForCredentials.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("RDPSizingMode", connectionInfo.RDPSizingMode));
             element.Add(new XAttribute("ResolutionWidth", connectionInfo.ResolutionWidth));
@@ -368,6 +370,10 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 element.Add(new XAttribute("InheritFavorite", inheritance.Favorite.ToString().ToLowerInvariant()));
             if (inheritance.RetryOnFirstConnect)
                 element.Add(new XAttribute("InheritRetryOnFirstConnect", inheritance.RetryOnFirstConnect.ToString().ToLowerInvariant()));
+            if (inheritance.WaitForIPAvailability)
+                element.Add(new XAttribute("InheritWaitForIPAvailability", inheritance.WaitForIPAvailability.ToString().ToLowerInvariant()));
+            if (inheritance.WaitForIPTimeout)
+                element.Add(new XAttribute("InheritWaitForIPTimeout", inheritance.WaitForIPTimeout.ToString().ToLowerInvariant()));
             if (inheritance.AutoSort)
                 element.Add(new XAttribute("InheritAutoSort", inheritance.AutoSort.ToString().ToLowerInvariant()));
             if (inheritance.ExtApp)
