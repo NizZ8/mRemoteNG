@@ -851,6 +851,24 @@ namespace mRemoteNG.Connection.Protocol.RDP
             return Uri.CheckHostName(gatewayHostname.Trim()) != UriHostNameType.Unknown;
         }
 
+        /// <summary>
+        /// When a username contains a backslash-separated domain prefix (e.g. <c>AzureAD\user@domain.com</c>
+        /// or <c>CORP\john</c>), splits it into the domain part and the bare username so that the RDP
+        /// control receives them as separate fields.  If the username contains no backslash the values are
+        /// returned unchanged.
+        /// </summary>
+        internal static (string username, string domain) ParseDomainFromUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+                return (username, string.Empty);
+
+            int slashIdx = username.IndexOf('\\');
+            if (slashIdx < 0)
+                return (username, string.Empty);
+
+            return (username.Substring(slashIdx + 1), username.Substring(0, slashIdx));
+        }
+
         private void SetUseConsoleSession()
         {
             try
@@ -961,6 +979,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
                         Event_ErrorOccured(this, "Secret Server Interface Error: " + ex.Message, 0);
                     }
                 }
+
+                // If the username contains a backslash-separated domain prefix (e.g. AzureAD\user@domain.com)
+                // and no explicit domain is configured, extract the prefix as the domain so the RDP
+                // control receives them as separate fields and the prefix is not silently discarded.
+                if (string.IsNullOrEmpty(domain))
+                    (userName, domain) = ParseDomainFromUsername(userName);
 
                 if (string.IsNullOrEmpty(userName))
                 {
