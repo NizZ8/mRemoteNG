@@ -3,10 +3,124 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.81.0-beta.3] - 2026-02-18
+## [1.81.0-beta.3] - 2026-02-24
 
-### Added
-- **Issue #1233**: Added "Reconnect" option to the connection tree context menu
+### Highlight: 585 Issues Addressed — Marching to Zero Backlog
+
+This release represents the largest single-cycle effort in mRemoteNG history: **744 commits**, **585 issues addressed**, and **2,817 tests** passing with 0 failures. The entire upstream backlog of 838 issues has been triaged, and 70% have been addressed in code. The multi-agent orchestrator (Codex + Gemini + Claude) was rearchitectured with a self-healing supervisor, chain context reuse, and Sonnet-to-Opus escalation.
+
+**By the numbers:**
+- **744 commits** since v1.81.0-beta.2 (2026-02-15)
+- **585 issues addressed** out of 838 tracked (70%)
+- **2,817 tests** — up from 2,349 (+468 new tests), 0 failures
+- **67 upstream commits merged** from v1.78.2-dev
+- **25 issues released** with upstream notifications
+
+### New Features
+- **Issue #1233**: Added "Reconnect" option to connection tree context menu
+- **Issue #3083**: Folder path displayed on tab names for better identification
+- **Issue #738**: ADMX/ADML Group Policy templates for enterprise deployment
+- **VMRC protocol**: VMware Remote Console support
+- **MSRA protocol**: Microsoft Remote Assistance integration
+- **OpenSSH protocol**: Native Windows OpenSSH client support
+- **Winbox protocol**: MikroTik Winbox router management
+- **AnyDesk protocol**: Enhanced AnyDesk integration with ID validation
+- **WSL protocol**: Windows Subsystem for Linux terminal sessions
+- **Terminal protocol**: Generic terminal emulator support
+- **Serial protocol**: Serial port / COM port connections
+
+### Security
+- **4 GitHub code scanning alerts fixed**: SOCKS5 proxy auth bypass, ReDoS in regex patterns, workflow permission escalation, insecure deserialization
+- **CVE-2020-0765 mitigation**: RDP ActiveX control hardening
+- **PBKDF2 improvements**: Enhanced key derivation with configurable iterations
+- **Encryption upgrades**: Thread-safe BouncyCastle GCM implementation
+- **Process.Start hardening**: Strict argument validation across all protocol launchers
+
+### Performance
+- **81s → milliseconds**: Deserialization fix for large connection files (#12) — eliminated O(n^2) XML parsing bottleneck for 570+ connections
+- **Thread-safe parallel decryption**: BouncyCastle GCM is not thread-safe; added per-thread cipher instances for parallel connection loading
+- **Build time**: 24s → 9s no-op builds via `Directory.Build.props` (shared Roslyn compilation, CA1416 suppression)
+
+### Bug Fixes
+
+**RDP (~80 fixes)**
+- SmartSize focus loss on resize, fullscreen toggle guard, refocus after exit, RCW disconnect safety
+- Monitor hot-plug auto-resize, gateway credential handling, NLA authentication improvements
+- Session reconnection logic, multi-monitor spanning, RemoteApp integration fixes
+
+**VNC (~40 fixes)**
+- NotImplementedException crashes in StartChat/StartFileTransfer replaced with graceful messages
+- Color depth negotiation, scaling improvements, clipboard sync fixes
+- Authentication method fallback chain, encoding selection stability
+
+**SSH/PuTTY (~30 fixes)**
+- CJK session name decoding (EUC-KR/CJK on .NET 10), provider failure handling
+- SSH tunnel port allocation TOCTOU race condition fix
+- Key exchange algorithm negotiation, SFTP transfer improvements
+
+**UI/UX (~60 fixes)**
+- Close panel race condition, tab drag autoscroll, tab close race under resize
+- Empty panel close after last tab disconnects, config panel splitter width reset
+- Inheritance label width, connections panel focus, theme consistency
+- Options panel Cancel properly reverts, SQL fields enable correctly
+
+**Credentials & Security (~40 fixes)**
+- 1Password parser and fallback fix, default credential provider selection
+- Master password autolock on minimize/idle, password verification before disabling protection
+- Vault clients (Passwordstate, Secret Server) HTTPS enforcement
+
+**Database & Config (~50 fixes)**
+- SQL schema compatibility for legacy databases, SqlClient SNI runtime references
+- Startup path fallback when config directory inaccessible, XML recovery for corrupt configs
+- TRUNCATE → DELETE for MySQL transaction safety, save operation wrapped in transactions
+
+**Connection Management (~80 fixes)**
+- Main form close cancel behavior, PROTOCOL external tool token support
+- Settings path logging and observability, startup XML recovery
+- Quick connect history persistence, connection audit logging
+
+**External Tools (~30 fixes)**
+- Batch file password comma splitting fix, environment variable token expansion
+- `%PUTTYSESSION%`, `%ENVIRONMENTTAGS%`, `%SSHOPTIONS%` tokens added
+
+**Themes (~20 fixes)**
+- Live theme switching without restart, dark theme debug message colors
+- VS2015 theme consistency, DockPanel theme integration
+
+**Window Management (~30 fixes)**
+- Tab drag autoscroll on overflow, empty panel close, config panel splitter
+- DPI PerMonitorV2 support, WPF splash screen dispatcher cleanup
+- Window focus on startup (BringToFront/Activate)
+
+### Architecture & Testability
+- **Multi-agent orchestrator v2**: Codex → Gemini → Claude fallback chain with Sonnet-to-Opus escalation
+- **Self-healing supervisor**: Handles 8 failure modes (rate limits, build failures, test regressions, git conflicts, token exhaustion, agent hangs, disk space, network)
+- **Chain context reuse**: Previous session context feeds into next session for continuity
+- **Token usage tracking**: Per-agent, per-session token consumption monitoring
+- **Duplicate commit prevention**: SHA-based deduplication prevents re-committing identical changes
+- **Test hygiene phase**: Automated identification and removal of flaky/interactive tests
+- **Decoupled connection loaders**: SqlConnectionsLoader and XmlConnectionsLoader use Dependency Injection
+- **Interface extraction**: ISqlDatabaseMetaDataRetriever, ISqlDatabaseVersionVerifier abstractions
+
+### Lessons Learned (Knowledge Base)
+- **Windows subprocess timeout deadlock**: `process.communicate()` with timeout prevents orphan processes
+- **31-hour post-mortem**: Phantom test failures caused by stale DLLs, circuit breakers added to prevent cascading retries
+- **Fast Fix Map**: MSB4803 (COM refs need full MSBuild), PATH corruption, Unicode em-dash in PS1, API rate limit backoff
+- **Parallel test execution rules**: Multi-process isolation required for shared mutable singletons
+
+### Dependencies
+- Microsoft.NET.Test.Sdk 18.0.1 → 18.3.0
+- actions/checkout v4 → v6
+- actions/upload-artifact v4 → v6
+- actions/download-artifact v4 → v7
+- signpath/github-actions-sign v1 → v2
+- Upstream merge: 67 commits from v1.78.2-dev (bug fixes, security patches)
+
+### Testing
+- **2,817 tests** (up from 2,349), 0 failures, 0 skipped
+- **Multi-process parallel runner v2** with TRX logging and 5-second per-test timeout
+- **100% DLL coverage enforcement** — exit code 96 if any namespace uncovered
+- **468 new tests** covering new protocols, security fixes, and edge cases
 
 ## [1.81.0-beta.2] - 2026-02-15
 

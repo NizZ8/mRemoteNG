@@ -8,11 +8,11 @@
 
 <strong>This fork is alive.</strong>
 
-We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>2,349 automated tests</strong>, and builds for x64, x86, and ARM64.
+We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>2,817 automated tests</strong>, and builds for x64, x86, and ARM64.
 
-<strong>The plan:</strong> tackle the entire <strong>830 issue backlog</strong> in one push — organize, automate, attend to every detail. Nothing gets left behind. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
+<strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. We're tackling the entire backlog in one push — organize, automate, attend to every detail. Nothing gets left behind. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
 
-<strong>How we work:</strong> A Python <strong>orchestrator</strong> coordinates three AI agents — <strong>Codex</strong> (OpenAI) for fast triage, <strong>Gemini CLI</strong> (Google) for bulk code transformations, and <strong>Claude Code</strong> (Anthropic) for complex multi-file fixes and final review. Per issue, agents run as a fallback chain (Codex first, then Gemini, then Claude). Every change is independently verified (build + 2,349 tests) before commit. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
+<strong>How we work:</strong> A Python <strong>orchestrator</strong> coordinates three AI agents — <strong>Codex</strong> (OpenAI) for fast triage, <strong>Gemini CLI</strong> (Google) for bulk code transformations, and <strong>Claude Code</strong> (Anthropic) for complex multi-file fixes and final review. Per issue, agents run as a fallback chain (Codex first, then Gemini, then Claude) with Sonnet-to-Opus escalation for the hardest problems. Every change is independently verified (build + 2,817 tests) before commit. A <strong>self-healing supervisor</strong> handles 8 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
 
 <strong>What's next:</strong> Once the backlog is current, ongoing maintenance — bug fixes, dependency updates, security patches — will run autonomously via <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code</a>, continuously monitoring new issues and shipping fixes with minimal human intervention.
 
@@ -23,11 +23,11 @@ Full transparency: this project is built by humans and AI working together. We b
 </blockquote>
 
 <p align="center">
-  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2">
-    <img alt="Beta" src="https://img.shields.io/badge/beta-v1.81.0--beta.2-orange?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.3">
+    <img alt="Beta" src="https://img.shields.io/badge/beta-v1.81.0--beta.3-orange?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
-    <img alt="Next" src="https://img.shields.io/badge/next-v1.81.0--beta.3-blue?style=for-the-badge">
+    <img alt="Next" src="https://img.shields.io/badge/next-v1.81.0--beta.4-blue?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
@@ -55,8 +55,8 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 
 ## Beta Builds (Main Branch)
 
-<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2">
-  <img alt="Beta v1.81.0-beta.2" src="https://img.shields.io/badge/beta-v1.81.0--beta.2-orange?style=for-the-badge">
+<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.3">
+  <img alt="Beta v1.81.0-beta.3" src="https://img.shields.io/badge/beta-v1.81.0--beta.3-orange?style=for-the-badge">
 </a>
 
 > [!IMPORTANT]
@@ -64,30 +64,63 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 
 | Variant | x64 | x86 | ARM64 |
 |---------|-----|-----|-------|
-| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-arm64.zip) |
-| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.2/mRemoteNG-v1.81.0-beta.2-win-arm64-SelfContained.zip) |
+| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-arm64.zip) |
+| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-arm64-SelfContained.zip) |
 
 **Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 **Self-contained** includes the .NET runtime — no prerequisites needed.
 
 ---
 
-<details>
-<summary><strong>What's in v1.81.0-beta.2?</strong></summary>
+<details open>
+<summary><strong>What's in v1.81.0-beta.3?</strong> (585 issues addressed — largest release ever)</summary>
 
-### Highlight: Zero Nullable Warnings
-This release is **100% nullable-clean**, having resolved all **2,554 CS8xxx warnings** across the entire codebase. This massive quality effort was coordinated by the **IIS Orchestrator** using AI agents to ensure strict null safety and type reliability.
+### Highlight: Marching to Zero Backlog
+**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,817 tests** passing with 0 failures. The multi-agent orchestrator was rearchitectured with a self-healing supervisor, chain context reuse, and Sonnet-to-Opus escalation.
 
-### Architecture: Testable Connection Loaders
-- **Decoupled Logic**: `SqlConnectionsLoader` and `XmlConnectionsLoader` now use **Dependency Injection**, removing hardcoded dependencies on interactive UI dialogs and SQL infrastructure.
-- **New SQL Abstractions**: Introduced `ISqlDatabaseMetaDataRetriever` and `ISqlDatabaseVersionVerifier` interfaces.
-- **Autonomous Integration Tests**: Added fully automated test suites for encrypted connection loading that run in CI without a live database or user input.
+### New Features
+- **Reconnect** in context menu (#1233), **folder path on tab names** (#3083), **ADMX/ADML Group Policy templates** (#738)
+- **7 new protocols**: VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
 
 ### Security
-- **AnyDesk command injection prevention**: Validates IDs via `IsValidAnydeskId()` before process execution.
-- Dependency update: `System.Drawing.Common` to 10.0.3 (GDI+ security fix).
+- 4 GitHub code scanning alerts fixed (SOCKS5, ReDoS, workflow permissions, insecure deserialization)
+- CVE-2020-0765 mitigation, PBKDF2 improvements, thread-safe BouncyCastle GCM
+
+### Performance
+- **81s → ms** deserialization fix for 570+ connections (#12)
+- Thread-safe parallel decryption, build time 24s → 9s
+
+### Bug Fixes (585 issues across all categories)
+- **RDP** (~80): SmartSize, fullscreen, gateway, monitor hot-plug, NLA, reconnection
+- **VNC** (~40): crash fixes, color depth, clipboard sync, authentication fallback
+- **SSH/PuTTY** (~30): CJK names, tunnel TOCTOU, key exchange, SFTP
+- **UI/UX** (~60): panel races, tab drag, theme consistency, Options panel fixes
+- **Credentials** (~40): 1Password, master password autolock, vault HTTPS enforcement
+- **Database** (~50): SQL schema compat, transaction safety, XML recovery
+- **Connections** (~80): external tool tokens, audit logging, quick connect history
+- **Themes** (~20): live switching, dark mode colors, DockPanel integration
+- **Windows** (~30): DPI PerMonitorV2, splash screen, tab overflow
+
+### Architecture
+- Multi-agent orchestrator v2 with self-healing supervisor (8 failure modes)
+- Chain context reuse, token tracking, duplicate commit prevention
+- Decoupled connection loaders via DI, new SQL abstractions
+
+### Dependencies
+- Microsoft.NET.Test.Sdk 18.3.0, actions/checkout v6, signpath v2
+- 67 upstream commits merged from v1.78.2-dev
 
 See [CHANGELOG.md](CHANGELOG.md) for the full list.
+
+</details>
+
+<details>
+<summary><strong>Previous release: v1.81.0-beta.2</strong> (2026-02-15, zero nullable warnings)</summary>
+
+- **Zero Nullable Warnings** — 2,554 CS8xxx warnings fixed across 242 files (100% clean)
+- **Testable Connection Loaders** — SqlConnectionsLoader & XmlConnectionsLoader via DI
+- **AnyDesk command injection prevention** — IsValidAnydeskId() validation
+- **2,349 tests**, 0 failures, 5 parallel processes
 
 </details>
 
@@ -170,6 +203,13 @@ The following protocols are supported:
 * Raw Socket Connections
 * Powershell remoting
 * AnyDesk
+* VMRC (VMware Remote Console)
+* MSRA (Microsoft Remote Assistance)
+* OpenSSH (Native Windows OpenSSH client)
+* Winbox (MikroTik router management)
+* WSL (Windows Subsystem for Linux)
+* Terminal (Generic terminal emulator)
+* Serial (COM port connections)
 
 For a detailed feature list and general usage support, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -232,17 +272,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Sequential
 ```
 
-**Current status:** 2,349 tests across 5 parallel processes, 0 failures, 3 skipped.
+**Current status:** 2,817 tests across 5 parallel processes, 0 failures, 0 skipped.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey`) — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 
 | Process | Namespace | Tests |
 |---------|-----------|-------|
-| 1 | Security | 164 |
-| 2 | Tools + Messages + App + misc | 354 |
-| 3 | Config | 588 |
-| 4 | Connection + Credential + Tree + misc | 945 |
-| 5 | UI (RunWithMessagePump pattern) | 298 |
+| 1 | Security | 198 |
+| 2 | Tools + Messages + App + misc | 421 |
+| 3 | Config | 697 |
+| 4 | Connection + Credential + Tree + misc | 1,143 |
+| 5 | UI (RunWithMessagePump pattern) | 358 |
 
 ---
 
@@ -256,13 +296,18 @@ v1.80.0 consolidated status: [#3133](https://github.com/mRemoteNG/mRemoteNG/issu
 
 ## What's New
 
+### v1.81.0-beta.3 (2026-02-24) — 585 Issues Addressed
+- **Marching to Zero Backlog** — 838 issues tracked, 585 addressed (70%), 25 released
+- **744 commits**, 67 upstream commits merged, 2,817 tests (0 failures)
+- **7 new protocols** — VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
+- **Security** — 4 code scanning alerts fixed, CVE-2020-0765, thread-safe encryption
+- **Performance** — 81s → ms deserialization, parallel decryption, 9s builds
+- **Orchestrator v2** — self-healing supervisor, chain context reuse, Sonnet→Opus escalation
+- **Features** — Reconnect menu (#1233), folder path tabs (#3083), ADMX templates (#738)
+
 ### v1.81.0-beta.2 (2026-02-15)
-- **Zero Nullable Warnings** — 100% clean codebase (2,554 fixed across 242 files) via multi-agent orchestrator
-- **2,349 tests** — 5 parallel processes, 0 failures (up from 2,179 at v1.79.0)
-- **Testable Architecture** — Decoupled `SqlConnectionsLoader` & `XmlConnectionsLoader` via DI
-- **AnyDesk Security** — command injection prevention fix
-- **100% Autonomous Loading Tests** — zero-UI integration tests for encrypted files
-- **Build optimization** — `Directory.Build.props` (CA1416 suppression, shared Roslyn), ~15s full / ~9s incremental
+- **Zero Nullable Warnings** — 2,554 fixed across 242 files via multi-agent orchestrator
+- **2,349 tests**, testable architecture (DI), AnyDesk security fix
 
 ### v1.80.2 (2026-02-14)
 - **AlwaysShowPanelTabs initialization fix** ([#3142](https://github.com/mRemoteNG/mRemoteNG/issues/3142))
@@ -300,6 +345,7 @@ Development is driven by a Python orchestrator (`iis_orchestrator.py`) that coor
                            ┌─────────────────────────────┐
                            │   iis_orchestrator.py        │
                            │   (Python — control loop)    │
+                           │   + self-healing supervisor   │
                            └──────────┬──────────────────┘
                                       │
               ┌───────────────────────┼───────────────────────┐
@@ -309,7 +355,7 @@ Development is driven by a Python orchestrator (`iis_orchestrator.py`) that coor
    │                     │ │                     │ │ (Anthropic)        │
    │  • Fast triage      │ │ • Bulk transforms   │ │ • Complex fixes    │
    │  • Simple fixes     │ │ • Nullable cleanup  │ │ • Multi-file edits │
-   │  • ~15-30s/issue    │ │ • 466 warnings/run  │ │ • Final review     │
+   │  • ~15-30s/issue    │ │ • 466 warnings/run  │ │ • Sonnet → Opus    │
    │  • Priority P0-P4   │ │ • Cascading types   │ │ • Corrects others  │
    └──────────┬──────────┘ └─────────┬──────────┘ └─────────┬──────────┘
               │                       │                       │
@@ -320,7 +366,7 @@ Development is driven by a Python orchestrator (`iis_orchestrator.py`) that coor
                            │  (no AI — deterministic)     │
                            │                              │
                            │  1. build.ps1 (MSBuild)      │
-                           │  2. run-tests.ps1 (2,349)    │
+                           │  2. run-tests.ps1 (2,817)    │
                            │  3. git commit OR git restore │
                            │  4. gh issue comment          │
                            └──────────────────────────────┘
@@ -339,20 +385,23 @@ Each issue flows through agents as a fallback chain — if the first agent fails
 
 The orchestrator **never trusts agent output**. After every code change:
 - `build.ps1` must compile cleanly (MSBuild, all 3 projects)
-- `run-tests.ps1` must pass all 2,349 tests (5 parallel processes)
+- `run-tests.ps1` must pass all 2,817 tests (5 parallel processes)
 - On success: atomic commit (`fix(#NNNN): description`) + push
 - On failure: `git restore` immediately, log error, move to next issue
 - On release: templated comment posted to upstream issue via `gh`
 
-### Results (v1.81.0-beta.2)
+### Results (v1.81.0-beta.3)
 
 | Metric | Value |
 |--------|-------|
+| Total commits since beta.2 | 744 |
+| Issues tracked | 838 |
+| Issues addressed in code | 585 (70%) |
+| Issues released + confirmed | 25 |
 | Nullable warnings fixed | 2,554 (100% clean) |
-| Orchestrator sessions | 4 |
-| Issues triaged | 830 |
-| Issues fixed and released | 25 |
-| Upstream notifications sent | 25 |
+| Tests passing | 2,817 (0 failures) |
+| Upstream commits merged | 67 |
+| Orchestrator failure modes handled | 8 (self-healing) |
 | Test regressions introduced | 0 |
 
 ## Issue Intelligence System
@@ -383,7 +432,17 @@ python .project-roadmap/scripts/iis_orchestrator.py update --issue <N> --status 
 python .project-roadmap/scripts/iis_orchestrator.py report --include-all
 ```
 
-**Current stats** (as of 2026-02-16): 830 issues tracked, 25 released, 8 duplicate, 9 wontfix.
+**Current stats** (as of 2026-02-24): 838 issues tracked, 585 addressed in code (70%), 25 released, 8 duplicate, 9 wontfix.
+
+### Marching to Zero Backlog
+
+| Metric | Count |
+|--------|-------|
+| Total issues tracked | 838 |
+| Addressed in code | 585 (70%) |
+| Released + confirmed | 25 |
+| Remaining (new/untriaged) | 253 |
+| **Goal** | **0 untriaged issues** |
 
 See [.project-roadmap/issues-db/README.md](.project-roadmap/issues-db/README.md) for full documentation.
 
@@ -425,11 +484,14 @@ Every success and failure is captured in a structured lessons system that feeds 
 
 ### Examples of lessons that saved hours
 
+- **31-hour post-mortem** — phantom test failures caused by stale DLLs in wrong output paths; circuit breakers added to prevent cascading retries
+- **Windows subprocess timeout deadlock** — `process.communicate()` with timeout prevents orphan processes in orchestrator
 - **CueBanner test flakiness** (30+ min lost once, never again) — `Assume.That` on Win32 operation result, not preconditions
 - **PowerShell 5.1 Unicode corruption** — em-dashes in .ps1 files break parser at random `}` far from actual issue
 - **NUnit fixture parallelism** — shared mutable singletons cause 27 failures; multi-process is the only safe approach
 - **Self-contained build** — `msbuild -p:SelfContained` does NOT embed runtime; must use `-t:Publish`
 - **CI workflow triggers** — changes in the same commit don't take effect for that push
+- **BouncyCastle GCM not thread-safe** — parallel decryption requires per-thread cipher instances
 
 ---
 
