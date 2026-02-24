@@ -15,5 +15,6 @@
         ConnectionTester = 15,
         UltraVNCSC = 16,
         KeyboardShortcuts = 17,
+        ActiveConnections = 18,
     }
 }

@@ -23,6 +23,7 @@ namespace mRemoteNG.UI.Menu
         private ToolStripSeparator _mMenViewSep1 = null!;
         public ToolStripMenuItem _mMenViewErrorsAndInfos = null!;
         private ToolStripMenuItem _mMenViewConfigPanel = null!;
+        private ToolStripMenuItem _mMenViewActiveConnections = null!;
         public ToolStripMenuItem _mMenViewFileMenu = null!;
         private ToolStripMenuItem _mMenViewAddConnectionPanel = null!;
         private ToolStripSeparator _mMenViewSep2 = null!;
@@ -60,6 +61,7 @@ namespace mRemoteNG.UI.Menu
             _mMenViewFileMenu = new ToolStripMenuItem();
             _mMenViewErrorsAndInfos = new ToolStripMenuItem();
             _mMenViewConfigPanel = new ToolStripMenuItem();
+            _mMenViewActiveConnections = new ToolStripMenuItem();
             _mMenViewResetLayout = new ToolStripMenuItem();
             _mMenViewLoadLayout = new ToolStripMenuItem();
             _mMenViewSaveLayout = new ToolStripMenuItem();
@@ -80,6 +82,7 @@ namespace mRemoteNG.UI.Menu
                 _mMenViewFileMenu,
                 _mMenViewErrorsAndInfos,
                 _mMenViewConfigPanel,
+                _mMenViewActiveConnections,
                 _mMenViewQuickConnectToolbar,
                 _mMenViewExtAppsToolbar,
                 _mMenViewMultiSshToolbar,
@@ -154,6 +157,13 @@ namespace mRemoteNG.UI.Menu
             _mMenViewConfigPanel.Size = new System.Drawing.Size(228, 22);
             _mMenViewConfigPanel.Text = Language.Config;
             _mMenViewConfigPanel.Click += mMenViewConfigPanel_Click;
+            //
+            // mMenViewActiveConnections
+            //
+            _mMenViewActiveConnections.Name = "mMenViewActiveConnections";
+            _mMenViewActiveConnections.Size = new System.Drawing.Size(228, 22);
+            _mMenViewActiveConnections.Text = "Active Connections";
+            _mMenViewActiveConnections.Click += mMenViewActiveConnections_Click;
             //
             // mMenViewResetLayout
             //
@@ -237,6 +247,7 @@ namespace mRemoteNG.UI.Menu
             _mMenViewConnectionPanels.Text = Language.ConnectionPanels;
             _mMenViewErrorsAndInfos.Text = Language.Notifications;
             _mMenViewConfigPanel.Text = Language.Config;
+            _mMenViewActiveConnections.Text = "Active Connections";
             _mMenViewResetLayout.Text = Language.ResetLayout;
             _mMenViewLoadLayout.Text = "Load Layout";
             _mMenViewSaveLayout.Text = "Save Layout...";
@@ -313,6 +324,11 @@ namespace mRemoteNG.UI.Menu
                 AppWindows.ConfigForm.Hide();
                 _mMenViewConfigPanel.Checked = false;
             }
+        }
+
+        private void mMenViewActiveConnections_Click(object sender, EventArgs e)
+        {
+            AppWindows.Show(WindowType.ActiveConnections);
         }
 
         private void mMenViewFileMenu_Click(object sender, EventArgs e)
