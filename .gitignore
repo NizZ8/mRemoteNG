@@ -303,6 +303,14 @@ test-output.txt
 test-results*.txt
 nul
 
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Orchestrator temp output
+triage_result.json
+output.json
+
 # Auto Claude data directory
 .auto-claude/
 
