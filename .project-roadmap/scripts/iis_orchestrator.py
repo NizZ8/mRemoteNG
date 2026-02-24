@@ -2720,6 +2720,119 @@ Do ONLY the fix. Nothing else."""
 
         log.warning("  [CHAIN] %s failed for #%d — passing to next agent", agent, num)
 
+    # ── OPUS FALLBACK: when Sonnet fails implementation, retry with Opus ──
+    if CLAUDE_MODEL_BY_TASK.get("implement") != CLAUDE_MODEL_OPUS:
+        log.info("  [CHAIN] Sonnet failed — retrying #%d with Opus (deeper reasoning)", num)
+
+        # Time cap check
+        elapsed_total = time.time() - issue_start_time
+        if elapsed_total > ISSUE_TOTAL_TIME_CAP:
+            log.error("  [CHAIN] Time cap exceeded before Opus fallback for #%d", num)
+        else:
+            # Opus gets 2x the Sonnet timeout (deeper reasoning needs more time)
+            opus_timeout = int(_estimate_timeout("claude", "implement",
+                                                  issue_key=issue_key,
+                                                  chain_escalation=chain_esc) * 2.0)
+            opus_timeout = min(opus_timeout, TIMEOUT_MAX)
+
+            status.set_task(type="issue_fix", issue=num, step="opus_implement")
+            git_restore()  # Clean slate for Opus
+
+            # Build Opus prompt with all previous attempt context
+            opus_prompt = impl_prompt
+            if ctx.attempts:
+                prev_context = "\n".join(
+                    f"- Attempt {a['agent']} ({a.get('build_result','?')}/{a.get('test_result','?')}): {a.get('errors','')[:300]}"
+                    for a in ctx.attempts[-3:]  # last 3 attempts
+                )
+                opus_prompt += f"\n\n## Previous failed attempts (learn from these)\n{prev_context}\n"
+
+            t0 = time.time()
+            raw_output = _agent_dispatch("claude", opus_prompt,
+                                          max_turns=30,
+                                          timeout=opus_timeout,
+                                          retries=1,
+                                          claude_model=CLAUDE_MODEL_OPUS)
+            elapsed = time.time() - t0
+            kill_stale_processes()
+
+            if raw_output:
+                log.info("  [CHAIN] Opus implement returned (%d chars, %.0fs)", len(raw_output), elapsed)
+
+                # Check build
+                status.set_task(type="issue_fix", issue=num, step="building_opus")
+                build_ok, build_output = run_build(capture_output=True)
+
+                if build_ok:
+                    # Run tests
+                    status.set_task(type="issue_fix", issue=num, step="testing_opus")
+                    test_result = run_tests(return_details=True)
+                    if len(test_result) == 4:
+                        test_ok, test_output, failed_tests, is_phantom = test_result
+                    else:
+                        test_ok, test_output, failed_tests = test_result
+                        is_phantom = False
+
+                    if test_ok and not is_phantom:
+                        # SUCCESS — commit
+                        ctx.add_attempt("claude", f"implement #{num} (opus)", True,
+                                        build_result="OK", test_result="OK")
+                        ctx.save()
+                        _session_agents_used.add("claude")
+
+                        status.set_task(type="issue_fix", issue=num, step="committing")
+                        short = (approach or title)[:60]
+                        msg = f"fix(#{num}): {short}"
+                        h = git_commit(msg)
+                        if h:
+                            status.add_commit(h, msg, True)
+                            status.data["issues"]["implemented"] += 1
+                            log.info("  [CHAIN] Opus fix committed %s for #%d", h[:8], num)
+
+                            status.set_task(type="issue_fix", issue=num, step="pushing")
+                            git_push()
+                            if post_github_comment(num, h, short):
+                                status.data["issues"]["commented_on_github"] += 1
+                            update_issue_json(num, "testing", f"Fix in {h[:8]}",
+                                              impl_failed=False)
+                            status.clear_task()
+                            return True
+                    elif test_ok and is_phantom:
+                        log.warning("  [CHAIN] Opus: phantom tests for #%d", num)
+                    else:
+                        # Tests failed — try test-fix-first
+                        diff_out = _capture_full_diff()
+                        modified, diff_stat = _capture_post_timeout_state()
+                        log.warning("  [CHAIN] Opus build OK but tests fail for #%d — trying test fix", num)
+                        test_fixed = _attempt_test_fix(
+                            num, title, "claude", failed_tests, test_output, status, ctx)
+                        if test_fixed:
+                            ctx.add_attempt("claude", f"implement #{num} (opus)", True,
+                                            build_result="OK", test_result="OK (after test fix)")
+                            ctx.save()
+                            short = (approach or title)[:60]
+                            msg = f"fix(#{num}): {short}"
+                            h = git_commit(msg)
+                            if h:
+                                status.add_commit(h, msg, True)
+                                status.data["issues"]["implemented"] += 1
+                                log.info("  [CHAIN] Opus + test fix committed %s", h[:8])
+                                git_push()
+                                if post_github_comment(num, h, short):
+                                    status.data["issues"]["commented_on_github"] += 1
+                                update_issue_json(num, "testing", f"Fix in {h[:8]}",
+                                                  impl_failed=False)
+                                status.clear_task()
+                                return True
+                else:
+                    log.warning("  [CHAIN] Opus build failed for #%d", num)
+            else:
+                log.warning("  [CHAIN] Opus returned nothing for #%d", num)
+
+            # Opus also failed — revert and fall through
+            git_restore()
+            log.error("  [CHAIN] Opus fallback also failed for #%d", num)
+
     ctx.save()
     update_issue_json(num, "triaged", "Implementation failed", impl_failed=True)
     return False
