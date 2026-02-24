@@ -29,7 +29,20 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
 
                 if (!DoesDbTableExist(databaseConnector, "tblRoot"))
                 {
-                    // database exists but is empty, initialize it with the schema
+                    // tblRoot is absent.  Before wiping anything, check whether tblCons
+                    // already exists — if it does the database is in an inconsistent state
+                    // (metadata lost but connections are present).  Attempting to
+                    // InitializeDatabaseSchema would DROP tblCons and erase all connections,
+                    // so throw instead to surface the problem without causing data loss (#1784).
+                    if (DoesDbTableExist(databaseConnector, "tblCons"))
+                    {
+                        throw new Exception(
+                            "Database is in an inconsistent state: tblCons exists but tblRoot is missing. " +
+                            "Load aborted to prevent data loss. Please restore the tblRoot table or " +
+                            "recreate the database schema manually.");
+                    }
+
+                    // Truly new/empty database — safe to initialize the schema.
                     InitializeDatabaseSchema(databaseConnector);
                 }
                 else
@@ -201,6 +214,25 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
 
                 short cmdResult = Convert.ToInt16(cmd.ExecuteScalar());
                 exists = (cmdResult == 1);
+
+                // If information_schema reports the table as absent, verify with a direct
+                // query before concluding it doesn't exist.  This guards against false
+                // negatives caused by schema-name case-sensitivity (Linux MySQL) or
+                // insufficient information_schema permissions — either of which would
+                // otherwise trigger InitializeDatabaseSchema and erase all data (#1784).
+                if (!exists && IsValidTableName(tableName))
+                {
+                    try
+                    {
+                        DbCommand verifyCmd = databaseConnector.DbCommand($"select 1 from {tableName} where 1 = 0");
+                        verifyCmd.ExecuteNonQuery();
+                        exists = true; // table is reachable — information_schema was wrong
+                    }
+                    catch
+                    {
+                        exists = false; // table truly does not exist
+                    }
+                }
             }
             catch
             {
