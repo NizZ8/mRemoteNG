@@ -71,7 +71,7 @@ TEST_PASS_THRESHOLD = 0.99        # accept commit if ≥99% tests pass (1-3 fail
 TEST_MIN_DURATION_SECS = 10       # tests taking less than this = phantom (didn't run)
 TEST_MIN_COUNT = 100              # reject if fewer tests than expected (sanity check)
 IMPL_CONSECUTIVE_FAIL_LIMIT = 5   # circuit breaker: stop after N consecutive impl failures
-IMPL_MAX_RETRIES_PER_ISSUE = 3    # skip issue after N failed attempts across sessions
+IMPL_MAX_RETRIES_PER_ISSUE = 10   # skip issue after N failed attempts (raised from 3 after CLAUDE.md agent optimization)
 TEST_FIX_MAX_ATTEMPTS = 2         # how many times to ask an agent to fix failing tests
 TEST_HYGIENE_MAX_GROUPS = 10      # max failure groups to attempt fixing in hygiene phase
 TEST_HYGIENE_FIX_ATTEMPTS = 2    # attempts per failure group during hygiene
@@ -1062,8 +1062,38 @@ def _extract_json(text):
 
 
 # ── CORE: BUILD & TEST ─────────────────────────────────────────────────────
+def _verify_build_dlls():
+    """Check that critical DLLs exist after build. Returns list of missing DLLs."""
+    critical_dlls = [
+        REPO_ROOT / "mRemoteNG" / "bin" / "x64" / "Release" / "mRemoteNG.dll",
+        REPO_ROOT / "mRemoteNGTests" / "bin" / "x64" / "Release" / "mRemoteNGTests.dll",
+    ]
+    return [str(d) for d in critical_dlls if not d.exists()]
+
+
+def _run_full_restore_rebuild():
+    """Full clean rebuild with restore — nuclear option for missing DLLs."""
+    log.info("    [BUILD] Full restore + rebuild (recovering missing DLLs) ...")
+    cmd = [
+        "powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
+        "-File", str(REPO_ROOT / "build.ps1"),
+    ]
+    try:
+        r = _run(cmd, timeout=BUILD_TIMEOUT)
+        ok = r.returncode == 0
+        if ok:
+            log.info("    [BUILD] Full restore rebuild OK")
+        else:
+            log.error("    [BUILD] Full restore rebuild FAILED (exit %d)", r.returncode)
+        return ok
+    except Exception as e:
+        log.error("    [BUILD] Full restore rebuild ERROR: %s", e)
+        return False
+
+
 def run_build(capture_output=False):
-    """Run build.ps1.  Returns (ok: bool, output: str|None)."""
+    """Run build.ps1. Post-build: verifies critical DLLs exist.
+    If missing, does full restore rebuild. Returns (ok: bool, output: str|None)."""
     log.info("    [BUILD] Running build.ps1 ...")
     kill_stale_processes()
     try:
@@ -1073,7 +1103,28 @@ def run_build(capture_output=False):
         if not ok:
             log.error("    [BUILD] FAILED (exit %d)", r.returncode)
         else:
-            log.info("    [BUILD] OK")
+            missing = _verify_build_dlls()
+            if missing:
+                log.warning("    [BUILD] DLLs missing after build: %s",
+                            ", ".join(Path(m).name for m in missing))
+                log.warning("    [BUILD] Attempting full restore + rebuild ...")
+                kill_stale_processes()
+                if _run_full_restore_rebuild():
+                    missing2 = _verify_build_dlls()
+                    if missing2:
+                        log.error("    [BUILD] DLLs STILL missing after full rebuild: %s",
+                                  ", ".join(Path(m).name for m in missing2))
+                        ok = False
+                        full += "\nDLL_MISSING_AFTER_FULL_REBUILD: " + ", ".join(
+                            Path(m).name for m in missing2)
+                    else:
+                        log.info("    [BUILD] DLLs recovered after full rebuild")
+                        ok = True
+                else:
+                    log.error("    [BUILD] Full restore rebuild failed — DLLs unrecoverable")
+                    ok = False
+            else:
+                log.info("    [BUILD] OK")
         kill_stale_processes()
         return (ok, full) if capture_output else (ok, None)
     except subprocess.TimeoutExpired:
