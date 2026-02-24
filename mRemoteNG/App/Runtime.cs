@@ -15,6 +15,7 @@ using mRemoteNG.UI.TaskDialog;
 using System;
 using System.IO;
 using System.Security;
+using System.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -161,7 +162,7 @@ namespace mRemoteNG.App
                     }
                 }
 
-                if ((ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException) && !withDialog)
+                if ((ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException || ex is XmlException) && !withDialog)
                 {
                     MessageCollector.AddExceptionMessage(
                                                          string.Format(Language.ConnectionsFileCouldNotBeLoadedNew,
