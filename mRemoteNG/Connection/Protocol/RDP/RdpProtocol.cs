@@ -1708,10 +1708,19 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                     }
 
                                     // Fix #1402: position the fullscreen window to cover the entire monitor
-                                    // so there are no black borders on any side. Use the screen containing
-                                    // the mRemoteNG main window (correct for multi-monitor setups).
-                                    Screen screen = Screen.FromControl(_frmMain);
-                                    Rectangle screenBounds = screen.Bounds;
+                                    // so there are no black borders on any side.
+                                    // Fix #192: when multi-monitor is enabled, use the virtual screen
+                                    // (all monitors combined) so the RDP session spans all screens.
+                                    Rectangle screenBounds;
+                                    if (connectionInfo?.RDPUseMultimon == true)
+                                    {
+                                        screenBounds = SystemInformation.VirtualScreen;
+                                    }
+                                    else
+                                    {
+                                        Screen screen = Screen.FromControl(_frmMain);
+                                        screenBounds = screen.Bounds;
+                                    }
                                     NativeMethods.SetWindowPos(hwnd, IntPtr.Zero,
                                         screenBounds.X, screenBounds.Y, screenBounds.Width, screenBounds.Height,
                                         NativeMethods.SWP_NOZORDER | NativeMethods.SWP_FRAMECHANGED | NativeMethods.SWP_NOACTIVATE);
