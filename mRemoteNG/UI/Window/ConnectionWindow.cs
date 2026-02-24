@@ -52,7 +52,7 @@ namespace mRemoteNG.UI.Window
         {
             if (formText == "")
             {
-                formText = Language.NewPanel;
+                formText = "New Panel";
             }
 
             WindowType = WindowType.Connection;

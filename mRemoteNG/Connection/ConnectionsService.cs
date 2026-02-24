@@ -155,7 +155,7 @@ namespace mRemoteNG.Connection
                     if (FrmMain.IsCreated && FrmMain.Default.pnlDock.ActiveDocument is ConnectionWindow activeCw)
                         newConnectionInfo.Panel = activeCw.TabText;
                     else
-                        newConnectionInfo.Panel = Language.General;
+                        newConnectionInfo.Panel = "General";
                 }
 
                 newConnectionInfo.IsQuickConnect = true;

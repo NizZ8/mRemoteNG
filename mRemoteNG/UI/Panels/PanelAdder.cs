@@ -55,7 +55,7 @@ namespace mRemoteNG.UI.Panels
         private static void SetConnectionWindowTitle(string title, ConnectionWindow connectionForm)
         {
             if (string.IsNullOrEmpty(title))
-                title = Language.NewPanel;
+                title = "New Panel";
             connectionForm.SetFormText(title.Replace("&", "&&"));
         }
 

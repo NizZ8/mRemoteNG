@@ -214,7 +214,7 @@ namespace mRemoteNG.UI.Window
                     return;
 
                 // Determine target panel
-                string panelName = !string.IsNullOrEmpty(selected.Panel) ? selected.Panel : Language.NewPanel;
+                string panelName = !string.IsNullOrEmpty(selected.Panel) ? selected.Panel : "New Panel";
 
                 ConnectionWindow? connectionForm = Runtime.WindowList.FromString(panelName) as ConnectionWindow;
                 if (connectionForm == null)

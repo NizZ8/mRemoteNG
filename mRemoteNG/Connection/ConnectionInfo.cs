@@ -469,7 +469,7 @@ namespace mRemoteNG.Connection
             Name = Language.NewConnection;
             Description = Settings.Default.ConDefaultDescription;
             Icon = Settings.Default.ConDefaultIcon;
-            Panel = Language.General;
+            Panel = "General";
             Color = string.Empty;
             TabColor = string.Empty;
             ConnectionFrameColor = ConnectionFrameColor.None;

@@ -25,7 +25,7 @@ namespace mRemoteNG.Connection
                 if (FrmMain.IsCreated && FrmMain.Default.pnlDock.ActiveDocument is ConnectionWindow activeCw)
                     connectionInfo.Panel = activeCw.TabText;
                 else
-                    connectionInfo.Panel = Language.General;
+                    connectionInfo.Panel = "General";
             }
             connectionInfo.IsQuickConnect = true;
             Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);
