@@ -353,6 +353,11 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                 strHide.Add(nameof(AbstractConnectionRecord.AutomaticResize));
             }
 
+            if (info.Resolution != RDPResolutions.Custom) {
+                strHide.Add(nameof(AbstractConnectionRecord.ResolutionWidth));
+                strHide.Add(nameof(AbstractConnectionRecord.ResolutionHeight));
+            }
+
             if (info.RedirectDiskDrives != RDPDiskDrives.Custom) {
                 strHide.Add(nameof(AbstractConnectionRecord.RedirectDiskDrivesCustom));
             }

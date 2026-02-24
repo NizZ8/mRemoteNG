@@ -338,8 +338,6 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.RDPSignScope),
                         nameof(ConnectionInfo.RDPSignature),
                         nameof(ConnectionInfo.RDPSizingMode),
-                        nameof(ConnectionInfo.ResolutionWidth),
-                        nameof(ConnectionInfo.ResolutionHeight),
                         nameof(ConnectionInfo.RDPUseMultimon),
                     });
                     break;
