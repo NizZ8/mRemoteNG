@@ -9,6 +9,9 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='arm64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\**" />
     <EmbeddedResource Remove="Properties\**" />
