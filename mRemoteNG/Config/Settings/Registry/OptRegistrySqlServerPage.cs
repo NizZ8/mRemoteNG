@@ -93,6 +93,15 @@ namespace mRemoteNG.Config.Settings.Registry
             ApplySQLUser();
             ApplySQLPassword();
             ApplySQLReadOnly();
+
+            // If UseSQLServer was enabled by registry but essential connection parameters are
+            // missing, disable SQL Server mode to avoid an unexpected password prompt on
+            // startup (e.g. leftover registry key on a new/clean install — #2048).
+            if (string.IsNullOrEmpty(Properties.OptionsDBsPage.Default.SQLHost) ||
+                string.IsNullOrEmpty(Properties.OptionsDBsPage.Default.SQLDatabaseName))
+            {
+                Properties.OptionsDBsPage.Default.UseSQLServer = false;
+            }
         }
 
         private void ApplyUseSQLServer()
