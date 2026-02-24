@@ -916,6 +916,7 @@ namespace mRemoteNG.UI.Window
         private bool _documentHandlersAdded;
         private bool _floatHandlersAdded;
         private bool _emptyPanelCloseQueued;
+        private bool _panelFormClosingInProgress;
 
         private void Connection_DockStateChanged(object sender, EventArgs e)
         {
@@ -1032,6 +1033,7 @@ namespace mRemoteNG.UI.Window
             if (!FrmMain.Default.IsClosing)
                 PreActivateSiblingPanel();
 
+            _panelFormClosingInProgress = true;
             try
             {
                 foreach (IDockContent dockContent in connDock.Documents.ToArray())
@@ -1045,6 +1047,10 @@ namespace mRemoteNG.UI.Window
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("UI.Window.Connection.Connection_FormClosing() failed", ex);
+            }
+            finally
+            {
+                _panelFormClosingInProgress = false;
             }
         }
 
@@ -1188,7 +1194,7 @@ namespace mRemoteNG.UI.Window
                 return;
             }
 
-            if (_emptyPanelCloseQueued || IsDisposed || Disposing || !IsHandleCreated)
+            if (_emptyPanelCloseQueued || IsDisposed || Disposing || !IsHandleCreated || _panelFormClosingInProgress)
             {
                 return;
             }
