@@ -34,7 +34,6 @@ namespace mRemoteNG.UI.Forms
         private FrmOptions(string pageName)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Application.DoEvents();
             InitializeComponent();
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.Settings_16x);
             _pageName = pageName;
@@ -66,16 +65,11 @@ namespace mRemoteNG.UI.Forms
             // Only initialize once to prevent multiple event subscriptions and page reloading
             if (_isInitialized)
             {
-                Logger.Instance.Log?.Debug($"[FrmOptions_Load] Already initialized - calling ValidateControlState");
-                // On subsequent loads, validate and recover control state if needed
-                ValidateControlState();
-                this.Visible = true;
-                Logger.Instance.Log?.Debug($"[FrmOptions_Load] END (already initialized)");
+                Logger.Instance.Log?.Debug($"[FrmOptions_Load] Already initialized - fast path");
                 return;
             }
 
             Logger.Instance.Log?.Debug($"[FrmOptions_Load] First initialization");
-            this.Visible = true;
             SetActivatedPage();
             //ApplyLanguage();
             // Handle the main page here and the individual pages in

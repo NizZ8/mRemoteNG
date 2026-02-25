@@ -15,6 +15,7 @@ namespace mRemoteNG.UI.Window
         private FrmOptions _optionsForm;
         private bool _isInitialized = false;
         private bool _isFontOverrideApplied = false;
+        private bool _isClosing = false;
 
         #region Public Methods
 
@@ -38,21 +39,24 @@ namespace mRemoteNG.UI.Window
         {
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] START - IsInitialized: {_isInitialized}, Visible: {this.Visible}");
 
-            // Only subscribe to ThemeChanged once to prevent multiple subscriptions
-            if (!_isInitialized)
+            // On reopen of a previously initialized window, just ensure the embedded form is visible
+            if (_isInitialized && _optionsForm != null && !_optionsForm.IsDisposed)
             {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] First initialization - subscribing to ThemeChanged");
-                ThemeManager.getInstance().ThemeChanged += ApplyTheme;
-                _isInitialized = true;
+                Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] Reopen - fast path");
+                if (!_optionsForm.Visible)
+                    _optionsForm.Visible = true;
+                return;
             }
+
+            // First-time initialization
+            Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] First initialization - subscribing to ThemeChanged");
+            ThemeManager.getInstance().ThemeChanged += ApplyTheme;
 
             ApplyTheme();
             ApplyLanguage();
             LoadOptionsForm();
 
-            // Ensure all pages are loaded and form is ready
-            EnsureOptionsFormReady();
-
+            _isInitialized = true;
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] END");
         }
 
@@ -75,19 +79,7 @@ namespace mRemoteNG.UI.Window
             }));
         }
 
-        private void EnsureOptionsFormReady()
-        {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.EnsureOptionsFormReady] START - OptionsForm: {(_optionsForm != null ? "EXISTS" : "NULL")}, IsDisposed: {_optionsForm?.IsDisposed}");
 
-            if (_optionsForm != null && !_optionsForm.IsDisposed)
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.EnsureOptionsFormReady] Processing Application.DoEvents");
-                // Process any pending UI events to ensure the form is fully rendered
-                Application.DoEvents();
-            }
-
-            Logger.Instance.Log?.Debug($"[OptionsWindow.EnsureOptionsFormReady] END");
-        }
 
         private new void ApplyTheme()
         {
@@ -171,7 +163,10 @@ namespace mRemoteNG.UI.Window
 
         private void OptionsForm_VisibleChanged(object sender, EventArgs e)
         {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OptionsForm_VisibleChanged] OptionsForm.Visible: {_optionsForm?.Visible}");
+            Logger.Instance.Log?.Debug($"[OptionsWindow.OptionsForm_VisibleChanged] OptionsForm.Visible: {_optionsForm?.Visible}, IsClosing: {_isClosing}");
+
+            // Skip if we're already in a close operation to prevent re-entrant cascade
+            if (_isClosing) return;
 
             // When the embedded FrmOptions is hidden (OK/Cancel clicked), close this window
             if (_optionsForm != null && !_optionsForm.Visible)
@@ -184,9 +179,11 @@ namespace mRemoteNG.UI.Window
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Logger.Instance.Log?.Debug($"[OptionsWindow.OnFormClosing] START - CloseReason: {e.CloseReason}");
+            _isClosing = true;
             // With HideOnClose = true, we don't dispose the window
             // so we keep the embedded form in Controls for reuse
             base.OnFormClosing(e);
+            _isClosing = false;
             Logger.Instance.Log?.Debug($"[OptionsWindow.OnFormClosing] END");
         }
 
@@ -197,10 +194,11 @@ namespace mRemoteNG.UI.Window
             base.OnVisibleChanged(e);
 
             // When the window becomes visible, ensure the embedded form is also shown
-            if (Visible && _optionsForm != null && !_optionsForm.Visible)
+            // Use Visible property directly instead of Show() to avoid re-firing Load events
+            if (Visible && _optionsForm != null && !_optionsForm.IsDisposed && !_optionsForm.Visible)
             {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] Window visible but OptionsForm hidden - calling Show()");
-                _optionsForm.Show();
+                Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] Window visible but OptionsForm hidden - setting Visible=true");
+                _optionsForm.Visible = true;
             }
 
             Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] END");
