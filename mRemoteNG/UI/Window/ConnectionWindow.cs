@@ -736,6 +736,8 @@ namespace mRemoteNG.UI.Window
 
                 titleText = titleText.Replace("&", "&&");
 
+                string? tabToolTip = BuildSshTabToolTip(connectionInfo);
+
                 ConnectionTab conTab = new()
                 {
                     Tag = connectionInfo,
@@ -744,6 +746,9 @@ namespace mRemoteNG.UI.Window
                     TabText = titleText,
                     TabPageContextMenuStrip = cmenTab
                 };
+
+                if (tabToolTip != null)
+                    conTab.DockHandler.ToolTipText = tabToolTip;
 
                 conTab.TrackConnection(connectionInfo);
                 conTab.HideClosedState();
@@ -846,6 +851,53 @@ namespace mRemoteNG.UI.Window
             }
 
             return string.Join(" / ", parts);
+        }
+
+        /// <summary>
+        /// Builds a tooltip string for PuTTY-based (SSH/Telnet/Rlogin/RAW) connection tabs,
+        /// showing the hostname, port, and logon credentials so users can identify the session
+        /// even when the terminal title overwrites the tab text.
+        /// Returns null for non-PuTTY protocols.
+        /// </summary>
+        private static string? BuildSshTabToolTip(ConnectionInfo connectionInfo)
+        {
+            switch (connectionInfo.Protocol)
+            {
+                case ProtocolType.SSH1:
+                case ProtocolType.SSH2:
+                case ProtocolType.Telnet:
+                case ProtocolType.Rlogin:
+                case ProtocolType.RAW:
+                    break;
+                default:
+                    return null;
+            }
+
+            var lines = new List<string>();
+
+            string host = connectionInfo.Hostname ?? string.Empty;
+            if (!string.IsNullOrEmpty(host))
+            {
+                string portSuffix = connectionInfo.Port != 0
+                    ? $":{connectionInfo.Port}"
+                    : string.Empty;
+                lines.Add($"Host: {host}{portSuffix}");
+            }
+
+            string domain = connectionInfo.Domain ?? string.Empty;
+            string username = connectionInfo.Username ?? string.Empty;
+            if (!string.IsNullOrEmpty(domain) || !string.IsNullOrEmpty(username))
+            {
+                string user = !string.IsNullOrEmpty(domain)
+                    ? $"{domain}\\{username}"
+                    : username;
+                lines.Add($"User: {user}");
+            }
+
+            if (!string.IsNullOrEmpty(connectionInfo.Description))
+                lines.Add($"Info: {connectionInfo.Description}");
+
+            return lines.Count > 0 ? string.Join(Environment.NewLine, lines) : null;
         }
 
         #endregion
