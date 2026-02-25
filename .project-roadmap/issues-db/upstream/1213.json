@@ -10,7 +10,7 @@
   "created_at": "2018-12-18T12:35:53Z",
   "github_updated_at": "2026-02-21T23:33:40Z",
   "body_snippet": "mRemoteNG hang when using ssh with wromg credential when trying to connect to server with ssh by the saved credential witch is not the right credential and not response\r\n\r\n\r\n* Version used:1.76.12.38511\r\n* Operating System and version (e.g. Windows 10 1709 x64)\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -27,6 +27,12 @@
         "cost_usd": 0.124599,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (aa98b54f0 fi)"
     }
   ],
   "comments": [
@@ -44,6 +50,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): SSH connection hangs indefinitely on authentication failure due to missing timeout or blocking call on the UI/connection thread when wrong credentials are provided.\nApproach: Add authentication timeout and ensure SSH connect/auth calls run on a background thread with proper cancellation; catch AuthenticationException and surface error instead of blocking indefinitely."
 }

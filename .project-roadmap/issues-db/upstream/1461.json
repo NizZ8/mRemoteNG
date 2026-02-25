@@ -12,12 +12,19 @@
   "created_at": "2019-05-24T08:56:14Z",
   "github_updated_at": "2026-02-24T00:51:34Z",
   "body_snippet": "Alt Gr key stops working over the rest of the opened applications outside mRemoteNG, not being able to type special characters like \"@\", \"€\", etc.\r\n\r\n## Expected Behavior\r\nAlt Gr key to work as usual.\r\n\r\n## Current Behavior\r\nAlt Gr key stop working and has no efect after remote desktop connection is lost and reconnected.\r\n\r\n## Possible Solution\r\nI guess there is something on reconnection scenario that makes keyboard mess.\r\n\r\n## Context\r\nnRemoteNG with active Windows Servers Remote desktops conne...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (782b21ef8 fi)"
+    }
+  ],
   "comments": [
     {
       "id": "MDEyOklzc3VlQ29tbWVudDQ5NTYxNjQ2NQ==",
@@ -105,6 +112,6 @@
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude-retry): Alt Gr stops working after RDP reconnection — known Windows RDP issue that also affects mstsc.exe (confirmed by commenter simonai1254). Not specific to mRemoteNG, out of scope to fix."
 }

@@ -11,7 +11,7 @@
   "created_at": "2020-06-30T13:24:44Z",
   "github_updated_at": "2026-02-24T01:56:24Z",
   "body_snippet": "Love the program, rely on it honestly. For whatever reason I continually have the confCons.xml issue where it goes to null and the program will not open. I copy a confCons.xml backup for my connections and uninstall the program. I reinstall and import my connections and it works fine for the day. When I come back the next day the program will not open and I have to do this process all over again, every day.\r\n\r\n## Current Behavior\r\nProgram will not open, confCons.xml goes null.\r\n\r\n## Possible Sol...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
         "cost_usd": 0.1437,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (eb6af9808 fi)"
     }
   ],
   "comments": [
@@ -81,6 +87,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): confCons.xml corruption causing startup failure is a known class of issues, but the reporter provides no logs, no error details, and no reproducible steps; we already posted a triage-refresh comment asking for confirmation on the latest build with no response.\nApproach: Wait for reporter to retest on latest build and provide logs/steps; close as stale if no response within 30 days."
 }

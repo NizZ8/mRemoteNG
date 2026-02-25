@@ -10,7 +10,7 @@
   "created_at": "2022-07-28T20:22:52Z",
   "github_updated_at": "2026-02-23T16:22:34Z",
   "body_snippet": "Some of our users are able to completely uninstall mRemoteNG by simply going to Apps & Features > Uninstall. \r\nBut we have a good bit of users at our organization that are trying to uninstall mRemoteNG and are unsuccessful. \r\n\r\nWe tried methods on https://www.revouninstaller.com/preview-log/?pid=7570&pname=mRemoteNG#:~:text=Method%202%3A%20Uninstall%20mRemoteNG%20via,and%20Features%2FPrograms%20and%20Features.&text=Look%20for%20mRemoteNG%20in%20the,you%20can%20initiate%20the%20uninstallation and...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The uninstaller fails to remove all application files and registry entries, leading to remnants after uninstallation."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (d313a8799 fi)"
     }
   ],
   "comments": [
@@ -65,6 +71,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The uninstaller fails to remove all application files and registry entries, leading to remnants after uninstallation.\nApproach: Analyze WiX installer definition files (.wxs) to ensure all installed components (files, folders, registry entries) are properly marked for removal during uninstallation."
 }

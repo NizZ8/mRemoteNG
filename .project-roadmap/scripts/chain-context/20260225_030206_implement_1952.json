@@ -1,0 +1,25 @@
+{
+  "task_type": "implement",
+  "task_id": "1952",
+  "started_at": "2026-02-25T02:54:16",
+  "finished_at": "2026-02-25T03:02:06",
+  "attempts": [
+    {
+      "agent": "claude",
+      "task": "implement #1952",
+      "success": true,
+      "result": null,
+      "raw_output": "",
+      "errors": null,
+      "files_modified": [],
+      "build_result": "OK",
+      "test_result": "OK",
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-25T03:02:06"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": true
+}

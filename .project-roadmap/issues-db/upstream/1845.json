@@ -11,7 +11,7 @@
   "created_at": "2020-08-26T08:34:27Z",
   "github_updated_at": "2026-02-21T10:22:53Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nIf I transfer a file called _foo.bar_, and specify the remote filename as _foo.bar_ I expect it to be transferred and named _foo.bar_ but so far every file I've transferred has become named _\"foo.bar\"_ (with the quotes)\r\n\r\n\r\n\r\n## Current Behavior\r\nFile is renamed with enclosing quotes - it shouldn't be unless specified in transfer.\r\n\r\n## Possible Solution\r\n<!--- Not obligatory, but suggest a fix/reason f...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-20",
       "type": "triaged",
       "description": "SSH file transfer passes user-entered paths with quote characters directly to SCP/SFTP upload, causing quoted filenames on the remote host"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (e323c7147 fi)"
     }
   ],
   "comments": [
@@ -48,6 +54,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): SSH file transfer passes user-entered paths with quote characters directly to SCP/SFTP upload, causing quoted filenames on the remote host\nApproach: Trim quote characters from SrcFile/DstFile in SecureTransfer constructor and Upload method, and from txtLocalFile/txtRemoteFile text values in SSHTransferWindow before passing to SecureTransfer"
 }

@@ -10,7 +10,7 @@
   "created_at": "2018-07-27T19:32:00Z",
   "github_updated_at": "2018-07-27T19:32:00Z",
   "body_snippet": "As a developer, I sometimes need extensive debug info to troubleshoot issues that end users are seeing but that I'm not able to replicate. It would be useful to provide a tool within mRemoteNG to gather all debugging information that we may want and allow the user to copy this directly into their bug reports.\r\n\r\n## Expected Behavior\r\nAdd a tool to mRemoteNG under one of the menus that allows the user to view and copy the following information:\r\n- All program settings and their current values\r\n- ...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-20",
       "type": "triaged",
       "description": "Adding a debug dump tool will significantly improve the ability to diagnose issues reported by users by aggregating logs, configuration (sanitized), and environment details."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (8ef5ae4b5 fi)"
     }
   ],
   "comments": [],
@@ -28,6 +34,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): Adding a debug dump tool will significantly improve the ability to diagnose issues reported by users by aggregating logs, configuration (sanitized), and environment details.\nApproach: Implement a `DebugDumper` class to collect `mRemoteNG.log`, sanitized `confCons.xml`, and system environment details, compressing them into a zip file. Add a 'Generate Debug Bundle' menu item under the Help menu to trigger this action."
 }

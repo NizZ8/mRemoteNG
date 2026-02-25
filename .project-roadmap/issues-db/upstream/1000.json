@@ -10,7 +10,7 @@
   "created_at": "2018-06-21T10:04:47Z",
   "github_updated_at": "2018-06-21T13:39:55Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n1. There should be a switch to enable/disable filtering, it should be in search filed, and it's state should be saved when app is restarted;\r\n2. If search returns no results when new symbol is entered in the keyword, app should prevent this symbol from input. ...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-19",
       "type": "triaged",
       "description": "The connection filter UI lacks standard usability features such as a 'Clear' button to quickly reset the filter, and potentially visual enhancements for better clarity."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (9cd19ef8c fi)"
     }
   ],
   "comments": [],
@@ -28,6 +34,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The connection filter UI lacks standard usability features such as a 'Clear' button to quickly reset the filter, and potentially visual enhancements for better clarity.\nApproach: Add a 'Clear' button to the search panel layout (next to the search text box), implement its click handler to clear the search text, and ensure proper theming support for the new button."
 }

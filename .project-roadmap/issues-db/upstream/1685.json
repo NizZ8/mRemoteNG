@@ -10,7 +10,7 @@
   "created_at": "2020-01-31T17:49:28Z",
   "github_updated_at": "2026-02-21T10:22:55Z",
   "body_snippet": "Expect to import full OU from AD. Import finishes with at most 1k host per OU with 1k+ items and discards the remainder. Can't feasibly manually add the remaining hosts or adjust AD structure. Occurs on stable v1.76.20 and dev v1.77.1. Client running on Windows 10 x64 systems.",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-20",
       "type": "triaged",
       "description": "DirectorySearcher.PageSize is not set (default 0), so LDAP server caps results at 1000; setting PageSize enables paged queries to retrieve all entries."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (568dc08a4 fi)"
     }
   ],
   "comments": [
@@ -47,6 +53,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): DirectorySearcher.PageSize is not set (default 0), so LDAP server caps results at 1000; setting PageSize enables paged queries to retrieve all entries.\nApproach: Add ldapSearcher.PageSize = 1000 before FindAll() to enable LDAP paged result retrieval, which bypasses the 1000-entry server limit."
 }

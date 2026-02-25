@@ -11,12 +11,19 @@
   "created_at": "2019-08-21T14:25:28Z",
   "github_updated_at": "2026-02-24T01:00:59Z",
   "body_snippet": "When I have connection which I've created by duplicating another connection or folder, and I use the inheritance menu to change the inheritance properties of my duplicate, then click back to the Config menu, the Config menu displayed is the one for the source connection, not the new, duplicated connection. This allows me to inadvertently edit a connection or folder which is not the one selected in the Connections menu, and is not the one I was editing prior to using the Inheritance menu pane. \r\n...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (3b16f3566 fi)"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXF4E",
@@ -50,6 +57,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude-retry): Config panel shows wrong connection after duplicating and switching via Inheritance tab — UI state tracking bug in Config/Inheritance panel interaction."
 }

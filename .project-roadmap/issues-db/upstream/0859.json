@@ -10,7 +10,7 @@
   "created_at": "2018-01-08T08:36:16Z",
   "github_updated_at": "2026-02-21T10:23:00Z",
   "body_snippet": "Hello,\r\n\r\nI noticed a more and more annoying bug : \r\nI usually have several RDP connections open at the same time to multiple servers. When connecting to another one which doesn't respond, all active RDP connections are dropped causing them to reconnect, which takes time as these are remote servers.\r\n\r\nThis doesn't happen when using Remote Desktop Connection Manager, not the windows default RDP client.",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -33,6 +33,12 @@
       "date": "2026-02-17",
       "type": "triaged",
       "description": "ProtocolBase.CloseBG accesses UI components (tmrReconnect) and fires events modifying shared collections from a background thread, causing race conditions and potential stability issues."
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (0568de51a Fi)"
     }
   ],
   "comments": [
@@ -68,6 +74,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (codex): The report lacks reproducible steps, version details, and logs, and it has remained inactive despite maintainers requesting that information.\nApproach: Request a retest on the latest build with exact repro steps, expected vs actual behavior, and relevant mRemoteNG.log entries, then close as stale/not reproducible if no update arrives.\nAI triage (gemini): The reconnect timer runs on a background thread but accesses UI/ActiveX controls, causing cross-thread violations that likely drop connections; switching to System.Windows.Forms.Timer fixes this.\nApproach: Change tmrReconnect to System.Windows.Forms.Timer in ProtocolBase.cs and update the event handler signature in RdpProtocol.cs to use EventArgs.\nAI triage (gemini): ProtocolBase.CloseBG accesses UI components (tmrReconnect) and fires events modifying shared collections from a background thread, causing race conditions and potential stability issues.\nApproach: Refactor CloseBG to marshal thread-unsafe operations to the UI thread."
 }

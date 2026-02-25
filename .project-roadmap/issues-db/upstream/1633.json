@@ -12,7 +12,7 @@
   "created_at": "2019-10-28T10:19:39Z",
   "github_updated_at": "2026-02-21T10:23:45Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nSingle clicking on a disconnected machine in the tree view should show a blank panel instead of staying on the currently connected machine.\r\n\r\n## Current Behavior\r\nClicking on a disconnected machine stays on the machine last used.\r\n\r\n## Possible Solution\r\nSingle clicking a disconnected machine in the tree view shows a blank panel in the same way as Microsoft's RDCMAN does, maybe with a \"connect\" button i...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,12 @@
       "date": "2026-02-20",
       "type": "triaged",
       "description": "Feature request to show a blank/placeholder panel when selecting a disconnected connection in the tree, improving UX by giving visual feedback instead of showing nothing or stale content."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (6f32aa7b9 fi)"
     }
   ],
   "comments": [
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): Feature request to show a blank/placeholder panel when selecting a disconnected connection in the tree, improving UX by giving visual feedback instead of showing nothing or stale content.\nApproach: When a disconnected connection node is selected in the tree, display a blank panel or placeholder with connection info and a Connect button, instead of showing no content or the last active tab."
 }

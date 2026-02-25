@@ -10,7 +10,7 @@
   "created_at": "2021-09-16T03:36:24Z",
   "github_updated_at": "2026-02-24T05:31:10Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI downloaded mRemoteNG, tried to launch it but I am prompted for a password in a dialog box. Is there a default password?\r\n\r\nWhen I click \"Cancel\" on the Password dialog box the error below comes up.\r\n\r\n\r\n\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tel...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-22",
       "type": "triaged",
       "description": "The application unexpectedly prompts for a password on new installs when leftover or incomplete SQL server configuration in the registry causes it to attempt an SQL connection without sufficient details."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (02d8e2597 fi)"
     }
   ],
   "comments": [
@@ -74,6 +80,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The application unexpectedly prompts for a password on new installs when leftover or incomplete SQL server configuration in the registry causes it to attempt an SQL connection without sufficient details.\nApproach: Modify OptRegistrySqlServerPage.cs to check if SQL Server usage is enabled via registry but essential connection parameters (host, database name, user) are missing or invalid. If so, default UseSQLServer to false to prevent the unexpected password prompt."
 }

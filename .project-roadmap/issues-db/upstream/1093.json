@@ -12,7 +12,7 @@
   "created_at": "2018-08-28T21:10:03Z",
   "github_updated_at": "2026-02-21T10:23:38Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nPanel should be themed properly.\r\n\r\nvs2015blue (and light) look OK:\r\n![image](https://user-images.githubusercontent.com/16654335/44750983-f4230000-aae4-11e8-89ba-47285a51873f.png)\r\n\r\n\r\n## Current Behavior\r\nPanel is not themed properly with the vs2015dark theme:\r\n![image](https://user-images.githubusercontent.com/16654335/44750834-824ab680-aae4-11e8-9d51-ac10b822d2ba.png)\r\n\r\nNot sure if dracula theme is m...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -29,6 +29,12 @@
         "cost_usd": 0.122053,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (a010a4f9c fi)"
     }
   ],
   "comments": [
@@ -46,6 +52,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): Theme selection in Options dialog has a display/application bug affecting UI consistency for all users.\nApproach: Inspect ThemePage options panel for incorrect theme preview or apply logic; ensure selected theme is correctly previewed and persisted on OK, reverted on Cancel."
 }

@@ -11,7 +11,7 @@
   "created_at": "2019-12-20T08:13:43Z",
   "github_updated_at": "2026-02-24T01:15:34Z",
   "body_snippet": "![image](https://user-images.githubusercontent.com/28197668/71240272-acf8f800-2343-11ea-844a-0217955efea0.png)\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
         "cost_usd": 0.12121,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (86c485d24 fi)"
     }
   ],
   "comments": [
@@ -54,6 +60,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): Issue title is too vague to determine root cause — no steps to reproduce, no protocol specified (RDP/SSH/VNC), and no error details provided about what fails during reconnect.\nApproach: Request reproduction steps, protocol type, and error/log output; then investigate reconnect logic in AbstractProtocol and ConnectionInitiator for the specific protocol"
 }

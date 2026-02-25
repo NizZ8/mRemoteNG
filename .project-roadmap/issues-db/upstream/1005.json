@@ -11,7 +11,7 @@
   "created_at": "2018-06-22T11:13:29Z",
   "github_updated_at": "2026-02-21T10:23:00Z",
   "body_snippet": "I use Remote Desktop Gateways to connect to servers using mRemoteNG.\r\nI have the \"Use Gateway\" setting as \"Detect\".\r\nI can connect to my server and all is good, but if for some reason I lose connectivity and need to re-authenticate (also when the computer was connected before a hibernation and then starts up again) the credentials box pops up asking for my credentials to the gateway, but it does not show this on top.\r\nYou can at this point not switch to mRemoteNG when it is in the background.\r\nY...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-19",
       "type": "triaged",
       "description": "The Gateway Authentication dialog is obscured because the RDP ActiveX control does not have its UIParentWindowHandle explicitly set to the main window, causing the modal dialog to lose focus or be hidden behind the application."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (b4461148e fi)"
     }
   ],
   "comments": [
@@ -39,6 +45,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The Gateway Authentication dialog is obscured because the RDP ActiveX control does not have its UIParentWindowHandle explicitly set to the main window, causing the modal dialog to lose focus or be hidden behind the application.\nApproach: Cast the RDP client to IMsRdpClientNonScriptable3+ and set the UIParentWindowHandle property to the main window's handle during initialization."
 }

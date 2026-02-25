@@ -12,7 +12,7 @@
   "created_at": "2019-01-11T11:11:37Z",
   "github_updated_at": "2026-02-21T10:23:14Z",
   "body_snippet": "## Current Behavior\r\nWhen clicking on a an external tools button in the menu strip it uses the currently selected machine in the connection tree.\r\n\r\n## Possible Solution\r\nImplement a settings option to chose weather to use the currently active connection tab or the selected connection in the connection tree.\r\n\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: Current develop branch\r\n* Operating System and version:...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,12 @@
       "date": "2026-02-19",
       "type": "triaged",
       "description": "Feature request to add a setting for external tools to use active connection tab instead of selected tree node"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (85b16046a fi)"
     }
   ],
   "comments": [
@@ -58,6 +64,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): Feature request to add a setting for external tools to use active connection tab instead of selected tree node\nApproach: Add a setting (e.g. ExternalToolsUseActiveTab) that toggles TsExtAppEntry_Click between SelectedNode (tree) and active ConnectionWindow tab. Wire setting through SettingsLoader/SettingsSaver."
 }

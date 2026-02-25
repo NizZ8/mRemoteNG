@@ -10,7 +10,7 @@
   "created_at": "2018-04-26T11:21:33Z",
   "github_updated_at": "2018-11-01T18:46:14Z",
   "body_snippet": "Simple question I hope, love the program :-)\r\n\r\nI work with VMware and Nutanix, I'm looking for something to simply import bookmarks.html in mRemoteNG, instead of doing a scan all over the world in our network.\r\n\r\nAnd instead of config view, I like to have right-click and properties/config\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-18",
       "type": "triaged",
       "description": "The bookmarks importer logic already existed but was not exposed in the UI. I have enabled it by adding the necessary file filters and resource strings."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (fb118ec85 fi)"
     }
   ],
   "comments": [],
@@ -28,6 +34,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The bookmarks importer logic already existed but was not exposed in the UI. I have enabled it by adding the necessary file filters and resource strings.\nApproach: Enable BookmarksHtmlImporter in Import.cs, add 'Netscape Bookmarks (*.html)' to file dialog filters, and add missing resource strings."
 }

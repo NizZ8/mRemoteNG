@@ -11,7 +11,7 @@
   "created_at": "2019-12-12T18:04:21Z",
   "github_updated_at": "2026-02-21T21:44:56Z",
   "body_snippet": "mRemoteNG closes without warning when I select the 'more choices' option in a RDP login window\r\n\r\n## Expected Behavior\r\nThe 'more choices' option should expand the RDP login window to allow the user to modify the username/domain that will be used to login.\r\n\r\n## Current Behavior\r\nAfter connecting to a RDP client, if the user clicks the \"More choices\" link, the program pauses for about 5 seconds, then closes without warning or visible error message. Windows application log gives the following inf...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
         "cost_usd": 0.411334,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (7d7a8da7c fi)"
     }
   ],
   "comments": [],
@@ -35,6 +41,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): RDP ActiveX credential dialog 'More choices' interaction likely triggers unhandled COM events or causes null/disposed object access in RDP event handlers during NLA authentication.\nApproach: Add null/dispose guards in RDP COM event handlers (OnLogonError, OnFatalError, OnDisconnected) to handle credential UI state transitions gracefully during 'More choices' interaction."
 }

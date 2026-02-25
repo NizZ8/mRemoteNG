@@ -10,7 +10,7 @@
   "created_at": "2021-12-08T09:34:09Z",
   "github_updated_at": "2026-02-22T23:02:42Z",
   "body_snippet": "\r\n\r\n\r\n## Current Behavior\r\nWhen sharing a config file between two computers it needs to be exported from computer A to Computer B.\r\nYou then have to import the config file -> delete the old version -> fix the folder structure (or else you end up with a lot of nested folders).\r\n\r\n\r\n## Solution: \r\nAdd an option to enable auto export to file whenever a setting have been edited. \r\nConfig info could be saved inside the config file.\r\n\r\nAdd an option to merge all changes from config file. Either automa...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "Implement new functionality to merge multiple connection configuration files and automatically export the current configuration."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (72f829c19 fi)"
     }
   ],
   "comments": [
@@ -101,6 +107,6 @@
   "unread_comments": 7,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T00:10:47Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): Implement new functionality to merge multiple connection configuration files and automatically export the current configuration.\nApproach: Add new methods to manage the merging of connection configurations from various sources and implement an auto-export mechanism to periodically save the active configuration to a predefined or user-specified location. This will likely involve modifications to configuration loading/saving logic and new UI elements to initiate these actions."
 }

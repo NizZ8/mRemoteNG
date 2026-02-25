@@ -14,7 +14,7 @@
   "created_at": "2022-08-31T13:22:26Z",
   "github_updated_at": "2026-02-23T17:10:37Z",
   "body_snippet": "I saw that mRemoteNG supports vault connector for a single secret server. Most applications nowadays provide a more generic protocol allowing users to write tooling decoupled from the application, opening a path to integration with any password storage with minimal glue code.\r\n\r\n\r\n## Expected Behavior\r\n\r\nmRemoteNG defines a protocol, either a script must take parameter X and Y and return a json blob of schema Z, or a webserver must respond to GET request X with parameters Y and respond with a pl...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -25,6 +25,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "This feature requests a more generic vault connector to integrate with various external credential management systems, enhancing flexibility and security."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (d29501083 fi)"
     }
   ],
   "comments": [
@@ -51,6 +57,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): This feature requests a more generic vault connector to integrate with various external credential management systems, enhancing flexibility and security.\nApproach: Implement a new ICredentialRepository that abstracts interaction with various vault services, define a corresponding configuration interface, integrate it into the CredentialServiceFactory, and provide a UI for configuring vault connections and mapping credentials to mRemoteNG connection properties."
 }

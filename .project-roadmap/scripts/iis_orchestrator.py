@@ -69,7 +69,13 @@ TIMEOUT_MAX = 1200                # absolute cap (20 min, was 3600)
 TIMEOUT_HISTORY_MAX_SAMPLES = 50  # keep last N durations per agent/task for p80
 TEST_PASS_THRESHOLD = 0.99        # accept commit if ≥99% tests pass (1-3 failures OK)
 TEST_MIN_DURATION_SECS = 10       # tests taking less than this = phantom (didn't run)
-TEST_MIN_COUNT = 100              # reject if fewer tests than expected (sanity check)
+# TEST_MIN_COUNT: read from test-config.json (single source of truth)
+_test_cfg_path = REPO_ROOT / "test-config.json"
+if _test_cfg_path.exists():
+    _test_cfg = json.load(open(_test_cfg_path, encoding="utf-8"))
+    TEST_MIN_COUNT = _test_cfg.get("metadata", {}).get("min_total_threshold", 2800)
+else:
+    TEST_MIN_COUNT = 100  # fallback if config missing
 IMPL_CONSECUTIVE_FAIL_LIMIT = 5   # circuit breaker: stop after N consecutive impl failures
 IMPL_MAX_RETRIES_PER_ISSUE = 10   # skip issue after N failed attempts (raised from 3 after CLAUDE.md agent optimization)
 TEST_FIX_MAX_ATTEMPTS = 2         # how many times to ask an agent to fix failing tests
@@ -1270,6 +1276,7 @@ def run_tests(return_details=False):
     _test_groups_done = [0]
     _test_running_total = [0, 0]  # [passed, failed]
     _last_group_name = [None]  # track last group for result-on-next-line
+    _group_results = {}  # {group_name: passed_count} for test-config.json update
 
     def _test_progress(line):
         """Called for each output line from the test runner."""
@@ -1292,7 +1299,9 @@ def run_tests(return_details=False):
             m_p = re.search(r'(\d+)\s*(?:p(?:assed)?)', gresult)
             if m_p:
                 _test_groups_done[0] += 1
-                _test_running_total[0] += int(m_p.group(1))
+                passed_count = int(m_p.group(1))
+                _test_running_total[0] += passed_count
+                _group_results[gname] = passed_count
                 m_f = re.search(r'(\d+)\s*f(?:ailed)?', gresult)
                 if m_f:
                     _test_running_total[1] += int(m_f.group(1))
@@ -1310,11 +1319,13 @@ def run_tests(return_details=False):
             m_p = re.search(r'(\d+)\s*(?:p(?:assed)?)', stripped)
             if m_p:
                 _test_groups_done[0] += 1
-                _test_running_total[0] += int(m_p.group(1))
+                passed_count = int(m_p.group(1))
+                _test_running_total[0] += passed_count
                 m_f = re.search(r'(\d+)\s*f(?:ailed)?', stripped)
                 if m_f:
                     _test_running_total[1] += int(m_f.group(1))
                 gname = _last_group_name[0] or f"group-{_test_groups_done[0]}"
+                _group_results[gname] = passed_count
                 log.info("    [TEST] Group %d: [%-20s] %s  (total: %dp/%df)",
                          _test_groups_done[0], gname, stripped,
                          _test_running_total[0], _test_running_total[1])
@@ -1368,6 +1379,8 @@ def run_tests(return_details=False):
                     log.warning("    [TEST] Exit 96 accepted: %d tests passed (>= %d min) — __COVERAGE_GAP__",
                                 passed_count, TEST_MIN_COUNT)
                     kill_stale_processes()
+                    if _group_results:
+                        update_test_config(_group_results)
                     return _result(True, out + "\n__COVERAGE_GAP__", [])
                 else:
                     log.error("    [TEST] Exit 96 REJECTED: only %d tests passed (< %d min) — treating as phantom",
@@ -1406,6 +1419,8 @@ def run_tests(return_details=False):
             else:
                 log.info("    [TEST] OK (%d/%d passed, parallel) [%.0fs]", passed, total, elapsed)
             kill_stale_processes()
+            if _group_results:
+                update_test_config(_group_results)
             return _result(True, out, _parse_failed_tests(out) if failed > 0 else [])
 
         # Fallback: parse single-process dotnet test output
@@ -1422,6 +1437,8 @@ def run_tests(return_details=False):
         if "ALL TESTS PASSED" in out:
             log.info("    [TEST] OK (all tests passed) [%.0fs]", elapsed)
             kill_stale_processes()
+            if _group_results:
+                update_test_config(_group_results)
             return _result(True, out)
         # Check for "TESTS FAILED" from run-tests.ps1
         if "TESTS FAILED" in out:
@@ -1446,6 +1463,35 @@ def run_tests(return_details=False):
         log.error("    [TEST] ERROR: %s", e)
         kill_stale_processes()
         return _result(False, str(e))
+
+
+def update_test_config(group_results: dict[str, int]):
+    """Update test-config.json with actual counts after successful test run.
+    Called with {group_name: passed_count} parsed from test runner output."""
+    cfg_path = REPO_ROOT / "test-config.json"
+    if not cfg_path.exists():
+        return
+    try:
+        cfg = json.load(open(cfg_path, encoding="utf-8"))
+        changed = False
+        for group in cfg["runner"]["groups"]:
+            actual = group_results.get(group["name"])
+            if actual is not None and actual != group["expected"]:
+                log.info("[TEST-CONFIG] %s: %d -> %d", group["name"], group["expected"], actual)
+                group["expected"] = actual
+                changed = True
+        if changed:
+            total = sum(g["expected"] for g in cfg["runner"]["groups"])
+            iso_count = len(cfg["runner"].get("isolated", []))
+            cfg["metadata"]["total_expected"] = total + iso_count
+            cfg["metadata"]["last_updated"] = datetime.datetime.now().strftime("%Y-%m-%d")
+            with open(cfg_path, "w", encoding="utf-8") as fh:
+                json.dump(cfg, fh, indent=2, ensure_ascii=False)
+                fh.write("\n")
+            subprocess.run(["git", "add", str(cfg_path)], cwd=str(REPO_ROOT))
+            log.info("[TEST-CONFIG] Updated total_expected to %d", cfg["metadata"]["total_expected"])
+    except Exception as e:
+        log.warning("[TEST-CONFIG] Failed to update: %s", e)
 
 
 # ── CORE: GIT ───────────────────────────────────────────────────────────────
@@ -5085,6 +5131,89 @@ def iis_update(issue_num, new_status, repo="upstream", description=None,
     return True
 
 
+# ── IIS: FIX STATUS TRACKING ──────────────────────────────────────────────
+def fix_status_tracking(dry_run=False):
+    """Batch-fix issues marked 'triaged' that already have fix commits in git.
+
+    Scans all issues in the DB, cross-references with git log for fix commits
+    (patterns: fix(#N), Fix #N, fix #N), and updates matching issues from
+    'triaged' to 'testing'.
+    """
+    import subprocess
+
+    commit_issues = {}
+    try:
+        r = subprocess.run(
+            ["git", "log", "--oneline", "--all"],
+            capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+        )
+        stdout = (r.stdout or b"").decode("utf-8", errors="replace")
+        for line in stdout.splitlines():
+            for m in re.finditer(r"(?:fix\(#|Fix #|fix #)(\d+)", line):
+                num = int(m.group(1))
+                if num not in commit_issues:
+                    commit_issues[num] = line.strip()
+    except Exception as e:
+        print(f"ERROR: Failed to scan git log: {e}")
+        return
+
+    print(f"Found {len(commit_issues)} unique issue numbers in fix commits")
+
+    updated = 0
+    skipped_no_file = 0
+    skipped_wrong_status = 0
+    candidates = []
+
+    for issue_num, commit_line in sorted(commit_issues.items()):
+        json_file = ISSUES_DB_DIR / f"{issue_num:04d}.json"
+        if not json_file.exists():
+            skipped_no_file += 1
+            continue
+        try:
+            data = json.loads(json_file.read_text(encoding="utf-8-sig"))
+        except Exception:
+            continue
+        if data.get("our_status", "new") != "triaged":
+            skipped_wrong_status += 1
+            continue
+        candidates.append((issue_num, commit_line, json_file, data))
+
+    print(f"Candidates: {len(candidates)} triaged issues with fix commits")
+    print(f"Skipped: {skipped_no_file} no DB file, {skipped_wrong_status} not triaged")
+    print()
+
+    if not candidates:
+        print("Nothing to update.")
+        return
+
+    for issue_num, commit_line, json_file, data in candidates:
+        title = data.get("title", "")[:60]
+        if dry_run:
+            print(f"  [DRY-RUN] #{issue_num:4d} triaged -> testing  {title}")
+            updated += 1
+            continue
+
+        data["our_status"] = "testing"
+        iterations = data.get("iterations") or []
+        iter_seq = max((it.get("seq", 0) for it in iterations), default=0) + 1
+        iterations.append({
+            "seq": iter_seq,
+            "date": datetime.date.today().isoformat(),
+            "type": "testing",
+            "description": f"Auto-promoted: fix commit found ({commit_line[:12]})",
+        })
+        data["iterations"] = iterations
+        data["last_synced"] = (
+            datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        )
+        iis_write_json(json_file, data)
+        print(f"  [FIXED] #{issue_num:4d} triaged -> testing  {title}")
+        updated += 1
+
+    print()
+    print(f"{'Would update' if dry_run else 'Updated'} {updated} issues from 'triaged' to 'testing'")
+
+
 # ── IIS: REPORT ───────────────────────────────────────────────────────────
 def iis_report(include_all=False, no_save=False):
     """Generate markdown report from issue DB.
@@ -5318,8 +5447,8 @@ def main():
     parser.add_argument(
         "mode", nargs="?", default="all",
         choices=["all", "issues", "warnings", "status", "test-hygiene",
-                 "sync", "analyze", "update", "report"],
-        help="sync/analyze/update/report (IIS), or all/issues/warnings/status/test-hygiene (orchestrator)",
+                 "sync", "analyze", "update", "report", "fix-status"],
+        help="sync/analyze/update/report/fix-status (IIS), or all/issues/warnings/status/test-hygiene (orchestrator)",
     )
     # ── Orchestrator args ──
     parser.add_argument("--dry-run", action="store_true",
@@ -5432,6 +5561,10 @@ def main():
 
     if args.mode == "report":
         iis_report(include_all=args.include_all, no_save=args.no_save)
+        return
+
+    if args.mode == "fix-status":
+        fix_status_tracking(dry_run=args.dry_run)
         return
 
     if args.mode == "status":

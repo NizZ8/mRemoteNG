@@ -1,0 +1,74 @@
+{
+  "task_type": "implement",
+  "task_id": "2253",
+  "started_at": "2026-02-25T05:02:05",
+  "finished_at": "2026-02-25T05:11:41",
+  "attempts": [
+    {
+      "agent": "codex",
+      "task": "implement #2253",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T16:58:11"
+    },
+    {
+      "agent": "gemini",
+      "task": "implement #2253",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Agent returned None after retries",
+      "files_modified": [],
+      "build_result": null,
+      "test_result": null,
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-23T16:58:11"
+    },
+    {
+      "agent": "claude",
+      "task": "implement #2253",
+      "success": false,
+      "result": null,
+      "raw_output": "",
+      "errors": "Build OK but tests failed. Test fix attempted but failed.",
+      "files_modified": [
+        ".project-roadmap/issues-db/upstream/2251.json",
+        ".project-roadmap/issues-db/upstream/2252.json",
+        ".project-roadmap/issues-db/upstream/2253.json",
+        ".project-roadmap/scripts/chain-context/_timeout_history.json"
+      ],
+      "build_result": "OK",
+      "test_result": "FAIL",
+      "timed_out": false,
+      "diff_summary": ".project-roadmap/issues-db/upstream/2251.json       | 21 +++++++++++++++++++--\n .project-roadmap/issues-db/upstream/2252.json       | 15 +++++++++++----\n .project-roadmap/issues-db/upstream/2253.json       | 15 +++++++++++----\n .../scripts/chain-context/_timeout_history.json     | 12 ++++++------\n 4 files changed, 47 insertions(+), 16 deletions(-)",
+      "timestamp": "2026-02-23T17:09:28",
+      "diff_output": "diff --git a/.project-roadmap/issues-db/upstream/2251.json b/.project-roadmap/issues-db/upstream/2251.json\nindex 6e2537e5a..0719c4dad 100644\n--- a/.project-roadmap/issues-db/upstream/2251.json\n+++ b/.project-roadmap/issues-db/upstream/2251.json\n@@ -10,7 +10,7 @@\n   \"created_at\": \"2022-06-22T12:08:34Z\",\n   \"github_updated_at\": \"2022-10-11T14:18:21Z\",\n   \"body_snippet\": \"How to have mRemoteNG use KiTTY instead of PuTTY ?\\r\\n\\r\\n## Your Environment\\r\\n<!--- Include as many relevant details about the environment you experienced the bug in -->\\r\\n* Version used: 1.76.20.24615\\r\\n* Operating System and version : Windows 10 Pro v1903\\r\\n\",\n-  \"our_status\": \"triaged\",\n+  \"our_status\": \"testing\",\n   \"priority\": \"P3-enhancement\",\n   \"target_release\": null,\n   \"our_branch\": null,\n@@ -21,6 +21,18 @@\n       \"date\": \"2026-02-23\",\n       \"type\": \"triaged\",\n       \"description\": \"The user is requesting support for KiTTY, a fork of PuTTY, which would enhance mRemoteNG's functionality by providing an alternative terminal client. This is a new feature.\"\n+    },\n+    {\n+      \"seq\": 2,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"testing\",\n+      \"description\": \"Fix in d2e95294\",\n+      \"token_usage\": {\n+        \"input_tokens\": 23,\n+        \"output_tokens\": 10945,\n+        \"cost_usd\": 1.608408,\n+        \"operations\": 1\n+      }\n     }\n   ],\n   \"comments\": [\n@@ -66,5 +78,10 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": true,\n   \"last_synced\": \"2026-02-15T09:52:50Z\",\n-  \"notes\": \"AI triage (gemini): The user is requesting support for KiTTY, a fork of PuTTY, which would enhance mRemoteNG's functionality by providing an alternative terminal client. This is a new feature.\\nApproach: Investigate KiTTY's command-line arguments and registry structure for session management. Implement a dedicated KiTTY session manager or extend the existing PuTTY session manager to support KiTTY. Create a new 'KittyBase' class (potentially inheriting from a refactored 'TerminalBase' or 'PuttyBase') to handle KiTTY-specific protocol interactions. Update UI components to allow selection and configuration of KiTTY, including a custom path setting in the Advanced Options. Ensure appropriate detection logic for KiTTY versions and provide new unit tests for KiTTY integration.\"\n+  \"notes\": \"AI triage (gemini): The user is requesting support for KiTTY, a fork of PuTTY, which would enhance mRemoteNG's functionality by providing an alternative terminal client. This is a new feature.\\nApproach: Investigate KiTTY's command-line arguments and registry structure for session management. Implement a dedicated KiTTY session manager or extend the existing PuTTY session manager to support KiTTY. Create a new 'KittyBase' class (potentially inheriting from a refactored 'TerminalBase' or 'PuttyBase') to handle KiTTY-specific protocol interactions. Update UI components to allow selection and configuration of KiTTY, including a custom path setting in the Advanced Options. Ensure appropriate detection logic for KiTTY versions and provide new unit tests for KiTTY integration.\",\n+  \"token_usage\": {\n+    \"input_tokens\": 23,\n+    \"output_tokens\": 10945,\n+    \"cost_usd\": 1.608408\n+  }\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2252.json b/.project-roadmap/issues-db/upstream/2252.json\nindex b03511eef..59676aa16 100644\n--- a/.project-roadmap/issues-db/upstream/2252.json\n+++ b/.project-roadmap/issues-db/upstream/2252.json\n@@ -10,12 +10,19 @@\n   \"created_at\": \"2022-06-22T13:51:13Z\",\n   \"github_updated_at\": \"2022-06-28T08:14:36Z\",\n   \"body_snippet\": \"Hi,\\r\\n\\r\\nIs there a limitation on how many connections can be stored when using MSSQL database?\\r\\nI'm facing a strange issue where an import of an XML connection file is not saved when I exit mRemoteNG.\\r\\nOf course, I have RW access to the DB and I checked the DB: it's not full or in RO mode.\\r\\n\\r\\nmRemoteNG v1.76.20\\r\\n\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"The issue likely concerns a limitation within the existing MSSqlDatabaseConnector functionality, requiring investigation and a potential fix or enhancement.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM5FpDHR\",\n@@ -32,5 +39,5 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": true,\n   \"last_synced\": \"2026-02-15T09:52:50Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): The issue likely concerns a limitation within the existing MSSqlDatabaseConnector functionality, requiring investigation and a potential fix or enhancement.\\nApproach: Investigate the specific limitation in the MSSqlDatabaseConnector.cs, reproduce the issue, and implement the necessary code changes or additions to address the problem. This may involve modifying existing methods, adding new logic, or adjusting how connections are handled for MSSQL databases.\"\n }\ndiff --git a/.project-roadmap/issues-db/upstream/2253.json b/.project-roadmap/issues-db/upstream/2253.json\nindex 4d185bff9..cb538f062 100644\n--- a/.project-roadmap/issues-db/upstream/2253.json\n+++ b/.project-roadmap/issues-db/upstream/2253.json\n@@ -10,12 +10,19 @@\n   \"created_at\": \"2022-06-27T11:59:34Z\",\n   \"github_updated_at\": \"2026-02-21T10:22:46Z\",\n   \"body_snippet\": \"<!--- Provide a general summary of the issue in the Title above -->\\r\\n\\r\\nexeption message: \\r\\nCannot access a disposed object.\\r\\nObject name: 'ConnectionWindow'.\\r\\n\\r\\n at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)\\r\\n   at mRemoteNG.UI.Window.ConnectionWindow.Prot_Event_Closed(Object sender) in C:\\\\jenkins\\\\workspace\\\\Publish\\\\Build mRemoteNG for Release\\\\mRemoteV1\\\\UI\\\\Window\\\\ConnectionWindow.cs:line 802\\r\\n   at mRemoteNG.UI.Window.Connecti...\",\n-  \"our_status\": \"new\",\n-  \"priority\": null,\n+  \"our_status\": \"triaged\",\n+  \"priority\": \"P2-bug\",\n   \"target_release\": null,\n   \"our_branch\": null,\n   \"our_pr\": null,\n-  \"iterations\": [],\n+  \"iterations\": [\n+    {\n+      \"seq\": 1,\n+      \"date\": \"2026-02-23\",\n+      \"type\": \"triaged\",\n+      \"description\": \"The issue describes problems with UI layout stability after display/panel renaming and resolution changes (docking/undocking), indicating a defect in UI state management.\"\n+    }\n+  ],\n   \"comments\": [\n     {\n       \"id\": \"IC_kwDOAAcIMM5GRIE0\",\n@@ -50,5 +57,5 @@\n   \"needs_action\": true,\n   \"waiting_for_us\": false,\n   \"last_synced\": \"2026-02-21T12:06:48Z\",\n-  \"notes\": \"\"\n+  \"notes\": \"AI triage (gemini): The issue describes problems with UI layout stability after display/panel renaming and resolution changes (docking/undocking), indicating a defect in UI state management.\\nApproach: Investigate how DockPanelLayoutLoader and DockPanelLayoutSaver handle panel identification (by name vs. persistent ID) and how display resolution changes are managed by the DockPanelSuite integration. Focus on ensuring panel layouts persist correctly across renames and display topology changes.\"\n }\ndiff --git a/.project-roadmap/scripts/chain-context/_timeout_history.json b/.project-roadmap/scripts/chain-context/_timeout_history.json\nindex a8f222977..d5690abff 100644\n--- a/.project-roadmap/scripts/chain-context/_timeout_history.json\n+++ b/.project-roadmap/scripts/chain-context/_timeout_history.json\n@@ -2,8 +2,6 @@\n   \"durations\": {\n     \"claude\": {\n       \"implement\": [\n-        672.7,\n-        351.4,\n         270.6,\n         392.2,\n         585.3,\n@@ -51,7 +49,9 @@\n         642.1,\n         210.5,\n         524.0,\n-        537.1\n+        537.1,\n+        266.1,\n+        452.4\n       ],\n       \"triage\": [\n         14.3,\n@@ -160,8 +160,6 @@\n         180.9\n       ],\n       \"triage\": [\n-        24.5,\n-        39.9,\n         29.5,\n         24.5,\n         46.4,\n@@ -209,7 +207,9 @@\n         26.7,\n         46.5,\n         24.9,\n-        34.7\n+        34.7,\n+        42.4,\n+        61.4\n       ]\n     },\n     \"gpt41\": {",
+      "test_output": "=== mRemoteNG Test Runner v9 ===\n[Run] Delegating to bash runner...\n\n[Phase 1] Running 9 test groups (with auto-retry on crash)...\n  [Connection          ] 1025 passed\n  [Config.Xml          ] 0p/RETRY1... 0p/RETRY2... 0 passed\n  [Config.Other        ] 548 passed\n  [UI                  ] 359 passed\n  [Tools               ] 361 passed\n  [Security            ] 0p/RETRY1... 164 passed\n  [Tree+Container+Cred ] 178 passed\n  [Remaining           ] 83 passed\n  [Integration         ] 0p/RETRY1... 21 passed\n\n[Phase 2] FrmOptions isolated...\n  [FormBehavior        ] passed\n  [AllPages            ] passed\n\n========== RESULTS ==========\n  Total:   2741\n  Passed:  2741\n  WARNING: Only 2741 tests (expected >2800)\n=============================\n\n"
+    },
+    {
+      "agent": "claude",
+      "task": "implement #2253",
+      "success": true,
+      "result": null,
+      "raw_output": "",
+      "errors": null,
+      "files_modified": [],
+      "build_result": "OK",
+      "test_result": "OK",
+      "timed_out": false,
+      "diff_summary": null,
+      "timestamp": "2026-02-25T05:11:41"
+    }
+  ],
+  "timeout_count": 0,
+  "all_timed_out": false,
+  "final_success": true
+}

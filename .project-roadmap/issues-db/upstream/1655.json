@@ -12,7 +12,7 @@
   "created_at": "2019-12-16T11:03:39Z",
   "github_updated_at": "2026-02-21T23:32:29Z",
   "body_snippet": "Hello,\r\n\r\nVersion : MremoteNG  1.76.11.40527\r\n\r\nImpact: when disabling \"saving connections on exit\", it still save connections.\r\nIs this normal?\r\n\r\nThank you.\r\nGone.\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -29,6 +29,12 @@
         "cost_usd": 0.127242,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (210d7522e fi)"
     }
   ],
   "comments": [],
@@ -36,6 +42,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): User setting to disable saving connections on exit is ignored — the save logic runs unconditionally on app close instead of checking the option flag.\nApproach: In the FormClosing/exit handler, wrap the connections-save call with a check against the 'Save connections on exit' setting (e.g. `if (Settings.Default.SaveConnectionsOnExit)`) before invoking the serializer/save routine."
 }

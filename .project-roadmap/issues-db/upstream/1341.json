@@ -12,12 +12,19 @@
   "created_at": "2019-03-10T20:32:19Z",
   "github_updated_at": "2026-02-23T23:17:18Z",
   "body_snippet": "Creating new theme causes an exception\r\n\r\n## Expected Behavior\r\nNew theme should be created\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the difference from current behavior -->\r\n\r\n## Possible Solution\r\n<!--- Not obligatory, but suggest a fix/reason for the bug, -->\r\n<!--- or ideas how to implement the addition or change -->\r\n\r\n## Steps to Reproduce (for bugs)\r\n<!--- Provide an unam...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (fe14cb411 fi)"
+    }
+  ],
   "comments": [
     {
       "id": "MDEyOklzc3VlQ29tbWVudDQ3MTM0MTU1NA==",
@@ -42,6 +49,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude-retry): Verified bug by maintainer — exception thrown when creating a new theme, related to #1093 theme system."
 }

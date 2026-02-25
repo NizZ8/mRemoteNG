@@ -10,7 +10,7 @@
   "created_at": "2019-02-23T22:21:58Z",
   "github_updated_at": "2026-02-21T21:45:51Z",
   "body_snippet": "## Expected Behavior\r\nPressing SHIFT+key besides RIGHT SHIFT should give a \"/\" with US keyboard mapping at server and local computer.\r\nPressing SHIFT+7 should give a \"/\" with Danish keyboard mapping at server and local computer.\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\nPressing SHIFT+7 with Danish keyboard mapping gives \"_\"\r\nSHIFT+6 gives \"/\" which is neither US or Da...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -27,6 +27,12 @@
         "cost_usd": 0.125317,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (850c99519 fi)"
     }
   ],
   "comments": [],
@@ -34,6 +40,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (claude): VNC keyboard input issues (stuck modifiers or key mapping failures) are a known usability bug in the VNC protocol layer that affects basic remote control functionality.\nApproach: Investigate VNC keyboard event handling in ProtocolVNC.cs; check for stuck modifier keys (Ctrl/Alt/Shift not released on focus loss) and ensure SendKeyEvent calls are properly flushed; add focus-lost handler to release all modifier keys."
 }

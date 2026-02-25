@@ -13,7 +13,7 @@
   "created_at": "2022-02-03T09:59:33Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "The items below are incredibly confusing without proper help text, and don't seem to work as expected:\r\n- Inheritance\r\n- Default Properties\r\n- Default inheritance\r\n\r\nIt is not obvious how to use the above functions.  Also, the default inheritance doesn't appear to work.\r\n\r\n## Expected Behavior\r\nThe above items should allow the user to set default properties & inheritance and then turn on inheritance, but they don't seems to work properly.  This is assuming I am even configuring the settings corr...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -24,6 +24,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The inheritance mechanism is described as 'confusing and broken', implying a functional defect that needs to be addressed for correct and predictable behavior."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "testing",
+      "description": "Auto-promoted: fix commit found (df737df72 fi)"
     }
   ],
   "comments": [
@@ -68,7 +74,7 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T13:59:42Z",
   "notes": "AI triage (gemini): The inheritance mechanism is described as 'confusing and broken', implying a functional defect that needs to be addressed for correct and predictable behavior.\nApproach: Debug the existing inheritance logic within `ConnectionInfo.cs` and `ConnectionInfoInheritance.cs` to understand the 'confusing and broken' aspects. Reproduce reported issues, then implement a fix to ensure that properties are inherited correctly and predictably. This will likely involve reviewing property propagation, null/default value handling, and potentially how parent/child relationships are resolved. Ensure UI components (`ConnectionInfoPropertyGrid.cs`, `ConfigWindow.cs`) correctly display and allow configuration of the refined inheritance.",
   "impl_failed": true
 }
