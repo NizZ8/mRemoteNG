@@ -120,6 +120,8 @@ public class SqlConnectionsLoaderIntegrationTests
         Assert.That(builder.IntegratedSecurity, Is.True);
         Assert.That(builder.UserID, Is.Empty);
         Assert.That(builder.Password, Is.Empty);
+        Assert.That(builder.Encrypt, Is.EqualTo(SqlConnectionEncryptOption.Mandatory));
+        Assert.That(builder.TrustServerCertificate, Is.True);
     }
 
     [Test]

@@ -66,7 +66,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 {
                     Name = dbDataReader["Name"] as string ?? "",
                     Protected = dbDataReader["Protected"] as string ?? "",
-                    Export = dbDataReader["Export"].Equals(1),
+                    Export = dbDataReader["Export"] != DBNull.Value && Convert.ToBoolean(dbDataReader["Export"]),
                     ConfVersion = new Version(Convert.ToString(dbDataReader["confVersion"], CultureInfo.InvariantCulture) ?? string.Empty)
                 };
             }

@@ -76,9 +76,14 @@ namespace mRemoteNG.Config.DatabaseConnectors
         {
             _dbConnectionString = new SqlConnectionStringBuilder
             {
+                ApplicationName = "mRemoteNG",
                 DataSource = _dbHost,
                 InitialCatalog = _dbCatalog,
-                IntegratedSecurity = true
+                IntegratedSecurity = true,
+                Encrypt = true,
+                TrustServerCertificate = true,
+                ConnectTimeout = 30,
+                MultipleActiveResultSets = true
             }.ToString();
         }
 
