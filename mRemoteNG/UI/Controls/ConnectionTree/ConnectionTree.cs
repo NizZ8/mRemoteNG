@@ -41,6 +41,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
         private bool _allowEdit;
         private ConnectionContextMenu _contextMenu = null!;
         private ConnectionTreeModel? _connectionTreeModel;
+        private List<ConnectionInfo> _clipboardNodes = new();
 
         public ConnectionInfo SelectedNode => (ConnectionInfo)SelectedObject;
 
@@ -481,6 +482,40 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                     if (selectedNode.Parent == null) continue;
                     selectedNode.Parent.AddChildBelow(newNode, selectedNode);
                     newNode.Parent?.SetChildBelow(newNode, selectedNode);
+                }
+            });
+        }
+
+        public bool HasClipboardNodes => _clipboardNodes.Count > 0;
+
+        public void CopySelectedNodes()
+        {
+            _clipboardNodes = GetSelectedNodes()
+                .Where(n =>
+                {
+                    TreeNodeType type = n.GetTreeNodeType();
+                    return type == TreeNodeType.Connection || type == TreeNodeType.Container;
+                })
+                .ToList();
+        }
+
+        public void PasteNodes()
+        {
+            if (IsReadOnly) return;
+            if (_clipboardNodes.Count == 0) return;
+            ExecuteInBatchedSaveContext(() =>
+            {
+                foreach (ConnectionInfo copiedNode in _clipboardNodes)
+                {
+                    ConnectionInfo newNode = copiedNode.Clone();
+                    if (SelectedNode is ContainerInfo container)
+                    {
+                        container.AddChild(newNode);
+                    }
+                    else if (SelectedNode?.Parent != null)
+                    {
+                        SelectedNode.Parent.AddChildBelow(newNode, SelectedNode);
+                    }
                 }
             });
         }

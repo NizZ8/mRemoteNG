@@ -66,6 +66,8 @@ namespace mRemoteNG.UI.Controls
         private ToolStripMenuItem _cMenTreeMoveDown = null!;
         private ToolStripMenuItem _cMenTreeToolsExternalApps = null!;
         private ToolStripMenuItem _cMenTreeDuplicate = null!;
+        private ToolStripMenuItem _cMenTreeCopy = null!;
+        private ToolStripMenuItem _cMenTreePaste = null!;
         private ToolStripMenuItem _cMenTreeCreateLink = null!;
         private ToolStripMenuItem _cMenTreeProperties = null!;
         private ToolStripMenuItem _cMenInheritanceSubMenu = null!;
@@ -136,6 +138,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeToolsWakeOnLan = new ToolStripMenuItem();
             _cMenTreeSep2 = new ToolStripSeparator();
             _cMenTreeDuplicate = new ToolStripMenuItem();
+            _cMenTreeCopy = new ToolStripMenuItem();
+            _cMenTreePaste = new ToolStripMenuItem();
             _cMenTreeCreateLink = new ToolStripMenuItem();
             _cMenTreeProperties = new ToolStripMenuItem();
             _cMenTreeRename = new ToolStripMenuItem();
@@ -203,6 +207,8 @@ namespace mRemoteNG.UI.Controls
                 _cMenTreeToolsWakeOnLan,
                 _cMenTreeSep2,
                 _cMenTreeDuplicate,
+                _cMenTreeCopy,
+                _cMenTreePaste,
                 _cMenTreeCreateLink,
                 _cMenTreeRename,
                 _cMenTreeDelete,
@@ -405,6 +411,20 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDuplicate.Size = new System.Drawing.Size(199, 22);
             _cMenTreeDuplicate.Text = "Duplicate";
             _cMenTreeDuplicate.Click += OnDuplicateClicked;
+            //
+            // cMenTreeCopy
+            //
+            _cMenTreeCopy.Name = "_cMenTreeCopy";
+            _cMenTreeCopy.Size = new System.Drawing.Size(199, 22);
+            _cMenTreeCopy.Text = "Copy";
+            _cMenTreeCopy.Click += OnCopyClicked;
+            //
+            // cMenTreePaste
+            //
+            _cMenTreePaste.Name = "_cMenTreePaste";
+            _cMenTreePaste.Size = new System.Drawing.Size(199, 22);
+            _cMenTreePaste.Text = "Paste";
+            _cMenTreePaste.Click += OnPasteClicked;
             //
             // cMenTreeCreateLink
             //
@@ -789,6 +809,8 @@ namespace mRemoteNG.UI.Controls
                     ShowHideMenuItemsForConnectionNode(_connectionTree.SelectedNode);
                 }
 
+                _cMenTreePaste.Enabled = _connectionTree.HasClipboardNodes;
+
                 if (IsReadOnly)
                 {
                     _cMenTreeAddConnection.Enabled = false;
@@ -839,6 +861,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeToolsSort.Enabled = false;
             _cMenTreeToolsExternalApps.Enabled = false;
             _cMenTreeDuplicate.Enabled = false;
+            _cMenTreeCopy.Enabled = false;
+            _cMenTreePaste.Enabled = false;
             _cMenTreeCreateLink.Enabled = false;
             _cMenTreeImport.Enabled = false;
             _cMenTreeExportFile.Enabled = false;
@@ -1002,6 +1026,8 @@ namespace mRemoteNG.UI.Controls
         {
             _cMenTreeConnect.ShortcutKeys = Keys.None;
             _cMenTreeDuplicate.ShortcutKeys = Keys.None;
+            _cMenTreeCopy.ShortcutKeys = Keys.None;
+            _cMenTreePaste.ShortcutKeys = Keys.None;
             _cMenTreeRename.ShortcutKeys = Keys.None;
             _cMenTreeDelete.ShortcutKeys = Keys.None;
             _cMenTreeMoveUp.ShortcutKeys = Keys.None;
@@ -1013,6 +1039,8 @@ namespace mRemoteNG.UI.Controls
         {
             _cMenTreeConnect.ShortcutKeys = Keys.None;
             _cMenTreeDuplicate.ShortcutKeys = Keys.Control | Keys.D;
+            _cMenTreeCopy.ShortcutKeys = Keys.Control | Keys.C;
+            _cMenTreePaste.ShortcutKeys = Keys.Control | Keys.V;
             _cMenTreeRename.ShortcutKeys = Keys.F2;
             _cMenTreeDelete.ShortcutKeys = Keys.Delete;
             _cMenTreeMoveUp.ShortcutKeys = Keys.Control | Keys.Up;
@@ -1348,6 +1376,16 @@ namespace mRemoteNG.UI.Controls
         private void OnDuplicateClicked(object sender, EventArgs e)
         {
             _connectionTree.DuplicateSelectedNode();
+        }
+
+        private void OnCopyClicked(object sender, EventArgs e)
+        {
+            _connectionTree.CopySelectedNodes();
+        }
+
+        private void OnPasteClicked(object sender, EventArgs e)
+        {
+            _connectionTree.PasteNodes();
         }
 
         private void OnCreateLinkClicked(object sender, EventArgs e)
