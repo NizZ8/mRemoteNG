@@ -174,6 +174,18 @@ jobs:
           Write-Host "Running: $cmd"
           Invoke-Expression $cmd
 
+      - name: (07b) Smoke test (app starts)
+        shell: pwsh
+        run: |
+          if ('${{ matrix.selfcontained }}' -eq 'true') {
+            $exe = ".\mRemoteNG\bin\${{ matrix.platform }}\Release\publish\mRemoteNG.exe"
+          } else {
+            $exe = ".\mRemoteNG\bin\${{ matrix.platform }}\Release\mRemoteNG.exe"
+          }
+          $output = & $exe --version 2>&1
+          if ($LASTEXITCODE -ne 0) { throw "Smoke test failed: exit code $LASTEXITCODE" }
+          Write-Host "Smoke test passed: $output"
+
       - name: (08) Release Information
         id: version
         shell: pwsh

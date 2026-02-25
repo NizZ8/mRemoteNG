@@ -34,6 +34,17 @@ namespace mRemoteNG.App
         [STAThread]
         public static void Main(string[] args)
         {
+            // Smoke test: --version prints version and exits immediately (no GUI)
+            if (args.Length > 0 && args[0] == "--version")
+            {
+                var version = Assembly.GetExecutingAssembly()
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+                    ?? Assembly.GetExecutingAssembly().GetName().Version?.ToString()
+                    ?? "unknown";
+                Console.WriteLine(version);
+                Environment.Exit(0);
+            }
+
             // Ensure the real entry point is definitely STA
             MainAsync(args).GetAwaiter().GetResult();
         }
