@@ -760,7 +760,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 Event_ErrorOccured(this, "Secret Server Interface Error: " + ex.Message, 0);
                             }
                         }
-                        else if (InterfaceControl.Info.ExternalCredentialProvider == ExternalCredentialProvider.ClickstudiosPasswordState)
+                        else if (InterfaceControl.Info.RDGatewayExternalCredentialProvider == ExternalCredentialProvider.ClickstudiosPasswordState)
                         {
                             try
                             {
@@ -772,7 +772,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 Event_ErrorOccured(this, "Passwordstate Interface Error: " + ex.Message, 0);
                             }
                         }
-                        else if (InterfaceControl.Info.ExternalCredentialProvider == ExternalCredentialProvider.OnePassword)
+                        else if (InterfaceControl.Info.RDGatewayExternalCredentialProvider == ExternalCredentialProvider.OnePassword)
                         {
                             try
                             {
@@ -785,7 +785,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.ECPOnePasswordReadFailed + Environment.NewLine + ex.Message);
                             }
                         }
-                        else if (InterfaceControl.Info.ExternalCredentialProvider == ExternalCredentialProvider.PasswordSafe)
+                        else if (InterfaceControl.Info.RDGatewayExternalCredentialProvider == ExternalCredentialProvider.PasswordSafe)
                         {
                             try
                             {
@@ -798,7 +798,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.ECPPasswordSafeReadFailed + Environment.NewLine + ex.Message);
                             }
                         }
-                        else if (InterfaceControl.Info.ExternalCredentialProvider == ExternalCredentialProvider.VaultOpenbao)
+                        else if (InterfaceControl.Info.RDGatewayExternalCredentialProvider == ExternalCredentialProvider.VaultOpenbao)
                         {
                             try {
                                 if (connectionInfo.VaultOpenbaoSecretEngine == VaultOpenbaoSecretEngine.Kv)
