@@ -80,7 +80,7 @@ namespace mRemoteNG.UI.Forms
                 txtPassword.Focus();
             }
 
-            Height = tableLayoutPanel1.PreferredSize.Height + Padding.Vertical + 8;
+            ClientSize = new Size(ClientSize.Width, tableLayoutPanel1.PreferredSize.Height + Padding.Vertical);
         }
 
         private void PasswordForm_FormClosed(object sender, FormClosedEventArgs e)
