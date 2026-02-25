@@ -84,6 +84,7 @@ namespace mRemoteNG.App.Info
         public static string CmdSnippetsFileName { get; } = "cmdSnippets.xml";
         public static string ThemesFileName { get; } = "Themes.xml";
         public static string LocalConnectionProperties { get; } = "LocalConnectionProperties.xml";
+        public static string SqlConnectionsCache { get; } = "SqlConnectionsCache.xml";
         public static string QuickConnectHistoryFileName { get; } = "quickConnectHistory.xml";
 
         public static string ThemeFolder =>

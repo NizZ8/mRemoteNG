@@ -261,10 +261,31 @@ namespace mRemoteNG.Connection
                 connectionLoader = new XmlConnectionsLoader(connectionFileName);
             }
 
-            ConnectionTreeModel newConnectionTreeModel = connectionLoader.Load();
-
-            if (useDatabase)
-                LastSqlUpdate = DateTime.Now.ToUniversalTime();
+            ConnectionTreeModel newConnectionTreeModel = null!;
+            try
+            {
+                newConnectionTreeModel = connectionLoader.Load();
+                if (useDatabase)
+                {
+                    LastSqlUpdate = DateTime.Now.ToUniversalTime();
+                    TrySaveSqlConnectionsCache(newConnectionTreeModel);
+                }
+            }
+            catch (Exception ex) when (useDatabase)
+            {
+                string cachePath = Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.SqlConnectionsCache);
+                if (File.Exists(cachePath))
+                {
+                    Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
+                        $"Could not load connections from database ({ex.Message}). Loading from local cache in read-only mode.");
+                    connectionLoader = new XmlConnectionsLoader(cachePath);
+                    newConnectionTreeModel = connectionLoader.Load();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             if (newConnectionTreeModel == null)
             {
@@ -512,6 +533,24 @@ namespace mRemoteNG.Connection
         private string GetDefaultStartupConnectionFileNamePortableEdition()
         {
             return Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, ConnectionsFileInfo.DefaultConnectionsFile);
+        }
+
+        private void TrySaveSqlConnectionsCache(ConnectionTreeModel connectionTreeModel)
+        {
+            try
+            {
+                string cachePath = Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.SqlConnectionsCache);
+                ConnectionTreeModel cacheModel = new();
+                foreach (RootNodeInfo root in connectionTreeModel.RootNodes.OfType<RootNodeInfo>())
+                    cacheModel.AddRootNode(root);
+                XmlConnectionsSaver cacheSaver = new(cachePath, new SaveFilter());
+                cacheSaver.Save(cacheModel);
+                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg, $"SQL connections cache saved to '{cachePath}'");
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace("Failed to save SQL connections cache", ex);
+            }
         }
 
         #region Events
