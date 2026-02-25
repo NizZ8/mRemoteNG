@@ -15,19 +15,43 @@ namespace mRemoteNG.App.Info
         private static readonly string ExePath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ConnectionInfo))?.Location) ?? string.Empty;
         private static readonly Lazy<string> InstalledSettingsPath = new(GetInstalledSettingsPath);
 
+        // For portable edition running from a read-only or WebDAV drive, fall back to %APPDATA%.
+        private static readonly Lazy<string> _portableWritablePath = new(() =>
+        {
+            if (!string.IsNullOrEmpty(ExePath) && IsDirectoryWritable(ExePath))
+                return ExePath;
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Application.ProductName ?? "mRemoteNG");
+        });
+
+        private static bool IsDirectoryWritable(string dirPath)
+        {
+            try
+            {
+                string testFile = Path.Combine(dirPath, Path.GetRandomFileName());
+                using var fs = File.Create(testFile, 1, FileOptions.DeleteOnClose);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static string DefaultSettingsPath =>
             Runtime.IsPortableEdition
-                ? ExePath
+                ? _portableWritablePath.Value
                 : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName ?? string.Empty);
 
         public static string SettingsPath =>
             Runtime.IsPortableEdition
-                ? ExePath
+                ? _portableWritablePath.Value
                 : InstalledSettingsPath.Value;
 
         public static string UserSettingsFilePath =>
             Runtime.IsPortableEdition
-                ? Path.Combine(ExePath, $"{Path.GetFileNameWithoutExtension(Application.ExecutablePath)}.settings")
+                ? Path.Combine(_portableWritablePath.Value, $"{Path.GetFileNameWithoutExtension(Application.ExecutablePath)}.settings")
                 : GetInstalledUserSettingsFilePath();
 
         public static string UserSettingsFolderPath =>

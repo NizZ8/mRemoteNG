@@ -74,7 +74,26 @@ namespace mRemoteNG.App
 
         private static string GetLogPathPortableEdition()
         {
-            return Application.StartupPath;
+            string startupPath = Application.StartupPath;
+            if (IsDirectoryWritable(startupPath))
+                return startupPath;
+            // Fallback for read-only or WebDAV drives: write log to %LOCALAPPDATA%
+            return GetLogPathNormalEdition();
+        }
+
+        private static bool IsDirectoryWritable(string dirPath)
+        {
+            if (string.IsNullOrEmpty(dirPath)) return false;
+            try
+            {
+                string testFile = Path.Combine(dirPath, Path.GetRandomFileName());
+                using var fs = File.Create(testFile, 1, FileOptions.DeleteOnClose);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }
