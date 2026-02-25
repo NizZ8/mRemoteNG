@@ -39,9 +39,9 @@ namespace mRemoteNG.Connection.Protocol
 
         public IntPtr PuttyHandle { get; set; }
 
-        private Process PuttyProcess { get; set; }
+        private Process? PuttyProcess { get; set; }
 
-        public static string PuttyPath { get; set; }
+        public static string? PuttyPath { get; set; }
 
         public bool Focused => NativeMethods.GetForegroundWindow() == PuttyHandle;
 
@@ -60,7 +60,7 @@ namespace mRemoteNG.Connection.Protocol
 
         public bool isRunning()
         {
-            return !PuttyProcess.HasExited;
+            return PuttyProcess?.HasExited == false;
         }
 
         public void CreatePipe(object oData)
@@ -298,6 +298,9 @@ namespace mRemoteNG.Connection.Protocol
                 while (PuttyHandle.ToInt32() == 0 &
                        Environment.TickCount < startTicks + Properties.OptionsAdvancedPage.Default.MaxPuttyWaitTime * 1000)
                 {
+                    if (PuttyProcess.HasExited)
+                        break;
+
                     if (_isPuttyNg)
                     {
                         PuttyHandle = NativeMethods.FindWindowEx(InterfaceControl.Handle, new IntPtr(0), null, null);
@@ -305,12 +308,28 @@ namespace mRemoteNG.Connection.Protocol
                     else
                     {
                         PuttyProcess.Refresh();
-                        PuttyHandle = PuttyProcess.MainWindowHandle;
+                        IntPtr candidateHandle = PuttyProcess.MainWindowHandle;
+
+                        if (candidateHandle != IntPtr.Zero)
+                        {
+                            // Check the window class name to distinguish the actual PuTTY
+                            // terminal window ("PuTTY") from popup dialogs like the host key
+                            // verification alert (class "#32770"). Dialogs must remain as
+                            // top-level windows so the user can interact with them.
+                            StringBuilder className = new(256);
+                            NativeMethods.GetClassName(candidateHandle, className, className.Capacity);
+                            string cls = className.ToString();
+
+                            if (cls.Equals("PuTTY", StringComparison.OrdinalIgnoreCase))
+                            {
+                                PuttyHandle = candidateHandle;
+                            }
+                        }
                     }
 
                     if (PuttyHandle.ToInt32() == 0)
                     {
-                        Thread.Sleep(0);
+                        Thread.Sleep(100);
                     }
                 }
 
@@ -405,27 +424,23 @@ namespace mRemoteNG.Connection.Protocol
         {
             try
             {
-                if (PuttyProcess.HasExited == false)
+                if (PuttyProcess?.HasExited == false)
                 {
                     PuttyProcess.Kill();
                 }
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyKillFailed + Environment.NewLine + ex.Message,
-                                                    true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyKillFailed + Environment.NewLine + ex.Message, true);
             }
 
             try
             {
-                PuttyProcess.Dispose();
+                PuttyProcess?.Dispose();
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyDisposeFailed + Environment.NewLine + ex.Message,
-                                                    true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyDisposeFailed + Environment.NewLine + ex.Message, true);
             }
 
             base.Close();
@@ -440,9 +455,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyShowSettingsDialogFailed + Environment.NewLine +
-                                                    ex.Message, true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyShowSettingsDialogFailed + Environment.NewLine + ex.Message, true);
             }
         }
 

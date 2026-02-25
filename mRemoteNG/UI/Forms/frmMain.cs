@@ -234,6 +234,8 @@ namespace mRemoteNG.UI.Forms
             else
                 SetLayout();
 
+            ShowHidePanelTabs();
+
             Runtime.ConnectionsService.ConnectionsLoaded += ConnectionsServiceOnConnectionsLoaded;
             Runtime.ConnectionsService.ConnectionsSaved += ConnectionsServiceOnConnectionsSaved;
             
@@ -292,6 +294,7 @@ namespace mRemoteNG.UI.Forms
         private void ApplyLanguage()
         {
             fileMenu.ApplyLanguage();
+            sessionsMenu.ApplyLanguage();
             viewMenu.ApplyLanguage();
             toolsMenu.ApplyLanguage();
             helpMenu.ApplyLanguage();
@@ -413,6 +416,15 @@ namespace mRemoteNG.UI.Forms
             if (!CommonRegistrySettings.AllowCheckForUpdatesAutomatical) return;
 
             if (Properties.OptionsUpdatesPage.Default.CheckForUpdatesAsked) return;
+
+            // If the user has already explicitly disabled automatic updates via settings, don't ask again
+            if (!Properties.OptionsUpdatesPage.Default.CheckForUpdatesOnStartup)
+            {
+                Properties.OptionsUpdatesPage.Default.CheckForUpdatesAsked = true;
+                Properties.OptionsUpdatesPage.Default.Save();
+                return;
+            }
+
             string[] commandButtons =
             [
                 Language.AskUpdatesCommandRecommended,
@@ -422,16 +434,25 @@ namespace mRemoteNG.UI.Forms
 
             CTaskDialog.ShowTaskDialogBox(this, GeneralAppInfo.ProductName, Language.AskUpdatesMainInstruction, string.Format(Language.AskUpdatesContent, GeneralAppInfo.ProductName), "", "", "", "", string.Join(" | ", commandButtons), ETaskDialogButtons.None, ESysIcons.Question, ESysIcons.Question);
 
-            if (CTaskDialog.CommandButtonResult == 0 | CTaskDialog.CommandButtonResult == 1)
+            if (CTaskDialog.CommandButtonResult == 0)
             {
+                // Use Recommended Settings: enable automatic updates with the default frequency
+                Properties.OptionsUpdatesPage.Default.CheckForUpdatesOnStartup = true;
+                if (Properties.OptionsUpdatesPage.Default.CheckForUpdatesFrequencyDays < 1)
+                    Properties.OptionsUpdatesPage.Default.CheckForUpdatesFrequencyDays = 14;
                 Properties.OptionsUpdatesPage.Default.CheckForUpdatesAsked = true;
+                Properties.OptionsUpdatesPage.Default.Save();
             }
-
-            if (CTaskDialog.CommandButtonResult != 1) return;
-
-            AppWindows.Show(WindowType.Options);
-            if (AppWindows.OptionsFormWindow != null)
-                AppWindows.OptionsFormWindow.SetActivatedPage(Language.Updates);
+            else if (CTaskDialog.CommandButtonResult == 1)
+            {
+                // Customize: let the user configure update settings manually, then open Options
+                Properties.OptionsUpdatesPage.Default.CheckForUpdatesAsked = true;
+                Properties.OptionsUpdatesPage.Default.Save();
+                AppWindows.Show(WindowType.Options);
+                if (AppWindows.OptionsFormWindow != null)
+                    AppWindows.OptionsFormWindow.SetActivatedPage(Language.Updates);
+            }
+            // For "Ask Later" (button 2), CheckForUpdatesAsked remains false so the dialog will show again next startup
         }
 
         private async Task CheckForUpdates()
@@ -697,6 +718,7 @@ namespace mRemoteNG.UI.Forms
         private void PnlDock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             ActivateConnection();
+            sessionsMenu.UpdateMenuState();
         }
 
         internal void UpdateWindowTitle()

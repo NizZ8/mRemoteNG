@@ -9,6 +9,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <TransformOnBuild>true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
     <ApplicationIcon>Icons\mRemoteNG.ico</ApplicationIcon>
     <Version>1.78.2-dev</Version>
     <Description>Multi-protocol remote connections manager</Description>
@@ -138,6 +141,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     <PackageReference Include="MySql.Data" />
+    <PackageReference Include="System.Data.Odbc" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Newtonsoft.Json.Schema" />
     <PackageReference Include="OpenCover" />
@@ -276,6 +280,11 @@
     <Compile Update="UI\Forms\OptionsPages\UpdatesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <T4ParameterValues Include="platformType">
+      <Value>$(Platform)</Value>
+    </T4ParameterValues>
   </ItemGroup>
   <ItemGroup>
     <None Update="Properties\AssemblyInfo.tt">
@@ -544,10 +553,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="144.0.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="145.0.26" />
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)'=='arm64'">
-    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="144.0.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="145.0.26" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
@@ -587,4 +596,5 @@
     <RemoveDir Directories="$(TempBuildDir)" />
     <RemoveDir Directories="$(ProjectDir)bin\x64\Release Self-Contained" />
   </Target>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets" />
 </Project>
