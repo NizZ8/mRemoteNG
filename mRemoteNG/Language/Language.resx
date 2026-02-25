@@ -2733,4 +2733,46 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="QuickConnectNoHostname" xml:space="preserve">
     <value>No hostname specified!</value>
   </data>
+  <data name="MenuItem_ForkGitHub" xml:space="preserve">
+    <value>Fork: GitHub Page</value>
+  </data>
+  <data name="MenuItem_ForkReleases" xml:space="preserve">
+    <value>Fork: Releases &amp;&amp; Downloads</value>
+  </data>
+  <data name="MenuItem_ForkReportIssue" xml:space="preserve">
+    <value>Fork: Report an Issue</value>
+  </data>
+  <data name="MenuItem_OriginalWebsite" xml:space="preserve">
+    <value>Original Project Website</value>
+  </data>
+  <data name="MenuItem_OriginalForum" xml:space="preserve">
+    <value>Original Project Forum</value>
+  </data>
+  <data name="MenuItem_OriginalChat" xml:space="preserve">
+    <value>Original Project Chat</value>
+  </data>
+  <data name="MenuItem_OriginalCommunity" xml:space="preserve">
+    <value>Original Project Community</value>
+  </data>
+  <data name="MenuItem_OriginalDonate" xml:space="preserve">
+    <value>Donate (Original Project)</value>
+  </data>
+  <data name="ForkHeader" xml:space="preserve">
+    <value>This Fork</value>
+  </data>
+  <data name="ForkGitHubPage" xml:space="preserve">
+    <value>GitHub Page</value>
+  </data>
+  <data name="ForkReleases" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+  <data name="ForkChangelog" xml:space="preserve">
+    <value>Changelog</value>
+  </data>
+  <data name="OriginalChangelog" xml:space="preserve">
+    <value>Original Changelog</value>
+  </data>
+  <data name="OriginalCredits" xml:space="preserve">
+    <value>Original Credits</value>
+  </data>
 </root>

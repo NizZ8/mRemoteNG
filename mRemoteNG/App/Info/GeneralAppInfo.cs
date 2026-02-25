@@ -22,6 +22,13 @@ namespace mRemoteNG.App.Info
         public const string CrashReportOwner = "robertpopa22";
         public const string CrashReportRepo = "mRemoteNG";
         public const string UrlDocumentation = "https://mremoteng.readthedocs.io/en/latest/";
+
+        // Fork-specific URLs
+        public const string ForkOwner = "robertpopa22";
+        public const string ForkRepo = "mRemoteNG";
+        public const string UrlForkHome = "https://github.com/robertpopa22/mRemoteNG";
+        public const string UrlForkReleases = "https://github.com/robertpopa22/mRemoteNG/releases";
+        public const string UrlForkChangelog = "https://github.com/robertpopa22/mRemoteNG/blob/main/CHANGELOG.md";
         public static readonly string ApplicationVersion = Application.ProductVersion;
         public static readonly string ProductName = Application.ProductName ?? string.Empty;
         public static readonly string Copyright = (Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute), false) as AssemblyCopyrightAttribute)?.Copyright ?? string.Empty;

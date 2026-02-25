@@ -2638,7 +2638,43 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("FormatInheritDescription", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Changelog.
+        /// </summary>
+        internal static string ForkChangelog {
+            get {
+                return ResourceManager.GetString("ForkChangelog", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to GitHub Page.
+        /// </summary>
+        internal static string ForkGitHubPage {
+            get {
+                return ResourceManager.GetString("ForkGitHubPage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This Fork.
+        /// </summary>
+        internal static string ForkHeader {
+            get {
+                return ResourceManager.GetString("ForkHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Releases.
+        /// </summary>
+        internal static string ForkReleases {
+            get {
+                return ResourceManager.GetString("ForkReleases", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Blue (Development).
         /// </summary>
@@ -3322,7 +3358,34 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("MenuItem_Donate", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Fork: GitHub Page.
+        /// </summary>
+        internal static string MenuItem_ForkGitHub {
+            get {
+                return ResourceManager.GetString("MenuItem_ForkGitHub", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Fork: Releases &amp;&amp; Downloads.
+        /// </summary>
+        internal static string MenuItem_ForkReleases {
+            get {
+                return ResourceManager.GetString("MenuItem_ForkReleases", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Fork: Report an Issue.
+        /// </summary>
+        internal static string MenuItem_ForkReportIssue {
+            get {
+                return ResourceManager.GetString("MenuItem_ForkReportIssue", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to mRemoteNG Help.
         /// </summary>
@@ -3331,7 +3394,52 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("MenuItem_HelpContents", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Project Chat.
+        /// </summary>
+        internal static string MenuItem_OriginalChat {
+            get {
+                return ResourceManager.GetString("MenuItem_OriginalChat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Project Community.
+        /// </summary>
+        internal static string MenuItem_OriginalCommunity {
+            get {
+                return ResourceManager.GetString("MenuItem_OriginalCommunity", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Donate (Original Project).
+        /// </summary>
+        internal static string MenuItem_OriginalDonate {
+            get {
+                return ResourceManager.GetString("MenuItem_OriginalDonate", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Project Forum.
+        /// </summary>
+        internal static string MenuItem_OriginalForum {
+            get {
+                return ResourceManager.GetString("MenuItem_OriginalForum", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Project Website.
+        /// </summary>
+        internal static string MenuItem_OriginalWebsite {
+            get {
+                return ResourceManager.GetString("MenuItem_OriginalWebsite", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Report an Issue.
         /// </summary>
@@ -3872,7 +3980,25 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("OptionsThemeNewThemeText", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Changelog.
+        /// </summary>
+        internal static string OriginalChangelog {
+            get {
+                return ResourceManager.GetString("OriginalChangelog", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Original Credits.
+        /// </summary>
+        internal static string OriginalCredits {
+            get {
+                return ResourceManager.GetString("OriginalCredits", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Out Of Range.
         /// </summary>
