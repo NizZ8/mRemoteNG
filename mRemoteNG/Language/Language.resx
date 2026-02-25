@@ -770,6 +770,9 @@ See the Microsoft Support article at http://support.microsoft.com/kb/811833 for 
   <data name="CtrlAltDel" xml:space="preserve">
     <value>Ctrl-Alt-Del</value>
   </data>
+  <data name="CtrlAltEnd" xml:space="preserve">
+    <value>Ctrl+Alt+End</value>
+  </data>
   <data name="CtrlEsc" xml:space="preserve">
     <value>Ctrl-Esc</value>
   </data>

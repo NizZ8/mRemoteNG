@@ -41,6 +41,7 @@ namespace mRemoteNG.UI.Window
         private readonly ToolStripMenuItem _cmenTabTileHorizontally = new();
         private readonly ToolStripMenuItem _cmenTabTileVertically = new();
         private readonly ToolStripMenuItem _cmenTabCollapseToTabs = new();
+        private readonly ToolStripMenuItem _cmenTabSendCtrlAltEnd = new();
         private bool _isAddingTab;
         private readonly List<IDockContent> _tabActivationHistory = new();
         // Tracks panel activation order across all ConnectionWindow instances (MRU, index 0 = oldest)
@@ -210,6 +211,7 @@ namespace mRemoteNG.UI.Window
             InitializeMultiSshContextMenuItems();
             InitializeScreenshotManagerMenuItem();
             InitializeTileContextMenuItems();
+            InitializeRdpContextMenuItems();
 
             // event handler to adjust the items within the context menu
             cmenTab.Opening += ShowHideMenuButtons;
@@ -233,6 +235,7 @@ namespace mRemoteNG.UI.Window
             cmenTabPuttySettings.Click += (sender, args) => ShowPuttySettingsDialog();
             _cmenTabIncludeInMultiSsh.Click += (sender, args) => ToggleMultiSshInclude();
             _cmenTabExcludeFromMultiSsh.Click += (sender, args) => ToggleMultiSshExclude();
+            _cmenTabSendCtrlAltEnd.Click += (sender, args) => SendCtrlAltEnd();
             GotFocus += ConnectionWindow_GotFocus;
         }
 
@@ -328,6 +331,21 @@ namespace mRemoteNG.UI.Window
 
             cmenTab.Items.Insert(insertIndex, _cmenTabTileConnections);
             _cmenTabTileConnections.Visible = false;
+        }
+
+        private void InitializeRdpContextMenuItems()
+        {
+            _cmenTabSendCtrlAltEnd.Name = "cmenTabSendCtrlAltEnd";
+            _cmenTabSendCtrlAltEnd.Image = Properties.Resources.ToggleOfficeKeyboardScheme_16x;
+
+            int insertIndex = cmenTab.Items.IndexOf(cmenTabSendSpecialKeys);
+            if (insertIndex < 0)
+                insertIndex = cmenTab.Items.Count;
+            else
+                insertIndex++; // insert right after the VNC special keys menu
+
+            cmenTab.Items.Insert(insertIndex, _cmenTabSendCtrlAltEnd);
+            _cmenTabSendCtrlAltEnd.Visible = false;
         }
 
         private void InitializeConnectionTabDragDropTargets()
@@ -1032,6 +1050,7 @@ namespace mRemoteNG.UI.Window
             cmenTabSendSpecialKeys.Text = Language.SendSpecialKeys;
             cmenTabSendSpecialKeysCtrlAltDel.Text = Language.CtrlAltDel;
             cmenTabSendSpecialKeysCtrlEsc.Text = Language.CtrlEsc;
+            _cmenTabSendCtrlAltEnd.Text = Language.CtrlAltEnd;
             cmenTabExternalApps.Text = Language._Tools;
             cmenTabRenameTab.Text = Language.RenameTab;
             cmenTabDuplicateTab.Text = Language.DuplicateTab;
@@ -1370,12 +1389,14 @@ namespace mRemoteNG.UI.Window
                     cmenTabFullscreen.Checked = rdp.Fullscreen;
                     cmenTabSmartSize.Visible = true;
                     cmenTabSmartSize.Checked = rdp.SmartSize;
+                    _cmenTabSendCtrlAltEnd.Visible = true;
                 }
                 else
                 {
                     cmenTabFullscreen.Visible = false;
                     cmenTabFullscreen.Enabled = true;
                     cmenTabSmartSize.Visible = false;
+                    _cmenTabSendCtrlAltEnd.Visible = false;
                 }
 
                 if (interfaceControl.Info.Protocol == ProtocolType.VNC)
@@ -1632,6 +1653,20 @@ namespace mRemoteNG.UI.Window
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("SendSpecialKeys (UI.Window.ConnectionWindow) failed", ex);
+            }
+        }
+
+        private void SendCtrlAltEnd()
+        {
+            try
+            {
+                InterfaceControl? interfaceControl = GetInterfaceControl();
+                RdpProtocol? rdp = interfaceControl?.Protocol as RdpProtocol;
+                rdp?.SendCtrlAltEnd();
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("SendCtrlAltEnd (UI.Window.ConnectionWindow) failed", ex);
             }
         }
 

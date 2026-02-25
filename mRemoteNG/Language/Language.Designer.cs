@@ -1527,7 +1527,16 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("CtrlAltDel", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ctrl+Alt+End.
+        /// </summary>
+        internal static string CtrlAltEnd {
+            get {
+                return ResourceManager.GetString("CtrlAltEnd", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Ctrl-Esc.
         /// </summary>
