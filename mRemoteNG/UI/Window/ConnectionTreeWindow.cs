@@ -205,9 +205,12 @@ namespace mRemoteNG.UI.Window
                 if (nodeType != TreeNodeType.Connection && nodeType != TreeNodeType.PuttySession)
                     return;
 
-                // If the connection has open sessions, let existing SwitchToConnection handling cover it
+                // If the connection has open sessions, switch to its tab (#1921)
                 if (selected.OpenConnections.Count > 0)
+                {
+                    Runtime.ConnectionInitiator.SwitchToOpenConnection(selected);
                     return;
+                }
 
                 // Already showing a tab for this connection somewhere — just focus it
                 if (Runtime.ConnectionInitiator.SwitchToOpenConnection(selected))
