@@ -376,6 +376,22 @@ namespace mRemoteNG.UI.Forms
                 if (connectionInfo != null)
                     Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);
             }
+
+            if (StartupArgumentsInterpreter.ExitAfterLastConnection)
+                Runtime.ConnectionInitiator.ConnectionClosed += OnConnectionClosedExitAfterLast;
+        }
+
+        private void OnConnectionClosedExitAfterLast(string hostname, string protocol)
+        {
+            if (Runtime.ConnectionInitiator.ActiveConnections.Any())
+                return;
+
+            Runtime.ConnectionInitiator.ConnectionClosed -= OnConnectionClosedExitAfterLast;
+
+            if (InvokeRequired)
+                BeginInvoke(Application.Exit);
+            else
+                Application.Exit();
         }
 
         private void ApplyLanguage()

@@ -42,12 +42,20 @@ namespace mRemoteNG.Tools.Cmdline
         /// </summary>
         public static string? QuickConnectProtocol { get; private set; }
 
+        /// <summary>
+        /// When true, mRemoteNG will exit automatically after the last connection
+        /// opened via --connect, --startup, or --quickconnect is closed.
+        /// Set by the --exitafter command-line argument.
+        /// </summary>
+        public static bool ExitAfterLastConnection { get; private set; }
+
         public static void ResetConnectionArgs()
         {
             ConnectTo = null;
             StartupConnectTo = null;
             QuickConnectTo = null;
             QuickConnectProtocol = null;
+            ExitAfterLastConnection = false;
         }
 
         public StartupArgumentsInterpreter(MessageCollector messageCollector)
@@ -75,6 +83,7 @@ namespace mRemoteNG.Tools.Cmdline
                 ParseConnectArg(args);
                 ParseStartupConnectArg(args);
                 ParseQuickConnectArg(args);
+                ParseExitAfterArg(args);
             }
             catch (Exception ex)
             {
@@ -187,6 +196,13 @@ namespace mRemoteNG.Tools.Cmdline
                 _messageCollector.AddMessage(MessageClass.DebugMsg, $"Cmdline arg: quick connect protocol \"{protocolValue}\"");
                 QuickConnectProtocol = protocolValue;
             }
+        }
+
+        private void ParseExitAfterArg(CmdArgumentsInterpreter args)
+        {
+            if (args["exitafter"] == null) return;
+            _messageCollector.AddMessage(MessageClass.DebugMsg, "Cmdline arg: exit after last connection closes");
+            ExitAfterLastConnection = true;
         }
     }
 }
