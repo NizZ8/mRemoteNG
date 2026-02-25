@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -215,8 +214,12 @@ public class ConnectionInfoInheritanceTests
 
     private bool PropertyIsChangedWhenSettingInheritAll(PropertyInfo property)
     {
-        var propertiesIgnoredByInheritAll = new ArrayList { "IsDefault" };
-        return propertiesIgnoredByInheritAll.Contains(property);
+        var propertiesIgnoredByInheritAll = new[]
+        {
+            nameof(ConnectionInfoInheritance.EverythingInherited),
+            nameof(ConnectionInfoInheritance.InheritanceActive)
+        };
+        return !propertiesIgnoredByInheritAll.Contains(property.Name);
     }
 
     private bool PropertyIsBoolean(PropertyInfo property)
