@@ -15,7 +15,6 @@ namespace mRemoteNG.UI.Window
         private FrmOptions _optionsForm;
         private bool _isInitialized = false;
         private bool _isFontOverrideApplied = false;
-        private bool _isClosing = false;
 
         #region Public Methods
 
@@ -38,18 +37,12 @@ namespace mRemoteNG.UI.Window
 
         private void Options_Load(object sender, EventArgs e)
         {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] START - IsInitialized: {_isInitialized}, Visible: {this.Visible}");
-
-            // On reopen of a previously initialized window, nothing to do — 
+            // On reopen of a previously initialized window, nothing to do —
             // FrmOptions is a child control and auto-shows with its parent
             if (_isInitialized && _optionsForm != null && !_optionsForm.IsDisposed)
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] Reopen - fast path (no-op)");
                 return;
-            }
 
             // First-time initialization
-            Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] First initialization - subscribing to ThemeChanged");
             ThemeManager.getInstance().ThemeChanged += ApplyTheme;
 
             ApplyTheme();
@@ -57,29 +50,22 @@ namespace mRemoteNG.UI.Window
             LoadOptionsForm();
 
             _isInitialized = true;
-            Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] END");
         }
 
         private void Options_Shown(object sender, EventArgs e)
         {
             if (_isFontOverrideApplied)
-            {
                 return;
-            }
 
             BeginInvoke((MethodInvoker)(() =>
             {
                 if (IsDisposed || _isFontOverrideApplied)
-                {
                     return;
-                }
 
                 FontOverrider.FontOverride(this);
                 _isFontOverrideApplied = true;
             }));
         }
-
-
 
         private new void ApplyTheme()
         {
@@ -95,107 +81,78 @@ namespace mRemoteNG.UI.Window
 
         private void LoadOptionsForm()
         {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] START - _optionsForm: {(_optionsForm != null ? "EXISTS" : "NULL")}, IsDisposed: {_optionsForm?.IsDisposed}");
-            Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] FrmMain.OptionsForm: {(FrmMain.OptionsForm != null ? "EXISTS" : "NULL")}, IsDisposed: {FrmMain.OptionsForm?.IsDisposed}");
-
-            // Check if FrmMain.OptionsForm is disposed FIRST (this is the source of truth)
+            // Check if FrmMain.OptionsForm is disposed (source of truth)
             if (FrmMain.OptionsForm != null && FrmMain.OptionsForm.IsDisposed)
-            {
-                Logger.Instance.Log?.Warn($"[OptionsWindow.LoadOptionsForm] FrmMain.OptionsForm is DISPOSED - recreating");
-                // Force FrmMain to recreate the OptionsForm
                 FrmMain.RecreateOptionsForm();
-            }
 
-            // If the local reference is disposed, we need to clean up
+            // If the local reference is disposed, clean up
             if (_optionsForm != null && _optionsForm.IsDisposed)
             {
-                Logger.Instance.Log?.Warn($"[OptionsWindow.LoadOptionsForm] Local _optionsForm is DISPOSED - cleaning up");
                 if (Controls.Contains(_optionsForm))
-                {
                     Controls.Remove(_optionsForm);
-                }
-                _optionsForm.VisibleChanged -= OptionsForm_VisibleChanged;
+                _optionsForm.CloseRequested -= OnOptionsFormCloseRequested;
                 _optionsForm = null;
             }
 
             // Get fresh reference if needed
             if (_optionsForm == null)
             {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] Getting fresh OptionsForm from FrmMain");
                 _optionsForm = FrmMain.OptionsForm;
-                Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] OptionsForm retrieved from FrmMain: {(_optionsForm != null ? "SUCCESS" : "FAILED")}");
 
-                if (_optionsForm == null)
-                {
-                    Logger.Instance.Log?.Error($"[OptionsWindow.LoadOptionsForm] CRITICAL: Failed to get OptionsForm from FrmMain");
+                if (_optionsForm == null || _optionsForm.IsDisposed)
                     return;
-                }
-
-                // Double-check that the form we just got is not disposed
-                if (_optionsForm.IsDisposed)
-                {
-                    Logger.Instance.Log?.Error($"[OptionsWindow.LoadOptionsForm] CRITICAL: FrmMain.OptionsForm is STILL disposed after recreation attempt!");
-                    return;
-                }
 
                 _optionsForm.TopLevel = false;
                 _optionsForm.FormBorderStyle = FormBorderStyle.None;
                 _optionsForm.Dock = DockStyle.Fill;
-                _optionsForm.VisibleChanged += OptionsForm_VisibleChanged;
+                _optionsForm.CloseRequested += OnOptionsFormCloseRequested;
                 Controls.Add(_optionsForm);
-                Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] OptionsForm added to Controls");
             }
 
-            // Only show if not already visible to prevent redundant event cascades
-            Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] OptionsForm.Visible: {_optionsForm.Visible}, IsDisposed: {_optionsForm.IsDisposed}");
             if (!_optionsForm.Visible)
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] Calling Show()");
                 _optionsForm.Show();
-            }
-            else
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] Already visible - skipping Show()");
-            }
-
-            Logger.Instance.Log?.Debug($"[OptionsWindow.LoadOptionsForm] END");
         }
 
-        private void OptionsForm_VisibleChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Handles OK/Cancel from embedded FrmOptions.
+        /// Calls DockHandler.Hide() directly — much faster than Close() because
+        /// it skips the entire FormClosing event chain.
+        /// </summary>
+        private void OnOptionsFormCloseRequested(object sender, EventArgs e)
         {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OptionsForm_VisibleChanged] OptionsForm.Visible: {_optionsForm?.Visible}, IsClosing: {_isClosing}");
-
-            // Skip if we're already in a close operation to prevent re-entrant cascade
-            if (_isClosing) return;
-
-            // When the embedded FrmOptions is hidden (OK/Cancel clicked), close this window
-            if (_optionsForm != null && !_optionsForm.Visible)
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.OptionsForm_VisibleChanged] OptionsForm hidden - closing OptionsWindow");
-                this.Close();
-            }
+            DockHandler.Hide();
         }
 
+        /// <summary>
+        /// Handles the case where OptionsWindow is closed explicitly (e.g. from code
+        /// calling Close(), or DPS's CloseContent which fires FormClosing before hiding).
+        /// Checks for unsaved changes in the embedded FrmOptions.
+        /// </summary>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OnFormClosing] START - CloseReason: {e.CloseReason}");
-            _isClosing = true;
-            // With HideOnClose = true, we don't dispose the window
-            // so we keep the embedded form in Controls for reuse
+            if (_optionsForm != null && !_optionsForm.IsDisposed && _optionsForm.HasUnsavedChanges())
+            {
+                DialogResult result = MessageBox.Show(
+                    Language.SaveOptionsBeforeClosing,
+                    Language.Options,
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question);
+
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        _optionsForm.SaveAllOptions();
+                        break;
+                    case DialogResult.No:
+                        _optionsForm.DiscardChanges();
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        return;
+                }
+            }
+
             base.OnFormClosing(e);
-            _isClosing = false;
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OnFormClosing] END");
-        }
-
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] START - Visible: {Visible}, OptionsForm: {(_optionsForm != null ? "EXISTS" : "NULL")}");
-
-            base.OnVisibleChanged(e);
-            // FrmOptions is a child control — it becomes visible/hidden automatically
-            // with OptionsWindow. No explicit visibility change needed.
-
-            Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] END");
         }
 
         public void SetActivatedPage(string pageName)
