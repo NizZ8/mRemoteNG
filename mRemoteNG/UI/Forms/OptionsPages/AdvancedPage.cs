@@ -65,6 +65,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             numUVNCSCPort.Value = Properties.OptionsAdvancedPage.Default.UVNCSCPort;
 
             chkConnectionLogging.Checked = Properties.OptionsAdvancedPage.Default.EnableConnectionLogging;
+            chkShowPortScan.Checked = Properties.OptionsAdvancedPage.Default.ShowPortScan;
         }
 
         public override void SaveSettings()
@@ -96,6 +97,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Properties.OptionsAdvancedPage.Default.UVNCSCPort = (int)numUVNCSCPort.Value;
 
             Properties.OptionsAdvancedPage.Default.EnableConnectionLogging = chkConnectionLogging.Checked;
+            Properties.OptionsAdvancedPage.Default.ShowPortScan = chkShowPortScan.Checked;
         }
 
         #endregion

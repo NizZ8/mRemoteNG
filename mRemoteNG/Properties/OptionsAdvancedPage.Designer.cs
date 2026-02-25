@@ -130,5 +130,17 @@ namespace mRemoteNG.Properties {
                 this["EnableConnectionLogging"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowPortScan {
+            get {
+                return ((bool)(this["ShowPortScan"]));
+            }
+            set {
+                this["ShowPortScan"] = value;
+            }
+        }
     }
 }

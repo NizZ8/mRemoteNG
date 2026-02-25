@@ -47,6 +47,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkLoadBalanceInfoUseUtf8 = new MrngCheckBox();
             chkNoReconnect = new MrngCheckBox();
             chkConnectionLogging = new MrngCheckBox();
+            chkShowPortScan = new MrngCheckBox();
             ((System.ComponentModel.ISupportInitialize)numPuttyWaitTime).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUVNCSCPort).BeginInit();
             SuspendLayout();
@@ -211,10 +212,23 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkConnectionLogging.Text = "Log connection open/close events to file (for auditing/billing)";
             chkConnectionLogging.UseVisualStyleBackColor = true;
             //
+            // chkShowPortScan
+            //
+            chkShowPortScan._mice = MrngCheckBox.MouseState.OUT;
+            chkShowPortScan.AutoSize = true;
+            chkShowPortScan.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chkShowPortScan.Location = new System.Drawing.Point(9, 254);
+            chkShowPortScan.Name = "chkShowPortScan";
+            chkShowPortScan.Size = new System.Drawing.Size(300, 17);
+            chkShowPortScan.TabIndex = 13;
+            chkShowPortScan.Text = "Show port scan tool in Tools menu";
+            chkShowPortScan.UseVisualStyleBackColor = true;
+            //
             // AdvancedPage
             //
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            Controls.Add(chkShowPortScan);
             Controls.Add(chkConnectionLogging);
             Controls.Add(chkNoReconnect);
             Controls.Add(chkLoadBalanceInfoUseUtf8);
@@ -252,5 +266,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         private MrngCheckBox chkLoadBalanceInfoUseUtf8;
         internal MrngCheckBox chkNoReconnect;
         internal MrngCheckBox chkConnectionLogging;
+        internal MrngCheckBox chkShowPortScan;
     }
 }
