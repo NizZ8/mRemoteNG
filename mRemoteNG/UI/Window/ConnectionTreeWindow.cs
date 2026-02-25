@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Config.Connections;
+using mRemoteNG.Config.Connections.Multiuser;
 using mRemoteNG.Connection;
 using mRemoteNG.Container;
 using mRemoteNG.Properties;
@@ -31,6 +32,8 @@ namespace mRemoteNG.UI.Window
         private ThemeManager? _themeManager;
         private bool _sortedAz = true;
         private bool _suppressSelectionPreview;
+        private ToolStripLabel? _syncStatusLabel;
+        private RemoteConnectionsSyncronizer? _subscribedSyncronizer;
 
         public ConnectionInfo SelectedNode => ConnectionTree.SelectedNode;
 
@@ -46,9 +49,11 @@ namespace mRemoteNG.UI.Window
             DockPnl = panel;
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.ASPWebSite_16x);
             InitializeComponent();
+            InitializeSyncStatusLabel();
             SetMenuEventHandlers();
             SetConnectionTreeEventHandlers();
             Settings.Default.PropertyChanged += OnAppSettingsChanged;
+            OptionsConnectionsPage.Default.PropertyChanged += OnConnectionsPageSettingChanged;
             ApplyLanguage();
         }
 
@@ -62,6 +67,78 @@ namespace mRemoteNG.UI.Window
 
             PlaceSearchBar(Settings.Default.PlaceSearchBarAboveConnectionTree);
             SetConnectionTreeClickHandlers();
+        }
+
+        private void OnConnectionsPageSettingChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(OptionsConnectionsPage.Default.WatchConnectionFile))
+                UpdateSyncStatusLabel();
+        }
+
+        private void InitializeSyncStatusLabel()
+        {
+            _syncStatusLabel = new ToolStripLabel
+            {
+                Alignment = ToolStripItemAlignment.Right,
+                Font = new Font("Segoe UI", 7F, FontStyle.Regular, GraphicsUnit.Point),
+                ForeColor = SystemColors.GrayText,
+                Name = "lblSyncStatus",
+                Text = "",
+                Visible = false
+            };
+            msMain.Items.Add(_syncStatusLabel);
+        }
+
+        private void SubscribeToSyncronizer()
+        {
+            RemoteConnectionsSyncronizer? current = Runtime.ConnectionsService.RemoteConnectionsSyncronizer;
+            if (current == _subscribedSyncronizer) return;
+
+            if (_subscribedSyncronizer != null)
+                _subscribedSyncronizer.ConnectionsReloadedExternally -= OnConnectionsReloadedExternally;
+
+            _subscribedSyncronizer = current;
+
+            if (_subscribedSyncronizer != null)
+                _subscribedSyncronizer.ConnectionsReloadedExternally += OnConnectionsReloadedExternally;
+        }
+
+        private void OnConnectionsReloadedExternally(object? sender, EventArgs e)
+        {
+            UpdateSyncStatusLabel();
+        }
+
+        private void UpdateSyncStatusLabel()
+        {
+            if (_syncStatusLabel == null) return;
+
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(UpdateSyncStatusLabel));
+                return;
+            }
+
+            RemoteConnectionsSyncronizer? sync = Runtime.ConnectionsService.RemoteConnectionsSyncronizer;
+            if (sync != null)
+            {
+                if (sync.LastExternalSync.HasValue)
+                {
+                    string time = sync.LastExternalSync.Value.ToLocalTime().ToString("HH:mm:ss");
+                    _syncStatusLabel.Text = $"Synced {time}";
+                    _syncStatusLabel.ToolTipText = $"Connection file sync is active. Last external update: {time}";
+                }
+                else
+                {
+                    _syncStatusLabel.Text = "Sync on";
+                    _syncStatusLabel.ToolTipText = "Connection file sync is active. Watching for external changes.";
+                }
+                _syncStatusLabel.ForeColor = Color.Green;
+                _syncStatusLabel.Visible = true;
+            }
+            else
+            {
+                _syncStatusLabel.Visible = false;
+            }
         }
 
         private void PlaceSearchBar(bool placeSearchBarAboveConnectionTree)
@@ -83,6 +160,9 @@ namespace mRemoteNG.UI.Window
             txtSearch.MinimumSize = new Size(0, 14);
             txtSearch.Size = new Size(txtSearch.Size.Width, 14);
             txtSearch.Multiline = false;
+
+            SubscribeToSyncronizer();
+            UpdateSyncStatusLabel();
         }
 
         private void ApplyLanguage()
@@ -263,6 +343,9 @@ namespace mRemoteNG.UI.Window
 
             ConnectionTree.ConnectionTreeModel = connectionsLoadedEventArgs.NewConnectionTreeModel;
             ConnectionTree.SelectedObject = connectionsLoadedEventArgs.NewConnectionTreeModel.RootNodes.FirstOrDefault();
+
+            SubscribeToSyncronizer();
+            UpdateSyncStatusLabel();
         }
 
         #endregion

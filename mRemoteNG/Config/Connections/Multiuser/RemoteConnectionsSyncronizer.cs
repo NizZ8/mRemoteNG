@@ -1,4 +1,5 @@
 ﻿using mRemoteNG.App;
+using mRemoteNG.Messages;
 using mRemoteNG.Properties;
 using System;
 using System.Runtime.Versioning;
@@ -18,6 +19,16 @@ namespace mRemoteNG.Config.Connections.Multiuser
         {
             get { return _updateTimer.Interval; }
         }
+
+        /// <summary>
+        /// Gets the UTC time of the last successful external sync, or null if no sync has occurred yet.
+        /// </summary>
+        public DateTime? LastExternalSync { get; private set; }
+
+        /// <summary>
+        /// Raised when connections have been reloaded due to an external change (file or database).
+        /// </summary>
+        public event EventHandler? ConnectionsReloadedExternally;
 
         public RemoteConnectionsSyncronizer(IConnectionsUpdateChecker updateChecker)
         {
@@ -48,6 +59,12 @@ namespace mRemoteNG.Config.Connections.Multiuser
                     Runtime.ConnectionsService.LoadConnections(false, false, Runtime.ConnectionsService.ConnectionFileName);
             }
             args.Handled = true;
+
+            LastExternalSync = DateTime.UtcNow;
+            string source = args.DatabaseConnector != null ? "database" : "file";
+            Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                $"Connections reloaded from external {source} change (team sync)");
+            ConnectionsReloadedExternally?.Invoke(this, EventArgs.Empty);
         }
 
         public void Enable()
