@@ -9,17 +9,20 @@ namespace mRemoteNGTests.Connection;
 public class ConnectionsServiceQuickConnectTests
 {
     private string _originalDefaultUsername = string.Empty;
+    private bool _originalDefaultRedirectClipboard;
 
     [SetUp]
     public void SetUp()
     {
         _originalDefaultUsername = DefaultConnectionInfo.Instance.Username;
+        _originalDefaultRedirectClipboard = DefaultConnectionInfo.Instance.RedirectClipboard;
     }
 
     [TearDown]
     public void TearDown()
     {
         DefaultConnectionInfo.Instance.Username = _originalDefaultUsername;
+        DefaultConnectionInfo.Instance.RedirectClipboard = _originalDefaultRedirectClipboard;
     }
 
     [Test]
@@ -184,5 +187,36 @@ public class ConnectionsServiceQuickConnectTests
             Assert.That(quickConnect.UseRestrictedAdmin, Is.False);
             Assert.That(quickConnect.UseRCG, Is.False);
         });
+    }
+
+    /// <summary>
+    /// Regression test for #1577: clipboard redirect must be enabled by default in Quick Connect RDP sessions.
+    /// Quick Connect creates a ConnectionInfo via CopyFrom(DefaultConnectionInfo.Instance), so the
+    /// default setting (ConDefaultRedirectClipboard=True) must flow through to the connection.
+    /// </summary>
+    [Test]
+    public void CreateQuickConnectRdpInheritsClipboardRedirectFromDefault()
+    {
+        DefaultConnectionInfo.Instance.RedirectClipboard = true;
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.That(quickConnect!.RedirectClipboard, Is.True,
+            "Quick Connect RDP sessions must have clipboard redirect enabled by default (#1577).");
+    }
+
+    [Test]
+    public void CreateQuickConnectRdpClipboardRedirectOffWhenDefaultIsOff()
+    {
+        DefaultConnectionInfo.Instance.RedirectClipboard = false;
+        var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
+
+        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
+
+        Assert.That(quickConnect, Is.Not.Null);
+        Assert.That(quickConnect!.RedirectClipboard, Is.False,
+            "Quick Connect must respect the default RedirectClipboard setting.");
     }
 }

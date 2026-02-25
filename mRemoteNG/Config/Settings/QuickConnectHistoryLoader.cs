@@ -131,13 +131,16 @@ namespace mRemoteNG.Config.Settings
 
         private static ConnectionInfo BuildConnectionInfo(QuickConnectHistoryItem item)
         {
-            ConnectionInfo connectionInfo = new()
-            {
-                Hostname = item.Hostname,
-                Protocol = item.Protocol,
-                IsQuickConnect = true,
-                PleaseConnect = item.Connected
-            };
+            // Copy default connection settings (including RedirectClipboard, credentials, etc.)
+            // so that history-restored sessions behave the same as connections created via the
+            // Quick Connect toolbar button (#1577).
+            ConnectionInfo connectionInfo = new();
+            connectionInfo.CopyFrom(DefaultConnectionInfo.Instance);
+
+            connectionInfo.Hostname = item.Hostname;
+            connectionInfo.Protocol = item.Protocol;
+            connectionInfo.IsQuickConnect = true;
+            connectionInfo.PleaseConnect = item.Connected;
 
             connectionInfo.Name = OptionsTabsPanelsPage.Default.IdentifyQuickConnectTabs
                 ? string.Format(Language.Quick, item.Hostname)
