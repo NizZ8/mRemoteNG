@@ -2582,6 +2582,12 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="RdpConnectionTimeout" xml:space="preserve">
     <value>RDP connection timeout</value>
   </data>
+  <data name="DefaultRdpResolution" xml:space="preserve">
+    <value>Default RDP resolution:</value>
+  </data>
+  <data name="DefaultVncSmartSizeMode" xml:space="preserve">
+    <value>Default VNC SmartSize mode:</value>
+  </data>
   <data name="WhenClosingConnections" xml:space="preserve">
     <value>WhenClosingConnections</value>
   </data>
