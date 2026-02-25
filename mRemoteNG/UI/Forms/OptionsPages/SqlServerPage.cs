@@ -5,8 +5,10 @@ using mRemoteNG.Config.DatabaseConnectors;
 using mRemoteNG.Properties;
 using mRemoteNG.Security.SymmetricEncryption;
 using mRemoteNG.Resources.Language;
+using System.Drawing;
 using System.Runtime.Versioning;
 using mRemoteNG.Config.Settings.Registry;
+using mRemoteNG.UI.Controls;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -20,6 +22,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         #region Private Fields
         private OptRegistrySqlServerPage pageRegSettingsInstance;
         private readonly DatabaseConnectionTester _databaseConnectionTester;
+        private NumericUpDown numSQLReloadInterval;
+        private MrngLabel lblSQLReloadInterval;
 
         private static readonly (string TypeKey, string DisplayName)[] SqlTypeOptions =
         {
@@ -33,6 +37,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         {
             InitializeComponent();
             InitializeSqlTypeSelector();
+            InitializeReloadIntervalControl();
             ApplyTheme();
             PageIcon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.SQLDatabase_16x);
             _databaseConnectionTester = new DatabaseConnectionTester();
@@ -44,6 +49,23 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             btnDeleteProfile.Click += btnDeleteProfile_Click;
             lstProfiles.SelectedIndexChanged += lstProfiles_SelectedIndexChanged;
             LoadProfilesList();
+        }
+
+        private void InitializeReloadIntervalControl()
+        {
+            lblSQLReloadInterval = new MrngLabel();
+            lblSQLReloadInterval.Dock = DockStyle.Fill;
+            lblSQLReloadInterval.TextAlign = ContentAlignment.MiddleRight;
+            lblSQLReloadInterval.Text = "Reload interval (s):";
+
+            numSQLReloadInterval = new NumericUpDown();
+            numSQLReloadInterval.Minimum = 5;
+            numSQLReloadInterval.Maximum = 3600;
+            numSQLReloadInterval.Value = 30;
+            numSQLReloadInterval.Dock = DockStyle.Fill;
+
+            pnlSQLCon.Controls.Add(lblSQLReloadInterval, 0, 6);
+            pnlSQLCon.Controls.Add(numSQLReloadInterval, 1, 6);
         }
 
         public override string PageName

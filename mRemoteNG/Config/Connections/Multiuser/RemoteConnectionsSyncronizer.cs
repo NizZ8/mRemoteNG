@@ -1,4 +1,5 @@
 ﻿using mRemoteNG.App;
+using mRemoteNG.Properties;
 using System;
 using System.Runtime.Versioning;
 using System.Timers;
@@ -21,7 +22,8 @@ namespace mRemoteNG.Config.Connections.Multiuser
         public RemoteConnectionsSyncronizer(IConnectionsUpdateChecker updateChecker)
         {
             _updateChecker = updateChecker;
-            _updateTimer = new System.Timers.Timer(3000);
+            double intervalMs = OptionsDBsPage.Default.SQLReloadInterval * 1000.0;
+            _updateTimer = new System.Timers.Timer(intervalMs > 0 ? intervalMs : 30000.0);
             SetEventListeners();
         }
 
