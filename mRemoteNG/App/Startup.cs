@@ -27,8 +27,6 @@ namespace mRemoteNG.App
         private RegistryLoader _RegistryLoader;
         private AppUpdater _appUpdate;
         private readonly ConnectionIconLoader _connectionIconLoader;
-        private readonly FrmMain _frmMain = FrmMain.Default;
-
         public static Startup Instance { get; } = new Startup();
 
         public string[]? CommandLineArgs { get; set; }

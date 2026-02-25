@@ -469,6 +469,7 @@ CREATE TABLE [dbo].[tblExternalTools] (
         [ID] int NOT NULL IDENTITY(1,1),
         [DisplayName] [nvarchar] (256) NOT NULL,
         [FileName] [nvarchar] (1024) NOT NULL,
+        [IconPath] [nvarchar] (1024) NOT NULL DEFAULT '',
         [Arguments] [nvarchar] (2048) NOT NULL DEFAULT '',
         [WorkingDir] [nvarchar] (1024) NOT NULL DEFAULT '',
         [WaitForExit] [bit] NOT NULL DEFAULT 0,
@@ -477,7 +478,8 @@ CREATE TABLE [dbo].[tblExternalTools] (
         [ShowOnToolbar] [bit] NOT NULL DEFAULT 1,
         [Category] [nvarchar] (256) NOT NULL DEFAULT '',
         [RunOnStartup] [bit] NOT NULL DEFAULT 0,
-        [StopOnShutdown] [bit] NOT NULL DEFAULT 0
+        [StopOnShutdown] [bit] NOT NULL DEFAULT 0,
+        [Hotkey] [int] NOT NULL DEFAULT 0
 ) ON [PRIMARY]
 ";
             }
@@ -717,6 +719,7 @@ CREATE TABLE `tblExternalTools` (
     `ID` int NOT NULL AUTO_INCREMENT,
     `DisplayName` varchar(256) NOT NULL,
     `FileName` varchar(1024) NOT NULL,
+    `IconPath` varchar(1024) NOT NULL DEFAULT '',
     `Arguments` varchar(2048) NOT NULL DEFAULT '',
     `WorkingDir` varchar(1024) NOT NULL DEFAULT '',
     `WaitForExit` tinyint NOT NULL DEFAULT 0,
@@ -726,6 +729,7 @@ CREATE TABLE `tblExternalTools` (
     `Category` varchar(256) NOT NULL DEFAULT '',
     `RunOnStartup` tinyint NOT NULL DEFAULT 0,
     `StopOnShutdown` tinyint NOT NULL DEFAULT 0,
+    `Hotkey` int NOT NULL DEFAULT 0,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
