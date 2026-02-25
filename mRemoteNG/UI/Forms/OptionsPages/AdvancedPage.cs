@@ -40,7 +40,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             lblSeconds.Text = Language.Seconds;
             lblMaximumPuttyWaitTime.Text = Language.PuttyTimeout;
             chkAutomaticReconnect.Text = Language.CheckboxAutomaticReconnect;
-            //chkNoReconnect.Text = Language.;
+            chkNoReconnect.Text = Language.CheckboxNoReconnect;
             chkLoadBalanceInfoUseUtf8.Text = Language.LoadBalanceInfoUseUtf8;
             lblConfigurePuttySessions.Text = Language.PuttySessionsConfig;
             btnLaunchPutty.Text = Language.ButtonLaunchPutty;
@@ -52,7 +52,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         public override void LoadSettings()
         {
             chkAutomaticReconnect.Checked = Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect;
-            chkNoReconnect.Checked = Properties.OptionsAdvancedPage.Default.NoReconnect;
+            chkNoReconnect.Checked = !Properties.OptionsAdvancedPage.Default.NoReconnect;
             chkNoReconnect.Enabled = Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect;
 
             chkLoadBalanceInfoUseUtf8.Checked = Properties.OptionsAdvancedPage.Default.RdpLoadBalanceInfoUseUtf8;
@@ -72,7 +72,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         public override void SaveSettings()
         {
             Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect = chkAutomaticReconnect.Checked;
-            Properties.OptionsAdvancedPage.Default.NoReconnect = chkNoReconnect.Checked;
+            Properties.OptionsAdvancedPage.Default.NoReconnect = !chkNoReconnect.Checked;
             Properties.OptionsAdvancedPage.Default.RdpLoadBalanceInfoUseUtf8 = chkLoadBalanceInfoUseUtf8.Checked;
 
             bool puttyPathChanged = false;
