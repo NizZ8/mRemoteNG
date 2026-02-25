@@ -58,6 +58,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             btnSelectConnectionTabFont.Text = "Select...";
             lblPanelName.Text = $@"{Language.PanelName}:";
             lblSplitterSize.Text = "Splitter size:";
+            lblDockPadding.Text = "Border size:";
 
             lblRegistrySettingsUsedInfo.Text = Language.OptionsCompanyPolicyMessage;
         }
@@ -89,6 +90,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkMinimizePanelsOnConnect.Checked = Properties.OptionsTabsPanelsPage.Default.MinimizePanelsOnConnect;
             txtBoxPanelName.Text = Properties.OptionsTabsPanelsPage.Default.StartUpPanelName;
             nudSplitterSize.Value = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
+            nudDockPadding.Value = Properties.OptionsTabsPanelsPage.Default.DockPadding;
 
             LoadConnectionTabAppearanceSettings();
             UpdatePanelNameTextBox();
@@ -132,6 +134,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Properties.OptionsTabsPanelsPage.Default.AutoClosePanelOnLastTabClose = chkAutoClosePanelOnLastTabClose.Checked;
             Properties.OptionsTabsPanelsPage.Default.StartUpPanelName = txtBoxPanelName.Text;
             Properties.OptionsTabsPanelsPage.Default.SplitterSize = (int)nudSplitterSize.Value;
+            Properties.OptionsTabsPanelsPage.Default.DockPadding = (int)nudDockPadding.Value;
 
             Properties.OptionsTabsPanelsPage.Default.UseCustomConnectionTabColor = chkUseCustomConnectionTabColor.Checked;
             Properties.OptionsTabsPanelsPage.Default.ConnectionTabColor = chkUseCustomConnectionTabColor.Checked

@@ -49,6 +49,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             lblPanelName = new MrngLabel();
             nudSplitterSize = new MrngNumericUpDown();
             lblSplitterSize = new MrngLabel();
+            nudDockPadding = new MrngNumericUpDown();
+            lblDockPadding = new MrngLabel();
             chkLockPanels = new MrngCheckBox();
             chkDoNotRestoreOnRdpMinimize = new MrngCheckBox();
             chkAutoClosePanelOnLastTabClose = new MrngCheckBox();
@@ -231,13 +233,31 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             nudSplitterSize.TabIndex = 12;
             nudSplitterSize.Minimum = 3;
             nudSplitterSize.Maximum = 20;
-            // 
+            //
+            // lblDockPadding
+            //
+            lblDockPadding.AutoSize = true;
+            lblDockPadding.Location = new System.Drawing.Point(3, 285);
+            lblDockPadding.Name = "lblDockPadding";
+            lblDockPadding.Size = new System.Drawing.Size(73, 13);
+            lblDockPadding.TabIndex = 23;
+            lblDockPadding.Text = "Border size:";
+            //
+            // nudDockPadding
+            //
+            nudDockPadding.Location = new System.Drawing.Point(80, 283);
+            nudDockPadding.Name = "nudDockPadding";
+            nudDockPadding.Size = new System.Drawing.Size(50, 22);
+            nudDockPadding.TabIndex = 24;
+            nudDockPadding.Minimum = 0;
+            nudDockPadding.Maximum = 10;
+            //
             // chkLockPanels
-            // 
+            //
             chkLockPanels._mice = MrngCheckBox.MouseState.OUT;
             chkLockPanels.AutoSize = true;
             chkLockPanels.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkLockPanels.Location = new System.Drawing.Point(3, 285);
+            chkLockPanels.Location = new System.Drawing.Point(3, 310);
             chkLockPanels.Name = "chkLockPanels";
             chkLockPanels.Size = new System.Drawing.Size(86, 17);
             chkLockPanels.TabIndex = 13;
@@ -249,7 +269,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkDoNotRestoreOnRdpMinimize._mice = MrngCheckBox.MouseState.OUT;
             chkDoNotRestoreOnRdpMinimize.AutoSize = true;
             chkDoNotRestoreOnRdpMinimize.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkDoNotRestoreOnRdpMinimize.Location = new System.Drawing.Point(3, 308);
+            chkDoNotRestoreOnRdpMinimize.Location = new System.Drawing.Point(3, 333);
             chkDoNotRestoreOnRdpMinimize.Name = "chkDoNotRestoreOnRdpMinimize";
             chkDoNotRestoreOnRdpMinimize.Size = new System.Drawing.Size(199, 17);
             chkDoNotRestoreOnRdpMinimize.TabIndex = 14;
@@ -261,7 +281,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkAutoClosePanelOnLastTabClose._mice = MrngCheckBox.MouseState.OUT;
             chkAutoClosePanelOnLastTabClose.AutoSize = true;
             chkAutoClosePanelOnLastTabClose.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkAutoClosePanelOnLastTabClose.Location = new System.Drawing.Point(3, 331);
+            chkAutoClosePanelOnLastTabClose.Location = new System.Drawing.Point(3, 356);
             chkAutoClosePanelOnLastTabClose.Name = "chkAutoClosePanelOnLastTabClose";
             chkAutoClosePanelOnLastTabClose.Size = new System.Drawing.Size(258, 17);
             chkAutoClosePanelOnLastTabClose.TabIndex = 15;
@@ -273,7 +293,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkMinimizePanelsOnConnect._mice = MrngCheckBox.MouseState.OUT;
             chkMinimizePanelsOnConnect.AutoSize = true;
             chkMinimizePanelsOnConnect.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkMinimizePanelsOnConnect.Location = new System.Drawing.Point(3, 354);
+            chkMinimizePanelsOnConnect.Location = new System.Drawing.Point(3, 379);
             chkMinimizePanelsOnConnect.Name = "chkMinimizePanelsOnConnect";
             chkMinimizePanelsOnConnect.Size = new System.Drawing.Size(300, 17);
             chkMinimizePanelsOnConnect.TabIndex = 16;
@@ -285,7 +305,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkUseCustomConnectionTabColor._mice = MrngCheckBox.MouseState.OUT;
             chkUseCustomConnectionTabColor.AutoSize = true;
             chkUseCustomConnectionTabColor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkUseCustomConnectionTabColor.Location = new System.Drawing.Point(3, 377);
+            chkUseCustomConnectionTabColor.Location = new System.Drawing.Point(3, 402);
             chkUseCustomConnectionTabColor.Name = "chkUseCustomConnectionTabColor";
             chkUseCustomConnectionTabColor.Size = new System.Drawing.Size(178, 17);
             chkUseCustomConnectionTabColor.TabIndex = 17;
@@ -296,7 +316,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // txtConnectionTabColor
             //
             txtConnectionTabColor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            txtConnectionTabColor.Location = new System.Drawing.Point(25, 400);
+            txtConnectionTabColor.Location = new System.Drawing.Point(25, 425);
             txtConnectionTabColor.Name = "txtConnectionTabColor";
             txtConnectionTabColor.ReadOnly = true;
             txtConnectionTabColor.Size = new System.Drawing.Size(120, 22);
@@ -305,7 +325,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnSelectConnectionTabColor
             //
             btnSelectConnectionTabColor._mice = MrngButton.MouseState.OUT;
-            btnSelectConnectionTabColor.Location = new System.Drawing.Point(151, 399);
+            btnSelectConnectionTabColor.Location = new System.Drawing.Point(151, 424);
             btnSelectConnectionTabColor.Name = "btnSelectConnectionTabColor";
             btnSelectConnectionTabColor.Size = new System.Drawing.Size(75, 23);
             btnSelectConnectionTabColor.TabIndex = 19;
@@ -318,7 +338,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkUseCustomConnectionTabFont._mice = MrngCheckBox.MouseState.OUT;
             chkUseCustomConnectionTabFont.AutoSize = true;
             chkUseCustomConnectionTabFont.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkUseCustomConnectionTabFont.Location = new System.Drawing.Point(3, 429);
+            chkUseCustomConnectionTabFont.Location = new System.Drawing.Point(3, 454);
             chkUseCustomConnectionTabFont.Name = "chkUseCustomConnectionTabFont";
             chkUseCustomConnectionTabFont.Size = new System.Drawing.Size(175, 17);
             chkUseCustomConnectionTabFont.TabIndex = 20;
@@ -329,7 +349,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // txtConnectionTabFont
             //
             txtConnectionTabFont.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            txtConnectionTabFont.Location = new System.Drawing.Point(25, 452);
+            txtConnectionTabFont.Location = new System.Drawing.Point(25, 477);
             txtConnectionTabFont.Name = "txtConnectionTabFont";
             txtConnectionTabFont.ReadOnly = true;
             txtConnectionTabFont.Size = new System.Drawing.Size(220, 22);
@@ -338,7 +358,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnSelectConnectionTabFont
             //
             btnSelectConnectionTabFont._mice = MrngButton.MouseState.OUT;
-            btnSelectConnectionTabFont.Location = new System.Drawing.Point(251, 451);
+            btnSelectConnectionTabFont.Location = new System.Drawing.Point(251, 476);
             btnSelectConnectionTabFont.Name = "btnSelectConnectionTabFont";
             btnSelectConnectionTabFont.Size = new System.Drawing.Size(75, 23);
             btnSelectConnectionTabFont.TabIndex = 22;
@@ -363,6 +383,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlOptions.Controls.Add(chkIdentifyQuickConnectTabs);
             pnlOptions.Controls.Add(nudSplitterSize);
             pnlOptions.Controls.Add(lblSplitterSize);
+            pnlOptions.Controls.Add(nudDockPadding);
+            pnlOptions.Controls.Add(lblDockPadding);
             pnlOptions.Controls.Add(chkLockPanels);
             pnlOptions.Controls.Add(chkDoNotRestoreOnRdpMinimize);
             pnlOptions.Controls.Add(chkAutoClosePanelOnLastTabClose);
@@ -376,7 +398,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlOptions.Dock = System.Windows.Forms.DockStyle.Top;
             pnlOptions.Location = new System.Drawing.Point(0, 30);
             pnlOptions.Name = "pnlOptions";
-            pnlOptions.Size = new System.Drawing.Size(610, 483);
+            pnlOptions.Size = new System.Drawing.Size(610, 508);
             pnlOptions.TabIndex = 10;
             // 
             // lblRegistrySettingsUsedInfo
@@ -399,7 +421,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Controls.Add(pnlOptions);
             Controls.Add(lblRegistrySettingsUsedInfo);
             Name = "TabsPanelsPage";
-            Size = new System.Drawing.Size(610, 513);
+            Size = new System.Drawing.Size(610, 538);
             pnlOptions.ResumeLayout(false);
             pnlOptions.PerformLayout();
             ResumeLayout(false);
@@ -422,6 +444,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         internal System.Windows.Forms.Label lblRegistrySettingsUsedInfo;
         internal Controls.MrngNumericUpDown nudSplitterSize;
         internal Controls.MrngLabel lblSplitterSize;
+        internal Controls.MrngNumericUpDown nudDockPadding;
+        internal Controls.MrngLabel lblDockPadding;
         internal MrngCheckBox chkLockPanels;
         internal MrngCheckBox chkDoNotRestoreOnRdpMinimize;
         internal MrngCheckBox chkAutoClosePanelOnLastTabClose;

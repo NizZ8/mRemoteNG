@@ -190,6 +190,18 @@ namespace mRemoteNG.Properties {
                 this["SplitterSize"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int DockPadding {
+            get {
+                return ((int)(this["DockPadding"]));
+            }
+            set {
+                this["DockPadding"] = value;
+            }
+        }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

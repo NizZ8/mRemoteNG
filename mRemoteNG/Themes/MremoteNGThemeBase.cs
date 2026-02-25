@@ -18,7 +18,7 @@ namespace mRemoteNG.Themes
         {
             Measures.SplitterSize = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
             Measures.AutoHideSplitterSize = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
-            Measures.DockPadding = 2;
+            Measures.DockPadding = Properties.OptionsTabsPanelsPage.Default.DockPadding;
             ShowAutoHideContentOnHover = false;
         }
     }

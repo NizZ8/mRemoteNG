@@ -554,6 +554,7 @@ namespace mRemoteNG.UI.Forms
                 if (pnlDock.Theme?.Measures != null)
                 {
                     pnlDock.Theme.Measures.SplitterSize = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
+                    pnlDock.Theme.Measures.DockPadding = Properties.OptionsTabsPanelsPage.Default.DockPadding;
                 }
                 return;
             }
@@ -566,6 +567,7 @@ namespace mRemoteNG.UI.Forms
                 if (pnlDock.Theme?.Measures != null)
                 {
                     pnlDock.Theme.Measures.SplitterSize = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
+                    pnlDock.Theme.Measures.DockPadding = Properties.OptionsTabsPanelsPage.Default.DockPadding;
                 }
             }
             catch (Exception)
