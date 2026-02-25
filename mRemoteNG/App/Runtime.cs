@@ -104,7 +104,20 @@ namespace mRemoteNG.App
                 if (withDialog)
                 {
                     OpenFileDialog loadDialog = DialogFactory.BuildLoadConnectionsDialog();
-                    if (loadDialog.ShowDialog() != DialogResult.OK)
+                    DialogResult dlgResult;
+                    try
+                    {
+                        dlgResult = loadDialog.ShowDialog();
+                    }
+                    catch (Exception dlgEx)
+                    {
+                        // Vista-style file dialog can fail with COMException (0x80040111) when
+                        // Windows high contrast theme is active (#1386). Log and bail out gracefully
+                        // to prevent infinite recursion in the outer exception handler.
+                        MessageCollector.AddExceptionMessage("Could not open the file selection dialog.", dlgEx, MessageClass.WarningMsg);
+                        return;
+                    }
+                    if (dlgResult != DialogResult.OK)
                         return;
 
                     connectionFileName = loadDialog.FileName;

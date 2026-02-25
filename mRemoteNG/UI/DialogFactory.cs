@@ -56,9 +56,11 @@ namespace mRemoteNG.UI
                     {
                         case 0: // New
                             SaveFileDialog saveAsDialog = ConnectionsSaveAsDialog();
-                            saveAsDialog.ShowDialog();
-                            Runtime.ConnectionsService.NewConnectionsFile(saveAsDialog.FileName);
-                            answered = true;
+                            if (saveAsDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                Runtime.ConnectionsService.NewConnectionsFile(saveAsDialog.FileName);
+                                answered = true;
+                            }
                             break;
                         case 1: // Load
                             Runtime.LoadConnections(true);

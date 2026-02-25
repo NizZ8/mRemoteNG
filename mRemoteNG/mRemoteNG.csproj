@@ -153,7 +153,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Self-Contained|x64'">
     <DefineConstants>PORTABLE</DefineConstants>
     <Optimize>True</Optimize>
-    <PublishDir>bin\x64\Publish Self-Contained\</PublishDir>
+    <PublishDir>bin\x64\Portable\</PublishDir>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
@@ -171,7 +171,7 @@
     <DefineConstants>PORTABLE</DefineConstants>
     <Optimize>True</Optimize>
     <OutputPath>bin\arm64\Release Self-Contained\</OutputPath>
-    <PublishDir>bin\arm64\Publish Self-Contained\</PublishDir>
+    <PublishDir>bin\arm64\Portable\</PublishDir>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
@@ -747,14 +747,14 @@
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
   <Target Name="PublishAfterBuild" AfterTargets="Build" Condition="'$(Configuration)' == 'Release Self-Contained'">
-    <Message Text="Publishing self-contained application for $(Platform)..." Importance="high" />
-    <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);NoBuild=true;NoRestore=true" />
+    <Message Text="Publishing self-contained portable application for $(Platform)..." Importance="high" />
+    <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);NoBuild=true" />
     <PropertyGroup>
       <TempBuildDir>$([System.IO.Path]::GetFullPath('$(OutputPath)'))</TempBuildDir>
     </PropertyGroup>
     <Message Text="Cleaning up temporary build directory: $(TempBuildDir)" Importance="high" />
     <RemoveDir Directories="$(TempBuildDir)" />
-    <RemoveDir Directories="$(ProjectDir)bin\x64\Release Self-Contained" />
+    <Message Text="Portable output: $(PublishDir)" Importance="high" />
   </Target>
   <!-- T4 TextTemplating: import only when the targets file exists (VS2026 BuildTools) -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets"
