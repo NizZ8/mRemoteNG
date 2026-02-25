@@ -363,5 +363,152 @@ namespace mRemoteNGTests.Tools
             // ArgumentList should contain the password as a single entry
             Assert.That(process.StartInfo.ArgumentList, Does.Contain("1234,56789"));
         }
+
+        [Test]
+        public void RunAsUser_AuthTypeRunas_SetsUserNameAndDisablesShellExecute()
+        {
+            // Issue #1833: external tools should support launching as a different user
+            // so that SCCM and similar tools can connect with alternate credentials.
+            var connectionInfo = new ConnectionInfo { Hostname = "server01" };
+
+            var externalTool = new ExternalTool
+            {
+                DisplayName = "SCCM",
+                FileName = "CmRcViewer.exe",
+                Arguments = "%HOSTNAME%",
+                AuthenticationType = "runas",
+                AuthenticationUsername = "DOMAIN\\adminuser",
+                AuthenticationPassword = "adminpass"
+            };
+
+            var process = new Process();
+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(
+                "SetProcessProperties",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });
+
+            Assert.That(process.StartInfo.UseShellExecute, Is.False);
+            Assert.That(process.StartInfo.UserName, Is.EqualTo("adminuser"));
+            Assert.That(process.StartInfo.Domain, Is.EqualTo("DOMAIN"));
+            Assert.That(process.StartInfo.Password, Is.Not.Null);
+        }
+
+        [Test]
+        public void RunAsUser_AuthTypeRunas_WithoutDomain_SetsUserNameOnly()
+        {
+            var connectionInfo = new ConnectionInfo { Hostname = "server01" };
+
+            var externalTool = new ExternalTool
+            {
+                DisplayName = "Test Tool",
+                FileName = "test.exe",
+                Arguments = "%HOSTNAME%",
+                AuthenticationType = "runas",
+                AuthenticationUsername = "localuser",
+                AuthenticationPassword = "pass123"
+            };
+
+            var process = new Process();
+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(
+                "SetProcessProperties",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });
+
+            Assert.That(process.StartInfo.UseShellExecute, Is.False);
+            Assert.That(process.StartInfo.UserName, Is.EqualTo("localuser"));
+            Assert.That(process.StartInfo.Domain, Is.Empty);
+        }
+
+        [Test]
+        public void RunAsUser_AuthTypeRunas_SupportsTokensInAuthFields()
+        {
+            // %USERNAME%, %DOMAIN%, %PASSWORD% tokens in AuthUsername/AuthPassword
+            // should be expanded from the connection info.
+            var connectionInfo = new ConnectionInfo
+            {
+                Hostname = "server01",
+                Username = "connuser",
+                Domain = "CONNDOMAIN",
+                Password = "connpass"
+            };
+
+            var externalTool = new ExternalTool
+            {
+                DisplayName = "Test Tool",
+                FileName = "test.exe",
+                Arguments = "%HOSTNAME%",
+                AuthenticationType = "runas",
+                AuthenticationUsername = "%DOMAIN%\\%USERNAME%",
+                AuthenticationPassword = "%PASSWORD%"
+            };
+
+            var process = new Process();
+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(
+                "SetProcessProperties",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });
+
+            Assert.That(process.StartInfo.UseShellExecute, Is.False);
+            Assert.That(process.StartInfo.UserName, Is.EqualTo("connuser"));
+            Assert.That(process.StartInfo.Domain, Is.EqualTo("CONNDOMAIN"));
+            Assert.That(process.StartInfo.Password, Is.Not.Null);
+        }
+
+        [Test]
+        public void RunAsUser_AuthTypeNotRunas_DoesNotSetAlternateCredentials()
+        {
+            // Any AuthenticationType other than "runas" must not trigger alternate-user launch.
+            var connectionInfo = new ConnectionInfo();
+
+            var externalTool = new ExternalTool
+            {
+                DisplayName = "Test Tool",
+                FileName = "notepad.exe",
+                Arguments = "",
+                AuthenticationType = "ssh",
+                AuthenticationUsername = "someuser",
+                AuthenticationPassword = "somepass"
+            };
+
+            var process = new Process();
+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(
+                "SetProcessProperties",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });
+
+            Assert.That(process.StartInfo.UserName, Is.Null.Or.Empty);
+            Assert.That(process.StartInfo.Password, Is.Null);
+        }
+
+        [Test]
+        public void RunAsUser_AuthTypeRunas_EmptyUsername_DoesNotSetAlternateCredentials()
+        {
+            // "runas" with empty username must not attempt alternate-user launch.
+            var connectionInfo = new ConnectionInfo();
+
+            var externalTool = new ExternalTool
+            {
+                DisplayName = "Test Tool",
+                FileName = "notepad.exe",
+                Arguments = "",
+                AuthenticationType = "runas",
+                AuthenticationUsername = "",
+                AuthenticationPassword = "somepass"
+            };
+
+            var process = new Process();
+            var setProcessPropertiesMethod = typeof(ExternalTool).GetMethod(
+                "SetProcessProperties",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            setProcessPropertiesMethod?.Invoke(externalTool, new object[] { process, connectionInfo });
+
+            Assert.That(process.StartInfo.UserName, Is.Null.Or.Empty);
+            Assert.That(process.StartInfo.Password, Is.Null);
+        }
     }
 }

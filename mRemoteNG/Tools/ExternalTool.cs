@@ -324,14 +324,54 @@ namespace mRemoteNG.Tools
             // Validate the executable path to prevent command injection
             PathValidator.ValidateExecutablePathOrThrow(parsedFileName, nameof(FileName));
 
-            // When RunElevated is true, we must use UseShellExecute = true for the "runas" verb
-            // When false, we use UseShellExecute = false for better security with ArgumentList
-            process.StartInfo.UseShellExecute = RunElevated;
+            // Check if we should run as an alternate user (AuthenticationType = "runas").
+            // Tokens like %USERNAME%, %PASSWORD%, %DOMAIN% are supported in auth fields.
+            bool useAlternateCredentials = string.Equals(AuthenticationType, "runas", StringComparison.OrdinalIgnoreCase)
+                && !string.IsNullOrEmpty(AuthenticationUsername);
+
+            if (useAlternateCredentials)
+            {
+                // Alternate user credentials require UseShellExecute = false
+                process.StartInfo.UseShellExecute = false;
+
+                string parsedAuthUser = argParser.ParseArguments(AuthenticationUsername, escapeForShell: false);
+
+                // Parse "DOMAIN\username" format into separate domain and username parts
+                string userName = parsedAuthUser;
+                string domain = string.Empty;
+                int backslashIndex = parsedAuthUser.IndexOf('\\');
+                if (backslashIndex >= 0)
+                {
+                    domain = parsedAuthUser.Substring(0, backslashIndex);
+                    userName = parsedAuthUser.Substring(backslashIndex + 1);
+                }
+
+                process.StartInfo.UserName = userName;
+                if (!string.IsNullOrEmpty(domain))
+                    process.StartInfo.Domain = domain;
+
+                if (!string.IsNullOrEmpty(AuthenticationPassword))
+                {
+                    string parsedAuthPassword = argParser.ParseArguments(AuthenticationPassword, escapeForShell: false);
+                    var securePassword = new System.Security.SecureString();
+                    foreach (char c in parsedAuthPassword)
+                        securePassword.AppendChar(c);
+                    securePassword.MakeReadOnly();
+                    process.StartInfo.Password = securePassword;
+                }
+            }
+            else
+            {
+                // When RunElevated is true, we must use UseShellExecute = true for the "runas" verb
+                // When false, we use UseShellExecute = false for better security with ArgumentList
+                process.StartInfo.UseShellExecute = RunElevated;
+            }
+
             process.StartInfo.FileName = parsedFileName;
 
             bool isBatch = IsBatchFile(parsedFileName);
 
-            if (RunElevated)
+            if (RunElevated && !useAlternateCredentials)
             {
                 process.StartInfo.Verb = "runas";
 
