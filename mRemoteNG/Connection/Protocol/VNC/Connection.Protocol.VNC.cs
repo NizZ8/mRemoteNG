@@ -1136,6 +1136,9 @@ namespace mRemoteNG.Connection.Protocol.VNC
             [LocalizedAttributes.LocalizedDescription(nameof(Language.Socks4))]
             ProxySocks4,
 
+            [LocalizedAttributes.LocalizedDescription(nameof(Language.Socks4a))]
+            ProxySocks4a,
+
             [LocalizedAttributes.LocalizedDescription(nameof(Language.Socks5))]
             ProxySocks5,
 

@@ -1714,6 +1714,9 @@ If you run into such an error, please create a new connection file!</value>
   <data name="Socks4" xml:space="preserve">
     <value>Socks 4</value>
   </data>
+  <data name="Socks4a" xml:space="preserve">
+    <value>Socks 4a</value>
+  </data>
   <data name="Socks5" xml:space="preserve">
     <value>Socks 5</value>
   </data>
