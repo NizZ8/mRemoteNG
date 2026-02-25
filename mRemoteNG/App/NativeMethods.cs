@@ -82,6 +82,9 @@ namespace mRemoteNG.App
             IntPtr hWndNewNext  // handle to next window
         );
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetFocus();
+
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
 
