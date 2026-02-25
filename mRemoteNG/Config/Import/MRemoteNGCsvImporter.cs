@@ -28,12 +28,16 @@ namespace mRemoteNG.Config.Import
             }
 
             FileDataProvider dataProvider = new(filePath);
-            string xmlString = dataProvider.Load();
-            CsvConnectionsDeserializerMremotengFormat xmlConnectionsDeserializer = new();
-            Tree.ConnectionTreeModel connectionTreeModel = xmlConnectionsDeserializer.Deserialize(xmlString);
+            string csvString = dataProvider.Load();
+            CsvConnectionsDeserializerMremotengFormat csvDeserializer = new();
+            Tree.ConnectionTreeModel connectionTreeModel = csvDeserializer.Deserialize(csvString);
+
+            var importedChildren = connectionTreeModel.RootNodes.First().Children.ToArray();
+            if (importedChildren.Length == 0)
+                return;
 
             ContainerInfo rootImportContainer = new() { Name = Path.GetFileNameWithoutExtension(filePath)};
-            rootImportContainer.AddChildRange(connectionTreeModel.RootNodes.First().Children.ToArray());
+            rootImportContainer.AddChildRange(importedChildren);
             destinationContainer.AddChild(rootImportContainer);
         }
     }

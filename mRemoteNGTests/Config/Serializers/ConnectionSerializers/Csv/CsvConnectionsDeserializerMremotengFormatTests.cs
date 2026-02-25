@@ -50,6 +50,39 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
         }
 
         [Test]
+        public void MinimalCsvWithFewColumns_DeserializesCorrectly()
+        {
+            // A user-created CSV with only Name, Hostname, Protocol columns
+            // (much fewer than the full mRemoteNG format) should import cleanly.
+            const string csv = "Name;Hostname;Protocol\r\nMyServer;192.168.1.1;RDP";
+            var tree = _deserializer.Deserialize(csv);
+            var connection = tree.GetRecursiveChildList().FirstOrDefault();
+            Assert.That(connection, Is.Not.Null);
+            Assert.That(connection!.Name, Is.EqualTo("MyServer"));
+            Assert.That(connection.Hostname, Is.EqualTo("192.168.1.1"));
+        }
+
+        [Test]
+        public void CsvWithShortDataRow_DoesNotThrow()
+        {
+            // A data row with fewer columns than the header must not throw
+            // IndexOutOfRangeException — missing fields should default to empty.
+            const string csv = "Name;Hostname;Protocol;Port\r\nMyServer;192.168.1.1";
+            Assert.That(() => _deserializer.Deserialize(csv), Throws.Nothing);
+            var tree = _deserializer.Deserialize(csv);
+            var connection = tree.GetRecursiveChildList().FirstOrDefault();
+            Assert.That(connection, Is.Not.Null);
+            Assert.That(connection!.Name, Is.EqualTo("MyServer"));
+        }
+
+        [Test]
+        public void EmptyCsvContent_ReturnsEmptyTree()
+        {
+            var tree = _deserializer.Deserialize(string.Empty);
+            Assert.That(tree.GetRecursiveChildList(), Is.Empty);
+        }
+
+        [Test]
         public void TreeStructureDeserializedCorrectly()
         {
             //Root

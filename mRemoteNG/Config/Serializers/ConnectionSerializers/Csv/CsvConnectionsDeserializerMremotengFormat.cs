@@ -176,6 +176,17 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
 
         private ConnectionInfo ParseConnectionInfo(IList<string> headers, string[] connectionCsv)
         {
+            // Pad short rows to prevent IndexOutOfRangeException when a CSV data row
+            // has fewer columns than the header (e.g. user-created or truncated CSV).
+            if (connectionCsv.Length < headers.Count)
+            {
+                var padded = new string[headers.Count];
+                Array.Copy(connectionCsv, padded, connectionCsv.Length);
+                for (int i = connectionCsv.Length; i < headers.Count; i++)
+                    padded[i] = string.Empty;
+                connectionCsv = padded;
+            }
+
             TreeNodeType nodeType = headers.Contains("NodeType")
                 ? (TreeNodeType)Enum.Parse(typeof(TreeNodeType), connectionCsv[headers.IndexOf("NodeType")], true)
                 : TreeNodeType.Connection;
