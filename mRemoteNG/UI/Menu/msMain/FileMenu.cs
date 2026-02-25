@@ -80,6 +80,7 @@ namespace mRemoteNG.UI.Menu
             Name = "mMenFile";
             Size = new System.Drawing.Size(37, 20);
             Text = Language._File;
+            DropDownOpening += mMenFile_DropDownOpening;
             // 
             // mMenNewConnection
             // 
@@ -165,6 +166,13 @@ namespace mRemoteNG.UI.Menu
             _mMenToolsOptions.Text = Language.OptionsMenuItem;
             _mMenFileExit.Text = Language.Exit;
             _mMenRecentConnections.Text = "Recent Connections";
+        }
+
+        private void mMenFile_DropDownOpening(object sender, EventArgs e)
+        {
+            // Hide "Save As" when connections are stored in a database — saving to an
+            // XML file while the authoritative source is SQL is misleading and unsafe.
+            _mMenFileSaveAs.Visible = !Runtime.ConnectionsService.UsingDatabase;
         }
 
         private void RebuildRecentConnectionsMenu()
