@@ -10,9 +10,9 @@
   "created_at": "2021-04-23T15:02:17Z",
   "github_updated_at": "2026-02-21T22:48:55Z",
   "body_snippet": "I changed a few colors in my theme, hit OK, and an unhandled exception occurred.\r\n\r\n```\r\nException Message\r\n\"Empty path name is not legal.\"\r\n\r\nStack trace\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAcce...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -39,6 +39,12 @@
         "cost_usd": 0.312829,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -74,6 +80,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T23:48:23Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): NullReferenceException in ListPalette_CellClick when e.Model is null (header/empty row click) — missing null guard before PseudoKeyColor cast\nApproach: Add null check at start of ListPalette_CellClick: if (e.Model == null) return;"
 }

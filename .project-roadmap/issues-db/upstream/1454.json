@@ -10,9 +10,9 @@
   "created_at": "2019-05-17T20:17:09Z",
   "github_updated_at": "2019-05-17T20:17:20Z",
   "body_snippet": "https://github.com/benaadams/Ben.Demystifier seems interesting to have for stacktracing and making it easier to do error searching.\r\n\r\nIts worth investigating to see how it would be implemented and if it might help to find the cause of problems easier.",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (40726bbaf fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -34,6 +40,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Ben.Demystifier would improve stack trace readability in error logging across ~48 files, useful for support diagnostics but low priority nice-to-have.\nApproach: Add Ben.Demystifier NuGet package and call .Demystify() on exceptions in the central error handling paths (ProgramRoot unhandled exception handler, FrmUnhandledException, MessageCollector) rather than modifying all 48 files — the package works by extension method on Exception objects at the point of display/logging."
 }

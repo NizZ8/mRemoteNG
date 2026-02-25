@@ -12,9 +12,9 @@
   "created_at": "2021-02-18T07:25:32Z",
   "github_updated_at": "2026-02-21T10:23:16Z",
   "body_snippet": "I'm working mRemoteNG lastest branch and i'm getting this error :\r\n----------\r\n----------\r\nErrorMsg\r\n02/18/2021 12:55:01\r\nCouldn't save connections file as \"\"!\r\nConcurrency violation: the batched command affected 0 of the expected 1000 records.\r\n----------\r\n\r\n----------\r\nWe are 10 persons working in that database\r\n\r\nthanks in advanced",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": null,
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -23,6 +23,12 @@
       "date": "2026-02-22",
       "type": "testing",
       "description": "Already committed (dedup)"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": ""
 }

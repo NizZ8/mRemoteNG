@@ -13,9 +13,9 @@
   "created_at": "2020-07-03T11:54:46Z",
   "github_updated_at": "2026-02-21T10:23:32Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nafter selecting the database mssql and checking the connection, when the YES button is pressed, an unhandled exception occurs\r\n## Exception message\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n```\r\nСообщение исключения\r\n\"Столбец \"RedirectClipboard\" не принадлежит таблице .\"\r\n\r\nТрассировка стека\r\n   в System.Data.DataRow.GetDat...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -30,6 +30,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (e8a34f921 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -47,6 +53,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): DataTableDeserializer crashes on older MSSQL schemas missing columns added in later upgrades (e.g. RedirectClipboard from v26→27) because it lacks Columns.Contains guards\nApproach: Add dataRow.Table.Columns.Contains() guards for all columns introduced by SQL schema upgraders (RedirectClipboard, RedirectAudioCapture, etc.), following the existing pattern already used for IsTemplate (line 108) and EnvironmentTags (line 165)"
 }

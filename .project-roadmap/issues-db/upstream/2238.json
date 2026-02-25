@@ -11,9 +11,9 @@
   "created_at": "2022-06-03T18:17:51Z",
   "github_updated_at": "2026-02-23T13:39:38Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nif username is set to `john` and domain is set to `acme.local` then putty should receive a username of `john@acme.local`\r\n\r\n## Current Behavior\r\nif username is set to `john` and domain is set to `acme.local` then putty receives a username of `john` (domain is ignored)\r\n\r\n## Possible Solution\r\ninclude the domain value if it is not blank\r\n\r\n## Steps to Reproduce (for bugs)\r\n<!--- Provide an unambiguous set...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -40,6 +40,12 @@
         "cost_usd": 0.963706,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -66,6 +72,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T15:29:08Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): PuttyBase.cs SSH path (line 499) reads only Username but ignores Domain when building the -l argument for PuTTY, while the tab-title code (line 294) correctly combines domain+username.\nApproach: After reading username, also read domain and if non-empty prepend 'domain\\' to username before passing to -l argument (mirroring the tab-title logic at line 294-306)"
 }

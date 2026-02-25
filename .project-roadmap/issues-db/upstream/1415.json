@@ -10,9 +10,9 @@
   "created_at": "2019-04-18T13:23:54Z",
   "github_updated_at": "2019-09-29T10:50:10Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nmremoteNG can support a REST interface where we can build and sync connections based off json files and host them on the intranet so that anytime our devops teams builds a new system, in our automation scripts we update the appropriate json files and those systems are automatically pushed to the mremoteng interface of any team members that got their json file updated. In order to achive this correctly, y...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (11c0db605 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -62,6 +68,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Adding a REST interface enables external tools to programmatically manage connections, improving team synchronization and automation capabilities.\nApproach: Implement a lightweight HTTP listener (using System.Net.HttpListener or Kestrel) within the application to expose endpoints for connection CRUD operations, ensuring proper security authentication."
 }

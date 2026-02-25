@@ -11,9 +11,9 @@
   "created_at": "2022-02-15T08:49:22Z",
   "github_updated_at": "2026-02-23T03:42:45Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nQuick Connect Toolbar not working anymore. I can't add it (just after restart the application), If its added, search history, create connection etc. not working and i can't move it to the first line next to the options menu\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used:\r\n* Operating System and version (e.g. Windows 10 1709 x64):\r\nv1.77.2 / Win11...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
         "cost_usd": 1.74622,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -69,6 +75,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T10:20:21Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The Quick Connect Toolbar is reported as not working, indicating a functional regression that needs to be addressed.\nApproach: Investigate initialization, event handling, and visibility logic of the Quick Connect Toolbar within `frmMain.cs` and `ViewMenu.cs`, specifically looking for regressions introduced in v1.77.2 that prevent the toolbar from appearing or functioning correctly."
 }

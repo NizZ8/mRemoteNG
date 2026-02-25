@@ -12,9 +12,9 @@
   "created_at": "2021-01-28T09:32:33Z",
   "github_updated_at": "2026-02-21T10:23:18Z",
   "body_snippet": "Sometimes my Connections panel keeps scrolling down when it has focus from the mouse pointer. Clicking or selecting with arrow keys is still possible but with a long list a groups the top ones will disappear from view fast.\r\n\r\nUsing mRemoteNG 1.76.20 on Windows Server 2012 R2. I think it also happened with previous releases.\r\n\r\nFrequency is hard to tell, maybe once every two months? Restarting the application fixes the issue.",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "20260225-v1.81.0-beta.4-NB-(3411)",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (c7de62f43 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in 20260225-v1.81.0-beta.4-NB-(3411)"
     }
   ],
   "comments": [
@@ -91,7 +97,7 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:06:31Z",
   "notes": "AI triage (gemini): The Connections panel (ConnectionTree, a TreeListView) scrolls unnecessarily when a node gains focus, likely due to an aggressive auto-scroll-on-focus behavior in the underlying TreeListView control.\nApproach: Investigate and disable or modify the TreeListView's auto-scroll-on-focus behavior in ConnectionTree.cs to prevent unwanted scrolling while ensuring the focused item remains visible when necessary (e.g., after adding a new node).",
   "impl_failed": true
 }

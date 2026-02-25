@@ -10,9 +10,9 @@
   "created_at": "2019-08-26T16:43:31Z",
   "github_updated_at": "2026-02-20T19:23:35Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nsearchbar or any other input field should accept keyboard input\r\n\r\n## Current Behavior\r\nafter some time mremote does not accept keyboard inputs anymore, you cannot search, you cannot rename things\r\n\r\n## Possible Solution\r\nat this stage only restarting mremote works\r\n\r\n## Steps to Reproduce (for bugs)\r\nno idea\r\n\r\n## Context\r\nduplicating an item and then renaming is not possible\r\nsearching is not possible\r...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (5acbda081 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Keyboard input not reaching remote connection is a focus management bug — connection panel likely loses focus after embed/tab switch without explicit SetFocus call.\nApproach: After connection panel is embedded via SetParent, call SetFocus/WM_ACTIVATE on the control handle to restore keyboard input routing; similar to fix applied in #1442."
 }

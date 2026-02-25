@@ -12,9 +12,9 @@
   "created_at": "2016-12-07T13:39:54Z",
   "github_updated_at": "2026-02-20T13:43:40Z",
   "body_snippet": "I was sent here from the Subreddit.\r\n\r\nIt would be nice to have the ability to open a RDS session straight from your desktop, instead of having to open mRemoteNG first and scrolling through the connections tab.\r\n\r\nThanks in advance.",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
       "date": "2026-02-15",
       "type": "testing",
       "description": "Fix in eb50df0e"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -64,6 +70,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T06:14:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage: Feature request for command-line switch to open a specific connection directly, enabling desktop shortcuts to RDS sessions - has community support and clear implementation path\nApproach: Add a --connect <connection-name-or-id> command-line argument that, on startup, locates the matching connection in the tree and automatically opens it, allowing users to create Windows shortcuts with this parameter"
 }

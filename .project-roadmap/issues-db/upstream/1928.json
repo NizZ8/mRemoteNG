@@ -12,9 +12,9 @@
   "created_at": "2021-02-09T12:27:40Z",
   "github_updated_at": "2026-02-21T10:22:50Z",
   "body_snippet": "OS: Windows 10 64 bit. \r\nAfter windows update (probably January 12, 2021-KB4586876 Cumulative Update Preview for .NET Framework 3.5 and 4.8 for Windows 10 Version 2004) mRemoteNg does not work properly.\r\nmRemoteNG version:\r\n\r\n![image](https://user-images.githubusercontent.com/65400286/107363393-5f58c500-6ada-11eb-8a25-d697cbd6ce72.png)\r\n\r\nWhat am I doing:\r\n1. Create a new folder\r\n2. Create a new connection\r\n3. Attempting to move the connection to the folder closes the application.\r\n\r\ndnSpy:\r\n![i...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 2.283864,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -70,7 +76,7 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The issue 'Drag and drop connection problem' indicates a functional defect in a core UI interaction for connection management.\nApproach: Investigate ConnectionTreeDragAndDropHandler.cs for potential logical errors in CanModelsDrop or DropModel methods, or unintended interactions with Properties.Settings.Default.DisableTreeDragAndDrop. Also, check how ConnectionTree.cs handles the ModelDropped event and updates the UI.",
   "token_usage": {
     "input_tokens": 27,

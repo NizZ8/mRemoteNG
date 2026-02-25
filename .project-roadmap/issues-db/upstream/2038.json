@@ -11,9 +11,9 @@
   "created_at": "2021-09-01T09:06:51Z",
   "github_updated_at": "2026-02-22T05:29:06Z",
   "body_snippet": "Using last nightly build, when using the SSH TUNNEL option (Jump Host proxy) the target host fingerprint is not stored even you select to do it.\r\n\r\n## Expected Behavior\r\nWhen selecting YES to store the fingerprint then the next time you connect to this server it's needed to be known.\r\n\r\n## Current Behavior\r\nEvery time you connect to the server you see that the fingerprint is not known.\r\n\r\n## Possible Solution\r\nYou need to fix the error checking if the _correct_ fingerprint is stored.\r\n\r\n## Steps...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -40,6 +40,12 @@
         "cost_usd": 0.438632,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -147,6 +153,6 @@
   "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-22T06:14:11Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): PuTTY's -batch flag (added at PuttyBase.cs:688 when password is set) suppresses the host key acceptance prompt, preventing fingerprint saving for SSH tunnel connections.\nApproach: In PuttyBase.cs, when IsSshTunnelSession() is true and the connection has a password, omit -batch or add -hostkey to allow PuTTY to prompt for and save the host fingerprint on first connect."
 }

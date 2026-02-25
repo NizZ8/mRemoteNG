@@ -10,9 +10,9 @@
   "created_at": "2022-11-22T15:55:57Z",
   "github_updated_at": "2026-02-23T19:24:39Z",
   "body_snippet": "Hello, thanks for this very useful tool :) !\r\n\r\nSo, here is a request for a new feature: \r\n=> **Instead of typing user/pwd in each connection**, it would be very useful to be able to **choose in a list of accounts**. So, when we need to update password, we just do it in accounts list, not in each connection.\r\n\r\n## Expected Behavior\r\nIn connection configuration panel, I have the choice between typing login and password, or choosing an existing profile.\r\nAnd somewhere else (in a new window, or in ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
         "cost_usd": 2.737179,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -86,6 +92,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Introduce a mechanism to link connections to centralized CredentialRecord objects stored in a CredentialRepository, allowing credential reuse and central management.\nApproach: 1. Modify AbstractConnectionRecord to include a CredentialSource enum (Default, Specified, Linked) and make it inheritable. 2. In ConnectionInfo, adjust Username, Password, and Domain property getters to retrieve values from a CredentialRecord via CredentialServiceFacade when CredentialSource is Linked and a valid CredentialId is present. 3. Ensure CredentialId and CredentialSource are serialized/deserialized with connections. 4. Handle SecureString conversion for passwords during retrieval from CredentialRecord."
 }

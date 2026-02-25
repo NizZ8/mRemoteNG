@@ -12,9 +12,9 @@
   "created_at": "2022-02-25T11:30:28Z",
   "github_updated_at": "2026-02-23T04:14:25Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\ni have over 100 connections and search option is the only way can i locate the conneciton quickly.\r\nhowever, i must name every single one of them to be searchable (include all the keywords that I can search in the connection name)\r\n\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nI want have a way to searc...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 1.250268,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -61,6 +67,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T10:20:21Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The current connection tree search functionality does not include child connections when their parent folder matches the search criteria, leading to an incomplete display of search results.\nApproach: Refactor `ConnectionTreeSearchTextFilter` to pre-calculate a set of all `ConnectionInfo` objects that should be visible based on the filter text. This set will include: 1) objects directly matching the filter criteria; 2) all descendants of a matching `ContainerInfo`; and 3) all ancestors of any matching `ConnectionInfo` or `ContainerInfo`. The `Filter` method will then simply check for presence in this pre-calculated set."
 }

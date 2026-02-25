@@ -5214,6 +5214,99 @@ def fix_status_tracking(dry_run=False):
     print(f"{'Would update' if dry_run else 'Updated'} {updated} issues from 'triaged' to 'testing'")
 
 
+def promote_to_released(release_tag, dry_run=False):
+    """Promote 'testing' issues to 'released' if their fix commit is included in a release tag.
+
+    Scans git log up to the given tag for fix commits, then updates matching
+    issues from 'testing' to 'released' with the release tag recorded.
+    """
+    import subprocess
+
+    # Verify tag exists
+    r = subprocess.run(
+        ["git", "rev-parse", "--verify", release_tag],
+        capture_output=True, cwd=str(REPO_ROOT), timeout=10,
+    )
+    if r.returncode != 0:
+        print(f"ERROR: Tag '{release_tag}' not found")
+        return
+
+    # Collect issue numbers from fix commits up to (and including) the tag
+    released_issues = {}
+    try:
+        r = subprocess.run(
+            ["git", "log", release_tag, "--oneline"],
+            capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+        )
+        stdout = (r.stdout or b"").decode("utf-8", errors="replace")
+        for line in stdout.splitlines():
+            for m in re.finditer(r"(?:fix\(#|Fix #|fix #)(\d+)", line):
+                num = int(m.group(1))
+                if num not in released_issues:
+                    released_issues[num] = line.strip()
+    except Exception as e:
+        print(f"ERROR: Failed to scan git log: {e}")
+        return
+
+    print(f"Found {len(released_issues)} unique issue numbers in commits up to {release_tag}")
+
+    # Scan issues DB for testing issues included in this release
+    updated = 0
+    skipped_no_file = 0
+    skipped_wrong_status = 0
+    candidates = []
+
+    for issue_num, commit_line in sorted(released_issues.items()):
+        json_file = ISSUES_DB_DIR / f"{issue_num:04d}.json"
+        if not json_file.exists():
+            skipped_no_file += 1
+            continue
+        try:
+            data = json.loads(json_file.read_text(encoding="utf-8-sig"))
+        except Exception:
+            continue
+        if data.get("our_status") != "testing":
+            skipped_wrong_status += 1
+            continue
+        candidates.append((issue_num, commit_line, json_file, data))
+
+    print(f"Candidates: {len(candidates)} testing issues with fixes in {release_tag}")
+    print(f"Skipped: {skipped_no_file} no DB file, {skipped_wrong_status} not testing")
+    print()
+
+    if not candidates:
+        print("Nothing to update.")
+        return
+
+    for issue_num, commit_line, json_file, data in candidates:
+        title = data.get("title", "")[:60]
+        if dry_run:
+            print(f"  [DRY-RUN] #{issue_num:4d} testing -> released  {title}")
+            updated += 1
+            continue
+
+        data["our_status"] = "released"
+        data["target_release"] = release_tag
+        iterations = data.get("iterations") or []
+        iter_seq = max((it.get("seq", 0) for it in iterations), default=0) + 1
+        iterations.append({
+            "seq": iter_seq,
+            "date": datetime.date.today().isoformat(),
+            "type": "released",
+            "description": f"Included in {release_tag}",
+        })
+        data["iterations"] = iterations
+        data["last_synced"] = (
+            datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        )
+        iis_write_json(json_file, data)
+        print(f"  [RELEASED] #{issue_num:4d} testing -> released  {title}")
+        updated += 1
+
+    print()
+    print(f"{'Would update' if dry_run else 'Updated'} {updated} issues to 'released' ({release_tag})")
+
+
 # ── IIS: REPORT ───────────────────────────────────────────────────────────
 def iis_report(include_all=False, no_save=False):
     """Generate markdown report from issue DB.
@@ -5447,8 +5540,8 @@ def main():
     parser.add_argument(
         "mode", nargs="?", default="all",
         choices=["all", "issues", "warnings", "status", "test-hygiene",
-                 "sync", "analyze", "update", "report", "fix-status"],
-        help="sync/analyze/update/report/fix-status (IIS), or all/issues/warnings/status/test-hygiene (orchestrator)",
+                 "sync", "analyze", "update", "report", "fix-status", "promote-released"],
+        help="sync/analyze/update/report/fix-status/promote-released (IIS), or all/issues/warnings/status/test-hygiene (orchestrator)",
     )
     # ── Orchestrator args ──
     parser.add_argument("--dry-run", action="store_true",
@@ -5565,6 +5658,13 @@ def main():
 
     if args.mode == "fix-status":
         fix_status_tracking(dry_run=args.dry_run)
+        return
+
+    if args.mode == "promote-released":
+        if not args.release:
+            print("ERROR: --release is required for promote-released mode (e.g. --release v1.81.0-beta.3)")
+            sys.exit(1)
+        promote_to_released(args.release, dry_run=args.dry_run)
         return
 
     if args.mode == "status":

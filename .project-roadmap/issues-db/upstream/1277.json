@@ -11,9 +11,9 @@
   "created_at": "2019-01-13T11:31:09Z",
   "github_updated_at": "2021-06-28T10:48:45Z",
   "body_snippet": "## Expected Behavior\r\n - Do not show prompt on connection tab\r\n - Do not show prompt when panel only contains one connection\r\n\r\n## Current Behavior\r\n![2019-01-13_12-28-46](https://user-images.githubusercontent.com/22905106/51084719-ec2fc980-172e-11e9-98ac-fc7600ea5cc7.gif)\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: Latest RemoveMagicLib branch\r\n* Operating System and version: Windows 10 1809 x64",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (72945b688 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -45,6 +51,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The user requests a confirmation prompt when closing docked panels (like Connections or Config) to prevent accidental closure, similar to the existing warning for connection tabs.\nApproach: Add a 'Warn when closing panels' setting in Options > Tabs & Panels. Override OnFormClosing in BaseWindow (base class for panels) to check this setting and show a confirmation dialog."
 }

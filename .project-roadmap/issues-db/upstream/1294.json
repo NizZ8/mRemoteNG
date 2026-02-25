@@ -11,9 +11,9 @@
   "created_at": "2019-01-31T14:36:47Z",
   "github_updated_at": "2021-06-27T23:01:41Z",
   "body_snippet": "RDP session opens fullscreen on external monitor which is great, but the session shows down in the primary monitor's taskbar instead of the external monitor's.\r\n\r\nI made sure the taskbar setting for \"Taskbar where window is open\" is selected.\r\n\r\nDirect RDP usage results in the right taskbar location being used.\r\n\r\nWindows 10 x64\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (bbbe09f6a fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -35,6 +41,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Fix bug where the RDP session's taskbar entry appears on the wrong monitor in multi-monitor setups, likely due to improper window style handling or parenting.\nApproach: Investigate window handle (HWND) management for RDP sessions and ensure WS_EX_APPWINDOW style is correctly applied to respect the monitor where the window is located."
 }

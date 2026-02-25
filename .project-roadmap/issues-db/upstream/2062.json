@@ -10,9 +10,9 @@
   "created_at": "2021-11-03T20:23:56Z",
   "github_updated_at": "2026-02-22T07:04:31Z",
   "body_snippet": "When I try to dock a second pane within the mRemoteNG window while using a second monitor, dragging the pane into a docking area does not activate the area, and I can only create a second window. It works as expected on my primary monitor.\r\n\r\n## Expected Behavior\r\nDragging a second pane should highlight various areas of the screen and dock the second pane when dropped\r\n\r\n## Current Behavior\r\nDragging the pane to different areas does not highlight them\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Move...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (1e50855e4 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -80,6 +86,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The docking framework (WeifenLuo.WinFormsUI.Docking) is not correctly handling split panes across multiple monitors, preventing docking on secondary screens, which is a usability bug.\nApproach: Investigate the configuration and usage of the WeifenLuo.WinFormsUI.Docking library within mRemoteNG, focusing on FrmMain.cs and other DockContent implementations, to identify why split panes fail to dock on secondary monitors. This may involve examining how DockPanel instances are created, managed, and how they interact with screen geometry and multi-monitor APIs provided by Windows Forms or the docking library itself."
 }

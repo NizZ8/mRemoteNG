@@ -12,9 +12,9 @@
   "created_at": "2019-05-14T10:14:33Z",
   "github_updated_at": "2025-10-03T22:17:55Z",
   "body_snippet": "Please add the checksums for file integrity\r\n\r\nI have found a previous post which has the status solved but actually I'm not able to find where I can find the hash/MD5 to check the file integrity. In the archive there is no update.txt file. Is it possible to add a MD5/SHA checksum?\r\n\r\nThanks in advance,\r\nCatalin\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (fd1c019fb fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -73,6 +79,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Add SHA256 checksums to GitHub release artifacts for download integrity verification — standard security practice, achievable via CI workflow change.\nApproach: Add a step in the release CI workflow to compute SHA256 hashes of all release ZIPs and attach a checksums.txt file to the GitHub release. PowerShell Get-FileHash or sha256sum in the workflow."
 }

@@ -11,9 +11,9 @@
   "created_at": "2022-01-19T08:21:18Z",
   "github_updated_at": "2022-01-19T11:39:22Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen starting a SSH session configured with SSH Jump Mode (tunneling over another SSH session), if you execute over the TAB of the session the command \"Duplicate\", then the connection never be stablished. However, if you select the session in the panel and launch it another time, the session will be stablished. So the problem is with the \"Duplicate\" command.\r\n\r\n## Expected Behavior\r\nThe expected behaviour is that the \"Duplicate...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (4f2800676 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -54,6 +60,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Duplicating an SSH connection using Jump Mode causes the jump host resolution to fail, preventing connection establishment.\nApproach: Investigate ConnectionInfo.CopyFrom and ConnectionInitiator.getSSHConnectionInfoByName to ensure that the SSHTunnelConnectionName property is correctly preserved and resolved for duplicated SSH connections, especially when dealing with jump hosts and potential name collisions."
 }

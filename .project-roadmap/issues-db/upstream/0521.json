@@ -10,9 +10,9 @@
   "created_at": "2017-04-21T11:02:38Z",
   "github_updated_at": "2026-02-21T10:23:02Z",
   "body_snippet": "When I open more than one tab I cannot click into the \"Connect:\" field to input another server for a new tab. It appears to be highlighting the text but when I type the output is displayed in my current active session, rather than the input field of the text box.\r\n\r\nHas/is anyone else having this issue?\r\n\r\nThanks\r\nJ \r\n\r\n<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "20260225-v1.81.0-beta.4-NB-(3411)",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (ecd1ffa76 in)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in 20260225-v1.81.0-beta.4-NB-(3411)"
     }
   ],
   "comments": [
@@ -80,7 +86,7 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:06:31Z",
   "notes": "AI triage: Issue is from 2018 with no recent confirmation on current builds; the triage comment already requested retest and reproducible steps but no response was provided.\nApproach: Wait for reporter confirmation on latest build before investigating PuTTY connect field input handling.",
   "impl_failed": true
 }

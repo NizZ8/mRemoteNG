@@ -12,9 +12,9 @@
   "created_at": "2022-07-12T15:44:24Z",
   "github_updated_at": "2026-02-23T16:09:50Z",
   "body_snippet": "\r\n## Expected Behavior\r\nWhen attempting to quick connect to a system that requires alternate creds than the ones that are stored in the application options, the connection should fail as expected, but then it should re-prompt for the correct credentials, like MS RDP client does.\r\n\r\n## Current Behavior\r\nWhen connecting to a system that would not accept the stored credentials, it does not re-prompt for new credentials.  The connection simply fails and closes.\r\n\r\n## Possible Solution\r\nMimic RDP con...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 1.730369,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -61,6 +67,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Stored credentials are not correctly applied or retrieved for RDP quick connections, hindering usability.\nApproach: Trace the flow of credential retrieval and application during RDP quick connection initiation. Ensure 'ConnectionInfo' correctly passes stored credential references to the 'RdpProtocol' and that they are properly consumed."
 }

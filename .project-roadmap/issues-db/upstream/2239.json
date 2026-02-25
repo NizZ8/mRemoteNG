@@ -8,9 +8,9 @@
   "created_at": "2022-06-03T18:24:19Z",
   "github_updated_at": "2026-02-23T13:49:33Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nCreate a web connection with username, domain and password.\r\nStart connection. Web page displays.\r\nEasy way to paste in username, password stored in connection.\r\n\r\n## Current Behavior\r\n- username, password and domain fields seem inert on web connections\r\n\r\n## Possible Solution\r\nRight click menu of tab should contain entries for:\r\n- `Paste username`\r\n- `Paste username@domain`\r\n- `Paste password`\r\n\r\nVersio...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -31,6 +31,12 @@
         "cost_usd": 1.22686,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -48,6 +54,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T15:29:08Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Provide tooling to easily copy username and password to clipboard for web connections opened in an external browser, improving usability.\nApproach: Add 'Copy Username' and 'Copy Password' context menu items for HTTP/HTTPS connections. These actions will retrieve the credentials from the ConnectionInfo object and copy them to the system clipboard."
 }

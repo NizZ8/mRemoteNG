@@ -11,9 +11,9 @@
   "created_at": "2020-05-07T12:32:41Z",
   "github_updated_at": "2026-02-21T10:24:27Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nHello everyone I am suffering an issue that all connections are duplicated in the list after i use one user to modify the connection information. I am using sql server as connection pool and i have restored the db. Please help me how to change the information without hands on other connections that I  dont want to change. thanks !!!\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- I...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -40,6 +40,12 @@
         "cost_usd": 2.483821,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -84,6 +90,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Connections are duplicated in the tree after editing the connection list, likely due to a double event subscription or double-load in the save/refresh cycle of ConnectionsService or the XML serializer.\nApproach: Audit event handler registration in ConnectionsService and the XML load path to ensure connections are not added twice (e.g., CollectionChanged fired during load + explicit AddRange after load); add guard or clear-before-load pattern."
 }

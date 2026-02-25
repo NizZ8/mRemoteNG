@@ -10,9 +10,9 @@
   "created_at": "2018-02-22T10:31:39Z",
   "github_updated_at": "2018-07-30T01:04:33Z",
   "body_snippet": "Hello,\r\n\r\nCan this tool integrate the winbox.exe client, which is used to manage the use of the MikroTik Routers router.\r\n\r\nI add external expansion tools to mRemoteNG, configure corresponding parameters and add route devices to double-click the device to connect successfully, but is the form of new window pop-up, can the window be embedded in mRemoteNG software? It will be more convenient to manage a lot of route devices if they can. Can external extensions implement integration?\r\n\r\n![1](https:...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -39,6 +39,12 @@
       "date": "2026-02-18",
       "type": "testing",
       "description": "Already committed (dedup fix - batch update)"
+    },
+    {
+      "seq": 5,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -46,6 +52,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (codex): The issue only contains a high-level enhancement title without requirements, expected behavior, or integration details needed to scope implementation.\nApproach: Request concrete use cases, UX expectations, supported winbox.exe versions, and how ROS sessions should be stored and launched before defining code changes.\nAI triage (codex): The issue has only a title and no detailed problem statement or feature requirements for Winbox/ROS integration.\nApproach: Request concrete requirements for expected Winbox integration behavior, UX flow, and technical constraints before implementation.\nAI triage (gemini): Integrate Mikrotik Winbox as a supported connection protocol, allowing users to embed Winbox sessions within mRemoteNG tabs.\nApproach: Define a new ProtocolType for Winbox. Implement a protocol handler that launches the winbox.exe process with connection arguments and uses the application embedding logic (likely leveraging standard Windows API reparenting) to display it in a tab."
 }

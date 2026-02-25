@@ -11,9 +11,9 @@
   "created_at": "2019-04-16T12:49:43Z",
   "github_updated_at": "2026-02-21T21:47:32Z",
   "body_snippet": "1) Add Option: Quick \"Undock\" option: Allows you to quickly create new 'Connection Panel' and move your current session to it with one click (similar to MS RDCM undock option)\r\n\r\n2) Add Option/Properties of 'Connection Panel' to be a separate window with individual options: Minimize, Maximize. Allows you to minimize this window or main window only, while the other one remains opened.\r\n\r\n3) Add Quick search field: The same functionality like \"Connections > Search\" field, but as a separate menu (l...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (383ce1b12 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -41,6 +47,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Legitimate UX enhancement request for panel undocking, connection panel customization, and quick-search filtering — common quality-of-life features for remote connection managers.\nApproach: Add undock support via WeifenLuo DockPanel float mode for connection panel; add quick-search TextBox to ConnectionTreeWindow toolbar that filters the tree view nodes by name."
 }

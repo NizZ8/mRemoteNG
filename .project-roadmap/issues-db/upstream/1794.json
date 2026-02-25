@@ -11,9 +11,9 @@
   "created_at": "2020-06-16T05:22:53Z",
   "github_updated_at": "2020-07-25T17:26:28Z",
   "body_snippet": "\r\n\r\n## Expected Behavior\r\nSometimen when I close a tab that contains some open connections inside mremote crash and i need to close it a reset when it shouldn't.\r\n\r\nAs you can see in the error windows something is pointing to path \"C:\\jenkins\\workspace\\Publish\\Build\" that don't exists in my setup\r\n\r\nError Message:\r\n\r\n![image](https://user-images.githubusercontent.com/44467849/84734789-1cbe0780-afa2-11ea-9bf9-e67b7c093b4f.png)\r\n\r\nFull infortmation from error message below:\r\n\r\n```\r\nException Messa...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "20260225-v1.81.0-beta.4-NB-(3411)",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (97ee521df fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in 20260225-v1.81.0-beta.4-NB-(3411)"
     }
   ],
   "comments": [
@@ -105,7 +111,7 @@
   "unread_comments": 7,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:06:31Z",
   "notes": "AI triage (claude): Crash when closing a panel with active connection tabs — likely a guard condition gap in ConnectionWindow.Connection_FormClosing() or ClosePanelIfEmptyOnUiTick() causing ObjectDisposedException or NullReferenceException during panel/tab disposal race.\nApproach: Add null/disposed guards around connDock.Documents iteration in Connection_FormClosing(), ensure silentClose flag is set before iterating tabs, and protect ClosePanelIfEmptyOnUiTick() against disposed connDock state when panel close is user-initiated rather than tab-removal-triggered.",
   "token_usage": {
     "input_tokens": 4,

@@ -10,9 +10,9 @@
   "created_at": "2019-05-13T10:47:51Z",
   "github_updated_at": "2021-09-29T16:15:43Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nVariables in UserField are not working anymore.\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nPass variable, provided in UserField, to external tools,\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, ex...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (1dcb74ddb fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -62,6 +68,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Enhancement to recursively expand variables within UserField values when used in external tool arguments, confirmed as never-implemented feature by maintainer\nApproach: After GetVariableReplacement returns a UserField value, run ParseArguments again on the replacement to expand nested variables (with recursion depth limit to prevent infinite loops). Add tests for nested variable expansion in UserField."
 }

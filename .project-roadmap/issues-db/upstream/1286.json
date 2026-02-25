@@ -11,9 +11,9 @@
   "created_at": "2019-01-24T22:33:46Z",
   "github_updated_at": "2019-10-03T21:35:49Z",
   "body_snippet": "Closing panel with single connection throws error\r\n\r\n## Expected Behavior\r\nWhen closing the panel that contains a single connection will periodically toss an error window.\r\n\r\n## Current Behavior\r\nThe tab and connection will close, but the error window will display as follows:\r\nError (1/24/2019 10:40:43 AM)\r\nCouldn't add panel\r\nObject reference notset to an instance of an object.\r\n\r\nClicking OK closes the dialog. mRemoteNG continues to run normally. No loss of connections in other tabs.\r\n\r\n\r\n## P...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (6906dc5de fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -72,6 +78,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Race condition in CloseBG: background thread Invokes on already-disposed ConnectionWindow when panel is closed with active connections.\nApproach: Wrap _interfaceControl.Invoke in CloseBG with try/catch for ObjectDisposedException/InvalidOperationException, and add IsDisposed check before the Invoke call. In SetConnectionForm, add null-safety for stale panel references."
 }

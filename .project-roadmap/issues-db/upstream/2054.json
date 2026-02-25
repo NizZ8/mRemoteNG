@@ -11,9 +11,9 @@
   "created_at": "2021-09-28T07:38:29Z",
   "github_updated_at": "2026-02-22T06:39:02Z",
   "body_snippet": "I searched issues to see if I find it reported already but I did not, only something similar and one answer there was:\r\n\"I guess this is by design. mRemoteNG reconnects to the host in order to set the resolution to the changed window size.\"\r\n\r\nI guess this applies to my problem, too but I still find it very annoying, so I open a new issue to hear what other think of it:\r\n\r\nWhen I am connected to another computer and then resize the window, it always loses the connection and it takes a couple of ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-22",
       "type": "testing",
       "description": "Fix in d8af2e14"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -189,6 +195,6 @@
   "unread_comments": 16,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-22T22:53:54Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Resizing the application window should not cause active remote connections to drop. This indicates a failure in handling UI resize events within the protocol implementations.\nApproach: Ensure that ProtocolBase derived classes (RDP, VNC, Putty) correctly implement ResizeEnd to update their internal controls' dimensions and potentially inform the remote host. Investigate if a missing explicit call to a generic ProtocolBase.Resize() or ProtocolBase.ResizeEnd() is needed within FrmMain.ActivateConnection() or ConnectionTab.FireResizeEnd() for robust handling across all protocols."
 }

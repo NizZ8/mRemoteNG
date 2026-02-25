@@ -11,9 +11,9 @@
   "created_at": "2021-04-17T13:38:54Z",
   "github_updated_at": "2026-02-21T10:24:18Z",
   "body_snippet": "Hello, could you please fix winbox integration? When i start winbox, gray window is apear.\r\n\r\n![image](https://user-images.githubusercontent.com/27976371/115115173-8977a900-9f9b-11eb-9b82-53cf43e739af.png)\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "20260225-v1.81.0-beta.4-NB-(3411)",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (f56abf96d fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in 20260225-v1.81.0-beta.4-NB-(3411)"
     }
   ],
   "comments": [
@@ -99,7 +105,7 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:06:31Z",
   "notes": "AI triage: Issue body is empty with no description of the actual bug, and while reporter confirms it still happens with Winbox 3.42 64-bit, we need details on what exactly fails (embedding, focus, crash?), steps to reproduce, and error logs\nApproach: Need reporter to describe the specific Winbox integration failure (embedding issue, focus loss, crash, etc.), provide steps to reproduce, and share any error output before we can investigate the IntApp protocol handler",
   "impl_failed": true
 }

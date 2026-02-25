@@ -8,9 +8,9 @@
   "created_at": "2018-11-27T09:41:08Z",
   "github_updated_at": "2018-11-27T09:41:08Z",
   "body_snippet": "Hello. Installed the application, it works, thanks. I have a question. I set the screen resolution in the application - it works.\r\nIs it possible to increase the size of text and other elements (scale)? For example, 125%. \r\nTo make the picture of the remote machine larger at the same resolution?\r\nIt is written in the parameters that the display parameters cannot be changed during a remote session.\r\nCan it be somehow possible to set this scale in the mRemoteNG application, or using the registry? ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -25,6 +25,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (537ac2064 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -32,6 +38,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The DesktopScaleFactor property in RdpProtocol.cs currently ignores the user-configured DesktopScaleFactor setting, forcing the remote session to use the local monitor's scaling (Auto) during session updates (like window resizing), which overrides any manual scaling preference (e.g., 125%).\nApproach: Modify the DesktopScaleFactor property in RdpProtocol.cs to respect the connectionInfo.DesktopScaleFactor setting. If set to a specific value (100, 125, 150, 200), return that value. Only fall back to the calculated local resolution scaling (ResolutionScalingFactor.Width * 100) when the setting is Auto."
 }

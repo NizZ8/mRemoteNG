@@ -11,9 +11,9 @@
   "created_at": "2022-02-07T20:45:47Z",
   "github_updated_at": "2026-02-23T03:08:27Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen connections belonging to more than one panel are open (thus making the panel tabs appear), if a panel is closed, by clicking the \"X\" or right-clicking and choosing \"X Close\" on the panel tab itself, mRemoteNG crashes with the following exception:\r\n\r\n   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)\r\n   at System.Windows.Forms.Control.Invoke(Delegate meth...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
         "cost_usd": 1.628019,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -96,6 +102,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T10:20:21Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Application crashes when a panel containing connections is closed, indicating a critical bug in UI panel lifecycle management or resource disposal.\nApproach: Investigate UI panel closing logic in `frmMain` and connection tab disposal to ensure proper resource release and null reference handling."
 }

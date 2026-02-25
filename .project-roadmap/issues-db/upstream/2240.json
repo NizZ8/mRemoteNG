@@ -11,9 +11,9 @@
   "created_at": "2022-06-03T18:29:43Z",
   "github_updated_at": "2026-02-23T14:00:07Z",
   "body_snippet": "## Expected Behavior\r\nWhen protocol is set to HTTP or HTTPS \r\nHostname/IP field must not contain port number of server.\r\nbecause port number is specified in Port field.\r\n\r\n## Current Behavior\r\nPort number specified in Port field is ignored. The port number must be embedded in Hostname/IP field.\r\n\r\n## Possible Solution\r\n- Remove `Port` number field and `Protocol` fields for Browser connections as the URI contains all the required information.\r\n\r\nVersion 1.77.2",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
         "cost_usd": 0.832307,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -51,6 +57,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T15:29:08Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The current URL construction logic in HTTPBase.cs can result in double port numbers if a port is embedded in the hostname field and also specified in the port field.\nApproach: Refactor the GetUrl() method in HTTPBase.cs to use UriBuilder for robust URL construction, correctly handling embedded ports in the hostname and prioritizing explicit port field values while avoiding double-port issues."
 }

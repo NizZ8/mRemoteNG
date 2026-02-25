@@ -10,9 +10,9 @@
   "created_at": "2019-02-01T17:00:32Z",
   "github_updated_at": "2022-08-02T12:30:28Z",
   "body_snippet": "RDP files can be signed with [rdpsign](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753982(v=ws.10)). mRemoteNG should support signed RDP as well.\r\n\r\n## Expected Behavior\r\nConnections to RDP servers that require signatures should work.\r\n\r\n## Current Behavior\r\nCurrently, connection is closed with the following message:\r\nYour computer can't connect to the remote computer because the Connection Broker couldn't validate the settings specified in...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (953872218 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -62,6 +68,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Feature request to support signed RDP connections, likely requiring pass-through of signature/signscope properties to the underlying ActiveX control.\nApproach: Investigate if AxMSTSCLib supports the 'signature' property or if we need to enable raw RDP property pass-through."
 }

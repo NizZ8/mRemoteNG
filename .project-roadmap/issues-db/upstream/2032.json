@@ -13,9 +13,9 @@
   "created_at": "2021-08-27T17:55:36Z",
   "github_updated_at": "2026-02-22T04:49:04Z",
   "body_snippet": "I use mRemoteNG v1.76.20 on different devices.\r\nActually i saved it on a shared drive, which includes all necessary files (Confcons.xml, mRemoteNG.settings, ...).\r\nWith the new nb-Version its stored locally.\r\n\r\n## Expected Behavior\r\nis it possible, to add a selection in the options, where the configuration files be safed\r\n\r\n## Current Behavior\r\nas described, i cannot choose, where the config can be safed.\r\n\r\n## Possible Solution\r\n:)\r\n\r\n## Steps to Reproduce (for bugs)\r\nits not a bug - its a feat...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -30,6 +30,12 @@
       "date": "2026-02-22",
       "type": "testing",
       "description": "Fix in f9449c3c"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -65,6 +71,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-22T06:14:11Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Introduce a new option to allow users to customize the application's configuration path, enhancing flexibility for portable installations or specific deployment scenarios.\nApproach: 1. Add a new UserScopedSetting in Settings.settings for the custom configuration directory path. 2. Create a new 'ConfigurationPage' under mRemoteNG\\UI\\Forms\\OptionsPages with UI elements (textbox, browse button) to allow users to specify and apply a custom path. 3. Modify FrmOptions.cs to include and manage this new 'ConfigurationPage'. 4. Update SettingsFileInfo.cs to dynamically use the custom path from the settings if it's defined, otherwise fall back to default locations. 5. Implement logic to handle the migration of existing configuration files when the path is changed by the user, ensuring data integrity and providing appropriate user prompts."
 }

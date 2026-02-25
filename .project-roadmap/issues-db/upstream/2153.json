@@ -12,9 +12,9 @@
   "created_at": "2022-02-03T10:02:11Z",
   "github_updated_at": "2026-02-23T02:21:50Z",
   "body_snippet": "Once the Config Panel has been closed I don't see a \"View\" option to bring it back.  Only a Layout Reset seems to bring it back.\r\n\r\n## Expected Behavior\r\nI expect to see a View option to enable the Config Panel.\r\n\r\n## Current Behavior\r\nOnly a Layout Reset re-enables the Config Panel.\r\n\r\n## Context\r\nIt makes changing the layout tricky.\r\n\r\n## Your Environment\r\nWindows 10 Enterprise 64-bit 20H2.",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 1.418725,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -70,6 +76,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T10:20:21Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The configuration panel becomes inaccessible to the user, hindering usability.\nApproach: Investigate the lifecycle of FrmOptions, focusing on its closing and reopening behavior in FrmMain, to ensure it's either correctly shown if hidden, or a new instance is created and shown."
 }

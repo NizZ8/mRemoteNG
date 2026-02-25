@@ -10,9 +10,9 @@
   "created_at": "2019-05-24T13:43:08Z",
   "github_updated_at": "2026-02-20T19:07:22Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Context\r\nIn 1.77 new configuration fields for connections are introduced. Like Redirect clipboard.\r\nHow to enable inheritance for this on all existing connections at once?\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: 1.77\r\n* Operating System and version (e.g. Windows 10 1709 x64): Windows 10 1809\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (66d405817 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -86,6 +92,6 @@
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Fields added in v1.77 to AbstractConnectionRecord lack corresponding boolean properties in ConnectionInfoInheritance.cs, breaking inheritance resolution via reflection.\nApproach: Audit AbstractConnectionRecord properties against ConnectionInfoInheritance boolean flags; add missing inheritance properties for any v1.77+ fields not yet covered (pattern already established for RDPSignScope, VNCClipboardRedirect, Notes, etc.)"
 }

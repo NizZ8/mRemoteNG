@@ -10,9 +10,9 @@
   "created_at": "2019-11-18T09:26:44Z",
   "github_updated_at": "2026-02-21T23:33:13Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nUpgrade should be transparent and not wipe out stored default credentials.\r\n\r\n## Current Behavior\r\nApplying MSI installer from 1.77.0 (or 1.76.x) clears stored credentials under Tools > Options > Credentials > The Following\r\n\r\n## Possible Solution\r\n<!--- Not obligatory, but suggest a fix/reason for the bug, -->\r\n<!--- or ideas how to implement the addition or change -->\r\n\r\n## Steps to Reproduce (for bugs...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (53b0ece34 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Upgrade to 1.77.1 clears stored default credentials, causing data loss regression for users who rely on inherited/default connection credentials.\nApproach: Identify the settings migration step introduced in 1.77.1 that resets or fails to carry over default credential fields; restore preservation of DefaultConnectionInheritance credential properties during config load/upgrade."
 }

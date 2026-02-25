@@ -10,9 +10,9 @@
   "created_at": "2017-11-02T20:14:25Z",
   "github_updated_at": "2026-02-21T10:24:23Z",
   "body_snippet": "Some external apps do not correctly integrate into mRemoteNG using our normal code, but it is still possible for them to be integrated. In most cases, the app spawns a separate process that we need to look for.\r\n\r\nAdd special handlers for several well-known apps:\r\n- [ ] cmd.exe\r\n- [ ] mintty\r\n- [ ] Git Bash\r\n- [ ] Windows Linux Subsystem Bash\r\n\r\nThis is related to several issues:\r\n- #649 \r\n- #693 \r\n- #710 ",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 6282882c"
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -140,6 +146,6 @@
   "unread_comments": 10,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Native support for PowerShell, WSL, and cmd is a high-demand feature that simplifies configuration compared to current manual CLI flags.\nApproach: Implement presets and launch handlers for common shell tools (pwsh, cmd, WSL) within the protocol integration layer and add corresponding tests.\nAI triage (codex): The issue describes a specific, user-requested integration gap for common shell launchers (cmd, mintty, Git Bash, WSL) that is not fully covered by current behavior.\nApproach: Add launcher-aware integration handling and child-process window detection for these tools, then validate with integration tests and document recommended configurations."
 }

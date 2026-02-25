@@ -11,9 +11,9 @@
   "created_at": "2019-11-13T08:51:26Z",
   "github_updated_at": "2026-02-21T23:37:59Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nExclamation mark in passwords not working. \r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\nAll saved connections with an exclamation mark in the password will be aborted with a connection error. Wh...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (032a71258 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -60,6 +66,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): EscapeSendKeys() in ConnectionContextMenu.cs omits '!' from its special-char list, causing SendKeys to interpret it as the Alt modifier instead of a literal character when sending passwords.\nApproach: Add '!' to the EscapeSendKeys() condition at line 1136 in ConnectionContextMenu.cs; also apply EscapeSendKeys (or equivalent) to finalCommand in PuttyBase.cs:247 before calling SendKeys.SendWait."
 }

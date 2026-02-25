@@ -11,9 +11,9 @@
   "created_at": "2022-04-28T05:14:56Z",
   "github_updated_at": "2026-02-23T10:56:52Z",
   "body_snippet": "Quick connect is not working. Please see screenshot.\r\n\r\nOS Win 10 -  64bit\r\nClient Ver: 1.77.2\r\n\r\n@sparerd \r\n@kmscode \r\n@Kvarkas \r\n@farosch \r\n\r\n![image](https://user-images.githubusercontent.com/53462528/165680986-7f4829b3-f250-4c90-a3fc-2150d4850eab.png)\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
         "cost_usd": 0.301334,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -96,6 +102,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T11:49:05Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The `CreateQuickConnect` method does not validate if the provided `connectionString` (hostname) is null or whitespace, leading to the creation of an invalid `ConnectionInfo` object.\nApproach: Add a `string.IsNullOrWhiteSpace` check at the beginning of `CreateQuickConnect` to return `null` early if the `connectionString` is invalid, and add a corresponding error message to the language resource file."
 }

@@ -11,9 +11,9 @@
   "created_at": "2021-08-05T19:39:53Z",
   "github_updated_at": "2026-02-22T03:28:57Z",
   "body_snippet": "Microsoft updated RDCMAN and changed something about how .rdg files are saved and now mRemoteNG does not open .rdg files anymore.\r\n\r\n## Expected Behavior\r\n.rdg files open in the Connections panel when going to File - Import - Import From File\r\n\r\n## Current Behavior\r\n\r\nError message pops up saying \"An error occurred while importing the file\"\r\n\r\n## Possible Solution\r\nnot sure\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Download new version of RDCMan 2.82 from https://docs.microsoft.com/en-us/sysintern...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-22",
       "type": "testing",
       "description": "Fix in 7ed23243"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -72,6 +78,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-22T04:17:18Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Add support for importing connections from Microsoft Remote Desktop Connection Manager v2.82 .rdg files.\nApproach: Investigate changes in RDCMan v2.82 .rdg schema, update RemoteDesktopConnectionManagerDeserializer.cs to parse new elements, add a new test .rdg file, and create corresponding test cases."
 }

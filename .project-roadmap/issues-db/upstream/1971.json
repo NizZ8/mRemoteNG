@@ -10,9 +10,9 @@
   "created_at": "2021-06-20T11:06:06Z",
   "github_updated_at": "2026-02-21T23:30:34Z",
   "body_snippet": "Hi,\r\n\r\n## Expected Behavior\r\nWhen a vnc controlled device restarts the tab should stay open and a \"Reconnecting 1 of 10\" message should appeare.\r\nIf the device is up again the connection is reestablished.\r\n\r\n## Current Behavior\r\nWhen a vnc controlled device is restarting the tab closes/disappeares without a message.\r\n\r\n## Possible Solution\r\nIntegrate a configureable vnc reconnect setting. E.g. you can configure that after 5,10, 20.... unsuccessful reconnects the \r\ntab should close or stay with e...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (e3431eafa fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -44,6 +50,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Enhance existing VNC auto-reconnect functionality to improve robustness and user experience.\nApproach: Refactor and expand the existing auto-reconnect logic within ProtocolVNC.cs, possibly introducing new configuration options in AdvancedPage.cs for finer control over reconnect attempts and delays. Investigate the current reconnect strategy and improve its reliability."
 }

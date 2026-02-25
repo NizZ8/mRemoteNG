@@ -12,9 +12,9 @@
   "created_at": "2022-10-08T22:51:20Z",
   "github_updated_at": "2026-02-23T18:51:52Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\nwhen the machine \"win 11\" goes to sleep mode, when coming back from sleep I find it disconnected\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 2.255786,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -223,6 +229,6 @@
   "unread_comments": 18,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): SSH connections established via PuTTY-based protocols in mRemoteNG do not automatically reconnect or maintain state after the system resumes from sleep mode, leading to disconnected sessions.\nApproach: Implement power management event handling in frmMain.cs to detect system resume. Upon resume, iterate through active PuTTY-based SSH connections (ProtocolSSH1, ProtocolSSH2), check the state of their respective PuTTY processes, and, if disconnected, trigger an automatic re-establishment of the connection."
 }

@@ -11,9 +11,9 @@
   "created_at": "2019-09-13T13:46:43Z",
   "github_updated_at": "2026-02-21T10:23:39Z",
   "body_snippet": "Currently, we could only have a **single** window to show all the connections.  And every connection in a tab.  It would be nice if we could open a connection (ie a tab) to a new window.  Esp because I have two monitors and therefore it's very convenient to open two RDP windows in different monitor.\r\n\r\nThis behaviour is very common in browsers.  Take Firefox as an example:\r\n1. Open two web pages in two tabs\r\n2. Right-click on any tab to show the context menu\r\n3. Choose \"Move Tab > Move to New Wi...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (aecf1caf0 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -117,6 +123,6 @@
   "unread_comments": 8,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): DockPanel Suite already supports float windows (FloatWindowNG exists); need to add explicit 'Move tab to new window' context menu action on connection tabs\nApproach: Add a 'Move to New Window' context menu item on connection tabs that programmatically calls DockPane.Float() to detach the active tab into a FloatWindowNG instance"
 }

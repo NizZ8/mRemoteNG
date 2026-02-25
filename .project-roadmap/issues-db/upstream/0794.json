@@ -14,9 +14,9 @@
   "created_at": "2017-11-10T11:53:36Z",
   "github_updated_at": "2026-02-21T10:24:23Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\n|Detail|Value|\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7011.34996  |\r\n\r\n1. Open 2 tab connections\r\n2. Do a Reconnect on the first tab.\r\n3. The reconnected tab loses its position and reopens at the end of ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -31,6 +31,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 4bd8681e"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -57,6 +63,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (codex): The behavior is verified, user-visible tab-order breakage, and reports confirm it still occurs on current DockPanelSuite tags, so reconnect logic should be fixed in mRemoteNG.\nApproach: Update reconnect to reuse the existing tab in place instead of closing and recreating it at the end, then add a regression test asserting tab index is preserved."
 }

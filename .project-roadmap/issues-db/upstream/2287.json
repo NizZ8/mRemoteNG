@@ -11,9 +11,9 @@
   "created_at": "2022-09-13T17:44:26Z",
   "github_updated_at": "2026-02-23T17:35:57Z",
   "body_snippet": "When I open a fresh new connection(SSH/PUTTY), I am supposed to see the console opened as a new tab. This has behaved well for months, but one day I started seeing console window being out of position/offset to somewhere lower than it should be inside the tab pane. Bottom part of the console window is hidden as the bottom half of the console window is below the visible area of the tab panel. I cannot scroll further to make the bottom part of console visible. \r\nIn other words, the console window ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -40,6 +40,12 @@
         "cost_usd": 0.7443,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -93,6 +99,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Console/notification pane misaligns with the tab strip due to incorrect rectangle height calculation in DockPaneStripNG (adds DocumentStripGapTop to height instead of subtracting).\nApproach: Fix TabStripRectangle_Document height formula: change rect.Height + DocumentStripGapTop - DocumentStripGapBottom to rect.Height - DocumentStripGapTop - DocumentStripGapBottom to correctly account for the top gap in the strip height."
 }

@@ -12,9 +12,9 @@
   "created_at": "2018-07-11T13:27:36Z",
   "github_updated_at": "2026-02-21T10:22:59Z",
   "body_snippet": "When moving the tabs Config or Connections to a secondary Display (to have fullscreen for Remote-Desktops), the are not visible anymore after resart the machine.\r\n\r\n## Expected Behavior\r\nShow config tabs at the position when it was closed the last time\r\n\r\n## Current Behavior\r\nNo possibiltiy to bring back the config tab or the connections tab. Even when i deactivate and reactivate them by main View-Menu.\r\nReinstallation of application is necessary\r\n\r\n## Possible Solution\r\nmake edit of minor windo...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (afbc46023 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -64,6 +70,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): High DPI scaling issue causing dock panels to vanish on secondary monitors; likely requires explicit WM_DPICHANGED handling to refresh the DockPanel layout.\nApproach: Override WndProc in FrmMain to handle WM_DPICHANGED and force DockPanel layout refresh."
 }

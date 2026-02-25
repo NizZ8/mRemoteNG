@@ -10,9 +10,9 @@
   "created_at": "2017-10-13T09:34:48Z",
   "github_updated_at": "2026-02-20T13:59:21Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\nWhen I try to save my connections in MSSQL DB, non latin characters are transformed into '?'. Please change latin encoding to UTF-8. Thanks!\r\n|Detail|Value|\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7008  |...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 56c8ef7a"
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T06:14:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (codex): The issue has no description or comments, so the exact SQL encoding problem, affected fields, and reproduction steps are unknown.\nApproach: Request database type/version, collation/charset, sample failing item values, and expected vs actual behavior before scoping a fix.\nAI triage (codex): This is a reproducible data-loss bug where MSSQL varchar columns convert non-Latin characters to '?', so Unicode storage needs a schema fix.\nApproach: Add an MSSQL migration that converts text-bearing columns from varchar to nvarchar, bump the SQL schema version, and add a regression test validating non-Latin round-trip persistence."
 }

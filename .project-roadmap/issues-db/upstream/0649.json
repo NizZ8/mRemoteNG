@@ -12,9 +12,9 @@
   "created_at": "2017-07-20T09:28:54Z",
   "github_updated_at": "2026-02-20T14:01:30Z",
   "body_snippet": "<!-- Bug -->\r\nI have tried integrating Powershell ISE, Powershell, MinTTY, Git Bash and CMD and none of them are integrating; instead, they open a separate window. \r\n\r\nHave searched extensively and cannot find an answer to this.\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75 aplha 3  |\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 258db923"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -118,6 +124,6 @@
   "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T06:14:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage: External apps (PowerShell, cmd, Git Bash, mintty) cannot integrate into mRemoteNG panels because IntegratedProgram relies on Process.MainWindowHandle which returns IntPtr.Zero for console apps and child-process-spawning apps — a long-standing integration gap confirmed by multiple users over 7+ years\nApproach: Implement an IExternalAppIntegrator strategy pattern with specialized handlers for well-known apps (cmd, PowerShell, mintty via -d flag, Git Bash) that use alternative window-handle discovery (EnumChildWindows, FindWindow by class, or app-specific embedding flags) instead of relying solely on Process.MainWindowHandle polling"
 }

@@ -11,9 +11,9 @@
   "created_at": "2021-07-06T18:06:09Z",
   "github_updated_at": "2026-02-22T02:02:04Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\nManual sort panels or tabs, with shift at 1 pixel up or down - panel detached from main window. Attach back not fast and not from first attempt. Time from work lost, to attach panel or tab back. Badly.\r\n\r\n## Expected Behavior\r\nSorting without detach panel or tab.\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the d...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-22",
       "type": "testing",
       "description": "Fix in 9513a1a3"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -63,6 +69,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-22T04:17:18Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The issue highlights a critical usability problem ('evil' behavior) with detachable panels, which likely stems from the implementation of the WeifenLuo.WinFormsUI.Docking library.\nApproach: Investigate the usage and configuration of WeifenLuo.WinFormsUI.Docking, focusing on panel lifecycle, serialization/deserialization, and user interaction patterns that lead to reported 'evil' behavior. Identify specific scenarios where panels misbehave and implement fixes or refactor the docking logic to improve stability and user experience."
 }

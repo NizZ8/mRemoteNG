@@ -13,9 +13,9 @@
   "created_at": "2017-03-06T15:48:37Z",
   "github_updated_at": "2026-02-21T10:24:21Z",
   "body_snippet": "<!-- Feature Request -->\r\n## Issue that prompted feature request?\r\nFolders do not allow you to set a Hostname/IP for inheritance.\r\n\r\n### Fix for specified issue:\r\n- Allow folders to configure a Hostname/IP\r\n- Allow for sub-folders/connections underneath the folder to inherit the setting\r\n\r\nI can work on this myself and submit a PR if you would like",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -30,6 +30,12 @@
       "date": "2026-02-15",
       "type": "testing",
       "description": "Fix in 89e823cc"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -101,6 +107,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage: Clear feature request with multiple community votes to allow folders to define a shared Hostname/IP inherited by child connections, useful for multi-port/multi-user scenarios on the same host\nApproach: Enable the Hostname property on folder/container nodes so child connections can inherit it, adding UI support in the config panel to set Hostname on folders and ensuring the inheritance resolver propagates it to children that don't override it"
 }

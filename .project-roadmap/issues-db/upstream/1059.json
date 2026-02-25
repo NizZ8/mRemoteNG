@@ -11,9 +11,9 @@
   "created_at": "2018-08-01T20:23:52Z",
   "github_updated_at": "2023-06-21T20:08:11Z",
   "body_snippet": "This is regarding v1.75.7012.16814\r\n\r\nI'm running mRemoteNG on Windows 10, and my WIndows 10 is setup to use \"High Contrast #2\", which is green on black, and it tries to apply that on every application possible, and in this case that includes mRemoteNG.\r\n\r\nThe problem, is that all tabs (except the selected one) are black, on black, on black, unless I mouse over a tab, or select it.\r\n\r\nNot only that, I'm not seeing a parameter in the Theme section of mRemoteNG to change the colouring for the tab ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (6fbd6d3bc fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -63,6 +69,6 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Accessibility issue where High Contrast system settings are overridden by the application's default styling, making UI elements unreadable.\nApproach: Detect `SystemInformation.HighContrast` on startup and `UserPreferenceChanged`. If active, override the default DockPanel theme (likely VS2015) with a system-compatible theme (e.g., VS2005 or native) that respects OS color settings."
 }

@@ -10,9 +10,9 @@
   "created_at": "2017-06-14T13:59:40Z",
   "github_updated_at": "2018-07-30T00:51:34Z",
   "body_snippet": "<!-- Feature Request -->\r\n\r\nAdd option to \"reconnect when ready\" by default instead of having to manually select for every tab.\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "20260225-v1.81.0-beta.4-NB-(3411)",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (3b8861c02 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in 20260225-v1.81.0-beta.4-NB-(3411)"
     }
   ],
   "comments": [],
@@ -34,7 +40,7 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:06:31Z",
   "notes": "AI triage: The issue title suggests a 'reconnect when ready' default option but the body is empty with no details on expected behavior, which protocols it applies to, or what 'ready' means in this context.\nApproach: Need clarification from reporter on: which protocols (RDP/SSH/all), what triggers 'ready' detection, and whether this means auto-reconnect after disconnect or initial connect retry.",
   "impl_failed": true
 }

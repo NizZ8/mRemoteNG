@@ -10,9 +10,9 @@
   "created_at": "2017-10-28T16:42:39Z",
   "github_updated_at": "2026-02-21T10:24:23Z",
   "body_snippet": "With version 1.75.7008.17907 on Windows 10, I'm seeing some very funky window selection behaviour. With mRemoteNG selected and on top (whether maximized or not) selecting another window from the taskbar sometimes results in that window being minimized instead of being brought to the front (as if mRemoteNG was not selected). I'm not a Windows expert but I would guess that it's something to do with the way that the application is declaring its focus to the OS.\r\n\r\nIt does not happen all the time, a...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -39,6 +39,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 436b46cf"
+    },
+    {
+      "seq": 5,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -65,6 +71,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (codex): The issue has clear reproduction details and maps directly to existing custom activation/refocus handling where a taskbar focus edge case is plausible.\nApproach: Gate/refine WM_ACTIVATEAPP and foreground-focus calls so mRemoteNG does not steal or confuse taskbar window activation, then regression-test PuTTY and RDP focus behavior.\nAI triage (codex): The issue has a clear repro and matches known focus edge cases in our WinForms message-interception path, so it is actionable as a bug fix.\nApproach: Harden WM_ACTIVATEAPP/WM_ACTIVATE handling to prevent unintended refocus during taskbar app switches, then verify with integrated PuTTY and non-PuTTY tabs.\nAI triage (codex): The issue has a concrete repro and matches known focus/refocus edge cases in main-window message interception, so it is actionable as a bug fix.\nApproach: Tighten WndProc refocus gating so ActivateConnection runs only on true app reactivation and not during taskbar-driven window switches/minimize flows."
 }

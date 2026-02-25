@@ -12,9 +12,9 @@
   "created_at": "2022-10-05T15:20:59Z",
   "github_updated_at": "2026-02-23T18:36:18Z",
   "body_snippet": "Sorry for the twisted title but this is essentially what I am trying to say:\r\n\r\nThere are 2x full screen mode in mRemoteNG\r\n\r\n-F11 = no problem and straight forward\r\n\r\n-right click on open rdp session tab and select full screen\r\n\r\nThis latter is in my opinion not behaving as expected. Essentially it goes in full screen but without reconnecting (hence renegotiating the maximum resolution). I would have expected the Full screen toggle for rdp to always trigger an rdp re-connection. Unless there's ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -35,6 +35,12 @@
         "cost_usd": 0.715665,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -61,6 +67,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T21:10:02Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The RDP client's `FullScreen` property should automatically handle resolution when entering full screen. Explicitly setting `DesktopWidth` and `DesktopHeight` when `FullScreen` is true might cause conflicts or incorrect scaling, leading to the reported issue.\nApproach: Remove the explicit assignment of `_rdpClient.DesktopWidth` and `_rdpClient.DesktopHeight` within the `SetResolution()` method of `RdpProtocol.cs` when `_rdpClient.FullScreen` is set to true."
 }

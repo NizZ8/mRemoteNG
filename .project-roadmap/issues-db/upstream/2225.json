@@ -11,9 +11,9 @@
   "created_at": "2022-05-17T15:39:09Z",
   "github_updated_at": "2026-02-23T12:57:59Z",
   "body_snippet": "Beside the requirement that when something is changed in the sql-backend options a restart has to be done. It is also required that none of the configurations might be changed after the read-only flag is set in the options. \r\n\r\nIt turned out that a user in a shared jump server had changed some connection configuration data and the tool did save them in the normal .xml file in a faulty way. To prevent such attractions it is needed to lock the complete connection configuration when the read-only f...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-23",
       "type": "testing",
       "description": "Fix in 67fad47b"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -54,6 +60,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T15:29:08Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The 'Readonly' setting for the SQL backend is not preventing modification operations in the UI, leading to a confusing user experience where unsaved changes are allowed.\nApproach: Modify 'ConnectionTree.cs' to check 'Properties.OptionsDBsPage.Default.SQLReadOnly' before allowing modification operations (add, delete, rename, duplicate, create link). Also, update 'ConnectionContextMenu.cs' to disable relevant menu items when in readonly mode."
 }

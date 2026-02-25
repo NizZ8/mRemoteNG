@@ -10,9 +10,9 @@
   "created_at": "2020-12-16T12:50:19Z",
   "github_updated_at": "2026-02-21T10:23:50Z",
   "body_snippet": "This Tool is sent from Heaven.\r\nMy Productivity increased greatly, but I’d like to ask for an additional Feature:\r\n\r\nSaving the IP in a Field „IP“.\r\nSaving the Hostname in a Field „Hostname“\r\nAnd a Way to set the Primary.\r\n\r\n\r\nReally fantastic would be a Check if they match at the Moment of the Connection Attempt.\r\n\r\n\r\nReason:\r\nWe have a lot of Machines scattered around different Customers and sometimes the Hostname won’t resolve, but the Hostname would be really useful.\r\nAt the Moment I put it ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
         "cost_usd": 2.328475,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -77,7 +83,7 @@
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The issue requests separate storage for hostname and IP addresses, which is an enhancement to provide more granular control and clarity in connection definitions.\nApproach: Introduce new properties (e.g., 'IPAddress' and a flag/enum for connection type) in AbstractConnectionRecord. Modify the existing 'Hostname' property to support the new structure. Update the XML serialization/deserialization logic in XmlConnectionNodeSerializer28 for backward compatibility. Finally, update the connection property editor UI (likely FrmConnection.cs) to expose these new fields for user input.",
   "token_usage": {
     "input_tokens": 27,

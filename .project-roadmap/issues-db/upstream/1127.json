@@ -12,9 +12,9 @@
   "created_at": "2018-10-09T22:17:56Z",
   "github_updated_at": "2026-02-21T10:23:43Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nIf you have multiple panels open, due to having connections in multiple panels, middle-clicking any one panel, to close it, closes all open panels.\r\n\r\nThis bug is a regression introduced in the latest release, v.1.76.x....  The previous release did not have have this issue.\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nOnly the middle-clicked panel should be the one closed.\r\n<!--- If...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": null,
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -29,6 +29,12 @@
         "cost_usd": 0.135679,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -55,6 +61,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": ""
 }

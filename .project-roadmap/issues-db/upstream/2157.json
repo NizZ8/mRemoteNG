@@ -13,9 +13,9 @@
   "created_at": "2022-02-03T10:13:22Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "If the PC is put into Sleep or Hibernation, when resuming and switching to mRemoteNG it attempts to reconnect to the host which it was connected to at the time of Sleep/Hibernate.  Once reconnected, the window size of the remote host is much smaller than it should be.  Signing out of the host & connecting again sorts out the issue.\r\n\r\n## Expected Behavior\r\nReconnecting should result in a regular window size.\r\n\r\n## Current Behavior\r\nReconnecting results in a much smaller window size.\r\n\r\n## Steps ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -30,6 +30,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (0b21ff254 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -65,6 +71,6 @@
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Auto-reconnect does not preserve the previous window size, leading to an inconsistent user experience.\nApproach: Investigate how 'LockWindowSize' interacts with connection window sizing during auto-reconnect. Trace how window dimensions are stored for connections and ensure the correct size is applied when re-establishing a connection, respecting user preferences."
 }

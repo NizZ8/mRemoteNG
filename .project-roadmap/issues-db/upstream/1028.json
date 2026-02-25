@@ -11,9 +11,9 @@
   "created_at": "2018-07-19T13:18:13Z",
   "github_updated_at": "2026-02-21T10:22:59Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n\r\nI expect to connect to the machine via RDP without entering credentials.\r\n\r\n## Current Behavior\r\n\r\nFor some machines, when I attempt to connect to an RDP server, I get the message **\"server's authentication policy does not allow connection requests using saved credentials\"**  and I must type in the password to connect.  However, when I use the built-in Windows RDP client, I don't get the same message. ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": null,
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -22,6 +22,12 @@
       "date": "2026-02-19",
       "type": "testing",
       "description": "Already committed (dedup)"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -48,6 +54,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": ""
 }

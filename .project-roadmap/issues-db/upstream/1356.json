@@ -10,9 +10,9 @@
   "created_at": "2019-03-16T21:24:18Z",
   "github_updated_at": "2020-06-13T09:53:35Z",
   "body_snippet": "too aggressive tabs trimming on 4K screen\r\n\r\n## Expected Behavior (like on HD (1366x768))\r\nshow reasonably wide tab to display the most of name\r\n![Screenshot_1](https://user-images.githubusercontent.com/20931163/54481783-b763ef80-480f-11e9-8051-280345994fad.png)\r\n\r\n\r\n## Current Behavior (on 4K (UHD))\r\nfresh version: tabs are too tiny, + tab's icons are not scaled\r\n![Screenshot_4](https://user-images.githubusercontent.com/20931163/54481785-be8afd80-480f-11e9-9ff3-5ce31da78f1c.png)\r\n\r\n(as example:...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (fc40af79c fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -44,6 +50,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Hardcoded pixel constants in DockPaneStripNG.cs (tab max width 200px, icon sizes 16px, gaps) are not DPI-scaled, causing tabs to be too narrow and icons too small on 4K/highDPI screens.\nApproach: Scale the hardcoded tab dimension constants (_DocumentTabMaxWidth, _DocumentIconWidth, _DocumentIconHeight, various gap values) by the current DPI scale factor using DeviceDpi/96f or AutoScaleFactor, so tabs render proportionally on highDPI displays."
 }

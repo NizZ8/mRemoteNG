@@ -10,9 +10,9 @@
   "created_at": "2017-05-10T10:39:41Z",
   "github_updated_at": "2026-02-24T09:26:18Z",
   "body_snippet": "Hi,\r\n\r\nAfter playing around with the SQL settings i've managed to accidentally overwrite my whole database with a old connections file.\r\n\r\nmRemoteNG failed to connect to the database so gave me the option of either using a connections file, or quitting the program. After choosing a connections file that I haven't used in a few months just so i can actually edit the SQL settings it it loaded into the application, I changed the SQL settings and BOOM, the whole database was overridden.\r\n\r\nCould the...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (4f16ec3a6 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -44,6 +50,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage: Issue has no body or description explaining what 'another option when SQL fails to connect' means - unclear what behavior is requested or what the current problem is\nApproach: Need reporter to clarify: what option they want (fallback to local XML, retry prompt, silent continue, etc.) and what currently happens when SQL connection fails"
 }

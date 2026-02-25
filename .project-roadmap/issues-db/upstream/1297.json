@@ -11,9 +11,9 @@
   "created_at": "2019-02-02T12:24:33Z",
   "github_updated_at": "2024-10-29T08:06:17Z",
   "body_snippet": "Hi! External Tool (winbox in my case) opens behind mRemoteNG window when I double click on Connection. But when I right click on Connection and chose External Tool submenu and click on externel tool (winbox) - it opens on top of the mRemoteNG window as it should. The Connection Protocol is set to External Tool / Winbox in Connection properties. \r\n\r\n## Expected Behavior\r\nExternal Tool should open on top of mRemoteNG window when I double click on Connection.\r\n\r\n## Current Behavior\r\nExternal Tool (...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -28,6 +28,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (bfdd54011 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -81,6 +87,6 @@
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): External tools launched via Process.Start do not consistently take focus; explicitly setting the foreground window resolves this.\nApproach: Modify StartExternalProcess in ExternalTool.cs to asynchronously poll for the new process's MainWindowHandle and call SetForegroundWindow."
 }

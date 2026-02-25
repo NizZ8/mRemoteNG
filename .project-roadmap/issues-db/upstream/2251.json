@@ -10,9 +10,9 @@
   "created_at": "2022-06-22T12:08:34Z",
   "github_updated_at": "2026-02-23T14:49:16Z",
   "body_snippet": "How to have mRemoteNG use KiTTY instead of PuTTY ?\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: 1.76.20.24615\r\n* Operating System and version : Windows 10 Pro v1903\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -27,6 +27,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (d2e95294d fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -80,6 +86,6 @@
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The user is requesting support for KiTTY, a fork of PuTTY, which would enhance mRemoteNG's functionality by providing an alternative terminal client. This is a new feature.\nApproach: Investigate KiTTY's command-line arguments and registry structure for session management. Implement a dedicated KiTTY session manager or extend the existing PuTTY session manager to support KiTTY. Create a new 'KittyBase' class (potentially inheriting from a refactored 'TerminalBase' or 'PuttyBase') to handle KiTTY-specific protocol interactions. Update UI components to allow selection and configuration of KiTTY, including a custom path setting in the Advanced Options. Ensure appropriate detection logic for KiTTY versions and provide new unit tests for KiTTY integration."
 }

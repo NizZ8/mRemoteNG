@@ -10,9 +10,9 @@
   "created_at": "2017-10-10T23:29:52Z",
   "github_updated_at": "2026-02-20T14:00:53Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\nI am trying to integrate [WSLTTY](https://github.com/mintty/wsltty) however it pops up in a new window. It would be great if you can help fix this (its an opensource project)\r\n\r\nI opened an issue with them as well but I doubt that they wil...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
       "date": "2026-02-16",
       "type": "testing",
       "description": "Fix in 5b44919a"
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [],
@@ -40,6 +46,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T06:14:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): Current WSL support uses standard wsl.exe; unclear if user requires wsltty (mintty) embedding which is historically difficult and handled differently in IntegratedProgram.cs.\nApproach: Ask user for configuration details and if they need tabbed embedding; investigate mintty support in IntegratedProgram.cs.\nAI triage (gemini): IntegratedProgram closes the connection when the launcher process (wsltty) exits, even if the actual terminal window (mintty) is still running.\nApproach: Update IntegratedProgram to track the process owning the captured window. If it differs from the launched process, monitor the window-owning process for exit."
 }

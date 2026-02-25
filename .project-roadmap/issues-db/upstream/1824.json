@@ -11,9 +11,9 @@
   "created_at": "2020-07-23T13:29:55Z",
   "github_updated_at": "2026-02-24T02:22:03Z",
   "body_snippet": "Hi,\r\n\r\nI am using mRemote 1.77.0.41252 to easily access my various servers. There are times I need to copy & paste between mRemote sessions and my local machine but the paste function does not work when I attempt to do that. Is this a set up issue? How do I resolve it?\r\n\r\nThanks\r\nPaul \r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -34,6 +34,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (adb8da0c0 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -69,6 +75,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T13:59:42Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): Issue lacks detail on protocol (RDP/VNC), whether clipboard and drive redirection are enabled in connection settings, and whether the failure is for text or files — RDP file copy requires both RedirectClipboard and RedirectDrives to be enabled.\nApproach: Ask reporter to confirm protocol, enable RedirectClipboard + RedirectDrives in connection properties, and share exact mRemoteNG version; if redirection settings are correctly enabled but copy-paste still fails, investigate RDP session options passed to MSTSCLib ActiveX control."
 }

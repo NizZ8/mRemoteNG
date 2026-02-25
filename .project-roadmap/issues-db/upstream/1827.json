@@ -11,9 +11,9 @@
   "created_at": "2020-08-06T18:48:00Z",
   "github_updated_at": "2026-02-21T10:22:53Z",
   "body_snippet": "Surface Pro X lost connection to monitor. When I regained connection the RDP window was truncated. I closed all tabs and tried to reconnect. Got the following exception:\r\n\r\n```\r\nException Message\r\n\"Object reference not set to an instance of an object.\"\r\n\r\nStack trace\r\n   at WeifenLuo.WinFormsUI.Docking.DockPanel.OnLayout(LayoutEventArgs levent)\r\n   at System.Windows.Forms.Control.PerformLayout(LayoutEventArgs args)\r\n   at System.Windows.Forms.Control.PerformLayout()\r\n   at System.Windows.Forms.C...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -40,6 +40,12 @@
         "cost_usd": 0.95343,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -66,6 +72,6 @@
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (claude): GetScreenById() accesses Screen.AllScreens[i] without bounds-checking after a monitor disconnect shrinks the array, causing IndexOutOfRangeException; fix is a one-line guard plus zeroing _sysMenSubItems in ResetScreenList().\nApproach: In GetScreenById(), add 'if (i >= Screen.AllScreens.Length) continue;' before the return; in ResetScreenList(), call Array.Clear(_sysMenSubItems, 0, _sysMenSubItems.Length) to prevent stale slot matches."
 }

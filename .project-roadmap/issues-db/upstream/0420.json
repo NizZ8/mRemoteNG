@@ -15,9 +15,9 @@
   "created_at": "2017-03-01T08:34:22Z",
   "github_updated_at": "2026-02-20T13:53:37Z",
   "body_snippet": "Hi,\r\n\r\nI'm using mRemote/mRemoteNG for several years. However, for RDP connections I continue using the 2X/Parallels Client. Why? Because it has a \"must have\" option for RDP connections: support for PROXY.\r\n\r\nLet me to explain:\r\n\r\n- In the configuration of the RDP connection, you have a new tab with these values:\r\n\r\n```\r\n[ ] Use proxy server\r\n  ( ) SOCKS4\r\n  ( ) SOCKS4A\r\n  ( ) SOCKS5\r\n  ( ) HTTP 1.1\r\n  Proxy Host:\r\n  Port:\r\n\r\nProxy Authentication ...\r\n```\r\n\r\nThis is relevant when you use one SSH...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -32,6 +32,12 @@
       "date": "2026-02-15",
       "type": "testing",
       "description": "Fix in 266fbd1d"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -796,6 +802,6 @@
   "unread_comments": 84,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T06:14:50Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage: Legitimate feature request for RDP proxy support - a common enterprise need that mRemoteNG currently lacks, and the reporter correctly pointed out this cannot be 'retested' since the feature does not exist yet\nApproach: Add proxy configuration fields (proxy type, host, port, credentials) to ConnectionInfo and expose them in the RDP connection settings UI, then pass proxy settings to the RDP ActiveX control via IMsRdpClientAdvancedSettings properties (ProxyType, ProxyHost, ProxyPort) when establishing connections"
 }

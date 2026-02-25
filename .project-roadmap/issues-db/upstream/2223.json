@@ -10,9 +10,9 @@
   "created_at": "2022-05-09T02:59:06Z",
   "github_updated_at": "2026-02-23T12:40:06Z",
   "body_snippet": "If I use Microsoft's RDP client, in the full-screen mode, I can drag down the blue title bar at the top to exit the full-screen mode. mRemoteNG has a very similarly-looking blue title bar, but dragging down does not work.\r\n\r\n## Expected Behavior\r\nDragging down the blue title bar exits the full-screen mode. MS's RDP client behaves that way, and in many of today's windowing system I have tried (Windows, Gnome, XFCE, etc), if a window is \"maximised\" and I drag down the title bar, the window becomes...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
-  "target_release": null,
+  "target_release": "v1.81.0-beta.3",
   "our_branch": null,
   "our_pr": null,
   "iterations": [
@@ -33,6 +33,12 @@
         "cost_usd": 0.672039,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "released",
+      "description": "Included in v1.81.0-beta.3"
     }
   ],
   "comments": [
@@ -68,6 +74,6 @@
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-23T15:29:08Z",
+  "last_synced": "2026-02-25T14:05:39Z",
   "notes": "AI triage (gemini): The custom full-screen toolbar does not implement dragging to exit full-screen mode, which deviates from standard Windows UI behavior for restoring maximized windows by dragging their title bar.\nApproach: Implement custom drag logic (mouse down, mouse move, mouse up event handlers or WndPoc override) for the FullscreenToolbar to detect dragging, call FullscreenHandler.Value = false to exit full-screen, and reposition the main form accordingly."
 }
