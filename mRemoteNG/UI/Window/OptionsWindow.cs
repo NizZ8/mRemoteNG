@@ -29,6 +29,7 @@ namespace mRemoteNG.UI.Window
             DockPnl = panel;
             InitializeComponent();
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.Settings_16x);
+            DoubleBuffered = true;
         }
 
         #endregion
@@ -39,12 +40,11 @@ namespace mRemoteNG.UI.Window
         {
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] START - IsInitialized: {_isInitialized}, Visible: {this.Visible}");
 
-            // On reopen of a previously initialized window, just ensure the embedded form is visible
+            // On reopen of a previously initialized window, nothing to do — 
+            // FrmOptions is a child control and auto-shows with its parent
             if (_isInitialized && _optionsForm != null && !_optionsForm.IsDisposed)
             {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] Reopen - fast path");
-                if (!_optionsForm.Visible)
-                    _optionsForm.Visible = true;
+                Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] Reopen - fast path (no-op)");
                 return;
             }
 
@@ -192,14 +192,8 @@ namespace mRemoteNG.UI.Window
             Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] START - Visible: {Visible}, OptionsForm: {(_optionsForm != null ? "EXISTS" : "NULL")}");
 
             base.OnVisibleChanged(e);
-
-            // When the window becomes visible, ensure the embedded form is also shown
-            // Use Visible property directly instead of Show() to avoid re-firing Load events
-            if (Visible && _optionsForm != null && !_optionsForm.IsDisposed && !_optionsForm.Visible)
-            {
-                Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] Window visible but OptionsForm hidden - setting Visible=true");
-                _optionsForm.Visible = true;
-            }
+            // FrmOptions is a child control — it becomes visible/hidden automatically
+            // with OptionsWindow. No explicit visibility change needed.
 
             Logger.Instance.Log?.Debug($"[OptionsWindow.OnVisibleChanged] END");
         }

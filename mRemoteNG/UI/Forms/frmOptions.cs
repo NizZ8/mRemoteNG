@@ -38,6 +38,7 @@ namespace mRemoteNG.UI.Forms
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.Settings_16x);
             _pageName = pageName;
             Cursor.Current = Cursors.Default;
+            DoubleBuffered = true;
 
             _optionPageObjectNames =
             [
@@ -277,6 +278,13 @@ namespace mRemoteNG.UI.Forms
                 return;
             }
 
+            // Skip if the requested page is already selected (avoid redundant layout work)
+            if (lstOptionPages.SelectedItem?.Text == _pageName)
+            {
+                Logger.Instance.Log?.Debug($"[SetActivatedPage] Page '{_pageName}' already selected - skipping");
+                return;
+            }
+
             bool isSet = false;
             for (int i = 0; i < lstOptionPages.Items.Count; i++)
             {
@@ -335,9 +343,6 @@ namespace mRemoteNG.UI.Forms
             {
                 Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] START - IsLoading: {_isLoading}, SelectedIndex: {lstOptionPages.SelectedIndex}, Items.Count: {lstOptionPages.Items.Count}");
 
-                pnlMain.Controls.Clear();
-                Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] pnlMain.Controls cleared");
-
                 if (lstOptionPages.SelectedObject is OptionsPage page)
                 {
                     Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] SelectedObject: {page.PageName}");
@@ -347,6 +352,17 @@ namespace mRemoteNG.UI.Forms
                     Logger.Instance.Log?.Warn($"[LstOptionPages_SelectedIndexChanged] Page is NULL - cannot display. This may indicate a selection issue.");
                     return;
                 }
+
+                // Skip if this page is already displayed in the panel
+                if (pnlMain.Controls.Count == 1 && pnlMain.Controls[0] == page)
+                {
+                    Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] Page '{page.PageName}' already displayed - skipping");
+                    return;
+                }
+
+                pnlMain.SuspendLayout();
+                pnlMain.Controls.Clear();
+                Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] pnlMain.Controls cleared");
 
                 if (page.IsDisposed)
                 {
@@ -364,6 +380,7 @@ namespace mRemoteNG.UI.Forms
 
                 Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] Adding page '{page.PageName}' to pnlMain");
                 pnlMain.Controls.Add(page);
+                pnlMain.ResumeLayout(true);
                 Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] Page added successfully. pnlMain.Controls.Count: {pnlMain.Controls.Count}");
 
                 Logger.Instance.Log?.Debug($"[LstOptionPages_SelectedIndexChanged] END");
