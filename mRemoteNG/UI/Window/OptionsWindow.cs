@@ -14,6 +14,7 @@ namespace mRemoteNG.UI.Window
     {
         private FrmOptions _optionsForm;
         private bool _isInitialized = false;
+        private bool _isFontOverrideApplied = false;
 
         #region Public Methods
 
@@ -37,9 +38,6 @@ namespace mRemoteNG.UI.Window
         {
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] START - IsInitialized: {_isInitialized}, Visible: {this.Visible}");
 
-            // Apply font override after window is loaded to prevent UI thread blocking
-            FontOverrider.FontOverride(this);
-
             // Only subscribe to ThemeChanged once to prevent multiple subscriptions
             if (!_isInitialized)
             {
@@ -56,6 +54,25 @@ namespace mRemoteNG.UI.Window
             EnsureOptionsFormReady();
 
             Logger.Instance.Log?.Debug($"[OptionsWindow.Options_Load] END");
+        }
+
+        private void Options_Shown(object sender, EventArgs e)
+        {
+            if (_isFontOverrideApplied)
+            {
+                return;
+            }
+
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                if (IsDisposed || _isFontOverrideApplied)
+                {
+                    return;
+                }
+
+                FontOverrider.FontOverride(this);
+                _isFontOverrideApplied = true;
+            }));
         }
 
         private void EnsureOptionsFormReady()
@@ -208,6 +225,7 @@ namespace mRemoteNG.UI.Window
             Text = Language.Options;
             TabText = Language.Options;
             Load += Options_Load;
+            Shown += Options_Shown;
             ResumeLayout(false);
         }
     }

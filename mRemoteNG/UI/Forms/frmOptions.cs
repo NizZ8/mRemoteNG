@@ -24,6 +24,7 @@ namespace mRemoteNG.UI.Forms
         private readonly List<string> _optionPageObjectNames;
         private bool _isLoading = true;
         private bool _isInitialized = false;
+        private bool _isFontOverrideApplied = false;
         private bool _isHandlingSelectionChange = false; // Guard flag to prevent recursive event handling
 
         public FrmOptions() : this(Language.StartupExit)
@@ -75,7 +76,6 @@ namespace mRemoteNG.UI.Forms
 
             Logger.Instance.Log?.Debug($"[FrmOptions_Load] First initialization");
             this.Visible = true;
-            FontOverrider.FontOverride(this);
             SetActivatedPage();
             //ApplyLanguage();
             // Handle the main page here and the individual pages in
@@ -93,6 +93,25 @@ namespace mRemoteNG.UI.Forms
             // Mark as initialized
             _isInitialized = true;
             Logger.Instance.Log?.Debug($"[FrmOptions_Load] END (first initialization complete)");
+        }
+
+        private void FrmOptions_Shown(object sender, EventArgs e)
+        {
+            if (_isFontOverrideApplied)
+            {
+                return;
+            }
+
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                if (IsDisposed || _isFontOverrideApplied)
+                {
+                    return;
+                }
+
+                FontOverrider.FontOverride(this);
+                _isFontOverrideApplied = true;
+            }));
         }
 
         private void ApplyTheme()
