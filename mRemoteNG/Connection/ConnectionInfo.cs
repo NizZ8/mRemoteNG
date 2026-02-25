@@ -72,6 +72,10 @@ namespace mRemoteNG.Connection
         public bool HasDisconnectedSessions =>
             OpenConnections.Count > 0 && OpenConnections.Cast<ProtocolBase>().Any(p => p.IsSessionDisconnected);
 
+        [Browsable(false)]
+        public bool HasActiveSessions =>
+            OpenConnections.Count > 0 && OpenConnections.Cast<ProtocolBase>().Any(p => !p.IsSessionDisconnected);
+
         [Browsable(false)] public virtual bool IsContainer { get; set; }
 
         [Browsable(false)] public bool IsDefault { get; set; }
@@ -226,7 +230,7 @@ namespace mRemoteNG.Connection
                 "Parent", "Name", "Hostname", "Port", "Inheritance", "OpenConnections",
                 "IsContainer", "IsDefault", "PositionID", "ConstantID", "TreeNode", "IsQuickConnect", "PleaseConnect",
                 "IncludeInMultiSsh", "ExcludeFromMultiSsh", "MultiSshScript", "LinkedConnectionId", "IsLinkedConnection",
-                "User", "Role", "IsRoot", "HasDisconnectedSessions", "HostReachabilityStatus",
+                "User", "Role", "IsRoot", "HasDisconnectedSessions", "HasActiveSessions", "HostReachabilityStatus",
                 "CredentialId"
             };
 

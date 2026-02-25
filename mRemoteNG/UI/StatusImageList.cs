@@ -66,7 +66,7 @@ namespace mRemoteNG.UI
                 return DefaultConnectionIcon;
             }
 
-            bool connected = connection.OpenConnections.Count > 0;
+            bool connected = connection.HasActiveSessions;
             bool isTemplate = connection.IsTemplate;
             bool replaceIcon = connected && Properties.OptionsAppearancePage.Default.ReplaceIconOnConnect;
             string name = isTemplate
