@@ -436,6 +436,13 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             ContainerInfo? parent = selectedContainer ?? parentNode.Parent;
             if (parent == null) return;
             newNode.SetParent(parent);
+            // Default the new node's Panel to the parent folder's Panel (#1982)
+            if (!newNode.Inheritance.Panel)
+            {
+                string parentPanel = parent.Panel;
+                if (!string.IsNullOrEmpty(parentPanel))
+                    newNode.Panel = parentPanel;
+            }
             Expand(parent);
             SelectObject(newNode, true);
             EnsureModelVisible(newNode);
