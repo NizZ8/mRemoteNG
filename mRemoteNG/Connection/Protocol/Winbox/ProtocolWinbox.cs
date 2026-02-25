@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Management;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Windows.Forms;
@@ -102,6 +104,13 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                     _handle = FindWindowByProcessId(processId, timeoutMs);
                 }
 
+                // Strategy 3: Check child processes. WinBox may spawn a child process (e.g. for updates
+                // or when using a single-instance wrapper) and the actual window belongs to the child.
+                if (_handle == IntPtr.Zero)
+                {
+                    _handle = FindWindowInChildProcesses(processId, timeoutMs);
+                }
+
                 if (_handle == IntPtr.Zero)
                 {
                     Runtime.MessageCollector?.AddMessage(MessageClass.WarningMsg,
@@ -109,10 +118,33 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                         "The application may have opened in a separate window or failed to start.");
                     return false;
                 }
-                
+
+                // If the window's actual owner process differs from the launched process (e.g. single-instance
+                // WinBox forwarded args to an existing instance), track the correct process.
+                NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
+                if (windowPid != (uint)processId)
+                {
+                    try
+                    {
+                        Process windowProcess = Process.GetProcessById((int)windowPid);
+                        _process.Exited -= ProcessExited;
+                        _process = windowProcess;
+                        _process.EnableRaisingEvents = true;
+                        _process.Exited += ProcessExited;
+                    }
+                    catch (Exception ex)
+                    {
+                        Runtime.MessageCollector?.AddExceptionMessage("Winbox: Failed to attach to window owner process.", ex);
+                    }
+                }
+
                 // Reparent the window
                 NativeMethods.SetParent(_handle, InterfaceControl.Handle);
-                
+
+                // Give keyboard focus to the embedded window after re-parenting.
+                // Required to trigger a proper repaint — without this, WinBox renders as a gray window.
+                NativeMethods.SetFocus(_handle);
+
                 // Notify user
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.IntAppStuff, true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
@@ -298,6 +330,60 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                     Thread.Sleep(50);
             }
             return found;
+        }
+
+        /// <summary>
+        /// Searches for visible windows belonging to child processes of the given parent PID.
+        /// WinBox may use a single-instance model where the launcher exits and passes the window
+        /// to a pre-existing instance, or spawn a child process for updates.
+        /// </summary>
+        private static IntPtr FindWindowInChildProcesses(int parentProcessId, int timeoutMs)
+        {
+            IntPtr found = IntPtr.Zero;
+            int startTicks = Environment.TickCount;
+            while (found == IntPtr.Zero &&
+                   Environment.TickCount < startTicks + timeoutMs)
+            {
+                List<int> childPids = GetChildProcessIds(parentProcessId);
+                foreach (int childPid in childPids)
+                {
+                    NativeMethods.EnumWindows((hWnd, _) =>
+                    {
+                        NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
+                        if (windowPid == (uint)childPid && NativeMethods.IsWindowVisible(hWnd))
+                        {
+                            found = hWnd;
+                            return false;
+                        }
+                        return true;
+                    }, IntPtr.Zero);
+
+                    if (found != IntPtr.Zero) break;
+                }
+
+                if (found == IntPtr.Zero)
+                    Thread.Sleep(100);
+            }
+            return found;
+        }
+
+        private static List<int> GetChildProcessIds(int parentPid)
+        {
+            List<int> children = [];
+            try
+            {
+                using var searcher = new ManagementObjectSearcher(
+                    $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    children.Add(Convert.ToInt32(obj["ProcessId"]));
+                }
+            }
+            catch
+            {
+                // WMI query can fail if access is denied or service unavailable — not critical
+            }
+            return children;
         }
 
         #endregion
