@@ -4124,7 +4124,16 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("PasswordLengthConstraintHint", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Password length must be at least {0}.
+        /// </summary>
+        internal static string PasswordMinimumLengthConstraintHint {
+            get {
+                return ResourceManager.GetString("PasswordMinimumLengthConstraintHint", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Password protect.
         /// </summary>
