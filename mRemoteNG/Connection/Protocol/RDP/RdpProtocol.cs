@@ -979,6 +979,17 @@ namespace mRemoteNG.Connection.Protocol.RDP
                         Event_ErrorOccured(this, "Secret Server Interface Error: " + ex.Message, 0);
                     }
                 }
+                else if (InterfaceControl.Info.ExternalCredentialProvider == ExternalCredentialProvider.LAPS)
+                {
+                    try
+                    {
+                        ExternalConnectors.LAPS.LAPSHelper.QueryLAPSPassword(connectionInfo.Hostname, out userName, out password, out domain);
+                    }
+                    catch (ExternalConnectors.LAPS.LAPSException ex)
+                    {
+                        Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.ECPLAPSQueryFailed + Environment.NewLine + ex.Message);
+                    }
+                }
 
                 // If the username contains a backslash-separated domain prefix (e.g. AzureAD\user@domain.com)
                 // and no explicit domain is configured, extract the prefix as the domain so the RDP

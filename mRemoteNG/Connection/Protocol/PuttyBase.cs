@@ -656,6 +656,17 @@ namespace mRemoteNG.Connection.Protocol
                                 Event_ErrorOccured(this, "Secret Server Interface Error: " + ex.Message, 0);
                             }
                         }
+                        else if (InterfaceControl.Info?.ExternalCredentialProvider == ExternalCredentialProvider.LAPS)
+                        {
+                            try
+                            {
+                                ExternalConnectors.LAPS.LAPSHelper.QueryLAPSPassword(InterfaceControl.Info?.Hostname ?? "", out username, out password, out _);
+                            }
+                            catch (ExternalConnectors.LAPS.LAPSException ex)
+                            {
+                                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.ECPLAPSQueryFailed + Environment.NewLine + ex.Message);
+                            }
+                        }
 
                         if (string.IsNullOrEmpty(username))
                         {
