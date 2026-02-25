@@ -51,6 +51,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkLockPanels.Text = "Lock panels";
             chkDoNotRestoreOnRdpMinimize.Text = Language.DoNotRestoreOnRdpMinimize;
             chkAutoClosePanelOnLastTabClose.Text = "Auto close panel after closing the last tab";
+            chkMinimizePanelsOnConnect.Text = "Auto-hide Connections/Config panels when a connection opens";
             chkUseCustomConnectionTabColor.Text = "Use custom connection tab color";
             chkUseCustomConnectionTabFont.Text = "Use custom connection tab font";
             btnSelectConnectionTabColor.Text = "Select...";
@@ -85,6 +86,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkLockPanels.Checked = Properties.OptionsTabsPanelsPage.Default.LockPanels;
             chkDoNotRestoreOnRdpMinimize.Checked = Properties.OptionsTabsPanelsPage.Default.DoNotRestoreOnRdpMinimize;
             chkAutoClosePanelOnLastTabClose.Checked = Properties.OptionsTabsPanelsPage.Default.AutoClosePanelOnLastTabClose;
+            chkMinimizePanelsOnConnect.Checked = Properties.OptionsTabsPanelsPage.Default.MinimizePanelsOnConnect;
             txtBoxPanelName.Text = Properties.OptionsTabsPanelsPage.Default.StartUpPanelName;
             nudSplitterSize.Value = Properties.OptionsTabsPanelsPage.Default.SplitterSize;
 

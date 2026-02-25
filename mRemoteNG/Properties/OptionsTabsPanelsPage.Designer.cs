@@ -322,5 +322,17 @@ namespace mRemoteNG.Properties {
                 this["ConnectionTabColor"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MinimizePanelsOnConnect {
+            get {
+                return ((bool)(this["MinimizePanelsOnConnect"]));
+            }
+            set {
+                this["MinimizePanelsOnConnect"] = value;
+            }
+        }
     }
 }
