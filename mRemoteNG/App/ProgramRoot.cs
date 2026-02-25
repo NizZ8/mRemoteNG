@@ -151,11 +151,24 @@ namespace mRemoteNG.App
         {
             try
             {
-                string assemblyName = new AssemblyName(args.Name).Name ?? string.Empty;
-                if (assemblyName.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
-                    return null;
+                AssemblyName asmName = new(args.Name);
+                string name = asmName.Name ?? string.Empty;
 
-                string assemblyFile = assemblyName + ".dll";
+                if (name.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Satellite assemblies: probe Languages/{culture}/
+                    string? culture = asmName.CultureName;
+                    if (!string.IsNullOrEmpty(culture))
+                    {
+                        string satPath = Path.Combine(customResourcePath, culture, name + ".dll");
+                        if (File.Exists(satPath))
+                            return Assembly.LoadFrom(satPath);
+                    }
+                    return null;
+                }
+
+                // Non-resource assemblies: probe Assemblies/ subfolder
+                string assemblyFile = name + ".dll";
                 string assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assemblies", assemblyFile);
 
                 if (File.Exists(assemblyPath))
