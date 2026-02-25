@@ -11,34 +11,48 @@ RESULTS_BASE="/tmp/mremoteng-testresults"
 PARALLEL_DIR="/tmp/mremoteng-parallel-$$"
 MAX_PARALLEL=2
 
-# Test groups (same proven 9 groups from v4)
-declare -a GROUP_NAMES=(
-    "Connection"
-    "Config.Xml"
-    "Config.Other"
-    "UI"
-    "Tools"
-    "Security"
-    "Tree+Container+Cred"
-    "Remaining"
-    "Integration"
-)
-declare -a GROUP_FILTERS=(
-    'FullyQualifiedName~mRemoteNGTests.Connection'
-    'FullyQualifiedName~mRemoteNGTests.Config.Serializers.ConnectionSerializers.Xml'
-    'FullyQualifiedName~mRemoteNGTests.Config&FullyQualifiedName!~Serializers.ConnectionSerializers.Xml'
-    'FullyQualifiedName~mRemoteNGTests.UI&FullyQualifiedName!~OptionsFormTests&FullyQualifiedName!~AllOptionsPagesTests'
-    'FullyQualifiedName~mRemoteNGTests.Tools'
-    'FullyQualifiedName~mRemoteNGTests.Security'
-    'FullyQualifiedName~mRemoteNGTests.Tree|FullyQualifiedName~mRemoteNGTests.Container|FullyQualifiedName~mRemoteNGTests.Credential'
-    'FullyQualifiedName!~mRemoteNGTests.Connection&FullyQualifiedName!~mRemoteNGTests.Config&FullyQualifiedName!~mRemoteNGTests.UI&FullyQualifiedName!~mRemoteNGTests.Tools&FullyQualifiedName!~mRemoteNGTests.Security&FullyQualifiedName!~mRemoteNGTests.Tree&FullyQualifiedName!~mRemoteNGTests.Container&FullyQualifiedName!~mRemoteNGTests.Credential&FullyQualifiedName!~mRemoteNGTests.IntegrationTests&FullyQualifiedName!~OptionsFormTests&FullyQualifiedName!~AllOptionsPagesTests'
-    'FullyQualifiedName~mRemoteNGTests.IntegrationTests'
-)
-declare -a GROUP_EXPECTED=(1057 124 557 367 361 166 178 83 21)
+# Read test config from single source of truth (test-config.json)
+CONFIG="$REPO_ROOT/test-config.json"
+if [ ! -f "$CONFIG" ]; then
+    echo "ERROR: test-config.json not found at $CONFIG"
+    exit 2
+fi
 
-# FrmOptions isolated tests (GDI handle leak — must run alone)
-declare -a ISO_NAMES=("FormBehavior" "AllPages")
-declare -a ISO_FILTERS=("Name=FormBehavior" "Name=AllPagesExistWithIconsAndLoadCorrectSettings")
+PYTHON=$(command -v python 2>/dev/null || command -v python3 2>/dev/null)
+if [ -z "$PYTHON" ]; then
+    echo "ERROR: Python not found (needed for test-config.json parsing)"
+    exit 2
+fi
+
+declare -a GROUP_NAMES=()
+declare -a GROUP_FILTERS=()
+declare -a GROUP_EXPECTED=()
+declare -a ISO_NAMES=()
+declare -a ISO_FILTERS=()
+
+_PARSED=$(mktemp)
+"$PYTHON" -c "
+import json, sys, shlex
+cfg = json.load(open(sys.argv[1], encoding='utf-8'))
+runner = cfg['runner']
+print(f'MIN_TOTAL={cfg[\"metadata\"][\"min_total_threshold\"]}')
+for i, g in enumerate(runner['groups']):
+    print(f'GROUP_NAMES[{i}]={shlex.quote(g[\"name\"])}')
+    print(f'GROUP_FILTERS[{i}]={shlex.quote(g[\"filter\"])}')
+    print(f'GROUP_EXPECTED[{i}]={g[\"expected\"]}')
+for i, iso in enumerate(runner.get('isolated', [])):
+    print(f'ISO_NAMES[{i}]={shlex.quote(iso[\"name\"])}')
+    print(f'ISO_FILTERS[{i}]={shlex.quote(iso[\"filter\"])}')
+" "$CONFIG" > "$_PARSED" 2>&1
+
+if [ $? -ne 0 ]; then
+    echo "ERROR: Failed to parse test-config.json:"
+    cat "$_PARSED"
+    rm -f "$_PARSED"
+    exit 2
+fi
+source "$_PARSED"
+rm -f "$_PARSED"
 
 total_passed=0
 total_failed=0
@@ -257,7 +271,7 @@ fi
 
 total_tests=$((total_passed + total_failed))
 overall_elapsed=$(( $(date +%s) - overall_start ))
-MIN_TOTAL=2800
+# MIN_TOTAL loaded from test-config.json above
 
 echo ""
 echo "========== RESULTS =========="
