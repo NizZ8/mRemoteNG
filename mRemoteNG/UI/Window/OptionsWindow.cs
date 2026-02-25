@@ -124,6 +124,17 @@ namespace mRemoteNG.UI.Window
         }
 
         /// <summary>
+        /// Reloads all option-page controls from the stored (on-disk) settings.
+        /// Call this before making the panel visible so that any stale edits from a
+        /// previous session (e.g. after a Tab-X hide) are discarded.
+        /// Safe to call before first initialization — no-op when _optionsForm is null.
+        /// </summary>
+        internal void RefreshSettings()
+        {
+            _optionsForm?.ReloadAllSettings();
+        }
+
+        /// <summary>
         /// Handles the case where OptionsWindow is closed explicitly (e.g. from code
         /// calling Close(), or DPS's CloseContent which fires FormClosing before hiding).
         /// Checks for unsaved changes in the embedded FrmOptions.

@@ -398,7 +398,7 @@ namespace mRemoteNG.UI.Forms
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             Logger.Instance.Log?.Debug($"[BtnCancel_Click] START");
-            ClearChangeFlags();
+            ReloadAllSettings();
             CloseRequested?.Invoke(this, EventArgs.Empty);
             Logger.Instance.Log?.Debug($"[BtnCancel_Click] END");
         }
@@ -418,9 +418,30 @@ namespace mRemoteNG.UI.Forms
         }
 
         /// <summary>
-        /// Discards any pending change flags without saving.
+        /// Reloads all pages from the stored settings, discarding any pending control edits.
+        /// Call this on Cancel or any close path that should not persist changes.
         /// </summary>
-        internal void DiscardChanges() => ClearChangeFlags();
+        internal void ReloadAllSettings()
+        {
+            // Suppress HasChanges tracking while we programmatically restore control values
+            var wasLoading = _isLoading;
+            _isLoading = true;
+            try
+            {
+                foreach (OptionsPage page in _optionPages)
+                    page.LoadSettings();
+            }
+            finally
+            {
+                _isLoading = wasLoading;
+            }
+            ClearChangeFlags();
+        }
+
+        /// <summary>
+        /// Discards any pending change flags and reloads control values from stored settings.
+        /// </summary>
+        internal void DiscardChanges() => ReloadAllSettings();
 
         private void TrackChangesInControls(Control control)
         {
