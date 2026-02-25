@@ -46,7 +46,6 @@ namespace mRemoteNG.App
             CommandLineParser commandLineParser = new(args);
             commandLineParser.ApplySwitches();
             args = commandLineParser.GetNormalizedArguments();
-            Startup.Instance.CommandLineArgs = args;
 
 #if !SELF_CONTAINED
             // Runtime checks only needed for framework-dependent deployments
@@ -131,7 +130,7 @@ namespace mRemoteNG.App
             if (singleInstance)
                 StartApplicationAsSingleInstance(args);
             else
-                StartApplication();
+                StartApplication(args);
 
             return Task.CompletedTask;
         }
@@ -163,7 +162,7 @@ namespace mRemoteNG.App
             LocalDBManager settingsManager = new LocalDBManager(dbPath: "mRemoteNG.appSettings", useEncryption: false, schemaFilePath: "");
         }
 
-        private static void StartApplication()
+        private static void StartApplication(string[]? args = null)
         {
             CatchAllUnhandledExceptions();
 
@@ -174,6 +173,10 @@ namespace mRemoteNG.App
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Pass command-line args to Startup AFTER Application.Set* calls
+            // to avoid premature Control/handle creation (fix fork#19)
+            Startup.Instance.CommandLineArgs = args;
 
             ShowSplashOnStaThread();
 
@@ -195,7 +198,7 @@ namespace mRemoteNG.App
                 return;
             }
 
-            StartApplication();
+            StartApplication(args);
             GC.KeepAlive(_mutex);
         }
 
