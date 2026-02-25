@@ -833,8 +833,9 @@ namespace mRemoteNG.Connection.Protocol
                 }
 
                 PuttyProcess.StartInfo.Arguments = arguments.ToString();
-                // add additional SSH options, f.e. tunnel or noshell parameters that may be specified for the the connnection
-                if (!string.IsNullOrEmpty(InterfaceControl.Info?.SSHOptions))
+                // add additional SSH options, f.e. tunnel or noshell parameters that may be specified for the connection
+                // Only apply to SSH protocols — SSHOptions must not leak to Telnet/Rlogin/Raw/Serial (#1056)
+                if (PuttyProtocol == Putty_Protocol.ssh && !string.IsNullOrEmpty(InterfaceControl.Info?.SSHOptions))
                 {
                     PuttyProcess.StartInfo.Arguments += " " + InterfaceControl.Info.SSHOptions;
                 }

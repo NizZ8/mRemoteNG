@@ -33,11 +33,15 @@ namespace mRemoteNG.UI.Forms
             lblLicense.Text = Language.ReleasedUnderGPL;
             base.Text = Language.MenuItem_About;
             TabText = Language.MenuItem_About;
-            llChangelog.Text = Language.Changelog;
-            llCredits.Text = Language.Credits;
+            llChangelog.Text = Language.OriginalChangelog;
+            llCredits.Text = Language.OriginalCredits;
             llLicense.Text = Language.License;
             lblCopyright.Text = GeneralAppInfo.Copyright;
             lblVersion.Text = $@"Version {GeneralAppInfo.ApplicationVersion}";
+            lblForkHeader.Text = $@"{Language.ForkHeader} ({GeneralAppInfo.ForkOwner})";
+            llForkGitHub.Text = Language.ForkGitHubPage;
+            llForkReleases.Text = Language.ForkReleases;
+            llForkChangelog.Text = Language.ForkChangelog;
             AddPortableString();
         }
 
@@ -96,6 +100,21 @@ namespace mRemoteNG.UI.Forms
                 OpenUrl("https://raw.githubusercontent.com/mRemoteNG/mRemoteNG/v" + versionString[..^2] + "-" + updateChannel + "/CREDITS.md");
             }
             Close();
+        }
+
+        private void llForkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenUrl(GeneralAppInfo.UrlForkHome);
+        }
+
+        private void llForkReleases_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenUrl(GeneralAppInfo.UrlForkReleases);
+        }
+
+        private void llForkChangelog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenUrl(GeneralAppInfo.UrlForkChangelog);
         }
 
         private static void OpenUrl(string url)

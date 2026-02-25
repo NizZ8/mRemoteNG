@@ -22,7 +22,7 @@ namespace mRemoteNG.App.Info
         public const string PREVIEW_MSI = "preview-update.txt";
         public const string NIGHTLY_MSI = "nightly-update.txt";
 
-        private const string GITHUB_API_URI = "https://api.github.com/repos/mRemoteNG/mRemoteNG/releases/latest";
+        private const string GITHUB_API_URI = "https://api.github.com/repos/robertpopa22/mRemoteNG/releases/latest";
 
         public static Uri GetUpdateChannelInfo()
         {
