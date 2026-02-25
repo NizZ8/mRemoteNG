@@ -34,6 +34,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         private const int CRYPTPROTECT_AUDIT = 0x00000010;
 
         [DllImport("crypt32.dll", CharSet = CharSet.Unicode)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern bool CryptProtectData(
             ref DataBlob dataIn,
             IntPtr description,

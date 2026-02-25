@@ -29,6 +29,9 @@
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <SignAssembly>False</SignAssembly>
     <Title>Multi-Remote Next Generation Connection Manager</Title>
+    <Product>mRemoteNG Connection Manager</Product>
+    <Company>mRemoteNG Open Source Project</Company>
+    <Authors>mRemoteNG Dev Team</Authors>
     <RepositoryUrl>https://github.com/robertpopa22/mRemoteNG.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <StartupObject>mRemoteNG.App.ProgramRoot</StartupObject>
@@ -746,7 +749,7 @@
   <PropertyGroup Condition="'$(SelfContained)' == 'true'">
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
-  <Target Name="PublishAfterBuild" AfterTargets="Build" Condition="'$(Configuration)' == 'Release Self-Contained'">
+  <Target Name="PublishAfterBuild" AfterTargets="Build" Condition="'$(Configuration)' == 'Release Self-Contained' and '$(SkipAutoPublish)' != 'true'">
     <Message Text="Publishing self-contained portable application for $(Platform)..." Importance="high" />
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);NoBuild=true" />
     <PropertyGroup>

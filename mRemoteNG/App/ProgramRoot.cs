@@ -146,7 +146,11 @@ namespace mRemoteNG.App
             return Task.CompletedTask;
         }
 
-        // Assembly resolve handler
+        // Assembly resolve handler — constrained to application directory only.
+        // Only loads assemblies from known subdirectories (Languages/, Assemblies/)
+        // under the application base path to avoid loading from arbitrary locations.
+        private static readonly string _appBaseDir = AppDomain.CurrentDomain.BaseDirectory;
+
         private static Assembly? OnAssemblyResolve(object? sender, ResolveEventArgs args)
         {
             try
@@ -161,7 +165,7 @@ namespace mRemoteNG.App
                     if (!string.IsNullOrEmpty(culture))
                     {
                         string satPath = Path.Combine(customResourcePath, culture, name + ".dll");
-                        if (File.Exists(satPath))
+                        if (File.Exists(satPath) && IsUnderAppBase(satPath))
                             return Assembly.LoadFrom(satPath);
                     }
                     return null;
@@ -169,9 +173,9 @@ namespace mRemoteNG.App
 
                 // Non-resource assemblies: probe Assemblies/ subfolder
                 string assemblyFile = name + ".dll";
-                string assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assemblies", assemblyFile);
+                string assemblyPath = Path.Combine(_appBaseDir, "Assemblies", assemblyFile);
 
-                if (File.Exists(assemblyPath))
+                if (File.Exists(assemblyPath) && IsUnderAppBase(assemblyPath))
                     return Assembly.LoadFrom(assemblyPath);
             }
             catch
@@ -179,6 +183,16 @@ namespace mRemoteNG.App
                 // Suppress resolution exceptions; return null to continue standard probing
             }
             return null;
+        }
+
+        /// <summary>
+        /// Validates that a resolved assembly path is under the application base directory.
+        /// Prevents loading assemblies from arbitrary/untrusted locations.
+        /// </summary>
+        private static bool IsUnderAppBase(string path)
+        {
+            string fullPath = Path.GetFullPath(path);
+            return fullPath.StartsWith(_appBaseDir, StringComparison.OrdinalIgnoreCase);
         }
 
         private static void CheckLockalDB()

@@ -179,11 +179,13 @@ namespace mRemoteNG.App
         internal static extern IntPtr ActivateKeyboardLayout(IntPtr hkl, uint Flags);
 
         /// <summary>
-        /// Synthesizes a keystroke. Used to release stuck modifier keys on the local machine
-        /// after the RDP control consumes their key-up messages (issue #354).
+        /// Synthesizes keyboard input using the modern SendInput API.
+        /// Replaces the legacy keybd_event to reduce AV heuristic false positives.
+        /// Used to release stuck modifier keys after RDP sessions (issue #354).
         /// </summary>
-        [DllImport("user32.dll")]
-        internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        [DllImport("user32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
         #endregion
 
@@ -238,6 +240,31 @@ namespace mRemoteNG.App
         {
             public uint cbSize;
             public uint dwTime;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct INPUT
+        {
+            internal uint type;
+            internal INPUTUNION u;
+            internal const uint INPUT_KEYBOARD = 1;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        internal struct INPUTUNION
+        {
+            [FieldOffset(0)] internal KEYBDINPUT ki;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct KEYBDINPUT
+        {
+            internal ushort wVk;
+            internal ushort wScan;
+            internal uint dwFlags;
+            internal uint time;
+            internal UIntPtr dwExtraInfo;
+            internal const uint KEYEVENTF_KEYUP = 0x0002;
         }
 
         #endregion

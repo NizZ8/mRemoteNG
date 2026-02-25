@@ -1895,21 +1895,40 @@ namespace mRemoteNG.Connection.Protocol.RDP
         /// The RDP ActiveX control can consume modifier key-up messages (sending them to
         /// the remote server instead of the local OS), leaving Ctrl/Alt/Shift stuck in the
         /// pressed state.  Sending KEYEVENTF_KEYUP for a key that is already up is a no-op.
+        /// Uses SendInput (modern API) instead of legacy keybd_event.
         /// </summary>
         private static void ReleaseLocalModifierKeys()
         {
-            const uint KEYEVENTF_KEYUP = 0x0002;
-            const byte VK_SHIFT   = 0x10;
-            const byte VK_CONTROL = 0x11;
-            const byte VK_MENU    = 0x12; // Alt / AltGr
+            const ushort VK_SHIFT   = 0x10;
+            const ushort VK_CONTROL = 0x11;
+            const ushort VK_MENU    = 0x12; // Alt / AltGr
             try
             {
-                NativeMethods.keybd_event(VK_SHIFT,   0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-                NativeMethods.keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-                NativeMethods.keybd_event(VK_MENU,    0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                NativeMethods.INPUT[] inputs =
+                [
+                    MakeKeyUp(VK_SHIFT),
+                    MakeKeyUp(VK_CONTROL),
+                    MakeKeyUp(VK_MENU),
+                ];
+                NativeMethods.SendInput((uint)inputs.Length, inputs,
+                    System.Runtime.InteropServices.Marshal.SizeOf<NativeMethods.INPUT>());
             }
             catch { }
         }
+
+        private static NativeMethods.INPUT MakeKeyUp(ushort vk) => new()
+        {
+            type = NativeMethods.INPUT.INPUT_KEYBOARD,
+            u = new NativeMethods.INPUTUNION
+            {
+                ki = new NativeMethods.KEYBDINPUT
+                {
+                    wVk = vk,
+                    dwFlags = NativeMethods.KEYBDINPUT.KEYEVENTF_KEYUP,
+                    dwExtraInfo = UIntPtr.Zero,
+                }
+            }
+        };
 
         private static void RestoreLocalKeyboardLayout()
         {

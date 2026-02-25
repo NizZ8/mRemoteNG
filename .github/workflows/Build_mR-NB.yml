@@ -221,6 +221,47 @@ jobs:
           Write-Host "Created unsigned ZIP: ${{ steps.version.outputs.zipname }}"
 
       # --------------------------------------------------------
+      # VirusTotal scan (optional — requires VIRUSTOTAL_API_KEY secret)
+      # --------------------------------------------------------
+      - name: (09b) Scan with VirusTotal
+        if: env.VIRUSTOTAL_API_KEY != ''
+        continue-on-error: true
+        shell: pwsh
+        env:
+          VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+        run: |
+          $zipPath = "$Env:GITHUB_WORKSPACE\${{ steps.version.outputs.zipname }}"
+          Write-Host "Uploading $zipPath to VirusTotal..."
+          $headers = @{ "x-apikey" = $env:VIRUSTOTAL_API_KEY }
+          $form = @{ file = Get-Item $zipPath }
+          try {
+            $response = Invoke-RestMethod -Uri "https://www.virustotal.com/api/v3/files" `
+              -Method Post -Headers $headers -Form $form -TimeoutSec 300
+            $analysisId = $response.data.id
+            Write-Host "Analysis submitted: $analysisId"
+            Write-Host "View at: https://www.virustotal.com/gui/file-analysis/$analysisId"
+            # Poll for results (max 5 minutes)
+            $maxWait = 300; $elapsed = 0
+            while ($elapsed -lt $maxWait) {
+              Start-Sleep -Seconds 30; $elapsed += 30
+              $result = Invoke-RestMethod -Uri "https://www.virustotal.com/api/v3/analyses/$analysisId" `
+                -Headers $headers -TimeoutSec 60
+              $status = $result.data.attributes.status
+              if ($status -eq "completed") {
+                $stats = $result.data.attributes.stats
+                Write-Host "VirusTotal results: malicious=$($stats.malicious) suspicious=$($stats.suspicious) undetected=$($stats.undetected) harmless=$($stats.harmless)"
+                if ($stats.malicious -gt 3) {
+                  Write-Warning "HIGH detection count ($($stats.malicious) engines flagged). Review before release."
+                }
+                break
+              }
+              Write-Host "Waiting for analysis... ($elapsed s)"
+            }
+          } catch {
+            Write-Warning "VirusTotal scan failed: $_"
+          }
+
+      # --------------------------------------------------------
       # Upload build artifact (unsigned)
       # --------------------------------------------------------
       - name: (10a) Upload build artifact
