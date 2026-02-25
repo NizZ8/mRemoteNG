@@ -163,35 +163,30 @@ namespace mRemoteNG.UI.Controls
             }
         }
 
-        private bool Exists(HistoryItem searchItem)
-        {
-            if (_comboBox == null) return false;
-            foreach (object item in _comboBox.Items)
-            {
-                if (!(item is HistoryItem))
-                {
-                    continue;
-                }
-
-                HistoryItem historyItem = (HistoryItem)item;
-                if (historyItem.Equals(searchItem))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        private const int MaxHistoryItems = 20;
 
         public void Add(ConnectionInfo connectionInfo)
         {
             try
             {
-                HistoryItem historyItem = new() { ConnectionInfo = connectionInfo};
-                if (!Exists(historyItem))
+                if (_comboBox == null) return;
+                HistoryItem historyItem = new() { ConnectionInfo = connectionInfo };
+
+                // Remove existing entry so the item is promoted to the top (MRU behaviour).
+                for (int i = _comboBox.Items.Count - 1; i >= 0; i--)
                 {
-                    _comboBox?.Items.Insert(0, historyItem);
+                    if (_comboBox.Items[i] is HistoryItem existing && existing.Equals(historyItem))
+                    {
+                        _comboBox.Items.RemoveAt(i);
+                        break;
+                    }
                 }
+
+                _comboBox.Items.Insert(0, historyItem);
+
+                // Trim to the maximum history size.
+                while (_comboBox.Items.Count > MaxHistoryItems)
+                    _comboBox.Items.RemoveAt(_comboBox.Items.Count - 1);
             }
             catch (Exception ex)
             {
