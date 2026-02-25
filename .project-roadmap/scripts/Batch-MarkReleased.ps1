@@ -85,7 +85,7 @@ foreach ($item in $v179) {
         )
         if ($pr -gt 0) { $args += @("-PR", $pr) }
 
-        $output = & powershell.exe @args 2>&1
+        $output = & pwsh @args 2>&1
         if ($LASTEXITCODE -eq 0) {
             Write-Host " OK" -ForegroundColor Green
             $totalSuccess++
@@ -124,7 +124,7 @@ foreach ($item in $v180) {
             "-SkipComment"
         )
 
-        $output = & powershell.exe @args 2>&1
+        $output = & pwsh @args 2>&1
         if ($LASTEXITCODE -eq 0) {
             Write-Host " OK" -ForegroundColor Green
             $totalSuccess++

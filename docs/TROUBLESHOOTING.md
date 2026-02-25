@@ -85,7 +85,7 @@ This error occurs when using `dotnet build`. mRemoteNG requires full MSBuild fro
 
 **Solution:** Use the build script:
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File build.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1
 ```
 
 ### Tests not found or wrong output path

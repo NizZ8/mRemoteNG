@@ -21,7 +21,7 @@ Write-Host "=== mRemoteNG Test Runner v9 ===" -ForegroundColor Cyan
 # Build
 if (-not $NoBuild) {
     Write-Host "[Build] Full build..." -ForegroundColor Yellow
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$repoRoot\build.ps1"
+    & pwsh -NoProfile -ExecutionPolicy Bypass -File "$repoRoot\build.ps1"
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[Build] FAILED" -ForegroundColor Red
         exit 1

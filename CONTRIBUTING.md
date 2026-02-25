@@ -24,7 +24,7 @@ git clone https://github.com/mRemoteNG/mRemoteNG.git
 cd mRemoteNG
 
 # Build using the build script (auto-detects VS installation)
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File build.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1
 ```
 
 The output will be in `mRemoteNG/bin/x64/Release/`.

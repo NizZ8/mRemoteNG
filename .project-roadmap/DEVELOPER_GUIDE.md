@@ -25,19 +25,19 @@ Daca nu exista acest fisier, intreaba user-ul ce plan urmam.
 
 ### Correct build command (PowerShell):
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
 ```
 
 `build.ps1` auto-detects the newest VS installation (VS2026 > VS2022 > etc.). No hardcoded paths.
 
 ### Fast incremental build (skip restore):
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
 ```
 
 ### Self-contained build (embeds .NET runtime):
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -SelfContained
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -SelfContained
 ```
 > **IMPORTANT:** Self-contained uses `-t:Publish` (not just `-p:SelfContained=true`). Output goes to `bin\x64\Release\win-x64-sc\`. The restore MUST include `/p:PublishReadyToRun=true` or publish fails with NETSDK1094. See `.project-roadmap/LESSONS.md` for details.
 
@@ -84,13 +84,13 @@ msbuild mRemoteNGSpecs\mRemoteNGSpecs.csproj -restore -m "-verbosity:minimal" "-
 ### Run tests (PREFERRED — parallel multi-process):
 ```powershell
 # Headless (CI/orchestrator) — 4 parallel processes, ~46s on 24-core:
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless
 
 # Full (all tests including UI):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1"
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1"
 
 # Skip build (use existing binaries) — RECOMMENDED for fast iteration:
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless -NoBuild
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless -NoBuild
 
 # Or use the bash runner directly (fastest, no build):
 bash run-tests-core.sh
@@ -138,7 +138,7 @@ dotnet test "mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll" --results-direct
   - DLL backup/restore for crash protection
 - **mRemoteNGSpecs:** 5/6 passed (FlaUI smoke test crashes testhost — inherent limitation)
 - **RunWithMessagePump pattern**: For ObjectListView/FrmOptions tests, uses `Application.Run(form)` with `Application.ExitThread()` in finally block
-- **Run command:** `bash run-tests-core.sh` or `powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild`
+- **Run command:** `bash run-tests-core.sh` or `pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -NoBuild`
 - **IMPORTANT: Do NOT use `[assembly: Parallelizable]`** in the test project — causes race conditions on shared mutable singletons
 - **CRITICAL: `--verbosity normal` ONLY** — `--verbosity minimal/quiet` crashes testhost on .NET 10
 - **CRITICAL: `--results-directory` outside repo** — TestResults inside repo causes cascading crashes
@@ -402,7 +402,7 @@ See `.project-roadmap/issues-db/README.md` for complete schema, examples, and wo
 
 1. **OBLIGATORIU:** Rulează build înainte de a încheia sesiunea
    ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
+   pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
    ```
 2. Dacă build-ul pică, fix-uiește ÎNAINTE de a raporta progresul
 3. **NU lăsa cod necompilat** la finalul sesiunii — e mai rău decât progres mai lent

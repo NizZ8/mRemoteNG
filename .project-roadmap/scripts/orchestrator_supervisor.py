@@ -945,7 +945,7 @@ class RecoveryEngine:
         log.info("[RECOVERY] FM12: Running test build...")
         try:
             result = subprocess.run(
-                ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                ["pwsh", "-NoProfile", "-ExecutionPolicy", "Bypass",
                  "-File", str(BUILD_SCRIPT), "-NoRestore"],
                 capture_output=True, text=True, timeout=300,
                 cwd=str(REPO_ROOT),

@@ -238,13 +238,13 @@ For a detailed feature list and general usage support, refer to the [Documentati
 ```powershell
 # Requires Visual Studio BuildTools (VS2026 or VS2022) with .NET SDK
 # Full build (~15s on 48-thread Threadripper):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File build.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1
 
 # Fast incremental (~9s, skips restore):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File build.ps1 -NoRestore
+pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -NoRestore
 
 # Self-contained (embeds .NET runtime, ~108-116MB output):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
+pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
 ```
 
 > **Note:** `dotnet build` does **not** work — the project has COM references (MSTSCLib for RDP). `build.ps1` uses full MSBuild via VS BuildTools and auto-detects the newest VS installation.
@@ -266,10 +266,10 @@ MSBuild `-m` parallelizes at project level (3 projects), while Roslyn paralleliz
 bash run-tests-core.sh
 
 # PowerShell wrapper (builds first):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
+pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 
 # Skip build (use existing binaries):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
+pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
 **Current status:** 2,916 tests, 9 groups with sliding-window concurrency (max 2), 0 failures, 0 crashes.

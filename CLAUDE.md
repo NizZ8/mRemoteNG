@@ -24,13 +24,13 @@ If you are running as an automated agent via `claude -p`:
 ### Commands:
 ```powershell
 # Full build (restore + compile):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
 
 # Fast incremental (skip restore):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
 
 # Self-contained (embeds .NET runtime, output: bin\x64\Release\win-x64-sc\):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -SelfContained
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -SelfContained
 ```
 
 `build.ps1` auto-detects VS installation (VS2026 > VS2022). Self-contained uses `-t:Publish` and restore MUST include `/p:PublishReadyToRun=true` (NETSDK1094).
@@ -40,10 +40,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\bui
 ### Run tests (preferred):
 ```powershell
 # Headless (CI/orchestrator):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless
 
 # Skip build (fast iteration):
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless -NoBuild
+pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\run-tests.ps1" -Headless -NoBuild
 
 # Bash runner (fastest, no build):
 bash run-tests-core.sh
