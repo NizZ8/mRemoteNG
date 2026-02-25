@@ -118,6 +118,26 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             base.Dispose(disposing);
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SETFOCUS = 0x0007;
+            if (m.Msg == WM_SETFOCUS)
+            {
+                // Prevent the ListView from auto-scrolling to the focused item when the
+                // control gains focus (issue #1925). Save and restore the scroll position
+                // so that the user's current view is not disturbed.
+                System.Drawing.Point scrollPos = LowLevelScrollPosition;
+                base.WndProc(ref m);
+                System.Drawing.Point newScrollPos = LowLevelScrollPosition;
+                int dx = scrollPos.X - newScrollPos.X;
+                int dy = scrollPos.Y - newScrollPos.Y;
+                if (dx != 0 || dy != 0)
+                    LowLevelScroll(dx, dy);
+                return;
+            }
+            base.WndProc(ref m);
+        }
+
         #region ConnectionTree Setup
 
         private void SetupConnectionTreeView()
