@@ -357,16 +357,25 @@ namespace mRemoteNG.UI.Forms
         private void StartConnectionsRequestedOnStartupFromCommandLine()
         {
             string? startupConnectTo = StartupArgumentsInterpreter.StartupConnectTo;
-            if (string.IsNullOrWhiteSpace(startupConnectTo))
-                return;
+            if (!string.IsNullOrWhiteSpace(startupConnectTo))
+            {
+                RootNodeInfo? rootConnectionNode = Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes
+                    .OfType<RootNodeInfo>()
+                    .FirstOrDefault();
+                if (rootConnectionNode != null)
+                    new CommandLineConnectionOpener(Runtime.ConnectionInitiator, startupConnectTo, "--startup").Execute(rootConnectionNode);
+            }
 
-            RootNodeInfo? rootConnectionNode = Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes
-                .OfType<RootNodeInfo>()
-                .FirstOrDefault();
-            if (rootConnectionNode == null)
-                return;
-
-            new CommandLineConnectionOpener(Runtime.ConnectionInitiator, startupConnectTo, "--startup").Execute(rootConnectionNode);
+            string? quickConnectTo = StartupArgumentsInterpreter.QuickConnectTo;
+            if (!string.IsNullOrWhiteSpace(quickConnectTo))
+            {
+                string protocol = StartupArgumentsInterpreter.QuickConnectProtocol
+                    ?? Properties.Settings.Default.QuickConnectProtocol;
+                ConnectionInfo? connectionInfo = Runtime.ConnectionsService.CreateQuickConnect(
+                    quickConnectTo, Converter.StringToProtocol(protocol));
+                if (connectionInfo != null)
+                    Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);
+            }
         }
 
         private void ApplyLanguage()
@@ -1223,6 +1232,16 @@ namespace mRemoteNG.UI.Forms
             if (!string.IsNullOrEmpty(StartupArgumentsInterpreter.StartupConnectTo))
             {
                 new CommandLineConnectionOpener(Runtime.ConnectionInitiator, StartupArgumentsInterpreter.StartupConnectTo, "--startup").Execute(root);
+            }
+
+            if (!string.IsNullOrEmpty(StartupArgumentsInterpreter.QuickConnectTo))
+            {
+                string protocol = StartupArgumentsInterpreter.QuickConnectProtocol
+                    ?? Properties.Settings.Default.QuickConnectProtocol;
+                ConnectionInfo? connectionInfo = Runtime.ConnectionsService.CreateQuickConnect(
+                    StartupArgumentsInterpreter.QuickConnectTo, Converter.StringToProtocol(protocol));
+                if (connectionInfo != null)
+                    Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);
             }
 
             // Bring window to front

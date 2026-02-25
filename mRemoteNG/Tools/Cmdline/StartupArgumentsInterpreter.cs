@@ -29,10 +29,25 @@ namespace mRemoteNG.Tools.Cmdline
         /// </summary>
         public static string? StartupConnectTo { get; private set; }
 
+        /// <summary>
+        /// Hostname (and optional port) for an ad-hoc quick connect specified via --quickconnect.
+        /// Supports the same formats as the Quick Connect toolbar: "host", "host:port", "user@host:port".
+        /// Opened after the main form has finished startup initialization.
+        /// </summary>
+        public static string? QuickConnectTo { get; private set; }
+
+        /// <summary>
+        /// Protocol to use with --quickconnect (e.g. "RDP", "SSH2", "VNC").
+        /// Defaults to the user's QuickConnectProtocol setting when null.
+        /// </summary>
+        public static string? QuickConnectProtocol { get; private set; }
+
         public static void ResetConnectionArgs()
         {
             ConnectTo = null;
             StartupConnectTo = null;
+            QuickConnectTo = null;
+            QuickConnectProtocol = null;
         }
 
         public StartupArgumentsInterpreter(MessageCollector messageCollector)
@@ -59,6 +74,7 @@ namespace mRemoteNG.Tools.Cmdline
                 ParseCustomConnectionPathArg(args);
                 ParseConnectArg(args);
                 ParseStartupConnectArg(args);
+                ParseQuickConnectArg(args);
             }
             catch (Exception ex)
             {
@@ -154,6 +170,23 @@ namespace mRemoteNG.Tools.Cmdline
 
             _messageCollector.AddMessage(MessageClass.DebugMsg, $"Cmdline arg: startup auto-connect to \"{startupConnectValue}\"");
             StartupConnectTo = startupConnectValue;
+        }
+
+        private void ParseQuickConnectArg(CmdArgumentsInterpreter args)
+        {
+            string? quickConnectValue = args["quickconnect"] ?? args["qc"];
+            if (string.IsNullOrEmpty(quickConnectValue))
+                return;
+
+            _messageCollector.AddMessage(MessageClass.DebugMsg, $"Cmdline arg: quick connect to \"{quickConnectValue}\"");
+            QuickConnectTo = quickConnectValue;
+
+            string? protocolValue = args["protocol"] ?? args["p"];
+            if (!string.IsNullOrEmpty(protocolValue))
+            {
+                _messageCollector.AddMessage(MessageClass.DebugMsg, $"Cmdline arg: quick connect protocol \"{protocolValue}\"");
+                QuickConnectProtocol = protocolValue;
+            }
         }
     }
 }
