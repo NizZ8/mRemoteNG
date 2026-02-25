@@ -91,6 +91,15 @@ namespace mRemoteNG.Tools
                      }
                  }
              }
+             else
+             {
+                 var entry = archive.CreateEntry("mRemoteNG.log.missing.txt");
+                 using (var entryStream = entry.Open())
+                 using (var writer = new StreamWriter(entryStream))
+                 {
+                     writer.Write($"Log file not found at: {logPath}");
+                 }
+             }
         }
 
         private static void AddConfigFile(ZipArchive archive)

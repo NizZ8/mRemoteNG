@@ -28,10 +28,11 @@ namespace mRemoteNGTests.Tools
                     var systemInfoEntry = archive.GetEntry("SystemInfo.txt");
                     Assert.That(systemInfoEntry, Is.Not.Null, "SystemInfo.txt should exist");
                     
-                    // Log file might not exist if run in test env without log setup, or it might be error log
+                    // Log file might not exist if run in test env without log setup
                     var logEntry = archive.GetEntry("mRemoteNG.log");
                     var logErrorEntry = archive.GetEntry("mRemoteNG.log.error.txt");
-                    Assert.That(logEntry != null || logErrorEntry != null, Is.True, "Log file or error log should exist");
+                    var logMissingEntry = archive.GetEntry("mRemoteNG.log.missing.txt");
+                    Assert.That(logEntry != null || logErrorEntry != null || logMissingEntry != null, Is.True, "Log file, error log, or missing marker should exist");
                     
                     // Config file might not exist or be default
                     var configEntry = archive.GetEntry("confCons.xml");
