@@ -32,6 +32,9 @@ Full transparency: this project is built by humans and AI working together. We b
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
   </a>
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
+    <img alt="Nightly" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/nightly.yml?style=for-the-badge&label=Nightly&color=blueviolet">
+  </a>
   <a href="COPYING.TXT">
     <img alt="License" src="https://img.shields.io/badge/license-GPL--2.0-green?style=for-the-badge">
   </a>
@@ -42,6 +45,19 @@ Full transparency: this project is built by humans and AI working together. We b
     <img alt="Stars" src="https://img.shields.io/github/stars/robertpopa22/mRemoteNG?style=for-the-badge&color=yellow">
   </a>
 </p>
+
+## Nightly Build (Latest from Main)
+
+<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
+  <img alt="Nightly" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/nightly.yml?style=for-the-badge&label=Nightly&color=blueviolet">
+</a>
+
+> [!TIP]
+> The nightly build is automatically created on every push to `main`. It includes the latest changes, fully built and tested (2,916 tests). x64 framework-dependent only — requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
+
+**[Download latest nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)**
+
+---
 
 ## Latest Stable Release
 
