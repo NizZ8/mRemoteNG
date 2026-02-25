@@ -754,7 +754,7 @@ namespace mRemoteNG.UI.Window
 
                 titleText = titleText.Replace("&", "&&");
 
-                string? tabToolTip = BuildSshTabToolTip(connectionInfo);
+                string tabToolTip = BuildTabToolTip(connectionInfo);
 
                 ConnectionTab conTab = new()
                 {
@@ -765,8 +765,7 @@ namespace mRemoteNG.UI.Window
                     TabPageContextMenuStrip = cmenTab
                 };
 
-                if (tabToolTip != null)
-                    conTab.DockHandler.ToolTipText = tabToolTip;
+                conTab.DockHandler.ToolTipText = tabToolTip;
 
                 conTab.TrackConnection(connectionInfo);
                 conTab.HideClosedState();
@@ -872,26 +871,19 @@ namespace mRemoteNG.UI.Window
         }
 
         /// <summary>
-        /// Builds a tooltip string for PuTTY-based (SSH/Telnet/Rlogin/RAW) connection tabs,
-        /// showing the hostname, port, and logon credentials so users can identify the session
-        /// even when the terminal title overwrites the tab text.
-        /// Returns null for non-PuTTY protocols.
+        /// Builds a tooltip string for connection tabs showing the full hierarchical path,
+        /// protocol, hostname, port, logon credentials, and description.
         /// </summary>
-        private static string? BuildSshTabToolTip(ConnectionInfo connectionInfo)
+        private static string BuildTabToolTip(ConnectionInfo connectionInfo)
         {
-            switch (connectionInfo.Protocol)
-            {
-                case ProtocolType.SSH1:
-                case ProtocolType.SSH2:
-                case ProtocolType.Telnet:
-                case ProtocolType.Rlogin:
-                case ProtocolType.RAW:
-                    break;
-                default:
-                    return null;
-            }
-
             var lines = new List<string>();
+
+            // Full hierarchical path (e.g., "Folder / Subfolder / ConnectionName")
+            var folderPath = GetFolderPath(connectionInfo);
+            string fullName = !string.IsNullOrEmpty(folderPath)
+                ? $"{folderPath} / {connectionInfo.Name}"
+                : connectionInfo.Name;
+            lines.Add(fullName);
 
             string host = connectionInfo.Hostname ?? string.Empty;
             if (!string.IsNullOrEmpty(host))
@@ -899,7 +891,7 @@ namespace mRemoteNG.UI.Window
                 string portSuffix = connectionInfo.Port != 0
                     ? $":{connectionInfo.Port}"
                     : string.Empty;
-                lines.Add($"Host: {host}{portSuffix}");
+                lines.Add($"{connectionInfo.Protocol}  {host}{portSuffix}");
             }
 
             string domain = connectionInfo.Domain ?? string.Empty;
@@ -913,9 +905,9 @@ namespace mRemoteNG.UI.Window
             }
 
             if (!string.IsNullOrEmpty(connectionInfo.Description))
-                lines.Add($"Info: {connectionInfo.Description}");
+                lines.Add(connectionInfo.Description);
 
-            return lines.Count > 0 ? string.Join(Environment.NewLine, lines) : null;
+            return string.Join(Environment.NewLine, lines);
         }
 
         #endregion
