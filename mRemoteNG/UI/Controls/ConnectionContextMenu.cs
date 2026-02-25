@@ -759,6 +759,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeRename.Text = Language.Rename;
             _cMenTreeDelete.Text = Language.Delete;
             _cMenTreeCopyHostname.Text = Language.CopyHostname;
+            _cMenTreeCopyUsername.Text = Language.CopyUsername;
+            _cMenTreeCopyPassword.Text = Language.CopyPassword;
             _cMenTreeProperties.Text = Language.Properties;
 
             _cMenTreeImport.Text = Language._Import;
@@ -1018,8 +1020,8 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeConnectWithOptionsAlternativeAddress.Enabled = !string.IsNullOrWhiteSpace(connectionInfo.AlternativeAddress);
             bool isWebProtocol = connectionInfo.Protocol == ProtocolType.HTTP || connectionInfo.Protocol == ProtocolType.HTTPS;
             _cMenTreeOpenInBrowser.Enabled = isWebProtocol;
-            _cMenTreeCopyUsername.Enabled = isWebProtocol;
-            _cMenTreeCopyPassword.Enabled = isWebProtocol;
+            _cMenTreeCopyUsername.Enabled = true;
+            _cMenTreeCopyPassword.Enabled = true;
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
             _cMenTreeRefreshDynamicSource.Visible = false;

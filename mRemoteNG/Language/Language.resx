@@ -2177,6 +2177,12 @@ mRemoteNG will now quit and begin with the installation.</value>
   <data name="CopyHostname" xml:space="preserve">
     <value>Copy Hostname</value>
   </data>
+  <data name="CopyUsername" xml:space="preserve">
+    <value>Copy Username</value>
+  </data>
+  <data name="CopyPassword" xml:space="preserve">
+    <value>Copy Password</value>
+  </data>
   <data name="PlaceSearchBarAboveConnectionTree" xml:space="preserve">
     <value>Place search bar above connection tree</value>
   </data>

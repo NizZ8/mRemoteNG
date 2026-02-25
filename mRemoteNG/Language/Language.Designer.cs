@@ -1455,7 +1455,25 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("CopyHostname", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Username.
+        /// </summary>
+        internal static string CopyUsername {
+            get {
+                return ResourceManager.GetString("CopyUsername", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Password.
+        /// </summary>
+        internal static string CopyPassword {
+            get {
+                return ResourceManager.GetString("CopyPassword", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t create new connections file!.
         /// </summary>
