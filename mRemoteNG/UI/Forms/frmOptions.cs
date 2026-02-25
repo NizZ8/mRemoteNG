@@ -302,8 +302,8 @@ namespace mRemoteNG.UI.Forms
             SaveOptions();
             // Clear change flags after saving
             ClearChangeFlags();
-            this.Visible = false;
-            Logger.Instance.Log?.Debug($"[BtnOK_Click] END - Visible set to false");
+            CloseHostOptionsWindow();
+            Logger.Instance.Log?.Debug($"[BtnOK_Click] END - Host window close requested");
         }
 
         private void BtnApply_Click(object sender, EventArgs e)
@@ -385,8 +385,21 @@ namespace mRemoteNG.UI.Forms
             Logger.Instance.Log?.Debug($"[BtnCancel_Click] START");
             // When Cancel is clicked, we don't check for changes
             // The user explicitly wants to cancel
-            this.Visible = false;
-            Logger.Instance.Log?.Debug($"[BtnCancel_Click] END - Visible set to false");
+            CloseHostOptionsWindow();
+            Logger.Instance.Log?.Debug($"[BtnCancel_Click] END - Host window close requested");
+        }
+
+        private void CloseHostOptionsWindow()
+        {
+            Form hostForm = FindForm();
+
+            if (hostForm != null && hostForm != this)
+            {
+                hostForm.Close();
+                return;
+            }
+
+            Visible = false;
         }
 
         private void FrmOptions_FormClosing(object sender, FormClosingEventArgs e)
