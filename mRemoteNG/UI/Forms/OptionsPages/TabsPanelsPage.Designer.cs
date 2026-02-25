@@ -58,6 +58,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             txtConnectionTabColor = new MrngTextBox();
             btnSelectConnectionTabColor = new MrngButton();
             chkMinimizePanelsOnConnect = new MrngCheckBox();
+            chkKeepTabsOpenAfterDisconnect = new MrngCheckBox();
             chkUseCustomConnectionTabFont = new MrngCheckBox();
             txtConnectionTabFont = new MrngTextBox();
             btnSelectConnectionTabFont = new MrngButton();
@@ -300,12 +301,24 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkMinimizePanelsOnConnect.Text = "Auto-hide Connections/Config panels when a connection opens";
             chkMinimizePanelsOnConnect.UseVisualStyleBackColor = true;
             //
+            // chkKeepTabsOpenAfterDisconnect
+            //
+            chkKeepTabsOpenAfterDisconnect._mice = MrngCheckBox.MouseState.OUT;
+            chkKeepTabsOpenAfterDisconnect.AutoSize = true;
+            chkKeepTabsOpenAfterDisconnect.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            chkKeepTabsOpenAfterDisconnect.Location = new System.Drawing.Point(3, 402);
+            chkKeepTabsOpenAfterDisconnect.Name = "chkKeepTabsOpenAfterDisconnect";
+            chkKeepTabsOpenAfterDisconnect.Size = new System.Drawing.Size(300, 17);
+            chkKeepTabsOpenAfterDisconnect.TabIndex = 25;
+            chkKeepTabsOpenAfterDisconnect.Text = "Keep tabs open after disconnecting";
+            chkKeepTabsOpenAfterDisconnect.UseVisualStyleBackColor = true;
+            //
             // chkUseCustomConnectionTabColor
             //
             chkUseCustomConnectionTabColor._mice = MrngCheckBox.MouseState.OUT;
             chkUseCustomConnectionTabColor.AutoSize = true;
             chkUseCustomConnectionTabColor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkUseCustomConnectionTabColor.Location = new System.Drawing.Point(3, 402);
+            chkUseCustomConnectionTabColor.Location = new System.Drawing.Point(3, 425);
             chkUseCustomConnectionTabColor.Name = "chkUseCustomConnectionTabColor";
             chkUseCustomConnectionTabColor.Size = new System.Drawing.Size(178, 17);
             chkUseCustomConnectionTabColor.TabIndex = 17;
@@ -316,7 +329,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // txtConnectionTabColor
             //
             txtConnectionTabColor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            txtConnectionTabColor.Location = new System.Drawing.Point(25, 425);
+            txtConnectionTabColor.Location = new System.Drawing.Point(25, 448);
             txtConnectionTabColor.Name = "txtConnectionTabColor";
             txtConnectionTabColor.ReadOnly = true;
             txtConnectionTabColor.Size = new System.Drawing.Size(120, 22);
@@ -325,7 +338,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnSelectConnectionTabColor
             //
             btnSelectConnectionTabColor._mice = MrngButton.MouseState.OUT;
-            btnSelectConnectionTabColor.Location = new System.Drawing.Point(151, 424);
+            btnSelectConnectionTabColor.Location = new System.Drawing.Point(151, 447);
             btnSelectConnectionTabColor.Name = "btnSelectConnectionTabColor";
             btnSelectConnectionTabColor.Size = new System.Drawing.Size(75, 23);
             btnSelectConnectionTabColor.TabIndex = 19;
@@ -338,7 +351,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkUseCustomConnectionTabFont._mice = MrngCheckBox.MouseState.OUT;
             chkUseCustomConnectionTabFont.AutoSize = true;
             chkUseCustomConnectionTabFont.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            chkUseCustomConnectionTabFont.Location = new System.Drawing.Point(3, 454);
+            chkUseCustomConnectionTabFont.Location = new System.Drawing.Point(3, 477);
             chkUseCustomConnectionTabFont.Name = "chkUseCustomConnectionTabFont";
             chkUseCustomConnectionTabFont.Size = new System.Drawing.Size(175, 17);
             chkUseCustomConnectionTabFont.TabIndex = 20;
@@ -349,7 +362,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // txtConnectionTabFont
             //
             txtConnectionTabFont.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            txtConnectionTabFont.Location = new System.Drawing.Point(25, 477);
+            txtConnectionTabFont.Location = new System.Drawing.Point(25, 500);
             txtConnectionTabFont.Name = "txtConnectionTabFont";
             txtConnectionTabFont.ReadOnly = true;
             txtConnectionTabFont.Size = new System.Drawing.Size(220, 22);
@@ -358,7 +371,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnSelectConnectionTabFont
             //
             btnSelectConnectionTabFont._mice = MrngButton.MouseState.OUT;
-            btnSelectConnectionTabFont.Location = new System.Drawing.Point(251, 476);
+            btnSelectConnectionTabFont.Location = new System.Drawing.Point(251, 499);
             btnSelectConnectionTabFont.Name = "btnSelectConnectionTabFont";
             btnSelectConnectionTabFont.Size = new System.Drawing.Size(75, 23);
             btnSelectConnectionTabFont.TabIndex = 22;
@@ -389,6 +402,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlOptions.Controls.Add(chkDoNotRestoreOnRdpMinimize);
             pnlOptions.Controls.Add(chkAutoClosePanelOnLastTabClose);
             pnlOptions.Controls.Add(chkMinimizePanelsOnConnect);
+            pnlOptions.Controls.Add(chkKeepTabsOpenAfterDisconnect);
             pnlOptions.Controls.Add(chkUseCustomConnectionTabColor);
             pnlOptions.Controls.Add(txtConnectionTabColor);
             pnlOptions.Controls.Add(btnSelectConnectionTabColor);
@@ -398,7 +412,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlOptions.Dock = System.Windows.Forms.DockStyle.Top;
             pnlOptions.Location = new System.Drawing.Point(0, 30);
             pnlOptions.Name = "pnlOptions";
-            pnlOptions.Size = new System.Drawing.Size(610, 508);
+            pnlOptions.Size = new System.Drawing.Size(610, 531);
             pnlOptions.TabIndex = 10;
             // 
             // lblRegistrySettingsUsedInfo
@@ -421,7 +435,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Controls.Add(pnlOptions);
             Controls.Add(lblRegistrySettingsUsedInfo);
             Name = "TabsPanelsPage";
-            Size = new System.Drawing.Size(610, 538);
+            Size = new System.Drawing.Size(610, 561);
             pnlOptions.ResumeLayout(false);
             pnlOptions.PerformLayout();
             ResumeLayout(false);
@@ -453,6 +467,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         private Controls.MrngTextBox txtConnectionTabColor;
         private MrngButton btnSelectConnectionTabColor;
         private MrngCheckBox chkMinimizePanelsOnConnect;
+        private MrngCheckBox chkKeepTabsOpenAfterDisconnect;
         private MrngCheckBox chkUseCustomConnectionTabFont;
         private Controls.MrngTextBox txtConnectionTabFont;
         private MrngButton btnSelectConnectionTabFont;

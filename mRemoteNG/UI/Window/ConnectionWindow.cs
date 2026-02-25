@@ -2129,7 +2129,8 @@ namespace mRemoteNG.UI.Window
 
         public void Prot_Event_Closed(object sender)
         {
-            HandleProtocolClosed(sender, keepTabOpen: true);
+            bool keepTabOpen = Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect;
+            HandleProtocolClosed(sender, keepTabOpen);
         }
 
         private void HandleProtocolClosed(object sender, bool keepTabOpen)

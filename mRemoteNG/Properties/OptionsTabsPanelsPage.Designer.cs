@@ -346,5 +346,17 @@ namespace mRemoteNG.Properties {
                 this["MinimizePanelsOnConnect"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepTabsOpenAfterDisconnect {
+            get {
+                return ((bool)(this["KeepTabsOpenAfterDisconnect"]));
+            }
+            set {
+                this["KeepTabsOpenAfterDisconnect"] = value;
+            }
+        }
     }
 }
