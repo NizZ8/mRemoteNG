@@ -66,6 +66,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             chkConnectionLogging.Checked = Properties.OptionsAdvancedPage.Default.EnableConnectionLogging;
             chkShowPortScan.Checked = Properties.OptionsAdvancedPage.Default.ShowPortScan;
+            chkShowPuttySavedSessions.Checked = Properties.OptionsAdvancedPage.Default.ShowPuttySavedSessions;
         }
 
         public override void SaveSettings()
@@ -98,6 +99,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             Properties.OptionsAdvancedPage.Default.EnableConnectionLogging = chkConnectionLogging.Checked;
             Properties.OptionsAdvancedPage.Default.ShowPortScan = chkShowPortScan.Checked;
+            Properties.OptionsAdvancedPage.Default.ShowPuttySavedSessions = chkShowPuttySavedSessions.Checked;
         }
 
         #endregion

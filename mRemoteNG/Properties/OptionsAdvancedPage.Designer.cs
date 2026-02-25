@@ -142,5 +142,17 @@ namespace mRemoteNG.Properties {
                 this["ShowPortScan"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowPuttySavedSessions {
+            get {
+                return ((bool)(this["ShowPuttySavedSessions"]));
+            }
+            set {
+                this["ShowPuttySavedSessions"] = value;
+            }
+        }
     }
 }

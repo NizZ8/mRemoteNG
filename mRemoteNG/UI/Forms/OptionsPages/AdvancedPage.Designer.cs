@@ -48,6 +48,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkNoReconnect = new MrngCheckBox();
             chkConnectionLogging = new MrngCheckBox();
             chkShowPortScan = new MrngCheckBox();
+            chkShowPuttySavedSessions = new MrngCheckBox();
             ((System.ComponentModel.ISupportInitialize)numPuttyWaitTime).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUVNCSCPort).BeginInit();
             SuspendLayout();
@@ -224,10 +225,23 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkShowPortScan.Text = "Show port scan tool in Tools menu";
             chkShowPortScan.UseVisualStyleBackColor = true;
             //
+            // chkShowPuttySavedSessions
+            //
+            chkShowPuttySavedSessions._mice = MrngCheckBox.MouseState.OUT;
+            chkShowPuttySavedSessions.AutoSize = true;
+            chkShowPuttySavedSessions.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chkShowPuttySavedSessions.Location = new System.Drawing.Point(9, 278);
+            chkShowPuttySavedSessions.Name = "chkShowPuttySavedSessions";
+            chkShowPuttySavedSessions.Size = new System.Drawing.Size(300, 17);
+            chkShowPuttySavedSessions.TabIndex = 14;
+            chkShowPuttySavedSessions.Text = "Show PuTTY saved sessions in connection tree";
+            chkShowPuttySavedSessions.UseVisualStyleBackColor = true;
+            //
             // AdvancedPage
             //
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            Controls.Add(chkShowPuttySavedSessions);
             Controls.Add(chkShowPortScan);
             Controls.Add(chkConnectionLogging);
             Controls.Add(chkNoReconnect);
@@ -267,5 +281,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         internal MrngCheckBox chkNoReconnect;
         internal MrngCheckBox chkConnectionLogging;
         internal MrngCheckBox chkShowPortScan;
+        internal MrngCheckBox chkShowPuttySavedSessions;
     }
 }
