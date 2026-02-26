@@ -1808,6 +1808,25 @@ namespace mRemoteNG.UI.Window
 
             try
             {
+                ConnectionInfo? connectionInfo = GetConnectionInfoForTab(selectedTab);
+                if (connectionInfo != null && Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
+                {
+                    string confirmMessage = string.Format(Language.ConfirmDisconnectConnection, connectionInfo.Name);
+                    DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
+                                                        confirmMessage, "", "", "",
+                                                        Language.CheckboxDoNotShowThisMessageAgain,
+                                                        ETaskDialogButtons.YesNo, ESysIcons.Question,
+                                                        ESysIcons.Question);
+                    if (CTaskDialog.VerificationChecked)
+                    {
+                        Settings.Default.ConfirmCloseConnection = (int)ConfirmCloseEnum.Never;
+                        Settings.Default.Save();
+                    }
+
+                    if (result == DialogResult.No)
+                        return;
+                }
+
                 selectedTab.Close();
             }
             catch (Exception ex)

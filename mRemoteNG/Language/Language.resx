@@ -2165,6 +2165,9 @@ mRemoteNG will now quit and begin with the installation.</value>
   <data name="ConfirmCloseConnectionOthersInstruction" xml:space="preserve">
     <value>Are you sure you want to close all connections except for "{0}"?</value>
   </data>
+  <data name="ConfirmCloseConnectionOthersRightInstruction" xml:space="preserve">
+    <value>Are you sure you want to close all connections to the right of "{0}"?</value>
+  </data>
   <data name="AutomaticReconnectError" xml:space="preserve">
     <value>An error occurred while trying to reconnect to RDP host '{0}'</value>
   </data>
