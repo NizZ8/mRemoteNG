@@ -917,7 +917,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
             FrmMain.ClipboardChanged -= VNCEvent_ClipboardChanged;
 
             string logs = CleanupTraceListener();
-            string msg = "VncSharp Disconnected.";
+            string msg = "VncSharpCore Disconnected.";
             if (!string.IsNullOrWhiteSpace(logs))
             {
                 msg += Environment.NewLine + "Check Messages panel for details.";
