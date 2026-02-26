@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -804,7 +805,12 @@ namespace mRemoteNG.UI.Controls
             {
                 Enabled = true;
                 EnableMenuItemsRecursive(Items);
-                if (_connectionTree.SelectedNode is RootPuttySessionsNodeInfo)
+                List<ConnectionInfo> selectedNodes = _connectionTree.GetSelectedNodes();
+                if (selectedNodes.Count > 1)
+                {
+                    ShowHideMenuItemsForMultiSelection(selectedNodes);
+                }
+                else if (_connectionTree.SelectedNode is RootPuttySessionsNodeInfo)
                 {
                     ShowHideMenuItemsForRootPuttyNode();
                 }
@@ -1036,6 +1042,63 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeApplyInheritanceToChildren.Enabled = false;
             _cMenTreeConfigureDynamicSource.Visible = false;
             _cMenTreeRefreshDynamicSource.Visible = false;
+        }
+
+        internal void ShowHideMenuItemsForMultiSelection(List<ConnectionInfo> selectedNodes)
+        {
+            // Add operations are single-node context
+            _cMenTreeAddConnection.Enabled = false;
+            _cMenTreeAddEntity.Enabled = false;
+            _cMenTreeAddFolder.Enabled = false;
+            _cMenTreeAddRootFolder.Enabled = false;
+
+            // "Connect with options" dialog and credentials are single-connection dialogs
+            _cMenTreeConnectWithOptionsDialog.Enabled = false;
+            _cMenTreeConnectWithOptionsWithCredentials.Enabled = false;
+
+            // Disconnect: enabled only if at least one selected node has open connections
+            bool anyHasOpenConnections = selectedNodes.Any(n =>
+                n is ContainerInfo c
+                    ? c.GetRecursiveChildList().Any(child => child.OpenConnections.Count > 0)
+                    : n.OpenConnections.Count > 0);
+            _cMenTreeDisconnect.Enabled = anyHasOpenConnections;
+
+            // Type Password/Clipboard are session-specific (require an active session window)
+            _cMenTreeTypePassword.Enabled = false;
+            _cMenTreeTypeClipboard.Enabled = false;
+
+            // Connection-specific tools that are ambiguous for multi-selection
+            _cMenTreeToolsTransferFile.Enabled = false;
+            _cMenTreeToolsWakeOnLan.Enabled = false;
+            _cMenTreeToolsSort.Enabled = false;
+
+            // Single-node-only operations
+            _cMenTreeRename.Enabled = false;
+            _cMenTreeCreateLink.Enabled = false;
+
+            // Copy hostname/username/password: ambiguous when multiple nodes selected
+            _cMenTreeCopyHostname.Enabled = false;
+            _cMenTreeCopyUsername.Enabled = false;
+            _cMenTreeCopyPassword.Enabled = false;
+
+            // Properties dialog shows a single connection's config
+            _cMenTreeProperties.Enabled = false;
+
+            // Inheritance operations require single-node context
+            _cMenTreeApplyInheritanceToChildren.Enabled = false;
+            _cMenTreeApplyDefaultInheritance.Enabled = false;
+
+            // Dynamic source is per-folder
+            _cMenTreeConfigureDynamicSource.Visible = false;
+            _cMenTreeRefreshDynamicSource.Visible = false;
+
+            // Open in browser is per-connection
+            _cMenTreeOpenInBrowser.Enabled = false;
+
+            // Import/Export are tree-level operations
+            _cMenTreeImport.Enabled = false;
+            _cMenTreeExportFile.Enabled = false;
+            _cMenTreeLoadAdditionalFile.Enabled = false;
         }
 
         internal void DisableShortcutKeys()
