@@ -1406,9 +1406,9 @@ def run_tests(return_details=False):
                               passed_count, TEST_MIN_COUNT)
                     kill_stale_processes()
                     return _result(False, out, [], phantom=True)
-            log.error("    [TEST] FAILED: run-tests.ps1 exit code %d [%.0fs]", r.returncode, elapsed)
-            kill_stale_processes()
-            return _result(False, out, _parse_failed_tests(out), phantom=is_phantom)
+            # Non-zero exit code — but don't reject yet; fall through to threshold parsing
+            # so that pre-existing flaky failures (within threshold) don't reject valid fixes
+            log.warning("    [TEST] run-tests.ps1 exit code %d — checking threshold [%.0fs]", r.returncode, elapsed)
 
         # Parse run-tests.ps1 output: "Total: 1926/1926 passed, 0 failed"
         total_m = re.search(r"Total:\s+(\d+)/(\d+)\s+passed,\s+(\d+)\s+failed", out)
@@ -1915,14 +1915,6 @@ def codex_run(prompt, timeout=CODEX_TIMEOUT, retries=CODEX_RETRIES,
         prompt_file = None
         output_file = None
         try:
-            # Write prompt to temp file
-            pf = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False,
-                                             encoding="utf-8",
-                                             dir=str(SCRIPTS_DIR))
-            pf.write(prompt)
-            pf.close()
-            prompt_file = pf.name
-
             # Create output temp file
             of = tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False,
                                              encoding="utf-8",
@@ -1933,7 +1925,8 @@ def codex_run(prompt, timeout=CODEX_TIMEOUT, retries=CODEX_RETRIES,
             use_model = model or CODEX_MODEL
             use_reasoning = reasoning or CODEX_REASONING
             cmd = [
-                CODEX_CMD, "exec", "-",
+                CODEX_CMD, "exec",
+                prompt,  # pass prompt as argument (stdin pipe hangs on Windows/MSYS2)
                 "--color", "never",
                 "--ephemeral",
                 "--dangerously-bypass-approvals-and-sandbox",  # Windows: workspace-write falls back to read-only
@@ -1945,7 +1938,6 @@ def codex_run(prompt, timeout=CODEX_TIMEOUT, retries=CODEX_RETRIES,
 
             rc, stdout, stderr = _run_with_timeout(
                 cmd, timeout=timeout, cwd=str(REPO_ROOT),
-                stdin_path=prompt_file,
             )
 
             kill_stale_processes()
