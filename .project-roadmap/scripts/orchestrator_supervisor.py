@@ -291,9 +291,9 @@ class HealthChecker:
         for proc in STALE_PROCESSES:
             if proc == "testhost.exe":
                 continue  # Handled by FM3
-            # P6: Skip dotnet.exe if orchestrator is actively building or testing
-            if proc == "dotnet.exe" and (self._is_active_task("build")
-                                         or self._is_active_task("test")):
+            # P6: Skip dotnet.exe — it's shared with VS/SDK background processes
+            # that can't (and shouldn't) be killed. Only testhost.exe is agent-specific.
+            if proc == "dotnet.exe":
                 continue
             count = _count_processes(proc)
             if count > 0:
