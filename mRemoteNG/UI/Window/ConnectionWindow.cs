@@ -925,6 +925,23 @@ namespace mRemoteNG.UI.Window
                         controlList.Add(ic);
                 }
 
+                if (controlList.Count > 0 && Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
+                {
+                    DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
+                                                        Language.ConfirmReconnectAllConnections, "", "", "",
+                                                        Language.CheckboxDoNotShowThisMessageAgain,
+                                                        ETaskDialogButtons.YesNo, ESysIcons.Question,
+                                                        ESysIcons.Question);
+                    if (CTaskDialog.VerificationChecked)
+                    {
+                        Settings.Default.ConfirmCloseConnection = (int)ConfirmCloseEnum.Never;
+                        Settings.Default.Save();
+                    }
+
+                    if (result == DialogResult.No)
+                        return;
+                }
+
                 foreach (InterfaceControl iControl in controlList)
                 {
                     iControl.Protocol.Close();
@@ -2033,7 +2050,26 @@ namespace mRemoteNG.UI.Window
                     return;
                 }
 
+                // Show confirmation dialog if the connection is active and setting requires it
                 InterfaceControl? interfaceControl = GetInterfaceControl();
+                if (interfaceControl != null && Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
+                {
+                    string confirmMessage = string.Format(Language.ConfirmReconnectConnection, connectionInfo.Name);
+                    DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
+                                                        confirmMessage, "", "", "",
+                                                        Language.CheckboxDoNotShowThisMessageAgain,
+                                                        ETaskDialogButtons.YesNo, ESysIcons.Question,
+                                                        ESysIcons.Question);
+                    if (CTaskDialog.VerificationChecked)
+                    {
+                        Settings.Default.ConfirmCloseConnection = (int)ConfirmCloseEnum.Never;
+                        Settings.Default.Save();
+                    }
+
+                    if (result == DialogResult.No)
+                        return;
+                }
+
                 if (interfaceControl != null)
                     HandleProtocolClosed(interfaceControl.Protocol, keepTabOpen: true);
 

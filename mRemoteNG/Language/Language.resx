@@ -372,6 +372,12 @@
   <data name="ConfirmDisconnectConnection" xml:space="preserve">
     <value>Are you sure you want to disconnect "{0}"?</value>
   </data>
+  <data name="ConfirmReconnectConnection" xml:space="preserve">
+    <value>Are you sure you want to reconnect "{0}"? The current session will be terminated.</value>
+  </data>
+  <data name="ConfirmReconnectAllConnections" xml:space="preserve">
+    <value>Are you sure you want to reconnect all open connections? All current sessions will be terminated.</value>
+  </data>
   <data name="ConfirmDeleteExternalTool" xml:space="preserve">
     <value>Are you sure you want to delete the external tool, "{0}"?</value>
   </data>

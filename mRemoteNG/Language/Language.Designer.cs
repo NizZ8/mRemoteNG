@@ -1121,7 +1121,25 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("ConfirmDisconnectConnection", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reconnect &quot;{0}&quot;? The current session will be terminated..
+        /// </summary>
+        internal static string ConfirmReconnectConnection {
+            get {
+                return ResourceManager.GetString("ConfirmReconnectConnection", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reconnect all open connections? All current sessions will be terminated..
+        /// </summary>
+        internal static string ConfirmReconnectAllConnections {
+            get {
+                return ResourceManager.GetString("ConfirmReconnectAllConnections", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Do you want to close all open connections?.
         /// </summary>
