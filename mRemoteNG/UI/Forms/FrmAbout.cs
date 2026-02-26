@@ -11,6 +11,7 @@ using System.Runtime.Versioning;
 using mRemoteNG.UI.Window;
 using mRemoteNG.App;
 using mRemoteNG.Messages;
+using mRemoteNG.Tools;
 
 namespace mRemoteNG.UI.Forms
 {
@@ -37,7 +38,11 @@ namespace mRemoteNG.UI.Forms
             llCredits.Text = Language.OriginalCredits;
             llLicense.Text = Language.License;
             lblCopyright.Text = GeneralAppInfo.Copyright;
-            lblVersion.Text = $@"Version {GeneralAppInfo.ApplicationVersion}";
+            var puttyVersion = PuttyTypeDetector.GetPuttyVersion(GeneralAppInfo.PuttyPath);
+            var puttyVersionStr = (puttyVersion.Major > 0 || puttyVersion.Minor > 0)
+                ? $" | PuTTY {puttyVersion.Major}.{puttyVersion.Minor}"
+                : string.Empty;
+            lblVersion.Text = $@"Version {GeneralAppInfo.ApplicationVersion}{puttyVersionStr}";
             lblForkHeader.Text = $@"{Language.ForkHeader} ({GeneralAppInfo.ForkOwner})";
             llForkGitHub.Text = Language.ForkGitHubPage;
             llForkReleases.Text = Language.ForkReleases;
