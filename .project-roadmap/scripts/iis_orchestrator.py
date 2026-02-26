@@ -85,7 +85,7 @@ TEST_HYGIENE_AGENT = "claude"    # best agent for test analysis/fix (needs arch 
 
 # ── PRE-ANALYSIS CONFIG ──────────────────────────────────────────────────
 PRE_ANALYSIS_TIMEOUT = 180          # 3 min max — read-only analysis
-PRE_ANALYSIS_ENABLED = False        # disabled: Claude does planning inline during implementation
+PRE_ANALYSIS_ENABLED = False        # DISABLED: Opus does planning inline during implementation
 PRE_ANALYSIS_MAX_TURNS = 10         # limited turns — read-only codebase scan
 
 ISSUE_TOTAL_TIME_CAP = 1200         # 20 min total per issue per session (all agents combined)
@@ -222,8 +222,8 @@ CLAUDE_MODEL_SONNET = "claude-sonnet-4-6"  # fast, cheap — triage & code writi
 CLAUDE_MODEL_OPUS = "claude-opus-4-6"      # deep analysis — complex issues, fallback
 CLAUDE_MODEL_BY_TASK = {
     "triage":               CLAUDE_MODEL_SONNET,
-    "pre_analysis":         CLAUDE_MODEL_SONNET,  # fast model for read-only analysis
-    "implement":            CLAUDE_MODEL_SONNET,  # Sonnet primary; Opus only as fallback
+    "pre_analysis":         CLAUDE_MODEL_OPUS,    # Opus for smart routing decisions
+    "implement":            CLAUDE_MODEL_OPUS,    # Opus direct — simpler, no pre-analysis needed
     "test_fix":             CLAUDE_MODEL_SONNET,
     "warning_fix":          CLAUDE_MODEL_SONNET,
     "warning_fix_parallel": CLAUDE_MODEL_SONNET,
@@ -1759,7 +1759,8 @@ def claude_run(prompt, max_turns=15, json_output=False, timeout=CLAUDE_TIMEOUT,
     Always uses --output-format json internally for token tracking,
     extracts .result as the text response."""
     cmd = ["claude", "-p", prompt, "--max-turns", str(max_turns),
-           "--output-format", "json"]
+           "--output-format", "json",
+           "--disallowedTools", "EnterPlanMode"]
     if model:
         cmd += ["--model", model]
 
@@ -2357,7 +2358,7 @@ YOUR TASK (READ-ONLY — do not edit any files):
 Reply with ONLY a JSON object (no markdown, no explanation):
 {{"root_cause": "one sentence describing the actual root cause",
   "specific_files": ["exact/path/to/file.cs"],
-  "fix_plan": "concise description of what needs to change",
+  "fix_plan": "detailed step-by-step plan for the implementing agent",
   "confidence": "high or medium or low",
   "triage_files_correct": true}}"""
 
@@ -2371,7 +2372,7 @@ Reply with ONLY a JSON object (no markdown, no explanation):
         raw_output = _agent_dispatch(agent, prompt,
                                      max_turns=PRE_ANALYSIS_MAX_TURNS,
                                      timeout=PRE_ANALYSIS_TIMEOUT,
-                                     retries=0,
+                                     retries=1,
                                      task_type="pre_analysis")
         elapsed = time.time() - t0
         kill_stale_processes()
@@ -2379,8 +2380,8 @@ Reply with ONLY a JSON object (no markdown, no explanation):
         # Safety: ensure no files were modified (read-only contract)
         modified, _ = _capture_post_timeout_state()
         if modified:
-            log.warning("  [PRE-ANALYSIS] Agent %s modified %d files — restoring (read-only violation)",
-                        agent, len(modified))
+            log.warning("  [PRE-ANALYSIS] Agent %s modified %d files — restoring (read-only violation): %s",
+                        agent, len(modified), ", ".join(modified[:5]))
             git_restore()
 
         if raw_output:
@@ -2920,9 +2921,9 @@ Do ONLY the fix. Nothing else."""
 
         log.warning("  [CHAIN] %s failed for #%d — passing to next agent", agent, num)
 
-    # ── OPUS FALLBACK: when Sonnet fails implementation, retry with Opus ──
+    # ── OPUS FALLBACK: when primary model fails, retry with Opus ──
     if CLAUDE_MODEL_BY_TASK.get("implement") != CLAUDE_MODEL_OPUS:
-        log.info("  [CHAIN] Sonnet failed — retrying #%d with Opus (deeper reasoning)", num)
+        log.info("  [CHAIN] Primary model failed — retrying #%d with Opus (deeper reasoning)", num)
 
         # Time cap check
         elapsed_total = time.time() - issue_start_time
