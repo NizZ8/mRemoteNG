@@ -266,6 +266,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeConnectWithOptionsDialog
             //
+            _cMenTreeConnectWithOptionsDialog.Image = Properties.Resources.Settings_16x;
             _cMenTreeConnectWithOptionsDialog.Name = "_cMenTreeConnectWithOptionsDialog";
             _cMenTreeConnectWithOptionsDialog.Size = new System.Drawing.Size(245, 22);
             _cMenTreeConnectWithOptionsDialog.Text = "Connect with options...";
@@ -273,6 +274,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeConnectWithOptionsWithCredentials
             //
+            _cMenTreeConnectWithOptionsWithCredentials.Image = Properties.Resources.Key_16x;
             _cMenTreeConnectWithOptionsWithCredentials.Name = "_cMenTreeConnectWithOptionsWithCredentials";
             _cMenTreeConnectWithOptionsWithCredentials.Size = new System.Drawing.Size(245, 22);
             _cMenTreeConnectWithOptionsWithCredentials.Text = "Connect with credentials";
@@ -280,6 +282,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeConnectWithOptionsConnectToConsoleSession
             //
+            _cMenTreeConnectWithOptionsConnectToConsoleSession.Image = Properties.Resources.Console_16x;
             _cMenTreeConnectWithOptionsConnectToConsoleSession.Name =
                 "_cMenTreeConnectWithOptionsConnectToConsoleSession";
             _cMenTreeConnectWithOptionsConnectToConsoleSession.Size = new System.Drawing.Size(245, 22);
@@ -363,6 +366,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeTypePassword
             //
+            _cMenTreeTypePassword.Image = Properties.Resources.Key_16x;
             _cMenTreeTypePassword.Name = "_cMenTreeTypePassword";
             _cMenTreeTypePassword.Size = new System.Drawing.Size(199, 22);
             _cMenTreeTypePassword.Text = "Type Password";
@@ -370,6 +374,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeTypeClipboard
             //
+            _cMenTreeTypeClipboard.Image = Properties.Resources.ToggleOfficeKeyboardScheme_16x;
             _cMenTreeTypeClipboard.Name = "_cMenTreeTypeClipboard";
             _cMenTreeTypeClipboard.Size = new System.Drawing.Size(199, 22);
             _cMenTreeTypeClipboard.Text = "Type Clipboard Text";
@@ -397,6 +402,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeToolsWakeOnLan
             //
+            _cMenTreeToolsWakeOnLan.Image = Properties.Resources.HostStatus_On;
             _cMenTreeToolsWakeOnLan.Name = "_cMenTreeToolsWakeOnLan";
             _cMenTreeToolsWakeOnLan.Size = new System.Drawing.Size(199, 22);
             _cMenTreeToolsWakeOnLan.Text = "Wake On LAN";
@@ -417,6 +423,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeCopy
             //
+            _cMenTreeCopy.Image = Properties.Resources.Copy_16x;
             _cMenTreeCopy.Name = "_cMenTreeCopy";
             _cMenTreeCopy.Size = new System.Drawing.Size(199, 22);
             _cMenTreeCopy.Text = "Copy";
@@ -455,6 +462,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeCopyHostname
             //
+            _cMenTreeCopyHostname.Image = Properties.Resources.Copy_16x;
             _cMenTreeCopyHostname.Name = "_cMenTreeCopyHostname";
             _cMenTreeCopyHostname.Size = new System.Drawing.Size(199, 22);
             _cMenTreeCopyHostname.Text = "Copy Hostname";
@@ -462,6 +470,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeCopyUsername
             //
+            _cMenTreeCopyUsername.Image = Properties.Resources.Copy_16x;
             _cMenTreeCopyUsername.Name = "_cMenTreeCopyUsername";
             _cMenTreeCopyUsername.Size = new System.Drawing.Size(199, 22);
             _cMenTreeCopyUsername.Text = "Copy Username";
@@ -469,6 +478,7 @@ namespace mRemoteNG.UI.Controls
             //
             // cMenTreeCopyPassword
             //
+            _cMenTreeCopyPassword.Image = Properties.Resources.Key_16x;
             _cMenTreeCopyPassword.Name = "_cMenTreeCopyPassword";
             _cMenTreeCopyPassword.Size = new System.Drawing.Size(199, 22);
             _cMenTreeCopyPassword.Text = "Copy Password";
