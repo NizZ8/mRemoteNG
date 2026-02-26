@@ -210,6 +210,11 @@ namespace mRemoteNG.App.Update
                 httpClientHandler.UseProxy = true;
                 httpClientHandler.Proxy = _webProxy;
             }
+            else
+            {
+                // Bypass Windows system proxy when no custom proxy is configured
+                httpClientHandler.UseProxy = false;
+            }
             _httpClient = new HttpClient(httpClientHandler);
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(GeneralAppInfo.UserAgent);
         }
