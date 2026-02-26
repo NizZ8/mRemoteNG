@@ -7882,6 +7882,15 @@ namespace mRemoteNG.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type Username.
+        /// </summary>
+        internal static string TypeUsername {
+            get {
+                return ResourceManager.GetString("TypeUsername", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Type Password.
         /// </summary>
         internal static string TypePassword {

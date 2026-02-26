@@ -47,6 +47,7 @@ namespace mRemoteNG.UI.Controls
         private ToolStripMenuItem _cMenTreeDisconnect = null!;
         private ToolStripMenuItem _cMenTreeReconnect = null!;
         private ToolStripMenuItem _cMenTreeOpenInBrowser = null!;
+        private ToolStripMenuItem _cMenTreeTypeUsername = null!;
         private ToolStripMenuItem _cMenTreeTypePassword = null!;
         private ToolStripMenuItem _cMenTreeTypeClipboard = null!;
         private ToolStripSeparator _cMenTreeSep2 = null!;
@@ -134,6 +135,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDisconnect = new ToolStripMenuItem();
             _cMenTreeReconnect = new ToolStripMenuItem();
             _cMenTreeOpenInBrowser = new ToolStripMenuItem();
+            _cMenTreeTypeUsername = new ToolStripMenuItem();
             _cMenTreeTypePassword = new ToolStripMenuItem();
             _cMenTreeTypeClipboard = new ToolStripMenuItem();
             _cMenTreeSep1 = new ToolStripSeparator();
@@ -206,6 +208,7 @@ namespace mRemoteNG.UI.Controls
                 _cMenTreeReconnect,
                 _cMenTreeViewThumbnails,
                 _cMenTreeOpenInBrowser,
+                _cMenTreeTypeUsername,
                 _cMenTreeTypePassword,
                 _cMenTreeTypeClipboard,
                 _cMenTreeSep1,
@@ -367,6 +370,14 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeOpenInBrowser.Size = new System.Drawing.Size(199, 22);
             _cMenTreeOpenInBrowser.Text = "Open in Browser";
             _cMenTreeOpenInBrowser.Click += OnOpenInBrowserClicked;
+            //
+            // cMenTreeTypeUsername
+            //
+            _cMenTreeTypeUsername.Image = Properties.Resources.Copy_16x;
+            _cMenTreeTypeUsername.Name = "_cMenTreeTypeUsername";
+            _cMenTreeTypeUsername.Size = new System.Drawing.Size(199, 22);
+            _cMenTreeTypeUsername.Text = "Type Username";
+            _cMenTreeTypeUsername.Click += OnTypeUsernameClicked;
             //
             // cMenTreeTypePassword
             //
@@ -769,6 +780,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDisconnect.Text = Language.Disconnect;
             _cMenTreeReconnect.Text = Language.Reconnect;
             _cMenTreeOpenInBrowser.Text = "Open in Browser";
+            _cMenTreeTypeUsername.Text = Language.TypeUsername;
             _cMenTreeTypePassword.Text = Language.TypePassword;
             _cMenTreeTypeClipboard.Text = Language.TypeClipboard;
 
@@ -885,6 +897,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeConnectWithOptions.Enabled = false;
             _cMenTreeDisconnect.Enabled = false;
             _cMenTreeReconnect.Enabled = false;
+            _cMenTreeTypeUsername.Enabled = false;
             _cMenTreeTypePassword.Enabled = false;
             _cMenTreeTypeClipboard.Enabled = false;
             _cMenTreeToolsTransferFile.Enabled = false;
@@ -925,6 +938,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeConnectWithOptionsAlternativeAddress.Enabled = false;
             _cMenTreeDisconnect.Enabled = false;
             _cMenTreeReconnect.Enabled = false;
+            _cMenTreeTypeUsername.Enabled = false;
             _cMenTreeTypePassword.Enabled = false;
             _cMenTreeTypeClipboard.Enabled = false;
             _cMenTreeToolsTransferFile.Enabled = false;
@@ -956,6 +970,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDisconnect.Enabled = hasOpenConnections;
             // Reconnect is available as long as the container has children to reconnect (#1660)
             _cMenTreeReconnect.Enabled = containerInfo.Children.Any();
+            _cMenTreeTypeUsername.Enabled = false;
             _cMenTreeTypePassword.Enabled = false;
             _cMenTreeTypeClipboard.Enabled = false;
 
@@ -1074,6 +1089,7 @@ namespace mRemoteNG.UI.Controls
             _cMenTreeDisconnect.Enabled = anyHasOpenConnections;
 
             // Type Password/Clipboard are session-specific (require an active session window)
+            _cMenTreeTypeUsername.Enabled = false;
             _cMenTreeTypePassword.Enabled = false;
             _cMenTreeTypeClipboard.Enabled = false;
 
@@ -1332,6 +1348,22 @@ namespace mRemoteNG.UI.Controls
                         Runtime.ConnectionInitiator.OpenConnection(container, ConnectionInfo.Force.DoNotJump);
                     else
                         Runtime.ConnectionInitiator.OpenConnection(node, ConnectionInfo.Force.DoNotJump);
+                }
+            }
+        }
+
+        private void OnTypeUsernameClicked(object sender, EventArgs e)
+        {
+            if (_connectionTree.SelectedNode is ConnectionInfo connectionInfo && connectionInfo.OpenConnections.Count > 0)
+            {
+                var protocol = connectionInfo.OpenConnections[connectionInfo.OpenConnections.Count - 1];
+                if (protocol != null)
+                {
+                    string username = connectionInfo.Username;
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        protocol.SendText(username);
+                    }
                 }
             }
         }
