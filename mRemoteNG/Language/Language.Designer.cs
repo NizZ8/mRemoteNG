@@ -3556,7 +3556,16 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("MoveDown", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Move to Folder....
+        /// </summary>
+        internal static string MoveToFolder {
+            get {
+                return ResourceManager.GetString("MoveToFolder", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Move up.
         /// </summary>

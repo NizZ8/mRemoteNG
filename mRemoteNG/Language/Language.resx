@@ -908,6 +908,9 @@ See the Microsoft Support article at http://support.microsoft.com/kb/811833 for 
   <data name="MoveDown" xml:space="preserve">
     <value>Move down</value>
   </data>
+  <data name="MoveToFolder" xml:space="preserve">
+    <value>Move to Folder...</value>
+  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>Move up</value>
   </data>
