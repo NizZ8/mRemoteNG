@@ -26,7 +26,7 @@ namespace mRemoteNG.Connection.Protocol.SSH
         {
             try
             {
-                string sshExe = FindSshExe();
+                string? sshExe = FindSshExe();
                 if (sshExe == null)
                 {
                     Runtime.MessageCollector?.AddMessage(MessageClass.ErrorMsg,
