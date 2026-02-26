@@ -313,6 +313,24 @@ namespace mRemoteNG.UI.TaskDialog
                     bt3.DialogResult = DialogResult.Cancel;
                     CancelButton = bt3;
                     break;
+                case ETaskDialogButtons.DisconnectCancel:
+                    bt1.Visible = false;
+                    bt2.Text = Language.Disconnect;
+                    bt2.DialogResult = DialogResult.Yes;
+                    bt3.Text = Language._Cancel;
+                    bt3.DialogResult = DialogResult.No;
+                    AcceptButton = bt2;
+                    CancelButton = bt3;
+                    break;
+                case ETaskDialogButtons.DeleteCancel:
+                    bt1.Visible = false;
+                    bt2.Text = Language.Delete;
+                    bt2.DialogResult = DialogResult.Yes;
+                    bt3.Text = Language._Cancel;
+                    bt3.DialogResult = DialogResult.No;
+                    AcceptButton = bt2;
+                    CancelButton = bt3;
+                    break;
                 case ETaskDialogButtons.None:
                     bt1.Visible = false;
                     bt2.Visible = false;
@@ -325,7 +343,9 @@ namespace mRemoteNG.UI.TaskDialog
             ControlBox = Buttons == ETaskDialogButtons.Cancel ||
                          Buttons == ETaskDialogButtons.Close ||
                          Buttons == ETaskDialogButtons.OkCancel ||
-                         Buttons == ETaskDialogButtons.YesNoCancel;
+                         Buttons == ETaskDialogButtons.YesNoCancel ||
+                         Buttons == ETaskDialogButtons.DisconnectCancel ||
+                         Buttons == ETaskDialogButtons.DeleteCancel;
 
             if (!showVerifyCheckbox && ExpandedInfo == "" && Buttons == ETaskDialogButtons.None)
                 pnlButtons.Visible = false;

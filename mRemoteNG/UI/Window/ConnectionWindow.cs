@@ -1063,7 +1063,7 @@ namespace mRemoteNG.UI.Window
                  Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.Multiple &
                  connDock.Documents.Count() > 1))
             {
-                DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName, string.Format(Language.ConfirmCloseConnectionPanelMainInstruction, Text), "", "", "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.YesNo, ESysIcons.Question, ESysIcons.Question);
+                DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName, string.Format(Language.ConfirmCloseConnectionPanelMainInstruction, Text), "", "", "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.DisconnectCancel, ESysIcons.Question, ESysIcons.Question);
                 if (CTaskDialog.VerificationChecked)
                 {
                     if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
@@ -1813,7 +1813,7 @@ namespace mRemoteNG.UI.Window
                                                     string.Format(Language.ConfirmCloseConnectionOthersInstruction,
                                                                   selectedTab.TabText), "", "", "",
                                                     Language.CheckboxDoNotShowThisMessageAgain,
-                                                    ETaskDialogButtons.YesNo, ESysIcons.Question,
+                                                    ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,
                                                     ESysIcons.Question);
                 if (CTaskDialog.VerificationChecked)
                 {

@@ -22,7 +22,9 @@ namespace mRemoteNG.UI.TaskDialog
         Ok,
         Close,
         Cancel,
-        None
+        None,
+        DisconnectCancel,
+        DeleteCancel
     }
     #endregion
 

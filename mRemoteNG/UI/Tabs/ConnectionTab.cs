@@ -172,7 +172,7 @@ namespace mRemoteNG.UI.Tabs
                                                                 .Format(Language.ConfirmCloseConnectionPanelMainInstruction,
                                                                         TabText), "", "", "",
                                                             Language.CheckboxDoNotShowThisMessageAgain,
-                                                            ETaskDialogButtons.YesNo, ESysIcons.Question,
+                                                            ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,
                                                             ESysIcons.Question);
                         if (CTaskDialog.VerificationChecked)
                         {
