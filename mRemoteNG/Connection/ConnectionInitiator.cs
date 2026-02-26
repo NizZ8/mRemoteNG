@@ -438,18 +438,35 @@ namespace mRemoteNG.Connection
 
                     if (connectionTab.Tag is InterfaceControl interfaceControl)
                     {
-                        if (interfaceControl.Info == connectionInfo || interfaceControl.OriginalInfo == connectionInfo)
+                        if (AreEquivalentConnections(interfaceControl.Info, connectionInfo) ||
+                            AreEquivalentConnections(interfaceControl.OriginalInfo, connectionInfo))
                             return connectionTab;
                         continue;
                     }
 
                     ConnectionInfo? trackedConnectionInfo = connectionTab.Tag as ConnectionInfo ?? connectionTab.TrackedConnectionInfo;
-                    if (trackedConnectionInfo == connectionInfo)
+                    if (AreEquivalentConnections(trackedConnectionInfo, connectionInfo))
                         return connectionTab;
                 }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Compares two connections by their effective target (hostname, port, protocol,
+        /// username, domain) so that identical nodes in different tree branches are
+        /// recognized as the same open connection (#2414).
+        /// </summary>
+        private static bool AreEquivalentConnections(ConnectionInfo? a, ConnectionInfo? b)
+        {
+            if (ReferenceEquals(a, b)) return true;
+            if (a is null || b is null) return false;
+            return string.Equals(a.Hostname, b.Hostname, StringComparison.OrdinalIgnoreCase) &&
+                   a.Port == b.Port &&
+                   a.Protocol == b.Protocol &&
+                   string.Equals(a.Username, b.Username, StringComparison.Ordinal) &&
+                   string.Equals(a.Domain, b.Domain, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string? SetConnectionPanel(ConnectionInfo connectionInfo, ConnectionInfo.Force force)
