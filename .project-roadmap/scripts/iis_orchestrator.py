@@ -1410,10 +1410,22 @@ def run_tests(return_details=False):
             # so that pre-existing flaky failures (within threshold) don't reject valid fixes
             log.warning("    [TEST] run-tests.ps1 exit code %d — checking threshold [%.0fs]", r.returncode, elapsed)
 
-        # Parse run-tests.ps1 output: "Total: 1926/1926 passed, 0 failed"
+        # Parse run-tests.ps1 output — supports two formats:
+        # Format A (inline): "Total: 1926/1926 passed, 0 failed"
+        # Format B (separate lines): "Total:   5967\nPassed:  5965\nFailed:     2"
+        passed = total = failed = None
         total_m = re.search(r"Total:\s+(\d+)/(\d+)\s+passed,\s+(\d+)\s+failed", out)
         if total_m:
             passed, total, failed = int(total_m.group(1)), int(total_m.group(2)), int(total_m.group(3))
+        else:
+            t_m = re.search(r"Total:\s+(\d+)", out)
+            p_m = re.search(r"Passed:\s+(\d+)", out)
+            f_m = re.search(r"Failed:\s+(\d+)", out)
+            if t_m and p_m:
+                total = int(t_m.group(1))
+                passed = int(p_m.group(1))
+                failed = int(f_m.group(1)) if f_m else total - passed
+        if passed is not None and total is not None:
 
             # ── SANITY: reject impossible pass rates (>100% = garbled output) ──
             if total > 0 and passed > total:
