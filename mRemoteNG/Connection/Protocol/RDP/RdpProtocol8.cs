@@ -107,9 +107,27 @@ namespace mRemoteNG.Connection.Protocol.RDP
             // Manual drag-resizing will be handled by ResizeEnd()
             if (LastWindowState != _frmMain.WindowState)
             {
+                bool wasMinimized = LastWindowState == FormWindowState.Minimized;
+
                 Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
                     $"Resize() - Window state changed from {LastWindowState} to {_frmMain.WindowState}, calling DoResizeClient()");
                 LastWindowState = _frmMain.WindowState;
+
+                if (wasMinimized)
+                {
+                    // After restoring from minimize, the RDP ActiveX control may not
+                    // properly restore its layout. Force a re-dock cycle to ensure
+                    // the control fills its container correctly. Also re-apply
+                    // SmartSizing which may be lost during minimize/restore (#662).
+                    if (Control != null && !Control.IsDisposed && Control.Dock == DockStyle.Fill)
+                    {
+                        Control.Dock = DockStyle.None;
+                        Control.Dock = DockStyle.Fill;
+                    }
+
+                    EnsureSmartSizing();
+                }
+
                 DoResizeClient();
             }
             else
@@ -309,6 +327,31 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 $"DoResizeControl - After: Control.Size={Control.Size}, Control.Dock={Control.Dock}");
 
             return true;
+        }
+
+        /// <summary>
+        /// Re-applies SmartSizing based on the connection's configured settings.
+        /// Called after restore from minimize to ensure the COM property wasn't lost (#662).
+        /// </summary>
+        private void EnsureSmartSizing()
+        {
+            if (connectionInfo == null) return;
+
+            var sizingMode = connectionInfo.RDPSizingMode;
+            if (connectionInfo.Resolution == RDPResolutions.SmartSize)
+                sizingMode = RDPSizingMode.SmartSize;
+            else if (connectionInfo.Resolution == RDPResolutions.SmartSizeAspect)
+                sizingMode = RDPSizingMode.SmartSizeAspect;
+
+            bool shouldBeSmartSized = sizingMode == RDPSizingMode.SmartSize ||
+                                     sizingMode == RDPSizingMode.SmartSizeAspect;
+
+            if (shouldBeSmartSized && !SmartSize)
+            {
+                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
+                    $"EnsureSmartSizing - Re-applying SmartSizing for '{connectionInfo.Hostname}' after restore");
+                SmartSize = true;
+            }
         }
 
         protected virtual void UpdateSessionDisplaySettings(uint width, uint height)
