@@ -1,5 +1,6 @@
 using BrightIdeasSoftware;
 using mRemoteNG.Connection;
+using mRemoteNG.Resources.Language;
 using mRemoteNG.Tools;
 using System.Runtime.Versioning;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
     {
         public NameColumn(ImageGetterDelegate imageGetterDelegate)
         {
+            Text = Language.Name;
             AspectName = "Name";
             FillsFreeSpace = false;
             AspectGetter = item =>

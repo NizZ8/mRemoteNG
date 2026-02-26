@@ -155,6 +155,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
         private void AddColumns(ImageGetterDelegate imageGetterDelegate)
         {
             Columns.Add(new NameColumn(imageGetterDelegate));
+            Columns.Add(new DescriptionColumn());
         }
 
         private void LinkModelToView()
@@ -301,7 +302,8 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             string? property = propertyChangedEventArgs.PropertyName;
             if (property != nameof(ConnectionInfo.Name)
              && property != nameof(ConnectionInfo.OpenConnections)
-             && property != nameof(ConnectionInfo.Icon))
+             && property != nameof(ConnectionInfo.Icon)
+             && property != nameof(ConnectionInfo.Description))
             {
                 return;
             }
