@@ -30,7 +30,7 @@ namespace mRemoteNG.App
                     openFileDialog.Multiselect = true;
 
                     List<string> fileTypes = new();
-                    fileTypes.AddRange(new[] {Language.FilterAllImportable, "*.xml;*.rdp;*.rdg;*.dat;*.csv;*.html;*.htm;*.txt"});
+                    fileTypes.AddRange(new[] {Language.FilterAllImportable, "*.xml;*.rdp;*.rdg;*.dat;*.csv;*.html;*.htm;*.txt;*.ini;*.crt"});
                     fileTypes.AddRange(new[] {Language.FiltermRemoteXML, "*.xml"});
                     fileTypes.AddRange(new[] {Language.FiltermRemoteCSV, "*.csv"});
                     fileTypes.AddRange(new[] {Language.FilterRDP, "*.rdp"});
@@ -230,6 +230,36 @@ namespace mRemoteNG.App
             }
         }
 
+        public static void ImportFromSecureCRT(ContainerInfo importDestinationContainer)
+        {
+            try
+            {
+                using (Runtime.ConnectionsService.BatchedSavingContext())
+                {
+                    string? defaultPath = SecureCRTFolderImporter.GetDefaultSessionsPath();
+
+                    using FolderBrowserDialog folderDialog = new()
+                    {
+                        Description = "Select SecureCRT Sessions folder",
+                        ShowNewFolderButton = false
+                    };
+
+                    if (defaultPath != null)
+                        folderDialog.SelectedPath = defaultPath;
+
+                    if (folderDialog.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    SecureCRTFolderImporter importer = new();
+                    importer.Import(folderDialog.SelectedPath, importDestinationContainer);
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("App.Import.ImportFromSecureCRT() failed.", ex);
+            }
+        }
+
         public static void ImportFromMtputty(ContainerInfo importDestinationContainer)
         {
             try
@@ -297,6 +327,8 @@ namespace mRemoteNG.App
                     return new BookmarksHtmlImporter();
                 case ".txt":
                     return new TextListConnectionImporter();
+                case ".ini":
+                    return new SecureCRTIniFileImporter();
                 default:
                     throw new FileFormatException("Unrecognized file format.");
             }
