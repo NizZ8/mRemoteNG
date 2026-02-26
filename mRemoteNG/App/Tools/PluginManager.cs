@@ -73,7 +73,8 @@ namespace mRemoteNG.Tools
             {
                 if (typeof(IPlugin).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
                 {
-                    IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
+                    if (Activator.CreateInstance(type) is not IPlugin plugin)
+                        continue;
                     plugin.Initialize(this);
                     _plugins.Add(plugin);
                     LogInfo($"Loaded plugin: {plugin.Name} v{plugin.Version}");
