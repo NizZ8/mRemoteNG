@@ -177,13 +177,13 @@ CLAUDE_ENV = {k: v for k, v in os.environ.items()
 # ── AGENT CONFIG ──────────────────────────────────────────────────────────
 # Which AI agent to use for each task type: "codex", "claude", or "gemini"
 AGENT_CONFIG = {
-    "triage":               "claude",   # ai_triage() — JSON analysis
-    "implement":            "claude",   # implement_issue() — full code fix
-    "warning_fix":          "claude",   # _fix_single_file()
-    "warning_fix_parallel": "claude",   # _claude_fix_file_only()
+    "triage":               "codex",    # ai_triage() — JSON analysis
+    "implement":            "codex",    # implement_issue() — full code fix
+    "warning_fix":          "codex",    # _fix_single_file()
+    "warning_fix_parallel": "codex",    # _claude_fix_file_only()
 }
-AGENT_CHAIN = ["claude"]  # Claude Sonnet only — planning built into implementation prompt
-AGENT_FALLBACK_ENABLED = True           # if primary fails, try the next agent in chain
+AGENT_CHAIN = ["codex"]   # Codex Spark primary, regular Codex fallback built-in
+AGENT_FALLBACK_ENABLED = True           # enable fallback to regular Codex when Spark fails
 
 # ── DUAL-MODEL STRATEGY (all agents) ─────────────────────────────────────
 # Each agent uses a fast/cheap model for triage and a powerful model for implementation.
@@ -204,12 +204,13 @@ GEMINI_MODEL_BY_TASK = {
 }
 
 # Codex models (verified: codex exec -m <name>)
-CODEX_MODEL = "gpt-5.3-codex"          # powerful — implementation
-CODEX_MODEL_FAST = "gpt-4.1-mini"      # fast — triage
-CODEX_REASONING = "xhigh"               # reasoning effort for implementation
+CODEX_MODEL = "gpt-5.3-codex-spark"    # fast primary — all tasks
+CODEX_MODEL_FALLBACK = "gpt-5.3-codex" # powerful fallback — when spark fails
+CODEX_MODEL_FAST = CODEX_MODEL          # alias
+CODEX_REASONING = "xhigh"               # reasoning effort for all tasks
 CODEX_MODEL_BY_TASK = {
-    "triage":               CODEX_MODEL_FAST,
-    "pre_analysis":         CODEX_MODEL_FAST,
+    "triage":               CODEX_MODEL,
+    "pre_analysis":         CODEX_MODEL,
     "implement":            CODEX_MODEL,
     "test_fix":             CODEX_MODEL,
     "warning_fix":          CODEX_MODEL,
@@ -217,15 +218,15 @@ CODEX_MODEL_BY_TASK = {
     "test_hygiene":         CODEX_MODEL,
     "analysis":             CODEX_MODEL,
 }
-# Codex reasoning effort per task (verified: -c model_reasoning_effort="<value>")
+# Codex reasoning effort per task — all xhigh
 CODEX_REASONING_BY_TASK = {
-    "triage":               "medium",   # fast classification, no deep reasoning needed
-    "pre_analysis":         "medium",   # read-only scan, no deep reasoning
-    "implement":            "xhigh",    # complex code changes
-    "test_fix":             "xhigh",    # needs careful analysis
-    "warning_fix":          "high",     # moderate complexity
-    "warning_fix_parallel": "high",
-    "test_hygiene":         "high",
+    "triage":               "xhigh",
+    "pre_analysis":         "xhigh",
+    "implement":            "xhigh",
+    "test_fix":             "xhigh",
+    "warning_fix":          "xhigh",
+    "warning_fix_parallel": "xhigh",
+    "test_hygiene":         "xhigh",
     "analysis":             "xhigh",
 }
 
@@ -513,9 +514,9 @@ def _complexity_base_timeout(agent, task_type, triage=None):
     elif priority == "P2-bug":
         base = int(base * 1.2)
 
-    # Agent speed factor: codex with xhigh is slower than gemini/claude
+    # Agent speed factor: codex with xhigh is much slower than gemini/claude
     if agent == "codex":
-        base = int(base * 1.3)
+        base = int(base * 2.0)
 
     return base
 
@@ -1929,7 +1930,7 @@ def codex_run(prompt, timeout=CODEX_TIMEOUT, retries=CODEX_RETRIES,
                 CODEX_CMD, "exec", "-",
                 "--color", "never",
                 "--ephemeral",
-                "--full-auto",                   # auto-approve + workspace-write sandbox
+                "--dangerously-bypass-approvals-and-sandbox",  # Windows: workspace-write falls back to read-only
                 "-m", use_model,
                 "-c", f'model_reasoning_effort="{use_reasoning}"',
                 "-C", str(REPO_ROOT),
@@ -2289,8 +2290,34 @@ Reply with ONLY a JSON object:
 
         log.warning("    [CHAIN] %s failed triage for #%d — trying next agent", agent, num)
 
+    # ── CODEX REGULAR FALLBACK: when Spark fails, retry with gpt-5.3-codex (deeper reasoning) ──
+    if "codex" in AGENT_CHAIN and CODEX_MODEL != CODEX_MODEL_FALLBACK:
+        log.info("    [CHAIN] Spark failed — retrying triage #%d with regular Codex (%s)", num, CODEX_MODEL_FALLBACK)
+        fallback_timeout = int(_estimate_timeout("codex", "triage", issue_key=issue_key,
+                                                 chain_escalation=chain_esc) * 1.5)
+        t0 = time.time()
+        raw_output = codex_run(triage_prompt, timeout=fallback_timeout, retries=1,
+                               model=CODEX_MODEL_FALLBACK, reasoning="xhigh")
+        elapsed = time.time() - t0
+        kill_stale_processes()
+        if raw_output:
+            log.info("    [CHAIN] Codex-regular raw (%d chars, %.0fs): %s",
+                     len(raw_output), elapsed, raw_output[:150].replace("\n", " "))
+            result = _extract_json(raw_output)
+            if result and "decision" in result:
+                ctx.add_attempt("codex", "triage", True, result=result, raw_output=raw_output)
+                ctx.save()
+                log.info("    [CHAIN] Codex-regular triage OK for #%d", num)
+                return result, "codex"
+            else:
+                ctx.add_attempt("codex", "triage", False, raw_output=raw_output,
+                                errors="Codex-regular could not extract valid JSON")
+        else:
+            ctx.add_attempt("codex", "triage", False, errors="Codex-regular returned None")
+        log.warning("    [CHAIN] Codex-regular fallback also failed for #%d", num)
+
     # ── OPUS FALLBACK: when all chain agents failed, retry with Opus for deep analysis ──
-    if CLAUDE_MODEL_BY_TASK.get("triage") != CLAUDE_MODEL_OPUS:
+    if "claude" in AGENT_CHAIN and CLAUDE_MODEL_BY_TASK.get("triage") != CLAUDE_MODEL_OPUS:
         log.info("    [CHAIN] All agents failed with Sonnet — retrying triage #%d with Opus (deep analysis)", num)
         opus_timeout = int(_estimate_timeout("claude", "triage", issue_key=issue_key,
                                              chain_escalation=chain_esc) * 1.5)
@@ -2933,8 +2960,84 @@ Do ONLY the fix. Nothing else."""
 
         log.warning("  [CHAIN] %s failed for #%d — passing to next agent", agent, num)
 
+    # ── CODEX REGULAR FALLBACK: when Spark fails, retry with gpt-5.3-codex (deeper reasoning) ──
+    if "codex" in AGENT_CHAIN and CODEX_MODEL != CODEX_MODEL_FALLBACK:
+        elapsed_total = time.time() - issue_start_time
+        if elapsed_total > ISSUE_TOTAL_TIME_CAP:
+            log.error("  [CHAIN] Time cap exceeded before Codex-regular fallback for #%d", num)
+        else:
+            log.info("  [CHAIN] Spark failed — retrying #%d with regular Codex (%s xhigh)", num, CODEX_MODEL_FALLBACK)
+            fallback_timeout = int(_estimate_timeout("codex", "implement",
+                                                      issue_key=issue_key,
+                                                      chain_escalation=chain_esc) * 1.5)
+            fallback_timeout = min(fallback_timeout, TIMEOUT_MAX)
+
+            status.set_task(type="issue_fix", issue=num, step="codex_regular_implement")
+            git_restore()  # Clean slate for regular Codex
+
+            # Build prompt with previous attempt context
+            fallback_prompt = impl_prompt
+            if ctx.attempts:
+                prev_context = "\n".join(
+                    f"- Attempt {a['agent']} ({a.get('build_result','?')}/{a.get('test_result','?')}): {a.get('errors','')[:300]}"
+                    for a in ctx.attempts[-3:]
+                )
+                fallback_prompt += f"\n\n## Previous failed attempts (learn from these)\n{prev_context}\n"
+
+            t0 = time.time()
+            raw_output = codex_run(fallback_prompt, timeout=fallback_timeout, retries=1,
+                                   model=CODEX_MODEL_FALLBACK, reasoning="xhigh")
+            elapsed = time.time() - t0
+            kill_stale_processes()
+
+            if raw_output:
+                log.info("  [CHAIN] Codex-regular returned (%d chars, %.0fs)", len(raw_output), elapsed)
+                status.set_task(type="issue_fix", issue=num, step="building_codex_regular")
+                build_ok, build_output = run_build(capture_output=True)
+
+                if build_ok:
+                    status.set_task(type="issue_fix", issue=num, step="testing_codex_regular")
+                    test_result = run_tests(return_details=True)
+                    if len(test_result) == 4:
+                        test_ok, test_output, failed_tests, is_phantom = test_result
+                    else:
+                        test_ok, test_output, failed_tests = test_result
+                        is_phantom = False
+
+                    if test_ok and not is_phantom:
+                        ctx.add_attempt("codex", f"implement #{num} (regular-fallback)", True,
+                                        build_result="OK", test_result="OK")
+                        ctx.save()
+                        status.set_task(type="issue_fix", issue=num, step="committing")
+                        short = (approach or title)[:60]
+                        msg = f"fix(#{num}): {short}"
+                        h = git_commit(msg)
+                        if h:
+                            status.add_commit(h, msg, True)
+                            status.data["issues"]["implemented"] += 1
+                            log.info("  [CHAIN] Codex-regular fix committed %s for #%d", h[:8], num)
+                            status.set_task(type="issue_fix", issue=num, step="pushing")
+                            git_push()
+                            if post_github_comment(num, h, short):
+                                status.data["issues"]["commented_on_github"] += 1
+                            update_issue_json(num, "testing", f"Fix in {h[:8]} (codex-regular)",
+                                              impl_failed=False)
+                            status.clear_task()
+                            return True
+                    elif test_ok and is_phantom:
+                        log.warning("  [CHAIN] Codex-regular: phantom tests for #%d", num)
+                    else:
+                        log.warning("  [CHAIN] Codex-regular build OK but tests fail for #%d", num)
+                else:
+                    log.warning("  [CHAIN] Codex-regular build failed for #%d", num)
+            else:
+                log.warning("  [CHAIN] Codex-regular returned nothing for #%d", num)
+
+            git_restore()
+            log.error("  [CHAIN] Codex-regular fallback also failed for #%d", num)
+
     # ── OPUS FALLBACK: when primary model fails, retry with Opus ──
-    if CLAUDE_MODEL_BY_TASK.get("implement") != CLAUDE_MODEL_OPUS:
+    if "claude" in AGENT_CHAIN and CLAUDE_MODEL_BY_TASK.get("implement") != CLAUDE_MODEL_OPUS:
         log.info("  [CHAIN] Primary model failed — retrying #%d with Opus (deeper reasoning)", num)
 
         # Time cap check
