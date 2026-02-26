@@ -12,14 +12,14 @@ namespace mRemoteNG.UI.Forms
         public string Password { get { return txtPassword.Text; } }
         public string Domain { get { return txtDomain.Text; } }
 
-        private Label lblUsername;
-        private TextBox txtUsername;
-        private Label lblPassword;
-        private TextBox txtPassword;
-        private Label lblDomain;
-        private TextBox txtDomain;
-        private Button btnConnect;
-        private Button btnCancel;
+        private Label lblUsername = null!;
+        private TextBox txtUsername = null!;
+        private Label lblPassword = null!;
+        private TextBox txtPassword = null!;
+        private Label lblDomain = null!;
+        private TextBox txtDomain = null!;
+        private Button btnConnect = null!;
+        private Button btnCancel = null!;
 
         public FrmConnectWithCredentials(string defaultUsername, string defaultDomain)
         {
