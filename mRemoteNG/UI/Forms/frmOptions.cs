@@ -284,7 +284,7 @@ namespace mRemoteNG.UI.Forms
             }
 
             // Skip if the requested page is already selected (avoid redundant layout work)
-            if (lstOptionPages.SelectedItem?.Text == _pageName)
+            if (lstOptionPages.SelectedObject is OptionsPage selectedPage && selectedPage.PageName == _pageName)
             {
                 Logger.Instance.Log?.Debug($"[SetActivatedPage] Page '{_pageName}' already selected - skipping");
                 return;
