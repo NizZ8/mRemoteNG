@@ -116,15 +116,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 || pageRegSettingsInstance.StartupBehavior.IsSet;
         }
 
-        private void StartupExitPage_Load(object sender, EventArgs e)
-        {
-            chkReconnectOnStart.Checked = Properties.OptionsStartupExitPage.Default.OpenConsFromLastSession;
-            chkSingleInstance.Checked = Properties.OptionsStartupExitPage.Default.SingleInstance;
-            chkStartMinimized.Checked = Properties.OptionsStartupExitPage.Default.StartMinimized;
-            chkStartFullScreen.Checked = Properties.OptionsStartupExitPage.Default.StartFullScreen;
-            chkDisableRefocus.Checked = Properties.OptionsStartupExitPage.Default.DisableRefocus;
-        }
-
         private void chkStartFullScreen_CheckedChanged(object sender, EventArgs e)
         {
             if (chkStartFullScreen.Checked && chkStartMinimized.Checked)

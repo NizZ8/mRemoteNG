@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Forms;
+using mRemoteNG.Themes;
 using mRemoteNG.UI.Controls;
 
 namespace mRemoteNG.UI.Forms
@@ -17,9 +18,14 @@ namespace mRemoteNG.UI.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                if (_isInitialized)
+                {
+                    ThemeManager.getInstance().ThemeChanged -= ApplyTheme;
+                }
+
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
