@@ -11,10 +11,10 @@ namespace mRemoteNG.UI.Forms
     [SupportedOSPlatform("windows")]
     public class FrmConnectWithOptions : Form
     {
-        private PropertyGrid _propertyGrid;
-        private Button _btnConnect;
-        private Button _btnCancel;
-        private ConnectionInfo _connectionInfo;
+        private PropertyGrid _propertyGrid = null!;
+        private Button _btnConnect = null!;
+        private Button _btnCancel = null!;
+        private ConnectionInfo _connectionInfo = null!;
 
         public ConnectionInfo ConnectionInfo => _connectionInfo;
 
@@ -92,7 +92,7 @@ namespace mRemoteNG.UI.Forms
 
                 try
                 {
-                    object val = prop.GetValue(original, null);
+                    object? val = prop.GetValue(original, null);
                     prop.SetValue(clone, val, null);
                 }
                 catch (Exception)
