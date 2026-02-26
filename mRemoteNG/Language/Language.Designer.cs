@@ -2791,7 +2791,16 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("Fullscreen", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Move to Monitor.
+        /// </summary>
+        internal static string MoveToMonitor {
+            get {
+                return ResourceManager.GetString("MoveToMonitor", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Gateway.
         /// </summary>

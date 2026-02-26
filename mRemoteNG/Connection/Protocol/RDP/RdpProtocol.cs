@@ -462,6 +462,61 @@ namespace mRemoteNG.Connection.Protocol.RDP
         }
 
         /// <summary>
+        /// Moves a fullscreen RDP session to the specified monitor by finding the
+        /// RDP container window and repositioning it with SetWindowPos.
+        /// </summary>
+        public void MoveFullscreenToMonitor(Screen targetScreen)
+        {
+            if (!Fullscreen) return;
+
+            try
+            {
+                System.Threading.Tasks.Task.Run(async () =>
+                {
+                    try
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            await System.Threading.Tasks.Task.Delay(50);
+
+                            if (_frmMain == null || _frmMain.IsDisposed) return;
+
+                            bool moved = false;
+                            _frmMain.Invoke((MethodInvoker)delegate
+                            {
+                                IntPtr hwnd = NativeMethods.GetForegroundWindow();
+                                if (hwnd == IntPtr.Zero) return;
+
+                                StringBuilder className = new StringBuilder(256);
+                                NativeMethods.GetClassName(hwnd, className, className.Capacity);
+                                string cls = className.ToString();
+
+                                if (cls.Contains("TscShellContainerClass") || cls.Contains("UIContainerClass"))
+                                {
+                                    Rectangle bounds = targetScreen.Bounds;
+                                    NativeMethods.SetWindowPos(hwnd, IntPtr.Zero,
+                                        bounds.X, bounds.Y, bounds.Width, bounds.Height,
+                                        NativeMethods.SWP_NOZORDER | NativeMethods.SWP_FRAMECHANGED | NativeMethods.SWP_NOACTIVATE);
+                                    moved = true;
+                                }
+                            });
+
+                            if (moved) break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Runtime.MessageCollector.AddExceptionStackTrace("Error moving RDP fullscreen to monitor", ex, MessageClass.WarningMsg, false);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace("Error initiating RDP fullscreen monitor move", ex, MessageClass.WarningMsg, false);
+            }
+        }
+
+        /// <summary>
         /// Sends Ctrl+Alt+End to the active RDP session via the IMsRdpClientNonScriptable COM API.
         /// Ctrl+Alt+End maps to Ctrl+Alt+Del on the remote host, bypassing keyboard interception
         /// by intermediate RDP sessions (works for nested/jump-box scenarios).

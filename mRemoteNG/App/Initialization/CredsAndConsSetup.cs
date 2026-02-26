@@ -16,6 +16,9 @@ namespace mRemoteNG.App.Initialization
                 Runtime.ConnectionsService.NewConnectionsFile(Runtime.ConnectionsService.GetStartupConnectionFileName());
 
             Runtime.LoadConnections();
+
+            // Restore additional connection files from previous session (#2331)
+            Runtime.ConnectionsService.LoadAdditionalConnectionFiles();
         }
     }
 }

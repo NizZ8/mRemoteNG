@@ -214,11 +214,63 @@ namespace mRemoteNG.Connection
                         ConnectionTreeModel.AddRootNode(root);
                     }
                 }
+
+                PersistAdditionalFileList();
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage(string.Format(Language.LoadFromXmlFailed, filename), ex);
             }
+        }
+
+        public void CloseAdditionalConnectionFile(RootNodeInfo rootNode)
+        {
+            if (ConnectionTreeModel == null || rootNode == null) return;
+            if (ConnectionTreeModel.RootNodes.Count <= 1) return;
+
+            // Don't allow closing the primary connection file
+            if (string.Equals(rootNode.Filename, ConnectionFileName, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            ConnectionTreeModel.RemoveRootNode(rootNode);
+            PersistAdditionalFileList();
+        }
+
+        public void LoadAdditionalConnectionFiles()
+        {
+            string saved = Properties.OptionsConnectionsPage.Default.AdditionalConnectionFiles;
+            if (string.IsNullOrWhiteSpace(saved)) return;
+
+            string[] files = saved.Split('|', StringSplitOptions.RemoveEmptyEntries);
+            foreach (string file in files)
+            {
+                string expanded = Environment.ExpandEnvironmentVariables(file.Trim());
+                if (File.Exists(expanded))
+                {
+                    LoadAdditionalConnectionFile(expanded);
+                }
+            }
+        }
+
+        private void PersistAdditionalFileList()
+        {
+            if (ConnectionTreeModel == null)
+            {
+                Properties.OptionsConnectionsPage.Default.AdditionalConnectionFiles = "";
+                Properties.OptionsConnectionsPage.Default.Save();
+                return;
+            }
+
+            var additionalFiles = ConnectionTreeModel.RootNodes
+                .OfType<RootNodeInfo>()
+                .Where(r => !string.IsNullOrEmpty(r.Filename) &&
+                            !string.Equals(r.Filename, ConnectionFileName, StringComparison.OrdinalIgnoreCase) &&
+                            r.Type == RootNodeType.Connection)
+                .Select(r => r.Filename)
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+
+            Properties.OptionsConnectionsPage.Default.AdditionalConnectionFiles = string.Join("|", additionalFiles);
+            Properties.OptionsConnectionsPage.Default.Save();
         }
 
         /// <summary>

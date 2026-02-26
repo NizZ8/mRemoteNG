@@ -614,6 +614,9 @@ See the Microsoft Support article at http://support.microsoft.com/kb/811833 for 
   <data name="Fullscreen" xml:space="preserve">
     <value>Fullscreen</value>
   </data>
+  <data name="MoveToMonitor" xml:space="preserve">
+    <value>Move to Monitor</value>
+  </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
