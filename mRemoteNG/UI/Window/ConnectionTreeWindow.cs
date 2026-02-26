@@ -500,6 +500,8 @@ namespace mRemoteNG.UI.Window
                 }
 
                 ConnectionTree.ApplyFilter(txtSearch.Text);
+                ConnectionTree.NodeSearcher?.SearchByName(txtSearch.Text);
+                JumpToNode(ConnectionTree.NodeSearcher?.CurrentMatch);
             }
             else
             {
