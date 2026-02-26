@@ -1186,7 +1186,7 @@ namespace mRemoteNG.UI.Controls
 
                 try
                 {
-                    object val = prop.GetValue(original, null);
+                    object? val = prop.GetValue(original, null);
                     prop.SetValue(clone, val, null);
                 }
                 catch (Exception)
