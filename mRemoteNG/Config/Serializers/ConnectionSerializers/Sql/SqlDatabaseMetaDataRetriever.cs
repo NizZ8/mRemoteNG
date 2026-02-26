@@ -830,8 +830,8 @@ CREATE TABLE `tblExternalTools` (
                      cmd.Parameters.Add(dbNameParam);
                  }
 
-                 object result = cmd.ExecuteScalar();
-                 return Convert.ToInt32(result) > 0;
+                 object? result = cmd.ExecuteScalar();
+                 return result != null && Convert.ToInt32(result) > 0;
              }
              catch
              {
