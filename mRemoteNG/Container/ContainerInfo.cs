@@ -23,7 +23,7 @@ namespace mRemoteNG.Container
     /// </summary>
     [SupportedOSPlatform("windows")]
     [DefaultProperty("Name")]
-    public class ContainerInfo : ConnectionInfo, INotifyCollectionChanged, IConnectionNode
+    public class ContainerInfo : ConnectionInfo, INotifyCollectionChanged, IConnectionNode, ITreeNodeContainer
     {
         private bool _isExpanded;
         private bool _autoSort;
