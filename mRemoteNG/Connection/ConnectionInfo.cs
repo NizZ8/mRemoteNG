@@ -51,7 +51,7 @@ namespace mRemoteNG.Connection
 
         #region IConnectionNode Implementation
         IEnumerable<IConnectionNode> IConnectionNode.Children => Enumerable.Empty<IConnectionNode>();
-        IConnectionNode IConnectionNode.Parent => Parent;
+        IConnectionNode IConnectionNode.Parent => Parent!;
         string IConnectionNode.Protocol => Protocol.ToString();
         #endregion
 
