@@ -99,6 +99,8 @@ namespace mRemoteNG.Config.Settings
 
                     if (xEl.HasAttribute("Category"))
                         extA.Category = xEl.Attributes["Category"]?.Value ?? string.Empty;
+                    if (xEl.HasAttribute("Hidden"))
+                        extA.Hidden = bool.Parse(xEl.Attributes["Hidden"]!.Value);
                     if (xEl.HasAttribute("AuthType"))
                         extA.AuthenticationType = xEl.Attributes["AuthType"]?.Value ?? string.Empty;
                     if (xEl.HasAttribute("AuthUsername"))

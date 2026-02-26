@@ -17,6 +17,7 @@ namespace mRemoteNG.UI.Window
 		internal Controls.MrngTextBox DisplayNameTextBox;
         internal BrightIdeasSoftware.OLVColumn ShowOnToolbarColumnHeader;
         internal BrightIdeasSoftware.OLVColumn CategoryColumnHeader;
+        internal BrightIdeasSoftware.OLVColumn HiddenColumnHeader;
 		internal Controls.MrngLabel DisplayNameLabel;
 		internal Controls.MrngTextBox ArgumentsCheckBox;
 		internal Controls.MrngTextBox FilenameTextBox;
@@ -41,6 +42,7 @@ namespace mRemoteNG.UI.Window
 	    internal Controls.MrngTextBox WorkingDirTextBox;
 	    internal MrngButton BrowseWorkingDir;
 	    internal MrngCheckBox RunElevatedCheckBox;
+	    internal MrngCheckBox HiddenCheckBox;
 	    internal Controls.MrngLabel CategoryLabel;
 	    internal Controls.MrngTextBox CategoryTextBox;
 	    internal Controls.MrngLabel HotkeyLabel;
@@ -71,6 +73,7 @@ namespace mRemoteNG.UI.Window
             this.RunElevateHeader = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ShowOnToolbarColumnHeader = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.CategoryColumnHeader = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.HiddenColumnHeader = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ToolsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NewToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +89,7 @@ namespace mRemoteNG.UI.Window
             this.ArgumentsCheckBox = new mRemoteNG.UI.Controls.MrngTextBox();
             this.FilenameLabel = new mRemoteNG.UI.Controls.MrngLabel();
             this.RunElevatedCheckBox = new MrngCheckBox();
+            this.HiddenCheckBox = new MrngCheckBox();
             this.ArgumentsLabel = new mRemoteNG.UI.Controls.MrngLabel();
             this.TryToIntegrateCheckBox = new MrngCheckBox();
             this.WorkingDirLabel = new mRemoteNG.UI.Controls.MrngLabel();
@@ -137,6 +141,8 @@ namespace mRemoteNG.UI.Window
             this.ToolsListObjView.AllColumns.Add(this.TryToIntegrateColumnHeader);
             this.ToolsListObjView.AllColumns.Add(this.RunElevateHeader);
             this.ToolsListObjView.AllColumns.Add(this.ShowOnToolbarColumnHeader);
+            this.ToolsListObjView.AllColumns.Add(this.CategoryColumnHeader);
+            this.ToolsListObjView.AllColumns.Add(this.HiddenColumnHeader);
             this.ToolsListObjView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -151,7 +157,9 @@ namespace mRemoteNG.UI.Window
             this.WaitForExitColumnHeader,
             this.TryToIntegrateColumnHeader,
             this.RunElevateHeader,
-            this.ShowOnToolbarColumnHeader});
+            this.ShowOnToolbarColumnHeader,
+            this.CategoryColumnHeader,
+            this.HiddenColumnHeader});
             this.ToolsListObjView.ContextMenuStrip = this.ToolsContextMenuStrip;
             this.ToolsListObjView.Cursor = System.Windows.Forms.Cursors.Default;
             this.ToolsListObjView.DecorateLines = true;
@@ -240,7 +248,24 @@ namespace mRemoteNG.UI.Window
             this.ShowOnToolbarColumnHeader.Groupable = false;
             this.ShowOnToolbarColumnHeader.Text = "Show On Toolbar";
             this.ShowOnToolbarColumnHeader.Width = 120;
-            // 
+            //
+            // CategoryColumnHeader
+            //
+            this.CategoryColumnHeader.AspectName = "Category";
+            this.CategoryColumnHeader.AutoCompleteEditor = false;
+            this.CategoryColumnHeader.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.CategoryColumnHeader.Groupable = true;
+            this.CategoryColumnHeader.Text = "Category";
+            this.CategoryColumnHeader.Width = 100;
+            //
+            // HiddenColumnHeader
+            //
+            this.HiddenColumnHeader.AspectName = "Hidden";
+            this.HiddenColumnHeader.CheckBoxes = true;
+            this.HiddenColumnHeader.Groupable = false;
+            this.HiddenColumnHeader.Text = "Hidden";
+            this.HiddenColumnHeader.Width = 60;
+            //
             // ToolsContextMenuStrip
             // 
             this.ToolsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

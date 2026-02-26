@@ -61,6 +61,7 @@ namespace mRemoteNG.Config.Settings
                     xmlTextWriter.WriteAttributeString("RunElevated", "", Convert.ToString(extA.RunElevated));
                     xmlTextWriter.WriteAttributeString("ShowOnToolbar", "", Convert.ToString(extA.ShowOnToolbar));
                     xmlTextWriter.WriteAttributeString("Category", "", extA.Category);
+                    xmlTextWriter.WriteAttributeString("Hidden", "", Convert.ToString(extA.Hidden));
                     xmlTextWriter.WriteAttributeString("AuthType", "", extA.AuthenticationType);
                     xmlTextWriter.WriteAttributeString("AuthUsername", "", extA.AuthenticationUsername);
                     xmlTextWriter.WriteAttributeString("AuthPassword", "", extA.AuthenticationPassword);
@@ -106,8 +107,8 @@ namespace mRemoteNG.Config.Settings
                     foreach (ExternalTool extA in externalTools)
                     {
                         cmd = dbConnector.DbCommand(
-                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, RunOnStartup, StopOnShutdown, Hotkey) " +
-                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, @WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @RunOnStartup, @StopOnShutdown, @Hotkey)");
+                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, Hidden, RunOnStartup, StopOnShutdown, Hotkey) " +
+                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, @WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @Hidden, @RunOnStartup, @StopOnShutdown, @Hotkey)");
                         cmd.Transaction = transaction;
 
                         AddParameter(cmd, "@DisplayName", extA.DisplayName);
@@ -120,6 +121,7 @@ namespace mRemoteNG.Config.Settings
                         AddParameter(cmd, "@RunElevated", extA.RunElevated);
                         AddParameter(cmd, "@ShowOnToolbar", extA.ShowOnToolbar);
                         AddParameter(cmd, "@Category", extA.Category);
+                        AddParameter(cmd, "@Hidden", extA.Hidden);
                         AddParameter(cmd, "@RunOnStartup", extA.RunOnStartup);
                         AddParameter(cmd, "@StopOnShutdown", extA.StopOnShutdown);
                         AddParameter(cmd, "@Hotkey", (int)extA.Hotkey);

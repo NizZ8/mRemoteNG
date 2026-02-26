@@ -30,6 +30,7 @@ namespace mRemoteNG.Tools
         private string _category = string.Empty;
         private bool _tryIntegrate;
         private bool _showOnToolbar = true;
+        private bool _hidden;
         private bool _runElevated;
         private bool _runOnStartup;
         private bool _stopOnShutdown;
@@ -100,6 +101,12 @@ namespace mRemoteNG.Tools
         {
             get => _category;
             set => SetField(ref _category, value, nameof(Category));
+        }
+
+        public bool Hidden
+        {
+            get => _hidden;
+            set => SetField(ref _hidden, value, nameof(Hidden));
         }
 
         public bool RunElevated
