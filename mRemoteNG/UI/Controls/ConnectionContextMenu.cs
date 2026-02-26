@@ -17,6 +17,7 @@ using mRemoteNG.Resources.Language;
 using System.Runtime.Versioning;
 using System.Runtime.InteropServices;
 using mRemoteNG.Security;
+using mRemoteNG.Messages;
 using mRemoteNG.UI.TaskDialog;
 using MSTSCLib;
 
@@ -1708,7 +1709,18 @@ namespace mRemoteNG.UI.Controls
                         host = host + path;
                 }
 
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(host) { UseShellExecute = true });
+                // Validate the URL to prevent command injection: only http/https schemes are allowed.
+                // A malicious connection file could set Hostname to "file:///cmd.exe" and bypass
+                // the scheme-prepend check above since it already contains "://".
+                if (!Uri.TryCreate(host, UriKind.Absolute, out Uri? parsedUri) ||
+                    (parsedUri.Scheme != Uri.UriSchemeHttp && parsedUri.Scheme != Uri.UriSchemeHttps))
+                {
+                    Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
+                        $"OpenInBrowser blocked: unsafe or invalid URL scheme in '{host}'");
+                    return;
+                }
+
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(parsedUri.AbsoluteUri) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
