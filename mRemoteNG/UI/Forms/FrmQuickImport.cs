@@ -81,13 +81,13 @@ namespace mRemoteNG.UI.Forms
             this.Close();
         }
 
-        private ContainerInfo GetDestinationContainer()
+        private ContainerInfo? GetDestinationContainer()
         {
             var selectedNode = AppWindows.TreeForm?.SelectedNode;
-            
+
             if (selectedNode == null)
             {
-                return Runtime.ConnectionsService.ConnectionTreeModel.RootNodes.FirstOrDefault();
+                return Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes.FirstOrDefault();
             }
 
             if (selectedNode is ContainerInfo container)
@@ -95,7 +95,7 @@ namespace mRemoteNG.UI.Forms
                 return container;
             }
 
-            return selectedNode.Parent ?? Runtime.ConnectionsService.ConnectionTreeModel.RootNodes.FirstOrDefault();
+            return selectedNode.Parent ?? Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes.FirstOrDefault();
         }
     }
 }
