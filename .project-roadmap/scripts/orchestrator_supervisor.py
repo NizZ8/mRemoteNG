@@ -63,7 +63,7 @@ BUILD_SCRIPT = REPO_ROOT / "build.ps1"
 SOURCE_DIRS = ["mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"]
 
 # Thresholds
-HUNG_TIMEOUT_MINUTES = 15          # no status update = hung
+HUNG_TIMEOUT_MINUTES = 30          # no status update = hung (Codex xhigh needs 15-20min per issue)
 STALE_LOCK_HOURS = 24              # lock older than this = definitely stale
 HEALTH_CHECK_INTERVAL = 30         # seconds between checks in supervisor loop
 REPORT_INTERVAL_CYCLES = 10        # report every N health checks (~5 min at 30s interval)

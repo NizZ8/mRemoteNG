@@ -822,7 +822,8 @@ def _now_iso():
 
 
 def _capture_post_timeout_state():
-    """After a timeout, capture what the agent modified in the working tree.
+    """After a timeout, capture what the agent ACTUALLY modified in the working tree.
+    Filters out pre-existing dirty files (from _pre_agent_dirty snapshot).
     Returns (modified_files: list[str], diff_summary: str)."""
     modified = []
     diff_summary = ""
@@ -833,7 +834,12 @@ def _capture_post_timeout_state():
             cwd=str(REPO_ROOT), encoding="utf-8", errors="replace",
         )
         if r.stdout:
-            modified = [f.strip() for f in r.stdout.strip().splitlines() if f.strip()]
+            all_dirty = [f.strip() for f in r.stdout.strip().splitlines() if f.strip()]
+            # Filter out files that were already dirty BEFORE the agent started
+            modified = [f for f in all_dirty if f not in _pre_agent_dirty]
+            if len(all_dirty) != len(modified):
+                log.info("    [GUARD] Post-timeout: %d total dirty, %d pre-existing, %d agent-modified",
+                         len(all_dirty), len(all_dirty) - len(modified), len(modified))
     except Exception:
         pass
     try:
@@ -2050,81 +2056,99 @@ def _agent_dispatch(agent, prompt, max_turns=15, json_output=False,
 
     _session_agents_used.add(agent)
 
-    if agent == "codex":
-        codex_model = CODEX_MODEL_BY_TASK.get(task_type, CODEX_MODEL) if task_type else None
-        codex_reasoning = CODEX_REASONING_BY_TASK.get(task_type, CODEX_REASONING) if task_type else None
-        _model_tag = codex_model or CODEX_MODEL
-        log.info("    [CODEX] model=%s reasoning=%s task=%s",
-                 _model_tag, codex_reasoning or CODEX_REASONING, task_type or "default")
-        return codex_run(prompt, timeout=timeout, retries=min(retries, CODEX_RETRIES),
-                         model=codex_model, reasoning=codex_reasoning)
-
-    if agent == "gemini":
-        gemini_model = GEMINI_MODEL_BY_TASK.get(task_type, GEMINI_MODEL) if task_type else GEMINI_MODEL
-        # Check per-model rate limit (e.g. gemini-3-pro-preview may be limited while flash works)
-        model_rate_key = f"gemini:{gemini_model}"
-        is_model_limited, model_available = _is_agent_rate_limited(model_rate_key)
-        if is_model_limited:
-            log.info("    [RATE] Skipping %s model %s (rate-limited until %s)",
-                     agent, gemini_model, model_available)
-            return None
-        log.info("    [GEMINI] model=%s task=%s", gemini_model, task_type or "default")
-        prompt_file = _write_prompt_file(prompt)
-        try:
-            rc, stdout, stderr = _run_with_timeout(
-                [GEMINI_CMD, "-p", "", "-y", "-m", gemini_model],
-                timeout=timeout, cwd=str(REPO_ROOT),
-                stdin_path=prompt_file,
-            )
-            kill_stale_processes()
-            if rc == 0 and stdout:
-                return stdout
-            all_output = (stderr or "") + "\n" + (stdout or "")
-            err_head = all_output.strip()[:200]
-            err_tail = all_output.strip()[-300:]
-            err_detail = err_head if err_head == err_tail else f"{err_head} [...] {err_tail}"
-            err_detail = err_detail or "(empty)"
-            log.error("    [GEMINI] dispatch exit %d (model=%s): %s", rc, gemini_model, err_detail)
-            # Log full output for rate-limit diagnosis (max 1000 chars)
-            if len(all_output.strip()) > 200:
-                log.info("    [GEMINI] full error output (%d chars): %s",
-                         len(all_output.strip()), all_output.strip()[:1000])
-            # Detect rate limiting — mark per-model, not blanket agent
-            rate_reset = _parse_rate_limit_from_output(all_output)
-            if rate_reset:
-                rate_key = f"gemini:{gemini_model}"
-                _mark_agent_rate_limited(rate_key, rate_reset)
-                log.warning("    [GEMINI] Rate-limited model %s until %s (other models may still work)",
-                            gemini_model, rate_reset)
-            return None
-        except subprocess.TimeoutExpired:
-            log.error("    [GEMINI] dispatch TIMEOUT (%ds)", timeout)
-            kill_stale_processes()
-            return None
-        except Exception as e:
-            log.error("    [GEMINI] dispatch ERROR: %s", e)
-            kill_stale_processes()
-            return None
-        finally:
+    # ── HEARTBEAT: keep status file alive while agent runs (prevents supervisor hung detection) ──
+    _heartbeat_stop = threading.Event()
+    def _heartbeat_worker():
+        while not _heartbeat_stop.wait(120):  # every 2 minutes
             try:
-                os.unlink(prompt_file)
-            except OSError:
+                STATUS_FILE.write_text(
+                    json.dumps({**json.loads(STATUS_FILE.read_text(encoding="utf-8")),
+                                "last_updated": _now_iso()}, indent=2, ensure_ascii=False),
+                    encoding="utf-8")
+            except Exception:
                 pass
+    _hb_thread = threading.Thread(target=_heartbeat_worker, daemon=True)
+    _hb_thread.start()
 
-    # Default: claude
-    use_claude_model = claude_model or (CLAUDE_MODEL_BY_TASK.get(task_type) if task_type else None)
-    if use_claude_model:
-        log.info("    [CLAUDE] model=%s task=%s", use_claude_model, task_type or "default")
-    result = claude_run(prompt, max_turns=max_turns, json_output=json_output,
-                        timeout=timeout, retries=retries, model=use_claude_model)
-    # Track token usage from Claude call
-    if _last_claude_usage:
-        _track_tokens(
-            _token_tracker.get("current_issue"),
-            _token_tracker.get("current_operation", "dispatch"),
-            "claude", use_claude_model or "", _last_claude_usage,
-        )
-    return result
+    try:
+        if agent == "codex":
+            codex_model = CODEX_MODEL_BY_TASK.get(task_type, CODEX_MODEL) if task_type else None
+            codex_reasoning = CODEX_REASONING_BY_TASK.get(task_type, CODEX_REASONING) if task_type else None
+            _model_tag = codex_model or CODEX_MODEL
+            log.info("    [CODEX] model=%s reasoning=%s task=%s",
+                     _model_tag, codex_reasoning or CODEX_REASONING, task_type or "default")
+            return codex_run(prompt, timeout=timeout, retries=min(retries, CODEX_RETRIES),
+                             model=codex_model, reasoning=codex_reasoning)
+
+        if agent == "gemini":
+            gemini_model = GEMINI_MODEL_BY_TASK.get(task_type, GEMINI_MODEL) if task_type else GEMINI_MODEL
+            # Check per-model rate limit (e.g. gemini-3-pro-preview may be limited while flash works)
+            model_rate_key = f"gemini:{gemini_model}"
+            is_model_limited, model_available = _is_agent_rate_limited(model_rate_key)
+            if is_model_limited:
+                log.info("    [RATE] Skipping %s model %s (rate-limited until %s)",
+                         agent, gemini_model, model_available)
+                return None
+            log.info("    [GEMINI] model=%s task=%s", gemini_model, task_type or "default")
+            prompt_file = _write_prompt_file(prompt)
+            try:
+                rc, stdout, stderr = _run_with_timeout(
+                    [GEMINI_CMD, "-p", "", "-y", "-m", gemini_model],
+                    timeout=timeout, cwd=str(REPO_ROOT),
+                    stdin_path=prompt_file,
+                )
+                kill_stale_processes()
+                if rc == 0 and stdout:
+                    return stdout
+                all_output = (stderr or "") + "\n" + (stdout or "")
+                err_head = all_output.strip()[:200]
+                err_tail = all_output.strip()[-300:]
+                err_detail = err_head if err_head == err_tail else f"{err_head} [...] {err_tail}"
+                err_detail = err_detail or "(empty)"
+                log.error("    [GEMINI] dispatch exit %d (model=%s): %s", rc, gemini_model, err_detail)
+                # Log full output for rate-limit diagnosis (max 1000 chars)
+                if len(all_output.strip()) > 200:
+                    log.info("    [GEMINI] full error output (%d chars): %s",
+                             len(all_output.strip()), all_output.strip()[:1000])
+                # Detect rate limiting — mark per-model, not blanket agent
+                rate_reset = _parse_rate_limit_from_output(all_output)
+                if rate_reset:
+                    rate_key = f"gemini:{gemini_model}"
+                    _mark_agent_rate_limited(rate_key, rate_reset)
+                    log.warning("    [GEMINI] Rate-limited model %s until %s (other models may still work)",
+                                gemini_model, rate_reset)
+                return None
+            except subprocess.TimeoutExpired:
+                log.error("    [GEMINI] dispatch TIMEOUT (%ds)", timeout)
+                kill_stale_processes()
+                return None
+            except Exception as e:
+                log.error("    [GEMINI] dispatch ERROR: %s", e)
+                kill_stale_processes()
+                return None
+            finally:
+                try:
+                    os.unlink(prompt_file)
+                except OSError:
+                    pass
+
+        # Default: claude
+        use_claude_model = claude_model or (CLAUDE_MODEL_BY_TASK.get(task_type) if task_type else None)
+        if use_claude_model:
+            log.info("    [CLAUDE] model=%s task=%s", use_claude_model, task_type or "default")
+        result = claude_run(prompt, max_turns=max_turns, json_output=json_output,
+                            timeout=timeout, retries=retries, model=use_claude_model)
+        # Track token usage from Claude call
+        if _last_claude_usage:
+            _track_tokens(
+                _token_tracker.get("current_issue"),
+                _token_tracker.get("current_operation", "dispatch"),
+                "claude", use_claude_model or "", _last_claude_usage,
+            )
+        return result
+    finally:
+        _heartbeat_stop.set()
+        _hb_thread.join(timeout=5)
 
 
 # ── CORE: AGENT SIMPLE DISPATCH (for warnings) ───────────────────────────
@@ -2184,7 +2208,7 @@ def chain_triage(issue):
     Returns (triage_dict, agent_used) or (None, None)."""
     num = issue["number"]
     title = issue.get("title", "")
-    body = (issue.get("body") or "")[:2000]
+    body = (issue.get("body") or issue.get("body_snippet") or "")[:2000]
     labels = ", ".join(issue.get("labels", []))
     comments = issue.get("comments", [])[-3:]
     comments_text = "\n".join(
@@ -2366,7 +2390,7 @@ def chain_pre_analysis(issue, triage):
 
     num = issue["number"]
     title = issue.get("title", "")
-    body = (issue.get("body") or "")[:2000]
+    body = (issue.get("body") or issue.get("body_snippet") or "")[:2000]
     files = triage.get("estimated_files", [])
     approach = triage.get("approach", "")
 
@@ -2558,7 +2582,7 @@ def chain_implement(issue, triage, status):
     Returns True if fix was committed."""
     num = issue["number"]
     title = issue.get("title", "")
-    body = (issue.get("body") or "")[:3000]
+    body = (issue.get("body") or issue.get("body_snippet") or "")[:3000]
     approach = triage.get("approach", "")
     files = triage.get("estimated_files", [])
     issue_start_time = time.time()  # for ISSUE_TOTAL_TIME_CAP
@@ -3391,7 +3415,7 @@ def ai_triage(issue):
     num = issue["number"]
     _set_token_context(issue_num=num, operation="triage")
     title = issue.get("title", "")
-    body = (issue.get("body") or "")[:2000]
+    body = (issue.get("body") or issue.get("body_snippet") or "")[:2000]
     labels = ", ".join(issue.get("labels", []))
     comments = issue.get("comments", [])[-3:]
     comments_text = "\n".join(
@@ -3438,7 +3462,7 @@ def implement_issue(issue, triage, status):
     num = issue["number"]
     _set_token_context(issue_num=num, operation="implement")
     title = issue.get("title", "")
-    body = (issue.get("body") or "")[:3000]
+    body = (issue.get("body") or issue.get("body_snippet") or "")[:3000]
     approach = triage.get("approach", "")
     files = triage.get("estimated_files", [])
 
@@ -3808,6 +3832,11 @@ def flux_issues(status, dry_run=False, max_issues=None):
             # Use existing triage data from the JSON (no re-triage needed)
             existing_notes = issue.get("notes", "")
             triage = {"decision": "implement", "reason": f"Retry (prev failed). {existing_notes[:200]}"}
+            # Extract approach from notes (triage stores it as free text)
+            if existing_notes and "Approach:" in existing_notes:
+                triage["approach"] = existing_notes.split("Approach:", 1)[1].strip()[:500]
+            elif existing_notes:
+                triage["approach"] = existing_notes[:500]
 
             # ── PRE-ANALYSIS on retry: previous attempts failed, so re-analyze ──
             if PRE_ANALYSIS_ENABLED:
