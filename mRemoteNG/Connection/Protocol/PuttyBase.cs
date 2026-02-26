@@ -816,7 +816,7 @@ namespace mRemoteNG.Connection.Protocol
 
                                                     if (!string.IsNullOrEmpty(password))
                                                     {
-                                                        Version puttyVersion = PuttyTypeDetector.GetPuttyVersion(PuttyPath);
+                                                        Version puttyVersion = PuttyTypeDetector.GetPuttyVersion(PuttyPath ?? string.Empty);
                                                         // -pwfile was introduced in PuTTY 0.81
                                                         if (puttyVersion >= new Version(0, 81))
                                                         {
