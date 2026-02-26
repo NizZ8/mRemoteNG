@@ -229,17 +229,11 @@ namespace mRemoteNG.UI.Menu
         {
             if (Runtime.ConnectionsService.IsConnectionsFileLoaded)
             {
-                DialogResult msgBoxResult = MessageBox.Show(Language.SaveConnectionsFileBeforeOpeningAnother,
-                                                   Language.Save, MessageBoxButtons.YesNoCancel);
-                // ReSharper disable once SwitchStatementMissingSomeCases
-                switch (msgBoxResult)
-                {
-                    case DialogResult.Yes:
-                        Runtime.ConnectionsService.SaveConnections();
-                        break;
-                    case DialogResult.Cancel:
-                        return;
-                }
+                // Load as additional connection file — supports multiple files open simultaneously (#2331)
+                using OpenFileDialog loadDialog = DialogFactory.BuildLoadConnectionsDialog();
+                if (loadDialog.ShowDialog() != DialogResult.OK) return;
+                Runtime.ConnectionsService.LoadAdditionalConnectionFile(loadDialog.FileName);
+                return;
             }
 
             Runtime.LoadConnections(true);

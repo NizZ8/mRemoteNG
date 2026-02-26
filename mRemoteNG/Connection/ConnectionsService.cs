@@ -184,6 +184,16 @@ namespace mRemoteNG.Connection
 
             try
             {
+                // Prevent opening the same file twice (#2331)
+                if (ConnectionTreeModel != null &&
+                    ConnectionTreeModel.RootNodes.OfType<RootNodeInfo>()
+                        .Any(r => string.Equals(r.Filename, filename, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
+                        string.Format("Connection file '{0}' is already open.", filename));
+                    return;
+                }
+
                 IConnectionsLoader connectionLoader = new XmlConnectionsLoader(filename);
                 ConnectionTreeModel? loadedModel = connectionLoader.Load();
 

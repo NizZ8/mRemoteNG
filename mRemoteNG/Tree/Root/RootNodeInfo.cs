@@ -51,6 +51,16 @@ namespace mRemoteNG.Tree.Root
          TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
         public bool AutoLockOnMinimize { get; set; }
 
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Miscellaneous)),
+         Browsable(true),
+         DisplayName("Two-Factor Authentication (TOTP)"),
+         Description("Require a TOTP code from an authenticator app in addition to the master password."),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
+        public bool TotpEnabled { get; set; }
+
+        [Browsable(false)]
+        public string TotpSecret { get; set; } = "";
+
         [Browsable(false)]
         public string PasswordString
         {

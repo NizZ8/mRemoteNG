@@ -24,6 +24,12 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 element.Add(new XAttribute(XName.Get("CertificateThumbprint"), certProvider.Thumbprint));
             element.Add(new XAttribute(XName.Get("FullFileEncryption"), fullFileEncryption.ToString().ToLowerInvariant()));
             element.Add(new XAttribute(XName.Get("AutoLockOnMinimize"), rootNodeInfo.AutoLockOnMinimize.ToString().ToLowerInvariant()));
+            if (rootNodeInfo.TotpEnabled && !string.IsNullOrEmpty(rootNodeInfo.TotpSecret))
+            {
+                element.Add(new XAttribute(XName.Get("TotpEnabled"), "true"));
+                System.Security.SecureString encryptionPassword = rootNodeInfo.PasswordString.ConvertToSecureString();
+                element.Add(new XAttribute(XName.Get("TotpSecret"), cryptographyProvider.Encrypt(rootNodeInfo.TotpSecret, encryptionPassword)));
+            }
             element.Add(CreateProtectedAttribute(rootNodeInfo, cryptographyProvider));
             element.Add(new XAttribute(XName.Get("ConfVersion"), version.ToString(2)));
             return element;
