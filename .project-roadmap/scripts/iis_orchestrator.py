@@ -119,6 +119,18 @@ UPSTREAM_REPO = "mRemoteNG/mRemoteNG"
 FORK_REPO = "robertpopa22/mRemoteNG"
 CSPROJ_PATH = REPO_ROOT / "mRemoteNG" / "mRemoteNG.csproj"
 
+COMMUNITY_DISCLAIMER = (
+    "\n\n---\n\n"
+    "> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community "
+    "that has kept this project alive and thriving for over a decade. Your work powers "
+    "thousands of IT professionals worldwide, including us. Our fork builds entirely "
+    "on your foundation — we're preparing a consolidated Pull Request to contribute "
+    "these improvements back to the official project. Thank you for everything "
+    "you've built.*\n"
+    ">\n"
+    "> *— robertpopa22, community contributor*"
+)
+
 
 def _read_version_from_csproj():
     """Read <Version> from mRemoteNG.csproj (single source of truth)."""
@@ -3043,17 +3055,14 @@ Do ONLY the fix. Nothing else."""
 def post_github_comment(issue_num, commit_hash, description):
     """Post a fix-available comment on upstream issue."""
     beta_tag = get_beta_tag()
-    beta_url = get_beta_url()
     comment = (
         f"**Fix available for testing**\n\n"
-        f"**Commit:** [`{commit_hash[:8]}`]"
-        f"(https://github.com/{FORK_REPO}/commit/{commit_hash})\n"
-        f"**Branch:** `main`\n"
+        f"**Commit:** `{commit_hash[:8]}` "
+        f"(fork `{FORK_REPO}`, branch `main`)\n"
         f"**What changed:** {description}\n\n"
-        f"**Download latest beta:** [{beta_tag}]({beta_url})\n\n"
-        f"Please test and report if this resolves your issue.\n\n"
-        f"---\n"
-        f"_Automated by mRemoteNG Issue Intelligence System_"
+        f"A beta build ({beta_tag}) including this fix is available "
+        f"from the fork's Releases page."
+        f"{COMMUNITY_DISCLAIMER}"
     )
     try:
         _run(
@@ -5057,15 +5066,19 @@ def iis_update(issue_num, new_status, repo="upstream", description=None,
         comment_body = (templates.get("iteration_ack") if is_iteration
                         else templates.get("in_progress"))
     elif new_status == "testing":
-        pr_url = f"https://github.com/{repo_full}/pull/{pr}" if pr else "(PR pending)"
+        pr_ref = f"PR #{pr} on `{repo_full}`" if pr else "(PR pending)"
         tpl = templates.get("testing", "")
-        comment_body = tpl.replace("{pr_url}", pr_url) if tpl else None
+        comment_body = tpl.replace("{pr_url}", pr_ref) if tpl else None
     elif new_status == "released":
         tpl = templates.get("released", "")
         if tpl:
             comment_body = tpl.replace("{release_tag}", release or "").replace(
                 "{release_url}", release_url or ""
             )
+
+    # Append community disclaimer to all upstream comments
+    if comment_body and repo_full == UPSTREAM_REPO:
+        comment_body += COMMUNITY_DISCLAIMER
 
     # Post comment
     if comment_body:
