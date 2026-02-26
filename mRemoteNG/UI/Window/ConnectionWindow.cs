@@ -361,6 +361,7 @@ namespace mRemoteNG.UI.Window
 
         private void ConnDock_ControlAdded(object? sender, ControlEventArgs e)
         {
+            if (e.Control is null) return;
             AttachConnectionTabDropTarget(e.Control);
         }
 
