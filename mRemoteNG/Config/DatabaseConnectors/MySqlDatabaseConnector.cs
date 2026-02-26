@@ -49,7 +49,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
 
         private void BuildSqlConnectionString()
         {
-            _dbConnectionString = $"server={_dbHost};user={_dbUsername};database={_dbName};port={_dbPort};password={_dbPassword};";
+            _dbConnectionString = $"server={_dbHost};user={_dbUsername};database={_dbName};port={_dbPort};password={_dbPassword};CharSet=utf8mb4;";
         }
         
         public void Connect()
