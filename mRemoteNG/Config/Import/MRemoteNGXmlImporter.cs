@@ -60,7 +60,7 @@ namespace mRemoteNG.Config.Import
             {
                 if (input.ShowDialog() == DialogResult.OK)
                 {
-                    return input.returnValue.ConvertToSecureString();
+                    return (input.returnValue ?? string.Empty).ConvertToSecureString();
                 }
             }
             return Optional<SecureString>.Empty;
