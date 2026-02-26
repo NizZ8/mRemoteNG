@@ -153,7 +153,7 @@ namespace mRemoteNG.UI.Menu
             connectionWindow?.NavigateToTab(index);
         }
 
-        private ConnectionWindow GetActiveConnectionWindow()
+        private ConnectionWindow? GetActiveConnectionWindow()
         {
             return FrmMain.Default.pnlDock?.ActiveDocument as ConnectionWindow;
         }
