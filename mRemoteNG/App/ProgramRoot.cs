@@ -409,9 +409,6 @@ namespace mRemoteNG.App
             {
                 _wpfSplash = FrmSplashScreenNew.GetInstance();
 
-                // Center the splash screen on the primary screen before showing it
-                _wpfSplash.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-
                 _wpfSplash.ShowInTaskbar = false;
                 _wpfSplash.Show();
                 System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(_wpfSplash);
