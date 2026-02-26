@@ -52,7 +52,9 @@ namespace mRemoteNG.Config.Connections
             System.Data.DataTable dataTable = _sqlDataProvider.Load();
             DataTableDeserializer deserializer = new(_cryptographyProvider, decryptionKey.First());
             ConnectionTreeModel connectionTree = deserializer.Deserialize(dataTable);
-            ApplyLocalConnectionProperties(connectionTree.RootNodes.First(i => i is RootNodeInfo));
+            ContainerInfo? rootNode = connectionTree.RootNodes.FirstOrDefault(i => i is RootNodeInfo);
+            if (rootNode != null)
+                ApplyLocalConnectionProperties(rootNode);
             return connectionTree;
         }
 

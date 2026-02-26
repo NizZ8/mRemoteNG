@@ -32,7 +32,12 @@ namespace mRemoteNG.Config.Connections
 
         public void Save(ConnectionTreeModel connectionTreeModel, string propertyNameTrigger = "")
         {
-            RootNodeInfo rootTreeNode = connectionTreeModel.RootNodes.OfType<RootNodeInfo>().First();
+            RootNodeInfo? rootTreeNode = connectionTreeModel.RootNodes.OfType<RootNodeInfo>().FirstOrDefault();
+            if (rootTreeNode == null)
+            {
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, "SQL save aborted: connection tree has no root node.");
+                return;
+            }
 
             UpdateLocalConnectionProperties(rootTreeNode);
 

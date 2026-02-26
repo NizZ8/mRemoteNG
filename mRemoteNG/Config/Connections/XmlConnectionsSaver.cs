@@ -35,7 +35,9 @@ namespace mRemoteNG.Config.Connections
 
                 Serializers.ISerializer<Connection.ConnectionInfo, string> xmlConnectionsSerializer = serializerFactory.Build(cryptographyProvider, connectionTreeModel, _saveFilter, Properties.OptionsSecurityPage.Default.EncryptCompleteConnectionsFile);
 
-                RootNodeInfo rootNode = connectionTreeModel.RootNodes.OfType<RootNodeInfo>().First();
+                RootNodeInfo? rootNode = connectionTreeModel.RootNodes.OfType<RootNodeInfo>().FirstOrDefault();
+                if (rootNode == null)
+                    throw new InvalidOperationException("Connection tree has no root node");
                 string xml = xmlConnectionsSerializer.Serialize(rootNode);
 
                 if (string.IsNullOrEmpty(xml))
