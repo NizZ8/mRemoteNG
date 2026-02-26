@@ -34,6 +34,7 @@ namespace mRemoteNG.Connection.Protocol
         private const int IDM_RECONF = 0x50; // PuTTY Settings Menu ID
         private const int TerminalTitlePollIntervalMs = 500;
         private const int WindowTextBufferLength = 512;
+        private const int OpeningCommandPollIntervalMs = 250;
         private bool _isPuttyNg;
         private readonly DisplayProperties _display = new();
         private readonly object _terminalTitleSync = new();
@@ -46,6 +47,11 @@ namespace mRemoteNG.Connection.Protocol
         private bool _postOpenLayoutResizeHooked;
         private System.Windows.Forms.Timer? _windowSearchTimer;
         private int _windowSearchStartTime;
+        private System.Windows.Forms.Timer? _openingCommandTimer;
+        private IntPtr _openingCommandPendingHandle;
+        private string _openingCommandPendingCommand = string.Empty;
+        private string _openingCommandInitialTitle = string.Empty;
+        private int _openingCommandElapsedMs;
         private long _processStartTicks;
         private bool _pendingResumeReconnect;
         private long _resumeEventTickCount;
@@ -249,6 +255,36 @@ namespace mRemoteNG.Connection.Protocol
             _windowSearchTimer = null;
         }
 
+        private void StopOpeningCommandTimer()
+        {
+            if (_openingCommandTimer == null) return;
+            _openingCommandTimer.Stop();
+            _openingCommandTimer.Dispose();
+            _openingCommandTimer = null;
+        }
+
+        private void OpeningCommandTimer_Tick(object? sender, EventArgs e)
+        {
+            _openingCommandElapsedMs += OpeningCommandPollIntervalMs;
+            string currentTitle = ReadTerminalWindowTitle();
+            bool titleChanged = !string.IsNullOrEmpty(currentTitle)
+                                && !string.Equals(currentTitle, _openingCommandInitialTitle, StringComparison.Ordinal);
+            bool timedOut = _openingCommandElapsedMs >= Properties.OptionsAdvancedPage.Default.MaxPuttyWaitTime * 1000;
+
+            if (!titleChanged && !timedOut)
+                return;
+
+            StopOpeningCommandTimer();
+
+            if (_openingCommandPendingHandle != IntPtr.Zero && !string.IsNullOrEmpty(_openingCommandPendingCommand))
+            {
+                NativeMethods.SetForegroundWindow(_openingCommandPendingHandle);
+                SendKeys.SendWait(_openingCommandPendingCommand);
+                _openingCommandPendingCommand = string.Empty;
+                _openingCommandPendingHandle = IntPtr.Zero;
+            }
+        }
+
         private void WindowSearchTimer_Tick(object? sender, EventArgs e)
         {
             try
@@ -320,9 +356,27 @@ namespace mRemoteNG.Connection.Protocol
 
             if (!string.IsNullOrEmpty(InterfaceControl.Info?.OpeningCommand) && PuttyHandle != IntPtr.Zero)
             {
-                NativeMethods.SetForegroundWindow(PuttyHandle);
                 string finalCommand = EscapeSendKeys(InterfaceControl.Info.OpeningCommand.TrimEnd()) + "\n";
-                SendKeys.SendWait(finalCommand);
+                string initialTitle = ReadTerminalWindowTitle();
+                if (string.IsNullOrEmpty(initialTitle))
+                {
+                    // No title detectable yet — send immediately.
+                    NativeMethods.SetForegroundWindow(PuttyHandle);
+                    SendKeys.SendWait(finalCommand);
+                }
+                else
+                {
+                    // Defer sending until the terminal title changes, which signals that
+                    // SSH authentication has completed and the shell is ready.  This prevents
+                    // the command from being injected into keyboard-interactive auth prompts.
+                    _openingCommandPendingCommand = finalCommand;
+                    _openingCommandPendingHandle = PuttyHandle;
+                    _openingCommandInitialTitle = initialTitle;
+                    _openingCommandElapsedMs = 0;
+                    _openingCommandTimer = new System.Windows.Forms.Timer { Interval = OpeningCommandPollIntervalMs };
+                    _openingCommandTimer.Tick += OpeningCommandTimer_Tick;
+                    _openingCommandTimer.Start();
+                }
             }
 
             Resize(this, EventArgs.Empty);
@@ -1070,6 +1124,7 @@ namespace mRemoteNG.Connection.Protocol
 
             StopTerminalTitleTracking();
             StopWindowSearch();
+            StopOpeningCommandTimer();
             ResetPostOpenLayoutResizeState();
 
             try
