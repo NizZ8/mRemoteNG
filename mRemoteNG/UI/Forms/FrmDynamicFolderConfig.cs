@@ -154,7 +154,7 @@ namespace mRemoteNG.UI.Forms
 
         private void UpdateUi()
         {
-            bool isEnabled = (DynamicSourceType)cboSourceType.SelectedItem != DynamicSourceType.None;
+            bool isEnabled = cboSourceType.SelectedItem is DynamicSourceType typed && typed != DynamicSourceType.None;
             txtSourceValue.Enabled = isEnabled;
             numRefreshInterval.Enabled = isEnabled;
         }
@@ -166,7 +166,7 @@ namespace mRemoteNG.UI.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            _container.DynamicSource = (DynamicSourceType)cboSourceType.SelectedItem;
+            _container.DynamicSource = cboSourceType.SelectedItem is DynamicSourceType typed ? typed : DynamicSourceType.None;
             _container.DynamicSourceValue = txtSourceValue.Text;
             _container.DynamicRefreshInterval = (int)numRefreshInterval.Value;
             
