@@ -125,18 +125,18 @@ namespace mRemoteNG.UI.Forms
         {
             try
             {
-                IDatabaseConnector connector = null;
+                IDatabaseConnector? connector = null;
                 string host = txtHost.Text;
                 if (!string.IsNullOrEmpty(txtPort.Text))
                 {
                     host += ":" + txtPort.Text;
                 }
 
-                if (cmbType.SelectedItem.ToString() == "MySQL")
+                if (cmbType.SelectedItem?.ToString() == "MySQL")
                 {
                     connector = new MySqlDatabaseConnector(host, txtDatabase.Text, txtUsername.Text, txtPassword.Text);
                 }
-                else if (cmbType.SelectedItem.ToString() == "SQL Server")
+                else if (cmbType.SelectedItem?.ToString() == "SQL Server")
                 {
                     connector = new MSSqlDatabaseConnector(host, txtDatabase.Text, txtUsername.Text, txtPassword.Text);
                 }
