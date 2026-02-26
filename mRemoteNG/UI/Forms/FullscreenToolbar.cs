@@ -7,6 +7,8 @@ namespace mRemoteNG.UI.Forms
 {
     public class FullscreenToolbar : Form
     {
+        private Button _btnPrevScreen = null!;
+        private Button _btnNextScreen = null!;
         private Button _btnMinimize = null!;
         private Button _btnRestore = null!;
         private Button _btnClose = null!;
@@ -24,6 +26,8 @@ namespace mRemoteNG.UI.Forms
             _fullscreenHandler = fullscreenHandler;
             InitializeComponent();
             HookDragToExit(this);
+            HookDragToExit(_btnPrevScreen);
+            HookDragToExit(_btnNextScreen);
             HookDragToExit(_btnMinimize);
             HookDragToExit(_btnRestore);
             HookDragToExit(_btnClose);
@@ -31,11 +35,16 @@ namespace mRemoteNG.UI.Forms
 
         private void InitializeComponent()
         {
+            _btnPrevScreen = new Button();
+            _btnNextScreen = new Button();
             _btnMinimize = new Button();
             _btnRestore = new Button();
             _btnClose = new Button();
 
             SuspendLayout();
+
+            bool hasMultipleScreens = Screen.AllScreens.Length > 1;
+            int xOffset = 2;
 
             //
             // FullscreenToolbar properties
@@ -43,11 +52,44 @@ namespace mRemoteNG.UI.Forms
             FormBorderStyle = FormBorderStyle.None;
             TopMost = true;
             ShowInTaskbar = false;
-            Size = new Size(120, 26);
             BackColor = Color.FromArgb(45, 45, 48); // Dark VS-like background
             Opacity = 0.9;
             Padding = new Padding(2);
             StartPosition = FormStartPosition.Manual;
+
+            //
+            // btnPrevScreen (◄) — move fullscreen to previous monitor
+            //
+            _btnPrevScreen.FlatStyle = FlatStyle.Flat;
+            _btnPrevScreen.FlatAppearance.BorderSize = 0;
+            _btnPrevScreen.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 62, 64);
+            _btnPrevScreen.ForeColor = Color.White;
+            _btnPrevScreen.Location = new Point(xOffset, 2);
+            _btnPrevScreen.Name = "btnPrevScreen";
+            _btnPrevScreen.Size = new Size(28, 22);
+            _btnPrevScreen.Text = "3"; // Marlett Left arrow
+            _btnPrevScreen.Font = new Font("Marlett", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
+            _btnPrevScreen.UseVisualStyleBackColor = true;
+            _btnPrevScreen.Visible = hasMultipleScreens;
+            _btnPrevScreen.Click += (s, e) => _fullscreenHandler.MoveToPreviousScreen();
+            if (hasMultipleScreens) xOffset += 30;
+
+            //
+            // btnNextScreen (►) — move fullscreen to next monitor
+            //
+            _btnNextScreen.FlatStyle = FlatStyle.Flat;
+            _btnNextScreen.FlatAppearance.BorderSize = 0;
+            _btnNextScreen.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 62, 64);
+            _btnNextScreen.ForeColor = Color.White;
+            _btnNextScreen.Location = new Point(xOffset, 2);
+            _btnNextScreen.Name = "btnNextScreen";
+            _btnNextScreen.Size = new Size(28, 22);
+            _btnNextScreen.Text = "4"; // Marlett Right arrow
+            _btnNextScreen.Font = new Font("Marlett", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
+            _btnNextScreen.UseVisualStyleBackColor = true;
+            _btnNextScreen.Visible = hasMultipleScreens;
+            _btnNextScreen.Click += (s, e) => _fullscreenHandler.MoveToNextScreen();
+            if (hasMultipleScreens) xOffset += 30;
 
             //
             // btnMinimize
@@ -56,13 +98,14 @@ namespace mRemoteNG.UI.Forms
             _btnMinimize.FlatAppearance.BorderSize = 0;
             _btnMinimize.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 62, 64);
             _btnMinimize.ForeColor = Color.White;
-            _btnMinimize.Location = new Point(2, 2);
+            _btnMinimize.Location = new Point(xOffset, 2);
             _btnMinimize.Name = "btnMinimize";
             _btnMinimize.Size = new Size(38, 22);
             _btnMinimize.Text = "0"; // Marlett Minimize
             _btnMinimize.Font = new Font("Marlett", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
             _btnMinimize.UseVisualStyleBackColor = true;
             _btnMinimize.Click += (s, e) => _targetForm.WindowState = FormWindowState.Minimized;
+            xOffset += 40;
 
             //
             // btnRestore
@@ -71,13 +114,14 @@ namespace mRemoteNG.UI.Forms
             _btnRestore.FlatAppearance.BorderSize = 0;
             _btnRestore.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 62, 64);
             _btnRestore.ForeColor = Color.White;
-            _btnRestore.Location = new Point(42, 2);
+            _btnRestore.Location = new Point(xOffset, 2);
             _btnRestore.Name = "btnRestore";
             _btnRestore.Size = new Size(38, 22);
             _btnRestore.Text = "2"; // Marlett Restore
             _btnRestore.Font = new Font("Marlett", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
             _btnRestore.UseVisualStyleBackColor = true;
             _btnRestore.Click += (s, e) => _fullscreenHandler.Value = false; // Exit fullscreen
+            xOffset += 40;
 
             //
             // btnClose
@@ -86,14 +130,19 @@ namespace mRemoteNG.UI.Forms
             _btnClose.FlatAppearance.BorderSize = 0;
             _btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(232, 17, 35); // Red for close
             _btnClose.ForeColor = Color.White;
-            _btnClose.Location = new Point(82, 2);
+            _btnClose.Location = new Point(xOffset, 2);
             _btnClose.Name = "btnClose";
             _btnClose.Size = new Size(38, 22);
             _btnClose.Text = "r"; // Marlett Close
             _btnClose.Font = new Font("Marlett", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
             _btnClose.UseVisualStyleBackColor = true;
             _btnClose.Click += (s, e) => _targetForm.Close();
+            xOffset += 40;
 
+            Size = new Size(xOffset, 26);
+
+            Controls.Add(_btnPrevScreen);
+            Controls.Add(_btnNextScreen);
             Controls.Add(_btnMinimize);
             Controls.Add(_btnRestore);
             Controls.Add(_btnClose);

@@ -73,6 +73,51 @@ namespace mRemoteNG.UI
             _handledForm.Bounds = bounds;
         }
 
+        /// <summary>
+        /// Moves the fullscreen window to the next monitor (wraps around).
+        /// </summary>
+        public void MoveToNextScreen()
+        {
+            if (!_value) return;
+            var screens = Screen.AllScreens;
+            if (screens.Length < 2) return;
+            var current = Screen.FromControl(_handledForm);
+            int idx = Array.IndexOf(screens, current);
+            int next = (idx + 1) % screens.Length;
+            MoveToScreen(screens[next]);
+        }
+
+        /// <summary>
+        /// Moves the fullscreen window to the previous monitor (wraps around).
+        /// </summary>
+        public void MoveToPreviousScreen()
+        {
+            if (!_value) return;
+            var screens = Screen.AllScreens;
+            if (screens.Length < 2) return;
+            var current = Screen.FromControl(_handledForm);
+            int idx = Array.IndexOf(screens, current);
+            int prev = (idx - 1 + screens.Length) % screens.Length;
+            MoveToScreen(screens[prev]);
+        }
+
+        private void MoveToScreen(Screen target)
+        {
+            // Must drop Maximized state before repositioning, then re-maximize
+            _handledForm.WindowState = FormWindowState.Normal;
+            _handledForm.Bounds = target.Bounds;
+            _handledForm.WindowState = FormWindowState.Maximized;
+
+            // Reposition toolbar to new screen center
+            if (_toolbar != null && !_toolbar.IsDisposed)
+            {
+                _toolbar.Location = new Point(
+                    target.Bounds.Left + (target.Bounds.Width - _toolbar.Width) / 2,
+                    target.Bounds.Top
+                );
+            }
+        }
+
         private void CheckMousePosition(object? sender, EventArgs e)
         {
             if (!_value) return;
