@@ -132,8 +132,14 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             else
             {
+                // Window state unchanged but size may have changed (e.g. jump-host RDP session
+                // reconnect at a different resolution). WM_EXITSIZEMOVE / ResizeEnd() is not
+                // fired for programmatic resizes, so schedule a debounced resize here too.
+                // The debounce timer ensures only one resize fires even if Resize() + ResizeEnd()
+                // both fire during a normal user-drag.
                 Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize() - Window state unchanged ({_frmMain.WindowState}), deferring to ResizeEnd()");
+                    $"Resize() - Window state unchanged ({_frmMain.WindowState}), scheduling debounced resize");
+                ScheduleDebouncedResize();
             }
         }
 
