@@ -356,7 +356,9 @@ namespace mRemoteNG.Connection.Protocol
 
             if (!string.IsNullOrEmpty(InterfaceControl.Info?.OpeningCommand) && PuttyHandle != IntPtr.Zero)
             {
-                string finalCommand = EscapeSendKeys(InterfaceControl.Info.OpeningCommand.TrimEnd()) + "\n";
+                var parser = new ExternalToolArgumentParser(InterfaceControl.Info);
+                string parsedCommand = parser.ParseArguments(InterfaceControl.Info.OpeningCommand.TrimEnd(), escapeForShell: false);
+                string finalCommand = EscapeSendKeys(parsedCommand) + "\n";
                 string initialTitle = ReadTerminalWindowTitle();
                 if (string.IsNullOrEmpty(initialTitle))
                 {
