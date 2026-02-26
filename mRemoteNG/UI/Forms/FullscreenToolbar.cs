@@ -7,9 +7,9 @@ namespace mRemoteNG.UI.Forms
 {
     public class FullscreenToolbar : Form
     {
-        private Button _btnMinimize;
-        private Button _btnRestore;
-        private Button _btnClose;
+        private Button _btnMinimize = null!;
+        private Button _btnRestore = null!;
+        private Button _btnClose = null!;
         private readonly Form _targetForm;
         private readonly FullscreenHandler _fullscreenHandler;
 
