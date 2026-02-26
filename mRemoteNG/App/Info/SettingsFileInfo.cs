@@ -15,11 +15,20 @@ namespace mRemoteNG.App.Info
         private static readonly string ExePath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ConnectionInfo))?.Location) ?? string.Empty;
         private static readonly Lazy<string> InstalledSettingsPath = new(GetInstalledSettingsPath);
 
+        internal const string PortableSettingsFolderName = "Settings";
+
         // For portable edition running from a read-only or WebDAV drive, fall back to %APPDATA%.
+        // Config files are stored in a dedicated "Settings" subfolder to keep the exe directory clean.
         private static readonly Lazy<string> _portableWritablePath = new(() =>
         {
             if (!string.IsNullOrEmpty(ExePath) && IsDirectoryWritable(ExePath))
-                return ExePath;
+            {
+                string settingsDir = Path.Combine(ExePath, PortableSettingsFolderName);
+                if (!Directory.Exists(settingsDir))
+                    Directory.CreateDirectory(settingsDir);
+                MigratePortableSettings(ExePath, settingsDir);
+                return settingsDir;
+            }
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Application.ProductName ?? "mRemoteNG");
@@ -134,6 +143,64 @@ namespace mRemoteNG.App.Info
             {
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Migrates portable config files from the exe root to the Settings subfolder.
+        /// Only moves files that exist in the old location but not in the new location.
+        /// </summary>
+        private static void MigratePortableSettings(string oldDir, string newDir)
+        {
+            string[] configFiles =
+            [
+                "confCons.xml",
+                "confConsNew.xml",
+                "extApps.xml",
+                "cmdSnippets.xml",
+                "pnlLayout.xml",
+                "Themes.xml",
+                "LocalConnectionProperties.xml",
+                "quickConnectHistory.xml",
+                "SqlConnectionsCache.xml",
+            ];
+
+            // Also migrate the .settings file (e.g. mRemoteNG.settings)
+            string settingsFileName = $"{Path.GetFileNameWithoutExtension(Application.ExecutablePath)}.settings";
+
+            try
+            {
+                foreach (string fileName in configFiles)
+                    MigrateFile(oldDir, newDir, fileName);
+
+                MigrateFile(oldDir, newDir, settingsFileName);
+
+                // Migrate confCons backup files (confCons.xml.*.backup)
+                foreach (string backupFile in Directory.GetFiles(oldDir, "confCons.xml.*.backup"))
+                {
+                    string name = Path.GetFileName(backupFile);
+                    string dest = Path.Combine(newDir, name);
+                    if (!File.Exists(dest))
+                        File.Move(backupFile, dest);
+                }
+
+                // Migrate Themes subfolder
+                string oldThemes = Path.Combine(oldDir, "Themes");
+                string newThemes = Path.Combine(newDir, "Themes");
+                if (Directory.Exists(oldThemes) && !Directory.Exists(newThemes))
+                    Directory.Move(oldThemes, newThemes);
+            }
+            catch
+            {
+                // Migration is best-effort; don't crash on failure
+            }
+        }
+
+        private static void MigrateFile(string oldDir, string newDir, string fileName)
+        {
+            string oldPath = Path.Combine(oldDir, fileName);
+            string newPath = Path.Combine(newDir, fileName);
+            if (File.Exists(oldPath) && !File.Exists(newPath))
+                File.Move(oldPath, newPath);
         }
     }
 }
