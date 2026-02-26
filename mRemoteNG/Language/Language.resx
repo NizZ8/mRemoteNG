@@ -2365,6 +2365,9 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="HttpCEF" xml:space="preserve">
     <value>Edge Chromium</value>
   </data>
+  <data name="HttpExternalBrowser" xml:space="preserve">
+    <value>External Browser</value>
+  </data>
   <data name="HttpFailedUrlBuild" xml:space="preserve">
     <value>Failed to contruct the URL to load</value>
   </data>

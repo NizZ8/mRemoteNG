@@ -44,6 +44,10 @@ namespace mRemoteNG.Connection.Protocol.Http
                         Dock = DockStyle.Fill,
                     };
                 }
+                else if (renderingEngine == RenderingEngine.ExternalBrowser)
+                {
+                    // No embedded control — URL will be opened in the OS default browser on Connect()
+                }
                 else
                 {
                     Control = new WebBrowser();
@@ -57,6 +61,9 @@ namespace mRemoteNG.Connection.Protocol.Http
 
         public override bool Initialize()
         {
+            if (InterfaceControl.Info.RenderingEngine == RenderingEngine.ExternalBrowser)
+                return base.Initialize();
+
             base.Initialize();
 
             try
@@ -249,6 +256,15 @@ namespace mRemoteNG.Connection.Protocol.Http
         {
             try
             {
+                if (InterfaceControl.Info.RenderingEngine == RenderingEngine.ExternalBrowser)
+                {
+                    string url = GetUrl();
+                    if (!string.IsNullOrEmpty(url))
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
+                    // Return false so ConnectionInitiator closes the empty tab (same pattern as IntegratedProgram external launch)
+                    return false;
+                }
+
                 if (InterfaceControl.Info.RenderingEngine == RenderingEngine.EdgeChromium)
                 {
                     if (_wBrowser is not Microsoft.Web.WebView2.WinForms.WebView2 webView2)
@@ -543,7 +559,10 @@ namespace mRemoteNG.Connection.Protocol.Http
             IE = 1,
 
             [LocalizedAttributes.LocalizedDescription(nameof(Language.HttpCEF))]
-            EdgeChromium = 2
+            EdgeChromium = 2,
+
+            [LocalizedAttributes.LocalizedDescription(nameof(Language.HttpExternalBrowser))]
+            ExternalBrowser = 3
         }
 
         #endregion

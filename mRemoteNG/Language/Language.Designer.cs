@@ -2863,6 +2863,15 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("HttpCEF", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to External Browser.
+        /// </summary>
+        internal static string HttpExternalBrowser {
+            get {
+                return ResourceManager.GetString("HttpExternalBrowser", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to HTTP Connect Failed!.
