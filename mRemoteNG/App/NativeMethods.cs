@@ -187,6 +187,15 @@ namespace mRemoteNG.App
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
+        /// <summary>
+        /// Determines whether a key is up or down at the time the function is called
+        /// by querying the hardware key state. Unlike GetKeyState, this reflects the
+        /// physical state regardless of which thread has focus.
+        /// If the high-order bit (0x8000) is set, the key is currently pressed.
+        /// </summary>
+        [DllImport("user32.dll")]
+        internal static extern short GetAsyncKeyState(int vKey);
+
         #endregion
 
         #region Structures

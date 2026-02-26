@@ -1907,6 +1907,8 @@ namespace mRemoteNG.Connection.Protocol.RDP
         /// the remote server instead of the local OS), leaving Ctrl/Alt/Shift stuck in the
         /// pressed state.  Sending KEYEVENTF_KEYUP for a key that is already up is a no-op.
         /// Uses SendInput (modern API) instead of legacy keybd_event.
+        /// Only releases keys that are not physically held down, to avoid breaking
+        /// Shift/Ctrl/Alt input during transient focus changes (#2232).
         /// </summary>
         private static void ReleaseLocalModifierKeys()
         {
@@ -1915,12 +1917,24 @@ namespace mRemoteNG.Connection.Protocol.RDP
             const ushort VK_MENU    = 0x12; // Alt / AltGr
             try
             {
-                NativeMethods.INPUT[] inputs =
-                [
-                    MakeKeyUp(VK_SHIFT),
-                    MakeKeyUp(VK_CONTROL),
-                    MakeKeyUp(VK_MENU),
-                ];
+                // GetAsyncKeyState returns the physical key state regardless of focus.
+                // High bit set (0x8000) means the key is physically pressed right now.
+                // Only release keys that are NOT physically held — this prevents
+                // premature release of Shift/Ctrl/Alt during brief focus transitions
+                // while preserving the fix for genuinely stuck modifier keys (#354).
+                bool shiftHeld  = (NativeMethods.GetAsyncKeyState(VK_SHIFT)   & 0x8000) != 0;
+                bool ctrlHeld   = (NativeMethods.GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+                bool altHeld    = (NativeMethods.GetAsyncKeyState(VK_MENU)    & 0x8000) != 0;
+
+                int count = (shiftHeld ? 0 : 1) + (ctrlHeld ? 0 : 1) + (altHeld ? 0 : 1);
+                if (count == 0) return;
+
+                NativeMethods.INPUT[] inputs = new NativeMethods.INPUT[count];
+                int i = 0;
+                if (!shiftHeld) inputs[i++] = MakeKeyUp(VK_SHIFT);
+                if (!ctrlHeld)  inputs[i++] = MakeKeyUp(VK_CONTROL);
+                if (!altHeld)   inputs[i++] = MakeKeyUp(VK_MENU);
+
                 NativeMethods.SendInput((uint)inputs.Length, inputs,
                     System.Runtime.InteropServices.Marshal.SizeOf<NativeMethods.INPUT>());
             }
