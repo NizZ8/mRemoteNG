@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using mRemoteNG.Security.KeyDerivation;
 using Org.BouncyCastle.Crypto;
@@ -135,13 +136,19 @@ namespace mRemoteNG.Security.SymmetricEncryption
             //Generate Key
             Pkcs5S2KeyGenerator keyDerivationFunction = new(KeyBitSize, KeyDerivationIterations);
             byte[] key = keyDerivationFunction.DeriveKey(password, salt);
+            try
+            {
+                //Create Full Non Secret Payload
+                byte[] payload = new byte[salt.Length + nonSecretPayload.Length];
+                Array.Copy(nonSecretPayload, payload, nonSecretPayload.Length);
+                Array.Copy(salt, 0, payload, nonSecretPayload.Length, salt.Length);
 
-            //Create Full Non Secret Payload
-            byte[] payload = new byte[salt.Length + nonSecretPayload.Length];
-            Array.Copy(nonSecretPayload, payload, nonSecretPayload.Length);
-            Array.Copy(salt, 0, payload, nonSecretPayload.Length, salt.Length);
-
-            return SimpleEncrypt(secretMessage, key, payload);
+                return SimpleEncrypt(secretMessage, key, payload);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(key);
+            }
         }
 
         private byte[] SimpleEncrypt(byte[] secretMessage, byte[] key, byte[]? nonSecretPayload = null)
@@ -197,7 +204,14 @@ namespace mRemoteNG.Security.SymmetricEncryption
 
             byte[] cipherText = Convert.FromBase64String(encryptedMessage);
             byte[] plainText = SimpleDecryptWithPassword(cipherText, decryptionKey.ConvertToUnsecureString(), nonSecretPayloadLength);
-            return _encoding.GetString(plainText);
+            try
+            {
+                return _encoding.GetString(plainText);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(plainText);
+            }
         }
 
         private byte[] SimpleDecryptWithPassword(byte[] encryptedMessage, string password, int nonSecretPayloadLength = 0)
@@ -216,8 +230,14 @@ namespace mRemoteNG.Security.SymmetricEncryption
             //Generate Key
             Pkcs5S2KeyGenerator keyDerivationFunction = new(KeyBitSize, KeyDerivationIterations);
             byte[] key = keyDerivationFunction.DeriveKey(password, salt);
-
-            return SimpleDecrypt(encryptedMessage, key, salt.Length + nonSecretPayloadLength);
+            try
+            {
+                return SimpleDecrypt(encryptedMessage, key, salt.Length + nonSecretPayloadLength);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(key);
+            }
         }
 
         private byte[] SimpleDecrypt(byte[] encryptedMessage, byte[] key, int nonSecretPayloadLength = 0)

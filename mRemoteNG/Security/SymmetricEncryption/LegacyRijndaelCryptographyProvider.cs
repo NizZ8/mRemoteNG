@@ -41,6 +41,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
                     byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(strSecret.ConvertToUnsecureString()));
                     aes.Key = key;
                     aes.GenerateIV();
+                    CryptographicOperations.ZeroMemory(key);
                 }
 
                 using MemoryStream ms = new();
@@ -78,6 +79,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 {
                     byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(password.ConvertToUnsecureString()));
                     aes.Key = key;
+                    CryptographicOperations.ZeroMemory(key);
                 }
 
                 byte[] ciphertext = Convert.FromBase64String(ciphertextBase64);

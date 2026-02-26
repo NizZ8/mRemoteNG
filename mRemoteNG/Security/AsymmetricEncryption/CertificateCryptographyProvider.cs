@@ -65,27 +65,35 @@ namespace mRemoteNG.Security.AsymmetricEncryption
 
             // Generate a random AES-256 session key and wrap it with the certificate's public key.
             byte[] aesKey = RandomNumberGenerator.GetBytes(AesKeyBytes);
-            byte[] encryptedAesKey = rsa.Encrypt(aesKey, RSAEncryptionPadding.OaepSHA256);
-
-            // Encrypt the plaintext with AES-256-GCM.
             byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
-            byte[] nonce = RandomNumberGenerator.GetBytes(NonceSizeBytes);
-            byte[] cipherBytes = new byte[plainBytes.Length];
-            byte[] tag = new byte[TagSizeBytes];
+            try
+            {
+                byte[] encryptedAesKey = rsa.Encrypt(aesKey, RSAEncryptionPadding.OaepSHA256);
 
-            using (AesGcm aesGcm = new(aesKey, TagSizeBytes))
-                aesGcm.Encrypt(nonce, plainBytes, cipherBytes, tag);
+                // Encrypt the plaintext with AES-256-GCM.
+                byte[] nonce = RandomNumberGenerator.GetBytes(NonceSizeBytes);
+                byte[] cipherBytes = new byte[plainBytes.Length];
+                byte[] tag = new byte[TagSizeBytes];
 
-            // Assemble the wire format.
-            byte[] output = new byte[4 + encryptedAesKey.Length + NonceSizeBytes + TagSizeBytes + cipherBytes.Length];
-            int pos = 0;
-            BitConverter.TryWriteBytes(output.AsSpan(pos, 4), encryptedAesKey.Length); pos += 4;
-            encryptedAesKey.CopyTo(output, pos); pos += encryptedAesKey.Length;
-            nonce.CopyTo(output, pos);           pos += NonceSizeBytes;
-            tag.CopyTo(output, pos);             pos += TagSizeBytes;
-            cipherBytes.CopyTo(output, pos);
+                using (AesGcm aesGcm = new(aesKey, TagSizeBytes))
+                    aesGcm.Encrypt(nonce, plainBytes, cipherBytes, tag);
 
-            return Convert.ToBase64String(output);
+                // Assemble the wire format.
+                byte[] output = new byte[4 + encryptedAesKey.Length + NonceSizeBytes + TagSizeBytes + cipherBytes.Length];
+                int pos = 0;
+                BitConverter.TryWriteBytes(output.AsSpan(pos, 4), encryptedAesKey.Length); pos += 4;
+                encryptedAesKey.CopyTo(output, pos); pos += encryptedAesKey.Length;
+                nonce.CopyTo(output, pos);           pos += NonceSizeBytes;
+                tag.CopyTo(output, pos);             pos += TagSizeBytes;
+                cipherBytes.CopyTo(output, pos);
+
+                return Convert.ToBase64String(output);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(aesKey);
+                CryptographicOperations.ZeroMemory(plainBytes);
+            }
         }
 
         /// <inheritdoc/>
@@ -125,12 +133,20 @@ namespace mRemoteNG.Security.AsymmetricEncryption
             byte[] plainBytes = new byte[cipherBytes.Length];
             try
             {
-                using AesGcm aesGcm = new(aesKey, TagSizeBytes);
-                aesGcm.Decrypt(nonce, cipherBytes, tag, plainBytes);
-            }
-            catch (CryptographicException ex) { throw new EncryptionException(Language.ErrorDecryptionFailed, ex); }
+                try
+                {
+                    using AesGcm aesGcm = new(aesKey, TagSizeBytes);
+                    aesGcm.Decrypt(nonce, cipherBytes, tag, plainBytes);
+                }
+                catch (CryptographicException ex) { throw new EncryptionException(Language.ErrorDecryptionFailed, ex); }
 
-            return Encoding.UTF8.GetString(plainBytes);
+                return Encoding.UTF8.GetString(plainBytes);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(aesKey);
+                CryptographicOperations.ZeroMemory(plainBytes);
+            }
         }
 
         /// <summary>
