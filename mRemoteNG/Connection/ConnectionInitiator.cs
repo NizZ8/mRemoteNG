@@ -150,15 +150,22 @@ namespace mRemoteNG.Connection
 
                 if (string.IsNullOrEmpty(connectionInfo.Hostname))
                 {
-                    if (!ProtocolFeature.SupportBlankHostname(connectionInfo.Protocol))
+                    if (!string.IsNullOrEmpty(connectionInfo.Name))
+                    {
+                        if (ReferenceEquals(connectionInfo, connectionInfoOriginal))
+                        {
+                            connectionInfo = connectionInfoOriginal.Clone();
+                            connectionInfo.Parent = connectionInfoOriginal.Parent;
+                        }
+
+                        connectionInfo.Hostname = connectionInfo.Name;
+                        Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                            $"No hostname specified for '{connectionInfo.Name}', using connection name as hostname.");
+                    }
+                    else if (!ProtocolFeature.SupportBlankHostname(connectionInfo.Protocol))
                     {
                         Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, Language.ConnectionOpenFailedNoHostname);
                         return;
-                    }
-
-                    if (string.IsNullOrEmpty(connectionInfo.Name))
-                    {
-                        connectionInfo.Name = "localhost";
                     }
                 }
 

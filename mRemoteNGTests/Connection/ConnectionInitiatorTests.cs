@@ -29,42 +29,60 @@ namespace mRemoteNGTests.Connection
         }
 
         [Test]
-        public void OpenConnection_WithEmptyHostname_AddsErrorMessage()
+        public void OpenConnection_WithEmptyHostname_UsesNameAsHostname()
         {
             // Arrange
             var connectionInfo = new ConnectionInfo
             {
                 Name = "Test Connection",
-                Hostname = "", // Empty hostname
-                Protocol = ProtocolType.RDP // RDP doesn't support blank hostname
+                Hostname = "", // Empty hostname — should fall back to Name
+                Protocol = ProtocolType.RDP
             };
 
             // Act
             _connectionInitiator.OpenConnection(connectionInfo);
 
-            // Assert - poll for message with timeout
-            var foundMessage = WaitForMessage(MessageClass.WarningMsg, timeoutMs: 1000);
-            var expectedNoHostnameText = GetNoHostnameMessage();
-            Assert.That(foundMessage, Is.Not.Null, "Expected an error message to be added");
-            Assert.That(expectedNoHostnameText, Is.Not.Null.And.Not.Empty, "Could not resolve expected resource text");
-            Assert.That(foundMessage.Text, Is.EqualTo(expectedNoHostnameText));
+            // Assert - should get an info message about using name as hostname, not a warning
+            var foundMessage = WaitForMessage(MessageClass.InformationMsg, timeoutMs: 1000);
+            Assert.That(foundMessage, Is.Not.Null, "Expected an info message about using name as hostname");
+            Assert.That(foundMessage.Text, Does.Contain("using connection name as hostname"));
         }
 
         [Test]
-        public void OpenConnection_WithNullHostname_AddsErrorMessage()
+        public void OpenConnection_WithNullHostname_UsesNameAsHostname()
         {
             // Arrange
             var connectionInfo = new ConnectionInfo
             {
                 Name = "Test Connection",
-                Hostname = null, // Null hostname
-                Protocol = ProtocolType.SSH2 // SSH doesn't support blank hostname
+                Hostname = null, // Null hostname — should fall back to Name
+                Protocol = ProtocolType.SSH2
             };
 
             // Act
             _connectionInitiator.OpenConnection(connectionInfo);
 
-            // Assert - poll for message with timeout
+            // Assert - should get an info message about using name as hostname, not a warning
+            var foundMessage = WaitForMessage(MessageClass.InformationMsg, timeoutMs: 1000);
+            Assert.That(foundMessage, Is.Not.Null, "Expected an info message about using name as hostname");
+            Assert.That(foundMessage.Text, Does.Contain("using connection name as hostname"));
+        }
+
+        [Test]
+        public void OpenConnection_WithEmptyHostnameAndEmptyName_AddsErrorMessage()
+        {
+            // Arrange
+            var connectionInfo = new ConnectionInfo
+            {
+                Name = "",
+                Hostname = "",
+                Protocol = ProtocolType.RDP
+            };
+
+            // Act
+            _connectionInitiator.OpenConnection(connectionInfo);
+
+            // Assert - no name to fall back to, so should get the warning
             var foundMessage = WaitForMessage(MessageClass.WarningMsg, timeoutMs: 1000);
             var expectedNoHostnameText = GetNoHostnameMessage();
             Assert.That(foundMessage, Is.Not.Null, "Expected an error message to be added");
