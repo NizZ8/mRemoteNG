@@ -15,14 +15,14 @@ namespace mRemoteNG.DotNet.Update
     [SupportedOSPlatform("windows")]
     public class DotNetRuntimeCheck
     {
-        public const string RequiredDotnetVersion = "9.0";
+        public const string RequiredDotnetVersion = "10.0";
         private const string ReleaseFeedUrl = "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json";
 
         #region Installed Version Check
         /// <summary>
-        /// Gets the installed .NET 9 runtime version if present
+        /// Gets the installed .NET 10 runtime version if present
         /// </summary>
-        /// <returns>The version string (e.g., "v9.0.0") or null if not found</returns>
+        /// <returns>The version string (e.g., "v10.0.0") or null if not found</returns>
         [SupportedOSPlatform("windows")]
         public static string? GetLatestDotNetRuntimeVersion()
         {

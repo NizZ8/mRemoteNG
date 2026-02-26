@@ -154,7 +154,7 @@
     <ResolveComReferenceSilent>True</ResolveComReferenceSilent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Self-Contained|x64'">
-    <DefineConstants>PORTABLE</DefineConstants>
+    <DefineConstants>PORTABLE;SELF_CONTAINED</DefineConstants>
     <Optimize>True</Optimize>
     <PublishDir>bin\x64\Portable\</PublishDir>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -171,7 +171,7 @@
     <RunArguments></RunArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Self-Contained|arm64'">
-    <DefineConstants>PORTABLE</DefineConstants>
+    <DefineConstants>PORTABLE;SELF_CONTAINED</DefineConstants>
     <Optimize>True</Optimize>
     <OutputPath>bin\arm64\Release Self-Contained\</OutputPath>
     <PublishDir>bin\arm64\Portable\</PublishDir>
