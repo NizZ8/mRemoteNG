@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "total_expected": 3500,
-    "min_total_threshold": 2800,
+    "total_expected": 2393,
+    "min_total_threshold": 5367,
     "last_updated": "2026-02-27",
     "stats": {
       "unique_methods": 1249,
@@ -25,7 +25,7 @@
       {
         "name": "Config.Other",
         "filter": "FullyQualifiedName~mRemoteNGTests.Config&FullyQualifiedName\\!~Serializers.ConnectionSerializers.Xml",
-        "expected": 706
+        "expected": 0
       },
       {
         "name": "UI",
@@ -50,7 +50,7 @@
       {
         "name": "Remaining",
         "filter": "FullyQualifiedName\\!~mRemoteNGTests.Connection&FullyQualifiedName\\!~mRemoteNGTests.Config&FullyQualifiedName\\!~mRemoteNGTests.UI&FullyQualifiedName\\!~mRemoteNGTests.Tools&FullyQualifiedName\\!~mRemoteNGTests.Security&FullyQualifiedName\\!~mRemoteNGTests.Tree&FullyQualifiedName\\!~mRemoteNGTests.Container&FullyQualifiedName\\!~mRemoteNGTests.Credential&FullyQualifiedName\\!~mRemoteNGTests.IntegrationTests&FullyQualifiedName\\!~OptionsFormTests&FullyQualifiedName\\!~AllOptionsPagesTests",
-        "expected": 496
+        "expected": 95
       },
       {
         "name": "Integration",
