@@ -163,7 +163,11 @@ namespace mRemoteNG.UI.Tabs
         {
             if (!protocolClose)
             {
-                if (!silentClose)
+                // If the tab is showing the closed/disconnected state (no active protocol),
+                // skip protocol close and confirmation — there's nothing to disconnect.
+                bool hasActiveProtocol = Tag is InterfaceControl ic && ic.Protocol != null && !ic.IsDisposed;
+
+                if (hasActiveProtocol && !silentClose)
                 {
                     if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
                     {
@@ -186,22 +190,33 @@ namespace mRemoteNG.UI.Tabs
                         }
                         else
                         {
-                            ((InterfaceControl?)Tag)?.Protocol.Close();
+                            CloseProtocolSafe();
                         }
                     }
                     else
                     {
-                        // close without the confirmation prompt...
-                        ((InterfaceControl?)Tag)?.Protocol.Close();
+                        CloseProtocolSafe();
                     }
                 }
-                else
+                else if (hasActiveProtocol)
                 {
-                    ((InterfaceControl?)Tag)?.Protocol.Close();
+                    CloseProtocolSafe();
                 }
             }
 
             base.OnFormClosing(e);
+        }
+
+        private void CloseProtocolSafe()
+        {
+            try
+            {
+                ((InterfaceControl?)Tag)?.Protocol?.Close();
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector?.AddExceptionMessage("Error closing protocol", ex);
+            }
         }
 
 

@@ -219,7 +219,10 @@ namespace mRemoteNG.UI.Window
                     Application.ProductName ?? "", prompt, "", ETaskDialogButtons.YesNo, ESysIcons.Question));
             ConnectionTree.KeyDown += TvConnections_KeyDown;
             ConnectionTree.KeyPress += TvConnections_KeyPress;
-            ConnectionTree.SelectionChanged += OnTreeSelectionChangedShowPreview;
+            // Preview-on-select disabled: it creates phantom tabs on every tree click,
+            // stealing focus from the property grid and confusing navigation.
+            // Connections open via double-click (standard behavior).
+            // ConnectionTree.SelectionChanged += OnTreeSelectionChangedShowPreview;
             SetTreePostSetupActions();
             SetConnectionTreeClickHandlers();
             Runtime.ConnectionsService.ConnectionsLoaded += ConnectionsServiceOnConnectionsLoaded;

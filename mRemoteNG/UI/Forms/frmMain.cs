@@ -1375,7 +1375,12 @@ namespace mRemoteNG.UI.Forms
         private void PnlDock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             UpdateSelectedConnectionFromActiveDocument();
-            ActivateConnection();
+            // Do NOT call ActivateConnection() here — it steals focus from the
+            // connection tree (and any other non-protocol control) by calling
+            // Protocol.Focus() every time the active document changes. Focus
+            // should only be given to protocols on explicit user action (click
+            // on the protocol area, Alt+Tab back, etc.), not on tab switches
+            // triggered by tree selection or other UI navigation.
             sessionsMenu.UpdateMenuState();
         }
 

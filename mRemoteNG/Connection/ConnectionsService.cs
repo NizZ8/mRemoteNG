@@ -478,6 +478,12 @@ namespace mRemoteNG.Connection
                     // XML Saving with support for multiple roots/files
                     foreach (var rootNode in connectionTreeModel.RootNodes.OfType<RootNodeInfo>())
                     {
+                        // PuTTY sessions are read-only (imported from registry) — never save them
+                        // to disk. Without this check, PuTTY root (which has an empty Filename)
+                        // would overwrite the main connections file with only PuTTY data.
+                        if (rootNode.Type == Tree.Root.RootNodeType.PuttySessions)
+                            continue;
+
                         string targetFile = rootNode.Filename;
                         if (string.IsNullOrEmpty(targetFile)) targetFile = connectionFileName;
 

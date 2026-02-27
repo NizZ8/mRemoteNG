@@ -1,3 +1,5 @@
+.test-profile/
+provider_debug.log
 **/bin/
 **/obj/
 **/[Rr]elease [Pp]ortable/

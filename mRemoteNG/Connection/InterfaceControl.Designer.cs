@@ -19,7 +19,15 @@
         			}
         			finally
         			{
-        				base.Dispose(disposing);
+        				try
+        				{
+        					base.Dispose(disposing);
+        				}
+        				catch (System.Runtime.InteropServices.InvalidComObjectException)
+        				{
+        					// RDP ActiveX control (MSTSCLib) may already be detached from its RCW
+        					// when the protocol was closed before Dispose runs.
+        				}
         			}
         		}			
 		//Required by the Windows Form Designer

@@ -128,6 +128,9 @@ namespace mRemoteNG.App
             }
 #endif
 
+            // Wire portable settings provider before any settings access
+            Config.Settings.Providers.PortableSettingsInitializer.EnsureInitialized();
+
             bool singleInstance = false;
             try
             {
