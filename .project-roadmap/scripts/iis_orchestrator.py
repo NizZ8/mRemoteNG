@@ -1589,6 +1589,12 @@ def git_commit(message):
         # Only stage source code directories — NEVER stage .project-roadmap/
         # (orchestrator manages its own metadata commits separately)
         _run(["git", "add", "--", "mRemoteNG/", "mRemoteNGTests/", "mRemoteNGSpecs/"])
+        # Check if anything was actually staged (source code changes only)
+        staged_check = _run(["git", "diff", "--cached", "--quiet"])
+        if staged_check.returncode == 0:
+            # Nothing staged — agent made no source code changes
+            log.warning("  [GIT] No source code changes staged — skipping commit")
+            return None
         co_authors = []
         if "codex" in _session_agents_used:
             co_authors.append(f"Co-Authored-By: Codex ({CODEX_MODEL}) <noreply@openai.com>")
