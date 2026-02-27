@@ -924,7 +924,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 Runtime.MessageCollector.AddMessage(Messages.MessageClass.DebugMsg, "VNC Trace Logs for " + (_info?.Hostname ?? "Unknown") + ":" + Environment.NewLine + logs, false);
             }
 
-            Event_Disconnected(this, msg, null);
+            Event_Disconnected(sender is ProtocolBase ? sender : this, msg, null);
 
             if (Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect)
             {
