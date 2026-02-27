@@ -1936,20 +1936,43 @@ def codex_run(prompt, timeout=CODEX_TIMEOUT, retries=CODEX_RETRIES,
 
             use_model = model or CODEX_MODEL
             use_reasoning = reasoning or CODEX_REASONING
-            cmd = [
-                CODEX_CMD, "exec",
-                prompt,  # pass prompt as argument (stdin pipe hangs on Windows/MSYS2)
-                "--color", "never",
-                "--ephemeral",
-                "--dangerously-bypass-approvals-and-sandbox",  # Windows: workspace-write falls back to read-only
-                "-m", use_model,
-                "-c", f'model_reasoning_effort="{use_reasoning}"',
-                "-C", str(REPO_ROOT),
-                "-o", output_file,
-            ]
+
+            # For long prompts (>7KB), use temp file via stdin to avoid Windows
+            # command line length limit (~32KB). Short prompts stay as CLI args.
+            use_stdin = len(prompt.encode("utf-8")) > 7000
+            if use_stdin:
+                pf = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False,
+                                                  encoding="utf-8", dir=str(SCRIPTS_DIR))
+                pf.write(prompt)
+                pf.close()
+                prompt_file = pf.name
+                cmd = [
+                    CODEX_CMD, "exec",
+                    "-",  # read prompt from stdin
+                    "--color", "never",
+                    "--ephemeral",
+                    "--dangerously-bypass-approvals-and-sandbox",
+                    "-m", use_model,
+                    "-c", f'model_reasoning_effort="{use_reasoning}"',
+                    "-C", str(REPO_ROOT),
+                    "-o", output_file,
+                ]
+            else:
+                cmd = [
+                    CODEX_CMD, "exec",
+                    prompt,  # pass prompt as argument (stdin pipe hangs on Windows/MSYS2)
+                    "--color", "never",
+                    "--ephemeral",
+                    "--dangerously-bypass-approvals-and-sandbox",
+                    "-m", use_model,
+                    "-c", f'model_reasoning_effort="{use_reasoning}"',
+                    "-C", str(REPO_ROOT),
+                    "-o", output_file,
+                ]
 
             rc, stdout, stderr = _run_with_timeout(
                 cmd, timeout=timeout, cwd=str(REPO_ROOT),
+                stdin_path=prompt_file if use_stdin else None,
             )
 
             kill_stale_processes()
@@ -2591,6 +2614,9 @@ def chain_implement(issue, triage, status):
     files = triage.get("estimated_files", [])
     issue_start_time = time.time()  # for ISSUE_TOTAL_TIME_CAP
 
+    # Use combined prompt if provided (first-attempt retry with full issue context)
+    combined_prompt = triage.get("_combined_prompt")
+
     impl_prompt = f"""Project: mRemoteNG (.NET 10, WinForms, COM references)
 Working directory: D:\\github\\mRemoteNG
 Branch: main
@@ -2737,9 +2763,9 @@ RULES (CRITICAL):
                               impl_failed=True)
             return False
 
-        # Build prompt: first agent gets base, others get base + chain context
+        # Build prompt: first agent gets base (or combined), others get base + chain context
         if i == 0:
-            prompt = impl_prompt
+            prompt = combined_prompt if combined_prompt else impl_prompt
         else:
             prompt = f"""Project: mRemoteNG (.NET 10, WinForms, COM references)
 Working directory: D:\\github\\mRemoteNG
@@ -3314,6 +3340,94 @@ def _count_impl_attempts(issue_num):
     return count
 
 
+def _fetch_full_issue(num):
+    """Fetch full body + comments from GitHub for richer prompts.
+    Returns (body: str, comments: list[dict]) — comments have 'author' and 'body' keys."""
+    try:
+        r = subprocess.run(
+            ["gh", "issue", "view", str(num), "--repo", UPSTREAM_REPO,
+             "--json", "body,comments"],
+            capture_output=True, text=True, timeout=30,
+            cwd=str(REPO_ROOT), encoding="utf-8", errors="replace")
+        if r.returncode == 0:
+            data = json.loads(r.stdout)
+            body = data.get("body") or ""
+            comments = data.get("comments") or []
+            return body, comments
+    except Exception as e:
+        log.warning("  [FETCH] Failed to fetch full issue #%d: %s", num, e)
+    return "", []
+
+
+def _build_combined_prompt(issue, full_body=None, full_comments=None):
+    """Build a combined triage+plan+implement prompt with full issue context.
+    Used for first-attempt retries to skip separate triage step."""
+    num = issue["number"]
+    title = issue.get("title", "")
+    labels = ", ".join(issue.get("labels", []))
+
+    # Use full body if provided, else fall back to snippet
+    body = full_body if full_body else (issue.get("body") or issue.get("body_snippet") or "")
+
+    # Format comments
+    comments_text = ""
+    if full_comments:
+        parts = []
+        for c in full_comments:
+            author = c.get("author", {}).get("login", "unknown") if isinstance(c.get("author"), dict) else c.get("author", "unknown")
+            cbody = c.get("body", "")
+            if cbody:
+                parts.append(f"  {author}: {cbody[:500]}")
+        if parts:
+            comments_text = f"\n\nAll comments ({len(full_comments)} total):\n" + "\n".join(parts)
+
+    return f"""Project: mRemoteNG (.NET 10, WinForms, COM references)
+Working directory: D:\\github\\mRemoteNG
+Branch: main
+
+Fix GitHub issue #{num}: {title}
+
+Full description:
+{body}
+
+Labels: {labels}{comments_text}
+
+WORKFLOW — you must do ALL of these steps:
+
+Step 1 — ANALYZE & PLAN (before ANY edits):
+  a) Search the codebase for relevant code (grep for keywords, class names, error messages)
+  b) Read the files that handle this functionality
+  c) Trace the code path to identify root cause
+  d) Write a brief plan: which file(s) to change, what to change
+  e) Only proceed after you have a clear plan
+
+Step 2 — IMPLEMENT the fix:
+  - Make changes according to your plan
+  - Do NOT change existing behavior — only fix the reported issue
+  - Do ONLY the fix, nothing else
+
+Step 3 — BUILD:
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\build.ps1"
+
+Step 4 — TEST:
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\github\\mRemoteNG\\run-tests.ps1" -NoBuild
+
+Step 5 — FIX if your changes break build or tests:
+  - If BUILD fails: fix compilation errors in your code
+  - If TESTS fail: check if the failures are caused by YOUR changes
+    - If yes: fix your code or fix the test to match new behavior
+    - If tests fail for unrelated reasons (pre-existing flaky tests): ignore
+  - Re-run build and tests after fixing until both pass
+
+RULES (CRITICAL):
+- Do NOT create interactive tests (no dialogs, MessageBox, notepad.exe)
+- Do NOT run git commit, git add, git push, or ANY git operations. The orchestrator handles all commits.
+- NEVER modify infrastructure files: run-tests.ps1, build.ps1, mRemoteNG.sln, Directory.Build.props, Directory.Packages.props, .github/workflows/*.
+- NEVER modify or read files in .project-roadmap/. You are a CODE FIXER, not a project manager.
+- ONLY modify files under mRemoteNG/, mRemoteNGTests/, or mRemoteNGSpecs/ directories.
+Do ONLY the fix. Nothing else."""
+
+
 def _count_available_agents():
     """Count agents not rate-limited. Returns (count, [names])."""
     available = []
@@ -3833,14 +3947,40 @@ def flux_issues(status, dry_run=False, max_issues=None):
                 time.sleep(2)
 
             status.data["issues"]["to_implement"] += 1
-            # Use existing triage data from the JSON (no re-triage needed)
-            existing_notes = issue.get("notes", "")
-            triage = {"decision": "implement", "reason": f"Retry (prev failed). {existing_notes[:200]}"}
-            # Extract approach from notes (triage stores it as free text)
-            if existing_notes and "Approach:" in existing_notes:
-                triage["approach"] = existing_notes.split("Approach:", 1)[1].strip()[:500]
-            elif existing_notes:
-                triage["approach"] = existing_notes[:500]
+
+            # Check how many previous attempts exist
+            attempt_count = _count_impl_attempts(num)
+
+            if attempt_count == 0:
+                # ── FIRST ATTEMPT: combined triage+plan+implement prompt ──
+                # Fetch full body + comments from GitHub (not truncated snippets)
+                log.info("  [RETRY] #%d — first attempt, fetching full issue from GitHub", num)
+                full_body, full_comments = _fetch_full_issue(num)
+                if full_body:
+                    log.info("  [RETRY] #%d — fetched %d chars body + %d comments",
+                             num, len(full_body), len(full_comments))
+                else:
+                    log.warning("  [RETRY] #%d — could not fetch full body, using snippet", num)
+
+                # Build combined prompt (skip separate triage)
+                combined_prompt = _build_combined_prompt(issue, full_body or None, full_comments or None)
+
+                # Use existing triage data as a pass-through for chain_implement
+                existing_notes = issue.get("notes", "")
+                triage = {
+                    "decision": "implement",
+                    "reason": f"Combined triage+implement (first attempt). {existing_notes[:200]}",
+                    "approach": "",  # agent will determine approach from full context
+                    "_combined_prompt": combined_prompt,  # signal to chain_implement
+                }
+            else:
+                # ── SUBSEQUENT ATTEMPTS: normal flow with context from previous attempts ──
+                existing_notes = issue.get("notes", "")
+                triage = {"decision": "implement", "reason": f"Retry (prev failed, attempt {attempt_count+1}). {existing_notes[:200]}"}
+                if existing_notes and "Approach:" in existing_notes:
+                    triage["approach"] = existing_notes.split("Approach:", 1)[1].strip()[:500]
+                elif existing_notes:
+                    triage["approach"] = existing_notes[:500]
 
             # ── PRE-ANALYSIS on retry: previous attempts failed, so re-analyze ──
             if PRE_ANALYSIS_ENABLED:
