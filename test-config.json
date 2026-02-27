@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "total_expected": 5961,
+    "total_expected": 5960,
     "min_total_threshold": 5367,
     "last_updated": "2026-02-27",
     "stats": {
@@ -45,7 +45,7 @@
       {
         "name": "Tree+Container+Cred",
         "filter": "FullyQualifiedName~mRemoteNGTests.Tree|FullyQualifiedName~mRemoteNGTests.Container|FullyQualifiedName~mRemoteNGTests.Credential",
-        "expected": 178
+        "expected": 177
       },
       {
         "name": "Remaining",
