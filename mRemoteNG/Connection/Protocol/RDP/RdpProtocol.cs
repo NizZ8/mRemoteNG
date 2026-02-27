@@ -1239,6 +1239,11 @@ namespace mRemoteNG.Connection.Protocol.RDP
         {
             try
             {
+                if (InterfaceControl == null || _rdpClient == null)
+                {
+                    return;
+                }
+
                 uint scaleFactor;
                 switch (connectionInfo.DesktopScaleFactor)
                 {
@@ -1288,10 +1293,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     case RDPResolutions.FitToWindow:
                     case RDPResolutions.SmartSize:
                     case RDPResolutions.SmartSizeAspect:
+                        if (TrySetRdpClientDesktopSize(InterfaceControl.Size.Width, InterfaceControl.Size.Height,
+                                                       $"panel size for '{InterfaceControl.Info.Resolution}'"))
                         {
-                            _rdpClient.DesktopWidth = InterfaceControl.Size.Width;
-                            _rdpClient.DesktopHeight = InterfaceControl.Size.Height;
-
                             if (enableSmartSizing)
                             {
                                 _rdpClient.AdvancedSettings2.SmartSizing = true;
@@ -1301,9 +1305,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                             {
                                 ApplySmartSizeAspect();
                             }
-
-                            break;
                         }
+
+                        break;
                     case RDPResolutions.Fullscreen:
                         _rdpClient.FullScreen = true;
                         break;
@@ -1311,15 +1315,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                         {
                             int w = connectionInfo.ResolutionWidth;
                             int h = connectionInfo.ResolutionHeight;
-                            if (w > 0 && h > 0)
+                            if (!TrySetRdpClientDesktopSize(w, h, "custom resolution"))
                             {
-                                _rdpClient.DesktopWidth = w;
-                                _rdpClient.DesktopHeight = h;
-                            }
-                            else
-                            {
-                                _rdpClient.DesktopWidth = InterfaceControl.Size.Width;
-                                _rdpClient.DesktopHeight = InterfaceControl.Size.Height;
+                                TrySetRdpClientDesktopSize(InterfaceControl.Size.Width, InterfaceControl.Size.Height, "custom fallback panel size");
                             }
 
                             if (enableSmartSizing)
@@ -1337,17 +1335,18 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     default:
                         {
                             System.Drawing.Rectangle resolution = connectionInfo.Resolution.GetResolutionRectangle();
-                            _rdpClient.DesktopWidth = resolution.Width;
-                            _rdpClient.DesktopHeight = resolution.Height;
-
-                            if (enableSmartSizing)
+                            if (TrySetRdpClientDesktopSize(resolution.Width, resolution.Height,
+                                                           $"resolution preset '{InterfaceControl.Info.Resolution}'"))
                             {
-                                _rdpClient.AdvancedSettings2.SmartSizing = true;
-                            }
+                                if (enableSmartSizing)
+                                {
+                                    _rdpClient.AdvancedSettings2.SmartSizing = true;
+                                }
 
-                            if (sizingMode == RDPSizingMode.SmartSizeAspect)
-                            {
-                                ApplySmartSizeAspect();
+                                if (sizingMode == RDPSizingMode.SmartSizeAspect)
+                                {
+                                    ApplySmartSizeAspect();
+                                }
                             }
 
                             break;
@@ -1358,6 +1357,20 @@ namespace mRemoteNG.Connection.Protocol.RDP
             {
                 Runtime.MessageCollector.AddExceptionStackTrace(Language.RdpSetResolutionFailed, ex);
             }
+        }
+
+        private bool TrySetRdpClientDesktopSize(int width, int height, string context)
+        {
+            if (width <= 0 || height <= 0)
+            {
+                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
+                    $"RDP resolution skipped: invalid {context}: {width}x{height}.");
+                return false;
+            }
+
+            _rdpClient.DesktopWidth = width;
+            _rdpClient.DesktopHeight = height;
+            return true;
         }
 
         private void SetMultimon()
