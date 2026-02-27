@@ -671,7 +671,7 @@ def kill_stale_processes():
     """Kill processes that tests/Claude may have left open."""
     for proc in STALE_PROCESSES:
         try:
-            subprocess.run(["taskkill", "//F", "//IM", proc],
+            subprocess.run(["taskkill", "/F", "/IM", proc],
                            capture_output=True, timeout=10)
         except Exception as e:
             log.debug("  [KILL] taskkill failed for %s: %s", proc, e)
@@ -758,7 +758,7 @@ def _kill_process_tree(pid):
     """Kill a process and all its children on Windows using taskkill /T."""
     try:
         subprocess.run(
-            ["taskkill", "//F", "//T", "//PID", str(pid)],
+            ["taskkill", "/F", "/T", "/PID", str(pid)],
             capture_output=True, timeout=15,
         )
     except Exception:
