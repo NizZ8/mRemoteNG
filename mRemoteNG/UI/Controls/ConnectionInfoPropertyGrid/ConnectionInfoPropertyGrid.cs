@@ -193,6 +193,8 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                         // hide external provider fields
                         exclusions.AddRange(SpecialExternalAddressProviderExclusions(info));
                         exclusions.AddRange(SpecialExternalCredentialProviderExclusions(info));
+                        if (info.Protocol == ProtocolType.IntApp)
+                            exclusions.Remove(nameof(AbstractConnectionRecord.Username));
 
                         // ReSharper disable once SwitchStatementMissingSomeCases
                         switch (info.Protocol) {
