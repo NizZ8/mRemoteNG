@@ -3,6 +3,39 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.81.0-beta.5] - 2026-02-27
+
+### Highlight: Manual Testing Catches 7 AI-Introduced Regressions
+
+First hands-on testing session after the orchestrator's 585-issue automated run. Found and fixed **7 regressions** — subtle UX and data-integrity bugs that passed all 2,916 automated tests but broke real-world usage. Key lesson: AI agents can introduce regressions that only manual testing catches, especially in focus handling, save/load round-trips, and COM object lifecycle.
+
+### Fixed
+- **Preview-on-select disabled** — clicking a tree node no longer opens phantom tabs or steals focus from the property grid. Connections open only on double-click (standard behavior)
+- **Focus steal on tab switch removed** — `ActivateConnection()` was calling `Protocol.Focus()` on every `ActiveDocumentChanged`, yanking focus from the connection tree
+- **PuTTY root save skip** — PuTTY sessions root (read-only, empty Filename) was overwriting `confCons.xml` with only PuTTY data, destroying all saved connections
+- **Tab close without hang** — tabs in disconnected state (no active protocol) no longer hang on close; added `hasActiveProtocol` check and `CloseProtocolSafe()` wrapper
+- **COM RCW exception handling** — `InvalidComObjectException` caught in `InterfaceControl.Dispose()` and `ConnectionTab.Dispose()` when RDP ActiveX is already detached
+- **PORTABLE define on all configurations** — Debug and Release configs were missing the `PORTABLE` constant; settings were silently going to `%AppData%` instead of local `Settings/` directory
+- **PortableSettingsInitializer** — new programmatic wiring of `ChooseProvider` on all 17 settings classes before any `.Default` access, bypassing `SettingsProviderAttribute` resolution issues in .NET 10
+
+### Added
+- `deploy-test-profile.ps1` — script to deploy test profile (settings + connections) to build output for manual testing
+- `.gitignore` entries for `.test-profile/` and `provider_debug.log`
+
+### Known Issues
+- **Antivirus false positives** — mRemoteNG uses Windows APIs (`SendInput`, DPAPI, COM Interop, P/Invoke) that trigger AV heuristics. In beta.5 we replaced `keybd_event` with `SendInput`, added `DefaultDllImportSearchPaths(System32)`, removed unused `WH_KEYBOARD_LL`, and constrained `AssemblyResolve` — reducing AV scores. BitDefender ATD specifically quarantines `mRemoteNG.dll` after repeated build cycles (247 builds in 31h); fix requires restore from quarantine + exclusion on ALL BD modules + reboot. See [docs/ANTIVIRUS_FALSE_POSITIVE.md](docs/ANTIVIRUS_FALSE_POSITIVE.md).
+
+### Lessons Learned: AI Orchestrator Regressions
+- **Automated tests are necessary but not sufficient** — all 7 regressions passed 2,916 tests
+- **Focus handling is fragile** — AI agents adding event handlers (e.g., `SelectionChanged`) or calling `Focus()` in lifecycle events creates cascading UX issues
+- **Save/load round-trip testing is critical** — the PuTTY root save bug would have silently destroyed user data on next save
+- **COM interop needs defensive coding** — RDP ActiveX control lifecycle doesn't follow .NET Dispose patterns
+- **Orchestrator rules needed:**
+  - Do NOT add event handlers on `SelectionChanged` without explicit approval
+  - Do NOT call `Protocol.Focus()` outside explicit user action
+  - Validate save/load round-trip (confCons.xml must survive save→load→save)
+  - Do NOT modify `WndProc`, message handling, or `Dispose` patterns without review
+
 ## [1.81.0-beta.3] - 2026-02-24
 
 ### Highlight: 585 Issues Addressed — Marching to Zero Backlog

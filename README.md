@@ -23,11 +23,11 @@ Full transparency: this project is built by humans and AI working together. We b
 </blockquote>
 
 <p align="center">
-  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.3">
-    <img alt="Beta" src="https://img.shields.io/badge/beta-v1.81.0--beta.3-orange?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.5">
+    <img alt="Beta" src="https://img.shields.io/badge/beta-v1.81.0--beta.5-orange?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
-    <img alt="Next" src="https://img.shields.io/badge/next-v1.81.0--beta.4-blue?style=for-the-badge">
+    <img alt="Next" src="https://img.shields.io/badge/next-v1.81.0--beta.6-blue?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
@@ -71,8 +71,8 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 
 ## Beta Builds (Main Branch)
 
-<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.3">
-  <img alt="Beta v1.81.0-beta.3" src="https://img.shields.io/badge/beta-v1.81.0--beta.3-orange?style=for-the-badge">
+<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.5">
+  <img alt="Beta v1.81.0-beta.5" src="https://img.shields.io/badge/beta-v1.81.0--beta.5-orange?style=for-the-badge">
 </a>
 
 > [!IMPORTANT]
@@ -80,8 +80,8 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 
 | Variant | x64 | x86 | ARM64 |
 |---------|-----|-----|-------|
-| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-arm64.zip) |
-| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.3/mRemoteNG-v1.81.0-beta.3-win-arm64-SelfContained.zip) |
+| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-arm64.zip) |
+| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-arm64-SelfContained.zip) |
 
 **Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 **Self-contained** includes the .NET runtime — no prerequisites needed.
@@ -89,7 +89,45 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 ---
 
 <details open>
-<summary><strong>What's in v1.81.0-beta.3?</strong> (585 issues addressed — largest release ever)</summary>
+<summary><strong>What's in v1.81.0-beta.5?</strong> (7 regressions fixed — manual testing catches what AI missed)</summary>
+
+### Highlight: Manual Testing Catches AI-Introduced Regressions
+First hands-on testing session after the orchestrator's 585-issue automated run. Found and fixed **7 regressions** that passed all 2,916 automated tests but broke real-world usage: phantom tabs on tree click, focus stealing, PuTTY root overwriting confCons.xml, tab close hangs, COM RCW crashes, and portable settings going to %AppData%.
+
+### What went well with the AI orchestrator
+- **585 issues addressed automatically** out of 838 tracked (70%)
+- **2,916 tests** passing, **744 commits**, all independently verified
+- Self-healing supervisor handled 12 failure modes without human intervention
+
+### What didn't work — and what we learned
+- **AI agents introduce subtle UX regressions** that pass all automated tests: focus handling, event handler side effects, save/load data integrity
+- **Preview-on-select** was added by an AI agent as a "feature" but created phantom tabs on every tree click
+- **ActivateConnection on tab switch** seemed harmless but stole focus from every non-protocol control
+- **PuTTY root save** — the AI didn't understand that PuTTY sessions are read-only imports; the save loop tried to persist them, overwriting real connections
+- **Orchestrator rules added for future runs:**
+  - No event handlers on `SelectionChanged` without approval
+  - No `Protocol.Focus()` outside explicit user action
+  - Validate save/load round-trip (confCons.xml must survive save→load→save)
+  - No modifications to `WndProc`, `Dispose`, or COM interop without human review
+
+### Known issue: Antivirus false positives (BitDefender, others)
+mRemoteNG uses Windows APIs that overlap with malware heuristic signatures — `SendInput` (modifier key release after RDP), `CryptProtectData` (DPAPI credential encryption), COM Interop (RDP ActiveX), dynamic assembly loading, and P/Invoke declarations. These are all **legitimate** and required for core functionality.
+
+**What we did to reduce AV scores (beta.3→beta.5):**
+- Replaced legacy `keybd_event` with modern `SendInput` API (the #1 flagged API by AV engines)
+- Added `[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]` on sensitive P/Invoke methods
+- Removed unused `HookType` enum containing `WH_KEYBOARD_LL`
+- Constrained `AssemblyResolve` handler to only load from app base directory
+- Added VirusTotal scan step to release CI workflow
+
+**BitDefender specifically:** After long build cycles (247 build+test+revert in 31h), BitDefender ATD quarantined `mRemoteNG.dll` — rapid DLL creation/deletion looks like malware to Advanced Threat Defense. Once quarantined, the kernel minifilter driver blocks the exact filename even after "disabling" BitDefender. **Fix:** restore from quarantine, add `D:\github\mRemoteNG\` to ALL BD modules (Antivirus, ATD, Ransomware Remediation), and **reboot** (kernel driver caches the block list).
+
+See [docs/ANTIVIRUS_FALSE_POSITIVE.md](docs/ANTIVIRUS_FALSE_POSITIVE.md) for full details, verification steps, and how to whitelist.
+
+</details>
+
+<details>
+<summary><strong>Previous release: v1.81.0-beta.3</strong> (585 issues addressed — largest release ever)</summary>
 
 ### Highlight: Marching to Zero Backlog
 **744 commits**, **585 issues addressed** (70% of 838 tracked), **2,916 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
