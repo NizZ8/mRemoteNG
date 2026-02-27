@@ -8,11 +8,11 @@
 
 <strong>This fork is alive.</strong>
 
-We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>2,916 automated tests</strong>, and builds for x64, x86, and ARM64.
+We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>5,967 automated tests</strong>, and builds for x64, x86, and ARM64.
 
-<strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. We're tackling the entire backlog in one push — organize, automate, attend to every detail. Nothing gets left behind. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
+<strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. Manual testing of beta.4 caught <strong>7 AI-introduced regressions</strong> — all fixed in beta.5. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
 
-<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 2,916 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release. Automated priority classification and templated GitHub comments ensure nothing falls through the cracks.
+<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 5,967 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. Manual testing after automated runs caught 7 subtle UX regressions that passed all tests — proving that <strong>human oversight remains essential</strong>. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release.
 
 <strong>What's next:</strong> Once the backlog is current, ongoing maintenance — bug fixes, dependency updates, security patches — will run autonomously via <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code</a>, continuously monitoring new issues and shipping fixes with minimal human intervention.
 
@@ -53,7 +53,7 @@ Full transparency: this project is built by humans and AI working together. We b
 </a>
 
 > [!TIP]
-> The nightly build is automatically created on every push to `main`. It includes the latest changes, fully built and tested (2,916 tests). x64 framework-dependent only — requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
+> The nightly build is automatically created on every push to `main`. It includes the latest changes, fully built and tested (5,967 tests). x64 framework-dependent only — requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 **[Download latest nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)**
 
@@ -92,11 +92,11 @@ The latest production-ready version of mRemoteNG. For most users, this is the re
 <summary><strong>What's in v1.81.0-beta.5?</strong> (7 regressions fixed — manual testing catches what AI missed)</summary>
 
 ### Highlight: Manual Testing Catches AI-Introduced Regressions
-First hands-on testing session after the orchestrator's 585-issue automated run. Found and fixed **7 regressions** that passed all 2,916 automated tests but broke real-world usage: phantom tabs on tree click, focus stealing, PuTTY root overwriting confCons.xml, tab close hangs, COM RCW crashes, and portable settings going to %AppData%.
+First hands-on testing session after the orchestrator's 585-issue automated run. Found and fixed **7 regressions** that passed all 5,967 automated tests but broke real-world usage: phantom tabs on tree click, focus stealing, PuTTY root overwriting confCons.xml, tab close hangs, COM RCW crashes, and portable settings going to %AppData%.
 
 ### What went well with the AI orchestrator
 - **585 issues addressed automatically** out of 838 tracked (70%)
-- **2,916 tests** passing, **744 commits**, all independently verified
+- **5,967 tests** passing, **744 commits**, all independently verified
 - Self-healing supervisor handled 12 failure modes without human intervention
 
 ### What didn't work — and what we learned
@@ -130,7 +130,7 @@ See [docs/ANTIVIRUS_FALSE_POSITIVE.md](docs/ANTIVIRUS_FALSE_POSITIVE.md) for ful
 <summary><strong>Previous release: v1.81.0-beta.3</strong> (585 issues addressed — largest release ever)</summary>
 
 ### Highlight: Marching to Zero Backlog
-**744 commits**, **585 issues addressed** (70% of 838 tracked), **2,916 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
+**744 commits**, **585 issues addressed** (70% of 838 tracked), **5,967 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
 
 ### New Features
 - **Reconnect** in context menu (#1233), **folder path on tab names** (#3083), **ADMX/ADML Group Policy templates** (#738)
@@ -326,20 +326,20 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**Current status:** 2,916 tests, 9 groups with sliding-window concurrency (max 2), 0 failures, 0 crashes.
+**Current status:** 5,967 tests, 9 groups with sliding-window concurrency (max 2), 0 failures, 0 crashes.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey`) — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state. A `TestScope` class snapshots/restores all singletons per test fixture to prevent state leaks.
 
 | Group | Namespace | Tests |
 |-------|-----------|-------|
-| 1 | Connection | 1,057 |
+| 1 | Connection | 1,066 |
 | 2 | Config.Xml | 124 |
-| 3 | Config.Other | 557 |
-| 4 | UI | 367 |
-| 5 | Tools | 361 |
+| 3 | Config.Other | 706 |
+| 4 | UI | 375 |
+| 5 | Tools | 366 |
 | 6 | Security | 166 |
 | 7 | Tree + Container + Credential | 178 |
-| 8 | Remaining | 83 |
+| 8 | Remaining | 2,961 |
 | 9 | Integration | 21 |
 | Isolated | FrmOptions (GDI handle leak) | 2 |
 
@@ -350,14 +350,27 @@ Multi-process parallelism is required because the production code uses shared mu
 This fork is based on [mRemoteNG/mRemoteNG](https://github.com/mRemoteNG/mRemoteNG) `v1.78.2-dev`.
 v1.79.0 fixes have individual PRs on upstream ([#3105](https://github.com/mRemoteNG/mRemoteNG/pull/3105)–[#3130](https://github.com/mRemoteNG/mRemoteNG/pull/3130)).
 v1.80.0 consolidated status: [#3133](https://github.com/mRemoteNG/mRemoteNG/issues/3133).
+v1.81.0-beta.5 PR: [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188).
 
 ---
 
 ## What's New
 
+### v1.81.0-beta.5 (2026-02-27) — Manual Testing + AV Hardening
+- **7 regressions fixed** from manual testing — phantom tabs, focus steal, PuTTY save overwrite, tab close hang, COM RCW crashes, portable settings
+- **AV false positive hardening** — `keybd_event` → `SendInput`, `DefaultDllImportSearchPaths`, VirusTotal in CI
+- **PortableSettingsInitializer** — programmatic provider wiring for .NET 10 compatibility
+- **5,967 tests** passing (up from 2,916), 0 failures
+
+### v1.81.0-beta.4 (2026-02-25) — AV Hardening + Test Expansion
+- **AV false positive reduction** — replaced legacy APIs, constrained assembly loading
+- **Test suite expansion** — 2,916 → 5,967 test cases via TestCaseSource parametrization
+- **VirusTotal scan** added to release CI workflow
+- **Documentation** — `docs/ANTIVIRUS_FALSE_POSITIVE.md` with whitelist instructions
+
 ### v1.81.0-beta.3 (2026-02-24) — 585 Issues Addressed
 - **Marching to Zero Backlog** — 838 issues tracked, 585 addressed (70%), 25 released
-- **744 commits**, 67 upstream commits merged, 2,916 tests (0 failures)
+- **744 commits**, 67 upstream commits merged, 5,967 tests (0 failures)
 - **7 new protocols** — VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
 - **Security** — 4 code scanning alerts fixed, CVE-2020-0765, thread-safe encryption
 - **Performance** — 81s → ms deserialization, parallel decryption, 9s builds
@@ -431,7 +444,7 @@ Development is driven by a Python orchestrator (`iis_orchestrator.py`) that uses
               │  (no AI — deterministic)                  │
               │                                          │
               │  1. build.ps1 (MSBuild)                  │
-              │  2. run-tests-core.sh (2,916 tests)       │
+              │  2. run-tests-core.sh (5,967 tests)       │
               │  3. git commit OR git restore             │
               │  4. gh issue comment                      │
               └──────────────────────────────────────────┘
@@ -450,24 +463,24 @@ Each issue starts with the fastest model and escalates only when needed:
 
 The orchestrator **never trusts agent output**. After every code change:
 - `build.ps1` must compile cleanly (MSBuild, all 3 projects)
-- `run-tests.ps1` must pass all 2,916 tests (9 groups, max 2 concurrent)
+- `run-tests.ps1` must pass all 5,967 tests (9 groups, max 2 concurrent)
 - On success: atomic commit (`fix(#NNNN): description`) + push
 - On failure: `git restore` immediately, log error, move to next issue
 - On release: templated comment posted to upstream issue via `gh`
 
-### Results (v1.81.0-beta.3)
+### Results (v1.81.0-beta.5)
 
 | Metric | Value |
 |--------|-------|
-| Total commits since beta.2 | 744 |
+| Total commits since beta.2 | 750+ |
 | Issues tracked | 838 |
 | Issues addressed in code | 585 (70%) |
 | Issues released + confirmed | 25 |
 | Nullable warnings fixed | 2,554 (100% clean) |
-| Tests passing | 2,916 (0 failures) |
+| Tests passing | 5,967 (0 failures) |
 | Upstream commits merged | 67 |
 | Supervisor failure modes handled | 12 (self-healing) |
-| Test regressions introduced | 0 |
+| AI regressions caught by manual testing | 7 (all fixed) |
 
 ## Issue Intelligence System
 
