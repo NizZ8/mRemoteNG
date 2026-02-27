@@ -461,9 +461,19 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                 case ProtocolType.Terminal:
                 case ProtocolType.AnyDesk:
                 case ProtocolType.Serial:
+                    expectedProperties.AddRange(new[]
+                    {
+                        nameof(ConnectionInfo.Password),
+                        nameof(ConnectionInfo.Port),
+                        nameof(ConnectionInfo.AlwaysPromptForCredentials),
+                    });
+                    break;
                 case ProtocolType.VMRC:
                     expectedProperties.AddRange(new[]
                     {
+                        nameof(ConnectionInfo.Username),
+                        nameof(ConnectionInfo.Domain),
+                        nameof(ConnectionInfo.VmId),
                         nameof(ConnectionInfo.Password),
                         nameof(ConnectionInfo.Port),
                         nameof(ConnectionInfo.AlwaysPromptForCredentials),
