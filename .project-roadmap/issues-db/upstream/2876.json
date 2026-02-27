@@ -6,19 +6,54 @@
   "labels": [],
   "author": "igor2x",
   "created_at": "2025-10-08T16:55:06Z",
-  "github_updated_at": "2025-10-08T16:55:06Z",
+  "github_updated_at": "2026-02-26T05:56:06Z",
   "body_snippet": "I have downloaded mRemoteNG v1.78.2-NB-3208 x64.\n\nCompare two right menus:\n<img width=\"516\" height=\"338\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/31088ffe-e681-4e7e-9236-f0025373dfa8\" />\n\n1. Disconnect icon on left side should be the same as on right side.\n2. Second and third disconnect icons should probably be something else.\n3. Duplicate tab on left side should have the same icon as on the right side.\n\nThe whole idea is, more you use right mouse buttons more quickly you can ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
-  "comments": [],
-  "comments_cursor": "2025-10-08T16:55:06Z",
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Visual inconsistency in right-click context menu icons for active connections is a UI polish bug worth fixing.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 428,
+        "cost_usd": 0.175233,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in 8c293af9",
+      "token_usage": {
+        "input_tokens": 30,
+        "output_tokens": 16960,
+        "cost_usd": 2.339573,
+        "operations": 2
+      }
+    }
+  ],
+  "comments": [
+    {
+      "id": "IC_kwDOAAcIMM7sSj7G",
+      "author": "robertpopa22",
+      "date": "2026-02-26T05:55:59Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Audit icon assignments in the active connection context menu\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-02-26T05:56:06Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
-  "notes": ""
+  "last_synced": "2026-02-26T07:52:20Z",
+  "notes": "AI triage (claude): Visual inconsistency in right-click context menu icons for active connections is a UI polish bug worth fixing.\nApproach: Audit icon assignments in the active connection context menu and ensure consistent icon set usage across all menu items"
 }

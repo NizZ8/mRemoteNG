@@ -54,6 +54,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Keyboard shortcuts conflict with national keyboard mappings, impacting usability for users with non-English layouts.\nApproach: Investigate `ProcessCmdKey` and `ShortcutKeys` implementations to ensure correct interpretation of key presses across different national keyboard layouts, potentially leveraging virtual key codes or Windows API for input language handling.\nNeeds human intervention after 26 AI attempts",
-  "impl_failed": false
+  "notes": "AI triage (gemini): Keyboard shortcuts conflict with national keyboard mappings, impacting usability for users with non-English layouts.\nApproach: Investigate `ProcessCmdKey` and `ShortcutKeys` implementations to ensure correct interpretation of key presses across different national keyboard layouts, potentially leveraging virtual key codes or Windows API for input language handling.",
+  "impl_failed": true
 }

@@ -12,12 +12,25 @@
   "created_at": "2026-02-22T14:42:56Z",
   "github_updated_at": "2026-02-23T11:16:17Z",
   "body_snippet": "Последняя версия\nmRemoteNG-20260222-v1.78.2-NB-3405-x64\n\nЭкран белый, ничего не видно.\n\n<img width=\"1128\" height=\"618\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/9503ef03-f885-47cb-89b0-878907b94b15\" />\n\nПри кликах на места кнопок появляется меню.",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue title says 'white screen' but has no reproduction steps, no version info, no screenshot, and no description of what was being done when it occurred.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 93,
+        "cost_usd": 0.168145,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7q69lW",
@@ -43,5 +56,11 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-23T11:49:05Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue title says 'white screen' but has no reproduction steps, no version info, no screenshot, and no description of what was being done when it occurred.\nApproach: Request: mRemoteNG version, steps to reproduce, screenshot of the white screen, and whether it happens on startup or when connecting to a specific host",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 93,
+    "cost_usd": 0.168145
+  },
+  "impl_failed": true
 }

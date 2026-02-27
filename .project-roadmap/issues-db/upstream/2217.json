@@ -6,7 +6,7 @@
   "labels": [],
   "author": "becatini",
   "created_at": "2022-05-03T15:33:56Z",
-  "github_updated_at": "2022-05-04T06:07:31Z",
+  "github_updated_at": "2026-02-25T02:38:03Z",
   "body_snippet": "# Remote Desktop Gateway Password\r\n\r\nI have hundreds of servers configured on my mRemoteNG app, and we use gateway credentials.\r\nWhen I have to change my LDAP user password, it is a big headache since I have to change the gateway password for each server.\r\n\r\nIf I export the configuration to a XML file I cannot see an option to change the gateway password.\r\nIs there a way to change the gateway password for all servers at once?\r\n\r\nThanks.\r\n",
   "our_status": "released",
   "priority": "P2-bug",
@@ -42,13 +42,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7r0UQR",
+      "author": "robertpopa22",
+      "date": "2026-02-25T02:37:55Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Remote Desktop Gateway Password\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2022-05-04T06:07:31Z",
+  "comments_cursor": "2026-02-25T02:38:03Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-25T14:06:31Z",
-  "notes": "AI triage (gemini): The issue likely concerns a bug in the handling, storage, or utilization of the Remote Desktop Gateway password during connection establishment or configuration management.\nApproach: Investigate the lifecycle of the RDGatewayPassword, from UI input and storage/retrieval in configuration (XML/SQL) to its final application in the RDP connection protocol, and develop unit tests to validate the fix.",
-  "impl_failed": true
+  "waiting_for_us": false,
+  "last_synced": "2026-02-25T14:41:48Z",
+  "notes": "AI triage (gemini): The issue likely concerns a bug in the handling, storage, or utilization of the Remote Desktop Gateway password during connection establishment or configuration management.\nApproach: Investigate the lifecycle of the RDGatewayPassword, from UI input and storage/retrieval in configuration (XML/SQL) to its final application in the RDP connection protocol, and develop unit tests to validate the fix."
 }

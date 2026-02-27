@@ -13,12 +13,25 @@
   "created_at": "2023-05-12T11:06:51Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "\r\n## Expected Behavior\r\nPrompt for credentials on client opposed to within the RDP window, which in certain scenarios does not present authentication prompt and authentication fails.\r\n\r\n## Current Behavior\r\nCommon RDP setting \"Prompt for credentials on client:i:1\" does not function when imported into mRemoteNG\r\n\r\n## Possible Solution\r\nEnable options to mimic RDP file option \"prompt for credentials on client:i:1\"\r\n\r\n## Context\r\nWhen traversing via an RDS to a PAM system \"prompt for credentials on...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue reports inability to use 'prompt for credentials on client' RDP setting but lacks reproducible steps and confirmation on latest builds (v1.79+); triage refreshes requested verification with no response.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 181,
+        "cost_usd": 0.143039,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5ccZZ-",
@@ -71,5 +84,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue reports inability to use 'prompt for credentials on client' RDP setting but lacks reproducible steps and confirmation on latest builds (v1.79+); triage refreshes requested verification with no response.\nApproach: Verify if PromptCredentialOnce/EnableCredSSP settings are properly mapped and passed through to the MsRdp ActiveX control; check if 'prompt for credentials on client:i:1' RDP file directive is preserved during import and applied at connection time",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 181,
+    "cost_usd": 0.143039
+  },
+  "impl_failed": true
 }

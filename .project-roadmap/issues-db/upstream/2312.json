@@ -12,12 +12,25 @@
   "created_at": "2022-12-06T07:26:43Z",
   "github_updated_at": "2026-02-21T10:23:50Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nStatus RED : Host is not Reachable.\r\nStatus Amber: Host is reachable but only with unauthorized adress (nslookup)\r\nSatus Green: Hostname has an Authorized DNS entry\r\n\r\n## Current Behavior\r\nRed: Hostname is not available\r\nGreen: Hostname is available\r\n\r\n## Possible Solution\r\nAdding an Option to add the FQDN domain as Option Field to the settings.\r\nFunction to Query the ping if it does have an \"Authorized ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Feature request for DNS authorization status LED indicator is still conceptual with unresolved technical approach (ICMP ping may be blocked, nslookup behavior unclear) and needs confirmation it's still desired on current fork builds.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 75,
+        "cost_usd": 0.13042,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5P1FVO",
@@ -61,5 +74,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Feature request for DNS authorization status LED indicator is still conceptual with unresolved technical approach (ICMP ping may be blocked, nslookup behavior unclear) and needs confirmation it's still desired on current fork builds.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 75,
+    "cost_usd": 0.13042
+  },
+  "impl_failed": true
 }

@@ -13,12 +13,25 @@
   "created_at": "2025-10-08T17:32:32Z",
   "github_updated_at": "2026-02-21T10:23:43Z",
   "body_snippet": "I have downloaded mRemoteNG v1.78.2-NB-3208 x64.\n\n1. New color options were added in Display | Color and Tab Color:\n   <img width=\"357\" height=\"234\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/6a97b72f-51ca-4785-929a-3edebdc83d0b\" />\n\n2. Select some color and error appears (at both selections): _Property value is not valid._\n   <img width=\"278\" height=\"201\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/db5dde90-13bf-4d66-b840-f64a4fded212\" />",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty, comments show the feature is acknowledged as incomplete but no reproduction steps on current build have been provided after the retest request.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 717,
+        "cost_usd": 0.184027,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7JnwcS",
@@ -71,5 +84,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty, comments show the feature is acknowledged as incomplete but no reproduction steps on current build have been provided after the retest request.\nApproach: Requires retesting on latest fork build with specific steps; if confirmed, investigate PropertyGrid color value validation for the new color settings fields",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 717,
+    "cost_usd": 0.184027
+  },
+  "impl_failed": true
 }

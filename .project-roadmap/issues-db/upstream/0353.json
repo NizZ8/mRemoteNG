@@ -40,5 +40,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage: Issue title mentions VNC multiple monitors but body is empty with no description of the desired behavior, current behavior, or reproduction steps\nApproach: Need reporter to clarify what multi-monitor support for VNC should look like - whether it's about spanning displays, selecting a specific monitor, or scaling across monitors"
+  "notes": "AI triage: Issue title mentions VNC multiple monitors but body is empty with no description of the desired behavior, current behavior, or reproduction steps\nApproach: Need reporter to clarify what multi-monitor support for VNC should look like - whether it's about spanning displays, selecting a specific monitor, or scaling across monitors",
+  "impl_failed": true
 }

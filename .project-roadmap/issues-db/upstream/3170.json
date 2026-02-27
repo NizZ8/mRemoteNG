@@ -3,22 +3,62 @@
   "repo": "mRemoteNG/mRemoteNG",
   "title": "Opening Command sent too soon during SSH interactive login",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "SSH",
+    "Improvement required",
+    "1.78.*",
+    "Nightly Build"
+  ],
   "author": "barcoboy",
   "created_at": "2026-02-24T13:57:04Z",
-  "github_updated_at": "2026-02-24T13:57:04Z",
+  "github_updated_at": "2026-02-26T06:14:48Z",
   "body_snippet": "When trying to login to an SSH connection requiring an interactive login and no stored credentials are specified in the connection profile, if a command is specified in the Opening Command field, it is entered as the username of the login prompt, or if only a username is stored in the profile, the command is entered as the first password.  Is it possible to wait until credentials are satisfied for a user's interactive login before sending the Opening Command text?  If both a username and passwor...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-02-24T13:57:04Z",
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Opening command is sent before the SSH shell is ready during interactive login, causing commands to be dropped or mishandled — a timing/race condition bug.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 511,
+        "cost_usd": 0.177383,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in ee3a7354",
+      "token_usage": {
+        "input_tokens": 28,
+        "output_tokens": 17401,
+        "cost_usd": 1.774757,
+        "operations": 2
+      }
+    }
+  ],
+  "comments": [
+    {
+      "id": "IC_kwDOAAcIMM7sSyx6",
+      "author": "robertpopa22",
+      "date": "2026-02-26T06:14:41Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Delay sending the opening command until the SSH shell prompt\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-02-26T06:14:48Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:02:00Z",
-  "notes": ""
+  "last_synced": "2026-02-26T07:52:20Z",
+  "notes": "AI triage (claude): Opening command is sent before the SSH shell is ready during interactive login, causing commands to be dropped or mishandled — a timing/race condition bug.\nApproach: Delay sending the opening command until the SSH shell prompt is detected or a ready signal is received from the channel, rather than sending immediately after connection establishment."
 }

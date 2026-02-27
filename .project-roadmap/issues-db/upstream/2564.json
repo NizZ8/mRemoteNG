@@ -11,12 +11,25 @@
   "created_at": "2024-02-08T08:44:04Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "## Expected Behavior\r\ncorrect window displaying at scaling 250%\r\n\r\n## Current Behavior\r\nincorrect window displaying at scaling 250%\r\ncan't see settings below \"auto save time in minutes\".\r\nsee the screenshot below.\r\n\r\n## Possible Solution\r\n\r\n## Steps to Reproduce (for bugs)\r\nrun program, open Options->Connections\r\n\r\n## Context\r\n\r\n## Your Environment\r\n* Version used: mRemoteNG-Installer-1.77.3.nb-1784.msi, 20230303 Nightly build.\r\n* Operating System and version (e.g. Windows 10 1709 x64): Windows ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue has no reproduction steps or body content, was tagged as known-unfixable in .NET 6 but potentially improved in .NET 8+, and needs retest on current fork build to determine if still valid.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 108,
+        "cost_usd": 0.153108,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM50aIlt",
@@ -42,5 +55,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue has no reproduction steps or body content, was tagged as known-unfixable in .NET 6 but potentially improved in .NET 8+, and needs retest on current fork build to determine if still valid.\nApproach: Request reporter to retest on v1.81.0 fork build and provide steps to reproduce with expected vs actual behavior at 250% DPI scaling",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 108,
+    "cost_usd": 0.153108
+  },
+  "impl_failed": true
 }

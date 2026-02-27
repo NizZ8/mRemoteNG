@@ -13,12 +13,25 @@
   "created_at": "2023-06-08T13:12:14Z",
   "github_updated_at": "2026-02-21T10:23:29Z",
   "body_snippet": "The latest stable release on https://mremoteng.org/download is dated Apr 19, 2019, but there are lots of commits on github and nightly builds. \r\nWhy there were no stable releases since then? \r\nShould one use nighly builds? Is there any official statement on this topic? \r\n",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "wontfix",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "wontfix",
+      "description": "This is a user question about project history/release strategy, not a bug or actionable code change.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 70,
+        "cost_usd": 0.140139,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5eVFsB",
@@ -125,5 +138,10 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): This is a user question about project history/release strategy, not a bug or actionable code change.\nApproach: Close as informational — stable release cadence is a project governance decision, not a code issue.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 70,
+    "cost_usd": 0.140139
+  }
 }

@@ -13,12 +13,25 @@
   "created_at": "2024-07-23T08:06:40Z",
   "github_updated_at": "2026-02-21T10:23:34Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the difference from current behavior -->\r\n\r\n## Possible Solution\r\n<!--- Not obligatory, but suggest a...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "wontfix",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "wontfix",
+      "description": "Feature request for a commercial enterprise version contradicts the project's explicit commitment to remain free and open source, as confirmed by the maintainer.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 286,
+        "cost_usd": 0.162895,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6FyOMy",
@@ -62,5 +75,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Feature request for a commercial enterprise version contradicts the project's explicit commitment to remain free and open source, as confirmed by the maintainer.\nApproach: Close as wontfix; mRemoteNG is and will remain free/open-source per maintainer statement",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 286,
+    "cost_usd": 0.162895
+  }
 }

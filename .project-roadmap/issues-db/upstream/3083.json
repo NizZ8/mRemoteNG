@@ -12,12 +12,31 @@
   "created_at": "2026-01-15T11:58:31Z",
   "github_updated_at": "2026-02-21T10:23:17Z",
   "body_snippet": "Hey\n\nWhen I open two connections that have the same display name but are stored in different folders, the tab titles are identical. This makes it impossible to tell which tab belongs to which folder.\n\nExample:\n\nFolder A → Linux.11\n\nFolder B → Linux.11\n\nOpened at the same time, both tabs show only Linux.11\n\nRequest\nAdd an option in Settings to include the folder (or full folder path) in the tab title. For example:\n\nLinux.11 — Folder A\n\nLinux.11 — Folder B\n\nor \n\nLinux.11 / Folder A\n\nLinux.11 / Fol...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 502,
+        "cost_usd": 0.177851,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in bb289379"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7fzCjS",
@@ -43,5 +62,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Valid UX enhancement to disambiguate duplicate connection names in tabs by appending folder/path, improving usability for users with many similarly-named connections across different folders.\nApproach: When building tab header text, check if multiple open connections share the same display name and append the parent folder path as suffix (e.g. 'Server [Prod/EU]') to disambiguate",
+  "impl_failed": false,
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 502,
+    "cost_usd": 0.177851
+  }
 }

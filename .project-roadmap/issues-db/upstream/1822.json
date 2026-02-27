@@ -11,7 +11,7 @@
   ],
   "author": "klngh",
   "created_at": "2020-07-23T07:22:51Z",
-  "github_updated_at": "2026-02-21T10:23:34Z",
+  "github_updated_at": "2026-02-24T22:31:22Z",
   "body_snippet": "This exception will force mRemoteNG to close. Cannot access a disposed object. Object name: 'ConnectionWindow'.\r\n\r\n## Expected Behavior\r\nReporting a bug. When closing a saved SSH connection window, the window should close.\r\n\r\n\r\n## Current Behavior\r\nWhen closing a saved SSH connection window, an unhandled exception has occurred window pops up and force closes mRemoteNG. See error below:\r\n\r\n   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean s...",
   "our_status": "triaged",
   "priority": "P2-bug",
@@ -50,13 +50,22 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7rviY4",
+      "author": "robertpopa22",
+      "date": "2026-02-24T22:31:15Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** An unhandled exception has occurred\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:34Z",
+  "comments_cursor": "2026-02-24T22:31:22Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage (claude): Verified ObjectDisposedException crash when closing SSH connection window — protocol fires Prot_Event_Closed after ConnectionWindow is already disposed, causing unhandled exception that terminates the app.\nApproach: In Prot_Event_Closed, add IsDisposed/Disposing guard before Control.Invoke so the callback is silently ignored if the window was already disposed during closure.",
   "impl_failed": true
 }

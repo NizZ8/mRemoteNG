@@ -12,12 +12,25 @@
   "created_at": "2025-06-24T10:21:37Z",
   "github_updated_at": "2026-02-21T10:23:31Z",
   "body_snippet": "Добавить страницы с содержанием:\n\nAbout > https://mremoteng.org/ (вместо одной картинки предусмотреть карусель с загрузкой картинок из директории static/images/{подпапка карусели} предусмотреть что их там будет 5-7 штук\n\nNews > https://mremoteng.org/posts/ (пока страницу заглушку, но посмотри структуру, позже нужно будет прикрутить механизм вывода новостей, будет отдельная таска для этого)\n\nDownloads > https://mremoteng.org/download (возможно подумать над структурой динамического вывода из храни...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty with no description of which pages are missing or any reproducible steps; triage comment already requested details.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 207,
+        "cost_usd": 0.168051,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mYhpf",
@@ -34,5 +47,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty with no description of which pages are missing or any reproducible steps; triage comment already requested details.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 207,
+    "cost_usd": 0.168051
+  },
+  "impl_failed": true
 }

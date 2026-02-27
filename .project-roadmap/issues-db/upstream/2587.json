@@ -11,12 +11,25 @@
   "created_at": "2024-04-27T05:57:10Z",
   "github_updated_at": "2026-02-21T10:23:27Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen switching tabs in the app (with mouse) the tab that has the focus needs a mouse click in the window to actually get the focus.\r\nThis has changed since the 2019 release. \r\nAdditionally, when MRng is behind another window, clicking in the visible area does not always bring it to the foreground.\r\n\r\n\r\n## Expected Behavior\r\nClicking on a connection tab should select the connection and give it the focus.\r\nClicking somewhere in t...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Focus issue with SSH tabs is confirmed by multiple users on v1.78.2 but lacks reproducible steps, logs, or code pointers to diagnose the root cause.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 123,
+        "cost_usd": 0.15672,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6BBtzb",
@@ -78,5 +91,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Focus issue with SSH tabs is confirmed by multiple users on v1.78.2 but lacks reproducible steps, logs, or code pointers to diagnose the root cause.\nApproach: Need user to provide reproducible steps and confirm on latest build before investigating focus/click-through handling in SSH tab activation",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 123,
+    "cost_usd": 0.15672
+  },
+  "impl_failed": true
 }

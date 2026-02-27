@@ -55,5 +55,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage (claude): MySqlCommandBuilder throws KeyNotFoundException when column names clash with MySQL reserved words during DataAdapter.Update; fix by setting QuotePrefix/QuoteSuffix backtick quoting on the builder.\nApproach: Set cb.QuotePrefix = \"`\" and cb.QuoteSuffix = \"`\" on the MySqlCommandBuilder instance before calling GetUpdateCommand/GetDeleteCommand/GetInsertCommand so column names are properly quoted and the internal parameter-to-column dictionary lookup succeeds."
+  "notes": "AI triage (claude): MySqlCommandBuilder throws KeyNotFoundException when column names clash with MySQL reserved words during DataAdapter.Update; fix by setting QuotePrefix/QuoteSuffix backtick quoting on the builder.\nApproach: Set cb.QuotePrefix = \"`\" and cb.QuoteSuffix = \"`\" on the MySqlCommandBuilder instance before calling GetUpdateCommand/GetDeleteCommand/GetInsertCommand so column names are properly quoted and the internal parameter-to-column dictionary lookup succeeds.",
+  "impl_failed": true
 }

@@ -11,12 +11,25 @@
   "created_at": "2025-11-27T19:15:30Z",
   "github_updated_at": "2026-02-21T10:23:49Z",
   "body_snippet": "I have created a new database on my MariaDB Server and the mRemoteNG can't connect with this database. \nHave anyone a idea why?\n\n<img width=\"761\" height=\"558\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/331d3f5d-87cd-4456-83ad-50138527537c\" />\n\nThank you all!",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "MariaDB is a fundamentally different database engine from MS SQL Server (which is currently the only supported backend), making this a major feature request with no reproducible steps, no specification of expected behavior, and no response to the maintainer's retesting request on current builds.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 428,
+        "cost_usd": 0.176076,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7XYGUG",
@@ -51,5 +64,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): MariaDB is a fundamentally different database engine from MS SQL Server (which is currently the only supported backend), making this a major feature request with no reproducible steps, no specification of expected behavior, and no response to the maintainer's retesting request on current builds.\nApproach: needs retesting on latest build and a concrete spec before any implementation can be planned",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 428,
+    "cost_usd": 0.176076
+  },
+  "impl_failed": true
 }

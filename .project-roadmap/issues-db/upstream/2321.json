@@ -15,12 +15,25 @@
   "created_at": "2023-01-09T13:48:14Z",
   "github_updated_at": "2026-02-21T10:23:17Z",
   "body_snippet": "See the end of this message for details on invoking \r\njust-in-time (JIT) debugging instead of this dialog box.\r\n\r\n************** Exception Text **************\r\nSystem.NullReferenceException: Object reference not set to an instance of an object.\r\n   at VncSharp.VncClippedDesktopPolicy.RepositionImage(Image desktopImage)\r\n   at VncSharp.RemoteDesktop.OnPaint(PaintEventArgs pe)\r\n   at System.Windows.Forms.Control.PaintWithErrorHandling(PaintEventArgs e, Int16 layer)\r\n   at System.Windows.Forms.Cont...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue lacks reproducible steps and has not been confirmed on current build; the VncSharp type cast error may be obsolete after VncSharp retirement in recent commits.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 103,
+        "cost_usd": 0.132208,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5SKXDi",
@@ -280,5 +293,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue lacks reproducible steps and has not been confirmed on current build; the VncSharp type cast error may be obsolete after VncSharp retirement in recent commits.\nApproach: Verify if issue still exists after VncSharp removal; if cast error persists request reproduction steps on latest build",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 103,
+    "cost_usd": 0.132208
+  },
+  "impl_failed": true
 }

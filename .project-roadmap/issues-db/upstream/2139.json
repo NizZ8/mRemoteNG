@@ -55,6 +55,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly.\nApproach: Modify SetProcessProperties in ExternalTool.cs for non-batch, non-elevated processes to use process.StartInfo.Arguments = parsedArguments; instead of splitting arguments and adding them to ArgumentList. This ensures that the argument string (including any necessary quotes) is passed directly to the external tool.\nNeeds human intervention after 19 AI attempts",
-  "impl_failed": false
+  "notes": "AI triage (gemini): Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly.\nApproach: Modify SetProcessProperties in ExternalTool.cs for non-batch, non-elevated processes to use process.StartInfo.Arguments = parsedArguments; instead of splitting arguments and adding them to ArgumentList. This ensures that the argument string (including any necessary quotes) is passed directly to the external tool.",
+  "impl_failed": true
 }

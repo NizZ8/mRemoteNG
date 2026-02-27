@@ -16,12 +16,25 @@
   "created_at": "2024-02-05T09:02:50Z",
   "github_updated_at": "2026-02-21T10:23:14Z",
   "body_snippet": "Hi there,\r\n\r\nI’m trying to export my database from Remote Desktop Manager to import it in mRemoteNG (it is a professional database).\r\n\r\nMy orginal file is .xlm which contains 479 hosts, including folder, and ID/password.\r\n\r\nThe first thing I tried was to import my database from File > Import > Import from File.\r\nBut the import doesn't work, and I get this error: « An error occured while importing the file C:\\User\\...\\file.xml »\r\n\r\nSo I searched on the Issues Trackers, and I found this [Importing...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "The issue requests importing XML from Remote Desktop Manager but lacks reproducible steps, sample XML structure, and confirmation that it still fails on current fork builds (v1.79.x+).",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 119,
+        "cost_usd": 0.153014,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5z5M1H",
@@ -65,5 +78,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): The issue requests importing XML from Remote Desktop Manager but lacks reproducible steps, sample XML structure, and confirmation that it still fails on current fork builds (v1.79.x+).\nApproach: Need user to provide sample RDM XML export and confirm issue still exists on latest build before implementing field mapping",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 119,
+    "cost_usd": 0.153014
+  },
+  "impl_failed": true
 }

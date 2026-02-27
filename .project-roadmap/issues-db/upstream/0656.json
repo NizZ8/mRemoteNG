@@ -40,5 +40,6 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage: Feature request for reverse VNC listener mode allowing incoming connections on custom ports, which is a useful enhancement for VNC workflows\nApproach: Add a VNC listener mode that binds to a configurable port and accepts incoming reverse VNC connections, integrating with the existing VNC protocol handler and exposing port configuration in connection properties"
+  "notes": "AI triage: Feature request for reverse VNC listener mode allowing incoming connections on custom ports, which is a useful enhancement for VNC workflows\nApproach: Add a VNC listener mode that binds to a configurable port and accepts incoming reverse VNC connections, integrating with the existing VNC protocol handler and exposing port configuration in connection properties",
+  "impl_failed": true
 }

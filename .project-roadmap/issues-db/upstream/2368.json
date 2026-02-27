@@ -12,12 +12,25 @@
   "created_at": "2023-03-11T22:21:12Z",
   "github_updated_at": "2026-02-21T10:23:21Z",
   "body_snippet": "When using the /cons cmd switch to load an existing connection file it gets ignored. Tried with and without quotes, local and file share unc's but nothing works.\r\n\r\n## Expected Behavior\r\nLoad existing connection file using /cons: or /c: switch.\r\n\r\n## Current Behavior\r\nActs like no connection file exists and asks to create one on first load. On subsequent loads it just uses the default connection file under the users appdata.\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about th...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty and comments only request retesting on latest build with no reproducible steps, expected vs actual behavior, or confirmation the bug still exists.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 77,
+        "cost_usd": 0.134877,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5XhpwM",
@@ -97,5 +110,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty and comments only request retesting on latest build with no reproducible steps, expected vs actual behavior, or confirmation the bug still exists.\nApproach: Wait for reporter to confirm bug on latest build with reproducible steps before triaging further",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 77,
+    "cost_usd": 0.134877
+  },
+  "impl_failed": true
 }

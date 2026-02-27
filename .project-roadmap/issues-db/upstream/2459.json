@@ -13,12 +13,25 @@
   "created_at": "2023-07-13T05:58:29Z",
   "github_updated_at": "2026-02-21T10:23:59Z",
   "body_snippet": "## Current Behavior\r\nWhen i closing group tab with SSH connection, improve error.\r\n\r\n```\r\nException Message\r\n\"cant access to delete object. \r\nObject name: 'ConnectionWindow'.\"\r\n\r\nStack trace\r\n   w System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)\r\n   w System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)\r\n   w System.Windows.Forms.Control.Invoke(Delegate method)\r\n   w mRemoteNG.UI.Window.ConnectionWindow.Prot_Event_Cl...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "duplicate",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "duplicate",
+      "description": "Issue matches the same ConnectionWindow disposed-object close-path as #3069 and is a candidate for closure after PR #3106 merge and retest.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 82,
+        "cost_usd": 0.14287,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5hYApT",
@@ -62,5 +75,10 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue matches the same ConnectionWindow disposed-object close-path as #3069 and is a candidate for closure after PR #3106 merge and retest.\nApproach: Close as duplicate of #3069 after confirming PR #3106 fix covers this scenario.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 82,
+    "cost_usd": 0.14287
+  }
 }

@@ -8,7 +8,7 @@
   ],
   "author": "majed17",
   "created_at": "2019-04-01T07:09:22Z",
-  "github_updated_at": "2019-10-07T20:08:36Z",
+  "github_updated_at": "2026-02-25T13:14:29Z",
   "body_snippet": "it seems to be an alergie with win 10 1809, it doesn't matter if it's a virtual machine or a real pc, when trying to open a saved connection file, the program simply disappears when pressing do n ot save current connection file. this was something i noticed months ago and was simply waiting for it to get fixed and now with the march version it still is crashing.\r\n\r\n\r\n\r\n",
   "our_status": "testing",
   "priority": "P3-enhancement",
@@ -95,13 +95,30 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7r8TIf",
+      "author": "robertpopa22",
+      "date": "2026-02-25T10:58:47Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** mremoteng crashing when opening new connection file\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7r_Fb1",
+      "author": "majed17",
+      "date": "2026-02-25T13:14:29Z",
+      "snippet": "can't test that, I moved to remmina linux long ago!",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2019-10-07T20:08:36Z",
-  "unread_comments": 8,
+  "comments_cursor": "2026-02-25T13:14:29Z",
+  "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T13:59:42Z",
-  "notes": "AI triage (claude-retry): Crash on high contrast theme due to COM class unavailability in OpenFileDialog — root cause identified, fix is app.manifest supportedOS update. Workaround: disable high contrast temporarily.",
-  "impl_failed": true
+  "last_synced": "2026-02-25T14:41:48Z",
+  "notes": "AI triage (claude-retry): Crash on high contrast theme due to COM class unavailability in OpenFileDialog — root cause identified, fix is app.manifest supportedOS update. Workaround: disable high contrast temporarily."
 }

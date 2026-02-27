@@ -11,7 +11,7 @@
   ],
   "author": "yogeshdass",
   "created_at": "2017-02-03T07:04:40Z",
-  "github_updated_at": "2026-02-21T10:23:14Z",
+  "github_updated_at": "2026-02-25T07:26:20Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\n\r\nPlease add option to hide the saved putty sessions as shown in screenshot.\r\n\r\n|--:|---|\r\n|Operating system | Windows 7 x64 |\r\n|mRemoteNG version| 1.75 aplha 3  |\r\n\r\n\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please d...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -101,13 +101,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7r4Fzf",
+      "author": "robertpopa22",
+      "date": "2026-02-25T07:26:11Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** option to hide the saved putty sessions\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:14Z",
+  "comments_cursor": "2026-02-25T07:26:20Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:06:31Z",
-  "notes": "AI triage: Valid enhancement request to hide PuTTY saved sessions from the connection tree, with community support (+1) and clear use case since mRemoteNG users manage connections natively\nApproach: Add a boolean setting (e.g. ShowPuttySavedSessions, default true) in Options > Connections page. When false, skip loading/displaying PuTTY saved sessions in the connection tree by short-circuiting PuttySessionsManager refresh. Persist the setting in the existing settings infrastructure.",
-  "impl_failed": true
+  "last_synced": "2026-02-25T14:41:48Z",
+  "notes": "AI triage: Valid enhancement request to hide PuTTY saved sessions from the connection tree, with community support (+1) and clear use case since mRemoteNG users manage connections natively\nApproach: Add a boolean setting (e.g. ShowPuttySavedSessions, default true) in Options > Connections page. When false, skip loading/displaying PuTTY saved sessions in the connection tree by short-circuiting PuttySessionsManager refresh. Persist the setting in the existing settings infrastructure."
 }

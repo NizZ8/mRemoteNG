@@ -60,5 +60,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage (gemini): Unintended character input ('c') on double-click indicates a bug in low-level input message processing, likely related to how mouse events interact with keyboard character generation, especially in VNC or RDP sessions.\nApproach: Investigate potential spurious WM_CHAR messages generated during rapid mouse events, particularly for VNC sessions where ASCII WM_CHAR messages are explicitly allowed to pass through, or RDP sessions if ViewOnly filtering is bypassed or not active. Evaluate if a more robust IMessageFilter or WndProc handling is required to suppress these unintended key presses."
+  "notes": "AI triage (gemini): Unintended character input ('c') on double-click indicates a bug in low-level input message processing, likely related to how mouse events interact with keyboard character generation, especially in VNC or RDP sessions.\nApproach: Investigate potential spurious WM_CHAR messages generated during rapid mouse events, particularly for VNC sessions where ASCII WM_CHAR messages are explicitly allowed to pass through, or RDP sessions if ViewOnly filtering is bypassed or not active. Evaluate if a more robust IMessageFilter or WndProc handling is required to suppress these unintended key presses.",
+  "impl_failed": true
 }

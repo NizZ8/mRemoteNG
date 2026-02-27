@@ -87,5 +87,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage (claude-retry): PuTTY input focus regression in develop branch — duplicate of #822 (PuTTY provider failure handling) which we already fixed. Also related to #1535. Exact breaking commit identified."
+  "notes": "AI triage (claude-retry): PuTTY input focus regression in develop branch — duplicate of #822 (PuTTY provider failure handling) which we already fixed. Also related to #1535. Exact breaking commit identified.",
+  "impl_failed": true
 }

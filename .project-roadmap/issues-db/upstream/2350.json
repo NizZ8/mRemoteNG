@@ -10,12 +10,25 @@
   "created_at": "2023-02-13T17:05:55Z",
   "github_updated_at": "2026-02-21T10:22:44Z",
   "body_snippet": "For SSH connections, would it be possible to add Putty's \"Copy All to Clipboard\" on tab right-click?\r\n\r\nThanks",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Feature request with no description or context provided — the issue body is empty and needs user input on what 'Copy All to Clipboard' should copy and from which context.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 88,
+        "cost_usd": 0.133226,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXFNU",
@@ -32,5 +45,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Feature request with no description or context provided — the issue body is empty and needs user input on what 'Copy All to Clipboard' should copy and from which context.\nApproach: Ask user to clarify what data should be copied (connections list, session info, etc.) and from which UI element",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 88,
+    "cost_usd": 0.133226
+  },
+  "impl_failed": true
 }

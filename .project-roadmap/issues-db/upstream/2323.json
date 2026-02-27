@@ -14,12 +14,25 @@
   "created_at": "2023-01-13T10:07:03Z",
   "github_updated_at": "2026-02-21T10:23:17Z",
   "body_snippet": "I am trying to connect version 1.77.1 or even the nightly to Microsoft SQL.\r\n\r\nIn version 1.77.1 the following error occurs:\r\n\r\n_Connection file could not be saved as \"\"!\r\nThe specified ColumnMapping does not match any column in the source or destination._\r\n\r\nIn version 1.77.3 the connection to MSSQL does not work at all.\r\nI have already tried to use different SQL table creation scripts from various Github issues I found here.\r\n\r\n## Your Environment\r\n* Version used: 1.77.1 & 1.77.3\r\n* Operating ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue lacks reproducible steps, logs, or confirmation that the bug exists in current builds; reporter only described ODBC working but no details on mRemoteNG DB protocol config.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 94,
+        "cost_usd": 0.132339,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5Up9Lh",
@@ -144,5 +157,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue lacks reproducible steps, logs, or confirmation that the bug exists in current builds; reporter only described ODBC working but no details on mRemoteNG DB protocol config.\nApproach: Request user to retest on latest fork build and provide connection string, protocol settings used in mRemoteNG, and error logs/screenshots",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 94,
+    "cost_usd": 0.132339
+  },
+  "impl_failed": true
 }

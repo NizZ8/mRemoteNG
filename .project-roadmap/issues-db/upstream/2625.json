@@ -13,12 +13,25 @@
   "created_at": "2024-08-05T22:18:25Z",
   "github_updated_at": "2026-02-21T10:23:35Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nRDP to servers, disconnect from one machine, reconnect on another machine, and be able to pick back up with RDPing to servers.  \r\n\r\n\r\n## Current Behavior\r\nSigned into a PC on the Citrix server RDP to a few customer servers, disconnect my session, drive home, reconnect my session on a different PC, try to RDP and it will not allow me to.  It just opens a blank white screen until I close out all RDP sessio...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "RDP disconnection/reconnection session persistence issue needs reproducible steps and logs from current build to determine root cause and fix approach.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 62,
+        "cost_usd": 0.158333,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6HWPXN",
@@ -116,5 +129,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): RDP disconnection/reconnection session persistence issue needs reproducible steps and logs from current build to determine root cause and fix approach.\nApproach: needs reproduction steps and logs first",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 62,
+    "cost_usd": 0.158333
+  },
+  "impl_failed": true
 }

@@ -9,19 +9,50 @@
   ],
   "author": "Kvarkas",
   "created_at": "2026-02-24T21:26:07Z",
-  "github_updated_at": "2026-02-24T21:26:16Z",
+  "github_updated_at": "2026-02-25T17:29:01Z",
   "body_snippet": "Find more live information in Aikido here: https://app.aikido.dev/repositories/1001230?sidebarIssue=16286739&groupId=38189&sidebarIssueTask=3222012&sidebarTab=tasks\r\n\r\n\r\n### Scope\r\nThese issues affect the following code repository:\r\n- mRemoteNG:\n\t**[CENSORED!] Links to external GitHub repositories are not allowed**\n\t**[CENSORED!] Links to external GitHub repositories are not allowed**\n\tand 2 more\r\n\r\n\r\n### TLDR\r\nOS command injection is a critical vulnerability that can lead to a full system compr...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 729,
+        "cost_usd": 0.182683,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in db7a90cf",
+      "token_usage": {
+        "input_tokens": 49,
+        "output_tokens": 25958,
+        "cost_usd": 2.945967,
+        "operations": 2
+      }
+    }
+  ],
   "comments": [],
-  "comments_cursor": "2026-02-24T21:26:16Z",
+  "comments_cursor": "2026-02-25T17:29:01Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T22:01:02Z",
-  "notes": ""
+  "last_synced": "2026-02-25T21:16:17Z",
+  "notes": "AI triage (claude): Command injection via unsanitized user input passed to Process.Start is a confirmed security vulnerability class that must be audited and sanitized.\nApproach: Audit all Process.Start call sites for user-controlled arguments; replace string concatenation with ProcessStartInfo.ArgumentList (array-based, injection-safe) or validate/escape inputs before passing to shell",
+  "impl_failed": false,
+  "token_usage": {
+    "input_tokens": 52,
+    "output_tokens": 26687,
+    "cost_usd": 3.12865
+  }
 }

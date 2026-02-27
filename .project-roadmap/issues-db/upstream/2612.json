@@ -11,12 +11,55 @@
   "created_at": "2024-07-05T20:26:50Z",
   "github_updated_at": "2026-02-21T10:23:32Z",
   "body_snippet": "It would be useful to add the possibility of providing separate credentials for logging in to Hyper-v virtual machines.\r\n\r\nCurrently it is possible to give credentials only for Hyper-v server - there is no possibility to give separate credentials for logging in to the virtual machine itself if they are different for the RDP session than for the Hyper-v server.\r\n\r\nmRemoteNG - v1.77.3\r\nlocal Hyper-v Server\r\nHyper-v VM - example: https://app.vagrantup.com/wolvverine/LinuxMintCinnamon (linux with XR...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 452,
+        "cost_usd": 0.165726,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Implementation failed"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Implementation failed"
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Implementation failed"
+    },
+    {
+      "seq": 5,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Implementation failed"
+    },
+    {
+      "seq": 6,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Skipped: 10 failed auto-fix attempts"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6Dz96J",
@@ -42,5 +85,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Valid enhancement to support per-connection credentials for Hyper-V VMs, distinct from host credentials, aligning with planned connection profiles feature.\nApproach: Add separate username/password/domain fields to the Hyper-V connection type and wire them into the VM connection handshake",
+  "impl_failed": true,
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 452,
+    "cost_usd": 0.165726
+  }
 }

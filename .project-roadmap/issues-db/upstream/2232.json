@@ -8,7 +8,7 @@
   ],
   "author": "paoloholzl",
   "created_at": "2022-05-26T09:38:19Z",
-  "github_updated_at": "2026-02-26T00:34:29Z",
+  "github_updated_at": "2026-02-26T11:17:47Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n## Expected Behavior\r\n\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nConnected from Windows 2010 Pro 21H2 to other Win 10 Pro 21H2 on a virtual machine Virtualbox, all with italian keyboard, often Shift is not functioning.\r\nIn some situation using shift lock work bud not normal shift.\r\nIn rare case also some characters are not functioning (but the keyboard language is correct)\r\n\r\n<!--- If you're suggesting ...",
   "our_status": "testing",
   "priority": "P3-enhancement",
@@ -37,7 +37,7 @@
       "id": "IC_kwDOAAcIMM5D3tGf",
       "author": "paoloholzl",
       "date": "2022-05-26T15:03:49Z",
-      "snippet": "Il 26/05/2022 15:26, Simon Monai ha scritto:\n>\n> Never experienced anything similar, only got the control key to stick \n> which has nothing to do with mRemoteNG itself.\n>\n> But that aside, what version of mRemoteNG are you using? Did you try \n> the nightly build?\n>\n> —\n> Reply to this email directly, view it on GitHub \n> <https://github.com/mRemoteNG/mRemoteNG/issues/2232#issuecomment-1138576996>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AXCNGMBQFRDK4LBTZBGK2KDVL53...",
+      "snippet": "Il 26/05/2022 15:26, Simon Monai ha scritto:\n>\n> Never experienced anything similar, only got the control key to stick \n> which has nothing to do with mRemoteNG itself.\n>\n> But that aside, what version of mRemoteNG are you using? Did you try \n> the nightly build?\n>\n\n>\nthe problem is not uncommon happens with different machines especially \nmachines with slow xp.Next time I'll make you a movie.\n\nVersion: 1.77.1.27654\n\n",
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
@@ -59,12 +59,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7sY6wd",
+      "author": "paoloholzl",
+      "date": "2026-02-26T11:17:47Z",
+      "snippet": "Sorry ... removed!",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-26T00:34:29Z",
-  "unread_comments": 2,
+  "comments_cursor": "2026-02-26T11:17:47Z",
+  "unread_comments": 3,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-26T03:21:41Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-02-26T11:26:01Z",
   "notes": "AI triage (gemini): The issue description 'In some cases problems with Uppercase' is too vague. More information is needed to understand the specific problem area, as 'uppercase' appears in multiple contexts (password validation, VNC protocol, registry path comparison).\nApproach: Gather more information from the issue reporter to clarify the specific problem with uppercase characters."
 }

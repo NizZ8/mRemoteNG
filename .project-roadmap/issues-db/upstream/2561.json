@@ -12,12 +12,25 @@
   "created_at": "2024-02-01T21:26:43Z",
   "github_updated_at": "2026-02-21T10:23:14Z",
   "body_snippet": "Request: External Tools\r\n\r\nWhen creating an external tools command, there is an option to \"run elevated.\"  I am requesting a feature: to be able to use the saved credentials under Tools | Options | Credentials instead of having to manually enter elevated credentials via Windows UAC when using the External Tools \"run elevated\" option.\r\n\r\n## Desired Behavior\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nWhen setting up an External Tools command, you would check ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty and only context is a comment about credential storage philosophy; no reproducible steps, expected vs actual behavior, or clear feature request provided.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 388,
+        "cost_usd": 0.159239,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM50aIKe",
@@ -43,5 +56,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty and only context is a comment about credential storage philosophy; no reproducible steps, expected vs actual behavior, or clear feature request provided.\nApproach: Requester must provide concrete use case, expected behavior, and retest on current fork build before this can be triaged properly",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 388,
+    "cost_usd": 0.159239
+  },
+  "impl_failed": true
 }

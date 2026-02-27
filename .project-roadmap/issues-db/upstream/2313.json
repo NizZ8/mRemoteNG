@@ -11,14 +11,39 @@
   ],
   "author": "Chrisu02",
   "created_at": "2022-12-06T07:38:47Z",
-  "github_updated_at": "2026-02-21T10:23:50Z",
+  "github_updated_at": "2026-02-26T10:58:38Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nIt would be awsome to have a multiple selection possibility like at windows with \"shift\" for Connection from - to, or Control to select multiple specific Connection\r\nThen you only have to press right click to one of this connection, select the Task / external Program and it will be executed to any of the selected connection.\r\n\r\n## Current Behavior\r\nCurrently you have to enter the Submenu of each Connecti...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 522,
+        "cost_usd": 0.141183,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in 585b248f",
+      "token_usage": {
+        "input_tokens": 5474,
+        "output_tokens": 17820,
+        "cost_usd": 3.076818,
+        "operations": 2
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5P1H3V",
@@ -37,12 +62,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7sYfqU",
+      "author": "robertpopa22",
+      "date": "2026-02-26T10:58:27Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Feature: Option so select multiple Connections at the Overvi\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:50Z",
+  "comments_cursor": "2026-02-26T10:58:38Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "last_synced": "2026-02-26T11:26:01Z",
+  "notes": "AI triage (claude): Feature request to enable multi-selection of connections in the Overview/Connections tree panel for bulk operations\nApproach: Enable multi-select mode on the connections TreeView/ObjectListView control and wire up context menu actions to operate on all selected nodes"
 }

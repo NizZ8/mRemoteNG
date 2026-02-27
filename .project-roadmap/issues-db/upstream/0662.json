@@ -9,9 +9,9 @@
   ],
   "author": "wkl17",
   "created_at": "2017-07-27T11:02:29Z",
-  "github_updated_at": "2026-02-21T10:23:35Z",
+  "github_updated_at": "2026-02-26T04:33:45Z",
   "body_snippet": "<!-- Bug -->\r\nscrollbars added to RDP window after minimize/restore of mRemoteNG v1.75\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7005  |\r\n\r\n\r\n<!-- Feature Request -->\r\nBTW: Wish Support with MySQL.\r\n<!-- If you file a feature request, please delete the bug section -->",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,18 @@
       "date": "2026-02-16",
       "type": "triaged",
       "description": "Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in 75eb790e",
+      "token_usage": {
+        "input_tokens": 46,
+        "output_tokens": 38371,
+        "cost_usd": 3.573015,
+        "operations": 2
+      }
     }
   ],
   "comments": [
@@ -96,13 +108,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7sROH3",
+      "author": "robertpopa22",
+      "date": "2026-02-26T04:33:36Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** scrollbars added to RDP window after minimize/restore of mRe\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:35Z",
+  "comments_cursor": "2026-02-26T04:33:45Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds\nApproach: If confirmed reproducible, investigate RDP control resize handling after minimize/restore cycle to ensure scrollbars are not incorrectly added",
-  "impl_failed": true
+  "last_synced": "2026-02-26T07:52:20Z",
+  "notes": "AI triage: Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds\nApproach: If confirmed reproducible, investigate RDP control resize handling after minimize/restore cycle to ensure scrollbars are not incorrectly added"
 }

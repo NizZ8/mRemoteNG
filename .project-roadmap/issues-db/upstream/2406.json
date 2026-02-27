@@ -13,12 +13,37 @@
   "created_at": "2023-03-24T13:33:57Z",
   "github_updated_at": "2026-02-21T10:23:22Z",
   "body_snippet": "I have been using mRemoteNG for years. Currently I am using mRemoteNG officially stable version 1.76.20 on Windows 10.\r\n    1. Open some SSH connection to e.g. Linux computer. \r\n    2. Right button click on connection tab and select Disconnect. Problem appears. I have clicked this by mistake wanting to click Duplicate Tab (both start with letter D). Clicking Disconnect is potentially very dangerous action and I thing in this case confirmation dialog should appear with question: \"Do you want to d...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 480,
+        "cost_usd": 0.145614,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in 5e68a344",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 6350,
+        "cost_usd": 1.2821,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mYhLr",
@@ -35,5 +60,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Missing disconnect confirmation dialog is a valid UX safety improvement to prevent accidental disconnections.\nApproach: Add optional confirmation MessageBox before executing disconnect, controlled by a user setting in Options.",
+  "impl_failed": false,
+  "token_usage": {
+    "input_tokens": 30,
+    "output_tokens": 6830,
+    "cost_usd": 1.427714
+  }
 }

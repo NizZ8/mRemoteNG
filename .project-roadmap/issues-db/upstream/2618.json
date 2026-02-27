@@ -13,12 +13,25 @@
   "created_at": "2024-07-18T08:54:09Z",
   "github_updated_at": "2026-02-21T10:23:34Z",
   "body_snippet": "When unfastening the tab with RDP connection to the local HV machine as a separate window, the options (reconect,disconect,fullscreen,...) do not work.\r\n\r\n## Expected Behavior\r\nThe mentioned options will operate normally.\r\n\r\n## Current Behavior\r\nNothing is happening\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Open the connection in the tab.\r\n2. Move the connection to a separate standalone window (Outside the panel)\r\n3. Select options from under the right button on the bar.\r\n\r\n## Your Environment\r\n* ...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue lacks reproducible steps, expected vs actual behavior, and confirmation on current build; maintainer comments already requested retest but no response provided.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 79,
+        "cost_usd": 0.157326,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXE0w",
@@ -44,5 +57,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue lacks reproducible steps, expected vs actual behavior, and confirmation on current build; maintainer comments already requested retest but no response provided.\nApproach: Request reporter to retest on latest build with specific steps to reproduce and logs/screenshots before attempting a fix",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 79,
+    "cost_usd": 0.157326
+  },
+  "impl_failed": true
 }

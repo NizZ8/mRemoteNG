@@ -22,6 +22,12 @@
       "date": "2026-02-21",
       "type": "triaged",
       "description": "Newer RFB protocol versions are not supported by the current VncSharpCore implementation, leading to compatibility issues with modern VNC servers."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "triaged",
+      "description": "Skipped: 12 failed auto-fix attempts"
     }
   ],
   "comments": [

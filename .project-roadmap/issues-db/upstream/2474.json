@@ -12,12 +12,25 @@
   "created_at": "2023-08-11T13:24:37Z",
   "github_updated_at": "2026-02-21T10:23:36Z",
   "body_snippet": "Please consider releasing new builds: stable, preview, and nightly.\r\n\r\nConsider branching from nightly then thoroughly testing all features.\r\n\r\nThe latest stable and preview versions are over four years old.  The RDP in v1.76.20 (stable) and v1.77.1 (preview) both still use the old RDP Automatic Resizing method, which takes 15 seconds and shows the Reconnecting dialog.\r\n\r\nThe RDP resizing works correctly in v1.77.3.1784-NB (nightly) Portable, but the build is full of other bugs: settings not sav...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "wontfix",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "wontfix",
+      "description": "This is a release process request for an old 1.77.3 milestone that is obsolete in the fork context; the fork is already well past this version and release promotion is handled by the project maintainers, not code changes.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 99,
+        "cost_usd": 0.14537,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5kOI5j",
@@ -475,5 +488,10 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): This is a release process request for an old 1.77.3 milestone that is obsolete in the fork context; the fork is already well past this version and release promotion is handled by the project maintainers, not code changes.\nApproach: close as wontfix — version is obsolete, release process is handled outside the codebase",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 99,
+    "cost_usd": 0.14537
+  }
 }

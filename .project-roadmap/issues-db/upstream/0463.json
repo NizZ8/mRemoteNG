@@ -10,9 +10,9 @@
   ],
   "author": "KyferEz",
   "created_at": "2017-03-19T22:19:45Z",
-  "github_updated_at": "2026-02-21T10:23:21Z",
+  "github_updated_at": "2026-02-26T01:58:18Z",
   "body_snippet": "Server 2012 R2 Core (no GUI) RDP fails when using mRemoteNG. However it works fine using MS RDP.\r\n\r\n<!-- Bug -->\r\n|||\r\n|--:|---|\r\n|Operating system | Windows Server 2012 R2 x64 Core |\r\n|mRemoteNG version| 1.75 hotfix 1 Stable  |\r\n\r\n\r\nI captured working vs nonworking traces. See screenshots. mRemoteNG is on 192.168.1.220 and the machine we are connecting to is 192.168.4.230. It looks like the mRemoteNG receives an ACK at packet 13 and then never sends any data. mRemoteNG then waits 19.9 seconds a...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,18 @@
       "date": "2026-02-15",
       "type": "triaged",
       "description": "Reporter confirmed upgrading fixed the issue, and our triage comment requested retest on latest build — no confirmation it still reproduces on v1.79.x+ so cannot act on it"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in 83cc7009",
+      "token_usage": {
+        "input_tokens": 19,
+        "output_tokens": 15195,
+        "cost_usd": 1.43623,
+        "operations": 1
+      }
     }
   ],
   "comments": [
@@ -61,13 +73,21 @@
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7sPXSM",
+      "author": "robertpopa22",
+      "date": "2026-02-26T01:58:08Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** RDP to Server 2012 R2 Core Fails using mRemoteNG but works w\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:21Z",
+  "comments_cursor": "2026-02-26T01:58:18Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage: Reporter confirmed upgrading fixed the issue, and our triage comment requested retest on latest build — no confirmation it still reproduces on v1.79.x+ so cannot act on it\nApproach: Wait for reporter to confirm if issue persists on current builds; if no response after reasonable time, close as resolved by upgrade",
-  "impl_failed": true
+  "last_synced": "2026-02-26T03:21:41Z",
+  "notes": "AI triage: Reporter confirmed upgrading fixed the issue, and our triage comment requested retest on latest build — no confirmation it still reproduces on v1.79.x+ so cannot act on it\nApproach: Wait for reporter to confirm if issue persists on current builds; if no response after reasonable time, close as resolved by upgrade"
 }

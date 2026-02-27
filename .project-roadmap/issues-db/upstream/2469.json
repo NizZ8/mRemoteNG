@@ -12,12 +12,25 @@
   "created_at": "2023-08-02T07:57:58Z",
   "github_updated_at": "2026-02-21T10:23:35Z",
   "body_snippet": "# Difficult usage of smartsizing in mRemote\r\n\r\n## Expected Behavior\r\nI use smartsizing to exceed the resolution of my laptop. In fact, my laptop has a resolution of 1920x1080. When I connect to the machines I use, I set the resolution to 1920x1200 with smartsizing enabled. As a result, my remote screen is resized to fit completely on my laptop's display.\r\n\r\n## Current Behavior\r\nMy issue is that if I select a resolution of 1920x1200, I cannot enable smartsizing upon connection. I am forced to app...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty and only has legacy version labels; needs retesting on current build with reproducible steps and expected vs actual behavior before any implementation can be scoped.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 267,
+        "cost_usd": 0.148126,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5jDC5x",
@@ -43,5 +56,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty and only has legacy version labels; needs retesting on current build with reproducible steps and expected vs actual behavior before any implementation can be scoped.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 267,
+    "cost_usd": 0.148126
+  },
+  "impl_failed": true
 }

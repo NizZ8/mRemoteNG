@@ -11,7 +11,7 @@
   ],
   "author": "ejtbrown",
   "created_at": "2017-06-16T17:38:42Z",
-  "github_updated_at": "2017-06-16T18:06:14Z",
+  "github_updated_at": "2026-02-25T08:34:04Z",
   "body_snippet": "|||\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7008.17907  |\r\n\r\n\r\n<!-- Feature Request -->\r\nI've previously used MTPuTTY, but have switched to mRemoteNG. I find mRemoteNG to be better in every way... except one. The titles of tabs in MTPuTTY follow SSH connections.\r\n\r\nExample:\r\n1) Open an SSH connection tab to hostA.example.com; the title of the tab is 'hostA.example.com'\r\n2) On the command line of hostA, ssh to hostB.example.com\r\n\r\nIn mRemoteNG, the title of the ...",
   "our_status": "triaged",
   "priority": "P3-enhancement",
@@ -35,13 +35,22 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7r5Or5",
+      "author": "robertpopa22",
+      "date": "2026-02-25T08:33:57Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Request: Tab Titles to Follow Current SSH Session\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2017-06-16T18:06:14Z",
+  "comments_cursor": "2026-02-25T08:34:04Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-15T09:52:50Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage: Feature request to dynamically update tab titles based on the active SSH session hostname/directory, improving UX for users with multiple SSH connections\nApproach: Monitor the SSH terminal emulator for shell prompt changes (hostname, pwd) and update the corresponding tab title in real-time, with an option to toggle between static connection name and dynamic session title",
   "impl_failed": true
 }

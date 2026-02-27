@@ -11,12 +11,25 @@
   "created_at": "2023-11-25T06:44:55Z",
   "github_updated_at": "2026-02-21T10:22:43Z",
   "body_snippet": "when connecting to the vm with the rdp client downloaded from gcp all is well.\r\nWhen connecting via MRemoteNG it keeps disconnecting and connecting again after several seconds.\r\nWhat is the issue?\r\n",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue reports RDP disconnections specific to Google Cloud VMs with no reproducible steps, logs, or confirmation that the problem exists in recent builds.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 82,
+        "cost_usd": 0.149539,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5s47UB",
@@ -87,5 +100,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue reports RDP disconnections specific to Google Cloud VMs with no reproducible steps, logs, or confirmation that the problem exists in recent builds.\nApproach: Request reproduction steps, mRemoteNG version, GCP VM config, and RDP logs before any code investigation",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 82,
+    "cost_usd": 0.149539
+  },
+  "impl_failed": true
 }

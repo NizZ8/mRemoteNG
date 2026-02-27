@@ -9,7 +9,7 @@
   ],
   "author": "RolfWojtech",
   "created_at": "2022-12-04T22:23:31Z",
-  "github_updated_at": "2026-02-24T12:32:39Z",
+  "github_updated_at": "2026-02-24T17:33:26Z",
   "body_snippet": "This isn't really a bug, more of a documentation oversight:\r\n\r\nI have setup winscp as an external tool as outlined in https://mremoteng.readthedocs.io/en/latest/external_tools_cheat_sheet.html#id1\r\n\r\nI tried to use a winscp to a machine with a non-standard SSH port and a password that happens to include an exclamation mark.\r\n\r\nFirst part of the documentation error is that the suggested string omits the port:\r\n`scp://%Username%:%Password%@%Hostname%/`\r\ncorrect use of the port would be:\r\n`scp://%U...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -44,15 +44,6 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7rQmVL",
-      "author": "robertpopa22",
-      "date": "2026-02-23T19:59:30Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Add a new section or update an existing one in 'mRemoteNGDoc\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rhctA",
       "author": "RolfWojtech",
       "date": "2026-02-24T12:26:55Z",
@@ -71,10 +62,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-24T12:32:39Z",
+  "comments_cursor": "2026-02-24T17:33:26Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage (gemini): The documentation for External Tools needs an update to include specific guidance for WinSCP, improving user experience.\nApproach: Add a new section or update an existing one in 'mRemoteNGDocumentation/external_tools_cheat_sheet.rst' to provide clear instructions and best practices for configuring WinSCP as an external tool."
 }

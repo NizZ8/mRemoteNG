@@ -12,12 +12,25 @@
   "created_at": "2023-03-24T13:42:35Z",
   "github_updated_at": "2026-02-21T10:23:22Z",
   "body_snippet": "I have been using mRemoteNG for years. Currently I am using mRemoteNG officially stable version 1.76.20 on Windows 10.\r\n    1. Open SSH connection to e.g. Linux computer and do some tasks.\r\n    2. Open new SSH connection to the same remote computer.\r\n    3. Now both windows (in both tabs) have some tasks executing.\r\n       \r\n       Sometimes I would like to have two mRemote programs each tab in its own program. In Firefox web browser for example I just click on tab and hold down to middle of win...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "This is a feature request to undock/redock connection tabs between mRemoteNG instances, which requires significant UI/UX design decisions and confirmation that it's still desired on the current build before committing to implementation.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 75,
+        "cost_usd": 0.13677,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM5YZE8p",
@@ -52,5 +65,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): This is a feature request to undock/redock connection tabs between mRemoteNG instances, which requires significant UI/UX design decisions and confirmation that it's still desired on the current build before committing to implementation.",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 75,
+    "cost_usd": 0.13677
+  },
+  "impl_failed": true
 }

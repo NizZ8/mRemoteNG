@@ -39,6 +39,12 @@
         "cost_usd": 1.984014,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "triaged",
+      "description": "Skipped: 10 failed auto-fix attempts"
     }
   ],
   "comments": [

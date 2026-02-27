@@ -23,6 +23,36 @@
       "date": "2026-02-21",
       "type": "triaged",
       "description": "Feature request to integrate VMWare Horizon Client functionality, enhancing mRemoteNG's connection capabilities."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-25",
+      "type": "triaged",
+      "description": "Implementation failed",
+      "token_usage": {
+        "input_tokens": 54,
+        "output_tokens": 17420,
+        "cost_usd": 2.499901,
+        "operations": 2
+      }
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-25",
+      "type": "triaged",
+      "description": "Implementation failed",
+      "token_usage": {
+        "input_tokens": 58,
+        "output_tokens": 22433,
+        "cost_usd": 3.824763,
+        "operations": 2
+      }
+    },
+    {
+      "seq": 4,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Skipped: 12 failed auto-fix attempts"
     }
   ],
   "comments": [
@@ -249,5 +279,10 @@
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
   "notes": "AI triage (gemini): Feature request to integrate VMWare Horizon Client functionality, enhancing mRemoteNG's connection capabilities.\nApproach: Implement a new VMWare Horizon protocol handler by creating a dedicated directory and developing classes to interface with the VMWare Horizon Client, leveraging existing protocol integration patterns within mRemoteNG.",
-  "impl_failed": true
+  "impl_failed": true,
+  "token_usage": {
+    "input_tokens": 112,
+    "output_tokens": 39853,
+    "cost_usd": 6.324664
+  }
 }

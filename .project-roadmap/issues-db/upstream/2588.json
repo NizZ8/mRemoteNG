@@ -13,12 +13,25 @@
   "created_at": "2024-04-27T18:49:42Z",
   "github_updated_at": "2026-02-21T10:23:27Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI tested Ubuntu24 new \"Remote Login\" feature successfully using Windows RDP client. Basically, there are two sets of credentials.\r\n- with the first credential set (which can be specified in the \"Remote Login\" dialog, the Windows RDP client accesses Ubuntu remote login screen.\r\n- The second set of credentials matches the Ubuntu user, as if you were trying to access from the main (physical) PC\r\n\r\nI tried to access Ubuntu 24 using...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Issue body is empty with no bug description, steps to reproduce, or error details about Ubuntu 24 Remote Login (likely RDP/xRDP); only meta-comments about spam blocking are present.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 198,
+        "cost_usd": 0.158058,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6UllEH",
@@ -143,5 +156,11 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Issue body is empty with no bug description, steps to reproduce, or error details about Ubuntu 24 Remote Login (likely RDP/xRDP); only meta-comments about spam blocking are present.\nApproach: Request reproduction steps, xRDP version, mRemoteNG logs, and connection protocol details",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 198,
+    "cost_usd": 0.158058
+  },
+  "impl_failed": true
 }

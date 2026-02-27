@@ -12,12 +12,25 @@
   "created_at": "2024-04-10T15:28:42Z",
   "github_updated_at": "2026-02-21T10:23:25Z",
   "body_snippet": "I've just deployed mRemoteNG in a Windows Servers 2016 and I'd like to set SQL as DB to store more than 1000 connections and share them in a team. I've followed the instructions:\r\n    https://github.com/mRemoteNG/mRemoteNG/blob/v1.77.3-dev/mRemoteNGDocumentation/sql_configuration.rst\r\n\r\nand deployed the db with the following script:\r\n    https://github.com/mRemoteNG/mRemoteNG/blob/develop/mRemoteNGDocumentation/mssql_db_setup.sql\r\n\r\nI'm able to connect to the database I create a connection but w...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "triaged",
+  "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "SQL DB connection sharing fails with ColumnMapping error but no reproducible steps, environment details, or confirmation on latest build provided.",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 81,
+        "cost_usd": 0.155002,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM6cdKr1",
@@ -52,5 +65,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): SQL DB connection sharing fails with ColumnMapping error but no reproducible steps, environment details, or confirmation on latest build provided.\nApproach: Request reproduction steps on latest v1.79.x+ build with DB schema version, connection string config, and full error log",
+  "token_usage": {
+    "input_tokens": 3,
+    "output_tokens": 81,
+    "cost_usd": 0.155002
+  },
+  "impl_failed": true
 }

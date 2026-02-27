@@ -13,12 +13,37 @@
   "created_at": "2023-03-24T12:59:34Z",
   "github_updated_at": "2026-02-21T10:23:22Z",
   "body_snippet": "I have been using mRemoteNG for years. Currently I am using mRemoteNG officially stable version 1.76.20 on Windows 10.\r\n\r\n1. Open some SSH connection to e.g. Linux computer.\r\n2. On top new tab appears that represents connection.\r\n3. Click middle button on tab to close down connection. Problem appears. Dialog opens with question _\"Do you want to close down the connection?\"_ and **Yes** and **No** buttons appears. User experience problem appears. In my humble opinion Yes/No questions should almost...",
-  "our_status": "new",
-  "priority": null,
+  "our_status": "testing",
+  "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-02-26",
+      "type": "triaged",
+      "description": "Deferred: only 1 agent(s) available",
+      "token_usage": {
+        "input_tokens": 3,
+        "output_tokens": 578,
+        "cost_usd": 0.147851,
+        "operations": 1
+      }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-26",
+      "type": "testing",
+      "description": "Fix in a966dd5e",
+      "token_usage": {
+        "input_tokens": 27,
+        "output_tokens": 8313,
+        "cost_usd": 1.422395,
+        "operations": 1
+      }
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7Jm4iB",
@@ -44,5 +69,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": ""
+  "notes": "AI triage (claude): Valid UX issue where a Yes/No dialog with dangerous consequences (SSH disconnect/reconnect) should use explicit action-labeled buttons instead of ambiguous Yes/No to prevent accidental destructive actions.\nApproach: Replace MessageBox.Show Yes/No dialogs in SSH connection flows with explicit-label buttons (e.g., 'Disconnect'/'Cancel') using a custom dialog or MessageBoxButtons with clear action labels",
+  "impl_failed": false,
+  "token_usage": {
+    "input_tokens": 30,
+    "output_tokens": 8891,
+    "cost_usd": 1.570246
+  }
 }
