@@ -41,6 +41,180 @@ Present session summary:
 - **Cost**: Token usage and USD cost
 - **Duration**: How long the session has been running
 
+### 1b. Performance Stats (log-based, multi-session)
+Run this script to extract performance metrics from the orchestrator log:
+
+```bash
+cd D:/github/mRemoteNG && python -c "
+import sys, os, re
+from datetime import datetime, timedelta
+from collections import defaultdict
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
+LOG = '.project-roadmap/scripts/orchestrator.log'
+STATUS = '.project-roadmap/scripts/orchestrator-status.json'
+
+# Read last 30K lines (~7 days)
+lines = []
+try:
+    with open(LOG, encoding='utf-8', errors='replace') as f:
+        lines = f.readlines()
+    if len(lines) > 30000:
+        lines = lines[-30000:]
+except FileNotFoundError:
+    print('NO_LOG=1')
+    sys.exit(0)
+
+# Parse log timestamp
+def parse_ts(line):
+    m = re.match(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})', line)
+    return datetime.strptime(m.group(1), '%Y-%m-%d %H:%M:%S') if m else None
+
+# Patterns
+PAT_COMMIT = re.compile(r'committed ([0-9a-f]{7,8})')
+PAT_ALL_FAILED = re.compile(r'All agents in chain failed')
+PAT_OPUS_FAILED = re.compile(r'Opus fallback also failed')
+PAT_OPUS_FALLBACK = re.compile(r'Sonnet failed.*retrying.*with Opus')
+PAT_TIMEOUT = re.compile(r'TIMEOUT')
+PAT_SESSION = re.compile(r'TEST HYGIENE \(pre-flight\)')
+PAT_ISSUE_START = re.compile(r'\[(\d+)/(\d+)\] Issue #(\d+)')
+
+# Collect events per day
+today = datetime.now().strftime('%Y-%m-%d')
+days = defaultdict(lambda: {'commits': 0, 'all_failed': 0, 'opus_failed': 0,
+                             'opus_fallback': 0, 'timeouts': 0,
+                             'sessions': [], 'first_ts': None, 'last_ts': None,
+                             'issues_started': 0})
+
+# Session tracking
+sessions = []  # list of (start_ts, day)
+current_session_start = None
+
+for line in lines:
+    ts = parse_ts(line)
+    if not ts:
+        continue
+    day = ts.strftime('%Y-%m-%d')
+    d = days[day]
+    if d['first_ts'] is None or ts < d['first_ts']:
+        d['first_ts'] = ts
+    if d['last_ts'] is None or ts > d['last_ts']:
+        d['last_ts'] = ts
+
+    if PAT_SESSION.search(line):
+        current_session_start = ts
+        sessions.append({'start': ts, 'day': day, 'commits': 0, 'failures': 0})
+    if PAT_COMMIT.search(line):
+        d['commits'] += 1
+        if sessions:
+            sessions[-1]['commits'] += 1
+    if PAT_ALL_FAILED.search(line):
+        d['all_failed'] += 1
+        if sessions:
+            sessions[-1]['failures'] += 1
+    if PAT_OPUS_FAILED.search(line):
+        d['opus_failed'] += 1
+    if PAT_OPUS_FALLBACK.search(line):
+        d['opus_fallback'] += 1
+    if PAT_TIMEOUT.search(line):
+        d['timeouts'] += 1
+    if PAT_ISSUE_START.search(line):
+        d['issues_started'] += 1
+
+# Calculate metrics
+def calc(d):
+    commits = d['commits']
+    failures = d['all_failed']
+    total = commits + failures
+    rate = int(commits / total * 100) if total else 0
+    first = d['first_ts']
+    last = d['last_ts']
+    hours = (last - first).total_seconds() / 3600 if first and last else 0
+    avg_min = int(hours * 60 / commits) if commits else 0
+    cph = round(commits / hours, 1) if hours > 0.1 else 0
+    return commits, failures, rate, d['opus_fallback'], avg_min, cph, hours
+
+# Current session from status.json
+sess_commits = 0
+sess_failures = 0
+sess_opus_fb = 0
+try:
+    import json
+    st = json.load(open(STATUS, encoding='utf-8'))
+    sess_commits = len([c for c in st.get('commits', []) if c.get('success', False)])
+    sess_failures = len(st.get('errors', {}))
+except:
+    pass
+
+# Today stats
+td = days.get(today)
+if td:
+    t_commits, t_failures, t_rate, t_opus, t_avg, t_cph, t_hours = calc(td)
+else:
+    t_commits = t_failures = t_rate = t_opus = t_avg = t_hours = 0
+    t_cph = 0.0
+
+# 7-day stats
+week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+w_commits = w_failures = w_opus = 0
+w_hours = 0.0
+active_days = 0
+for day_key, dv in days.items():
+    if day_key >= week_ago:
+        c, f, _, o, _, _, h = calc(dv)
+        w_commits += c
+        w_failures += f
+        w_opus += o
+        w_hours += h
+        if c > 0 or f > 0:
+            active_days += 1
+w_total = w_commits + w_failures
+w_rate = int(w_commits / w_total * 100) if w_total else 0
+w_avg = int(w_hours * 60 / w_commits) if w_commits else 0
+w_cph = round(w_commits / w_hours, 1) if w_hours > 0.1 else 0
+w_per_day = round(w_commits / max(active_days, 1), 0)
+w_fail_day = round(w_failures / max(active_days, 1), 0)
+w_opus_day = round(w_opus / max(active_days, 1), 0)
+
+# Session stats from status.json
+sess_total = sess_commits + sess_failures
+sess_rate = int(sess_commits / sess_total * 100) if sess_total else 0
+
+# Print table
+print('--- Performance (log-based) ------------------------------------')
+print(f'                    Session    Today     7-day avg')
+print(f'  Commits:         {sess_commits:>6}    {t_commits:>6}     {w_per_day:.0f}/day')
+print(f'  Failures:        {sess_failures:>6}    {t_failures:>6}     {w_fail_day:.0f}/day')
+print(f'  Success rate:    {sess_rate:>5}%   {t_rate:>5}%    {w_rate:>4}%')
+print(f'  Opus fallbacks:  {sess_opus_fb:>6}    {t_opus:>6}     {w_opus_day:.0f}/day')
+print(f'  Avg min/commit:       ?    {t_avg:>6}     {w_avg:>4}')
+print(f'  Commits/hour:         ?    {t_cph:>6}     {w_cph:>4}')
+print()
+
+# Today sessions detail
+today_sessions = [s for s in sessions if s['day'] == today]
+if today_sessions:
+    print(f'  Today: {len(today_sessions)} session(s), {t_hours:.1f}h')
+    for idx, s in enumerate(today_sessions):
+        end = today_sessions[idx+1]['start'] if idx+1 < len(today_sessions) else datetime.now()
+        dur = (end - s['start']).total_seconds() / 3600
+        st_str = s['start'].strftime('%H:%M')
+        end_str = end.strftime('%H:%M') if idx+1 < len(today_sessions) else 'now'
+        print(f'    S{idx+1}: {st_str}-{end_str} ({dur:.1f}h) — {s[\"commits\"]} commits, {s[\"failures\"]} failures')
+print()
+
+# 7-day daily breakdown
+print('  7-day daily:')
+for day_key in sorted(days.keys()):
+    if day_key >= week_ago:
+        c, f, r, o, _, _, h = calc(days[day_key])
+        marker = ' <-- today' if day_key == today else ''
+        print(f'    {day_key}: {c:>3} commits, {f:>2} fail, {r:>3}% ok, {o:>2} opus fb ({h:.1f}h){marker}')
+"
+```
+
+Present the Performance Stats output as-is between the current session summary and overall progress sections.
+
 ### 2. Overall project progress (ALL sessions combined)
 Run these commands to gather cumulative stats:
 
@@ -103,12 +277,25 @@ pct = int(truly_resolved / total_db * 100) if total_db else 0
 bar_filled = int(pct / 100 * 30)
 bar = chr(9608) * bar_filled + chr(9617) * (30 - bar_filled)
 
-# 5. Remaining issues (not resolved)
+# 5. Remaining issues — split into "needs work" vs "awaiting verification"
 remaining = total_db - truly_resolved
 remaining_testing = status_counts.get('testing', 0)
 remaining_triaged = status_counts.get('triaged', 0) - has_commit_by_status.get('triaged', 0)
 remaining_new = status_counts.get('new', 0)
 remaining_needs_human = status_counts.get('needs_human', 0)
+
+# Count impl_failed (active retry queue for orchestrator)
+impl_failed_count = 0
+for f2 in os.listdir(db_dir):
+    if not f2.endswith('.json'): continue
+    try:
+        d2 = json.load(open(os.path.join(db_dir, f2), encoding='utf-8'))
+        if d2.get('impl_failed') and d2.get('our_status') == 'triaged':
+            impl_failed_count += 1
+    except: pass
+
+needs_work = remaining_triaged + remaining_new + remaining_needs_human
+awaiting_verification = remaining_testing
 
 # Output for Claude to format
 print(f'TOTAL_DB={total_db}')
@@ -116,6 +303,9 @@ print(f'ISSUES_WITH_FIXES={issues_with_fixes}')
 print(f'CLOSED_NO_CODE={closed_no_code}')
 print(f'TRULY_RESOLVED={truly_resolved}')
 print(f'REMAINING={remaining}')
+print(f'NEEDS_WORK={needs_work}')
+print(f'AWAITING_VERIFICATION={awaiting_verification}')
+print(f'IMPL_FAILED_QUEUE={impl_failed_count}')
 print(f'PCT={pct}')
 print(f'BAR=[{bar}]')
 for s in ['released','testing','triaged','new','wontfix','duplicate','needs_human','impl_failed']:
@@ -132,10 +322,11 @@ print(f'  Closed without code (wontfix+duplicate): {closed_no_code}')
 print(f'  Double-counted (wontfix/dup with commits): -{has_commit_by_status.get(\"wontfix\", 0) + has_commit_by_status.get(\"duplicate\", 0)}')
 print(f'  = Truly resolved: {issues_with_fixes} + {closed_no_code} - {has_commit_by_status.get(\"wontfix\", 0) + has_commit_by_status.get(\"duplicate\", 0)} = {truly_resolved}')
 print(f'  = Remaining: {total_db} - {truly_resolved} = {remaining}')
-print(f'    Testing (unverified): {remaining_testing}')
-print(f'    Triaged (no commit):  {remaining_triaged}')
-print(f'    New (not started):    {remaining_new}')
-print(f'    Needs human:          {remaining_needs_human}')
+print(f'    Awaiting verification (have commits): {awaiting_verification}')
+print(f'    Needs work: {needs_work}')
+print(f'      Triaged (retry queue): {remaining_triaged} ({impl_failed_count} in orchestrator queue)')
+print(f'      New (not started):     {remaining_new}')
+print(f'      Needs human:           {remaining_needs_human}')
 "
 ```
 
@@ -143,7 +334,9 @@ Present the progress using the script output. Key metrics:
 - **Issues with fix commits**: ground truth from git log, counting unique issue numbers
 - **Closed without code**: wontfix + duplicate (no fix commit needed)
 - **Truly resolved**: issues with fix commits + closed without code (deduplicated)
-- **Remaining**: total - truly resolved, broken down by category
+- **Remaining**: total - truly resolved, split into:
+  - **Awaiting verification**: have fix commits but not yet released (testing status)
+  - **Needs work**: triaged (orchestrator retry queue), new, needs human
 - **Calculation**: always show the math so the user can verify
 - **Status tracking gap**: issues marked "triaged" that actually have fix commits
   (flag this as a warning if > 0)
@@ -214,6 +407,24 @@ Errors: 3
 
 Cost: $22.97 | Duration: 02:16
 
+--- Performance (log-based) ------------------------------------
+                    Session    Today     7-day avg
+  Commits:              8       25        22/day
+  Failures:             1        4         3/day
+  Success rate:        89%      86%       88%
+  Opus fallbacks:       2        9         6/day
+  Avg min/commit:       ?       21        19
+  Commits/hour:         ?      2.8       3.2
+
+  Today: 2 sessions, 8.7h
+    S1: 23:12-05:17 (6.1h) — 17 commits, 4 failures
+    S2: 05:17-now    (2.7h) —  8 commits, 1 failure
+
+  7-day daily:
+    2026-02-19:  12 commits,  2 fail, 86% ok,  3 opus fb (5.2h)
+    2026-02-20:  18 commits,  1 fail, 95% ok,  1 opus fb (7.1h)
+    2026-02-25:  25 commits,  4 fail, 86% ok,  9 opus fb (8.7h) <-- today
+
 --- Overall Progress (all sessions) ----------------------------
 Issues DB: 839 total
   DB Status:  Released: 505 | Testing: 15 | Wontfix: 56 | Duplicate: 24
@@ -226,13 +437,14 @@ Issues DB: 839 total
     [███████████████████░░░░░░░░░░░] 65%
 
   Remaining: 291
-    Testing (unverified):  15
-    Triaged (no commit):   85
-    New (not started):    149
-    Needs human:            4
+    Awaiting verification (have commits): 102
+    Needs work: 189
+      Triaged (retry queue): 143 (143 in orchestrator queue)
+      New (not started):       42
+      Needs human:              4
 
   Calculation: 475 + 80 - 7 (double-counted) = 548 resolved
-               839 - 548 = 291 remaining
+               839 - 548 = 291 remaining (102 awaiting verification + 189 needs work)
 
 Tests: 2925 passing
 

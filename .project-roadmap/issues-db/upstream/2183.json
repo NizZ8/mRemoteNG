@@ -11,7 +11,7 @@
   "created_at": "2022-03-10T10:33:10Z",
   "github_updated_at": "2026-02-25T02:03:53Z",
   "body_snippet": "![Snipaste_2022-03-10_18-25-33](https://user-images.githubusercontent.com/33201372/157642922-89c9c663-8316-4644-b2f2-e88cfc170d3c.png)\r\nAs shown in the screenshot the window of putty's window session does not automatically adjust to fill the entire window\r\n![Snipaste_2022-03-10_18-28-35](https://user-images.githubusercontent.com/33201372/157643597-4158a142-5851-4aa6-8c4f-a3b317e3e174.png)\r\nI have upgraded to the latest PuttyNG.\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-23",
       "type": "triaged",
       "description": "The SSH session window (PuTTYNG) does not automatically adjust its size when the parent mRemoteNG window is resized, requiring an update to the process control and window management."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in a1717026"
     }
   ],
   "comments": [
@@ -77,5 +83,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage (gemini): The SSH session window (PuTTYNG) does not automatically adjust its size when the parent mRemoteNG window is resized, requiring an update to the process control and window management.\nApproach: Add a method to `ProcessController.cs` to resize the external PuTTYNG window using P/Invoke (SetWindowPos/MoveWindow from `NativeMethods.cs`). Override the resize event in the relevant mRemoteNG UI window (e.g., `BaseWindow` descendant) to get the new dimensions and pass them to the `ProcessController`'s resize method.",
-  "impl_failed": true
+  "impl_failed": false
 }

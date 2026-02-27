@@ -11,7 +11,7 @@
   "created_at": "2021-01-28T11:19:01Z",
   "github_updated_at": "2026-02-24T03:05:54Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nThe expected behaviour is that with the following configuration, it will open a chrome session with host and path.\r\nhttps://mremoteng.readthedocs.io/en/latest/user_interface/external_tools.html\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n\r\nInstead, it opens a blank URL.\r\nIf ...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-21",
       "type": "triaged",
       "description": "External tool arguments containing colons may be misinterpreted by 'cmd.exe' when 'UseShellExecute' is true or when executing batch files, despite being quoted by 'QuoteArgumentForCmd'."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 35856820"
     }
   ],
   "comments": [
@@ -68,5 +74,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
   "notes": "AI triage (gemini): External tool arguments containing colons may be misinterpreted by 'cmd.exe' when 'UseShellExecute' is true or when executing batch files, despite being quoted by 'QuoteArgumentForCmd'.\nApproach: Investigate 'cmd.exe's specific rules for handling colons within quoted arguments. If 'QuoteArgumentForCmd' is found to be insufficient, modify it or the argument construction logic in 'SetProcessProperties' to ensure colons are properly escaped or handled to prevent misinterpretation by 'cmd.exe'.",
-  "impl_failed": true
+  "impl_failed": false
 }

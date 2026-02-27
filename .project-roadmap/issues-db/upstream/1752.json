@@ -12,7 +12,7 @@
   "created_at": "2020-05-09T17:31:21Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nNo error messages should pop up, you should be able to close all panels and create a new (first) one without any issues\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\nWhen no panels are present, and ...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -59,6 +59,12 @@
       "date": "2026-02-25",
       "type": "triaged",
       "description": "Skipped: 12 failed auto-fix attempts"
+    },
+    {
+      "seq": 5,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in f34c13e7"
     }
   ],
   "comments": [
@@ -96,7 +102,7 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
   "notes": "AI triage (claude): Error dialog appears when creating the first panel, likely due to DocumentStyle switch in ConnectionWindow or null/empty WindowList edge case in panel creation flow.\nApproach: Investigate PanelAdder.AddPanel catch block and ConnectionWindow.ShowHideConnectionTabs for the condition that triggers the error on first panel creation; add guard for empty WindowList and handle DocumentStyle transition safely when no existing panels are present.\nFailed 5+ automated attempts (Sonnet). Requires manual fix or Opus-level agent.",
-  "impl_failed": true,
+  "impl_failed": false,
   "token_usage": {
     "input_tokens": 104,
     "output_tokens": 29383,

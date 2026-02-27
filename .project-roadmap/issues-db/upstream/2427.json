@@ -11,7 +11,7 @@
   "created_at": "2023-04-18T10:42:09Z",
   "github_updated_at": "2026-02-21T10:23:26Z",
   "body_snippet": "Default credentials in options are not passed to the gateway login when \"use the same username and password\" is set on the gateway credentials option\r\n\r\n## Expected Behavior\r\nThe default credentials are passed to the gateway login if its set to use the same credentials as the main connection\r\n\r\n## Current Behavior\r\nNo credentials are sent to the gateway and a login box pops up for every connection.\r\n\r\n## Possible Solution\r\n2 possible solutions.  \r\n\r\n1 put a default gateway credentials into optio...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
         "cost_usd": 0.138795,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 6c110776"
     }
   ],
   "comments": [
@@ -61,5 +67,5 @@
     "output_tokens": 82,
     "cost_usd": 0.138795
   },
-  "impl_failed": true
+  "impl_failed": false
 }

@@ -12,7 +12,7 @@
   "created_at": "2020-08-20T07:49:51Z",
   "github_updated_at": "2026-02-24T22:54:02Z",
   "body_snippet": "All,\r\nI'm having issues getting MSSQL connection to work, connects to DB fine but prompts error messages when attempting to create a new Connection or New Folder.\r\n\r\nmRemoteNG version: 1.77.0.41252\r\nSQL: SQL Server 2019\r\n\r\nI receive the following different errors, when I try and tweak the first one, I receive the second one.\r\nErrorMsg\r\n08/19/2020 16:33:50\r\nCouldn't save connections file as \"\"!\r\nCannot insert the value NULL into column 'RedirectAudioCapture', table 'mRemoteNG.dbo.tblCons'; column...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -23,6 +23,12 @@
       "date": "2026-02-21",
       "type": "triaged",
       "description": "The issue describes a failure to save new connections and folders in MSSQL mode, which, according to documentation, is an unimplemented feature critical for core functionality."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 35856820"
     }
   ],
   "comments": [
@@ -150,5 +156,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage (gemini): The issue describes a failure to save new connections and folders in MSSQL mode, which, according to documentation, is an unimplemented feature critical for core functionality.\nApproach: Implement the necessary SQL INSERT operations within SqlDataProvider and MSSqlDatabaseConnector to correctly persist new ConnectionInfo and folder objects created in MSSQL mode, ensuring ConnectionTreeModel properly invokes these save operations.",
-  "impl_failed": true
+  "impl_failed": false
 }

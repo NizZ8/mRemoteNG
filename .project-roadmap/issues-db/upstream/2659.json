@@ -13,7 +13,7 @@
   "created_at": "2025-01-12T16:44:26Z",
   "github_updated_at": "2026-02-21T10:23:17Z",
   "body_snippet": "FYI\r\nRdpVersion.cs was modified on 12.11.2024, line 11 -> Rdc12 was added\r\nthis breaks mRemoteNG on windows 10.\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -30,6 +30,12 @@
         "cost_usd": 0.160858,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 6c110776"
     }
   ],
   "comments": [
@@ -63,5 +69,5 @@
     "output_tokens": 71,
     "cost_usd": 0.160858
   },
-  "impl_failed": true
+  "impl_failed": false
 }

@@ -12,7 +12,7 @@
   "created_at": "2023-01-31T02:57:25Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "I would love to see a feature in mRemote where it would automatically load/import an XML config file on startup.\r\n\r\nThis would be helpful for provisioning mRemote for lots of users.\r\n\r\nAn example environment would be a call center where users needs to connect out to various offices to pull up records.\r\n\r\nRather than reminding everyone to \"delete their mRemote config and then re-import it from the usual location\", I would love to tell mRemote to always automatically load connections from ```https...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -29,6 +29,12 @@
         "cost_usd": 0.146645,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 0b73cea5"
     }
   ],
   "comments": [
@@ -98,5 +104,5 @@
     "output_tokens": 609,
     "cost_usd": 0.146645
   },
-  "impl_failed": true
+  "impl_failed": false
 }

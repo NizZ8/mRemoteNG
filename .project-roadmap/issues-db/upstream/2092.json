@@ -11,7 +11,7 @@
   "created_at": "2021-12-17T08:59:40Z",
   "github_updated_at": "2026-02-21T10:22:48Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI have update my mariadb from 10.1 to 10.6\r\ni imported my data from the older databse to new (in diferents servers)\r\nWhen i add or modify a register this erro appears\r\nThe connections file could not be saved as \"\"!\r\nThe provided key was not found in the dictionary.\r\nbut if no import and start with an empty database it works perfectly\r\nThanks in advance\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what shou...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -34,6 +34,12 @@
       "date": "2026-02-24",
       "type": "triaged",
       "description": "Skipped: 26 failed auto-fix attempts"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 38757933"
     }
   ],
   "comments": [
@@ -58,5 +64,5 @@
     "output_tokens": 1060,
     "cost_usd": 0.4387
   },
-  "impl_failed": true
+  "impl_failed": false
 }

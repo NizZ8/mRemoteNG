@@ -30,6 +30,12 @@
         "cost_usd": 0.371175,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "triaged",
+      "description": "Implementation failed"
     }
   ],
   "comments": [

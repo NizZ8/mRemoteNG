@@ -17,7 +17,7 @@
   "created_at": "2023-04-03T17:06:44Z",
   "github_updated_at": "2026-02-21T10:23:23Z",
   "body_snippet": "The passwords of the connection files are stored as plain text values in the memory of the mRemteNG process, even before a\r\nconnection is established.\r\nThis fulfills the requirement of CWE-316 - Cleartext Storage of Sensitive\r\nInformation in Memory.\r\nhttps://github.com/mRemoteNG/mRemoteNG/issues/726\r\n\r\n1) Create a new connection configuration, set hostname, username and\r\npassword.\r\n2) (Optional) Enable encryption of the configuration file.\r\n3) Restart mRemoteNG\r\n4) Use Task Manager / Processhack...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -34,6 +34,12 @@
         "cost_usd": 0.138751,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in f34c13e7"
     }
   ],
   "comments": [
@@ -256,5 +262,5 @@
     "output_tokens": 93,
     "cost_usd": 0.138751
   },
-  "impl_failed": true
+  "impl_failed": false
 }

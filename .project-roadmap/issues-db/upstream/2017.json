@@ -10,7 +10,7 @@
   "created_at": "2021-08-06T13:03:28Z",
   "github_updated_at": "2026-02-24T05:11:47Z",
   "body_snippet": "Hello,\r\nhaving this problem for a long time on different windows versions. It never happened to the original mremote software.\r\nSometimes, when i try to connect to my Windows Server 2012R2, mRemote just closes. No messages, no log-output.\r\nThis happens not often, but regular. I would guess. Every 20th time.\r\n\r\nI'm using the portable version running on a network share.\r\n\r\n\r\n## Expected Behavior\r\nmRemote should establish the connection\r\n\r\n## Current Behavior\r\nmRemote closes without any messages or...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-22",
       "type": "triaged",
       "description": "mRemoteNG crashes during RDP connection establishment, indicating a critical bug that needs immediate attention."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 38757933"
     }
   ],
   "comments": [
@@ -256,5 +262,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
   "notes": "AI triage (gemini): mRemoteNG crashes during RDP connection establishment, indicating a critical bug that needs immediate attention.\nApproach: Investigate the RDP connection establishment process within `RdpProtocol.cs` to identify potential unhandled exceptions, race conditions, or resource management issues that lead to application crashes. Debug by setting breakpoints at connection initiation, authentication, and display rendering.",
-  "impl_failed": true
+  "impl_failed": false
 }

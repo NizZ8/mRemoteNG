@@ -10,7 +10,7 @@
   "created_at": "2017-09-15T17:26:18Z",
   "github_updated_at": "2026-02-24T12:00:57Z",
   "body_snippet": "![image](https://user-images.githubusercontent.com/1645623/30495259-437bf52a-9a43-11e7-9337-dcd1028b9e89.png)\r\n\r\n|||\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7008.33112  |\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-16",
       "type": "triaged",
       "description": "Issue body is empty with no description of what 'overrideable parameters' means for external app protocol, making it impossible to determine scope or implementation approach"
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in e7a3ac61"
     }
   ],
   "comments": [
@@ -40,5 +46,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-24T14:53:33Z",
   "notes": "AI triage: Issue body is empty with no description of what 'overrideable parameters' means for external app protocol, making it impossible to determine scope or implementation approach\nApproach: Need reporter to clarify what specific parameters should be overrideable and the expected behavior before implementation can be planned",
-  "impl_failed": true
+  "impl_failed": false
 }

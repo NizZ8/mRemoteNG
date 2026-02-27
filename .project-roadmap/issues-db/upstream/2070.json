@@ -10,7 +10,7 @@
   "created_at": "2021-11-29T11:39:18Z",
   "github_updated_at": "2026-02-25T22:25:09Z",
   "body_snippet": "It would be great if the command line switches could also include options for:\r\nCustom location for the mRemoteNG.settings.  Purpose is to point this file to the same location as the /cons\r\nCustom location for the log file through the command line and again to the same location as /cons \r\n\r\nBe able to use environmental variables to define these settings both in command line (working for the existing /cons) as well as the application.  Using this seems to create a folder with the environmental va...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -21,6 +21,12 @@
       "date": "2026-02-22",
       "type": "triaged",
       "description": "To implement additional command line switches for mRemoteNG by extending the existing argument parsing and inter-process communication mechanisms."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in ebccb513"
     }
   ],
   "comments": [
@@ -49,5 +55,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-26T03:21:41Z",
   "notes": "AI triage (gemini): To implement additional command line switches for mRemoteNG by extending the existing argument parsing and inter-process communication mechanisms.\nApproach: Create a new 'CommandLineParser' class to handle parsing of additional command-line arguments. Modify 'ProgramRoot.cs' to integrate this new parser and extend the 'SendArgsToRunningInstance' method to ensure new arguments are correctly processed when sending to an already running application instance.",
-  "impl_failed": true
+  "impl_failed": false
 }

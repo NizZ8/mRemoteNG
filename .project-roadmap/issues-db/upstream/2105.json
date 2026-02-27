@@ -10,7 +10,7 @@
   "created_at": "2021-12-29T04:14:25Z",
   "github_updated_at": "2026-02-21T10:22:48Z",
   "body_snippet": "Good evening Gentlemen, maybe this problem has already been solved, but I'm having problems, I downloaded the developer version and compiled it, but when I try to enter vnc I get a white screen and the remote area doesn't appear, could you help me? follow photo\r\n![Screenshot_2](https://user-images.githubusercontent.com/96506176/147626863-faff5f23-e459-42ac-9fd3-8dc0c078baf2.png)\r\n\r\n",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -27,6 +27,12 @@
       "date": "2026-02-24",
       "type": "triaged",
       "description": "Skipped: 26 failed auto-fix attempts"
+    },
+    {
+      "seq": 3,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 38757933"
     }
   ],
   "comments": [
@@ -55,5 +61,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
   "notes": "AI triage (gemini): The issue indicates a failure in core VNC connection functionality, resulting in a blank display.\nApproach: Investigate VNC connection establishment and rendering within ProtocolVNC and UltraVNCWindow.cs, focusing on ActiveX control initialization, error handling, and parameter passing to resolve the white screen issue.",
-  "impl_failed": true
+  "impl_failed": false
 }

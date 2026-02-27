@@ -15,7 +15,7 @@
   "created_at": "2016-11-28T21:28:04Z",
   "github_updated_at": "2026-02-25T03:35:42Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\n|||\r\n|--:|---|\r\n|Operating system | Windows 8 x64 |\r\n|mRemoteNG version| Stable 1.74 Final  |\r\n\r\nConnot connect to TightVNC using VNC protocol when Vnc Server is running in unauthenticated mode, i.e. no password is supplied to MRemoteNG.\r\n...",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -26,6 +26,12 @@
       "date": "2026-02-15",
       "type": "triaged",
       "description": "Issue is very old with no recent reproduction steps, no confirmation it still occurs on current builds (v1.80+), and multiple triage pings went unanswered — cannot act without a confirmed repro on latest version."
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in 30217039 (codex-regular)"
     }
   ],
   "comments": [
@@ -360,5 +366,5 @@
   "waiting_for_us": false,
   "last_synced": "2026-02-25T14:41:48Z",
   "notes": "AI triage: Issue is very old with no recent reproduction steps, no confirmation it still occurs on current builds (v1.80+), and multiple triage pings went unanswered — cannot act without a confirmed repro on latest version.\nApproach: If reproduced, investigate VNC authentication negotiation to ensure unauthenticated (SecurityType None/1) connections are handled correctly in the VNC protocol handler.",
-  "impl_failed": true
+  "impl_failed": false
 }

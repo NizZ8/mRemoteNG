@@ -11,7 +11,7 @@
   "created_at": "2022-09-07T11:44:18Z",
   "github_updated_at": "2026-02-21T10:22:45Z",
   "body_snippet": "Hello,\r\nwhat would be the way to proceed to make WSL, defined as external application\" open in a tab and not in a separate window?\r\n\r\nThanks for your help\r\nPascal",
-  "our_status": "triaged",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
         "cost_usd": 0.136608,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-02-27",
+      "type": "testing",
+      "description": "Fix in bed5a7d0"
     }
   ],
   "comments": [
@@ -79,5 +85,5 @@
     "output_tokens": 375,
     "cost_usd": 0.136608
   },
-  "impl_failed": true
+  "impl_failed": false
 }
