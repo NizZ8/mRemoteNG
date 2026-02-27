@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "total_expected": 5960,
+    "total_expected": 5961,
     "min_total_threshold": 5367,
     "last_updated": "2026-02-27",
     "stats": {
@@ -50,7 +50,7 @@
       {
         "name": "Remaining",
         "filter": "FullyQualifiedName\\!~mRemoteNGTests.Connection&FullyQualifiedName\\!~mRemoteNGTests.Config&FullyQualifiedName\\!~mRemoteNGTests.UI&FullyQualifiedName\\!~mRemoteNGTests.Tools&FullyQualifiedName\\!~mRemoteNGTests.Security&FullyQualifiedName\\!~mRemoteNGTests.Tree&FullyQualifiedName\\!~mRemoteNGTests.Container&FullyQualifiedName\\!~mRemoteNGTests.Credential&FullyQualifiedName\\!~mRemoteNGTests.IntegrationTests&FullyQualifiedName\\!~OptionsFormTests&FullyQualifiedName\\!~AllOptionsPagesTests",
-        "expected": 2958
+        "expected": 2959
       },
       {
         "name": "Integration",
