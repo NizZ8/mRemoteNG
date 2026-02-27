@@ -14,6 +14,7 @@ using mRemoteNG.Connection.Protocol.Terminal;
 using mRemoteNG.Connection.Protocol.AnyDesk;
 using mRemoteNG.Connection.Protocol.MSRA;
 using mRemoteNG.Connection.Protocol.Winbox;
+using mRemoteNG.Connection.Protocol.VMRC;
 using mRemoteNG.Resources.Language;
 using System.Runtime.Versioning;
 
@@ -65,6 +66,8 @@ namespace mRemoteNG.Connection.Protocol
                     return new ProtocolAnyDesk(connectionInfo);
                 case ProtocolType.MSRA:
                     return new ProtocolMSRA(connectionInfo);
+                case ProtocolType.VMRC:
+                    return new ProtocolVMRC(connectionInfo);
                 case ProtocolType.Winbox:
                     return new ProtocolWinbox(connectionInfo);
                 case ProtocolType.IntApp:

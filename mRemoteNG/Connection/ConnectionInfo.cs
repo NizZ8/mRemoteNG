@@ -19,6 +19,7 @@ using mRemoteNG.Connection.Protocol.Serial;
 using mRemoteNG.Connection.Protocol.SSH;
 using mRemoteNG.Connection.Protocol.Telnet;
 using mRemoteNG.Connection.Protocol.VNC;
+using mRemoteNG.Connection.Protocol.VMRC;
 using mRemoteNG.Connection.Protocol.Winbox;
 using mRemoteNG.Container;
 using mRemoteNG.Properties;
@@ -455,6 +456,8 @@ namespace mRemoteNG.Connection
                         return (int)ProtocolTerminal.Defaults.Port;
                     case ProtocolType.IntApp:
                         return (int)IntegratedProgram.Defaults.Port;
+                    case ProtocolType.VMRC:
+                        return (int)ProtocolVMRC.Defaults.Port;
                     case ProtocolType.Winbox:
                         return (int)ProtocolWinbox.Defaults.Port;
                 }
