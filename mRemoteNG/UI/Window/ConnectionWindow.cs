@@ -2191,93 +2191,104 @@ namespace mRemoteNG.UI.Window
 
         private void HandleProtocolClosed(object sender, bool keepTabOpen)
         {
-            if (IsDisposed || Disposing || !IsHandleCreated)
-                return;
-
-            if (InvokeRequired)
+            try
             {
-                try
+                if (IsDisposed || Disposing || !IsHandleCreated)
+                    return;
+
+                if (InvokeRequired)
                 {
-                    BeginInvoke(new Action<object, bool>(HandleProtocolClosed), sender, keepTabOpen);
-                }
-                catch (ObjectDisposedException)
-                {
-                    // Window already disposed while protocol close callback was queued.
-                }
-                catch (InvalidOperationException)
-                {
-                    // Window handle is no longer valid.
-                }
-
-                return;
-            }
-
-            ProtocolBase? protocolBase = sender as ProtocolBase;
-            if (!(protocolBase?.InterfaceControl?.Parent is ConnectionTab tabPage)) return;
-            if (tabPage.Disposing || tabPage.IsDisposed) return;
-
-            ConnectionInfo? closedConnectionInfo =
-                tabPage.TrackedConnectionInfo ??
-                protocolBase.InterfaceControl.OriginalInfo ??
-                GetConnectionInfoForTab(tabPage) ??
-                protocolBase.InterfaceControl.Info;
-
-            if (closedConnectionInfo != null)
-                tabPage.TrackConnection(closedConnectionInfo);
-
-            if (keepTabOpen)
-            {
-                if (protocolBase.InterfaceControl != null)
-                {
-                    var ic = protocolBase.InterfaceControl;
-                    tabPage.Controls.Remove(ic);
                     try
                     {
-                        if (!ic.IsDisposed)
-                            ic.Dispose();
+                        BeginInvoke(new Action<object, bool>(HandleProtocolClosed), sender, keepTabOpen);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // Window already disposed while protocol close callback was queued.
                     }
                     catch (InvalidOperationException)
                     {
-                        // Dispose() cannot be called while CreateHandle() is in progress.
-                        // This can happen when a protocol disconnect fires during handle creation
-                        // (WinForms pumps messages during CreateWindowEx). Defer to next UI tick.
-                        try
-                        {
-                            BeginInvoke(new MethodInvoker(() =>
-                            {
-                                if (!ic.IsDisposed) ic.Dispose();
-                            }));
-                        }
-                        catch (ObjectDisposedException) { }
-                        catch (InvalidOperationException) { }
+                        // Window handle is no longer valid.
                     }
+
+                    return;
                 }
 
-                tabPage.ShowClosedState();
-                // Re-focus the tab so that disposing the protocol control does not shift
-                // focus to the first tab (issue #1645).
-                tabPage.DockHandler.Activate();
-                if (closedConnectionInfo != null)
-                    FrmMain.Default.SelectedConnection = closedConnectionInfo;
-                return;
-            }
+                ProtocolBase? protocolBase = sender as ProtocolBase;
+                if (!(protocolBase?.InterfaceControl?.Parent is ConnectionTab tabPage)) return;
+                if (tabPage.Disposing || tabPage.IsDisposed) return;
 
-            tabPage.protocolClose = true;
-            try
-            {
-                tabPage.Close();
+                ConnectionInfo? closedConnectionInfo =
+                    tabPage.TrackedConnectionInfo ??
+                    protocolBase.InterfaceControl.OriginalInfo ??
+                    GetConnectionInfoForTab(tabPage) ??
+                    protocolBase.InterfaceControl.Info;
+
+                if (closedConnectionInfo != null)
+                    tabPage.TrackConnection(closedConnectionInfo);
+
+                if (keepTabOpen)
+                {
+                    if (protocolBase.InterfaceControl != null)
+                    {
+                        var ic = protocolBase.InterfaceControl;
+                        tabPage.Controls.Remove(ic);
+                        try
+                        {
+                            if (!ic.IsDisposed)
+                                ic.Dispose();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            // Dispose() cannot be called while CreateHandle() is in progress.
+                            // This can happen when a protocol disconnect fires during handle creation
+                            // (WinForms pumps messages during CreateWindowEx). Defer to next UI tick.
+                            try
+                            {
+                                BeginInvoke(new MethodInvoker(() =>
+                                {
+                                    if (!ic.IsDisposed) ic.Dispose();
+                                }));
+                            }
+                            catch (ObjectDisposedException) { }
+                            catch (InvalidOperationException) { }
+                        }
+                    }
+
+                    tabPage.ShowClosedState();
+                    // Re-focus the tab so that disposing the protocol control does not shift
+                    // focus to the first tab (issue #1645).
+                    tabPage.DockHandler.Activate();
+                    if (closedConnectionInfo != null)
+                        FrmMain.Default.SelectedConnection = closedConnectionInfo;
+                    return;
+                }
+
+                tabPage.protocolClose = true;
+                try
+                {
+                    tabPage.Close();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Tab was already disposed by another close path.
+                }
+                catch (InvalidOperationException)
+                {
+                    // Handle invalidated during close operation.
+                }
+                finally
+                {
+                    ClosePanelIfEmpty();
+                }
             }
             catch (ObjectDisposedException)
             {
-                // Tab was already disposed by another close path.
+                // Window/tab disposed while protocol close callback was in progress.
             }
             catch (InvalidOperationException)
             {
-                // Handle invalidated during close operation.
-            }
-            finally
-            {
-                ClosePanelIfEmpty();
+                // UI state/layout changed while processing protocol close.
             }
         }
 
