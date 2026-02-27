@@ -63,6 +63,13 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             }
         }
 
+        internal static DataTable GetExpectedSchema()
+        {
+            DataTable dataTable = new(TABLE_NAME);
+            CreateSchema(dataTable);
+            return dataTable;
+        }
+
         public DataTable Serialize(ConnectionInfo serializationTarget)
         {
             _dataTable = BuildTable();
@@ -125,7 +132,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             }
         }
 
-        private void CreateSchema(DataTable dataTable)
+        private static void CreateSchema(DataTable dataTable)
         {
             dataTable.Columns.Add("AutomaticResize", typeof(bool));
             dataTable.Columns.Add("CacheBitmaps", typeof(bool));

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Data.Common;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Runtime.Versioning;
 using System.Security;
@@ -759,6 +761,11 @@ CREATE TABLE `tblExternalTools` (
         {
             try
             {
+                if (databaseConnector.GetType() == typeof(MSSqlDatabaseConnector))
+                {
+                    UpgradeMssqlSchema(databaseConnector);
+                }
+
                 if (!DoesColumnExist(databaseConnector, "tblCons", "User"))
                 {
                     string sql = databaseConnector.GetType() == typeof(MySqlDatabaseConnector)
@@ -793,6 +800,30 @@ CREATE TABLE `tblExternalTools` (
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionStackTrace("Schema upgrade failed", ex);
+            }
+        }
+
+        private void UpgradeMssqlSchema(IDatabaseConnector databaseConnector)
+        {
+            DataTable expectedSchema = DataTableSerializer.GetExpectedSchema();
+
+            foreach (DataColumn expectedColumn in expectedSchema.Columns)
+            {
+                if (DoesColumnExist(databaseConnector, "tblCons", expectedColumn.ColumnName))
+                {
+                    continue;
+                }
+
+                string sqlType = expectedColumn.DataType switch
+                {
+                    Type t when t == typeof(bool) => "bit",
+                    Type t when t == typeof(int) => "int",
+                    Type t when t == typeof(SqlDateTime) || t == typeof(DateTime) => "datetime",
+                    Type t when t == typeof(string) => "nvarchar(4000)",
+                    _ => "nvarchar(4000)",
+                };
+
+                databaseConnector.DbCommand($"ALTER TABLE [tblCons] ADD [{expectedColumn.ColumnName}] {sqlType} NULL").ExecuteNonQuery();
             }
         }
 
