@@ -39,6 +39,15 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             lblRegistrySettingsUsedInfo.Text = Language.OptionsCompanyPolicyMessage;
         }
 
+        public override void LoadSettings()
+        {
+            chkReconnectOnStart.Checked = Properties.OptionsStartupExitPage.Default.OpenConsFromLastSession;
+            chkSingleInstance.Checked = Properties.OptionsStartupExitPage.Default.SingleInstance;
+            chkStartMinimized.Checked = Properties.OptionsStartupExitPage.Default.StartMinimized;
+            chkStartFullScreen.Checked = Properties.OptionsStartupExitPage.Default.StartFullScreen;
+            chkDisableRefocus.Checked = Properties.OptionsStartupExitPage.Default.DisableRefocus;
+        }
+
         public override void SaveSettings()
         {
             base.SaveSettings();
@@ -105,15 +114,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             return pageRegSettingsInstance.OpenConnectionsFromLastSession.IsSet
                 || pageRegSettingsInstance.EnforceSingleApplicationInstance.IsSet
                 || pageRegSettingsInstance.StartupBehavior.IsSet;
-        }
-
-        private void StartupExitPage_Load(object sender, EventArgs e)
-        {
-            chkReconnectOnStart.Checked = Properties.OptionsStartupExitPage.Default.OpenConsFromLastSession;
-            chkSingleInstance.Checked = Properties.OptionsStartupExitPage.Default.SingleInstance;
-            chkStartMinimized.Checked = Properties.OptionsStartupExitPage.Default.StartMinimized;
-            chkStartFullScreen.Checked = Properties.OptionsStartupExitPage.Default.StartFullScreen;
-            chkDisableRefocus.Checked = Properties.OptionsStartupExitPage.Default.DisableRefocus;
         }
 
         private void chkStartFullScreen_CheckedChanged(object sender, EventArgs e)
