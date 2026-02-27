@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Security;
 using System.Runtime.Versioning;
 using mRemoteNG.Connection;
 using mRemoteNG.Connection.Protocol;
+using mRemoteNG.Security;
 using mRemoteNG.Resources.Language;
 using mRemoteNG.Tools;
 using mRemoteNG.PluginSystem;
@@ -28,6 +30,7 @@ namespace mRemoteNG.Container
         private bool _isExpanded;
         private bool _autoSort;
         private bool _excludeFromSearch;
+        private SecureString? _containerPassword;
 
         #region IConnectionNode Implementation
         IEnumerable<IConnectionNode> IConnectionNode.Children => Children;
@@ -40,7 +43,19 @@ namespace mRemoteNG.Container
          Description("Password to protect this folder."),
          PasswordPropertyText(true),
          Browsable(true)]
-        public string ContainerPassword { get; set; } = string.Empty;
+        public string ContainerPassword
+        {
+            get => _containerPassword?.ConvertToUnsecureString() ?? string.Empty;
+            set
+            {
+                string password = value ?? string.Empty;
+                if (string.Equals(_containerPassword?.ConvertToUnsecureString() ?? string.Empty, password, StringComparison.Ordinal))
+                    return;
+
+                _containerPassword?.Dispose();
+                _containerPassword = password.ConvertToSecureString();
+            }
+        }
 
         [Browsable(false)]
         public bool IsUnlocked { get; set; }

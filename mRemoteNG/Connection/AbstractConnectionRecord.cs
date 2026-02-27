@@ -12,6 +12,7 @@ using mRemoteNG.Properties;
 using mRemoteNG.Tools;
 using mRemoteNG.Tools.Attributes;
 using mRemoteNG.Resources.Language;
+using mRemoteNG.Security;
 using System.Runtime.Versioning;
 using System.Security;
 
@@ -40,8 +41,7 @@ namespace mRemoteNG.Connection
         private ExternalCredentialProvider _externalCredentialProvider = default;
         private string _userViaAPI = "";
         private string _username = string.Empty;
-        //private SecureString _password = null;
-        private string _password = string.Empty;
+        private SecureString? _password;
         private string _vaultRole = string.Empty;
         private string _vaultMount = string.Empty;
         private VaultOpenbaoSecretEngine _vaultSecretEngine = default;
@@ -76,7 +76,7 @@ namespace mRemoteNG.Connection
         private string _rdGatewayHostname = string.Empty;
         private RDGatewayUseConnectionCredentials _rdGatewayUseConnectionCredentials = default;
         private string _rdGatewayUsername = string.Empty;
-        private string _rdGatewayPassword = string.Empty;
+        private SecureString? _rdGatewayPassword;
         private string _rdGatewayDomain = string.Empty;
         private string _rdGatewayAccessToken = string.Empty;
         private ExternalCredentialProvider _rdGatewayExternalCredentialProvider = default;
@@ -149,7 +149,7 @@ namespace mRemoteNG.Connection
         private string _vncProxyIp = string.Empty;
         private int _vncProxyPort = default;
         private string _vncProxyUsername = string.Empty;
-        private string _vncProxyPassword = string.Empty;
+        private SecureString? _vncProxyPassword;
         private ProtocolVNC.Colors _vncColors = default;
         private ProtocolVNC.SmartSizeMode _vncSmartSizeMode = default;
         private bool _vncViewOnly = default;
@@ -374,8 +374,8 @@ namespace mRemoteNG.Connection
         //public virtual SecureString Password
         public virtual string Password
         {
-            get => GetPropertyValue("Password", _password);
-            set => SetField(ref _password, value, "Password");
+            get => GetPropertyValue("Password", _password?.ConvertToUnsecureString() ?? string.Empty);
+            set => SetSecureStringField(ref _password, value, "Password");
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Connection), 2),
@@ -800,8 +800,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public string RDGatewayPassword
         {
-            get => GetPropertyValue("RDGatewayPassword", _rdGatewayPassword);
-            set => SetField(ref _rdGatewayPassword, value, "RDGatewayPassword");
+            get => GetPropertyValue("RDGatewayPassword", _rdGatewayPassword?.ConvertToUnsecureString() ?? string.Empty);
+            set => SetSecureStringField(ref _rdGatewayPassword, value, "RDGatewayPassword");
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.RDPGateway), 4),
@@ -1467,8 +1467,8 @@ namespace mRemoteNG.Connection
             Browsable(false)]
         public string VNCProxyPassword
         {
-            get => GetPropertyValue("VNCProxyPassword", _vncProxyPassword);
-            set => SetField(ref _vncProxyPassword, value, "VNCProxyPassword");
+            get => GetPropertyValue("VNCProxyPassword", _vncProxyPassword?.ConvertToUnsecureString() ?? string.Empty);
+            set => SetSecureStringField(ref _vncProxyPassword, value, "VNCProxyPassword");
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -1536,6 +1536,24 @@ namespace mRemoteNG.Connection
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
             field = value;
+            RaisePropertyChangedEvent(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private static string ConvertToUnsecureStringOrEmpty(SecureString? password)
+        {
+            return password?.ConvertToUnsecureString() ?? string.Empty;
+        }
+
+        private void SetSecureStringField(ref SecureString? field, string value, string? propertyName = null)
+        {
+            value ??= string.Empty;
+
+            if (string.Equals(ConvertToUnsecureStringOrEmpty(field), value, StringComparison.Ordinal))
+                return;
+
+            field?.Dispose();
+            field = value.ConvertToSecureString();
+
             RaisePropertyChangedEvent(this, new PropertyChangedEventArgs(propertyName));
         }
     }

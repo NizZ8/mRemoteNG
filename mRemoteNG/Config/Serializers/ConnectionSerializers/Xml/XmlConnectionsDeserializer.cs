@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics; // Added
 using System.Globalization;
 using System.Security;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using mRemoteNG.App;
@@ -36,7 +33,6 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         private const double MaxSupportedConfVersion = 2.8;
         private readonly RootNodeInfo _rootNodeInfo = new(RootNodeType.Connection);
         private ConnectionTreeModel _connectionTreeModel = null!;
-        private ConcurrentDictionary<string, string>? _preDecryptedValues;
         private BlockCipherEngines _cipherEngine;
         private BlockCipherModes _cipherMode;
         private int _kdfIterations;
@@ -86,8 +82,6 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                         rootXmlElement.InnerXml = decryptedContent;
                     }
                 }
-
-                _preDecryptedValues = PreDecryptPasswords(rootXmlElement);
 
                 AddNodesFromXmlRecursive(rootXmlElement, _rootNodeInfo);
 
@@ -682,57 +676,11 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             return connectionInfo;
         }
 
-        private static readonly string[] EncryptedAttributes = { "Password", "VNCProxyPassword", "RDGatewayPassword", "ContainerPassword" };
-
-        private ConcurrentDictionary<string, string> PreDecryptPasswords(XmlElement rootElement)
-        {
-            List<(string key, string cipherText)> encryptedFields = [];
-            CollectEncryptedAttributes(rootElement, encryptedFields);
-            ConcurrentDictionary<string, string> results = new();
-            if (encryptedFields.Count == 0) return results;
-
-            // Each thread needs its own decryptor — BouncyCastle ciphers are not thread-safe
-            bool isAead = _confVersion >= 2.6;
-            Parallel.ForEach(encryptedFields,
-                () => isAead
-                    ? new XmlConnectionsDecryptor(_cipherEngine, _cipherMode, _rootNodeInfo) { KeyDerivationIterations = _kdfIterations }
-                    : new XmlConnectionsDecryptor(_rootNodeInfo),
-                (field, _, localDecryptor) =>
-                {
-                    results[field.key] = localDecryptor.Decrypt(field.cipherText);
-                    return localDecryptor;
-                },
-                _ => { });
-            return results;
-        }
-
-        private static void CollectEncryptedAttributes(XmlNode node, List<(string key, string cipherText)> fields)
-        {
-            if (node.Attributes != null)
-            {
-                string nodeId = node.Attributes["Id"]?.Value ?? node.GetHashCode().ToString();
-                foreach (string attr in EncryptedAttributes)
-                {
-                    string? val = node.Attributes[attr]?.Value;
-                    if (!string.IsNullOrEmpty(val))
-                        fields.Add(($"{nodeId}|{attr}", val));
-                }
-            }
-            foreach (XmlNode child in node.ChildNodes)
-                CollectEncryptedAttributes(child, fields);
-        }
-
         private string DecryptField(XmlNode xmlNode, string attributeName)
         {
             string cipherText = xmlNode.GetAttributeAsString(attributeName);
-            if (string.IsNullOrEmpty(cipherText)) return string.Empty;
-            if (_preDecryptedValues != null)
-            {
-                string nodeId = xmlNode.Attributes?["Id"]?.Value ?? xmlNode.GetHashCode().ToString();
-                string key = $"{nodeId}|{attributeName}";
-                if (_preDecryptedValues.TryGetValue(key, out string? cached))
-                    return cached;
-            }
+            if (string.IsNullOrEmpty(cipherText))
+                return string.Empty;
             return _decryptor.Decrypt(cipherText);
         }
 
