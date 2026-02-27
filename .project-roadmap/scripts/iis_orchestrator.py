@@ -664,7 +664,7 @@ class Status:
 
 
 # ── HELPERS ─────────────────────────────────────────────────────────────────
-STALE_PROCESSES = ["notepad.exe", "testhost.exe", "mstsc.exe"]
+STALE_PROCESSES = ["notepad.exe", "testhost.exe", "mstsc.exe", "MSBuild.exe"]
 
 
 def kill_stale_processes():
