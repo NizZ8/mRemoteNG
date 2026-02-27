@@ -2,6 +2,19 @@
 
 > **Parent:** [../CLAUDE.md](../CLAUDE.md) (Gestime Ecosystem — reguli universale)
 
+## Output Efficiency (CRITICAL — output tokens are 97% of API cost)
+
+Every output token costs 5x an input token. Your #1 priority after correctness is minimal output.
+
+- **No narration.** Never write "Let me read the file", "I'll now search for", "Here's what I found". Just call the tool.
+- **No summaries.** Never summarize what you changed at the end. The diff speaks for itself.
+- **No repeating.** Never echo back file contents, issue descriptions, or error messages you just read.
+- **No unnecessary comments.** Don't add comments or docstrings to code you didn't change.
+- **Edit over Write.** Always use Edit tool (sends only the diff) instead of Write tool (sends entire file).
+- **Read only what you'll change.** Don't read files "for context" — read only files you will modify or that directly contain the bug.
+- **Fix, don't explain.** If a test fails, fix it immediately. Don't explain why it failed.
+- **One pass.** Read the code, understand it, make the change. Target 5-8 turns max per task.
+
 ## Automated Agent Notice
 
 If you are running as an automated agent via `claude -p`:
@@ -10,6 +23,10 @@ If you are running as an automated agent via `claude -p`:
 - Do NOT read or modify files in `.project-roadmap/` — no JSON files, no scripts, no plans
 - Do NOT run `git commit`, `git add`, `git push` — the orchestrator handles all commits
 - Focus ONLY on source code in `mRemoteNG/`, `mRemoteNGTests/`, `mRemoteNGSpecs/`
+- **Output ONLY code changes** — no explanations, no summaries, no commentary
+- Do NOT change existing behavior — fix ONLY the reported issue
+- Do NOT create interactive tests (no MessageBox, no dialogs, no notepad.exe, no user input prompts)
+- NEVER modify infrastructure files: `run-tests.ps1`, `build.ps1`, `mRemoteNG.sln`, `Directory.Build.props`, `Directory.Packages.props`, `.github/workflows/*`
 
 ## Repository Structure
 - **Origin (fork):** `robertpopa22/mRemoteNG`

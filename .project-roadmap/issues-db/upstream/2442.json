@@ -14,7 +14,7 @@
   "created_at": "2023-06-12T08:12:09Z",
   "github_updated_at": "2026-02-21T10:23:29Z",
   "body_snippet": "",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -166,11 +166,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty, tagged with legacy version label (1.77.4), and the fork maintainer's last comment explicitly requests retesting on latest build with reproducible steps before proceeding.\nApproach: Requester must retest on v1.79.x/current dev and provide reproducible steps; if confirmed, add an Options toggle to suppress auto-import of PuTTY registry sessions.",
+  "notes": "AI triage (claude): Issue body is empty, tagged with legacy version label (1.77.4), and the fork maintainer's last comment explicitly requests retesting on latest build with reproducible steps before proceeding.\nApproach: Requester must retest on v1.79.x/current dev and provide reproducible steps; if confirmed, add an Options toggle to suppress auto-import of PuTTY registry sessions.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 690,
     "cost_usd": 0.156701
   },
-  "impl_failed": true
+  "impl_failed": false
 }

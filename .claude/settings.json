@@ -1,14 +1,1 @@
-{
-  "hooks": {
-    "PreCommit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\\github\\mRemoteNG\\build.ps1 -NoRestore"
-          }
-        ]
-      }
-    ]
-  }
-}
+{}

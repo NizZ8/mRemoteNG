@@ -14,7 +14,7 @@
   "created_at": "2023-10-19T17:42:34Z",
   "github_updated_at": "2026-02-21T10:23:44Z",
   "body_snippet": "Hi. I have 200+ MSSQL servers with different  instances, different users, passwords. It would be good to have possibilty to add some user defined parameters for connection not just predefined like %hostname% %password%... and then pass/send it to external tools like %param1% %param2% or so... Thanks in advance\r\n",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -49,11 +49,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and no reproduction steps or feature specification provided; triage comment confirms retest on current build is needed before proceeding.",
+  "notes": "AI triage (claude): Issue body is empty and no reproduction steps or feature specification provided; triage comment confirms retest on current build is needed before proceeding.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 280,
     "cost_usd": 0.152901
   },
-  "impl_failed": true
+  "impl_failed": false
 }

@@ -13,7 +13,7 @@
   "created_at": "2020-06-16T23:19:57Z",
   "github_updated_at": "2026-02-24T22:22:17Z",
   "body_snippet": "I was successfully able to connect to an MSSQL database but I get an SQL related [error](https://i.imgur.com/iE1ubOP.png) when attempting to create new a \"connection\" folder.\r\n\r\nRunning v1.77.1 (portable) on Windows 10 Enterprise 10.0.18363 Build 18363.\r\n",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -123,6 +123,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-25T14:41:48Z",
-  "notes": "AI triage (claude): SQL NOT NULL constraint violation on 'RedirectAudioCapture' when saving a new folder — DataTableSerializer omits default values for RDP-specific columns on ContainerInfo nodes.\nApproach: In SerializeConnectionInfo(), ensure all NOT NULL columns (RedirectAudioCapture and similar RDP boolean columns) receive a default value (false/empty string) when the node is a ContainerInfo, either via DBNull.Value handling in CreateSchema() or by explicitly setting defaults before INSERT.",
-  "impl_failed": true
+  "notes": "AI triage (claude): SQL NOT NULL constraint violation on 'RedirectAudioCapture' when saving a new folder — DataTableSerializer omits default values for RDP-specific columns on ContainerInfo nodes.\nApproach: In SerializeConnectionInfo(), ensure all NOT NULL columns (RedirectAudioCapture and similar RDP boolean columns) receive a default value (false/empty string) when the node is a ContainerInfo, either via DBNull.Value handling in CreateSchema() or by explicitly setting defaults before INSERT.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "impl_failed": false
 }

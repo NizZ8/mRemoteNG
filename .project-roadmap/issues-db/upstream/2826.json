@@ -13,7 +13,7 @@
   "created_at": "2025-09-24T12:01:15Z",
   "github_updated_at": "2026-02-21T10:23:41Z",
   "body_snippet": "Dear mRemoteNG Community / Kvarkas,\n\nLooking at the issues and the commits that have been occuring recently I am optimistic about the future of mRemoteNG.\nHowever, one thing I think the mRemoteNG community needs is a kind of \"ToDo\" list that we need to be able to tackle so that we can get to a semi-Beta state release.\n\n@Kvarkas : With a better plan and/or \"ToDo\" list the community can support you better. I am sure we could rally around such a \"ToDo\". Hell, most of us have AI agents anyway, so we...",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -57,11 +57,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and carries legacy 1.78.* labels; the mentioned tasks (sensitive data separation, local DB encryption) need scoping and verification against the current fork build before actionable implementation can begin.\nApproach: Requester should retest on v1.79.x+, provide concrete task list with acceptance criteria, and relabel to current triage scope",
+  "notes": "AI triage (claude): Issue body is empty and carries legacy 1.78.* labels; the mentioned tasks (sensitive data separation, local DB encryption) need scoping and verification against the current fork build before actionable implementation can begin.\nApproach: Requester should retest on v1.79.x+, provide concrete task list with acceptance criteria, and relabel to current triage scope\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 579,
     "cost_usd": 0.179608
   },
-  "impl_failed": true
+  "impl_failed": false
 }

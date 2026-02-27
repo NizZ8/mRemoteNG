@@ -13,7 +13,7 @@
   "created_at": "2020-07-23T07:22:51Z",
   "github_updated_at": "2026-02-24T22:31:22Z",
   "body_snippet": "This exception will force mRemoteNG to close. Cannot access a disposed object. Object name: 'ConnectionWindow'.\r\n\r\n## Expected Behavior\r\nReporting a bug. When closing a saved SSH connection window, the window should close.\r\n\r\n\r\n## Current Behavior\r\nWhen closing a saved SSH connection window, an unhandled exception has occurred window pops up and force closes mRemoteNG. See error below:\r\n\r\n   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean s...",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -72,6 +72,6 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-25T14:41:48Z",
-  "notes": "AI triage (claude): Verified ObjectDisposedException crash when closing SSH connection window — protocol fires Prot_Event_Closed after ConnectionWindow is already disposed, causing unhandled exception that terminates the app.\nApproach: In Prot_Event_Closed, add IsDisposed/Disposing guard before Control.Invoke so the callback is silently ignored if the window was already disposed during closure.",
-  "impl_failed": true
+  "notes": "AI triage (claude): Verified ObjectDisposedException crash when closing SSH connection window — protocol fires Prot_Event_Closed after ConnectionWindow is already disposed, causing unhandled exception that terminates the app.\nApproach: In Prot_Event_Closed, add IsDisposed/Disposing guard before Control.Invoke so the callback is silently ignored if the window was already disposed during closure.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "impl_failed": false
 }

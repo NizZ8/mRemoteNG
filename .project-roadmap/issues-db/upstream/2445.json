@@ -12,7 +12,7 @@
   "created_at": "2023-06-14T17:02:07Z",
   "github_updated_at": "2026-02-21T10:23:29Z",
   "body_snippet": "I got lots of \".vnc\" files and would like to import them into mRemoteNG.\r\n\r\n## Expected Behavior\r\nWhen I start the import, \"*.vnc\" files shall be offered as valid import source. Possibly, drag & drop of such files into a folder in mRemoteNG shall add them there as well.\r\n\r\n## Current Behavior\r\nThe \"*.vnc\" files are not recognized at all. \r\n\r\n## Possible Solution\r\nThe *.vnc files are simple text files with information like this:\r\n`ConnMethod=tcp`\r\n`ConnTime=2023-01-01T00:00:00.000Z`\r\n`FriendlyNam...",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -56,11 +56,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and the latest comment explicitly requests retesting on current build with reproducible steps before proceeding.",
+  "notes": "AI triage (claude): Issue body is empty and the latest comment explicitly requests retesting on current build with reproducible steps before proceeding.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 385,
     "cost_usd": 0.148427
   },
-  "impl_failed": true
+  "impl_failed": false
 }

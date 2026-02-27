@@ -13,7 +13,7 @@
   "created_at": "2024-08-21T06:53:15Z",
   "github_updated_at": "2026-02-21T10:23:37Z",
   "body_snippet": "\r\nI want to connect via VNC, but i want that the username and the password are of a Domain User ",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -66,11 +66,11 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue requests VNC domain/Active Directory authentication support (like UltraVNC MS Logon) but has no concrete steps to reproduce, no clear expected vs actual behavior, and the reporter references outdated version labels (1.77.3); needs verification on current fork build with proper reproduction steps.",
+  "notes": "AI triage (claude): Issue requests VNC domain/Active Directory authentication support (like UltraVNC MS Logon) but has no concrete steps to reproduce, no clear expected vs actual behavior, and the reporter references outdated version labels (1.77.3); needs verification on current fork build with proper reproduction steps.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 92,
     "cost_usd": 0.159414
   },
-  "impl_failed": true
+  "impl_failed": false
 }

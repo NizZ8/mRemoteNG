@@ -13,7 +13,7 @@
   "created_at": "2023-04-24T14:41:59Z",
   "github_updated_at": "2026-02-21T10:23:26Z",
   "body_snippet": "Try open a webpage with default install and normal user. Set Engine to Edge Chromium.\r\nThe result is an empty page.\r\n\r\nGive the user modify permission on the installation directory of mremoteNG and retry. It works.\r\nAn additional folder \"mRemoteNG.exe.WebView2\" is created within the install directory.\r\n\r\nThis is a bad design. Normal users should never require write permissions in program folders.\r\n\r\nAffected: The current nightly, 1.77.3 1784",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -111,11 +111,11 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): The issue lacks reproducible steps, clear error details, and confirmation on recent builds — it's a permissions/environment problem with WebView2/Edge Chromium that may be a setup issue rather than a code bug.\nApproach: Request confirmation on latest build with specific error messages and which folders/permissions are needed; if reproducible, investigate WebView2 environment folder creation in the Chromium browser initialization code",
+  "notes": "AI triage (claude): The issue lacks reproducible steps, clear error details, and confirmation on recent builds — it's a permissions/environment problem with WebView2/Edge Chromium that may be a setup issue rather than a code bug.\nApproach: Request confirmation on latest build with specific error messages and which folders/permissions are needed; if reproducible, investigate WebView2 environment folder creation in the Chromium browser initialization code\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 111,
     "cost_usd": 0.140414
   },
-  "impl_failed": true
+  "impl_failed": false
 }

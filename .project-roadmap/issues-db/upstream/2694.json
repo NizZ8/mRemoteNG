@@ -14,7 +14,7 @@
   "created_at": "2025-05-13T14:27:09Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "On a smaller laptop screen (768 px height) the buttons are barely visible: \n![Image](https://github.com/user-attachments/assets/d13883a0-05da-4910-9ae4-266bbd5f963d)\n\nBest regards and thank you for your work!",
-  "our_status": "triaged",
+  "our_status": "needs_human",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -49,11 +49,11 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and the only comment explicitly requests a retest on a current build plus reproducible steps, expected vs actual behavior before any fix can proceed.",
+  "notes": "AI triage (claude): Issue body is empty and the only comment explicitly requests a retest on a current build plus reproducible steps, expected vs actual behavior before any fix can proceed.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 462,
     "cost_usd": 0.173333
   },
-  "impl_failed": true
+  "impl_failed": false
 }
