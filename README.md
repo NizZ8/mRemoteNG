@@ -315,6 +315,8 @@ Raw timing data from `_timeout_history.json` across 220 agent invocations:
 - **Timeout management** was probably the hardest engineering problem in the orchestrator. Adaptive timeouts (60–1200s) with 1.3x escalation factor, yet small models still timed out frequently
 - **93 escalations tracked** (54 implementation + 39 triage) — ~40% of issues required at least one retry across the agent chain
 
+*Note: This section has not yet undergone peer review. Data and interpretations are preliminary.*
+
 ---
 
 ## What's Next
@@ -371,6 +373,8 @@ This project demonstrates a reproducible model: **orchestrator + supervisor + mu
 The model is not specific to mRemoteNG. Any project with hundreds of open issues, a test suite, and a build system could benefit from the same approach. The orchestrator code is ~6,900 lines of Python — not trivial, but not a research project either.
 
 **The economics make it viable:** ~$1.50/commit, 24/7 operation, no burnout, no context switching. This is complementary to human developers, not a replacement — humans set direction, review output, and handle the 30% that AI cannot.
+
+*Note: This section has not yet undergone peer review. Projections and priorities are subject to revision.*
 
 ---
 
