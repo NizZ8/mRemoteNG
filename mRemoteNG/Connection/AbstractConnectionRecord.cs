@@ -788,8 +788,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public string RDGatewayUsername
         {
-            get => GetPropertyValue("RDGatewayUsername", _rdGatewayUsername)?.Trim() ?? string.Empty;
-            set => SetField(ref _rdGatewayUsername, value?.Trim() ?? string.Empty, "RDGatewayUsername");
+            get => GetPropertyValue(nameof(RDGatewayUsername), _rdGatewayUsername)?.Trim() ?? string.Empty;
+            set => SetField(ref _rdGatewayUsername, value?.Trim() ?? string.Empty, nameof(RDGatewayUsername));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.RDPGateway), 4),
@@ -799,8 +799,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public string RDGatewayPassword
         {
-            get => GetPropertyValue("RDGatewayPassword", _rdGatewayPassword?.ConvertToUnsecureString() ?? string.Empty);
-            set => SetSecureStringField(ref _rdGatewayPassword, value, "RDGatewayPassword");
+            get => GetPropertyValue(nameof(RDGatewayPassword), _rdGatewayPassword?.ConvertToUnsecureString() ?? string.Empty);
+            set => SetSecureStringField(ref _rdGatewayPassword, value, nameof(RDGatewayPassword));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.RDPGateway), 4),
@@ -810,8 +810,8 @@ namespace mRemoteNG.Connection
         AttributeUsedInProtocol(ProtocolType.RDP)]
         public string RDGatewayAccessToken
         {
-            get => GetPropertyValue("RDGatewayAccessToken", _rdGatewayAccessToken);
-            set => SetField(ref _rdGatewayAccessToken, value, "RDGatewayAccessToken");
+            get => GetPropertyValue(nameof(RDGatewayAccessToken), _rdGatewayAccessToken);
+            set => SetField(ref _rdGatewayAccessToken, value, nameof(RDGatewayAccessToken));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.RDPGateway), 4),
@@ -820,8 +820,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public string RDGatewayDomain
         {
-            get => GetPropertyValue("RDGatewayDomain", _rdGatewayDomain)?.Trim() ?? string.Empty;
-            set => SetField(ref _rdGatewayDomain, value?.Trim() ?? string.Empty, "RDGatewayDomain");
+            get => GetPropertyValue(nameof(RDGatewayDomain), _rdGatewayDomain)?.Trim() ?? string.Empty;
+            set => SetField(ref _rdGatewayDomain, value?.Trim() ?? string.Empty, nameof(RDGatewayDomain));
         }
         // external credential provider selector for rd gateway
         [LocalizedAttributes.LocalizedCategory(nameof(Language.RDPGateway), 4),
@@ -831,8 +831,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public ExternalCredentialProvider RDGatewayExternalCredentialProvider
         {
-            get => GetPropertyValue("RDGatewayExternalCredentialProvider", _rdGatewayExternalCredentialProvider);
-            set => SetField(ref _rdGatewayExternalCredentialProvider, value, "RDGatewayExternalCredentialProvider");
+            get => GetPropertyValue(nameof(RDGatewayExternalCredentialProvider), _rdGatewayExternalCredentialProvider);
+            set => SetField(ref _rdGatewayExternalCredentialProvider, value, nameof(RDGatewayExternalCredentialProvider));
         }
 
         // credential record identifier for external credential provider
@@ -842,8 +842,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public virtual string RDGatewayUserViaAPI
         {
-            get => GetPropertyValue("RDGatewayUserViaAPI", _rdGatewayUserViaAPI);
-            set => SetField(ref _rdGatewayUserViaAPI, value, "RDGatewayUserViaAPI");
+            get => GetPropertyValue(nameof(RDGatewayUserViaAPI), _rdGatewayUserViaAPI);
+            set => SetField(ref _rdGatewayUserViaAPI, value, nameof(RDGatewayUserViaAPI));
         }
         #endregion
 
@@ -856,8 +856,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public RDPResolutions Resolution
         {
-            get => GetPropertyValue("Resolution", _resolution);
-            set => SetField(ref _resolution, value, "Resolution");
+            get => GetPropertyValue(nameof(Resolution), _resolution);
+            set => SetField(ref _resolution, value, nameof(Resolution));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -867,8 +867,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public RDPSizingMode RDPSizingMode
         {
-            get => GetPropertyValue("RDPSizingMode", _rdpSizingMode);
-            set => SetField(ref _rdpSizingMode, value, "RDPSizingMode");
+            get => GetPropertyValue(nameof(RDPSizingMode), _rdpSizingMode);
+            set => SetField(ref _rdpSizingMode, value, nameof(RDPSizingMode));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -877,8 +877,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public int ResolutionWidth
         {
-            get => GetPropertyValue("ResolutionWidth", _resolutionWidth);
-            set => SetField(ref _resolutionWidth, value, "ResolutionWidth");
+            get => GetPropertyValue(nameof(ResolutionWidth), _resolutionWidth);
+            set => SetField(ref _resolutionWidth, value, nameof(ResolutionWidth));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -887,8 +887,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public int ResolutionHeight
         {
-            get => GetPropertyValue("ResolutionHeight", _resolutionHeight);
-            set => SetField(ref _resolutionHeight, value, "ResolutionHeight");
+            get => GetPropertyValue(nameof(ResolutionHeight), _resolutionHeight);
+            set => SetField(ref _resolutionHeight, value, nameof(ResolutionHeight));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -898,8 +898,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public RDPDesktopScaleFactor DesktopScaleFactor
         {
-            get => GetPropertyValue("DesktopScaleFactor", _desktopScaleFactor);
-            set => SetField(ref _desktopScaleFactor, value, "DesktopScaleFactor");
+            get => GetPropertyValue(nameof(DesktopScaleFactor), _desktopScaleFactor);
+            set => SetField(ref _desktopScaleFactor, value, nameof(DesktopScaleFactor));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -909,8 +909,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool AutomaticResize
         {
-            get => GetPropertyValue("AutomaticResize", _automaticResize);
-            set => SetField(ref _automaticResize, value, "AutomaticResize");
+            get => GetPropertyValue(nameof(AutomaticResize), _automaticResize);
+            set => SetField(ref _automaticResize, value, nameof(AutomaticResize));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -920,8 +920,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool RDPUseMultimon
         {
-            get => GetPropertyValue("RDPUseMultimon", _rdpUseMultimon);
-            set => SetField(ref _rdpUseMultimon, value, "RDPUseMultimon");
+            get => GetPropertyValue(nameof(RDPUseMultimon), _rdpUseMultimon);
+            set => SetField(ref _rdpUseMultimon, value, nameof(RDPUseMultimon));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -931,8 +931,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public RDPColors Colors
         {
-            get => GetPropertyValue("Colors", _colors);
-            set => SetField(ref _colors, value, "Colors");
+            get => GetPropertyValue(nameof(Colors), _colors);
+            set => SetField(ref _colors, value, nameof(Colors));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -942,8 +942,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool CacheBitmaps
         {
-            get => GetPropertyValue("CacheBitmaps", _cacheBitmaps);
-            set => SetField(ref _cacheBitmaps, value, "CacheBitmaps");
+            get => GetPropertyValue(nameof(CacheBitmaps), _cacheBitmaps);
+            set => SetField(ref _cacheBitmaps, value, nameof(CacheBitmaps));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -953,8 +953,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisplayWallpaper
         {
-            get => GetPropertyValue("DisplayWallpaper", _displayWallpaper);
-            set => SetField(ref _displayWallpaper, value, "DisplayWallpaper");
+            get => GetPropertyValue(nameof(DisplayWallpaper), _displayWallpaper);
+            set => SetField(ref _displayWallpaper, value, nameof(DisplayWallpaper));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -964,8 +964,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisplayThemes
         {
-            get => GetPropertyValue("DisplayThemes", _displayThemes);
-            set => SetField(ref _displayThemes, value, "DisplayThemes");
+            get => GetPropertyValue(nameof(DisplayThemes), _displayThemes);
+            set => SetField(ref _displayThemes, value, nameof(DisplayThemes));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -975,8 +975,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool EnableFontSmoothing
         {
-            get => GetPropertyValue("EnableFontSmoothing", _enableFontSmoothing);
-            set => SetField(ref _enableFontSmoothing, value, "EnableFontSmoothing");
+            get => GetPropertyValue(nameof(EnableFontSmoothing), _enableFontSmoothing);
+            set => SetField(ref _enableFontSmoothing, value, nameof(EnableFontSmoothing));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -986,8 +986,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool EnableDesktopComposition
         {
-            get => GetPropertyValue("EnableDesktopComposition", _enableDesktopComposition);
-            set => SetField(ref _enableDesktopComposition, value, "EnableDesktopComposition");
+            get => GetPropertyValue(nameof(EnableDesktopComposition), _enableDesktopComposition);
+            set => SetField(ref _enableDesktopComposition, value, nameof(EnableDesktopComposition));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -997,8 +997,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisableFullWindowDrag
         {
-            get => GetPropertyValue("DisableFullWindowDrag", _disableFullWindowDrag);
-            set => SetField(ref _disableFullWindowDrag, value, "DisableFullWindowDrag");
+            get => GetPropertyValue(nameof(DisableFullWindowDrag), _disableFullWindowDrag);
+            set => SetField(ref _disableFullWindowDrag, value, nameof(DisableFullWindowDrag));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -1008,8 +1008,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisableMenuAnimations
         {
-            get => GetPropertyValue("DisableMenuAnimations", _disableMenuAnimations);
-            set => SetField(ref _disableMenuAnimations, value, "DisableMenuAnimations");
+            get => GetPropertyValue(nameof(DisableMenuAnimations), _disableMenuAnimations);
+            set => SetField(ref _disableMenuAnimations, value, nameof(DisableMenuAnimations));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -1019,8 +1019,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisableCursorShadow
         {
-            get => GetPropertyValue("DisableCursorShadow", _disableCursorShadow);
-            set => SetField(ref _disableCursorShadow, value, "DisableCursorShadow");
+            get => GetPropertyValue(nameof(DisableCursorShadow), _disableCursorShadow);
+            set => SetField(ref _disableCursorShadow, value, nameof(DisableCursorShadow));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Appearance), 5),
@@ -1030,8 +1030,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool DisableCursorBlinking
         {
-            get => GetPropertyValue("DisableCursorBlinking", _disableCursorBlinking);
-            set => SetField(ref _disableCursorBlinking, value, "DisableCursorBlinking");
+            get => GetPropertyValue(nameof(DisableCursorBlinking), _disableCursorBlinking);
+            set => SetField(ref _disableCursorBlinking, value, nameof(DisableCursorBlinking));
         }
         #endregion
 
@@ -1044,8 +1044,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public bool RedirectKeys
         {
-            get => GetPropertyValue("RedirectKeys", _redirectKeys);
-            set => SetField(ref _redirectKeys, value, "RedirectKeys");
+            get => GetPropertyValue(nameof(RedirectKeys), _redirectKeys);
+            set => SetField(ref _redirectKeys, value, nameof(RedirectKeys));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Redirect), 6),
@@ -1055,8 +1055,8 @@ namespace mRemoteNG.Connection
          AttributeUsedInProtocol(ProtocolType.RDP)]
         public RDPDiskDrives RedirectDiskDrives
         {
-            get => GetPropertyValue("RedirectDiskDrives", _redirectDiskDrives);
-            set => SetField(ref _redirectDiskDrives, value, "RedirectDiskDrives");
+            get => GetPropertyValue(nameof(RedirectDiskDrives), _redirectDiskDrives);
+            set => SetField(ref _redirectDiskDrives, value, nameof(RedirectDiskDrives));
         }
 
         [LocalizedAttributes.LocalizedCategory(nameof(Language.Redirect), 6),
