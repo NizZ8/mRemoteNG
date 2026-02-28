@@ -294,6 +294,84 @@ These rules were added to the orchestrator's agent prompts after each failure. T
 - Never create interactive tests (no MessageBox, no dialogs, no user input prompts)
 - `--verbosity normal` only (minimal/quiet crashes testhost on .NET 10)
 
+### Model Performance in Production — Real Data from 220 Measurements
+
+Raw timing data from `_timeout_history.json` across 220 agent invocations:
+
+| Model | Task | n | Median | p80 | <10s | >600s |
+|-------|------|---|--------|-----|------|-------|
+| **Codex Spark** | implement | 50 | 7.4s* | 544s | 34% | 12% |
+| **Claude Sonnet** | implement | 50 | 474s | 630s | 0% | 24% |
+| **Claude Sonnet** | triage | 50 | 12s | 16s | 34% | 0% |
+| **Gemini Pro** | implement | 50 | 417s | 566s | 0% | 12% |
+| **Gemini Pro** | triage | 50 | 47s | 72s | 0% | 0% |
+| **GPT-4.1** | triage | 20 | 2.1s | 2.4s | 100% | 0% |
+
+*Codex has a bimodal distribution: 17/50 under 10s (Spark xHigh resolves instantly), remaining 200–700s (fallback to Codex regular).
+
+**Key observations from production:**
+- **Spark xHigh:** 0% test failures when given correct context — the most reliable model for single-file fixes
+- **Opus:** 120–240s per task but far more prudent and efficient — conveys confidence in problem management that Sonnet doesn't
+- **Timeout management** was probably the hardest engineering problem in the orchestrator. Adaptive timeouts (60–1200s) with 1.3x escalation factor, yet small models still timed out frequently
+- **93 escalations tracked** (54 implementation + 39 triage) — ~40% of issues required at least one retry across the agent chain
+
+---
+
+## What's Next
+
+### 6.1. The Remaining 30% — 74 Issues Requiring Human Review
+
+Of 859 total issues: 502 released, 176 in testing, 74 flagged `needs_human`, 67 `wontfix`, 25 `duplicate`, 15 `new`.
+
+The 74 `needs_human` issues cluster around: RDP edge cases (SmartSize, multi-monitor DPI), SQL mode errors in connection import, and SSH features requiring interactive terminal testing. These are precisely the issues where automated testing cannot substitute for a human sitting in front of the application.
+
+**Strategy:** Manual triage session to classify each into fixable (with better test coverage), wontfix (upstream limitation), or needs-redesign (architectural change required).
+
+### 6.2. Code Quality — The Path to Zero Warnings
+
+Four phases, ordered by risk:
+
+| Phase | Category | Count | Approach |
+|-------|----------|-------|----------|
+| **1 — Autofix (zero risk)** | CA1507 `nameof` (501), CA1822 `static` (351), CA1805 defaults (178), CA1510 `ThrowIfNull` (165) | 1,195 | Roslyn code fixers — fully automated, no behavioral change |
+| **2 — Suppress in tests** | CA1707 underscore naming (712) | 712 | Test naming convention (`Method_Scenario_Expected`) — suppress globally in test projects |
+| **3 — Fix gradual** | MA0002 `StringComparison` (468), CA1310/CA1309 culture-aware (139) | 607 | Manual review — each site needs correct `Ordinal` vs `CurrentCulture` decision |
+| **4 — Milestone** | Enable `TreatWarningsAsErrors` | — | Per-rule first (`CA1507`, `CA1822`), then global once all categories are clean |
+
+### 6.3. Manual Testing Protocol
+
+Beta.5 proved that 7/585 AI-introduced regressions pass all 5,967 automated tests. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
+
+**Protocol:** Manual testing session at every beta release, focused on UX flows that cannot be unit tested:
+
+- Tree navigation: click, double-click, drag-drop, context menu — no phantom tabs
+- Tab management: switch, close, reorder — no focus stealing, no hangs
+- Save/load round-trip: `confCons.xml` survives save → close → reopen → save
+- COM lifecycle: connect → disconnect → reconnect → close — no RCW crashes
+- Settings persistence: change settings → restart → verify persistence (especially Portable mode)
+
+### 6.4. Supervised Continuous AI Improvement
+
+The Gen 5 concept: **Opus as permanent supervisor, Spark as executor.**
+
+The orchestrator monitors new issues (from upstream sync or user reports), triages autonomously, implements with Spark/Sonnet, and presents completed work for human approval. The rules from §5.9 are injected into every agent prompt — hard-won knowledge that prevents the same mistakes.
+
+**Target state:** Autonomous maintenance with human intervention only at PR review. The orchestrator handles the "what" and "how," humans verify the "should we."
+
+### 6.5. Upstream Convergence
+
+PR [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188) (beta.5) is pending on upstream. The goal is to contribute fixes back and reduce fork divergence over time.
+
+Upstream has 830 open issues. This fork has addressed 585 of them. The potential impact of merging even a fraction of these fixes is significant — but it requires upstream maintainer engagement, which has been sporadic.
+
+### 6.6. The Bigger Picture
+
+This project demonstrates a reproducible model: **orchestrator + supervisor + multi-model AI + human oversight** applied to a legacy codebase with a large backlog.
+
+The model is not specific to mRemoteNG. Any project with hundreds of open issues, a test suite, and a build system could benefit from the same approach. The orchestrator code is ~6,900 lines of Python — not trivial, but not a research project either.
+
+**The economics make it viable:** ~$1.50/commit, 24/7 operation, no burnout, no context switching. This is complementary to human developers, not a replacement — humans set direction, review output, and handle the 30% that AI cannot.
+
 ---
 
 ## Release History
