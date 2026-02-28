@@ -15,6 +15,50 @@ charset = utf-8-bom
 # WFO1000: A property should determine its property content serialization with the DesignerSerializationVisibilityAttribute, DefaultValueAttribute or the ShouldSerializeProperty method
 dotnet_diagnostic.WFO1000.severity = silent
 
+# ===== Meziantou Analyzer =====
+# MA0004: Use Task.ConfigureAwait — too noisy for WinForms (needs UI context)
+dotnet_diagnostic.MA0004.severity = none
+# MA0006: Use String.Equals instead of == — too pervasive in legacy code
+dotnet_diagnostic.MA0006.severity = suggestion
+# MA0011: IFormatProvider — too noisy for legacy code
+dotnet_diagnostic.MA0011.severity = none
+# MA0026: Fix TODO/HACK/FIXME comment
+dotnet_diagnostic.MA0026.severity = none
+# MA0028: Optimize StringBuilder usage — low priority
+dotnet_diagnostic.MA0028.severity = none
+# MA0048: File name must match type name — legacy project, many violations
+dotnet_diagnostic.MA0048.severity = suggestion
+# MA0051: Method is too long — informational only
+dotnet_diagnostic.MA0051.severity = suggestion
+# MA0076: Do not use implicit culture-sensitive ToString — too pervasive
+dotnet_diagnostic.MA0076.severity = none
+
+# ===== Roslynator =====
+# RCS1194: Implement exception constructors — noisy for custom exceptions
+dotnet_diagnostic.RCS1194.severity = none
+# RCS1090: Add ConfigureAwait — same as MA0004
+dotnet_diagnostic.RCS1090.severity = none
+# RCS1021: Convert lambda to method group — style preference
+dotnet_diagnostic.RCS1021.severity = suggestion
+# RCS1036: Remove unnecessary blank line
+dotnet_diagnostic.RCS1036.severity = suggestion
+# RCS1037: Remove trailing white-space
+dotnet_diagnostic.RCS1037.severity = suggestion
+# RCS1118: Mark local variable as const — informational
+dotnet_diagnostic.RCS1118.severity = suggestion
+# RCS1161: Enum should declare explicit values
+dotnet_diagnostic.RCS1161.severity = suggestion
+
+# ===== .NET Analyzers (CA rules) =====
+# CA1848: Use LoggerMessage source generation — not applicable (log4net)
+dotnet_diagnostic.CA1848.severity = none
+# CA1860: Avoid using Enumerable.Any() extension method — suggestion only
+dotnet_diagnostic.CA1860.severity = suggestion
+# CA1861: Avoid constant arrays as arguments — suggestion only
+dotnet_diagnostic.CA1861.severity = suggestion
+# CA2007: ConfigureAwait — WinForms needs SynchronizationContext
+dotnet_diagnostic.CA2007.severity = none
+
 # reStructuredText
 [*.rst]
 charset = utf-8
