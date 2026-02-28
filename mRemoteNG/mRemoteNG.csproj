@@ -7,6 +7,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <OutputType Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(GITHUB_WORKFLOW)' == 'PR_Validation'">Exe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <!-- T4 transform settings: only active when VS2026 TextTemplating targets are available -->
