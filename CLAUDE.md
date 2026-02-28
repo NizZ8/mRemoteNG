@@ -93,10 +93,27 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 
 ## CI/CD
 - Runners: `windows-2025-vs2026` with MSBuild 18.x (VS2026)
-- Workflows: `pr_validation.yml` (build), `Build_mR-NB.yml` (release)
+- Workflows: `pr_validation.yml` (build), `Build_mR-NB.yml` (release), `sonarcloud.yml` (quality gate), `codeql.yml` (security)
 - Platforms: x86, x64, ARM64
 - Code signing: SignPath Foundation (mandatory — see `CODE_SIGNING_POLICY.md`)
 - Version: read from `mRemoteNG/mRemoteNG.csproj` `<Version>` element
+
+## Code Quality — 4 Levels
+
+| Level | Tool | Scope | Config |
+|-------|------|-------|--------|
+| 1 | .NET Analyzers + Roslynator + Meziantou | Local build (warnings) | `Directory.Build.props`, `mRemoteNG/.editorconfig` |
+| 2 | SonarCloud | PR gate (CI) | `sonarcloud.yml`, `sonar-project.properties` |
+| 3 | CodeQL | Security scanning (CI + weekly) | `codeql.yml` |
+| 4 | Roslynator | Included in Level 1 (NuGet) | `Directory.Packages.props` |
+
+### Rules:
+- **Gradual adoption** — warnings only, NOT `TreatWarningsAsErrors` (legacy codebase)
+- Noisy rules suppressed in `.editorconfig` (MA0004 ConfigureAwait, MA0011 IFormatProvider, MA0076 ToString culture)
+- `EnforceCodeStyleInBuild=true`, `AnalysisLevel=latest-recommended` in `Directory.Build.props`
+- SonarCloud requires `SONAR_TOKEN` secret (setup: sonarcloud.io → Import repo → copy token → GitHub Secrets)
+- CodeQL uses `build-mode: manual` (COM refs break autobuild)
+- `.editorconfig` cu reguli analyzer e doar în `mRemoteNG/` — ExternalConnectors primește default severities
 
 ## Branch Strategy
 

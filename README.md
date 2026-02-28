@@ -6,19 +6,11 @@
 
 <blockquote>
 
-<strong>This fork is alive.</strong>
-
-We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, <strong>5,967 automated tests</strong>, and builds for x64, x86, and ARM64.
-
-<strong>Marching to Zero Backlog:</strong> 838 issues tracked, <strong>585 addressed in code (70%)</strong>, 25 released and confirmed. Manual testing of beta.4 caught <strong>7 AI-introduced regressions</strong> — all fixed in beta.5. Every issue gets triaged, every fix gets tested, every reporter gets a response. Security first, then stability, then features.
-
-<strong>How we work:</strong> A Python <strong>orchestrator</strong> drives development using <strong>Claude Code</strong> (Anthropic) as its AI engine — <strong>Sonnet</strong> for fast triage and implementation, with automatic <strong>Opus escalation</strong> for complex multi-file problems. Every change is independently verified (build + 5,967 tests) before commit. A <strong>self-healing supervisor</strong> handles 12 failure modes automatically. Manual testing after automated runs caught 7 subtle UX regressions that passed all tests — proving that <strong>human oversight remains essential</strong>. A custom <strong>Issue Intelligence System</strong> — a git-tracked JSON database — follows every issue through its full lifecycle: triage → fix → test → release.
-
-<strong>What's next:</strong> Once the backlog is current, ongoing maintenance — bug fixes, dependency updates, security patches — will run autonomously via <a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code</a>, continuously monitoring new issues and shipping fixes with minimal human intervention.
+**This fork is alive.** We love mRemoteNG and we're committed to keeping it moving forward. This Community Edition ships regular releases with security patches, bug fixes, and long-requested features — backed by proper CI, automated tests, and builds for x64, x86, and ARM64.
 
 Full transparency: this project is built by humans and AI working together. We believe that's the future of open source.
 
-<em>— Robert & contributors (human + AI)</em>
+*— Robert & contributors (human + AI)*
 
 </blockquote>
 
@@ -52,244 +44,259 @@ Full transparency: this project is built by humans and AI working together. We b
   </a>
 </p>
 
-## Nightly Build (Latest from Main)
-
-<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
-  <img alt="Nightly" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/nightly.yml?style=for-the-badge&label=Nightly&color=blueviolet">
-</a>
-
-> [!TIP]
-> The nightly build is automatically created on every push to `main`. It includes the latest changes, fully built and tested (5,967 tests). x64 framework-dependent only — requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
-
-**[Download latest nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)**
-
 ---
 
-## Latest Stable Release
+## Downloads
 
-<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20">
-  <img alt="Stable v1.76.20" src="https://img.shields.io/badge/stable-v1.76.20-blue?style=for-the-badge">
-</a>
+| Channel | Version | What you get |
+|---------|---------|--------------|
+| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest from `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
+| **[Beta](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.5)** | v1.81.0-beta.5 | High-velocity builds — .NET 10, security hardening, experimental features. Promoted to Stable after 5+ iterations. |
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | Production-ready. Recommended for most users. |
 
-The latest production-ready version of mRemoteNG. For most users, this is the recommended version.
-
----
-
-## Beta Builds (Main Branch)
-
-<a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.5">
-  <img alt="Beta v1.81.0-beta.5" src="https://img.shields.io/badge/beta-v1.81.0--beta.5-orange?style=for-the-badge">
-</a>
-
-> [!IMPORTANT]
-> These are high-velocity builds from the `main` branch. They include the latest .NET 10 updates, security hardening, and experimental features. Use these if you want to help test new functionality. A version is promoted to **Stable** only after at least 5 beta iterations.
+### Beta download matrix
 
 | Variant | x64 | x86 | ARM64 |
 |---------|-----|-----|-------|
 | Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-arm64.zip) |
 | Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.5/mRemoteNG-v1.81.0-beta.5-win-arm64-SelfContained.zip) |
 
-**Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
-**Self-contained** includes the .NET runtime — no prerequisites needed.
-
----
-
-<details open>
-<summary><strong>What's in v1.81.0-beta.5?</strong> (7 regressions fixed — manual testing catches what AI missed)</summary>
-
-### Highlight: Manual Testing Catches AI-Introduced Regressions
-First hands-on testing session after the orchestrator's 585-issue automated run. Found and fixed **7 regressions** that passed all 5,967 automated tests but broke real-world usage: phantom tabs on tree click, focus stealing, PuTTY root overwriting confCons.xml, tab close hangs, COM RCW crashes, and portable settings going to %AppData%.
-
-### What went well with the AI orchestrator
-- **585 issues addressed automatically** out of 838 tracked (70%)
-- **5,967 tests** passing, **744 commits**, all independently verified
-- Self-healing supervisor handled 12 failure modes without human intervention
-
-### What didn't work — and what we learned
-- **AI agents introduce subtle UX regressions** that pass all automated tests: focus handling, event handler side effects, save/load data integrity
-- **Preview-on-select** was added by an AI agent as a "feature" but created phantom tabs on every tree click
-- **ActivateConnection on tab switch** seemed harmless but stole focus from every non-protocol control
-- **PuTTY root save** — the AI didn't understand that PuTTY sessions are read-only imports; the save loop tried to persist them, overwriting real connections
-- **Orchestrator rules added for future runs:**
-  - No event handlers on `SelectionChanged` without approval
-  - No `Protocol.Focus()` outside explicit user action
-  - Validate save/load round-trip (confCons.xml must survive save→load→save)
-  - No modifications to `WndProc`, `Dispose`, or COM interop without human review
-
-### Known issue: Antivirus false positives (BitDefender, others)
-mRemoteNG uses Windows APIs that overlap with malware heuristic signatures — `SendInput` (modifier key release after RDP), `CryptProtectData` (DPAPI credential encryption), COM Interop (RDP ActiveX), dynamic assembly loading, and P/Invoke declarations. These are all **legitimate** and required for core functionality.
-
-**What we did to reduce AV scores (beta.3→beta.5):**
-- Replaced legacy `keybd_event` with modern `SendInput` API (the #1 flagged API by AV engines)
-- Added `[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]` on sensitive P/Invoke methods
-- Removed unused `HookType` enum containing `WH_KEYBOARD_LL`
-- Constrained `AssemblyResolve` handler to only load from app base directory
-- Added VirusTotal scan step to release CI workflow
-
-**BitDefender specifically:** After long build cycles (247 build+test+revert in 31h), BitDefender ATD quarantined `mRemoteNG.dll` — rapid DLL creation/deletion looks like malware to Advanced Threat Defense. Once quarantined, the kernel minifilter driver blocks the exact filename even after "disabling" BitDefender. **Fix:** restore from quarantine, add `D:\github\mRemoteNG\` to ALL BD modules (Antivirus, ATD, Ransomware Remediation), and **reboot** (kernel driver caches the block list).
-
-See [docs/ANTIVIRUS_FALSE_POSITIVE.md](docs/ANTIVIRUS_FALSE_POSITIVE.md) for full details, verification steps, and how to whitelist.
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.81.0-beta.3</strong> (585 issues addressed — largest release ever)</summary>
-
-### Highlight: Marching to Zero Backlog
-**744 commits**, **585 issues addressed** (70% of 838 tracked), **5,967 tests** passing with 0 failures. The orchestrator was rearchitectured as a Claude-only engine with Sonnet → Opus model escalation, a self-healing supervisor (12 failure modes), and chain context reuse.
-
-### New Features
-- **Reconnect** in context menu (#1233), **folder path on tab names** (#3083), **ADMX/ADML Group Policy templates** (#738)
-- **7 new protocols**: VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
-
-### Security
-- 4 GitHub code scanning alerts fixed (SOCKS5, ReDoS, workflow permissions, insecure deserialization)
-- CVE-2020-0765 mitigation, PBKDF2 improvements, thread-safe BouncyCastle GCM
-
-### Performance
-- **81s → ms** deserialization fix for 570+ connections (#12)
-- Thread-safe parallel decryption, build time 24s → 9s
-
-### Bug Fixes (585 issues across all categories)
-- **RDP** (~80): SmartSize, fullscreen, gateway, monitor hot-plug, NLA, reconnection
-- **VNC** (~40): crash fixes, color depth, clipboard sync, authentication fallback
-- **SSH/PuTTY** (~30): CJK names, tunnel TOCTOU, key exchange, SFTP
-- **UI/UX** (~60): panel races, tab drag, theme consistency, Options panel fixes
-- **Credentials** (~40): 1Password, master password autolock, vault HTTPS enforcement
-- **Database** (~50): SQL schema compat, transaction safety, XML recovery
-- **Connections** (~80): external tool tokens, audit logging, quick connect history
-- **Themes** (~20): live switching, dark mode colors, DockPanel integration
-- **Windows** (~30): DPI PerMonitorV2, splash screen, tab overflow
-
-### Architecture
-- Orchestrator v2: Claude-only (Sonnet → Opus), self-healing supervisor (12 failure modes)
-- Chain context reuse, token tracking, duplicate commit prevention
-- Decoupled connection loaders via DI, new SQL abstractions
-
-### Dependencies
-- Microsoft.NET.Test.Sdk 18.3.0, actions/checkout v6, signpath v2
-- 67 upstream commits merged from v1.78.2-dev
-
-See [CHANGELOG.md](CHANGELOG.md) for the full list.
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.81.0-beta.2</strong> (2026-02-15, zero nullable warnings)</summary>
-
-- **Zero Nullable Warnings** — 2,554 CS8xxx warnings fixed across 242 files (100% clean)
-- **Testable Connection Loaders** — SqlConnectionsLoader & XmlConnectionsLoader via DI
-- **AnyDesk command injection prevention** — IsValidAnydeskId() validation
-- **2,349 tests**, 0 failures, 5 parallel processes
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.80.2</strong> (2026-02-14, maintenance)</summary>
-
-- **AlwaysShowPanelTabs initialization fix** ([#3142](https://github.com/mRemoteNG/mRemoteNG/issues/3142)) — panel tabs setting no longer corrupts Options on startup
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.80.1</strong> (2026-02-13, security patch)</summary>
-
-### Security Fixes (upstream merge)
-- **AnyDesk command injection prevention** — `IsValidAnydeskId()` validates IDs before passing to process
-- **Process.Start hardening** — `ProcessStartInfo` with `UseShellExecute` across all UI forms
-- **URL format validation** in FrmAbout — rejects non-HTTP(S) URLs
-- **Path validation** in NotificationsPage — prevents command injection via log file paths
-
-### Dependency Updates
-- .NET SDK 10.0.2 → 10.0.3 (runtime security patch)
-- Removed 27 redundant System.* NuGet packages (now built-in to .NET 10)
-- Updated AWS SDK packages
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.80.0</strong> (self-contained builds, security hardening, new features)</summary>
-
-### Highlights
-- **Self-contained build variant** — includes .NET runtime, no install needed
-- **6 security hardening items** — encryption keys, auth levels, PBKDF2 600K, SSH wipe, HTTPS vaults
-- **External tool tokens** — `%PUTTYSESSION%`, `%ENVIRONMENTTAGS%`, `%SSHOPTIONS%`
-- **Options panel stability** — Cancel properly reverts, SQL fields work
-- **Batch file password fix** — comma in passwords no longer splits args
-
-### New Features
-- Self-contained (.NET embedded) build — no .NET runtime installation required
-- JSON export, protocol/tag filtering, quick connect history
-- Connection audit log, keyboard shortcuts panel
-- Middle-click: open connection from tree, close tab
-- Live theme switching (no restart), crash dialog auto-submit
-
-[v1.80.0 release page](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.80.0)
-
-</details>
-
-<details>
-<summary><strong>Previous release: v1.79.0</strong> (26 bug fixes, security hardening, test suite)</summary>
-
-### Bug Fixes (26 total)
-- **RDP:** SmartSize focus loss, fullscreen toggle guard, refocus after exit, RCW disconnect safety
-- **PuTTY:** Provider failure handling, CJK session name decoding
-- **UI:** Close panel race, tab drag autoscroll, tab close race under resize, empty panel close, config panel splitter, inheritance label width, connections panel focus
-- **Data:** 1Password parser fix, SQL schema compatibility, SqlClient SNI runtime, default credential provider
-- **Core:** Startup path fallback, XML recovery for corrupt configs, main form close cancel, master password autolock, PROTOCOL external tool token, settings path logging, password protection verification
-
-### Quality
-- 2179 tests passing (81 pre-existing failures fixed, 31 new tests added)
-- .NET 10, 3-architecture support (x64, x86, ARM64)
-
-[v1.79.0 release page](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0)
-
-</details>
-
-[View all releases](https://github.com/robertpopa22/mRemoteNG/releases)
+**Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites.
 
 ---
 
 ## Features
 
-The following protocols are supported:
+16 protocols supported: **RDP**, **VNC**, **SSH**, **Telnet**, **HTTP/HTTPS**, **rlogin**, **Raw Socket**, **PowerShell Remoting**, **AnyDesk**, **VMRC** (VMware), **MSRA** (Remote Assistance), **OpenSSH** (native Windows), **Winbox** (MikroTik), **WSL**, **Terminal**, **Serial** (COM port).
 
-* RDP (Remote Desktop Protocol)
-* VNC (Virtual Network Computing)
-* SSH (Secure Shell)
-* Telnet (TELecommunication NETwork)
-* HTTP/HTTPS (Hypertext Transfer Protocol)
-* rlogin (Remote Login)
-* Raw Socket Connections
-* Powershell remoting
-* AnyDesk
-* VMRC (VMware Remote Console)
-* MSRA (Microsoft Remote Assistance)
-* OpenSSH (Native Windows OpenSSH client)
-* Winbox (MikroTik router management)
-* WSL (Windows Subsystem for Linux)
-* Terminal (Generic terminal emulator)
-* Serial (COM port connections)
+**Security:** PBKDF2 600K iterations, HTTPS-only vaults, SSH key wipe, AnyDesk command injection prevention, LDAP sanitization, 4 CodeQL alerts fixed.
 
-For a detailed feature list and general usage support, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
+**Enterprise:** Self-contained builds (zero prerequisites), ADMX/ADML Group Policy templates, connection audit logging, JSON export, protocol/tag filtering.
+
+**Quality:** 5,967 automated tests, 4-level code quality (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
+
+For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
 ---
 
-## Installation
+## How We Build This — A Scientific Approach to Hybrid AI+Human Development
 
-### Supported Operating Systems
+### The Hypothesis We Tested
 
-- Windows 11
-- Windows 10
-- Windows Server 2022
-- Windows Server 2019
-- Windows Server 2016
+Can an autonomous AI orchestrator resolve a backlog of 838 issues on a legacy WinForms/.NET 10 project?
 
-### How to Update (Portable ZIP)
+**Short answer:** Yes, but not the way we expected. The journey from "let AI fix everything" to "a self-healing supervisor coordinating AI agents with human oversight" took four architectural generations, a 31-hour disaster, and approximately $320 in API costs.
 
-1. Download the ZIP for your architecture
-2. Extract over your existing mRemoteNG installation
-3. Your `confCons.xml` and settings are preserved
+### Architecture Evolution — Four Generations of Failure and Learning
+
+#### Gen 1: Brute Force (early February)
+
+Claude Sonnet on everything. Manual triage, manual implementation, manual commit.
+
+**Result:** 26 bug fixes (v1.79.0), 2,179 tests passing, but slow — days of human work per release. Each fix required a human to read the issue, decide what to do, prompt the AI, review the code, run the build, run the tests, commit, and post a comment. The AI was a code-writing accelerator, not an autonomous agent.
+
+#### Gen 2: Multi-Agent Orchestra (Feb 9–16)
+
+Three AI agents coordinated by a Python orchestrator:
+
+| Agent | Strengths | Fatal Flaws |
+|-------|-----------|-------------|
+| **Codex** (OpenAI `gpt-5.3-codex-spark`) | Fast (15-25s triage), cheap | Linux sandbox on Windows — can't run MSBuild, PowerShell, or COM references. `--full-auto` maps to `sandbox: read-only` on Windows. Only workaround: `--dangerously-bypass-approvals-and-sandbox` |
+| **Gemini** (`gemini-3-pro-preview`) | Strong at bulk implementation | Workspace sandbox restricts file access to CWD only. Rate limits on paid tier nearly identical to free tier. `gemini-2.5-flash` was fast but superficial. `gemini-3.1-pro` returned 404 in API |
+| **Claude** (`claude-sonnet-4-6`) | Most reliable, no practical rate limits | Most expensive. Opus (5x cost) as fallback |
+
+**The double-pay problem:** Sonnet fails → retry with Opus = paying twice for the same issue. This pattern accounted for **27% of total API spend**.
+
+**Rate limit amnesia:** Without persistent tracking, every orchestrator restart wasted 40+ minutes trying agents that were still rate-limited.
+
+#### Gen 3: The 31-Hour Disaster (Feb 17) — The Post-Mortem That Changed Everything
+
+A single orchestrator run produced 247 test invocations. Only 46 actually ran tests. The other 201 completed in <1 second with 0 tests — **phantoms** that the orchestrator accepted as "passing."
+
+**Root cause:** `mRemoteNG.sln` didn't include the test projects. An AI agent had added them locally but never committed the `.sln` change. The orchestrator ran `dotnet test` on a solution with no tests — which succeeds instantly.
+
+**What went wrong:**
+- 31 commits in the first 10 hours (productive), then nothing useful for 21 hours
+- The orchestrator accepted a **353.7% pass rate** (passed > total) as valid — no sanity check
+- Three concurrent orchestrator instances ran simultaneously (no single-instance lock) — garbled test output
+- No circuit breaker — after 5 consecutive failures, it kept trying
+- On any test failure, the orchestrator immediately reverted instead of attempting a fix — discarding potentially hours of work
+- **BitDefender ATD quarantined `mRemoteNG.dll`** after 247 rapid build-delete cycles. The kernel minifilter driver blocks the exact filename even after "disabling" BitDefender. Fix required: restore from quarantine, exclude from ALL BD modules, and **reboot** (kernel driver caches the block list)
+
+**The lesson:** An orchestrator without monitoring is more dangerous than manual work. It can destroy a night's worth of progress while you sleep.
+
+#### Gen 4: Self-Healing Supervisor + Claude-Only (Feb 18–28) — What Worked
+
+The architecture that actually produced results:
+
+```
+orchestrator_supervisor.py (~800 lines)
+  │ monitors heartbeat (30s), manages 12 failure modes
+  │
+  └─► iis_orchestrator.py (~6,100 lines)
+        │ sync → triage → implement → verify → commit
+        │
+        ├─► Claude Sonnet (primary — fast, cost-effective)
+        │     └─► Claude Opus (escalation — when Sonnet fails)
+        │
+        └─► Independent Verification (no AI — deterministic)
+              1. build.ps1 (MSBuild)
+              2. run-tests-core.sh (5,967 tests, 9 groups)
+              3. git commit (green) OR git restore (red)
+```
+
+**12 failure modes handled automatically (FM1–FM12):**
+
+| FM | Problem | Detection | Recovery |
+|----|---------|-----------|----------|
+| FM1 | Stale lock file | PID dead or lock >N hours old | Delete lock |
+| FM2 | Multiple instances | >1 orchestrator process | Kill all but oldest |
+| FM3 | Phantom test processes | Lingering `testhost.exe` | `taskkill /F` |
+| FM4 | Rate-limit file corruption | Expired entries or corrupt JSON | Clean/recreate |
+| FM5 | Status file corruption | Invalid JSON | Backup + recreate |
+| FM6 | Hung process | No status update >30 min | Kill + clean lock |
+| FM7 | Crashed process | Lock PID is dead | Remove lock, kill stale |
+| FM8 | Stale editor processes | Lingering `notepad.exe`, `mstsc.exe` | Kill by name |
+| FM9 | Git state dirty | Merge/rebase in progress, detached HEAD | Stash, abort, checkout main |
+| FM10 | All agents blocked | All rate-limited simultaneously | Dormancy until earliest reset |
+| FM11 | No progress | 0 commits in 60 min or issue stuck >30 min | Progressive strikes (warn → kill → hard kill) |
+| FM12 | Build infra failure | 3+ consecutive build failures (DLL locked, AV, disk) | Kill MSBuild, test build, conditional restart |
+
+**Key design decisions:**
+- **Test-fix-first:** Instead of immediately reverting on test failure, the AI gets 2 attempts to fix the failing test — recovering work that would otherwise be discarded
+- **Circuit breaker:** 5 consecutive failures → verify baseline → stop if infrastructure is broken
+- **Phantom detection:** 3 layers — PowerShell exit codes (97-99), Python validation, JSON sanity check
+- **Persistent rate-limit tracking:** Saves 40+ min/session by instantly skipping blocked agents
+- **Chain context reuse:** Each agent in the escalation chain receives previous agents' failed attempts as context
+
+### The Economics — What It Actually Costs
+
+Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
+
+**Cost by task type:**
+
+| Task | Avg. cost/call | Notes |
+|------|---------------|-------|
+| Triage | ~$0.20 | Cheap — not worth optimizing |
+| Implementation | ~$1.68 | Bulk of the spend |
+| Test fix | ~$1.75 | Similar to implementation |
+
+**Cost by model:**
+
+| Model | % of total spend | Role |
+|-------|-----------------|------|
+| Claude Opus | 58% | Most reliable, most expensive |
+| Gemini Pro | 24% | Bulk implementation (Gen 2) |
+| Codex Spark | 18% | Fast triage |
+
+**Where money was wasted:**
+- **Double-pay (Sonnet→Opus):** 27% of total — the single biggest waste category
+- **Failed issues:** 10% — issues that consumed API calls but produced no commit
+- **Pre-analysis phase:** <1% (disabled after proving ineffective)
+
+**Learning curve — cost per commit:**
+
+| Day | $/commit | Why |
+|-----|----------|-----|
+| Day 1 | $4.02 | No persistent rate tracking, no circuit breaker, Opus overuse |
+| Day 4 | $1.49 | Codex functional, persistent tracking, chain context reuse |
+
+**Output tokens = 97% of cost.** Output tokens cost 5x input tokens. The output/input ratio was 4:1. Every verbose explanation an AI agent writes is burning money.
+
+**Bottom line:** Only max-tier subscriptions with the best models produce cost-effective results. Intermediate tiers (Gemini Pro with near-free-tier limits, Codex with usage resets) generate retry overhead that erases the savings. The stabilized cost of ~$1.50/commit is comparable to a junior developer's hourly rate — but the orchestrator works 24/7.
+
+### What Didn't Work — The Failure Catalog
+
+**AI agent sandbox limitations:**
+- Codex on Windows: Linux sandbox cannot run PowerShell, MSBuild, or COM references — the three things this project requires
+- Gemini workspace sandbox: file access restricted to CWD — can't read solution-level files
+- Gemini rate limits: paid tier with limits nearly identical to free tier
+- GPT-4.1: `workspace-write` fails entirely on Windows
+
+**The 31-hour disaster (detailed above):**
+- 201 phantom test runs accepted as passing
+- 353.7% pass rate accepted without question
+- 3 concurrent orchestrator instances with garbled output
+- BitDefender quarantine after 247 build cycles
+
+**7 AI-introduced regressions that passed ALL 5,967 automated tests (beta.5):**
+
+| Regression | What the AI did | Why tests didn't catch it |
+|------------|----------------|--------------------------|
+| Phantom tabs on tree click | Added preview-on-select as unsolicited "feature" | No test for "clicking tree doesn't open tabs" |
+| Focus stealing on tab switch | Added `ActivateConnection` on `SelectedIndexChanged` | Focus behavior requires real window interaction |
+| PuTTY root destroying confCons.xml | Added save logic for read-only PuTTY session imports | Save/load round-trip wasn't tested end-to-end |
+| Tab close hang | Dispose sequence wrong for disconnected connections | Tests don't simulate disconnected COM objects |
+| COM RCW crashes | Disposed ActiveX control already detached | COM lifecycle is inherently hard to unit test |
+| Portable settings → %AppData% | Missing `PORTABLE` define in some configurations | Settings path depends on build configuration |
+| .NET 10 SettingsProvider | Framework change broke attribute-based resolution | Requires runtime .NET 10 behavior |
+
+**SonarCloud Quality Gate failure (beta.5 PR #3188):** Codex attempted to fix Sonar issues but introduced 2 CRITICAL bugs + 1 BLOCKER — incorrect method inlining, bypassed property flow, incomplete Dispose pattern.
+
+**Infrastructure pitfalls:**
+- `subprocess.run(timeout=T)` on Windows: hangs indefinitely when child processes inherit pipe handles
+- PowerShell 5.1: Unicode em-dash corrupts the parser at a completely unrelated `}`
+- MSBuild `-m` doesn't scale past ~4 cores on 3 projects
+- `dotnet build` fails with COM references (`MSB4803`) — must use full MSBuild
+- NUnit fixture-level parallelism: 27 failures from race conditions on shared mutable singletons
+
+### What Worked — The Success Patterns
+
+- **585 issues addressed** out of 838 tracked (70%), 1,365 commits in February 2026
+- **5,967 tests** (up from 2,179 at v1.79.0), 0 failures
+- **Self-healing supervisor:** 12 failure modes handled automatically — zero human babysitting
+- **Test-fix-first:** 2 fix attempts before revert — recovers work that would otherwise be lost
+- **Circuit breaker:** 5 consecutive failures → baseline check → stop if infrastructure is broken
+- **Phantom detection:** 3-layer validation eliminated false-positive test runs entirely
+- **Persistent rate tracking:** 40+ min/session saved by instant skip of blocked agents
+- **Chain context reuse:** each escalation carries previous attempts → fewer repeated mistakes
+- **Cost stabilization:** $4.02/commit (day 1) → $1.49/commit (day 4)
+
+### Key Insights
+
+1. **Automated tests are necessary but NOT sufficient.** Focus handling, save/load round-trips, COM lifecycle, and settings persistence cannot be fully covered by unit tests. Manual testing remains irreplaceable for UX validation.
+
+2. **AI agents add unsolicited "features."** Event handlers, `Focus()` calls, save logic that didn't exist — AI models optimize for "completeness" and will add code that wasn't requested. This is their most dangerous behavior.
+
+3. **Only max-tier subscriptions are cost-effective.** Intermediate tiers generate retry overhead (rate limits, sandbox failures) that erases the savings. The cheapest path is the most capable model with the fewest retries.
+
+4. **Simplicity beats complexity.** 3-agent orchestra (Gen 2) → 1 primary agent with fallback (Gen 4). Fewer moving parts, fewer failure modes, more reliable.
+
+5. **Human oversight remains essential.** 7 regressions out of 585 issues is ~1.2% — but one of them (PuTTY root save) would silently destroy all user connections. Percentages don't capture severity.
+
+6. **Self-healing beats manual monitoring.** The supervisor eliminated 24/7 babysitting. 12 failure modes × multiple occurrences each = hundreds of manual interventions avoided.
+
+### Rules for AI Agent Development (Added After Failures)
+
+These rules were added to the orchestrator's agent prompts after each failure. They represent hard-won knowledge:
+
+- No event handlers on `SelectionChanged` without human approval
+- No `Protocol.Focus()` outside explicit user action
+- Validate save/load round-trip (`confCons.xml` must survive save → load → save)
+- No modifications to `WndProc`, `Dispose`, or COM interop without human review
+- Protected files (orchestrator, supervisor, configs) excluded from `git restore`
+- Max 2 retries per issue before `needs_human` flag
+- Phantom test detection mandatory at every test run
+- Never run `git commit/add/push` — the orchestrator handles all commits
+- Never create interactive tests (no MessageBox, no dialogs, no user input prompts)
+- `--verbosity normal` only (minimal/quiet crashes testhost on .NET 10)
+
+---
+
+## Release History
+
+| Version | Date | Highlights |
+|---------|------|------------|
+| **v1.81.0-beta.5** | 2026-02-27 | 7 manual-testing regressions fixed, AV false positive hardening (`SendInput`, `DefaultDllImportSearchPaths`, VirusTotal in CI), `PortableSettingsInitializer` for .NET 10, 5,967 tests |
+| **v1.81.0-beta.4** | 2026-02-25 | AV hardening, test suite expansion 2,916 → 5,967 via `TestCaseSource` parametrization |
+| **v1.81.0-beta.3** | 2026-02-24 | 585 issues addressed (70% of 838), 744 commits, 7 new protocols, 81s→ms deserialization fix, orchestrator v2 (Claude-only, self-healing supervisor) |
+| **v1.81.0-beta.2** | 2026-02-15 | 2,554 nullable warnings fixed (100% clean, 242 files), testable architecture via DI |
+| **v1.80.2** | 2026-02-14 | AlwaysShowPanelTabs initialization fix |
+| **v1.80.1** | 2026-02-13 | Security patch — AnyDesk command injection, Process.Start hardening, .NET 10.0.3 |
+| **v1.80.0** | 2026-02-10 | Self-contained builds, 6 security hardening items, external tool tokens, JSON export, live theme switching, 830-issue triage complete |
+| **v1.79.0** | 2026-02-08 | 26 bug fixes, 81 pre-existing test failures fixed, LDAP sanitizer, .NET 10 with x64/x86/ARM64 |
+
+Full details: [CHANGELOG.md](CHANGELOG.md) | [All releases](https://github.com/robertpopa22/mRemoteNG/releases)
 
 ---
 
@@ -311,24 +318,14 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
 
 ### Code Quality
 
-Four levels of automated code quality enforcement:
-
 | Level | Tool | Scope | Status |
 |-------|------|-------|--------|
-| 1 | **Roslynator + Meziantou Analyzers** | Every local build — catches bugs, security issues, code smells | Active |
-| 2 | **SonarCloud** | Push to `main` — continuous inspection, quality gate | [![SonarCloud](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/sonarcloud.yml?label=SonarCloud&style=flat-square)](https://sonarcloud.io/project/overview?id=robertpopa22_mRemoteNG) |
-| 3 | **CodeQL** | Push to `main` + weekly — GitHub native security scanning | [![CodeQL](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?label=CodeQL&style=flat-square)](https://github.com/robertpopa22/mRemoteNG/security/code-scanning) |
-| 4 | **.NET Analyzers** | `AnalysisLevel=latest-recommended` — Microsoft's built-in CA rules | Active |
+| 1 | **Roslynator + Meziantou Analyzers** | Every local build | Active |
+| 2 | **SonarCloud** | Push to `main` — quality gate | [![SonarCloud](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/sonarcloud.yml?label=SonarCloud&style=flat-square)](https://sonarcloud.io/project/overview?id=robertpopa22_mRemoteNG) |
+| 3 | **CodeQL** | Push to `main` + weekly — security scanning | [![CodeQL](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?label=CodeQL&style=flat-square)](https://github.com/robertpopa22/mRemoteNG/security/code-scanning) |
+| 4 | **.NET Analyzers** | `AnalysisLevel=latest-recommended` | Active |
 
-**Approach:** Gradual adoption — all rules are warnings (not errors). Noisy rules for legacy WinForms code (ConfigureAwait, IFormatProvider, culture-sensitive ToString) are suppressed. Rules are tightened as the codebase improves.
-
-### Build optimization
-
-A `Directory.Build.props` at the solution root configures:
-- **`UseSharedCompilation=true`** — keeps the Roslyn compiler server warm between builds
-- **`NoWarn=CA1416`** — suppresses 1,795 platform compatibility warnings (app is 100% Windows-only)
-
-MSBuild `-m` parallelizes at project level (3 projects), while Roslyn parallelizes file compilation internally. On a 48-thread CPU, the bottleneck is the single 587-file main project — adding more cores beyond ~4 has no effect.
+Gradual adoption — all rules are warnings (not errors). Noisy rules for legacy WinForms code are suppressed. Rules tighten as the codebase improves.
 
 ---
 
@@ -345,9 +342,9 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**Current status:** 5,967 tests, 9 groups with sliding-window concurrency (max 2), 0 failures, 0 crashes.
+**5,967 tests**, 9 groups with sliding-window concurrency (max 2), 0 failures.
 
-Multi-process parallelism is required because the production code uses shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.ConnectionsService`, `Runtime.EncryptionKey`) — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state. A `TestScope` class snapshots/restores all singletons per test fixture to prevent state leaks.
+Multi-process parallelism is required because the production code uses shared mutable singletons — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 
 | Group | Namespace | Tests |
 |-------|-----------|-------|
@@ -366,229 +363,11 @@ Multi-process parallelism is required because the production code uses shared mu
 
 ## Upstream Relationship
 
-This fork is based on [mRemoteNG/mRemoteNG](https://github.com/mRemoteNG/mRemoteNG) `v1.78.2-dev`.
-v1.79.0 fixes have individual PRs on upstream ([#3105](https://github.com/mRemoteNG/mRemoteNG/pull/3105)–[#3130](https://github.com/mRemoteNG/mRemoteNG/pull/3130)).
-v1.80.0 consolidated status: [#3133](https://github.com/mRemoteNG/mRemoteNG/issues/3133).
-v1.81.0-beta.5 PR: [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188).
+This fork is based on [mRemoteNG/mRemoteNG](https://github.com/mRemoteNG/mRemoteNG) `v1.78.2-dev`. We submit fixes back upstream:
 
----
-
-## What's New
-
-### v1.81.0-beta.5 (2026-02-27) — Manual Testing + AV Hardening
-- **7 regressions fixed** from manual testing — phantom tabs, focus steal, PuTTY save overwrite, tab close hang, COM RCW crashes, portable settings
-- **AV false positive hardening** — `keybd_event` → `SendInput`, `DefaultDllImportSearchPaths`, VirusTotal in CI
-- **PortableSettingsInitializer** — programmatic provider wiring for .NET 10 compatibility
-- **5,967 tests** passing (up from 2,916), 0 failures
-
-### v1.81.0-beta.4 (2026-02-25) — AV Hardening + Test Expansion
-- **AV false positive reduction** — replaced legacy APIs, constrained assembly loading
-- **Test suite expansion** — 2,916 → 5,967 test cases via TestCaseSource parametrization
-- **VirusTotal scan** added to release CI workflow
-- **Documentation** — `docs/ANTIVIRUS_FALSE_POSITIVE.md` with whitelist instructions
-
-### v1.81.0-beta.3 (2026-02-24) — 585 Issues Addressed
-- **Marching to Zero Backlog** — 838 issues tracked, 585 addressed (70%), 25 released
-- **744 commits**, 67 upstream commits merged, 5,967 tests (0 failures)
-- **7 new protocols** — VMRC, MSRA, OpenSSH, Winbox, WSL, Terminal, Serial
-- **Security** — 4 code scanning alerts fixed, CVE-2020-0765, thread-safe encryption
-- **Performance** — 81s → ms deserialization, parallel decryption, 9s builds
-- **Orchestrator v2** — Claude-only (Sonnet→Opus escalation), self-healing supervisor (12 failure modes), chain context reuse
-- **Features** — Reconnect menu (#1233), folder path tabs (#3083), ADMX templates (#738)
-
-### v1.81.0-beta.2 (2026-02-15)
-- **Zero Nullable Warnings** — 2,554 fixed across 242 files via AI orchestrator
-- **2,349 tests**, testable architecture (DI), AnyDesk security fix
-
-### v1.80.2 (2026-02-14)
-- **AlwaysShowPanelTabs initialization fix** ([#3142](https://github.com/mRemoteNG/mRemoteNG/issues/3142))
-
-### v1.80.1 (2026-02-13)
-- **Security patch** — AnyDesk command injection fix, Process.Start hardening, URL/path validation (upstream merge)
-- **.NET 10.0.3** runtime patch + removed 27 redundant packages
-- **CI improvements** — self-contained build matrix, actions/setup-dotnet v5
-
-### v1.80.0 (2026-02-10)
-- **Self-contained builds** — .NET runtime included, zero prerequisites
-- **Security hardening** — PBKDF2 600K iterations, HTTPS-only vaults, SSH key wipe, stronger master passwords
-- **New tokens** — `%PUTTYSESSION%`, `%ENVIRONMENTTAGS%`, `%SSHOPTIONS%` for external tools
-- **Options panel fixes** — Cancel reverts properly, SQL fields work, panel tabs no longer corrupt layout
-- **RDP improvements** — auto-resize on monitor hot-plug, async initialization
-- **New features** — JSON export, protocol/tag filtering, connection audit log, live theme switching
-
-### v1.79.0 (2026-02-09)
-- **26 bug fixes** — RDP, PuTTY, UI, SQL, credential providers
-- **81 pre-existing test failures fixed** — 2179 tests, zero failures
-- **LDAP sanitizer** and process-start hardening
-- **.NET 10** with x64, x86, ARM64 support
-
-Full details: [CHANGELOG.md](CHANGELOG.md) | [All releases](https://github.com/robertpopa22/mRemoteNG/releases)
-
----
-
-## AI Orchestrator
-
-Development is driven by a Python orchestrator (`iis_orchestrator.py`) that uses **Claude Code** as its AI engine, with **Sonnet → Opus model escalation** and independent verification at every step.
-
-### Architecture
-
-```
-              ┌──────────────────────────────────────┐
-              │   orchestrator_supervisor.py           │
-              │   (self-healing — 12 failure modes)    │
-              └──────────────────┬─────────────────────┘
-                                 │ monitors & restarts
-              ┌──────────────────▼─────────────────────┐
-              │   iis_orchestrator.py                    │
-              │   (Python — control loop)                │
-              │   sync → triage → implement → verify     │
-              └──────────────────┬─────────────────────┘
-                                 │
-                  ┌──────────────▼──────────────┐
-                  │   Claude Code (Anthropic)    │
-                  │                              │
-                  │  Sonnet (primary)             │
-                  │  • Fast triage & analysis     │
-                  │  • Code implementation        │
-                  │  • Warning fixes              │
-                  │                              │
-                  │  Opus (escalation)            │
-                  │  • Complex multi-file edits   │
-                  │  • Deep analysis fallback     │
-                  │  • When Sonnet fails          │
-                  └──────────────┬──────────────┘
-                                 │ code changes
-              ┌──────────────────▼─────────────────────┐
-              │  Independent Verification                │
-              │  (no AI — deterministic)                  │
-              │                                          │
-              │  1. build.ps1 (MSBuild)                  │
-              │  2. run-tests-core.sh (5,967 tests)       │
-              │  3. git commit OR git restore             │
-              │  4. gh issue comment                      │
-              └──────────────────────────────────────────┘
-```
-
-### Model escalation (Sonnet → Opus)
-
-Each issue starts with the fastest model and escalates only when needed:
-
-1. **Sonnet** attempts first (fast, cost-effective) — handles triage, implementation, warning fixes
-2. If Sonnet fails → **Opus** retries (deep reasoning, complex multi-file edits)
-3. If Opus fails → issue is logged, skipped, and flagged for human review
-4. **Circuit breaker**: after 5 consecutive failures, orchestrator pauses and alerts
-
-### Verification layer
-
-The orchestrator **never trusts agent output**. After every code change:
-- `build.ps1` must compile cleanly (MSBuild, all 3 projects)
-- `run-tests.ps1` must pass all 5,967 tests (9 groups, max 2 concurrent)
-- On success: atomic commit (`fix(#NNNN): description`) + push
-- On failure: `git restore` immediately, log error, move to next issue
-- On release: templated comment posted to upstream issue via `gh`
-
-### Results (v1.81.0-beta.5)
-
-| Metric | Value |
-|--------|-------|
-| Total commits since beta.2 | 750+ |
-| Issues tracked | 838 |
-| Issues addressed in code | 585 (70%) |
-| Issues released + confirmed | 25 |
-| Nullable warnings fixed | 2,554 (100% clean) |
-| Tests passing | 5,967 (0 failures) |
-| Upstream commits merged | 67 |
-| Supervisor failure modes handled | 12 (self-healing) |
-| AI regressions caught by manual testing | 7 (all fixed) |
-
-## Issue Intelligence System
-
-The orchestrator includes a git-tracked JSON database that monitors the full upstream issue backlog and automates triage, lifecycle tracking, and release communication.
-
-**What it does:**
-- Syncs issues and comments from both upstream and fork repositories via `gh` CLI
-- Tracks each issue through a full lifecycle: `new` → `triaged` → `roadmap` → `in-progress` → `testing` → `released`
-- Detects **iteration loops** — when a user reports a fix didn't fully resolve their issue, the system tracks re-fix cycles
-- Posts templated comments to GitHub on status transitions (release notifications, acknowledgements)
-- Generates markdown reports for triage sessions and releases
-- Auto-classifies issues by priority based on labels and comment activity
-
-**Commands:**
-
-```bash
-# Sync issues from GitHub (always run first)
-python .project-roadmap/scripts/iis_orchestrator.py sync
-
-# Analyze what needs attention
-python .project-roadmap/scripts/iis_orchestrator.py analyze
-
-# Transition issue status + post GitHub comment
-python .project-roadmap/scripts/iis_orchestrator.py update --issue <N> --status released --post-comment
-
-# Generate markdown report
-python .project-roadmap/scripts/iis_orchestrator.py report --include-all
-```
-
-**Current stats** (as of 2026-02-24): 838 issues tracked, 585 addressed in code (70%), 25 released, 8 duplicate, 9 wontfix.
-
-### Marching to Zero Backlog
-
-| Metric | Count |
-|--------|-------|
-| Total issues tracked | 838 |
-| Addressed in code | 585 (70%) |
-| Released + confirmed | 25 |
-| Remaining (new/untriaged) | 253 |
-| **Goal** | **0 untriaged issues** |
-
-See [.project-roadmap/issues-db/README.md](.project-roadmap/issues-db/README.md) for full documentation.
-
----
-
-## Continuous Improvement
-
-Every success and failure is captured in a structured lessons system that feeds back into the next session. Nothing is repeated twice.
-
-### How it works
-
-```
-  Agent runs command ──► Success? ──► Lessons updated with proven pattern
-         │                               (fast fix map, timing, evidence)
-         │
-         └──────────► Failure? ──► Root cause analyzed immediately
-                                    │
-                                    ├── Exact error pattern logged
-                                    ├── What was attempted (don't retry)
-                                    ├── Proven fix documented
-                                    └── Added to LESSONS.md
-```
-
-### What gets tracked
-
-- **Fast Fix Map** — symptom → root cause → immediate fix (table format, searchable)
-- **Build pitfalls** — MSBuild quirks, COM references, CI runner differences
-- **Test flakiness** — WinForms P/Invoke tests, CueBanner race conditions, message pump deadlocks
-- **Release workflow** — version bumping, CI triggers, GitHub release creation
-- **Time wasters** — ranked by frequency and lost time, fixed in priority order
-
-### Key files
-
-| File | Purpose |
-|------|---------|
-| `.project-roadmap/LESSONS.md` | Master lessons — every known pitfall and proven fix |
-| `.project-roadmap/CURRENT_PLAN.md` | Active plan with rules, priorities, and metrics |
-| `.project-roadmap/scripts/find-lesson.ps1` | Search lessons by keyword before attempting a fix |
-
-### Examples of lessons that saved hours
-
-- **31-hour post-mortem** — phantom test failures caused by stale DLLs in wrong output paths; circuit breakers added to prevent cascading retries
-- **Windows subprocess timeout deadlock** — `process.communicate()` with timeout prevents orphan processes in orchestrator
-- **CueBanner test flakiness** (30+ min lost once, never again) — `Assume.That` on Win32 operation result, not preconditions
-- **PowerShell 5.1 Unicode corruption** — em-dashes in .ps1 files break parser at random `}` far from actual issue
-- **NUnit fixture parallelism** — shared mutable singletons cause 27 failures; multi-process is the only safe approach
-- **Self-contained build** — `msbuild -p:SelfContained` does NOT embed runtime; must use `-t:Publish`
-- **CI workflow triggers** — changes in the same commit don't take effect for that push
-- **BouncyCastle GCM not thread-safe** — parallel decryption requires per-thread cipher instances
+- v1.79.0: PRs [#3105](https://github.com/mRemoteNG/mRemoteNG/pull/3105)–[#3130](https://github.com/mRemoteNG/mRemoteNG/pull/3130) (26 individual PRs)
+- v1.80.0: [#3133](https://github.com/mRemoteNG/mRemoteNG/issues/3133) (consolidated status)
+- v1.81.0-beta.5: [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188)
 
 ---
 
