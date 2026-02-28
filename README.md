@@ -101,9 +101,10 @@ Three AI agents coordinated by a Python orchestrator:
 
 | Agent | Strengths | Fatal Flaws |
 |-------|-----------|-------------|
-| **Codex** (OpenAI `gpt-5.3-codex-spark`) | Fast (15-25s triage), cheap | Linux sandbox on Windows — can't run MSBuild, PowerShell, or COM references. `--full-auto` maps to `sandbox: read-only` on Windows. Only workaround: `--dangerously-bypass-approvals-and-sandbox` |
-| **Gemini** (`gemini-3-pro-preview`) | Strong at bulk implementation | Workspace sandbox restricts file access to CWD only. Rate limits on paid tier nearly identical to free tier. `gemini-2.5-flash` was fast but superficial. `gemini-3.1-pro` returned 404 in API |
-| **Claude** (`claude-sonnet-4-6`) | Most reliable, no practical rate limits | Most expensive. Opus (5x cost) as fallback |
+| **Codex** (OpenAI `gpt-5.3-codex-spark`) | By far the fastest and most reliable for code interpretation and implementation. 15-25s triage, cheap, high success rate on single-file fixes | Linux sandbox on Windows — can't run MSBuild, PowerShell, or COM references. `--full-auto` maps to `sandbox: read-only` on Windows. Only workaround: `--dangerously-bypass-approvals-and-sandbox`. Also wiped the entire local repo once via `git clean -fdx` |
+| **Gemini** (`gemini-3-pro-preview`) | Strong at bulk implementation — 466/852 CS8618 nullable warnings fixed in a single session | Probably capable, but rate limits make it unusable. Paid tier limits nearly identical to free tier. Workspace sandbox restricts file access to CWD only. `gemini-2.5-flash` was fast but superficial. `gemini-3.1-pro` returned 404 in API. Days of integration work for a model we can barely use |
+| **Claude** (`claude-sonnet-4-6`) | Most reliable for implementation, no practical rate limits | Most expensive. Opus (5x cost) as fallback |
+| **Claude Opus** (`claude-opus-4-6`) | Far better suited for supervision and orchestration — more prudent, efficient, clear. Conveys a confidence in problem management that Sonnet doesn't. The right model for reviewing, planning, and deciding, not just coding | Too expensive for routine implementation. Best used as the "brain" overseeing cheaper "hands" |
 
 **The double-pay problem:** Sonnet fails → retry with Opus = paying twice for the same issue. This pattern accounted for **27% of total API spend**.
 
@@ -270,11 +271,13 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 
 4. **Simplicity beats complexity.** 3-agent orchestra (Gen 2) → 1 primary agent with fallback (Gen 4). Fewer moving parts, fewer failure modes, more reliable.
 
-5. **Human oversight remains essential.** 7 regressions out of 585 issues is ~1.2% — but one of them (PuTTY root save) would silently destroy all user connections. Percentages don't capture severity.
+5. **Different models for different roles.** Codex Spark is unmatched for fast code interpretation and implementation — reliable, cheap, instant. Opus is the right choice for supervision, planning, and decision-making — prudent, efficient, and clear in a way that inspires confidence. Sonnet is the workhorse in between. Gemini is probably capable but rate limits make it practically unusable. The optimal architecture is Opus as the "brain" orchestrating Spark/Sonnet as the "hands."
 
-6. **Self-healing beats manual monitoring.** The supervisor eliminated 24/7 babysitting. 12 failure modes × multiple occurrences each = hundreds of manual interventions avoided.
+6. **Human oversight remains essential.** 7 regressions out of 585 issues is ~1.2% — but one of them (PuTTY root save) would silently destroy all user connections. Percentages don't capture severity.
 
-7. **AI agents will destroy your local repo.** Codex wiped the entire local clone with `git clean -fdx`. Push after every commit. Keep a cold backup clone. Treat local state as ephemeral — if it's not pushed, it doesn't exist.
+7. **Self-healing beats manual monitoring.** The supervisor eliminated 24/7 babysitting. 12 failure modes × multiple occurrences each = hundreds of manual interventions avoided.
+
+8. **AI agents will destroy your local repo.** Codex wiped the entire local clone with `git clean -fdx`. Push after every commit. Keep a cold backup clone. Treat local state as ephemeral — if it's not pushed, it doesn't exist.
 
 ### Rules for AI Agent Development (Added After Failures)
 
