@@ -20,6 +20,8 @@ Usage — Orchestrator (AI-driven fix automation):
     python iis_orchestrator.py                  # run all (hygiene + issues + warnings)
     python iis_orchestrator.py issues           # hygiene + open issues
     python iis_orchestrator.py warnings         # only CS8xxx warnings
+    python iis_orchestrator.py analyzer-warnings              # CA/MA/RCS analyzer warnings
+    python iis_orchestrator.py analyzer-warnings --rules CA1507,CA1822  # specific rules only
     python iis_orchestrator.py test-hygiene     # only test hygiene (detect+fix failing tests)
     python iis_orchestrator.py status           # show current status
     python iis_orchestrator.py --dry-run        # simulate without changes
@@ -162,6 +164,35 @@ WARNING_CODES = [
     "CS8618", "CS8602", "CS8600", "CS8604",
     "CS8603", "CS8625", "CS8601", "CS8605",
 ]
+
+# Analyzer warning codes to fix (ordered by fixability — autofix first)
+ANALYZER_RULES = [
+    # Phase 1: autofix-safe (zero behavior change)
+    {"code": "CA1507", "name": "Use nameof", "count": 501, "strategy": "autofix"},
+    {"code": "CA1822", "name": "Mark as static", "count": 351, "strategy": "autofix"},
+    {"code": "CA1805", "name": "Don't init to default", "count": 178, "strategy": "autofix"},
+    {"code": "CA1510", "name": "Use ThrowIfNull", "count": 165, "strategy": "autofix"},
+    {"code": "CA2263", "name": "Prefer generic overload", "count": 102, "strategy": "autofix"},
+    {"code": "CA1825", "name": "Avoid empty arrays", "count": 23, "strategy": "autofix"},
+    # Phase 2: simple manual fix (low risk)
+    {"code": "CA1852", "name": "Seal internal types", "count": 41, "strategy": "agent"},
+    {"code": "CA1806", "name": "Don't ignore return value", "count": 55, "strategy": "agent"},
+    {"code": "CA1069", "name": "Enum duplicate values", "count": 46, "strategy": "agent"},
+    {"code": "CA2201", "name": "Don't raise base Exception", "count": 66, "strategy": "agent"},
+    {"code": "CA1310", "name": "Specify StringComparison", "count": 70, "strategy": "agent"},
+    {"code": "CA1309", "name": "Ordinal StringComparison", "count": 69, "strategy": "agent"},
+    {"code": "MA0074", "name": "Use StringComparison overload", "count": 69, "strategy": "agent"},
+    {"code": "MA0006", "name": "Use string.Equals", "count": 92, "strategy": "agent"},
+    # Phase 3: needs careful review
+    {"code": "CA1305", "name": "Specify IFormatProvider", "count": 485, "strategy": "agent"},
+    {"code": "MA0002", "name": "Use IEqualityComparer", "count": 468, "strategy": "agent"},
+    {"code": "CA1863", "name": "Use CompositeFormat", "count": 158, "strategy": "agent"},
+    # Phase 4: suppress in tests only
+    {"code": "CA1707", "name": "Remove underscore in names", "count": 712, "strategy": "suppress_tests"},
+]
+
+# Suppress-only rules (too noisy, fix via .editorconfig)
+ANALYZER_SUPPRESS = ["CA1707"]
 
 BUILD_TIMEOUT = 300   # 5 min
 TEST_TIMEOUT = 600    # 10 min (2817 tests take 3-8 min depending on retries)
@@ -3317,6 +3348,36 @@ def parse_warnings(build_output):
     return result
 
 
+# Regex for analyzer warnings (CA/MA/RCS codes)
+_ANALYZER_WARN_RE = re.compile(
+    r"(.+?)\((\d+),\d+\):\s*warning\s+([A-Z]{2,3}\d{4}):\s*(.+)"
+)
+
+
+def parse_analyzer_warnings(build_output, target_codes=None):
+    """Parse MSBuild output for analyzer warnings (CA/MA/RCS).
+    Returns {file: [{line, code, message}]}.
+    If target_codes provided, filters to only those codes."""
+    result = {}
+    for line in build_output.splitlines():
+        m = _ANALYZER_WARN_RE.search(line)
+        if not m:
+            continue
+        fpath, lineno, code, msg = (
+            m.group(1).strip(), int(m.group(2)), m.group(3), m.group(4).strip()
+        )
+        # Skip nullable warnings (handled by flux_warnings)
+        if code.startswith("CS"):
+            continue
+        # Filter to target codes if specified
+        if target_codes and code not in target_codes:
+            continue
+        result.setdefault(fpath, []).append(
+            {"line": lineno, "code": code, "message": msg}
+        )
+    return result
+
+
 def find_dependents(fpath, all_warnings):
     """Find files that might have cascade warnings from changes to fpath.
     Returns list of (file, warning_count) for files importing types from fpath."""
@@ -4598,6 +4659,192 @@ def flux_warnings(status, dry_run=False, max_files=None, squash=False, max_passe
     status.clear_task()
 
 
+# ── FLUX 3: ANALYZER WARNING CLEANUP ─────────────────────────────────────────
+def _fix_analyzer_warnings_in_file(fpath, file_warnings, status, rule_code, rule_name):
+    """Fix analyzer warnings for a specific rule in a single file."""
+    rel = os.path.relpath(fpath, REPO_ROOT)
+    n = len(file_warnings)
+    _set_token_context(operation="warning_fix")
+
+    status.set_task(type="analyzer_fix", file=rel, step="fixing", count=n)
+
+    w_text = "\n".join(
+        f"  Line {w['line']}: {w['code']} -- {w['message']}"
+        for w in file_warnings[:50]
+    )
+
+    prompt = f"""Project: mRemoteNG (.NET 10, WinForms)
+Working directory: D:\\github\\mRemoteNG
+File: {rel}
+
+Fix ALL these {rule_code} ({rule_name}) warnings:
+{w_text}
+
+RULES:
+- Read the file FIRST, understand the context, then fix
+- Do NOT change logic or behavior — only fix the specific warning
+- Do NOT create new files or tests
+- Do NOT modify infrastructure files (build.ps1, run-tests.ps1, etc.)
+- Do NOT run git commands
+- If fixing requires adding `using` statements, add them
+- For CA1822 (static): only mark methods static if they are not virtual/override/interface
+- For CA1510 (ThrowIfNull): use ArgumentNullException.ThrowIfNull(param)
+- For CA1507 (nameof): use nameof(identifier) instead of string literal
+- For CA1305 (IFormatProvider): use CultureInfo.InvariantCulture or CultureInfo.CurrentCulture
+- For MA0006/CA1310/CA1309: use string.Equals(a, b, StringComparison.Ordinal) or .OrdinalIgnoreCase
+- For CA1805: remove explicit initialization to default value (= null, = 0, = false, etc.)
+- For CA1825: use Array.Empty<T>() instead of new T[0]
+- For CA2263: use the generic overload instead of typeof()
+- For CA1852: seal classes that are internal and not inherited
+- For CA1806: don't discard return values — assign or remove the call
+- For CA1069: remove duplicate enum values
+- For CA2201: use specific exception types instead of base Exception
+- For MA0074: use the overload that takes StringComparison
+- For MA0002: use IEqualityComparer in dictionary/hashset constructors
+- For CA1863: use CompositeFormat for repeated format strings"""
+
+    out = agent_run("warning_fix", prompt, max_turns=15, timeout=300)
+    if out is None:
+        status.add_error(rel, "agent", f"{rule_code} fix returned None")
+        git_restore()
+        return False, 0
+
+    # Verify build
+    status.set_task(type="analyzer_fix", file=rel, step="building")
+    build_ok, new_output = run_build(capture_output=True)
+    if not build_ok:
+        log.error("  Build FAILED for %s — reverting", rel)
+        status.add_error(rel, "build", "failed")
+        git_restore()
+        return False, 0
+
+    # Verify tests
+    status.set_task(type="analyzer_fix", file=rel, step="testing")
+    if not run_tests():
+        log.error("  Tests FAILED for %s — reverting", rel)
+        status.add_error(rel, "test", "failed")
+        git_restore()
+        return False, 0
+
+    # Count improvement
+    new_warnings = parse_analyzer_warnings(new_output, [rule_code]) if new_output else {}
+    new_file_count = len(new_warnings.get(fpath, []))
+    fixed = n - new_file_count
+    if fixed < 0:
+        fixed = 0
+
+    if fixed > 0:
+        status.data["warnings"]["fixed_this_session"] += fixed
+        status.data["warnings"]["total_now"] -= fixed
+        if rule_code in status.data["warnings"]["by_type"]:
+            status.data["warnings"]["by_type"][rule_code]["now"] -= fixed
+            status.data["warnings"]["by_type"][rule_code]["fixed"] += fixed
+
+    # Commit
+    if git_has_changes():
+        msg = f"fix(quality): resolve {fixed} {rule_code} ({rule_name}) in {os.path.basename(fpath)}"
+        h = git_commit(msg)
+        if h:
+            status.add_commit(h, msg, True)
+
+    status.data["files_processed"].append(rel)
+    status.save()
+    return True, fixed
+
+
+def flux_analyzer_warnings(status, dry_run=False, max_files=None, rules=None,
+                           squash=False, max_passes=3):
+    """FLUX 3: Fix analyzer warnings (CA/MA/RCS) rule by rule."""
+
+    # Filter rules if --rules specified
+    active_rules = ANALYZER_RULES
+    if rules:
+        rule_set = set(rules.split(","))
+        active_rules = [r for r in ANALYZER_RULES if r["code"] in rule_set]
+
+    for rule in active_rules:
+        code = rule["code"]
+        name = rule["name"]
+        strategy = rule["strategy"]
+
+        log.info("=" * 60)
+        log.info("  ANALYZER RULE: %s (%s) — strategy: %s", code, name, strategy)
+        log.info("=" * 60)
+
+        if strategy == "suppress_tests":
+            log.info("  Skipping %s — suppress-only (handle via .editorconfig)", code)
+            continue
+
+        for pass_num in range(1, max_passes + 1):
+            # Build + extract warnings for this rule
+            status.set_task(type="analyzer_fix", step="extracting", count=0)
+            build_ok, output = run_build(capture_output=True)
+            if not build_ok or not output:
+                log.error("  Build failed — skipping rule %s", code)
+                break
+
+            warnings = parse_analyzer_warnings(output, [code])
+            total = sum(len(v) for v in warnings.values())
+
+            if total == 0:
+                log.info("  %s: 0 warnings remaining — DONE", code)
+                break
+
+            log.info("  %s pass %d: %d warnings across %d files",
+                     code, pass_num, total, len(warnings))
+
+            # Update status tracking
+            if pass_num == 1:
+                status.data["warnings"]["by_type"].setdefault(
+                    code, {"start": total, "now": total, "fixed": 0})
+            status.data["warnings"]["by_type"][code]["now"] = total
+            status.save()
+
+            # Sort: fewest warnings first (easier wins)
+            sorted_files = sorted(warnings.items(), key=lambda x: len(x[1]))
+            if max_files:
+                sorted_files = sorted_files[:max_files]
+
+            pass_fixed = 0
+            for i, (fpath, file_warnings) in enumerate(sorted_files, 1):
+                kill_stale_processes()
+                rel = os.path.relpath(fpath, REPO_ROOT)
+                remaining = len(sorted_files) - i
+                eta = status.eta_str(remaining)
+                log.info("[%s P%d %d/%d] %s (%d warnings) ETA: %s",
+                         code, pass_num, i, len(sorted_files), rel,
+                         len(file_warnings), eta)
+                print_progress(f"ANALYZER {code} P{pass_num}", i, len(sorted_files),
+                               f"{rel} ({len(file_warnings)}w) ETA:{eta}", status)
+
+                if dry_run:
+                    continue
+
+                file_start = time.time()
+                success, fixed = _fix_analyzer_warnings_in_file(
+                    fpath, file_warnings, status, code, name)
+                file_elapsed = time.time() - file_start
+                status.record_file_time(file_elapsed)
+
+                if success:
+                    pass_fixed += fixed
+                    log.info("  [%.0fs] Fixed %d (total session: %d)",
+                             file_elapsed, fixed,
+                             status.data["warnings"]["fixed_this_session"])
+
+            # Push after each rule pass
+            if not dry_run and status.data["commits"]:
+                log.info("  Pushing commits (%s pass %d) ...", code, pass_num)
+                git_push()
+
+            if pass_fixed == 0:
+                log.info("  %s pass %d: no improvement — moving to next rule",
+                         code, pass_num)
+                break
+
+    status.clear_task()
+
+
 # ── DISPLAY ─────────────────────────────────────────────────────────────────
 def print_progress(phase, current, total, detail, status):
     """Print live progress line."""
@@ -5835,9 +6082,9 @@ def main():
     )
     parser.add_argument(
         "mode", nargs="?", default="all",
-        choices=["all", "issues", "warnings", "status", "test-hygiene",
+        choices=["all", "issues", "warnings", "analyzer-warnings", "status", "test-hygiene",
                  "sync", "analyze", "update", "report", "fix-status", "promote-released"],
-        help="sync/analyze/update/report/fix-status/promote-released (IIS), or all/issues/warnings/status/test-hygiene (orchestrator)",
+        help="sync/analyze/update/report/fix-status/promote-released (IIS), or all/issues/warnings/analyzer-warnings/status/test-hygiene (orchestrator)",
     )
     # ── Orchestrator args ──
     parser.add_argument("--dry-run", action="store_true",
@@ -5852,6 +6099,8 @@ def main():
                         help="Max multi-pass iterations (default: 10)")
     parser.add_argument("--parallel", type=int, default=0,
                         help="Fix N files in parallel per batch (0=serial)")
+    parser.add_argument("--rules", default=None,
+                        help="Comma-separated analyzer rule codes (e.g. CA1507,CA1822)")
     # ── Agent args ──
     parser.add_argument("--agent", default=None,
                         choices=["codex", "claude", "gemini"],
@@ -6087,6 +6336,13 @@ def main():
             flux_warnings(status, dry_run=args.dry_run, max_files=args.max_files,
                           squash=args.squash, max_passes=args.max_passes,
                           parallel=args.parallel)
+
+        if args.mode in ("all", "analyzer-warnings"):
+            status.set_phase("analyzer_warnings")
+            flux_analyzer_warnings(status, dry_run=args.dry_run,
+                                   max_files=args.max_files,
+                                   rules=args.rules, squash=args.squash,
+                                   max_passes=args.max_passes)
 
         # ── Post-flight test hygiene ──
         if args.mode in ("all", "issues", "test-hygiene"):
