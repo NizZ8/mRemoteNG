@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using mRemoteNG.App;
@@ -35,6 +36,7 @@ namespace mRemoteNG.Connection
     public class ConnectionsService(PuttySessionsManager puttySessionsManager)
     {
         private static readonly Lock SaveLock = new();
+        private static readonly CompositeFormat ConnectionFileAlreadyOpenFormat = CompositeFormat.Parse("Connection file '{0}' is already open.");
         private readonly PuttySessionsManager _puttySessionsManager = puttySessionsManager ?? throw new ArgumentNullException(nameof(puttySessionsManager));
         private readonly IDataProvider<string> _localConnectionPropertiesDataProvider = new FileDataProvider(Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.LocalConnectionProperties));
         private readonly LocalConnectionPropertiesXmlSerializer _localConnectionPropertiesSerializer = new LocalConnectionPropertiesXmlSerializer();
@@ -191,7 +193,7 @@ namespace mRemoteNG.Connection
                         .Any(r => string.Equals(r.Filename, filename, StringComparison.OrdinalIgnoreCase)))
                 {
                     Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
-                        string.Format(CultureInfo.InvariantCulture, "Connection file '{0}' is already open.", filename));
+                        string.Format(CultureInfo.InvariantCulture, ConnectionFileAlreadyOpenFormat, filename));
                     return;
                 }
 

@@ -154,8 +154,20 @@ namespace mRemoteNG.App
                     if (!splash.Dispatcher.HasShutdownStarted)
                         splash.Dispatcher.Invoke(() => { splash.Close(); splash.Dispatcher.InvokeShutdown(); });
                 }
-                catch (TaskCanceledException) { }
-                catch (OperationCanceledException) { }
+                catch (TaskCanceledException)
+
+                {
+
+                    _ = 0; // Intentionally empty
+
+                }
+                catch (OperationCanceledException)
+
+                {
+
+                    _ = 0; // Intentionally empty
+
+                }
 
                 if (Properties.OptionsDBsPage.Default.UseSQLServer)
                 {

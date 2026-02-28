@@ -158,7 +158,7 @@ namespace mRemoteNG.Themes
         }
 
         //The manager precharges all the themes at once
-        public List<ThemeInfo> LoadThemes()
+        public IList<ThemeInfo> LoadThemes()
         {
             if (themes != null) return themes.Values.OfType<ThemeInfo>().ToList();
             themes = [];

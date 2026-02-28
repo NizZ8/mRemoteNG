@@ -35,7 +35,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Json
 
         private object SerializeNode(ConnectionInfo connectionInfo)
         {
-            Dictionary<string, object> dict = new()
+            Dictionary<string, object> dict = new(StringComparer.Ordinal)
             {
                 ["Name"] = connectionInfo.Name,
                 ["Id"] = connectionInfo.ConstantID,

@@ -164,7 +164,7 @@ namespace mRemoteNG.UI.TaskDialog
                     imgMain.Image = SystemIcons.Error.ToBitmap();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(MainIcon), MainIcon, null);
             }
 
             lbMainInstruction.Text = _mainInstruction;
@@ -337,7 +337,7 @@ namespace mRemoteNG.UI.TaskDialog
                     bt3.Visible = false;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(Buttons), Buttons, null);
             }
 
             ControlBox = Buttons == ETaskDialogButtons.Cancel ||
@@ -372,7 +372,7 @@ namespace mRemoteNG.UI.TaskDialog
                         imgFooter.Image = ResizeBitmap(SystemIcons.Error.ToBitmap(), 16, 16);
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(FooterIcon), FooterIcon, null);
                 }
 
                 formHeight += pnlFooter.Height;
@@ -528,7 +528,7 @@ namespace mRemoteNG.UI.TaskDialog
                         System.Media.SystemSounds.Exclamation.Play();
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(MainIcon), MainIcon, null);
                 }
             }
 

@@ -65,6 +65,34 @@ dotnet_diagnostic.CA1861.severity = suggestion
 # CA2007: ConfigureAwait — WinForms needs SynchronizationContext
 dotnet_diagnostic.CA2007.severity = none
 
+# ===== Suppress noisy/unfixable rules for legacy WinForms codebase =====
+# CA1711: Remove type suffix from identifiers (too risky to rename legacy API)
+dotnet_diagnostic.CA1711.severity = none
+# CA1051: Don't expose public fields (WinForms designer pattern uses public fields)
+dotnet_diagnostic.CA1051.severity = none
+# CA2211: Don't expose static mutable fields (singletons used throughout)
+dotnet_diagnostic.CA2211.severity = none
+# MA0069: Non-virtual public events (OK for WinForms)
+dotnet_diagnostic.MA0069.severity = none
+# MA0056: Don't call virtual in ctor (WinForms designer pattern requires this)
+dotnet_diagnostic.MA0056.severity = none
+# MA0134: Observe result of async (fire-and-forget is intentional in WinForms)
+dotnet_diagnostic.MA0134.severity = none
+# CA1716: Don't use language keywords as names (legacy API surface)
+dotnet_diagnostic.CA1716.severity = none
+# CA1001: Implement IDisposable (WinForms Designer.cs handles disposal)
+dotnet_diagnostic.CA1001.severity = none
+# CA1000: Don't expose static members on generic types
+dotnet_diagnostic.CA1000.severity = none
+# MA0009: Add regex timeout (internal use only, no user input)
+dotnet_diagnostic.MA0009.severity = none
+# MA0099: Use Regex source gen (requires partial class restructuring — too invasive)
+dotnet_diagnostic.MA0099.severity = none
+# CA1863: CompositeFormat — demote to suggestion (verbose, low-risk)
+dotnet_diagnostic.CA1863.severity = suggestion
+# CA1859: Use concrete type — demote to suggestion (needs careful analysis per site)
+dotnet_diagnostic.CA1859.severity = suggestion
+
 # reStructuredText
 [*.rst]
 charset = utf-8

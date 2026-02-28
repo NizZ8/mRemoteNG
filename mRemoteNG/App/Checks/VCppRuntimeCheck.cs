@@ -8,7 +8,7 @@ namespace mRemoteNG.App.Update
     public static class VCppRuntimeCheck
     {
         [SupportedOSPlatform("windows")]
-        public static List<string> GetInstalledVcRedistVersions()
+        public static IList<string> GetInstalledVcRedistVersions()
         {
             var installedVersions = new List<string>();
             var baseKeys = new[]

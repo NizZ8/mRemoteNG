@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using mRemoteNG.Tools;
@@ -24,7 +25,7 @@ namespace mRemoteNG.Config.DataProviders
                 return;
 
             System.Collections.Generic.IEnumerable<string> filesToDelete = files
-                                .OrderByDescending(s => s)
+                                .OrderByDescending(s => s, StringComparer.Ordinal)
                                 .Skip(maxBackupsToKeep);
 
             foreach (string file in filesToDelete)

@@ -32,7 +32,7 @@ namespace mRemoteNG.Tree
                 .Where(item =>
                            item.PleaseConnect &&
                            //ignore items that have already connected
-                           !_connectionInitiator.ActiveConnections.Contains(item.ConstantID));
+                           !_connectionInitiator.ActiveConnections.Contains(item.ConstantID, StringComparer.Ordinal));
 
             foreach (ConnectionInfo connectionInfo in previouslyOpenedConnections)
             {
@@ -47,7 +47,7 @@ namespace mRemoteNG.Tree
             IEnumerable<ConnectionInfo> previouslyOpenedQuickConnections = _previousQuickConnectSessionLoader()
                 .Where(item =>
                     item.PleaseConnect &&
-                    !_connectionInitiator.ActiveConnections.Contains(item.ConstantID));
+                    !_connectionInitiator.ActiveConnections.Contains(item.ConstantID, StringComparer.Ordinal));
 
             foreach (ConnectionInfo connectionInfo in previouslyOpenedQuickConnections)
             {

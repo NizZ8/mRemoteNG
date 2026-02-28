@@ -72,7 +72,7 @@ namespace mRemoteNG.Config.Putty
             string filePath = Path.Combine(sessionsDir, sessionName);
             if (!File.Exists(filePath)) return null;
 
-            Dictionary<string, string> sessionData = new();
+            Dictionary<string, string> sessionData = new(StringComparer.Ordinal);
             try
             {
                 foreach (string line in File.ReadAllLines(filePath))

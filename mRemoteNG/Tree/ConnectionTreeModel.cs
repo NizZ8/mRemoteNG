@@ -161,12 +161,12 @@ namespace mRemoteNG.Tree
 
         private void RaiseCollectionChangedEvent(object? sender, NotifyCollectionChangedEventArgs args)
         {
-            CollectionChanged?.Invoke(sender, args);
+            CollectionChanged?.Invoke(this, args);
         }
 
         private void RaisePropertyChangedEvent(object? sender, PropertyChangedEventArgs args)
         {
-            PropertyChanged?.Invoke(sender, args);
+            PropertyChanged?.Invoke(this, args);
         }
     }
 }

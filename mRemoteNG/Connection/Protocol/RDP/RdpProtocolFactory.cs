@@ -44,10 +44,10 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     return rdp;
             }
 
-            throw new ArgumentOutOfRangeException();
+            throw new InvalidOperationException("No supported RDP version found.");
         }
 
-        public List<RdpVersion> GetSupportedVersions()
+        public IList<RdpVersion> GetSupportedVersions()
         {
             IEnumerable<RdpVersion> versions = Enum.GetValues<RdpVersion>()
                 .Except(new[] { RdpVersion.Highest });

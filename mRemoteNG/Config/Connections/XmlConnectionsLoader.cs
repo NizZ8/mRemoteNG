@@ -30,7 +30,7 @@ namespace mRemoteNG.Config.Connections
                                     Func<string, Optional<SecureString>> passwordRequestor)
         {
             if (string.IsNullOrEmpty(connectionFilePath))
-                throw new ArgumentException($"{nameof(connectionFilePath)} cannot be null or empty");
+                throw new ArgumentException($"{nameof(connectionFilePath)} cannot be null or empty", nameof(connectionFilePath));
 
             if (!File.Exists(connectionFilePath))
                 throw new FileNotFoundException($"{connectionFilePath} does not exist");

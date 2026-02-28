@@ -172,13 +172,13 @@ namespace mRemoteNG.Tools
                 string? enumName = Enum.GetName(_enumType, value);
                 if (enumName == null)
                 {
-                    throw new ArgumentException("Invalid enum value provided.");
+                    throw new ArgumentException("Invalid enum value provided.", nameof(value));
                 }
 
                 System.Reflection.FieldInfo? fi = _enumType.GetField(enumName);
                 if (fi == null)
                 {
-                    throw new ArgumentException("FieldInfo could not be retrieved for the provided enum value.");
+                    throw new ArgumentException("FieldInfo could not be retrieved for the provided enum value.", nameof(value));
                 }
 
                 DescriptionAttribute? dna = (DescriptionAttribute?)Attribute.GetCustomAttribute(fi, typeof(DescriptionAttribute));

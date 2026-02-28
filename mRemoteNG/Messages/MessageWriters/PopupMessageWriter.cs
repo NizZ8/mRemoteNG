@@ -28,7 +28,7 @@ namespace mRemoteNG.Messages.MessageWriters
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(message), message.Class, null);
             }
         }
     }

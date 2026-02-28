@@ -94,7 +94,7 @@ namespace mRemoteNG.Connection
         {
             var connectionType = typeof(AbstractConnectionRecord);
             var inheritanceType = typeof(ConnectionInfoInheritance);
-            var exclusions = new HashSet<string> { "EverythingInherited", "Parent", "InheritanceActive", "AutoSort" };
+            var exclusions = new HashSet<string>(StringComparer.Ordinal) { "EverythingInherited", "Parent", "InheritanceActive", "AutoSort" };
 
             var orphaned = new List<string>();
 

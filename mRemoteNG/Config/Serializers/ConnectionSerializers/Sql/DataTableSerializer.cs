@@ -86,7 +86,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
 
             foreach (string entry in entryToDelete)
             {
-                if (_loadedConnectionIds != null && !_loadedConnectionIds.Contains(entry))
+                if (_loadedConnectionIds != null && !_loadedConnectionIds.Contains(entry, StringComparer.Ordinal))
                     continue; // Unknown to us — added by another user, don't delete
 
                 _dataTable.Rows.Find(entry)?.Delete();

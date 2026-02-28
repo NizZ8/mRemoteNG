@@ -38,8 +38,20 @@ namespace mRemoteNG.UI.Window
             if (InvokeRequired)
             {
                 try { BeginInvoke(new MethodInvoker(RefreshList)); }
-                catch (ObjectDisposedException) { }
-                catch (InvalidOperationException) { }
+                catch (ObjectDisposedException)
+
+                {
+
+                    _ = 0; // Intentionally empty
+
+                }
+                catch (InvalidOperationException)
+
+                {
+
+                    _ = 0; // Intentionally empty
+
+                }
             }
             else
             {
@@ -67,7 +79,7 @@ namespace mRemoteNG.UI.Window
 
         private static IEnumerable<ConnectionInfo> GetOpenConnections()
         {
-            var seen = new HashSet<string>();
+            var seen = new HashSet<string>(StringComparer.Ordinal);
             for (int i = 0; i < Runtime.WindowList.Count; i++)
             {
                 if (Runtime.WindowList[i] is not ConnectionWindow connectionWindow) continue;

@@ -9,7 +9,7 @@ namespace mRemoteNG.Security
         public static string RandomString(int length)
         {
             if (length < 0)
-                throw new ArgumentException($"{nameof(length)} must be a positive integer");
+                throw new ArgumentException($"{nameof(length)} must be a positive integer", nameof(length));
 
             SecureRandom randomGen = new();
             StringBuilder stringBuilder = new();

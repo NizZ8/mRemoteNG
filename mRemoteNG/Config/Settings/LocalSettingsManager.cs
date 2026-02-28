@@ -137,7 +137,7 @@ public class LocalDBManager
             {
                 if (string.IsNullOrWhiteSpace(schemaFilePath) || schemaFilePath.Contains("../", StringComparison.Ordinal) || schemaFilePath.Contains(@"..\", StringComparison.Ordinal))
                 {
-                    throw new ArgumentException("Invalid file path");
+                    throw new ArgumentException("Invalid file path", nameof(schemaFilePath));
                 }
                 var schemaJson = File.ReadAllText(schemaFilePath);
                 using (JsonDocument doc = JsonDocument.Parse(schemaJson))
@@ -277,7 +277,7 @@ public void EncryptDatabase()
         {
             if (jsonFilePath == null || jsonFilePath.Contains("../", StringComparison.Ordinal) || jsonFilePath.Contains(@"..\", StringComparison.Ordinal))
             {
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(jsonFilePath));
             }
             var json = File.ReadAllText(jsonFilePath);
             var settingsData = JsonSerializer.Deserialize<Dictionary<string, List<Setting>>>(json);
@@ -314,7 +314,7 @@ public void EncryptDatabase()
 
         using (var db = new LiteDatabase(connectionString))
         {
-            var settingsData = new Dictionary<string, List<Setting>>();
+            var settingsData = new Dictionary<string, List<Setting>>(StringComparer.Ordinal);
 
             foreach (var tableName in db.GetCollectionNames())
             {
@@ -325,7 +325,7 @@ public void EncryptDatabase()
             var json = JsonSerializer.Serialize(settingsData, new JsonSerializerOptions { WriteIndented = true });
             if (jsonFilePath == null || jsonFilePath.Contains("../", StringComparison.Ordinal) || jsonFilePath.Contains(@"..\", StringComparison.Ordinal))
             {
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(jsonFilePath));
             }
             File.WriteAllText(jsonFilePath, json);
             Console.WriteLine("Settings successfully exported to JSON file.");

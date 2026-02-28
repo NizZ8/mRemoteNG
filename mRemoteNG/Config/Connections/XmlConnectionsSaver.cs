@@ -21,7 +21,7 @@ namespace mRemoteNG.Config.Connections
         public XmlConnectionsSaver(string connectionFileName, SaveFilter saveFilter)
         {
             if (string.IsNullOrEmpty(connectionFileName))
-                throw new ArgumentException($"Argument '{nameof(connectionFileName)}' cannot be null or empty");
+                throw new ArgumentException($"Argument '{nameof(connectionFileName)}' cannot be null or empty", nameof(connectionFileName));
             _connectionFileName = connectionFileName;
             _saveFilter = saveFilter ?? throw new ArgumentNullException(nameof(saveFilter));
         }

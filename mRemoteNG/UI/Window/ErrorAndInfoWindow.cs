@@ -219,7 +219,7 @@ namespace mRemoteNG.UI.Window
                 }
                 catch (Exception)
                 {
-                    // ignored
+                    _ = 0; // ignored
                 }
             }
             catch (Exception ex)

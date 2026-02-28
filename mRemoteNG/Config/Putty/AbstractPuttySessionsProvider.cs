@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using mRemoteNG.Connection;
@@ -45,7 +46,7 @@ namespace mRemoteNG.Config.Putty
         {
             if (sessionNamesFromProvider == null) { return Enumerable.Empty<string>(); }
             IEnumerable<string> currentlyKnownSessionNames = Sessions.Select(session => session.Name);
-            IEnumerable<string> sessionNamesToAdd = sessionNamesFromProvider.Except(currentlyKnownSessionNames);
+            IEnumerable<string> sessionNamesToAdd = sessionNamesFromProvider.Except(currentlyKnownSessionNames, StringComparer.Ordinal);
             return sessionNamesToAdd;
         }
 
@@ -55,8 +56,8 @@ namespace mRemoteNG.Config.Putty
             IEnumerable<string> currentlyKnownSessionNames = Sessions.Select(session => session.Name);
             IEnumerable<string> normalizedSessionNames =
                 sessionNamesFromProvider.Select(name => PuttySessionNameDecoder.Decode(name));
-            IEnumerable<string> sessionNamesToRemove = currentlyKnownSessionNames.Except(normalizedSessionNames);
-            return Sessions.Where(session => sessionNamesToRemove.Contains(session.Name));
+            IEnumerable<string> sessionNamesToRemove = currentlyKnownSessionNames.Except(normalizedSessionNames, StringComparer.Ordinal);
+            return Sessions.Where(session => sessionNamesToRemove.Contains(session.Name, StringComparer.Ordinal));
         }
 
         protected virtual void AddSession(PuttySessionInfo sessionInfo)

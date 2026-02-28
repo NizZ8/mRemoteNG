@@ -138,7 +138,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
             }
         }
 
-        public List<GridItem> GetVisibleGridItems()
+        public IList<GridItem> GetVisibleGridItems()
         {
             GridItem? gridRoot = SelectedGridItem;
             while (gridRoot != null && gridRoot.GridItemType != GridItemType.Root)
@@ -170,7 +170,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
 
         public GridItem? FindPreviousGridItemProperty(GridItem? startItem)
         {
-            List<GridItem> gridItems = GetVisibleGridItems();
+            IList<GridItem> gridItems = GetVisibleGridItems();
 
             if (gridItems.Count == 0 || startItem == null)
                 return null;
@@ -211,7 +211,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
 
         public GridItem? FindNextGridItemProperty(GridItem? startItem)
         {
-            List<GridItem> gridItems = GetVisibleGridItems();
+            IList<GridItem> gridItems = GetVisibleGridItems();
 
             if (gridItems.Count == 0 || startItem == null)
                 return null;

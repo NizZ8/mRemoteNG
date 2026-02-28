@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -832,7 +833,7 @@ namespace mRemoteNG.Connection
             }
         }
 
-        private static readonly string[] s_exclusions =
+        private static readonly HashSet<string> s_exclusions = new(StringComparer.Ordinal)
         {
             nameof(EverythingInherited),
             nameof(Parent),
@@ -866,14 +867,7 @@ namespace mRemoteNG.Connection
 
         private bool FilterProperty(PropertyInfo propertyInfo)
         {
-            string[] exclusions = new[]
-            {
-                nameof(EverythingInherited),
-                nameof(Parent),
-                nameof(InheritanceActive)
-            };
-            bool valueShouldNotBeFiltered = !exclusions.Contains(propertyInfo.Name);
-            return valueShouldNotBeFiltered;
+            return !s_exclusions.Contains(propertyInfo.Name);
         }
 
         private void SetAllValues(bool value)

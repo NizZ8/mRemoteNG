@@ -6,7 +6,7 @@ namespace mRemoteNG.Tools
 {
     public class EnumWindows
     {
-        public List<IntPtr> GetWindowHandles()
+        public IList<IntPtr> GetWindowHandles()
         {
             List<IntPtr> handleList = new();
 
@@ -18,7 +18,7 @@ namespace mRemoteNG.Tools
             return handleList;
         }
 
-        public List<IntPtr> EnumChildWindows(IntPtr hWndParent)
+        public IList<IntPtr> EnumChildWindows(IntPtr hWndParent)
         {
             List<IntPtr> handleList = new();
 

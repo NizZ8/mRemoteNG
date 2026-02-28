@@ -71,7 +71,7 @@ namespace mRemoteNG.App
             return SingletonInstance[CultureName];
         }
 
-        public static List<string> CultureNativeNames
+        public static IList<string> CultureNativeNames
         {
             get
             {

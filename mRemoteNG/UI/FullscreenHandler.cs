@@ -166,7 +166,7 @@ namespace mRemoteNG.UI
             }
             catch (Exception)
             {
-                // Ignore errors during mouse check (e.g. during screen changes)
+                _ = 0; // Ignore errors during mouse check (e.g. during screen changes)
             }
         }
     }

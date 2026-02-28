@@ -586,7 +586,7 @@ namespace mRemoteNG.UI.Forms
             }
             catch (Exception)
             {
-                // intentionally ignore exception
+                _ = 0; // intentionally ignore exception
             }
 
             // Persist settings when rebuilding UI
@@ -1288,9 +1288,11 @@ namespace mRemoteNG.UI.Forms
             }
             catch (ObjectDisposedException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
             catch (InvalidOperationException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
         }
 

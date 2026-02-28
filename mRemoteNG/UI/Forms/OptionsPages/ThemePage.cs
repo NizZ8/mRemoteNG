@@ -64,7 +64,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             cboTheme.Items.Clear();
             cboTheme.DisplayMember = "Name";
             // ReSharper disable once CoVariantArrayConversion
-            cboTheme.Items.AddRange(_themeManager.LoadThemes().OrderBy(x => x.Name).ToArray());
+            cboTheme.Items.AddRange(_themeManager.LoadThemes().OrderBy(x => x.Name, StringComparer.Ordinal).ToArray());
             cboTheme.SelectedItem = _themeManager.ActiveTheme;
             // Store the original active theme for reverting
             _oriActiveTheme = _themeManager.ActiveTheme;
@@ -123,7 +123,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 _themeManager.ActiveTheme = _oriActiveTheme;
                 // Reload the theme list to reflect the original state
                 cboTheme.Items.Clear();
-                cboTheme.Items.AddRange(_themeManager.LoadThemes().OrderBy(x => x.Name).ToArray());
+                cboTheme.Items.AddRange(_themeManager.LoadThemes().OrderBy(x => x.Name, StringComparer.Ordinal).ToArray());
                 cboTheme.SelectedItem = _oriActiveTheme;
                 cboTheme_SelectionChangeCommitted(this, EventArgs.Empty);
             }

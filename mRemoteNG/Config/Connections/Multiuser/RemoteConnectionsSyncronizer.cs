@@ -42,7 +42,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
         {
             _updateChecker.UpdateCheckStarted += OnUpdateCheckStarted;
             _updateChecker.UpdateCheckFinished += OnUpdateCheckFinished;
-            _updateChecker.ConnectionsUpdateAvailable += (sender, args) => ConnectionsUpdateAvailable?.Invoke(sender, args);
+            _updateChecker.ConnectionsUpdateAvailable += (_, args) => ConnectionsUpdateAvailable?.Invoke(this, args);
             _updateTimer.Elapsed += (sender, args) => _updateChecker.IsUpdateAvailableAsync();
             ConnectionsUpdateAvailable += Load;
         }
@@ -91,13 +91,13 @@ namespace mRemoteNG.Config.Connections.Multiuser
         private void OnUpdateCheckStarted(object sender, EventArgs eventArgs)
         {
             _updateTimer.Stop();
-            UpdateCheckStarted?.Invoke(sender, eventArgs);
+            UpdateCheckStarted?.Invoke(this, eventArgs);
         }
 
         private void OnUpdateCheckFinished(object sender, ConnectionsUpdateCheckFinishedEventArgs eventArgs)
         {
             _updateTimer.Start();
-            UpdateCheckFinished?.Invoke(sender, eventArgs);
+            UpdateCheckFinished?.Invoke(this, eventArgs);
         }
 
         public event EventHandler? UpdateCheckStarted;

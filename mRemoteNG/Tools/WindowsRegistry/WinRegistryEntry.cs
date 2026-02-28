@@ -61,7 +61,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             {
                 privateHive =
                     !Enum.IsDefined<RegistryHive>(value) || value == RegistryHive.CurrentConfig || value == RegistryHive.ClassesRoot
-                    ? throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryHive value.", nameof(Hive))
+                    ? throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryHive value.", nameof(value))
                     : value;
             }
         }
@@ -78,7 +78,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
                 privatePath =
                     !string.IsNullOrWhiteSpace(value)
                     ? value
-                    : throw new ArgumentNullException(nameof(Path), "Invalid parameter: Path cannot be null, empty, or consist only of whitespace characters.");
+                    : throw new ArgumentNullException(nameof(value), "Invalid parameter: Path cannot be null, empty, or consist only of whitespace characters.");
             }
         }
         private string privatePath = null!;
@@ -381,24 +381,24 @@ namespace mRemoteNG.Tools.WindowsRegistry
             if (ElementType == typeof(int))
             {
                 if (!int.TryParse(minValue, out int minIntValue))
-                    throw new ArgumentException("Invalid minimum value for Int32.");
+                    throw new ArgumentException("Invalid minimum value for Int32.", nameof(minValue));
                 if (!int.TryParse(maxValue, out int maxIntValue))
-                    throw new ArgumentException("Invalid maximum value for Int32.");
+                    throw new ArgumentException("Invalid maximum value for Int32.", nameof(maxValue));
 
                 return SetValidation(minIntValue, maxIntValue);
             }
             else if (ElementType == typeof(long))
             {
                 if (!long.TryParse(minValue, out long minLongValue))
-                    throw new ArgumentException("Invalid minimum value for Int64.");
+                    throw new ArgumentException("Invalid minimum value for Int64.", nameof(minValue));
                 if (!long.TryParse(maxValue, out long maxLongValue))
-                    throw new ArgumentException("Invalid maximum value for Int64.");
+                    throw new ArgumentException("Invalid maximum value for Int64.", nameof(maxValue));
 
                 return SetValidation(minLongValue, maxLongValue);
             }
             else
             {
-                throw new ArgumentException("Registry entry type must be either a valid Int32 or Int64 to use this validation.");
+                throw new ArgumentException("Registry entry type must be either a valid Int32 or Int64 to use this validation.", nameof(ElementType));
             }
         }
 
@@ -648,7 +648,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         private T ValueValidationRules(T value)
         {
             // Boolean values are either string or DWORD. Mapping is needed to update ValueKind.
-            var booleanRegistryValueKindMap = new Dictionary<string, RegistryValueKind>
+            var booleanRegistryValueKindMap = new Dictionary<string, RegistryValueKind>(StringComparer.OrdinalIgnoreCase)
             {
                 { "true", RegistryValueKind.String },
                 { "false", RegistryValueKind.String },
@@ -732,14 +732,14 @@ namespace mRemoteNG.Tools.WindowsRegistry
             string type =
                 typeCode == typeof(int) ? "dword" :
                 typeCode == typeof(long) ? "qword"
-                : throw new ArgumentException("Registry entry type must be either Int32 or Int64 to use this validation.");
+                : throw new ArgumentException("Registry entry type must be either Int32 or Int64 to use this validation.", nameof(typeCode));
 
             if (minValue.CompareTo(default(U)) < 0)
                 throw new ArgumentException($"Negative value not allowed for {type} parameter.", nameof(minValue));
             if (maxValue.CompareTo(default(U)) < 0)
                 throw new ArgumentException($"Negative value not allowed for {type} parameter.", nameof(maxValue));
             if (minValue.CompareTo(maxValue) > 0)
-                throw new ArgumentException("MinValue must be less than or equal to MaxValue.");
+                throw new ArgumentException("MinValue must be less than or equal to MaxValue.", nameof(minValue));
         }
 
         /// <summary>
@@ -761,7 +761,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
                 TypeCode.Int64 => valueKind == RegistryValueKind.QWord,
                 TypeCode.Byte => valueKind == RegistryValueKind.Binary,
                 TypeCode.String => valueKind == RegistryValueKind.String || valueKind == RegistryValueKind.DWord || valueKind == RegistryValueKind.QWord, // Strings are compatible with most data types.
-                _ => throw new ArgumentException($"Value type '{ElementType.FullName}' is not supported.")
+                _ => throw new ArgumentException($"Value type '{ElementType.FullName}' is not supported.", nameof(valueKind))
             };
         }
 
@@ -818,7 +818,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
                 TypeCode.Boolean => true,
                 TypeCode.Int32 => ValidateInt32(),
                 TypeCode.Int64 => ValidateInt64(),
-                _ => throw new ArgumentException($"Value type '{ElementType.FullName}' is not supported."),
+                _ => throw new ArgumentException($"Value type '{ElementType.FullName}' is not supported.", nameof(ElementType)),
             };
         }
 

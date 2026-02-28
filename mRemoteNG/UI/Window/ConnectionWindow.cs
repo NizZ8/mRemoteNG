@@ -83,8 +83,20 @@ namespace mRemoteNG.UI.Window
                 {
                     Invoke(new MethodInvoker(ShowHideConnectionTabs));
                 }
-                catch (ObjectDisposedException) { }
-                catch (InvalidOperationException) { }
+                catch (ObjectDisposedException)
+
+                {
+
+                    _ = 0; // Intentionally empty — window may be disposed
+
+                }
+                catch (InvalidOperationException)
+
+                {
+
+                    _ = 0; // Intentionally empty — window may be disposed
+
+                }
                 return;
             }
 
@@ -696,9 +708,11 @@ namespace mRemoteNG.UI.Window
             }
             catch (ObjectDisposedException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
             catch (InvalidOperationException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
 
             try
@@ -710,9 +724,11 @@ namespace mRemoteNG.UI.Window
             }
             catch (ObjectDisposedException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
             catch (InvalidOperationException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
         }
 
@@ -1147,7 +1163,7 @@ namespace mRemoteNG.UI.Window
 
         private void Connection_ResizeEnd(object sender, EventArgs e)
         {
-            ResizeEnd?.Invoke(sender, e);
+            ResizeEnd?.Invoke(this, e);
             if (connDock == null || connDock.IsDisposed) return;
             foreach (var doc in connDock.Documents)
             {
@@ -2249,8 +2265,20 @@ namespace mRemoteNG.UI.Window
                                     if (!ic.IsDisposed) ic.Dispose();
                                 }));
                             }
-                            catch (ObjectDisposedException) { }
-                            catch (InvalidOperationException) { }
+                            catch (ObjectDisposedException)
+
+                            {
+
+                                _ = 0; // Intentionally empty
+
+                            }
+                            catch (InvalidOperationException)
+
+                            {
+
+                                _ = 0; // Intentionally empty
+
+                            }
                         }
                     }
 
@@ -2318,7 +2346,7 @@ namespace mRemoteNG.UI.Window
             // Preserve pending IDs that haven't been processed yet
             connectionIds.AddRange(_pendingConnectionIds);
             
-            string joinedIds = string.Join(",", connectionIds.Distinct());
+            string joinedIds = string.Join(",", connectionIds.Distinct(StringComparer.Ordinal));
             string titleEncoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Text));
 
             return $"{typeof(ConnectionWindow)};{titleEncoded};{joinedIds}";

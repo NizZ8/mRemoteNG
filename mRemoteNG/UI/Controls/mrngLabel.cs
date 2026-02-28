@@ -71,7 +71,7 @@ namespace mRemoteNG.UI.Controls
                     _textFormatFlags |= TextFormatFlags.Bottom | TextFormatFlags.Right;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(TextAlign), TextAlign, null);
             }
         }
 

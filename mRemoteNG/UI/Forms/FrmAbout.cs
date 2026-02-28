@@ -6,7 +6,6 @@ using mRemoteNG.Themes;
 using mRemoteNG.Resources.Language;
 using System.Reflection;
 using mRemoteNG.Properties;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using mRemoteNG.UI.Window;
 using mRemoteNG.App;
@@ -153,7 +152,7 @@ namespace mRemoteNG.UI.Forms
                 // Use platform-specific URL launchers
                 try
                 {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    if (OperatingSystem.IsWindows())
                     {
                         // Use rundll32 with url.dll as fallback
                         var startInfo = new ProcessStartInfo
@@ -166,7 +165,7 @@ namespace mRemoteNG.UI.Forms
                         startInfo.ArgumentList.Add(url);
                         Process.Start(startInfo);
                     }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    else if (OperatingSystem.IsLinux())
                     {
                         var startInfo = new ProcessStartInfo
                         {
@@ -176,7 +175,7 @@ namespace mRemoteNG.UI.Forms
                         startInfo.ArgumentList.Add(url);
                         Process.Start(startInfo);
                     }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    else if (OperatingSystem.IsMacOS())
                     {
                         var startInfo = new ProcessStartInfo
                         {

@@ -177,7 +177,7 @@ namespace mRemoteNG.Config.Import
                 Name = conn.Name
             };
 
-            var paramsDict = parameters.ToDictionary(p => p.Name, p => p.Value);
+            var paramsDict = parameters.ToDictionary(p => p.Name, p => p.Value, StringComparer.Ordinal);
 
             // Map Protocol
             switch (conn.Protocol.ToLowerInvariant())

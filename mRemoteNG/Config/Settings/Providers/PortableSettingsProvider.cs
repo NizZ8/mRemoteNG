@@ -76,6 +76,7 @@ namespace mRemoteNG.Config.Settings.Providers
                 {
                     // This causes hundreds of unit tests to fail for some reason...
                     //Runtime.MessageCollector.AddExceptionStackTrace("PortableSettingsProvider: Error getting XML", ex);
+                    _ = 0; // Intentionally empty
                 }
 
                 if (_xmlDocument?.SelectSingleNode(_rootNodeName) != null)
@@ -111,12 +112,13 @@ namespace mRemoteNG.Config.Settings.Providers
             }
             catch (Exception)
             {
-                /* 
-                 * If this is a portable application and the device has been 
-                 * removed then this will fail, so don't do anything. It's 
-                 * probably better for the application to stop saving settings 
+                /*
+                 * If this is a portable application and the device has been
+                 * removed then this will fail, so don't do anything. It's
+                 * probably better for the application to stop saving settings
                  * rather than just crashing outright. Probably.
                  */
+                _ = 0; // Intentionally empty
             }
         }
 

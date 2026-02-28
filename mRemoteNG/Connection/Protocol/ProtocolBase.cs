@@ -510,8 +510,20 @@ namespace mRemoteNG.Connection.Protocol
                 if (_interfaceControl != null && !_interfaceControl.IsDisposed && _interfaceControl.InvokeRequired)
                 {
                     try { _interfaceControl.BeginInvoke((Action)DoPrompt); }
-                    catch (ObjectDisposedException) { }
-                    catch (InvalidOperationException) { }
+                    catch (ObjectDisposedException)
+
+                    {
+
+                        _ = 0; // Intentionally empty — control may be disposed
+
+                    }
+                    catch (InvalidOperationException)
+
+                    {
+
+                        _ = 0; // Intentionally empty — control may be disposed
+
+                    }
                 }
                 else
                 {

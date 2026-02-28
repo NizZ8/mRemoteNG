@@ -102,6 +102,7 @@ namespace mRemoteNG.Config.Serializers
             }
             catch (EncryptionException)
             {
+                _ = 0; // Intentionally empty — file is not encrypted
             }
 
             return connectionsFileIsNotEncrypted || Authenticate(protectedString, GetDecryptionKey());

@@ -1528,7 +1528,7 @@ namespace mRemoteNG.Connection
 
         protected virtual void RaisePropertyChangedEvent(object sender, PropertyChangedEventArgs args)
         {
-            PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(args.PropertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(args.PropertyName));
         }
 
         protected void SetField<T>(ref T field, T value, string? propertyName = null)

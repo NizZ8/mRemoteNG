@@ -43,12 +43,12 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <summary>
         /// Retrieves a list of string-type registry entries from the Windows Registry under the specified path.
         /// </summary>
-        List<WinRegistryEntry<string>> GetEntries(RegistryHive hive, string path);
+        IList<WinRegistryEntry<string>> GetEntries(RegistryHive hive, string path);
 
         /// <summary>
         /// Retrieves a list of string-type registry entries from the Windows Registry under the specified path and its subkeys recursively.
         /// </summary>
-        List<WinRegistryEntry<string>> GetEntriesRecursive(RegistryHive hive, string path);
+        IList<WinRegistryEntry<string>> GetEntriesRecursive(RegistryHive hive, string path);
 
         #endregion
 

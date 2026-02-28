@@ -173,7 +173,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                     if (commonValidProperties == null)
                         commonValidProperties = props.ToList();
                     else
-                        commonValidProperties = commonValidProperties.Intersect(props).ToList();
+                        commonValidProperties = commonValidProperties.Intersect(props, StringComparer.Ordinal).ToList();
                 }
                 BrowsableProperties = commonValidProperties?.ToArray() ?? Array.Empty<string>();
 
@@ -221,7 +221,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                     if (commonExclusions == null)
                         commonExclusions = exclusions;
                     else
-                        commonExclusions = commonExclusions.Intersect(exclusions).ToList();
+                        commonExclusions = commonExclusions.Intersect(exclusions, StringComparer.Ordinal).ToList();
                 }
 
                 HiddenProperties = commonExclusions?.ToArray();

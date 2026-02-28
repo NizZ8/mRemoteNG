@@ -103,7 +103,7 @@ namespace mRemoteNG.Tools
 
         private readonly Process Process = new();
         private IntPtr Handle = IntPtr.Zero;
-        private List<IntPtr> Controls = [];
+        private IList<IntPtr> Controls = [];
 
         #endregion
 

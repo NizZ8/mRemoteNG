@@ -18,7 +18,7 @@ namespace mRemoteNG.Config.Settings
         private readonly MessageCollector _messageCollector;
 
         // Static dictionary for persistent string to content mapping
-        private static readonly Dictionary<string, Func<IDockContent?>> _contentMap = new Dictionary<string, Func<IDockContent?>>();
+        private static readonly Dictionary<string, Func<IDockContent?>> _contentMap = new Dictionary<string, Func<IDockContent?>>(StringComparer.Ordinal);
 
         static DockPanelLayoutLoader() // Static constructor to initialize the map
         {
@@ -111,7 +111,7 @@ namespace mRemoteNG.Config.Settings
             }
         }
 
-        public static List<string> GetLayoutNames()
+        public static IList<string> GetLayoutNames()
         {
             var names = new List<string>();
             string layoutsDir = Path.Combine(SettingsFileInfo.SettingsPath, "Layouts");

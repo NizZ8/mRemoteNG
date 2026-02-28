@@ -19,7 +19,8 @@ namespace mRemoteNG.Credential.Repositories
             if (Contains(credentialProvider.Config.Id)) return;
             if (ContainsSource(credentialProvider.Config.Source))
                 throw new ArgumentException(
-                    $"A credential repository already exists that points to \"{credentialProvider.Config.Source}\".");
+                    $"A credential repository already exists that points to \"{credentialProvider.Config.Source}\".",
+                    nameof(credentialProvider));
             _credentialProviders.Add(credentialProvider);
             credentialProvider.CredentialsUpdated += RaiseCredentialsUpdatedEvent;
             credentialProvider.RepositoryConfigUpdated += OnRepoConfigChanged;
@@ -87,7 +88,7 @@ namespace mRemoteNG.Credential.Repositories
 
         private void RaiseCredentialsUpdatedEvent(object sender, CollectionUpdatedEventArgs<ICredentialRecord> args)
         {
-            CredentialsUpdated?.Invoke(sender, args);
+            CredentialsUpdated?.Invoke(this, args);
         }
 
         private void OnRepoConfigChanged(object sender, EventArgs args)

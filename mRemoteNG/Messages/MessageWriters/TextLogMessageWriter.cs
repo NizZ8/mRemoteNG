@@ -26,7 +26,7 @@ namespace mRemoteNG.Messages.MessageWriters
                     _logger.Log?.Error(message.Text);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(message), message.Class, null);
             }
         }
     }

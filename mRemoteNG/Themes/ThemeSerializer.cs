@@ -18,9 +18,9 @@ namespace mRemoteNG.Themes
         public static void SaveToXmlFile(ThemeInfo themeToSave, ThemeInfo baseTheme)
         {
             if (string.IsNullOrEmpty(baseTheme.URI) || baseTheme.URI.Contains("../", StringComparison.Ordinal) || baseTheme.URI.Contains(@"..\", StringComparison.Ordinal))
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(baseTheme));
             if (themeToSave.Name == null || themeToSave.Name.Contains("../", StringComparison.Ordinal) || themeToSave.Name.Contains(@"..\", StringComparison.Ordinal))
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(themeToSave));
             string oldURI = baseTheme.URI;
             string directoryName = Path.GetDirectoryName(oldURI) ?? string.Empty;
             string toSaveURI = directoryName + Path.DirectorySeparatorChar + themeToSave.Name + ".vstheme";
@@ -31,7 +31,7 @@ namespace mRemoteNG.Themes
         public static void DeleteFile(ThemeInfo themeToDelete)
         {
             if (themeToDelete.URI == null || themeToDelete.URI.Contains("../", StringComparison.Ordinal) || themeToDelete.URI.Contains(@"..\", StringComparison.Ordinal))
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(themeToDelete));
             File.Delete(themeToDelete.URI);
         }
 
@@ -42,7 +42,7 @@ namespace mRemoteNG.Themes
         public static void UpdateThemeXMLValues(ThemeInfo themeToUpdate)
         {
             if (themeToUpdate.URI == null || themeToUpdate.URI.Contains("../", StringComparison.Ordinal) || themeToUpdate.URI.Contains(@"..\", StringComparison.Ordinal))
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(themeToUpdate));
             byte[] bytesIn = File.ReadAllBytes(themeToUpdate.URI);
             ExtendedColorPalette palette = themeToUpdate.ExtendedPalette
                 ?? throw new InvalidOperationException("Theme has no extended palette");
@@ -60,7 +60,7 @@ namespace mRemoteNG.Themes
         public static ThemeInfo LoadFromXmlFile(string filename, ThemeInfo? defaultTheme = null)
         {
             if (filename == null || filename.Contains("../", StringComparison.Ordinal) || filename.Contains(@"..\", StringComparison.Ordinal))
-                throw new ArgumentException("Invalid file path");
+                throw new ArgumentException("Invalid file path", nameof(filename));
             byte[] bytes = File.ReadAllBytes(filename);
             //Load the dockpanel part
             MremoteNGThemeBase themeBaseLoad = new(bytes);

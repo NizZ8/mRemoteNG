@@ -68,7 +68,7 @@ namespace mRemoteNG.Themes
                 extPalette = new ExtendedColorPalette
                 {
                     ExtColorPalette =
-                        _extendedPalette.ExtColorPalette.ToDictionary(entry => entry.Key, entry => entry.Value),
+                        _extendedPalette.ExtColorPalette.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal),
                     DefaultColorPalette = _extendedPalette.DefaultColorPalette
                 };
             }

@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Threading;
 using mRemoteNG.App;
@@ -91,7 +90,7 @@ namespace mRemoteNG.Tools
         {
             _scanThread = new Thread(ScanAsync);
 
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if(OperatingSystem.IsWindows())
                 _scanThread.SetApartmentState(ApartmentState.STA);
 
             _scanThread.IsBackground = true;
@@ -323,7 +322,7 @@ namespace mRemoteNG.Tools
         {
             if (ipAddress.AddressFamily != AddressFamily.InterNetwork)
             {
-                throw (new ArgumentException("ipAddress"));
+                throw new ArgumentException("Only IPv4 addresses are supported.", nameof(ipAddress));
             }
 
             byte[] addressBytes = ipAddress.GetAddressBytes(); // in network order (big-endian)
@@ -372,11 +371,11 @@ namespace mRemoteNG.Tools
             HostScanned?.Invoke(scanHost, scannedHostCount, totalHostCount);
         }
 
-        public delegate void ScanCompleteEventHandler(List<ScanHost> hosts);
+        public delegate void ScanCompleteEventHandler(IList<ScanHost> hosts);
 
         public event ScanCompleteEventHandler? ScanComplete;
 
-        private void RaiseScanCompleteEvent(List<ScanHost> hosts)
+        private void RaiseScanCompleteEvent(IList<ScanHost> hosts)
         {
             ScanComplete?.Invoke(hosts);
         }

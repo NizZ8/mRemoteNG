@@ -15,7 +15,7 @@ namespace mRemoteNG.Security.PasswordCreation
         public PasswordIncludesNumbersConstraint(int minimumCount = 1)
         {
             if (minimumCount < 0)
-                throw new ArgumentException($"{nameof(minimumCount)} must be a positive value");
+                throw new ArgumentException($"{nameof(minimumCount)} must be a positive value", nameof(minimumCount));
 
             _minimumCount = minimumCount;
             ConstraintHint = string.Format(CultureInfo.CurrentCulture, Language.PasswordContainsNumbersConstraint, _minimumCount);

@@ -463,9 +463,9 @@ namespace mRemoteNG.App
                     }));
                 }
             }
-            catch (TaskCanceledException) { }
-            catch (OperationCanceledException) { }
-            catch (Exception) { }
+            catch (TaskCanceledException) { /* Intentionally empty */ }
+            catch (OperationCanceledException) { /* Intentionally empty */ }
+            catch (Exception) { /* Intentionally empty */ }
             finally
             {
                 if (_wpfSplashThread != null)

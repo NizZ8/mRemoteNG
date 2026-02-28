@@ -416,7 +416,7 @@ namespace mRemoteNG.Container
 
         private void RaiseCollectionChangedEvent(object sender, NotifyCollectionChangedEventArgs args)
         {
-            CollectionChanged?.Invoke(sender, args);
+            CollectionChanged?.Invoke(this, args);
         }
     }
 }

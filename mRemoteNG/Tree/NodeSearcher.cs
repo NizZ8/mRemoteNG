@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using mRemoteNG.Connection;
@@ -19,13 +20,12 @@ namespace mRemoteNG.Tree
             ResetMatches();
             if (searchText == "") return Matches;
             IReadOnlyList<ConnectionInfo> nodes = _connectionTreeModel.GetRecursiveChildList();
-            string searchTextLower = searchText.ToLowerInvariant();
             foreach (ConnectionInfo node in nodes)
             {
-                if (node.Name.ToLowerInvariant().Contains(searchTextLower) ||
-                    node.Description.ToLowerInvariant().Contains(searchTextLower) ||
-                    node.Hostname.ToLowerInvariant().Contains(searchTextLower) ||
-                    (node.EnvironmentTags ?? "").ToLowerInvariant().Contains(searchTextLower))
+                if (node.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    node.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    node.Hostname.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    (node.EnvironmentTags ?? "").Contains(searchText, StringComparison.OrdinalIgnoreCase))
                     Matches.Add(node);
             }
 

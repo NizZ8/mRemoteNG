@@ -148,7 +148,7 @@ namespace mRemoteNG.UI.Controls
 
         private void RaiseCellClickEvent(object sender, CellClickEventArgs args)
         {
-            CellClick?.Invoke(sender, args);
+            CellClick?.Invoke(this, args);
         }
     }
 }

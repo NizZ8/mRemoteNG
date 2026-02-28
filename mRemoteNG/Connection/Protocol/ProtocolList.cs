@@ -53,6 +53,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception)
             {
+                _ = 0; // Intentionally empty
             }
         }
 
@@ -69,7 +70,7 @@ namespace mRemoteNG.Connection.Protocol
 
         private void RaiseCollectionChangedEvent(object sender, NotifyCollectionChangedEventArgs args)
         {
-            CollectionChanged?.Invoke(sender, args);
+            CollectionChanged?.Invoke(this, args);
         }
     }
 }

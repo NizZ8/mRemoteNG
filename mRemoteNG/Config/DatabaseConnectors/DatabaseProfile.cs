@@ -27,9 +27,9 @@ namespace mRemoteNG.Config.DatabaseConnectors
     public static class DatabaseProfileManager
     {
         private static readonly string ProfilesPath = Path.Combine(GeneralAppInfo.HomePath, "databaseProfiles.json");
-        private static List<DatabaseProfile> _profiles = new();
+        private static IList<DatabaseProfile> _profiles = new List<DatabaseProfile>();
 
-        public static List<DatabaseProfile> Profiles
+        public static IList<DatabaseProfile> Profiles
         {
             get
             {

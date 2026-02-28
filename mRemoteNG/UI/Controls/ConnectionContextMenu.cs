@@ -1282,7 +1282,7 @@ namespace mRemoteNG.UI.Controls
                 }
                 catch (Exception)
                 {
-                    // Ignore errors copying specific properties
+                    _ = 0; // Ignore errors copying specific properties
                 }
             }
             

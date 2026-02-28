@@ -17,7 +17,7 @@ namespace mRemoteNG.Container
     [SupportedOSPlatform("windows")]
     public class DynamicFolderManager
     {
-        private readonly Dictionary<string, Timer> _timers = new();
+        private readonly Dictionary<string, Timer> _timers = new(StringComparer.Ordinal);
 
         public DynamicFolderManager()
         {

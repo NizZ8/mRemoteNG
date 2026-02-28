@@ -97,7 +97,7 @@ namespace mRemoteNG.Tools
         /// <param name="serverName">Hostname or IP. Use <c>null</c> or <c>"."</c> for the local machine.</param>
         /// <returns>List of session entries.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the WTS API call fails.</exception>
-        public static List<RdpSessionEntry> EnumerateSessions(string serverName)
+        public static IList<RdpSessionEntry> EnumerateSessions(string serverName)
         {
             bool isLocal = IsLocalMachine(serverName);
             IntPtr hServer = IntPtr.Zero;

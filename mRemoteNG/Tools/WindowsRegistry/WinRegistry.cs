@@ -160,7 +160,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <param name="hive">The registry hive.</param>
         /// <param name="path">The registry key path.</param>
         /// <returns>A list of WinRegistryEntry<string> objects, each representing a value within the specified registry key path.</returns>
-        public List<WinRegistryEntry<string>> GetEntries(RegistryHive hive, string path)
+        public IList<WinRegistryEntry<string>> GetEntries(RegistryHive hive, string path)
         {
             using var key = RegistryKey.OpenBaseKey(hive, RegistryView.Default).OpenSubKey(path);
             if (key == null)
@@ -178,7 +178,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <param name="hive">The registry hive.</param>
         /// <param name="path">The registry key path.</param>
         /// <returns>A list of WinRegistryEntry<string> objects, each representing a value within the specified registry key path.</returns>
-        public List<WinRegistryEntry<string>> GetEntriesRecursive(RegistryHive hive, string path)
+        public IList<WinRegistryEntry<string>> GetEntriesRecursive(RegistryHive hive, string path)
         {
             List<WinRegistryEntry<string>> list = new();
             using (var baseKey = RegistryKey.OpenBaseKey(hive, RegistryView.Default))

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace mRemoteNG.Themes
@@ -29,9 +30,8 @@ namespace mRemoteNG.Themes
 
         public ExtendedColorPalette()
         {
-            ExtColorPalette = [];
-            DefaultColorPalette =
-                []; // If this is the default palette, it will not have a default-default palette
+            ExtColorPalette = new Dictionary<string, Color>(StringComparer.Ordinal);
+            DefaultColorPalette = new Dictionary<string, Color>(StringComparer.Ordinal); // If this is the default palette, it will not have a default-default palette
         }
 
         #endregion
@@ -92,9 +92,9 @@ namespace mRemoteNG.Themes
             ExtColorPalette[colorKey] = inColor;
         }
 
-        public Dictionary<string, Color> DefaultColorPalette { get; set; }
+        public IDictionary<string, Color> DefaultColorPalette { get; set; }
 
 
-        public Dictionary<string, Color> ExtColorPalette { get; set; }
+        public IDictionary<string, Color> ExtColorPalette { get; set; }
     }
 }

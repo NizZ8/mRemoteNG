@@ -56,8 +56,20 @@ namespace mRemoteNG.App
                 if (!splash.Dispatcher.HasShutdownStarted)
                     splash.Dispatcher.Invoke(() => { splash.Close(); splash.Dispatcher.InvokeShutdown(); });
             }
-            catch (TaskCanceledException) { }
-            catch (OperationCanceledException) { }
+            catch (TaskCanceledException)
+
+            {
+
+                _ = 0; // Intentionally empty
+
+            }
+            catch (OperationCanceledException)
+
+            {
+
+                _ = 0; // Intentionally empty
+
+            }
 
             DialogResult ShouldIStayOrShouldIGo = CTaskDialog.MessageBox(Application.ProductName ?? string.Empty, Language.CompatibilityProblemDetected, errorText, "", "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.OkCancel, ESysIcons.Warning, ESysIcons.Warning);
             if (CTaskDialog.VerificationChecked && ShouldIStayOrShouldIGo == DialogResult.OK)

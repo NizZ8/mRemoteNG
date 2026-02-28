@@ -78,7 +78,7 @@ namespace mRemoteNG.Connection.Protocol
                     return new IntegratedProgram();
             }
 
-            throw new ArgumentOutOfRangeException(nameof(connectionInfo.Protocol), connectionInfo.Protocol, Language.NoExtAppDefined);
+            throw new ArgumentOutOfRangeException(nameof(connectionInfo), connectionInfo.Protocol, Language.NoExtAppDefined);
         }
     }
 }

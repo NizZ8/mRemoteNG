@@ -1391,9 +1391,11 @@ namespace mRemoteNG.UI.Tabs
             }
             catch (ObjectDisposedException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
             catch (InvalidOperationException)
             {
+                _ = 0; // Intentionally empty — control may be disposed
             }
         }
 

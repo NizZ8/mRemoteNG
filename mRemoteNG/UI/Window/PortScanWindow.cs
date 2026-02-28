@@ -297,9 +297,9 @@ namespace mRemoteNG.UI.Window
             prgBar.Value = scannedCount;
         }
 
-        private delegate void PortScannerScanComplete(List<ScanHost> hosts);
+        private delegate void PortScannerScanComplete(IList<ScanHost> hosts);
 
-        private void PortScanner_ScanComplete(List<ScanHost> hosts)
+        private void PortScanner_ScanComplete(IList<ScanHost> hosts)
         {
             if (InvokeRequired)
             {

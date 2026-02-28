@@ -104,7 +104,8 @@ namespace mRemoteNG.Config.Connections
                 .Join(localConnectionProperties,
                       con => con.ConstantID,
                       locals => locals.ConnectionId,
-                      (con, locals) => new {Connection = con, LocalProperties = locals})
+                      (con, locals) => new {Connection = con, LocalProperties = locals},
+                      StringComparer.Ordinal)
                 .ForEach(x =>
                 {
                     x.Connection.PleaseConnect = x.LocalProperties.Connected;

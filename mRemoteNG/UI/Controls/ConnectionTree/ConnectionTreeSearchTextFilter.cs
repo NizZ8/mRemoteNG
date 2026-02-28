@@ -27,7 +27,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
         /// always be included in the output, regardless of matching
         /// the desired <see cref="FilterText"/>.
         /// </summary>
-        public List<ConnectionInfo> SpecialInclusionList { get; } = [];
+        public IList<ConnectionInfo> SpecialInclusionList { get; } = [];
 
         public bool Filter(object modelObject)
         {
@@ -168,13 +168,13 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             if (filterTextLower.StartsWith("protocol:", StringComparison.Ordinal))
             {
                 string protocolFilter = filterTextLower.Substring(9).Trim();
-                return node.Protocol.ToString().ToLowerInvariant().Contains(protocolFilter);
+                return node.Protocol.ToString().Contains(protocolFilter, StringComparison.OrdinalIgnoreCase);
             }
 
             if (filterTextLower.StartsWith("tag:", StringComparison.Ordinal))
             {
                 string tagFilter = filterTextLower.Substring(4).Trim();
-                return (node.EnvironmentTags ?? "").ToLowerInvariant().Contains(tagFilter);
+                return (node.EnvironmentTags ?? "").Contains(tagFilter, StringComparison.OrdinalIgnoreCase);
             }
 
             // Multiple space-separated terms are treated as AND criteria:

@@ -14,7 +14,7 @@ namespace mRemoteNG.App.Initialization
         public ConnectionIconLoader(string folderPath)
         {
             if (string.IsNullOrEmpty(folderPath))
-                throw new ArgumentException($"{nameof(folderPath)} must be a valid folder path.");
+                throw new ArgumentException($"{nameof(folderPath)} must be a valid folder path.", nameof(folderPath));
 
             _path = folderPath;
         }

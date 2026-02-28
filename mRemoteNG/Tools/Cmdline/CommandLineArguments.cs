@@ -8,7 +8,7 @@ namespace mRemoteNG.Tools.Cmdline
     // Adapted from http://qntm.org/cmd
     public class CommandLineArguments
     {
-        protected List<Argument> Arguments = [];
+        protected IList<Argument> Arguments = [];
 
         public bool EscapeForShell { get; set; }
 

@@ -21,7 +21,7 @@ namespace mRemoteNG.Config.Putty
 
         public IEnumerable<AbstractPuttySessionsProvider> Providers => _providers;
 
-        public List<RootPuttySessionsNodeInfo> RootPuttySessionsNodes { get; } = [];
+        public IList<RootPuttySessionsNodeInfo> RootPuttySessionsNodes { get; } = [];
 
         private PuttySessionsManager()
         {
@@ -179,7 +179,7 @@ namespace mRemoteNG.Config.Putty
 
         protected void RaisePuttySessionCollectionChangedEvent(object sender, NotifyCollectionChangedEventArgs args)
         {
-            PuttySessionsCollectionChanged?.Invoke(sender, args);
+            PuttySessionsCollectionChanged?.Invoke(this, args);
         }
 
         public event NotifyCollectionChangedEventHandler? SessionProvidersCollectionChanged;

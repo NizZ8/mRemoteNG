@@ -106,7 +106,7 @@ namespace mRemoteNG.Tools
             if (_optional[0] is IComparable<T> comparable)
                 return comparable.CompareTo(other.First());
 
-            throw new ArgumentException($"Cannot compare objects. Optional type {typeof(T).FullName} is not comparable to itself");
+            throw new ArgumentException($"Cannot compare objects. Optional type {typeof(T).FullName} is not comparable to itself", nameof(other));
         }
 
         public override bool Equals(object? obj)
