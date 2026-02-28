@@ -24,6 +24,10 @@ dotnet_diagnostic.MA0006.severity = suggestion
 dotnet_diagnostic.MA0011.severity = none
 # MA0026: Fix TODO/HACK/FIXME comment
 dotnet_diagnostic.MA0026.severity = none
+# MA0037: Remove empty statement — legacy code has some
+dotnet_diagnostic.MA0037.severity = suggestion
+# MA0046: The first parameter of event handler must be object — legacy interfaces
+dotnet_diagnostic.MA0046.severity = suggestion
 # MA0028: Optimize StringBuilder usage — low priority
 dotnet_diagnostic.MA0028.severity = none
 # MA0048: File name must match type name — legacy project, many violations
