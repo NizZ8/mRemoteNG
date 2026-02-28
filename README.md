@@ -35,6 +35,12 @@ Full transparency: this project is built by humans and AI working together. We b
   <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
     <img alt="Nightly" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/nightly.yml?style=for-the-badge&label=Nightly&color=blueviolet">
   </a>
+  <a href="https://sonarcloud.io/project/overview?id=robertpopa22_mRemoteNG">
+    <img alt="SonarCloud" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/sonarcloud.yml?style=for-the-badge&label=Sonar">
+  </a>
+  <a href="https://github.com/robertpopa22/mRemoteNG/security/code-scanning">
+    <img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?style=for-the-badge&label=CodeQL">
+  </a>
   <a href="COPYING.TXT">
     <img alt="License" src="https://img.shields.io/badge/license-GPL--2.0-green?style=for-the-badge">
   </a>
@@ -302,6 +308,19 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
 ```
 
 > **Note:** `dotnet build` does **not** work — the project has COM references (MSTSCLib for RDP). `build.ps1` uses full MSBuild via VS BuildTools and auto-detects the newest VS installation.
+
+### Code Quality
+
+Four levels of automated code quality enforcement:
+
+| Level | Tool | Scope | Status |
+|-------|------|-------|--------|
+| 1 | **Roslynator + Meziantou Analyzers** | Every local build — catches bugs, security issues, code smells | Active |
+| 2 | **SonarCloud** | Push to `main` — continuous inspection, quality gate | [![SonarCloud](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/sonarcloud.yml?label=SonarCloud&style=flat-square)](https://sonarcloud.io/project/overview?id=robertpopa22_mRemoteNG) |
+| 3 | **CodeQL** | Push to `main` + weekly — GitHub native security scanning | [![CodeQL](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?label=CodeQL&style=flat-square)](https://github.com/robertpopa22/mRemoteNG/security/code-scanning) |
+| 4 | **.NET Analyzers** | `AnalysisLevel=latest-recommended` — Microsoft's built-in CA rules | Active |
+
+**Approach:** Gradual adoption — all rules are warnings (not errors). Noisy rules for legacy WinForms code (ConfigureAwait, IFormatProvider, culture-sensitive ToString) are suppressed. Rules are tightened as the codebase improves.
 
 ### Build optimization
 
