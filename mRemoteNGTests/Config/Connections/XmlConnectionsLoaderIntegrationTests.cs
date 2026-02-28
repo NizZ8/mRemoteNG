@@ -33,7 +33,7 @@ public class XmlConnectionsLoaderIntegrationTests
         _messageCollector = new MessageCollector();
     }
 
-    private LegacyRijndaelCryptographyProvider CreateCryptographyProvider()
+    private static LegacyRijndaelCryptographyProvider CreateCryptographyProvider()
     {
         return new LegacyRijndaelCryptographyProvider();
     }
@@ -55,14 +55,14 @@ public class XmlConnectionsLoaderIntegrationTests
         return xmlString;
     }
 
-    private string CreateEncryptedXmlFile(SecureString masterPassword, ConnectionInfo connectionInfo)
+    private static string CreateEncryptedXmlFile(SecureString masterPassword, ConnectionInfo connectionInfo)
     {
-        var cryptographyProvider = new AeadCryptographyProvider(); 
+        var cryptographyProvider = new AeadCryptographyProvider();
         cryptographyProvider.KeyDerivationIterations = 1000; // Ensure valid iterations for Pkcs5S2KeyGenerator
 
-        var saveFilter = new SaveFilter(); 
+        var saveFilter = new SaveFilter();
         var connectionNodeSerializer = new XmlConnectionNodeSerializer28(cryptographyProvider, masterPassword, saveFilter);
-        
+
         var xmlConnectionsSerializer = new XmlConnectionsSerializer(cryptographyProvider, connectionNodeSerializer)
         {
             UseFullEncryption = true
@@ -70,7 +70,7 @@ public class XmlConnectionsLoaderIntegrationTests
 
         var rootNode = new RootNodeInfo(RootNodeType.Connection);
         rootNode.AddChild(connectionInfo);
-        rootNode.PasswordString = masterPassword.ConvertToUnsecureString(); 
+        rootNode.PasswordString = masterPassword.ConvertToUnsecureString();
 
         // Serialize the root node to get the XML document, then manually add KdfIterations
         string xmlContent = xmlConnectionsSerializer.Serialize(rootNode);
@@ -78,7 +78,7 @@ public class XmlConnectionsLoaderIntegrationTests
         doc.Root.SetAttributeValue("KdfIterations", cryptographyProvider.KeyDerivationIterations);
         doc.Root.SetAttributeValue("EncryptionEngine", cryptographyProvider.CipherEngine.ToString());
         doc.Root.SetAttributeValue("BlockCipherMode", cryptographyProvider.CipherMode.ToString());
-        
+
         return WriteXmlToString(doc);
     }
 

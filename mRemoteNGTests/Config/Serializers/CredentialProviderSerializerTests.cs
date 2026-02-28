@@ -10,7 +10,7 @@ namespace mRemoteNGTests.Config.Serializers;
 public class CredentialProviderSerializerTests
 {
 
-    private ICredentialRepository InitializeMockProvider()
+    private static ICredentialRepository InitializeMockProvider()
     {
         var provider = Substitute.For<ICredentialRepository>();
         provider.Config.TypeName.Returns("ProviderName");

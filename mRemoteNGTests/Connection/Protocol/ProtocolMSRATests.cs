@@ -66,7 +66,7 @@ namespace mRemoteNGTests.Connection.Protocol
 
         #region Helper Methods
 
-        private bool InvokeIsValidHostname(string hostname)
+        private static bool InvokeIsValidHostname(string hostname)
         {
             var method = typeof(ProtocolMSRA).GetMethod("IsValidHostname",
                 BindingFlags.NonPublic | BindingFlags.Static);

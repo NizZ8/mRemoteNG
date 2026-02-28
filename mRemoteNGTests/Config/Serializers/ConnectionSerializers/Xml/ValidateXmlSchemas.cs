@@ -66,7 +66,7 @@ public class ValidateXmlSchemas
         Assert.That(sb.ToString(), Is.Empty);
     }
 
-    public string GetTargetPath(string fileName, [CallerFilePath] string sourceFilePath = "")
+    public static string GetTargetPath(string fileName, [CallerFilePath] string sourceFilePath = "")
     {
         var path = Path.GetDirectoryName(sourceFilePath);
         var filePath = $@"{path}\..\..\..\..\..\mRemoteNG\Schemas\{fileName}";
@@ -74,7 +74,7 @@ public class ValidateXmlSchemas
         return filePath;
     }
 
-    private Stream GenerateStreamFromString(string s)
+    private static Stream GenerateStreamFromString(string s)
     {
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream);

@@ -136,9 +136,8 @@ public class DataTableSerializerTests
     }
 
 
-    private ConnectionTreeModel CreateConnectionTreeModel()
+    private static ConnectionTreeModel CreateConnectionTreeModel()
     {
-        var builder = new ConnectionTreeModelBuilder();
-        return builder.Build();
+        return ConnectionTreeModelBuilder.Build();
     }
 }

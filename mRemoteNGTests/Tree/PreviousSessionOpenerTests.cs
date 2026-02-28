@@ -62,7 +62,7 @@ namespace mRemoteNGTests.Tree
             Assert.Throws<ArgumentNullException>(() => new PreviousSessionOpener(null));
         }
 
-        private RootNodeInfo BuildTree()
+        private static RootNodeInfo BuildTree()
         {
             var root = new RootNodeInfo(RootNodeType.Connection);
             root.AddChild(new ConnectionInfo { PleaseConnect = true });

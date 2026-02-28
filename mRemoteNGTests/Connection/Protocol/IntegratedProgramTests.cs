@@ -81,7 +81,7 @@ public class IntegratedProgramTests
         Runtime.ExternalToolsService.ExternalTools = new FullyObservableCollection<ExternalTool>(externalTools);
     }
 
-    private InterfaceControl BuildInterfaceControl(string extAppName, ProtocolBase sut)
+    private static InterfaceControl BuildInterfaceControl(string extAppName, ProtocolBase sut)
     {
         var connectionWindow = new ConnectionWindow(new DockContent());
         var connectionInfo = new ConnectionInfo { ExtApp = extAppName, Protocol = ProtocolType.IntApp };

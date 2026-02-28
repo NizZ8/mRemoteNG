@@ -92,9 +92,8 @@ public class DataTableDeserializerTests
         return serializer.Serialize(tableContent);
     }
 
-    private ConnectionTreeModel CreateConnectionTreeModel()
+    private static ConnectionTreeModel CreateConnectionTreeModel()
     {
-        var builder = new ConnectionTreeModelBuilder();
-        return builder.Build();
+        return ConnectionTreeModelBuilder.Build();
     }
 }

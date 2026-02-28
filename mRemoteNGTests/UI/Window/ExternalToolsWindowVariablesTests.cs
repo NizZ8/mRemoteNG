@@ -11,7 +11,7 @@ namespace mRemoteNGTests.UI.Window
     [TestFixture]
     public class ExternalToolsWindowVariablesTests
     {
-        private void RunWithMessagePump(Action testAction)
+        private static void RunWithMessagePump(Action testAction)
         {
             Exception? caught = null;
             var thread = new Thread(() =>

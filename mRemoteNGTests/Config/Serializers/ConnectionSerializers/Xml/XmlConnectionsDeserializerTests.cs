@@ -151,12 +151,12 @@ public class XmlConnectionsDeserializerTests
         Assert.That(firstConnection.RDGatewayUsageMethod, Is.EqualTo(RDGatewayUsageMethod.Never));
     }
 
-    private bool ContainsNodeNamed(string name, IEnumerable<ConnectionInfo> list)
+    private static bool ContainsNodeNamed(string name, IEnumerable<ConnectionInfo> list)
     {
         return list.Any(node => node.Name == name);
     }
 
-    private ContainerInfo GetFolderNamed(string name, IEnumerable<ConnectionInfo> list)
+    private static ContainerInfo GetFolderNamed(string name, IEnumerable<ConnectionInfo> list)
     {
         var folder = list.First(node => node is ContainerInfo && node.Name == name) as ContainerInfo;
         return folder;

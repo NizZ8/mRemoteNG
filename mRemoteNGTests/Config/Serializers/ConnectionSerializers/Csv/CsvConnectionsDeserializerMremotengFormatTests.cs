@@ -89,7 +89,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             // |- folder1
             // |   |- Con1
             // |- Con2
-            var treeModel = new ConnectionTreeModelBuilder().Build();
+            var treeModel = ConnectionTreeModelBuilder.Build();
             var csv = _serializer.Serialize(treeModel);
             var deserializedConnections = _deserializer.Deserialize(csv);
             var con1 = deserializedConnections.GetRecursiveChildList().First(info => info.Name == "Con1");

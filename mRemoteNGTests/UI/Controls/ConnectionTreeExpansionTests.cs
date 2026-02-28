@@ -13,7 +13,7 @@ namespace mRemoteNGTests.UI.Controls
     [TestFixture]
     public class ConnectionTreeExpansionTests
     {
-        private void RunWithMessagePump(Action<ConnectionTree> action)
+        private static void RunWithMessagePump(Action<ConnectionTree> action)
         {
             Exception exception = null;
             var thread = new Thread(() =>

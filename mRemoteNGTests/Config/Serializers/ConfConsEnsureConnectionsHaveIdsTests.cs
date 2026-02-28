@@ -27,7 +27,7 @@ public class ConfConsEnsureConnectionsHaveIdsTests
         Assert.That(attribute?.Value, Is.Not.EqualTo(Guid.Empty.ToString()));
     }
 
-    private XDocument CreateTestDocument()
+    private static XDocument CreateTestDocument()
     {
         var xdoc = new XDocument();
         xdoc.Add(new XElement("Root",

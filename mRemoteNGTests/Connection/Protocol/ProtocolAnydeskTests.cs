@@ -235,7 +235,7 @@ public class ProtocolAnyDeskTests
     /// <summary>
     /// Uses reflection to invoke the private IsValidAnydeskId method
     /// </summary>
-    private bool InvokeIsValidAnydeskId(string anydeskId)
+    private static bool InvokeIsValidAnydeskId(string anydeskId)
     {
         var method = typeof(ProtocolAnyDesk).GetMethod("IsValidAnydeskId",
             BindingFlags.NonPublic | BindingFlags.Static);

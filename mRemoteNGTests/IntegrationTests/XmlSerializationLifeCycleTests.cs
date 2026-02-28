@@ -183,7 +183,7 @@ namespace mRemoteNGTests.IntegrationTests
         }
 
 
-        private ConnectionTreeModel SetupConnectionTreeModel()
+        private static ConnectionTreeModel SetupConnectionTreeModel()
         {
             /*
              * Root

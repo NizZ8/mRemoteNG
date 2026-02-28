@@ -212,7 +212,7 @@ public class ConnectionInfoInheritanceTests
         return allPropertiesFalse;
     }
 
-    private bool PropertyIsChangedWhenSettingInheritAll(PropertyInfo property)
+    private static bool PropertyIsChangedWhenSettingInheritAll(PropertyInfo property)
     {
         var propertiesIgnoredByInheritAll = new[]
         {
@@ -222,17 +222,17 @@ public class ConnectionInfoInheritanceTests
         return !propertiesIgnoredByInheritAll.Contains(property.Name);
     }
 
-    private bool PropertyIsBoolean(PropertyInfo property)
+    private static bool PropertyIsBoolean(PropertyInfo property)
     {
         return property.PropertyType.Name == typeof(bool).Name;
     }
 
-    private bool BooleanPropertyIsSetToFalse(PropertyInfo property, ConnectionInfoInheritance inheritance)
+    private static bool BooleanPropertyIsSetToFalse(PropertyInfo property, ConnectionInfoInheritance inheritance)
     {
         return (bool)property.GetValue(inheritance) == false;
     }
 
-    private bool BooleanPropertyIsSetToTrue(PropertyInfo property, ConnectionInfoInheritance inheritance)
+    private static bool BooleanPropertyIsSetToTrue(PropertyInfo property, ConnectionInfoInheritance inheritance)
     {
         return (bool)property.GetValue(inheritance);
     }

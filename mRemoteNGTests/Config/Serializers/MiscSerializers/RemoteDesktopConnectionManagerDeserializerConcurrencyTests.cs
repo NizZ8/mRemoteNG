@@ -35,7 +35,7 @@ namespace mRemoteNGTests.Config.Serializers.MiscSerializers
             });
         }
 
-        private void AssertValidSchema1Model(ConnectionTreeModel model)
+        private static void AssertValidSchema1Model(ConnectionTreeModel model)
         {
             Assert.That(model.RootNodes.Count, Is.GreaterThan(0));
             var root = model.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
@@ -48,7 +48,7 @@ namespace mRemoteNGTests.Config.Serializers.MiscSerializers
             Assert.That(server1, Is.Not.Null, "Schema 1 deserialization failed: server1 not found (or name is empty/wrong)");
         }
 
-        private void AssertValidSchema3Model(ConnectionTreeModel model)
+        private static void AssertValidSchema3Model(ConnectionTreeModel model)
         {
             Assert.That(model.RootNodes.Count, Is.GreaterThan(0));
             var root = model.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();

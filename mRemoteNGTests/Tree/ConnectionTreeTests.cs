@@ -79,7 +79,7 @@ namespace mRemoteNGTests.Tree
             Assert.That(tree.GetRootConnectionNode().HasChildren, Is.False);
         });
 
-        private ConnectionTreeModel CreateConnectionTreeModel()
+        private static ConnectionTreeModel CreateConnectionTreeModel()
         {
             var connectionTreeModel = new ConnectionTreeModel();
             connectionTreeModel.AddRootNode(new RootNodeInfo(RootNodeType.Connection));

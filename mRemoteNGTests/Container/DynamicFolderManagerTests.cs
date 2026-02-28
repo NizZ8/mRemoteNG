@@ -36,7 +36,7 @@ namespace mRemoteNGTests.Container
         /// Calls ImportXml directly via reflection to bypass RefreshFolderInternal's
         /// exception swallowing and FrmMain.Default?.InvokeRequired check.
         /// </summary>
-        private void InvokeImportXml(string xmlContent, ContainerInfo container, string sourceName)
+        private static void InvokeImportXml(string xmlContent, ContainerInfo container, string sourceName)
         {
             var method = typeof(DynamicFolderManager).GetMethod(
                 "ImportXml",
