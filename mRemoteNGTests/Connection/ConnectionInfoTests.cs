@@ -249,7 +249,7 @@ namespace mRemoteNGTests.Connection
 	    {
 		    public static IEnumerable<PropertyInfo> GetProperties()
 		    {
-			    return new ConnectionInfoInheritance(new ConnectionInfo()).GetProperties();
+			    return ConnectionInfoInheritance.GetProperties();
 		    }
 	    }
     }

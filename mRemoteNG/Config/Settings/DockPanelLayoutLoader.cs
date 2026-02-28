@@ -170,8 +170,7 @@ namespace mRemoteNG.Config.Settings
                         connectionIds.AddRange(parts[2].Split(','));
                     }
 
-                    var panelAdder = new mRemoteNG.UI.Panels.PanelAdder();
-                    var cw = panelAdder.AddPanel(title, false);
+                    var cw = mRemoteNG.UI.Panels.PanelAdder.AddPanel(title, false);
                     if (cw != null)
                     {
                         cw.LoadConnections(connectionIds);

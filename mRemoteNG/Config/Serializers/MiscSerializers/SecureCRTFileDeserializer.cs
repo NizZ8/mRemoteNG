@@ -68,7 +68,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private ContainerInfo ImportContainer(XmlNode containerNode, ContainerInfo parentContainer)
+        private static ContainerInfo ImportContainer(XmlNode containerNode, ContainerInfo parentContainer)
         {
             ContainerInfo containerInfo = new()
             {
@@ -107,17 +107,17 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return connectionInfo;
         }
 
-        private string? GetHostnameFromNode(XmlNode xmlNode)
+        private static string? GetHostnameFromNode(XmlNode xmlNode)
         {
             return xmlNode.SelectSingleNode("string[@name=\"Hostname\"]")?.InnerText;
         }
 
-        private string? GetUsernameFromNode(XmlNode xmlNode)
+        private static string? GetUsernameFromNode(XmlNode xmlNode)
         {
             return xmlNode.SelectSingleNode("string[@name=\"Username\"]")?.InnerText;
         }
 
-        private int GetPortFromNode(XmlNode xmlNode, ProtocolType protocol)
+        private static int GetPortFromNode(XmlNode xmlNode, ProtocolType protocol)
         {
             switch (protocol)
             {
@@ -130,7 +130,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private ProtocolType GetProtocolFromNode(XmlNode xmlNode)
+        private static ProtocolType GetProtocolFromNode(XmlNode xmlNode)
         {
             XmlNode? protocolNode = xmlNode.SelectSingleNode("string[@name=\"Protocol Name\"]");
             if (protocolNode == null)
@@ -156,7 +156,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private string GetDescriptionFromNode(XmlNode xmlNode)
+        private static string GetDescriptionFromNode(XmlNode xmlNode)
         {
             string description = string.Empty;
             XmlNode? descNode = xmlNode.SelectSingleNode("array[@name=\"Description\"]");

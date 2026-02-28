@@ -54,12 +54,12 @@ namespace mRemoteNG.UI.Taskbar
         /// <summary>
         /// Records a connection as recently used and rebuilds the JumpList.
         /// </summary>
-        public void AddRecentConnection(ConnectionInfo connectionInfo)
+        public static void AddRecentConnection(ConnectionInfo connectionInfo)
         {
             RecentConnectionsService.Instance.Add(connectionInfo);
         }
 
-        private void Rebuild()
+        private static void Rebuild()
         {
             try
             {

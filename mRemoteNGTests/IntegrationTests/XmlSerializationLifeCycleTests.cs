@@ -165,7 +165,7 @@ namespace mRemoteNGTests.IntegrationTests
                 .First(info => info.GetTreeNodeType() == TreeNodeType.Connection);
 
             var sb = new StringBuilder();
-            foreach (var property in originalConnectionInfo.Inheritance.GetProperties())
+            foreach (var property in ConnectionInfoInheritance.GetProperties())
             {
                 if (property.Name == nameof(originalConnectionInfo.Password))
                     continue;

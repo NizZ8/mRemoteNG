@@ -58,7 +58,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private void VerifyNodeType(XmlNode xmlNode)
+        private static void VerifyNodeType(XmlNode xmlNode)
         {
             string? xmlNodeType = xmlNode.Attributes?["type"]?.Value;
             switch (xmlNode.Name)
@@ -84,7 +84,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private ContainerInfo ImportContainer(XmlNode containerNode, ContainerInfo parentContainer)
+        private static ContainerInfo ImportContainer(XmlNode containerNode, ContainerInfo parentContainer)
         {
             ContainerInfo containerInfo = new()
             {
@@ -105,7 +105,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private ConnectionInfo ConnectionInfoFromXml(XmlNode xmlNode)
+        private static ConnectionInfo ConnectionInfoFromXml(XmlNode xmlNode)
         {
             XmlNode? connectionInfoNode = xmlNode.SelectSingleNode("./connection_info");
 

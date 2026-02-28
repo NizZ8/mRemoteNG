@@ -275,7 +275,7 @@ namespace mRemoteNG.Config.Settings
             toolStripPanel.Join(_multiSshToolStrip, Properties.Settings.Default.MultiSshToolbarLocation);
         }
 
-        private void SetToolstripGripStyle(ToolStrip toolbar)
+        private static void SetToolstripGripStyle(ToolStrip toolbar)
         {
             toolbar.GripStyle = Properties.Settings.Default.LockToolbars ? ToolStripGripStyle.Hidden : ToolStripGripStyle.Visible;
         }

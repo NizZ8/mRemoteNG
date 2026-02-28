@@ -40,11 +40,11 @@ namespace mRemoteNGTests.Container
         {
             var method = typeof(DynamicFolderManager).GetMethod(
                 "ImportXml",
-                BindingFlags.Instance | BindingFlags.NonPublic);
+                BindingFlags.Static | BindingFlags.NonPublic);
             Assert.That(method, Is.Not.Null, "Failed to find ImportXml method");
             try
             {
-                method!.Invoke(_manager, new object[] { xmlContent, container, sourceName });
+                method!.Invoke(null, new object[] { xmlContent, container, sourceName });
             }
             catch (TargetInvocationException tie) when (tie.InnerException != null)
             {

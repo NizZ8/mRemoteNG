@@ -178,7 +178,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             }
         }
 
-        private bool IsValidTableName(string tableName)
+        private static bool IsValidTableName(string tableName)
         {
             // Table names should only contain alphanumeric characters and underscores
             // This prevents SQL injection when table names must be used directly in queries
@@ -263,7 +263,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             return exists;
         }
 
-        private void InitializeDatabaseSchema(IDatabaseConnector databaseConnector)
+        private static void InitializeDatabaseSchema(IDatabaseConnector databaseConnector)
         {
             string sql;
             
@@ -827,7 +827,7 @@ CREATE TABLE `tblExternalTools` (
             }
         }
 
-        private bool DoesColumnExist(IDatabaseConnector databaseConnector, string tableName, string columnName)
+        private static bool DoesColumnExist(IDatabaseConnector databaseConnector, string tableName, string columnName)
         {
              try
              {

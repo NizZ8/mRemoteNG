@@ -51,7 +51,7 @@ namespace mRemoteNGTests.Connection.Protocol.VNC
         [Test]
         public void StartChat_AddsInformationMessage()
         {
-            _vncProtocol.StartChat();
+            ProtocolVNC.StartChat();
 
             var lastMessage = Runtime.MessageCollector.Messages.LastOrDefault();
             Assert.That(lastMessage, Is.Not.Null);
@@ -62,7 +62,7 @@ namespace mRemoteNGTests.Connection.Protocol.VNC
         [Test]
         public void StartFileTransfer_AddsInformationMessage()
         {
-            _vncProtocol.StartFileTransfer();
+            ProtocolVNC.StartFileTransfer();
 
             var lastMessage = Runtime.MessageCollector.Messages.LastOrDefault();
             Assert.That(lastMessage, Is.Not.Null);

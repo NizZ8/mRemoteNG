@@ -56,7 +56,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             _schemaVersion = version;
         }
 
-        private void VerifyFileVersion(XmlNode rdcManNode)
+        private static void VerifyFileVersion(XmlNode rdcManNode)
         {
             string? versionAttribute = rdcManNode.Attributes?["programVersion"]?.Value;
             if (versionAttribute != null)

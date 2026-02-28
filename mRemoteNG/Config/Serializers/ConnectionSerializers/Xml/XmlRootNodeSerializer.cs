@@ -35,7 +35,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             return element;
         }
 
-        private XAttribute CreateProtectedAttribute(RootNodeInfo rootNodeInfo, ICryptographyProvider cryptographyProvider)
+        private static XAttribute CreateProtectedAttribute(RootNodeInfo rootNodeInfo, ICryptographyProvider cryptographyProvider)
         {
             XAttribute attribute = new(XName.Get("Protected"), "");
             string plainText = (rootNodeInfo.PasswordString != rootNodeInfo.DefaultPassword) ? "ThisIsProtected" : "ThisIsNotProtected";

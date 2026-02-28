@@ -9,7 +9,7 @@ namespace mRemoteNG.Config.Serializers.CredentialProviderSerializer
 {
     public class CredentialRepositoryListSerializer
     {
-        public string Serialize(IEnumerable<ICredentialRepository> credentialProviderCatalog)
+        public static string Serialize(IEnumerable<ICredentialRepository> credentialProviderCatalog)
         {
             XDocument xmlDocument = new(new XDeclaration("1.0", "utf-8", null));
             XElement rootElement = new("CredentialRepositories",

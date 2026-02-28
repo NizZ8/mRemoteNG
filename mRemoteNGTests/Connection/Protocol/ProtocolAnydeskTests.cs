@@ -238,14 +238,14 @@ public class ProtocolAnyDeskTests
     private bool InvokeIsValidAnydeskId(string anydeskId)
     {
         var method = typeof(ProtocolAnyDesk).GetMethod("IsValidAnydeskId",
-            BindingFlags.NonPublic | BindingFlags.Instance);
-        
+            BindingFlags.NonPublic | BindingFlags.Static);
+
         if (method == null)
         {
             throw new Exception("IsValidAnydeskId method not found. The method may have been renamed or removed.");
         }
 
-        return (bool)method.Invoke(_protocolAnyDesk, new object[] { anydeskId });
+        return (bool)method.Invoke(null, new object[] { anydeskId });
     }
 
     #endregion

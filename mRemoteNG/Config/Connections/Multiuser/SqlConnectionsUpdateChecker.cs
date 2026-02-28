@@ -14,7 +14,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
     {
         private readonly IDatabaseConnector _dbConnector;
         private readonly DbCommand _dbQuery;
-        private DateTime LastUpdateTime => Runtime.ConnectionsService.LastSqlUpdate;
+        private static DateTime LastUpdateTime => Runtime.ConnectionsService.LastSqlUpdate;
         private DateTime _lastDatabaseUpdateTime;
 
 
@@ -62,7 +62,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
             return (lastUpdateInDb > LastUpdateTime && !amTheLastoneUpdated);
         }
 
-        private bool CheckIfIAmTheLastOneUpdated(DateTime lastUpdateInDb)
+        private static bool CheckIfIAmTheLastOneUpdated(DateTime lastUpdateInDb)
         {
             DateTime lastSqlUpdateWithoutMilliseconds = new(LastUpdateTime.Ticks - (LastUpdateTime.Ticks % TimeSpan.TicksPerSecond), LastUpdateTime.Kind);
             return lastUpdateInDb == lastSqlUpdateWithoutMilliseconds;

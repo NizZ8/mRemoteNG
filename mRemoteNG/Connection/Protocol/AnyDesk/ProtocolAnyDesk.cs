@@ -170,7 +170,7 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
 
         #region Private Methods
 
-        private string? FindAnydeskExecutable()
+        private static string? FindAnydeskExecutable()
         {
             // Check common installation paths
             if (File.Exists(DefaultAnydeskPath))
@@ -253,7 +253,7 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
             }
         }
 
-        private bool IsValidAnydeskId(string anydeskId)
+        private static bool IsValidAnydeskId(string anydeskId)
         {
             if (string.IsNullOrWhiteSpace(anydeskId))
                 return false;

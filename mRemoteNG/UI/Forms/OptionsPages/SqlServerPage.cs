@@ -21,7 +21,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
     {
         #region Private Fields
         private OptRegistrySqlServerPage pageRegSettingsInstance;
-        private readonly DatabaseConnectionTester _databaseConnectionTester;
         private NumericUpDown numSQLReloadInterval;
         private MrngLabel lblSQLReloadInterval;
 
@@ -40,7 +39,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             InitializeReloadIntervalControl();
             ApplyTheme();
             PageIcon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.SQLDatabase_16x);
-            _databaseConnectionTester = new DatabaseConnectionTester();
             pageRegSettingsInstance = new OptRegistrySqlServerPage(); // Initialize the field to avoid nullability issues
 
             // Event subscriptions for Profile Management
@@ -201,7 +199,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Runtime.ConnectionsService.LoadConnections(true, false, "");
         }
 
-        private void DisableSql()
+        private static void DisableSql()
         {
             Runtime.ConnectionsService.RemoteConnectionsSyncronizer?.Dispose();
             Runtime.ConnectionsService.RemoteConnectionsSyncronizer = null!;
@@ -271,7 +269,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             imgConnectionStatus.Image = Properties.Resources.Loading_Spinner;
             btnTestConnection.Enabled = false;
 
-            ConnectionTestResult connectionTestResult = await _databaseConnectionTester.TestConnectivity(type, server, database, username, password, authType);
+            ConnectionTestResult connectionTestResult = await DatabaseConnectionTester.TestConnectivity(type, server, database, username, password, authType);
 
             btnTestConnection.Enabled = true;
 
@@ -312,7 +310,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             imgConnectionStatus.Image = connectionSuccess ? Properties.Resources.Test_16x : Properties.Resources.LogError_16x;
         }
 
-        private string BuildTestFailedMessage(string specificMessage)
+        private static string BuildTestFailedMessage(string specificMessage)
         {
             return Language.ConnectionOpenFailed + Environment.NewLine + specificMessage;
         }
@@ -517,7 +515,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             }
         }
 
-        private Version ExtractVersionNumber(string filePath)
+        private static Version ExtractVersionNumber(string filePath)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             var match = Regex.Match(fileName, @"mremoteng_confcons_v(\d+)_(\d+)");

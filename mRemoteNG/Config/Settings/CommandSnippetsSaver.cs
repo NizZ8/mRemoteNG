@@ -13,7 +13,7 @@ namespace mRemoteNG.Config.Settings
     [SupportedOSPlatform("windows")]
     public class CommandSnippetsSaver
     {
-        public void Save(IEnumerable<CommandSnippet> snippets)
+        public static void Save(IEnumerable<CommandSnippet> snippets)
         {
             try
             {

@@ -137,7 +137,7 @@ namespace mRemoteNG.Config.Putty
             return sessionNames.ToArray();
         }
 
-        private bool IsProviderEnabled(AbstractPuttySessionsProvider puttySessionsProvider)
+        private static bool IsProviderEnabled(AbstractPuttySessionsProvider puttySessionsProvider)
         {
             if (puttySessionsProvider is PuttySessionsRegistryProvider) return true;
 

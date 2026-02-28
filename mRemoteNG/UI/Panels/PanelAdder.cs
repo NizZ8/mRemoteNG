@@ -15,7 +15,7 @@ namespace mRemoteNG.UI.Panels
     [SupportedOSPlatform("windows")]
     public class PanelAdder
     {
-        public ConnectionWindow? AddPanel(string title = "", bool showImmediately = true)
+        public static ConnectionWindow? AddPanel(string title = "", bool showImmediately = true)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace mRemoteNG.UI.Panels
             }
         }
 
-        public bool DoesPanelExist(string panelName)
+        public static bool DoesPanelExist(string panelName)
         {
             return Runtime.WindowList?.OfType<ConnectionWindow>().Any(w => w.TabText == panelName)
                 ?? false;

@@ -76,17 +76,17 @@ namespace mRemoteNG.Tree
             return list;
         }
 
-        public IEnumerable<ConnectionInfo> GetRecursiveChildList(ContainerInfo container)
+        public static IEnumerable<ConnectionInfo> GetRecursiveChildList(ContainerInfo container)
         {
             return container.GetRecursiveChildList();
         }
 
-        public IEnumerable<ConnectionInfo> GetRecursiveFavoriteChildList(ContainerInfo container)
+        public static IEnumerable<ConnectionInfo> GetRecursiveFavoriteChildList(ContainerInfo container)
         {
             return container.GetRecursiveFavoriteChildList();
         }
 
-        public void RenameNode(ConnectionInfo connectionInfo, string newName)
+        public static void RenameNode(ConnectionInfo connectionInfo, string newName)
         {
             if (newName == null || newName.Length <= 0)
                 return;
@@ -96,7 +96,7 @@ namespace mRemoteNG.Tree
                 connectionInfo.Hostname = newName;
         }
 
-        public void DeleteNode(ConnectionInfo connectionInfo)
+        public static void DeleteNode(ConnectionInfo connectionInfo)
         {
             if (connectionInfo is RootNodeInfo)
                 return;

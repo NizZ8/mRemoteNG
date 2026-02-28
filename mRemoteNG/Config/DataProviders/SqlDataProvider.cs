@@ -223,7 +223,7 @@ namespace mRemoteNG.Config.DataProviders
             DatabaseConnector.Disconnect();
         }
 
-        private bool DbUserIsReadOnly()
+        private static bool DbUserIsReadOnly()
         {
             return Properties.OptionsDBsPage.Default.SQLReadOnly;
         }

@@ -114,7 +114,7 @@ namespace mRemoteNG.Config.Connections
         /// The name of the property that triggered the save event
         /// </param>
         /// <returns></returns>
-        private bool PropertyIsLocalOnly(string property)
+        private static bool PropertyIsLocalOnly(string property)
         {
             return property == nameof(ConnectionInfo.OpenConnections) ||
                    property == nameof(ContainerInfo.IsExpanded) ||
@@ -141,7 +141,7 @@ namespace mRemoteNG.Config.Connections
             UpdateRootNodeTable(rootTreeNode, databaseConnector, null);
         }
 
-        private void UpdateRootNodeTable(RootNodeInfo rootTreeNode, IDatabaseConnector databaseConnector, DbTransaction? transaction)
+        private static void UpdateRootNodeTable(RootNodeInfo rootTreeNode, IDatabaseConnector databaseConnector, DbTransaction? transaction)
         {
             LegacyRijndaelCryptographyProvider cryptographyProvider = new();
             string strProtected;
@@ -235,7 +235,7 @@ namespace mRemoteNG.Config.Connections
             dataProvider.Save(dataTable, transaction);
         }
 
-        private void UpdateUpdatesTable(IDatabaseConnector databaseConnector, DbTransaction? transaction = null)
+        private static void UpdateUpdatesTable(IDatabaseConnector databaseConnector, DbTransaction? transaction = null)
         {
             bool mustDisposeTransaction = false;
             if (transaction == null)
@@ -282,7 +282,7 @@ namespace mRemoteNG.Config.Connections
             }
         }
 
-        private bool SqlUserIsReadOnly()
+        private static bool SqlUserIsReadOnly()
         {
             return Properties.OptionsDBsPage.Default.SQLReadOnly;
         }

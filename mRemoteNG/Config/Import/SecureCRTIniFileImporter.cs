@@ -29,8 +29,7 @@ namespace mRemoteNG.Config.Import
             string content = File.ReadAllText(fileName);
             string sessionName = Path.GetFileNameWithoutExtension(fileName);
 
-            SecureCRTIniDeserializer deserializer = new();
-            ConnectionInfo? connectionInfo = deserializer.Deserialize(content, sessionName);
+            ConnectionInfo? connectionInfo = SecureCRTIniDeserializer.Deserialize(content, sessionName);
             if (connectionInfo != null)
                 destinationContainer.AddChild(connectionInfo);
         }

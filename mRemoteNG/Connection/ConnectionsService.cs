@@ -68,7 +68,7 @@ namespace mRemoteNG.Connection
             }
         }
 
-        public ConnectionInfo? CreateQuickConnect(string connectionString, ProtocolType protocol)
+        public static ConnectionInfo? CreateQuickConnect(string connectionString, ProtocolType protocol)
         {
             try
             {
@@ -598,12 +598,12 @@ namespace mRemoteNG.Connection
             return File.Exists(appDataPath) ? appDataPath : GetDefaultStartupConnectionFileNamePortableEdition();
         }
 
-        private string GetDefaultStartupConnectionFileNamePortableEdition()
+        private static string GetDefaultStartupConnectionFileNamePortableEdition()
         {
             return Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, ConnectionsFileInfo.DefaultConnectionsFile);
         }
 
-        private void TrySaveSqlConnectionsCache(ConnectionTreeModel connectionTreeModel)
+        private static void TrySaveSqlConnectionsCache(ConnectionTreeModel connectionTreeModel)
         {
             try
             {

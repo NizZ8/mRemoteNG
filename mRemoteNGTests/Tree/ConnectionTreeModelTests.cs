@@ -33,7 +33,7 @@ namespace mRemoteNGTests.Tree
             folder1.AddChild(folder2);
             root.AddChild(con1);
             _connectionTreeModel.AddRootNode(root);
-            var connectionList = _connectionTreeModel.GetRecursiveChildList(root);
+            var connectionList = ConnectionTreeModel.GetRecursiveChildList(root);
             Assert.That(connectionList, Is.EquivalentTo(new[] {folder1,folder2,con1}));
         }
 

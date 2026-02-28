@@ -28,7 +28,7 @@ namespace mRemoteNG.Config.Import
             }
         }
 
-        private ConnectionInfo? ParseLine(string line)
+        private static ConnectionInfo? ParseLine(string line)
         {
             // Simple heuristic: split by whitespace, comma, or semicolon
             // Assumes format: Host [User] [Password] [Port]

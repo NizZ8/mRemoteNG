@@ -58,7 +58,7 @@ namespace mRemoteNG.App
             interpreter.ParseArguments(CommandLineArgs ?? Environment.GetCommandLineArgs());
         }
 
-        public void CreateConnectionsProvider(MessageCollector messageCollector)
+        public static void CreateConnectionsProvider(MessageCollector messageCollector)
         {
             messageCollector.AddMessage(MessageClass.DebugMsg, "Determining if we need a connections syncronizer");
 

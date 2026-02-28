@@ -257,7 +257,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
             return props;
         }
 
-        private bool IsValidForProtocol(PropertyInfo property, ProtocolType protocol, bool skipProtocolCheck) {
+        private static bool IsValidForProtocol(PropertyInfo property, ProtocolType protocol, bool skipProtocolCheck) {
             return
                 property.GetCustomAttribute<BrowsableAttribute>()?.Browsable != false &&
                 (skipProtocolCheck || property.GetCustomAttribute<AttributeUsedInProtocol>()?
@@ -265,7 +265,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                     .Contains(protocol) != false);
         }
 
-        private List<string> SpecialExternalAddressProviderExclusions(ConnectionInfo info) {
+        private static List<string> SpecialExternalAddressProviderExclusions(ConnectionInfo info) {
             List<string> strHide = new();
             if (info == null)
                 return strHide;
@@ -278,7 +278,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
             return strHide;
         }
 
-        private List<string> SpecialExternalCredentialProviderExclusions(ConnectionInfo info) {
+        private static List<string> SpecialExternalCredentialProviderExclusions(ConnectionInfo info) {
             List<string> strHide = new();
             if (info == null)
                 return strHide;
@@ -313,7 +313,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
         /// <summary>
         /// 
         /// </summary>
-        private List<string> SpecialRdpExclusions(ConnectionInfo info) {
+        private static List<string> SpecialRdpExclusions(ConnectionInfo info) {
             List<string> strHide = new();
             if (info == null)
                 return strHide;
@@ -376,7 +376,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
             return strHide;
         }
 
-        private List<string> SpecialVncExclusions(ConnectionInfo info) {
+        private static List<string> SpecialVncExclusions(ConnectionInfo info) {
             List<string> strHide = new();
             if (info == null)
                 return strHide;
@@ -455,7 +455,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
             }
         }
 
-        private bool CurrentPasswordVerified(RootNodeInfo rootInfo)
+        private static bool CurrentPasswordVerified(RootNodeInfo rootInfo)
         {
             string passwordName = Properties.OptionsDBsPage.Default.UseSQLServer
                 ? Language.SQLServer.TrimEnd(':')

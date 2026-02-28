@@ -12,7 +12,6 @@ namespace mRemoteNG.Config.Import
     [SupportedOSPlatform("windows")]
     public class SecureCRTFolderImporter
     {
-        private readonly SecureCRTIniDeserializer _deserializer = new();
 
         /// <summary>
         /// Returns the default SecureCRT sessions folder path, or null if not found.
@@ -59,7 +58,7 @@ namespace mRemoteNG.Config.Import
                         continue;
 
                     string content = File.ReadAllText(filePath);
-                    ConnectionInfo? connectionInfo = _deserializer.Deserialize(content, sessionName);
+                    ConnectionInfo? connectionInfo = SecureCRTIniDeserializer.Deserialize(content, sessionName);
                     if (connectionInfo != null)
                         parentContainer.AddChild(connectionInfo);
                 }

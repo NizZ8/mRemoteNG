@@ -131,8 +131,7 @@ namespace mRemoteNG.Config.Settings
 
         private static void SaveExternalApps()
         {
-            ExternalAppsSaver externalAppsSaver = new();
-            externalAppsSaver.Save(Runtime.ExternalToolsService.ExternalTools);
+            ExternalAppsSaver.Save(Runtime.ExternalToolsService.ExternalTools);
         }
 
         private static void SaveQuickConnectHistory(QuickConnectToolStrip? quickConnectToolStrip)

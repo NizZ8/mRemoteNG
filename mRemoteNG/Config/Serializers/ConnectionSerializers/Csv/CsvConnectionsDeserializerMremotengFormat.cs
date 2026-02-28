@@ -133,7 +133,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
             return fields.ToArray();
         }
 
-        private RootNodeInfo CreateTreeStructure(Dictionary<ConnectionInfo, string> parentMapping)
+        private static RootNodeInfo CreateTreeStructure(Dictionary<ConnectionInfo, string> parentMapping)
         {
             RootNodeInfo root = new(RootNodeType.Connection);
 
@@ -165,7 +165,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
             return root;
         }
 
-        private void ApplyAutoSortRecursive(ContainerInfo parent)
+        private static void ApplyAutoSortRecursive(ContainerInfo parent)
         {
             foreach (ContainerInfo childContainer in parent.Children.OfType<ContainerInfo>())
                 ApplyAutoSortRecursive(childContainer);
@@ -174,7 +174,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                 parent.Sort();
         }
 
-        private ConnectionInfo ParseConnectionInfo(IList<string> headers, string[] connectionCsv)
+        private static ConnectionInfo ParseConnectionInfo(IList<string> headers, string[] connectionCsv)
         {
             // Pad short rows to prevent IndexOutOfRangeException when a CSV data row
             // has fewer columns than the header (e.g. user-created or truncated CSV).

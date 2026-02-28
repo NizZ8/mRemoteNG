@@ -13,7 +13,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
     [SupportedOSPlatform("windows")]
     public class DatabaseConnectionTester
     {
-        public async Task<ConnectionTestResult> TestConnectivity(string type, string server, string database, string username, string password, string? authType = null)
+        public static async Task<ConnectionTestResult> TestConnectivity(string type, string server, string database, string username, string password, string? authType = null)
         {
             try
             {

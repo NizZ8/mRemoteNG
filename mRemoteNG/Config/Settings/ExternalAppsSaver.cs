@@ -16,7 +16,7 @@ namespace mRemoteNG.Config.Settings
     [SupportedOSPlatform("windows")]
     public class ExternalAppsSaver
     {
-        public void Save(IEnumerable<ExternalTool> externalTools)
+        public static void Save(IEnumerable<ExternalTool> externalTools)
         {
             if (Properties.OptionsDBsPage.Default.UseSQLServer)
             {
@@ -28,7 +28,7 @@ namespace mRemoteNG.Config.Settings
             }
         }
 
-        private void SaveToXml(IEnumerable<ExternalTool> externalTools)
+        private static void SaveToXml(IEnumerable<ExternalTool> externalTools)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace mRemoteNG.Config.Settings
             }
         }
 
-        private void SaveToSql(IEnumerable<ExternalTool> externalTools)
+        private static void SaveToSql(IEnumerable<ExternalTool> externalTools)
         {
             try
             {

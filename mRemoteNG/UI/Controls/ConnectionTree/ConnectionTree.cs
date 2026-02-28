@@ -580,7 +580,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                     if (selectedNode is PuttySessionInfo) continue;
                     if (selectedNode.Parent == null) continue;
                     if (!NodeDeletionConfirmer.Confirm(selectedNode)) return;
-                    ConnectionTreeModel.DeleteNode(selectedNode);
+                    mRemoteNG.Tree.ConnectionTreeModel.DeleteNode(selectedNode);
                 }
             });
         }
@@ -945,7 +945,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             try
             {
                 _contextMenu.EnableShortcutKeys();
-                ConnectionTreeModel.RenameNode(SelectedNode, e.Label ?? string.Empty);
+                mRemoteNG.Tree.ConnectionTreeModel.RenameNode(SelectedNode, e.Label ?? string.Empty);
                 _nodeInEditMode = false;
                 _allowEdit = false;
                 // ensures that if we are filtering and a new item is added that doesn't match the filter, it will be filtered out

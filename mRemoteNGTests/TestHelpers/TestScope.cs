@@ -57,7 +57,7 @@ namespace mRemoteNGTests.TestHelpers
             // 4. DefaultConnectionInheritance.Instance — all inheritable properties
             _defaultInheritanceSnapshot = SnapshotProperties(
                 DefaultConnectionInheritance.Instance,
-                DefaultConnectionInheritance.Instance.GetProperties());
+                ConnectionInfoInheritance.GetProperties());
         }
 
         public void Dispose()

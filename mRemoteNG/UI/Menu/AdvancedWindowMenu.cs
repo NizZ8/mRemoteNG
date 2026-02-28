@@ -40,22 +40,22 @@ namespace mRemoteNG.UI.Menu
         public void BuildAdditionalMenuItems()
         {
             // option to send main form to another screen
-            IntPtr popMen = _windowMenu.CreatePopupMenuItem();
+            IntPtr popMen = WindowMenu.CreatePopupMenuItem();
             for (int i = 0; i <= Screen.AllScreens.Length - 1; i++)
             {
                 _sysMenSubItems[i] = 200 + i;
-                _windowMenu.AppendMenuItem(popMen, WindowMenu.Flags.MF_STRING, new IntPtr(_sysMenSubItems[i]),
+                WindowMenu.AppendMenuItem(popMen, WindowMenu.Flags.MF_STRING, new IntPtr(_sysMenSubItems[i]),
                                            Language.Screen + " " + Convert.ToString(i + 1));
             }
-            _windowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 0,
+            WindowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 0,
                 WindowMenu.Flags.MF_POPUP | WindowMenu.Flags.MF_BYPOSITION, popMen,
                 Language.SendTo);
             // option to show/hide menu strips
-            _windowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 1,
-                WindowMenu.Flags.MF_BYPOSITION, new IntPtr(0), 
+            WindowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 1,
+                WindowMenu.Flags.MF_BYPOSITION, new IntPtr(0),
                 Language.ShowHideMenu);
             // separator
-            _windowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 2,
+            WindowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 2,
                                        WindowMenu.Flags.MF_BYPOSITION | WindowMenu.Flags.MF_SEPARATOR, IntPtr.Zero,
                                        string.Empty);
         }

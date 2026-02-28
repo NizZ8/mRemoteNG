@@ -51,7 +51,7 @@ namespace mRemoteNG.Config
             return ConnectionToCredentialMap.Values.Distinct(_credentialComparer);
         }
 
-        private ICredentialRecord BuildCredential(XElement element, ICryptographyProvider cryptographyProvider, SecureString decryptionKey)
+        private static ICredentialRecord BuildCredential(XElement element, ICryptographyProvider cryptographyProvider, SecureString decryptionKey)
         {
             string username = element.Attribute("Username")?.Value ?? string.Empty;
             string domain = element.Attribute("Domain")?.Value ?? string.Empty;

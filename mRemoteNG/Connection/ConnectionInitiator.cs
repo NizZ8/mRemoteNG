@@ -27,7 +27,6 @@ namespace mRemoteNG.Connection
     [SupportedOSPlatform("windows")]
     public class ConnectionInitiator : IConnectionInitiator
     {
-        private readonly PanelAdder _panelAdder = new();
         private readonly List<string> _activeConnections = [];
         private readonly IProtocolFactory _protocolFactory;
         private readonly ITunnelPortValidator _tunnelPortValidator;
@@ -486,7 +485,7 @@ namespace mRemoteNG.Connection
 
             if (connectionForm == null)
                 // Don't show the panel immediately - it will be shown when first tab is added
-                connectionForm = _panelAdder.AddPanel(connectionPanel, showImmediately: false);
+                connectionForm = PanelAdder.AddPanel(connectionPanel, showImmediately: false);
             else if (switchToConnection)
                 connectionForm.Show(FrmMain.Default.pnlDock);
 

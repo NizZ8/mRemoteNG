@@ -53,13 +53,13 @@ namespace mRemoteNG.Tree
             }
         }
 
-        private void DropModelOntoTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
+        private static void DropModelOntoTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
         {
             if (!(dropTarget is ContainerInfo dropTargetAsContainer)) return;
             dropSource.SetParent(dropTargetAsContainer);
         }
 
-        private void DropModelAboveTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
+        private static void DropModelAboveTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
         {
             if (dropSource.Parent is null || dropTarget.Parent is null) return;
             if (!dropSource.Parent.Equals(dropTarget.Parent))
@@ -68,7 +68,7 @@ namespace mRemoteNG.Tree
                 dropTarget.Parent.SetChildAbove(dropSource, dropTarget);
         }
 
-        private void DropModelBelowTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
+        private static void DropModelBelowTarget(ConnectionInfo dropSource, ConnectionInfo dropTarget)
         {
             if (dropSource.Parent is null || dropTarget.Parent is null) return;
             if (!dropSource.Parent.Equals(dropTarget.Parent))
@@ -194,23 +194,23 @@ namespace mRemoteNG.Tree
             return validDrag;
         }
 
-        private bool NodeIsDraggable(ConnectionInfo node)
+        private static bool NodeIsDraggable(ConnectionInfo node)
         {
             return node != null && !(node is RootNodeInfo) && !(node is PuttySessionInfo);
         }
 
-        private bool NodeDraggingOntoSelf(ConnectionInfo source, ConnectionInfo target)
+        private static bool NodeDraggingOntoSelf(ConnectionInfo source, ConnectionInfo target)
         {
             return source.Equals(target);
         }
 
-        private bool AncestorDraggingOntoChild(ConnectionInfo source, ConnectionInfo target)
+        private static bool AncestorDraggingOntoChild(ConnectionInfo source, ConnectionInfo target)
         {
             return source is ContainerInfo sourceAsContainer &&
                    sourceAsContainer.GetRecursiveChildList().Contains(target);
         }
 
-        private bool DraggingOntoCurrentParent(ConnectionInfo source, ConnectionInfo target)
+        private static bool DraggingOntoCurrentParent(ConnectionInfo source, ConnectionInfo target)
         {
             return target is ContainerInfo targetAsContainer && targetAsContainer.Children.Contains(source);
         }

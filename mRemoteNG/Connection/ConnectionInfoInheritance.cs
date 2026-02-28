@@ -847,7 +847,7 @@ namespace mRemoteNG.Connection
         private static readonly PropertyInfo[] s_cachedBoolProperties =
             s_cachedProperties.Where(p => p.PropertyType == typeof(bool)).ToArray();
 
-        public IEnumerable<PropertyInfo> GetProperties() => s_cachedProperties;
+        public static IEnumerable<PropertyInfo> GetProperties() => s_cachedProperties;
 
         /// <summary>
         /// Gets the name of all properties where inheritance is turned on

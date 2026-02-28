@@ -80,7 +80,7 @@ public class ConnectionInfoInheritanceTests
     {
         var inheritance = new ConnectionInfoInheritance(new ConnectionInfo());
         var hasIconProperty =
-            inheritance.GetProperties().Contains(typeof(ConnectionInfoInheritance).GetProperty("Icon"));
+            ConnectionInfoInheritance.GetProperties().Contains(typeof(ConnectionInfoInheritance).GetProperty("Icon"));
         Assert.That(hasIconProperty, Is.True);
     }
 
@@ -88,7 +88,7 @@ public class ConnectionInfoInheritanceTests
     public void GetPropertiesExludesPropertiesThatShouldNotBeSet()
     {
         var inheritance = new ConnectionInfoInheritance(new ConnectionInfo());
-        var hasEverythingInheritedProperty = inheritance.GetProperties()
+        var hasEverythingInheritedProperty = ConnectionInfoInheritance.GetProperties()
             .Contains(typeof(ConnectionInfoInheritance).GetProperty("EverythingInherited"));
         Assert.That(hasEverythingInheritedProperty, Is.False);
     }

@@ -305,7 +305,7 @@ namespace mRemoteNG.UI.Window
                 ConnectionWindow? connectionForm = Runtime.WindowList.FromString(panelName) as ConnectionWindow;
                 if (connectionForm == null)
                 {
-                    connectionForm = new PanelAdder().AddPanel(panelName, showImmediately: true);
+                    connectionForm = PanelAdder.AddPanel(panelName, showImmediately: true);
                     if (connectionForm == null) return;
                 }
 
@@ -388,7 +388,7 @@ namespace mRemoteNG.UI.Window
 
                 foreach (ContainerInfo node in rootNodes)
                 {
-                    foreach (ConnectionInfo containerInfo in connectionTreeModel.GetRecursiveFavoriteChildList(node))
+                    foreach (ConnectionInfo containerInfo in ConnectionTreeModel.GetRecursiveFavoriteChildList(node))
                     {
                         ToolStripMenuItem favoriteMenuItem = new()
                         {

@@ -74,7 +74,7 @@ namespace mRemoteNGTests.Connection
 
 	    private static IEnumerable<PropertyInfo> GetInheritanceProperties()
 	    {
-		    return new ConnectionInfoInheritance(new ConnectionInfo(), true).GetProperties();
+		    return ConnectionInfoInheritance.GetProperties();
 	    }
 	}
 }

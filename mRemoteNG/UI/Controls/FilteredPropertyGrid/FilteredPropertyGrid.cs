@@ -376,12 +376,12 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
         /// </summary>
         /// <param name="propertyDescriptor"></param>
         /// <returns></returns>
-        private bool PropertyDoesntHaveBrowsableFalseAttribute(PropertyDescriptor propertyDescriptor)
+        private static bool PropertyDoesntHaveBrowsableFalseAttribute(PropertyDescriptor propertyDescriptor)
         {
             return !propertyDescriptor.Attributes.Contains(new BrowsableAttribute(false));
         }
 
-        private void AddAttributesToDescriptors(List<PropertyDescriptor> descriptors, object obj, Attribute attribute)
+        private static void AddAttributesToDescriptors(List<PropertyDescriptor> descriptors, object obj, Attribute attribute)
         {
             PropertyDescriptorCollection filtered = TypeDescriptor.GetProperties(obj, new[] { attribute });
             foreach (PropertyDescriptor pd in filtered)
@@ -390,7 +390,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
             }
         }
 
-        private void RemoveAttributesFromDescriptors(List<PropertyDescriptor> descriptors, object obj, Attribute attribute)
+        private static void RemoveAttributesFromDescriptors(List<PropertyDescriptor> descriptors, object obj, Attribute attribute)
         {
             PropertyDescriptorCollection filtered = TypeDescriptor.GetProperties(obj, new[] { attribute });
             foreach (PropertyDescriptor pd in filtered)

@@ -31,7 +31,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.Username = "root";
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myUser@example-host", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myUser@example-host", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -47,7 +47,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.Username = "root";
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("example-host", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("example-host", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.That(quickConnect!.Username, Is.EqualTo("root"));
@@ -59,7 +59,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.Username = "root";
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myUser@example-host:2200", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myUser@example-host:2200", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -76,7 +76,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.Username = "root";
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("example-host:2200", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("example-host:2200", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -92,7 +92,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("   ", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("   ", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Null);
     }
@@ -102,7 +102,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:false", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver -ra:false", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -117,7 +117,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.That(quickConnect!.UseRestrictedAdmin, Is.True);
@@ -128,7 +128,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -rcg:false", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver -rcg:false", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -143,7 +143,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:false -rcg:false", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver -ra:false -rcg:false", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -160,7 +160,7 @@ public class ConnectionsServiceQuickConnectTests
         // Default UseRestrictedAdmin is false; pass -ra:true — if correctly ignored for SSH2, result stays false
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.SSH2);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver -ra:true", ProtocolType.SSH2);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -176,7 +176,7 @@ public class ConnectionsServiceQuickConnectTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("admin@myserver:3389 -ra:false -rcg:false", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("admin@myserver:3389 -ra:false -rcg:false", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.Multiple(() =>
@@ -200,7 +200,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.RedirectClipboard = true;
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.That(quickConnect!.RedirectClipboard, Is.True,
@@ -213,7 +213,7 @@ public class ConnectionsServiceQuickConnectTests
         DefaultConnectionInfo.Instance.RedirectClipboard = false;
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        ConnectionInfo? quickConnect = connectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
+        ConnectionInfo? quickConnect = ConnectionsService.CreateQuickConnect("myserver", ProtocolType.RDP);
 
         Assert.That(quickConnect, Is.Not.Null);
         Assert.That(quickConnect!.RedirectClipboard, Is.False,

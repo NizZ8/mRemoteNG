@@ -142,8 +142,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             ICryptographyProvider cryptographyProvider = new CryptoProviderFactory(engine, mode).Build();
             cryptographyProvider.KeyDerivationIterations = (int)numberBoxKdfIterations.Value;
 
-            XmlConnectionSerializerFactory serializerFactory = new();
-            Config.Serializers.ISerializer<Connection.ConnectionInfo, string> serializer = serializerFactory.Build(cryptographyProvider, connectionTree, useFullEncryption: chkEncryptCompleteFile.Checked);
+            Config.Serializers.ISerializer<Connection.ConnectionInfo, string> serializer = XmlConnectionSerializerFactory.Build(cryptographyProvider, connectionTree, useFullEncryption: chkEncryptCompleteFile.Checked);
             int nodeCount = connectionTree.GetRecursiveChildList().Count;
 
             Stopwatch timer = Stopwatch.StartNew();

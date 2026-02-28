@@ -191,7 +191,7 @@ namespace mRemoteNG.Container
             }
         }
 
-        private string ExecuteScript(string scriptPath)
+        private static string ExecuteScript(string scriptPath)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -250,7 +250,7 @@ namespace mRemoteNG.Container
             return fullPath;
         }
 
-        private void ImportXml(string xmlContent, ContainerInfo container, string sourceName)
+        private static void ImportXml(string xmlContent, ContainerInfo container, string sourceName)
         {
             var deserializer = new XmlConnectionsDeserializer(sourceName);
             var tree = deserializer.Deserialize(xmlContent, true);

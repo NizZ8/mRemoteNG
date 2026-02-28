@@ -1597,9 +1597,7 @@ namespace mRemoteNG.UI.Window
         {
             try
             {
-                InterfaceControl? interfaceControl = GetInterfaceControl();
-                ProtocolVNC? vnc = interfaceControl?.Protocol as ProtocolVNC;
-                vnc?.StartFileTransfer();
+                ProtocolVNC.StartFileTransfer();
             }
             catch (Exception ex)
             {
@@ -1628,9 +1626,7 @@ namespace mRemoteNG.UI.Window
         {
             try
             {
-                InterfaceControl? interfaceControl = GetInterfaceControl();
-                ProtocolVNC? vnc = interfaceControl?.Protocol as ProtocolVNC;
-                vnc?.StartChat();
+                ProtocolVNC.StartChat();
             }
             catch (Exception ex)
             {

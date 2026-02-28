@@ -303,7 +303,7 @@ namespace mRemoteNG.UI.Forms
 
             PuttySessionsManager.Instance.StartWatcher();
 
-            Startup.Instance.CreateConnectionsProvider(messageCollector);
+            Startup.CreateConnectionsProvider(messageCollector);
 
             _advancedWindowMenu.BuildAdditionalMenuItems();
             SystemEvents.DisplaySettingsChanged += _advancedWindowMenu.OnDisplayChanged;
@@ -349,9 +349,8 @@ namespace mRemoteNG.UI.Forms
             }
             string panelName = !string.IsNullOrEmpty(Properties.OptionsTabsPanelsPage.Default.StartUpPanelName) ? Properties.OptionsTabsPanelsPage.Default.StartUpPanelName : "New Panel";
 
-            PanelAdder panelAdder = new();
-            if (!panelAdder.DoesPanelExist(panelName))
-                panelAdder.AddPanel(panelName);
+            if (!PanelAdder.DoesPanelExist(panelName))
+                PanelAdder.AddPanel(panelName);
         }
 
         private void StartConnectionsRequestedOnStartupFromCommandLine()
@@ -371,7 +370,7 @@ namespace mRemoteNG.UI.Forms
             {
                 string protocol = StartupArgumentsInterpreter.QuickConnectProtocol
                     ?? Properties.Settings.Default.QuickConnectProtocol;
-                ConnectionInfo? connectionInfo = Runtime.ConnectionsService.CreateQuickConnect(
+                ConnectionInfo? connectionInfo = ConnectionsService.CreateQuickConnect(
                     quickConnectTo, Converter.StringToProtocol(protocol));
                 if (connectionInfo != null)
                     Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);
@@ -529,7 +528,7 @@ namespace mRemoteNG.UI.Forms
             if (connectionsSavedEventArgs.UsingDatabase)
                 return;
 
-            _backupPruner.PruneBackupFiles(connectionsSavedEventArgs.ConnectionFileName, Properties.OptionsBackupPage.Default.BackupFileKeepCount);
+            FileBackupPruner.PruneBackupFiles(connectionsSavedEventArgs.ConnectionFileName, Properties.OptionsBackupPage.Default.BackupFileKeepCount);
         }
 
         private void SetMenuDependencies()
@@ -1256,7 +1255,7 @@ namespace mRemoteNG.UI.Forms
             {
                 string protocol = StartupArgumentsInterpreter.QuickConnectProtocol
                     ?? Properties.Settings.Default.QuickConnectProtocol;
-                ConnectionInfo? connectionInfo = Runtime.ConnectionsService.CreateQuickConnect(
+                ConnectionInfo? connectionInfo = ConnectionsService.CreateQuickConnect(
                     StartupArgumentsInterpreter.QuickConnectTo, Converter.StringToProtocol(protocol));
                 if (connectionInfo != null)
                     Runtime.ConnectionInitiator.OpenConnection(connectionInfo, ConnectionInfo.Force.DoNotJump);

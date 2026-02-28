@@ -10,13 +10,12 @@ namespace mRemoteNG.UI.Forms
     [SupportedOSPlatform("windows")]
     public partial class FrmChoosePanel
     {
-        private readonly PanelAdder _panelAdder;
+
 
         public FrmChoosePanel()
         {
             InitializeComponent();
             Icon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.Panel_16x);
-            _panelAdder = new PanelAdder();
         }
 
         public string Panel
@@ -82,7 +81,7 @@ namespace mRemoteNG.UI.Forms
             {
                 DialogResult dr = frmInputBox.ShowDialog();
                 if (dr != DialogResult.OK || string.IsNullOrEmpty(frmInputBox.returnValue)) return;
-                _panelAdder.AddPanel(frmInputBox.returnValue);
+                PanelAdder.AddPanel(frmInputBox.returnValue);
                 AddAvailablePanels();
                 cbPanels.SelectedItem = frmInputBox.returnValue;
                 cbPanels.Focus();

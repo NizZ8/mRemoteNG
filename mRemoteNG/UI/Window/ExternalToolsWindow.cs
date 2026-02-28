@@ -225,7 +225,7 @@ namespace mRemoteNG.UI.Window
         private void ExternalTools_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveToolsListLayout();
-            _externalAppsSaver.Save(Runtime.ExternalToolsService.ExternalTools);
+            ExternalAppsSaver.Save(Runtime.ExternalToolsService.ExternalTools);
             _themeManager.ThemeChanged -= ApplyTheme;
             _currentlySelectedExternalTools.CollectionUpdated -= CurrentlySelectedExternalToolsOnCollectionUpdated;
             ResizeEnd -= ExternalTools_ResizeEnd;

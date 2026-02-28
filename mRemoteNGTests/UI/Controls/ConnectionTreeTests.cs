@@ -90,7 +90,7 @@ namespace mRemoteNGTests.UI.Controls
 			tree.ModelFilter = filter;
 			Application.DoEvents();
 
-			connectionTreeModel.DeleteNode(con1);
+			ConnectionTreeModel.DeleteNode(con1);
 			Application.DoEvents();
 
 			Assert.That(tree.IsFiltering, Is.True);

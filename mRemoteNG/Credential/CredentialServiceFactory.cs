@@ -14,7 +14,7 @@ namespace mRemoteNG.Credential
     public class CredentialServiceFactory
     {
         // When we get a true CompositionRoot we can move this to that class. We should only require 1 instance of this service at a time
-        public CredentialServiceFacade Build()
+        public static CredentialServiceFacade Build()
         {
             CryptoProviderFactoryFromSettings cryptoFromSettings = new();
             XmlCredentialPasswordEncryptorDecorator credRepoSerializer = new(cryptoFromSettings.Build(), new XmlCredentialRecordSerializer());

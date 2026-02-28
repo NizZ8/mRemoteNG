@@ -350,7 +350,7 @@ namespace mRemoteNG.App
                 return;
             }
 
-            InvokeOnUiThread(() => model.DeleteNode(conn));
+            InvokeOnUiThread(() => ConnectionTreeModel.DeleteNode(conn));
 
             Runtime.ConnectionsService.SaveConnectionsAsync();
 

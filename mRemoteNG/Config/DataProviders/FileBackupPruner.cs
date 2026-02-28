@@ -6,7 +6,7 @@ namespace mRemoteNG.Config.DataProviders
 {
     public class FileBackupPruner
     {
-        public void PruneBackupFiles(string filePath, int maxBackupsToKeep)
+        public static void PruneBackupFiles(string filePath, int maxBackupsToKeep)
         {
             PathValidator.ValidatePathOrThrow(filePath, nameof(filePath));
 

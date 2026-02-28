@@ -100,7 +100,7 @@ namespace mRemoteNG.Config.Import
             }
         }
 
-        private ProtocolType GetProtocolFromUrl(string url)
+        private static ProtocolType GetProtocolFromUrl(string url)
         {
             if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 return ProtocolType.HTTPS;

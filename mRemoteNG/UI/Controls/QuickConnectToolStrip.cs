@@ -205,7 +205,7 @@ namespace mRemoteNG.UI.Controls
         {
             try
             {
-                ConnectionInfo? connectionInfo = Runtime.ConnectionsService.CreateQuickConnect(_cmbQuickConnect.Text.Trim(),
+                ConnectionInfo? connectionInfo = ConnectionsService.CreateQuickConnect(_cmbQuickConnect.Text.Trim(),
                                                                                    Converter.StringToProtocol(Settings
                                                                                                               .Default
                                                                                                               .QuickConnectProtocol));
@@ -275,7 +275,7 @@ namespace mRemoteNG.UI.Controls
 
             foreach (ContainerInfo node in rootNodes)
             {
-                foreach (ConnectionInfo containerInfo in connectionTreeModel.GetRecursiveFavoriteChildList(node))
+                foreach (ConnectionInfo containerInfo in mRemoteNG.Tree.ConnectionTreeModel.GetRecursiveFavoriteChildList(node))
                 {
                     ToolStripMenuItem favoriteMenuItem = new()
                     {

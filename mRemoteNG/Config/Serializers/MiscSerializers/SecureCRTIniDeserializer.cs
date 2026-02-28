@@ -17,7 +17,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
         ///   D:"Key"=HexDword
         ///   Z:"Key"=HexEncodedString
         /// </summary>
-        public ConnectionInfo? Deserialize(string content, string sessionName)
+        public static ConnectionInfo? Deserialize(string content, string sessionName)
         {
             Dictionary<string, string> strings = new(StringComparer.OrdinalIgnoreCase);
             Dictionary<string, uint> dwords = new(StringComparer.OrdinalIgnoreCase);

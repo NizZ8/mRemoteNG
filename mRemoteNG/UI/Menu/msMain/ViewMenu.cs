@@ -36,7 +36,6 @@ namespace mRemoteNG.UI.Menu
         private ToolStripMenuItem _mMenViewLoadLayout = null!;
         private ToolStripMenuItem _mMenViewSaveLayout = null!;
         public ToolStripMenuItem _mMenViewLockToolbars = null!;
-        private readonly PanelAdder _panelAdder;
 
 
         public ToolStrip? TsExternalTools { get; set; }
@@ -50,7 +49,6 @@ namespace mRemoteNG.UI.Menu
         public ViewMenu()
         {
             Initialize();
-            _panelAdder = new PanelAdder();
         }
 
         private void Initialize()
@@ -426,7 +424,7 @@ namespace mRemoteNG.UI.Menu
 
         private void mMenViewAddConnectionPanel_Click(object sender, EventArgs e)
         {
-            _panelAdder.AddPanel();
+            PanelAdder.AddPanel();
         }
 
         private void mMenViewExtAppsToolbar_Click(object sender, EventArgs e)

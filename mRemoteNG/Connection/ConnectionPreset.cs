@@ -24,8 +24,7 @@ namespace mRemoteNG.Connection
                 .ToArray();
 
         private static readonly IReadOnlyList<PropertyInfo> ConfigurableInheritancePropertiesInternal =
-            new ConnectionInfoInheritance(new ConnectionInfo(), true)
-                .GetProperties()
+            ConnectionInfoInheritance.GetProperties()
                 .ToArray();
 
         public static IReadOnlyList<PropertyInfo> ConfigurableConnectionProperties =>
