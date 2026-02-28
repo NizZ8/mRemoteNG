@@ -254,6 +254,16 @@ namespace mRemoteNG.UI.Window
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _cancellationTokenSource?.Dispose();
+                _cancellationTokenSource = null;
+            }
+            base.Dispose(disposing);
+        }
+
         public class ConnectionTestResult
         {
             public ConnectionInfo Connection { get; }

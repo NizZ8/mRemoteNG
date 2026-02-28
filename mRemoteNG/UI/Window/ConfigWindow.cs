@@ -59,10 +59,7 @@ namespace mRemoteNG.UI.Window
             get => _selectedTreeNode;
             set
             {
-                _selectedTreeNode = value;
-                _selectedTreeNodes = value != null ? new[] { value } : null;
-                _pGrid.SelectedConnectionInfos = _selectedTreeNodes;
-                UpdateTopRow();
+                SelectedTreeNodes = value != null ? new[] { value } : null;
             }
         }
 
