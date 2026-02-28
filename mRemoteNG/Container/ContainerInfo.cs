@@ -64,7 +64,7 @@ namespace mRemoteNG.Container
         public bool IsExpanded
         {
             get => _isExpanded;
-            set => SetField(ref _isExpanded, value, "IsExpanded");
+            set => SetField(ref _isExpanded, value, nameof(IsExpanded));
         }
 
         /// <summary>

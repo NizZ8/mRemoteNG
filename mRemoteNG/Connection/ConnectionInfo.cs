@@ -615,7 +615,7 @@ namespace mRemoteNG.Connection
         private void SetNewOpenConnectionList()
         {
             OpenConnections = [];
-            OpenConnections.CollectionChanged += (sender, args) => RaisePropertyChangedEvent(this, new PropertyChangedEventArgs("OpenConnections"));
+            OpenConnections.CollectionChanged += (sender, args) => RaisePropertyChangedEvent(this, new PropertyChangedEventArgs(nameof(OpenConnections)));
         }
 
         public void NotifyDisconnectedStateChanged()
