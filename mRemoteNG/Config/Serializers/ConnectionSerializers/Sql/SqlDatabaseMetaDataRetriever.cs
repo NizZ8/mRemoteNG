@@ -757,7 +757,7 @@ CREATE TABLE `tblExternalTools` (
             cmd.ExecuteNonQuery();
         }
 
-        private void UpgradeSchema(IDatabaseConnector databaseConnector)
+        private static void UpgradeSchema(IDatabaseConnector databaseConnector)
         {
             try
             {

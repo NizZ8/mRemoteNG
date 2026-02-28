@@ -91,7 +91,7 @@ namespace mRemoteNG.App
             else if (Properties.OptionsConnectionsPage.Default.WatchConnectionFile)
             {
                 messageCollector.AddMessage(MessageClass.DebugMsg, "Creating file syncronizer");
-                string startupFile = Runtime.ConnectionsService.GetStartupConnectionFileName();
+                string startupFile = ConnectionsService.GetStartupConnectionFileName();
                 if (!string.IsNullOrEmpty(startupFile))
                 {
                     Runtime.ConnectionsService.RemoteConnectionsSyncronizer = new RemoteConnectionsSyncronizer(new FileConnectionsUpdateChecker(startupFile));

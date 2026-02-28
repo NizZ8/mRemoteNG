@@ -226,7 +226,7 @@ namespace mRemoteNG.UI.Window
             }
         }
 
-        private List<ConnectionInfo> GetAllConnections()
+        private static List<ConnectionInfo> GetAllConnections()
         {
             var list = new List<ConnectionInfo>();
             if (AppWindows.TreeForm?.ConnectionTree?.ConnectionTreeModel?.RootNodes == null) return list;

@@ -457,7 +457,7 @@ namespace mRemoteNG.UI.Panels
         /// <summary>
         /// Checks if a panel is in auto-hide state
         /// </summary>
-        private bool IsPanelAutoHidden(DockContent panel)
+        private static bool IsPanelAutoHidden(DockContent panel)
         {
             if (panel == null)
                 return false;

@@ -126,7 +126,7 @@ namespace mRemoteNG.App
                 }
                 else if (!Properties.OptionsDBsPage.Default.UseSQLServer)
                 {
-                    connectionFileName = ConnectionsService.GetStartupConnectionFileName();
+                    connectionFileName = Connection.ConnectionsService.GetStartupConnectionFileName();
                 }
 
                 ConnectionsService.LoadConnections(Properties.OptionsDBsPage.Default.UseSQLServer, false, connectionFileName);
@@ -173,7 +173,7 @@ namespace mRemoteNG.App
                         case 2:
                             Properties.OptionsDBsPage.Default.UseSQLServer = false;
                             Properties.OptionsDBsPage.Default.Save();
-                            ConnectionsService.NewConnectionsFile(ConnectionsService.GetStartupConnectionFileName());
+                            ConnectionsService.NewConnectionsFile(Connection.ConnectionsService.GetStartupConnectionFileName());
                             return;
                         default:
                             Application.Exit();
@@ -237,13 +237,13 @@ namespace mRemoteNG.App
                 MessageCollector.AddExceptionStackTrace(
                                                         string.Format(Language.ConnectionsFileCouldNotBeLoaded,
                                                                       connectionFileName), ex);
-                if (connectionFileName != ConnectionsService.GetStartupConnectionFileName())
+                if (connectionFileName != Connection.ConnectionsService.GetStartupConnectionFileName())
                 {
                     LoadConnections(withDialog);
                 }
                 else
                 {
-                    MessageBox.Show(FrmMain.Default, string.Format(Language.ErrorStartupConnectionFileLoad, Environment.NewLine, Application.ProductName, ConnectionsService.GetStartupConnectionFileName(), MiscTools.GetExceptionMessageRecursive(ex)), @"Could not load startup file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(FrmMain.Default, string.Format(Language.ErrorStartupConnectionFileLoad, Environment.NewLine, Application.ProductName, Connection.ConnectionsService.GetStartupConnectionFileName(), MiscTools.GetExceptionMessageRecursive(ex)), @"Could not load startup file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                 }
             }

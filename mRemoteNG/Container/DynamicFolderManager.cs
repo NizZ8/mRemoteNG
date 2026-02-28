@@ -87,7 +87,7 @@ namespace mRemoteNG.Container
             }
         }
 
-        public void RefreshFolder(ContainerInfo container)
+        public static void RefreshFolder(ContainerInfo container)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace mRemoteNG.Container
             }
         }
 
-        private void RefreshFolderInternal(ContainerInfo container)
+        private static void RefreshFolderInternal(ContainerInfo container)
         {
             try 
             {

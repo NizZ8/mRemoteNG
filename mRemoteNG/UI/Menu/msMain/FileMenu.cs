@@ -259,7 +259,7 @@ namespace mRemoteNG.UI.Menu
 
                 Runtime.ConnectionsService.SaveConnections(connectionTreeModel, false, new SaveFilter(), newFileName);
 
-                if (newFileName == Runtime.ConnectionsService.GetDefaultStartupConnectionFileName())
+                if (newFileName == ConnectionsService.GetDefaultStartupConnectionFileName())
                 {
                     Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation = false;
                 }

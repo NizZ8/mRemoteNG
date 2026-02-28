@@ -438,7 +438,7 @@ namespace mRemoteNG.UI.Forms
                     // Enable file watcher
                     if (!Properties.OptionsDBsPage.Default.UseSQLServer)
                     {
-                        string startupFile = Runtime.ConnectionsService.GetStartupConnectionFileName();
+                        string startupFile = ConnectionsService.GetStartupConnectionFileName();
                         if (!string.IsNullOrEmpty(startupFile))
                         {
                             Runtime.ConnectionsService.RemoteConnectionsSyncronizer?.Dispose();
@@ -822,7 +822,7 @@ namespace mRemoteNG.UI.Forms
             EngageAutoLock("idle-timeout");
         }
 
-        private bool AutoLockEnabled()
+        private static bool AutoLockEnabled()
         {
             RootNodeInfo? rootNodeInfo = GetConnectionRootNodeInfo();
             return rootNodeInfo is { Password: true, AutoLockOnMinimize: true };
@@ -877,7 +877,7 @@ namespace mRemoteNG.UI.Forms
             {
                 string passwordName = Properties.OptionsDBsPage.Default.UseSQLServer
                     ? Language.SQLServer.TrimEnd(':')
-                    : Path.GetFileName(Runtime.ConnectionsService.GetStartupConnectionFileName());
+                    : Path.GetFileName(ConnectionsService.GetStartupConnectionFileName());
 
                 Optional<System.Security.SecureString> password = MiscTools.PasswordDialog(passwordName, false);
                 if (!password.Any() || password.First().Length == 0)

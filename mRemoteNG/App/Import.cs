@@ -250,8 +250,7 @@ namespace mRemoteNG.App
                     if (folderDialog.ShowDialog() != DialogResult.OK)
                         return;
 
-                    SecureCRTFolderImporter importer = new();
-                    importer.Import(folderDialog.SelectedPath, importDestinationContainer);
+                    SecureCRTFolderImporter.Import(folderDialog.SelectedPath, importDestinationContainer);
                 }
             }
             catch (Exception ex)

@@ -433,7 +433,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                 return;
 
             if (rootInfo.Password) {
-                string passwordName = Properties.OptionsDBsPage.Default.UseSQLServer ? Language.SQLServer.TrimEnd(':') : Path.GetFileName(Runtime.ConnectionsService.GetStartupConnectionFileName());
+                string passwordName = Properties.OptionsDBsPage.Default.UseSQLServer ? Language.SQLServer.TrimEnd(':') : Path.GetFileName(ConnectionsService.GetStartupConnectionFileName());
                 Optional<System.Security.SecureString> password = MiscTools.PasswordDialog(passwordName);
 
                 // operation cancelled, dont set a password
@@ -459,7 +459,7 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
         {
             string passwordName = Properties.OptionsDBsPage.Default.UseSQLServer
                 ? Language.SQLServer.TrimEnd(':')
-                : Path.GetFileName(Runtime.ConnectionsService.GetStartupConnectionFileName());
+                : Path.GetFileName(ConnectionsService.GetStartupConnectionFileName());
 
             Optional<System.Security.SecureString> password = MiscTools.PasswordDialog(passwordName, false);
             if (!password.Any() || password.First().Length == 0)

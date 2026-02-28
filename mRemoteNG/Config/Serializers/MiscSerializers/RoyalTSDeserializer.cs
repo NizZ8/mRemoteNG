@@ -113,7 +113,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
                 ImportChildObjects(folderNode, containerInfo);
         }
 
-        private void ImportRDPConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportRDPConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             ConnectionInfo connectionInfo = new() { Protocol = ProtocolType.RDP };
 
@@ -170,7 +170,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void ImportSSHConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportSSHConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             // Determine SSH sub-type: SSH or Telnet
             string? termType = GetStringProperty(connectionNode, "TerminalConnectionType");
@@ -188,7 +188,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void ImportVNCConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportVNCConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             ConnectionInfo connectionInfo = new() { Protocol = ProtocolType.VNC };
 
@@ -200,7 +200,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void ImportWebConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportWebConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             ConnectionInfo connectionInfo = new();
 
@@ -216,7 +216,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void ImportFileTransferConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportFileTransferConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             // RoyalTS file-transfer entries are imported as SSH2 connections.
             ConnectionInfo connectionInfo = new() { Protocol = ProtocolType.SSH2 };
@@ -229,7 +229,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void ImportPowerShellConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportPowerShellConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             ConnectionInfo connectionInfo = new() { Protocol = ProtocolType.PowerShell };
 

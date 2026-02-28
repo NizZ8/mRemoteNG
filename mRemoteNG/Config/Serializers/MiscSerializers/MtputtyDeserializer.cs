@@ -35,7 +35,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return connectionTreeModel;
         }
 
-        private void ImportSession(XmlNode sessionNode, ContainerInfo parentContainer)
+        private static void ImportSession(XmlNode sessionNode, ContainerInfo parentContainer)
         {
             bool isFolder = string.Equals(
                 sessionNode.SelectSingleNode("./IsFolder")?.InnerText,

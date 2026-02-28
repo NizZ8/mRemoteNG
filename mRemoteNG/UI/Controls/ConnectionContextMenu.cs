@@ -1752,7 +1752,7 @@ namespace mRemoteNG.UI.Controls
                 {
                      if (container.DynamicSource != DynamicSourceType.None)
                      {
-                         Runtime.DynamicFolderManager.RefreshFolder(container);
+                         DynamicFolderManager.RefreshFolder(container);
                      }
                 }
             }
@@ -1763,7 +1763,7 @@ namespace mRemoteNG.UI.Controls
             if (!(_connectionTree.SelectedNode is ContainerInfo container))
                 return;
             
-            Runtime.DynamicFolderManager.RefreshFolder(container);
+            DynamicFolderManager.RefreshFolder(container);
         }
 
         private void OnAddRootFolderClicked(object sender, EventArgs e)

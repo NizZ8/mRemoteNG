@@ -147,7 +147,7 @@ namespace mRemoteNG.UI.Menu
             connectionWindow?.NavigateToPreviousTab();
         }
 
-        private void JumpToSessionNumber(int index)
+        private static void JumpToSessionNumber(int index)
         {
             var connectionWindow = GetActiveConnectionWindow();
             connectionWindow?.NavigateToTab(index);

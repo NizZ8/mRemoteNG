@@ -554,7 +554,7 @@ namespace mRemoteNG.Connection
             t.Start();
         }
 
-        public string GetStartupConnectionFileName()
+        public static string GetStartupConnectionFileName()
         {
             /*
             if (Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation == true && Properties.OptionsBackupPage.Default.BackupLocation != "")
@@ -574,12 +574,12 @@ namespace mRemoteNG.Connection
             }
         }
 
-        public string GetDefaultStartupConnectionFileName()
+        public static string GetDefaultStartupConnectionFileName()
         {
             return Runtime.IsPortableEdition ? GetDefaultStartupConnectionFileNamePortableEdition() : GetDefaultStartupConnectionFileNameNormalEdition();
         }
 
-        private void UpdateCustomConsPathSetting(string filename)
+        private static void UpdateCustomConsPathSetting(string filename)
         {
             if (filename == GetDefaultStartupConnectionFileName())
             {

@@ -17,7 +17,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
     {
         enum SecureCRTNodeType { folder, session };
 
-        public ConnectionTreeModel Deserialize(string content)
+        public static ConnectionTreeModel Deserialize(string content)
         {
             ConnectionTreeModel connectionTreeModel = new();
             RootNodeInfo root = new(RootNodeType.Connection);
@@ -34,7 +34,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return connectionTreeModel;
         }
 
-        private void ImportRootOrContainer(XmlNode rootNode, ContainerInfo parentContainer)
+        private static void ImportRootOrContainer(XmlNode rootNode, ContainerInfo parentContainer)
         {
             ContainerInfo newContainer = ImportContainer(rootNode, parentContainer);
 
@@ -59,7 +59,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private void ImportConnection(XmlNode childNode, ContainerInfo parentContainer)
+        private static void ImportConnection(XmlNode childNode, ContainerInfo parentContainer)
         {
             ConnectionInfo? connectionInfo = ConnectionInfoFromXml(childNode);
             if (connectionInfo == null)

@@ -34,7 +34,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return connectionTreeModel;
         }
 
-        private void ImportRootOrContainer(XmlNode xmlNode, ContainerInfo parentContainer)
+        private static void ImportRootOrContainer(XmlNode xmlNode, ContainerInfo parentContainer)
         {
             VerifyNodeType(xmlNode);
 

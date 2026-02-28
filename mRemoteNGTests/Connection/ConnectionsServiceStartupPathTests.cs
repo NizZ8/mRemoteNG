@@ -23,8 +23,8 @@ public class ConnectionsServiceStartupPathTests
         {
             connectionFilePathProperty.SetValue(settingsInstance, configuredPath);
 
-            var startupPath = connectionsService.GetStartupConnectionFileName();
-            var defaultPath = connectionsService.GetDefaultStartupConnectionFileName();
+            var startupPath = ConnectionsService.GetStartupConnectionFileName();
+            var defaultPath = ConnectionsService.GetDefaultStartupConnectionFileName();
 
             Assert.That(startupPath, Is.EqualTo(defaultPath));
         }
@@ -48,7 +48,7 @@ public class ConnectionsServiceStartupPathTests
             const string customPath = @"C:\MyConnections\custom.xml";
             connectionFilePathProperty.SetValue(settingsInstance, customPath);
 
-            var startupPath = connectionsService.GetStartupConnectionFileName();
+            var startupPath = ConnectionsService.GetStartupConnectionFileName();
 
             Assert.That(startupPath, Is.EqualTo(customPath));
         }
@@ -63,7 +63,7 @@ public class ConnectionsServiceStartupPathTests
     {
         var connectionsService = new ConnectionsService(PuttySessionsManager.Instance);
 
-        var defaultPath = connectionsService.GetDefaultStartupConnectionFileName();
+        var defaultPath = ConnectionsService.GetDefaultStartupConnectionFileName();
 
         Assert.That(defaultPath, Is.Not.Null.And.Not.Empty);
     }

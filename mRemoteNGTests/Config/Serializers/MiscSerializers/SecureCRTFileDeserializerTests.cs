@@ -14,15 +14,13 @@ namespace mRemoteNGTests.Config.Serializers.MiscSerializers;
 [SupportedOSPlatform("windows")]
 public class SecureCRTFileDeserializerTests
 {
-    private SecureCRTFileDeserializer _deserializer;
     private ConnectionTreeModel _connectionTreeModel;
 
     [OneTimeSetUp]
     public void OnetimeSetup()
     {
         var fileContents = Resources.test_securecrt;
-        _deserializer = new SecureCRTFileDeserializer();
-        _connectionTreeModel = _deserializer.Deserialize(fileContents);        
+        _connectionTreeModel = SecureCRTFileDeserializer.Deserialize(fileContents);
     }
 
     [Test]

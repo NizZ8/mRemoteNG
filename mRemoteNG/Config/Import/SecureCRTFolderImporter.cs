@@ -26,7 +26,7 @@ namespace mRemoteNG.Config.Import
         /// <summary>
         /// Imports all SecureCRT sessions from a folder (recursively) into the destination container.
         /// </summary>
-        public void Import(string folderPath, ContainerInfo destinationContainer)
+        public static void Import(string folderPath, ContainerInfo destinationContainer)
         {
             if (!Directory.Exists(folderPath))
             {
