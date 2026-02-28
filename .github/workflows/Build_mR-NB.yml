@@ -53,15 +53,36 @@ jobs:
       - name: (01) Checkout Repository
         uses: actions/checkout@v6
 
+        # 2. Auto-detect solution file (Supports legacy .sln modern VS2026 .slnx)
+      - name: (02) Find solution file
+        shell: pwsh
+        run: |
+          Write-Host "Locating solution file (.sln or .slnx)..."
+          $sln = Get-ChildItem -Path . -Filter "*.sln*" -File -Recurse | 
+                 Where-Object { $_.Extension -match '^\.slnx?$' } | 
+                 Select-Object -First 1
+
+          if ($sln) {
+            "SOLUTION_FILE=$($sln.Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+            Write-Host "Located file: $($sln.Name)" -ForegroundColor Green
+          } else {
+            Write-Host "ERROR: Could not locate a .sln or .slnx file!" -ForegroundColor Red
+            exit 1
+          }
+          write-host "Solution file: " $SOLUTION_FILE
+
       - name: (02) Install .NET 10 SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
-      - name: (03) Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: '18.0'
+      # 6. Install Visual Studio 2026 Build Tools
+      - name: (03) Install Visual Studio 2026 Build Tools
+        shell: pwsh
+        run: |
+          Write-Host "Installing VS 2026 Build Tools..."
+          choco install visualstudio2026buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --includeRecommended --quiet" -y --ignore-package-exit-codes=3010
+          Write-Host "VS 2026 Build Tools installation completed"
           
       - name: (04) Install and run dotnet-t4 to transform T4 templates
         shell: pwsh
