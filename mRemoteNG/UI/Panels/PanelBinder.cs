@@ -27,7 +27,7 @@ namespace mRemoteNG.UI.Panels
         private DockState _configFormDockedState = DockState.Unknown;
         
         // Track if panels are temporarily pinned
-        private bool _panelsTemporarilyPinned = false;
+        private bool _panelsTemporarilyPinned;
         
         // Timer to check for focus loss
         private Timer _focusCheckTimer;

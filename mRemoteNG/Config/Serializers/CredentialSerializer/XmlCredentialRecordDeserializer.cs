@@ -13,7 +13,7 @@ namespace mRemoteNG.Config.Serializers.CredentialSerializer
 
         public IEnumerable<ICredentialRecord> Deserialize(string xml)
         {
-            if (string.IsNullOrEmpty(xml)) return new ICredentialRecord[0];
+            if (string.IsNullOrEmpty(xml)) return Array.Empty<ICredentialRecord>();
             XDocument xdoc = XDocument.Parse(xml);
             XElement rootElement = xdoc.Root
                 ?? throw new InvalidOperationException("XML document has no root element.");

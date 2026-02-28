@@ -94,7 +94,7 @@ namespace mRemoteNG.App
             if (!Settings.Default.CompatibilityWarnLenovoAutoScrollUtility)
                 return;
 
-            Process[] proccesses = new Process[] { };
+            Process[] proccesses = Array.Empty<Process>();
             try
             {
                 proccesses = Process.GetProcessesByName("virtscrl");

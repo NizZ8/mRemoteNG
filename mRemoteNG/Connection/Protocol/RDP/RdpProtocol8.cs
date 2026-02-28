@@ -28,7 +28,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         // Debounce timer to reduce flickering during resize
         private System.Timers.Timer? _resizeDebounceTimer;
         private Size _pendingResizeSize;
-        private bool _hasPendingResize = false;
+        private bool _hasPendingResize;
 
         public RdpProtocol8()
         {

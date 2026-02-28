@@ -21,12 +21,9 @@ namespace mRemoteNG.Credential.Repositories
                                        CredentialRecordSaver credentialRecordSaver,
                                        CredentialRecordLoader credentialRecordLoader)
         {
-            if (config == null)
-                throw new ArgumentNullException(nameof(config));
-            if (credentialRecordSaver == null)
-                throw new ArgumentNullException(nameof(credentialRecordSaver));
-            if (credentialRecordLoader == null)
-                throw new ArgumentNullException(nameof(credentialRecordLoader));
+            ArgumentNullException.ThrowIfNull(config);
+            ArgumentNullException.ThrowIfNull(credentialRecordSaver);
+            ArgumentNullException.ThrowIfNull(credentialRecordLoader);
 
             Config = config;
             CredentialRecords = new FullyObservableCollection<ICredentialRecord>();

@@ -17,8 +17,7 @@ namespace mRemoteNG.Config.Serializers.CredentialSerializer
         public XmlCredentialPasswordDecryptorDecorator(
             IDeserializer<string, IEnumerable<ICredentialRecord>> baseDeserializer)
         {
-            if (baseDeserializer == null)
-                throw new ArgumentNullException(nameof(baseDeserializer));
+            ArgumentNullException.ThrowIfNull(baseDeserializer);
 
             _baseDeserializer = baseDeserializer;
         }

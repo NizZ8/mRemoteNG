@@ -188,7 +188,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
             }
 
             TreeNodeType nodeType = headers.Contains("NodeType")
-                ? (TreeNodeType)Enum.Parse(typeof(TreeNodeType), connectionCsv[headers.IndexOf("NodeType")], true)
+                ? Enum.Parse<TreeNodeType>(connectionCsv[headers.IndexOf("NodeType")], true)
                 : TreeNodeType.Connection;
 
             string nodeId = headers.Contains("Id")

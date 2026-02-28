@@ -27,7 +27,7 @@ namespace mRemoteNG.UI.TaskDialog
         private readonly DisplayProperties _display = new();
         private Control? _focusControl;
 
-        private bool _isVista = false;
+        private bool _isVista;
 
         private int _mainInstructionLeftMargin;
         private int _mainInstructionRightMargin;

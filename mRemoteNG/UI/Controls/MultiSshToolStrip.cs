@@ -25,7 +25,7 @@ namespace mRemoteNG.UI.Controls
         private ToolStripTextBox txtMultiSsh = null!;
         private ToolStripButton btnLoadScript = null!;
         private ToolStripButton btnCurrentPanelOnly = null!;
-        private int previousCommandIndex = 0;
+        private int previousCommandIndex;
         private readonly ArrayList processHandlers = [];
         private readonly ArrayList quickConnectConnections = [];
         private readonly ArrayList previousCommands = [];

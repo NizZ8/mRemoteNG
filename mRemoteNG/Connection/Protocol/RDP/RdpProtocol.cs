@@ -82,7 +82,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 return 180;
             }
         }
-        protected readonly uint Orientation = 0;
+        protected readonly uint Orientation;
         private AxHost AxHost => (AxHost)Control!;
 
         private SizeF ResolutionScalingFactor

@@ -45,7 +45,7 @@ namespace mRemoteNG.Config.Putty
 
         private void AddSessionsFromProvider(AbstractPuttySessionsProvider puttySessionProvider)
         {
-            puttySessionProvider.ThrowIfNull(nameof(puttySessionProvider));
+            ArgumentNullException.ThrowIfNull(puttySessionProvider);
 
             RootPuttySessionsNodeInfo rootTreeNode = puttySessionProvider.RootInfo;
             try

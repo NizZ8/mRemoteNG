@@ -57,7 +57,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
             get
             {
                 string cipherEngine = _aeadBlockCipher.AlgorithmName.Split('/')[0];
-                return (BlockCipherEngines)Enum.Parse(typeof(BlockCipherEngines), cipherEngine);
+                return Enum.Parse<BlockCipherEngines>(cipherEngine);
             }
         }
 
@@ -66,7 +66,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
             get
             {
                 string cipherMode = _aeadBlockCipher.AlgorithmName.Split('/')[1];
-                return (BlockCipherModes)Enum.Parse(typeof(BlockCipherModes), cipherMode);
+                return Enum.Parse<BlockCipherModes>(cipherMode);
             }
         }
 

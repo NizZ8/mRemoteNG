@@ -31,7 +31,7 @@ namespace mRemoteNG.UI.Window
         private Panel pnlControls;
         private MrngButton btnStart;
         private MrngProgressBar prgBar;
-        private bool _isTesting = false;
+        private bool _isTesting;
         private System.Threading.CancellationTokenSource? _cancellationTokenSource;
 
         public ConnectionTesterWindow()

@@ -12,11 +12,19 @@ using mRemoteNG.Tree.Root;
 namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 {
     [SupportedOSPlatform("windows")]
-    public class XmlConnectionsDocumentCompiler(ICryptographyProvider cryptographyProvider, ISerializer<ConnectionInfo, XElement> connectionNodeSerializer)
+    public class XmlConnectionsDocumentCompiler
     {
-        private readonly ICryptographyProvider _cryptographyProvider = cryptographyProvider ?? throw new ArgumentNullException(nameof(cryptographyProvider));
+        private readonly ICryptographyProvider _cryptographyProvider;
         private SecureString? _encryptionKey;
-        private readonly ISerializer<ConnectionInfo, XElement> _connectionNodeSerializer = connectionNodeSerializer ?? throw new ArgumentNullException(nameof(connectionNodeSerializer));
+        private readonly ISerializer<ConnectionInfo, XElement> _connectionNodeSerializer;
+
+        public XmlConnectionsDocumentCompiler(ICryptographyProvider cryptographyProvider, ISerializer<ConnectionInfo, XElement> connectionNodeSerializer)
+        {
+            ArgumentNullException.ThrowIfNull(cryptographyProvider);
+            ArgumentNullException.ThrowIfNull(connectionNodeSerializer);
+            _cryptographyProvider = cryptographyProvider;
+            _connectionNodeSerializer = connectionNodeSerializer;
+        }
 
         public XDocument CompileDocument(ConnectionTreeModel connectionTreeModel, bool fullFileEncryption)
         {

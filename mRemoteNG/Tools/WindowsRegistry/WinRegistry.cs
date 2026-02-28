@@ -450,7 +450,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <exception cref="ArgumentException">Thrown when an unknown or unsupported RegistryHive value is provided.</exception>
         private static void ThrowIfHiveInvalid(RegistryHive Hive)
         {
-            if (!Enum.IsDefined(typeof(RegistryHive), Hive) || Hive == RegistryHive.CurrentConfig || Hive == 0)
+            if (!Enum.IsDefined<RegistryHive>(Hive) || Hive == RegistryHive.CurrentConfig || Hive == 0)
                 throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryHive value.", nameof(Hive));
         }
 
@@ -482,7 +482,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <exception cref="InvalidOperationException">Thrown when the RegistryValueKind is Unknown.</exception>
         private static void ThrowIfValueKindInvalid(RegistryValueKind ValueKind)
         {
-            if (!Enum.IsDefined(typeof(RegistryValueKind), ValueKind) || ValueKind == RegistryValueKind.Unknown || ValueKind == RegistryValueKind.None)
+            if (!Enum.IsDefined<RegistryValueKind>(ValueKind) || ValueKind == RegistryValueKind.Unknown || ValueKind == RegistryValueKind.None)
                 throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryValueKind value.", nameof(ValueKind));
         }
 

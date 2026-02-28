@@ -57,9 +57,9 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         public override void LoadSettings()
         {
             chkEncryptCompleteFile.Checked = Properties.OptionsSecurityPage.Default.EncryptCompleteConnectionsFile;
-            comboBoxEncryptionEngine.Text = Enum.GetName(typeof(BlockCipherEngines), Properties.OptionsSecurityPage.Default.EncryptionEngine);
+            comboBoxEncryptionEngine.Text = Enum.GetName<BlockCipherEngines>(Properties.OptionsSecurityPage.Default.EncryptionEngine);
             comboBoxBlockCipher.Text =
-                Enum.GetName(typeof(BlockCipherModes), Properties.OptionsSecurityPage.Default.EncryptionBlockCipherMode);
+                Enum.GetName<BlockCipherModes>(Properties.OptionsSecurityPage.Default.EncryptionBlockCipherMode);
             numberBoxKdfIterations.Value = Properties.OptionsSecurityPage.Default.EncryptionKeyDerivationIterations;
         }
 
@@ -122,12 +122,12 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         private void PopulateEncryptionEngineDropDown()
         {
-            comboBoxEncryptionEngine.DataSource = Enum.GetValues(typeof(BlockCipherEngines));
+            comboBoxEncryptionEngine.DataSource = Enum.GetValues<BlockCipherEngines>();
         }
 
         private void PopulateBlockCipherDropDown()
         {
-            comboBoxBlockCipher.DataSource = Enum.GetValues(typeof(BlockCipherModes));
+            comboBoxBlockCipher.DataSource = Enum.GetValues<BlockCipherModes>();
         }
 
         private void BtnTestSettings_Click(object sender, EventArgs e)

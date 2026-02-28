@@ -59,7 +59,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             set
             {
                 privateHive =
-                    !Enum.IsDefined(typeof(RegistryHive), value) || value == RegistryHive.CurrentConfig || value == RegistryHive.ClassesRoot
+                    !Enum.IsDefined<RegistryHive>(value) || value == RegistryHive.CurrentConfig || value == RegistryHive.ClassesRoot
                     ? throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryHive value.", nameof(Hive))
                     : value;
             }
@@ -750,7 +750,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
         /// <exception cref="ArgumentException">Thrown when Value type <typeparamref name="T"/> is not supported.</exception>
         private bool ValueKindValidationRule(RegistryValueKind valueKind)
         {
-            if (!Enum.IsDefined(typeof(RegistryValueKind), valueKind) || valueKind == RegistryValueKind.Unknown || valueKind == RegistryValueKind.None || valueKind == 0)
+            if (!Enum.IsDefined<RegistryValueKind>(valueKind) || valueKind == RegistryValueKind.Unknown || valueKind == RegistryValueKind.None || valueKind == 0)
                 throw new ArgumentException("Invalid parameter: Unknown or unsupported RegistryValueKind value.", nameof(valueKind));
 
             return Type.GetTypeCode(ElementType) switch

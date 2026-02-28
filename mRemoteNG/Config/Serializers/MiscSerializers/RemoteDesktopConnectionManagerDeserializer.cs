@@ -361,7 +361,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
 
             try
             {
-                byte[] plaintextData = ProtectedData.Unprotect(Convert.FromBase64String(ciphertext), new byte[] { },
+                byte[] plaintextData = ProtectedData.Unprotect(Convert.FromBase64String(ciphertext), Array.Empty<byte>(),
                                                             DataProtectionScope.LocalMachine);
                 char[] charArray = Encoding.Unicode.GetChars(plaintextData);
                 return new string(charArray);

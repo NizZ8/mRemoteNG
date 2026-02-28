@@ -89,7 +89,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 connectionInfo.AutomaticResize = MiscTools.GetBooleanValue(dataRow["AutomaticResize"]);
             connectionInfo.CacheBitmaps = MiscTools.GetBooleanValue(dataRow["CacheBitmaps"]);
             if (!dataRow.IsNull("Colors"))
-                connectionInfo.Colors = (RDPColors)Enum.Parse(typeof(RDPColors), (string)dataRow["Colors"]);
+                connectionInfo.Colors = Enum.Parse<RDPColors>((string)dataRow["Colors"]);
             if (dataRow.Table.Columns.Contains("ConnectionFrameColor") && !dataRow.IsNull("ConnectionFrameColor"))
                 if (Enum.TryParse((string)dataRow["ConnectionFrameColor"], true, out ConnectionFrameColor frameColor))
                     connectionInfo.ConnectionFrameColor = frameColor;
@@ -126,20 +126,20 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             connectionInfo.PostExtApp = dataRow["PostExtApp"] as string ?? "";
             connectionInfo.PreExtApp = dataRow["PreExtApp"] as string ?? "";
             if (!dataRow.IsNull("Protocol"))
-                connectionInfo.Protocol = (ProtocolType)Enum.Parse(typeof(ProtocolType), (string)dataRow["Protocol"]);
+                connectionInfo.Protocol = Enum.Parse<ProtocolType>((string)dataRow["Protocol"]);
             connectionInfo.PuttySession = dataRow["PuttySession"] as string ?? "";
             connectionInfo.RDGatewayDomain = dataRow["RDGatewayDomain"] as string ?? "";
             connectionInfo.RDGatewayHostname = dataRow["RDGatewayHostname"] as string ?? "";
             connectionInfo.RDGatewayPassword = DecryptValue(dataRow["RDGatewayPassword"] as string ?? "");
             if (!dataRow.IsNull("RDGatewayUsageMethod"))
-                connectionInfo.RDGatewayUsageMethod = (RDGatewayUsageMethod)Enum.Parse(typeof(RDGatewayUsageMethod), (string)dataRow["RDGatewayUsageMethod"]);
+                connectionInfo.RDGatewayUsageMethod = Enum.Parse<RDGatewayUsageMethod>((string)dataRow["RDGatewayUsageMethod"]);
             if (!dataRow.IsNull("RDGatewayUseConnectionCredentials"))
-                connectionInfo.RDGatewayUseConnectionCredentials = (RDGatewayUseConnectionCredentials)Enum.Parse(typeof(RDGatewayUseConnectionCredentials), (string)dataRow["RDGatewayUseConnectionCredentials"]);
+                connectionInfo.RDGatewayUseConnectionCredentials = Enum.Parse<RDGatewayUseConnectionCredentials>((string)dataRow["RDGatewayUseConnectionCredentials"]);
             connectionInfo.RDGatewayUsername = dataRow["RDGatewayUsername"] as string ?? "";
             if (dataRow.Table.Columns.Contains("RDPAlertIdleTimeout"))
                 connectionInfo.RDPAlertIdleTimeout = MiscTools.GetBooleanValue(dataRow["RDPAlertIdleTimeout"]);
             if (!dataRow.IsNull("RDPAuthenticationLevel"))
-                connectionInfo.RDPAuthenticationLevel = (AuthenticationLevel)Enum.Parse(typeof(AuthenticationLevel), (string)dataRow["RDPAuthenticationLevel"]);
+                connectionInfo.RDPAuthenticationLevel = Enum.Parse<AuthenticationLevel>((string)dataRow["RDPAuthenticationLevel"]);
             if (dataRow.Table.Columns.Contains("RDPMinutesToIdleTimeout") && !dataRow.IsNull("RDPMinutesToIdleTimeout"))
                 connectionInfo.RDPMinutesToIdleTimeout = (int)dataRow["RDPMinutesToIdleTimeout"];
             connectionInfo.RDPStartProgram = dataRow["StartProgram"] as string ?? "";
@@ -148,7 +148,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             if (dataRow.Table.Columns.Contains("RedirectClipboard"))
                 connectionInfo.RedirectClipboard = MiscTools.GetBooleanValue(dataRow["RedirectClipboard"]);
             if (!dataRow.IsNull("RedirectDiskDrives"))
-                connectionInfo.RedirectDiskDrives = (RDPDiskDrives)Enum.Parse(typeof(RDPDiskDrives), (string)dataRow["RedirectDiskDrives"]);
+                connectionInfo.RedirectDiskDrives = Enum.Parse<RDPDiskDrives>((string)dataRow["RedirectDiskDrives"]);
             if (dataRow.Table.Columns.Contains("RedirectDiskDrivesCustom"))
                 connectionInfo.RedirectDiskDrivesCustom = dataRow["RedirectDiskDrivesCustom"] as string ?? "";
             connectionInfo.RedirectKeys = MiscTools.GetBooleanValue(dataRow["RedirectKeys"]);
@@ -156,13 +156,13 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             connectionInfo.RedirectPrinters = MiscTools.GetBooleanValue(dataRow["RedirectPrinters"]);
             connectionInfo.RedirectSmartCards = MiscTools.GetBooleanValue(dataRow["RedirectSmartCards"]);
             if (!dataRow.IsNull("RedirectSound"))
-                connectionInfo.RedirectSound = (RDPSounds)Enum.Parse(typeof(RDPSounds), (string)dataRow["RedirectSound"]);
+                connectionInfo.RedirectSound = Enum.Parse<RDPSounds>((string)dataRow["RedirectSound"]);
             if (!dataRow.IsNull("RenderingEngine"))
-                connectionInfo.RenderingEngine = (HTTPBase.RenderingEngine)Enum.Parse(typeof(HTTPBase.RenderingEngine), (string)dataRow["RenderingEngine"]);
+                connectionInfo.RenderingEngine = Enum.Parse<HTTPBase.RenderingEngine>((string)dataRow["RenderingEngine"]);
             if (!dataRow.IsNull("Resolution"))
-                connectionInfo.Resolution = (RDPResolutions)Enum.Parse(typeof(RDPResolutions), (string)dataRow["Resolution"]);
+                connectionInfo.Resolution = Enum.Parse<RDPResolutions>((string)dataRow["Resolution"]);
             if (dataRow.Table.Columns.Contains("SoundQuality") && !dataRow.IsNull("SoundQuality"))
-                connectionInfo.SoundQuality = (RDPSoundQuality)Enum.Parse(typeof(RDPSoundQuality), (string)dataRow["SoundQuality"]);
+                connectionInfo.SoundQuality = Enum.Parse<RDPSoundQuality>((string)dataRow["SoundQuality"]);
             if (dataRow.Table.Columns.Contains("SSHOptions"))
                 connectionInfo.SSHOptions = dataRow["SSHOptions"] as string ?? "";
             if (dataRow.Table.Columns.Contains("SSHTunnelConnectionName"))
@@ -184,22 +184,22 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             if (dataRow.Table.Columns.Contains("VmId"))
                 connectionInfo.VmId = dataRow["VmId"] as string ?? "";
             if (!dataRow.IsNull("VNCAuthMode"))
-                connectionInfo.VNCAuthMode = (ProtocolVNC.AuthMode)Enum.Parse(typeof(ProtocolVNC.AuthMode), (string)dataRow["VNCAuthMode"]);
+                connectionInfo.VNCAuthMode = Enum.Parse<ProtocolVNC.AuthMode>((string)dataRow["VNCAuthMode"]);
             if (!dataRow.IsNull("VNCColors"))
-                connectionInfo.VNCColors = (ProtocolVNC.Colors)Enum.Parse(typeof(ProtocolVNC.Colors), (string)dataRow["VNCColors"]);
+                connectionInfo.VNCColors = Enum.Parse<ProtocolVNC.Colors>((string)dataRow["VNCColors"]);
             if (!dataRow.IsNull("VNCCompression"))
-                connectionInfo.VNCCompression = (ProtocolVNC.Compression)Enum.Parse(typeof(ProtocolVNC.Compression), (string)dataRow["VNCCompression"]);
+                connectionInfo.VNCCompression = Enum.Parse<ProtocolVNC.Compression>((string)dataRow["VNCCompression"]);
             if (!dataRow.IsNull("VNCEncoding"))
-                connectionInfo.VNCEncoding = (ProtocolVNC.Encoding)Enum.Parse(typeof(ProtocolVNC.Encoding), (string)dataRow["VNCEncoding"]);
+                connectionInfo.VNCEncoding = Enum.Parse<ProtocolVNC.Encoding>((string)dataRow["VNCEncoding"]);
             connectionInfo.VNCProxyIP = dataRow["VNCProxyIP"] as string ?? "";
             connectionInfo.VNCProxyPassword = DecryptValue(dataRow["VNCProxyPassword"] as string ?? "");
             if (!dataRow.IsNull("VNCProxyPort"))
                 connectionInfo.VNCProxyPort = (int)dataRow["VNCProxyPort"];
             if (!dataRow.IsNull("VNCProxyType"))
-                connectionInfo.VNCProxyType = (ProtocolVNC.ProxyType)Enum.Parse(typeof(ProtocolVNC.ProxyType), (string)dataRow["VNCProxyType"]);
+                connectionInfo.VNCProxyType = Enum.Parse<ProtocolVNC.ProxyType>((string)dataRow["VNCProxyType"]);
             connectionInfo.VNCProxyUsername = dataRow["VNCProxyUsername"] as string ?? "";
             if (!dataRow.IsNull("VNCSmartSizeMode"))
-                connectionInfo.VNCSmartSizeMode = (ProtocolVNC.SmartSizeMode)Enum.Parse(typeof(ProtocolVNC.SmartSizeMode), (string)dataRow["VNCSmartSizeMode"]);
+                connectionInfo.VNCSmartSizeMode = Enum.Parse<ProtocolVNC.SmartSizeMode>((string)dataRow["VNCSmartSizeMode"]);
             connectionInfo.VNCViewOnly = MiscTools.GetBooleanValue(dataRow["VNCViewOnly"]);
             connectionInfo.VNCClipboardRedirect = dataRow.Table.Columns.Contains("VNCClipboardRedirect")
                 ? MiscTools.GetBooleanValue(dataRow["VNCClipboardRedirect"])

@@ -23,8 +23,8 @@ namespace mRemoteNG.UI.Forms
         private readonly DisplayProperties _display = new();
         private readonly List<string> _optionPageObjectNames;
         private bool _isLoading = true;
-        private bool _isInitialized = false;
-        private bool _isHandlingSelectionChange = false; // Guard flag to prevent recursive event handling
+        private bool _isInitialized;
+        private bool _isHandlingSelectionChange; // Guard flag to prevent recursive event handling
 
         public FrmOptions() : this(Language.StartupExit)
         {

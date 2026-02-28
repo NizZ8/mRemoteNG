@@ -126,7 +126,7 @@ static class DPI_Per_Monitor
     private static SemaphoreSlim semaphoreScale = new(1, 1);
     internal delegate void VoidOfFloatFloatDelegate(float x, float y);
     static Int32 Oldscales = -1;
-    static bool isCurrentlyScaling=false;
+    static bool isCurrentlyScaling;
     internal static void Check_WM_DPICHANGED_WM_NCCREATE(VoidOfFloatFloatDelegate CallBackWithScale, Message m, IntPtr hwnd) {
         switch (m.Msg) {
             case 0x02E0:  //WM_DPICHANGED

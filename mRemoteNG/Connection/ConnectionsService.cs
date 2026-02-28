@@ -37,9 +37,9 @@ namespace mRemoteNG.Connection
         private readonly PuttySessionsManager _puttySessionsManager = puttySessionsManager ?? throw new ArgumentNullException(nameof(puttySessionsManager));
         private readonly IDataProvider<string> _localConnectionPropertiesDataProvider = new FileDataProvider(Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.LocalConnectionProperties));
         private readonly LocalConnectionPropertiesXmlSerializer _localConnectionPropertiesSerializer = new LocalConnectionPropertiesXmlSerializer();
-        private bool _batchingSaves = false;
-        private bool _saveRequested = false;
-        private bool _saveAsyncRequested = false;
+        private bool _batchingSaves;
+        private bool _saveRequested;
+        private bool _saveAsyncRequested;
         // Cached SQL custom encryption password — avoids re-prompting on every reload (#1646)
         private SecureString? _cachedSqlEncryptionPassword;
 

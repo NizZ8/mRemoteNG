@@ -162,7 +162,7 @@ namespace mRemoteNG.UI.Window
                 return;
             }
 
-            ProtocolType protocol = (ProtocolType)Enum.Parse(typeof(ProtocolType), selectedItem, true);
+            ProtocolType protocol = Enum.Parse<ProtocolType>(selectedItem, true);
             importSelectedHosts(protocol);
         }
 

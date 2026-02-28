@@ -35,7 +35,7 @@ namespace mRemoteNG.UI.TaskDialog
         public static int RadioButtonResult = -1;
         public static int CommandButtonResult = -1;
         public static int EmulatedFormWidth = 450;
-        public static bool ForceEmulationMode = false;
+        public static bool ForceEmulationMode;
         public static bool UseToolWindowOnXp = true;
         public static bool PlaySystemSounds = true;
         public static EventHandler? OnTaskDialogShown;

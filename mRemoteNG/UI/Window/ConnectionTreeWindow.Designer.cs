@@ -1,4 +1,5 @@
-﻿using mRemoteNG.Tree.ClickHandlers;
+﻿using System;
+using mRemoteNG.Tree.ClickHandlers;
 using mRemoteNG.UI.Controls;
 using mRemoteNG.UI.Controls.ConnectionTree;
 
@@ -60,11 +61,11 @@ namespace mRemoteNG.UI.Window
             this.ConnectionTree.MultiSelect = true;
             this.ConnectionTree.Name = "ConnectionTree";
             this.ConnectionTree.NodeDeletionConfirmer = alwaysConfirmYes2;
-            this.ConnectionTree.PostSetupActions = new IConnectionTreeDelegate[0];
+            this.ConnectionTree.PostSetupActions = Array.Empty<IConnectionTreeDelegate>();
             this.ConnectionTree.SelectedBackColor = System.Drawing.SystemColors.Highlight;
             this.ConnectionTree.SelectedForeColor = System.Drawing.SystemColors.HighlightText;
             this.ConnectionTree.ShowGroups = false;
-            treeNodeCompositeClickHandler4.ClickHandlers = new ITreeNodeClickHandler<mRemoteNG.Connection.ConnectionInfo>[0];
+            treeNodeCompositeClickHandler4.ClickHandlers = Array.Empty<ITreeNodeClickHandler<mRemoteNG.Connection.ConnectionInfo>>();
             this.ConnectionTree.SingleClickHandler = treeNodeCompositeClickHandler4;
             this.ConnectionTree.Size = new System.Drawing.Size(204, 366);
             this.ConnectionTree.TabIndex = 20;

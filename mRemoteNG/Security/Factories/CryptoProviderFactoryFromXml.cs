@@ -32,9 +32,9 @@ namespace mRemoteNG.Security.Factories
             ICryptographyProvider cryptoProvider;
             try
             {
-                BlockCipherEngines engine = (BlockCipherEngines)Enum.Parse(typeof(BlockCipherEngines),
+                BlockCipherEngines engine = Enum.Parse<BlockCipherEngines>(
                                                             _element?.Attribute("EncryptionEngine")?.Value ?? "");
-                BlockCipherModes mode = (BlockCipherModes)Enum.Parse(typeof(BlockCipherModes),
+                BlockCipherModes mode = Enum.Parse<BlockCipherModes>(
                                                         _element?.Attribute("BlockCipherMode")?.Value ?? "");
                 cryptoProvider = new CryptoProviderFactory(engine, mode).Build();
 

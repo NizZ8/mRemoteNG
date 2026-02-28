@@ -15,8 +15,7 @@ namespace mRemoteNG.Credential
         public CredentialDeletionMsgBoxConfirmer(
             Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult> confirmationFunc)
         {
-            if (confirmationFunc == null)
-                throw new ArgumentNullException(nameof(confirmationFunc));
+            ArgumentNullException.ThrowIfNull(confirmationFunc);
 
             _confirmationFunc = confirmationFunc;
         }

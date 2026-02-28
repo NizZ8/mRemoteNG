@@ -20,25 +20,44 @@ using mRemoteNG.Tree.Root;
 namespace mRemoteNG.Config.Connections
 {
     [SupportedOSPlatform("windows")]
-    public class SqlConnectionsLoader(
-        IDeserializer<string, IEnumerable<LocalConnectionPropertiesModel>> localConnectionPropertiesDeserializer,
-        IDataProvider<string> localPropertiesDataProvider,
-        IDatabaseConnector databaseConnector,
-        IDataProvider<DataTable> sqlDataProvider,
-        ISqlDatabaseMetaDataRetriever sqlMetaDataRetriever,
-        ISqlDatabaseVersionVerifier sqlDatabaseVersionVerifier,
-        ICryptographyProvider cryptographyProvider,
-        Func<string, Optional<SecureString>>? authenticationRequestor = null) : IConnectionsLoader
+    public class SqlConnectionsLoader : IConnectionsLoader
     {
-        private readonly IDeserializer<string, IEnumerable<LocalConnectionPropertiesModel>> _localConnectionPropertiesDeserializer = localConnectionPropertiesDeserializer.ThrowIfNull(nameof(localConnectionPropertiesDeserializer));
-        private readonly IDataProvider<string> _localPropertiesDataProvider = localPropertiesDataProvider.ThrowIfNull(nameof(localPropertiesDataProvider));
-        private readonly IDatabaseConnector _databaseConnector = databaseConnector.ThrowIfNull(nameof(databaseConnector));
-        private readonly IDataProvider<DataTable> _sqlDataProvider = sqlDataProvider.ThrowIfNull(nameof(sqlDataProvider));
-        private readonly ISqlDatabaseMetaDataRetriever _sqlMetaDataRetriever = sqlMetaDataRetriever.ThrowIfNull(nameof(sqlMetaDataRetriever));
-        private readonly ISqlDatabaseVersionVerifier _sqlDatabaseVersionVerifier = sqlDatabaseVersionVerifier.ThrowIfNull(nameof(sqlDatabaseVersionVerifier));
-        private readonly ICryptographyProvider _cryptographyProvider = cryptographyProvider.ThrowIfNull(nameof(cryptographyProvider));
+        private readonly IDeserializer<string, IEnumerable<LocalConnectionPropertiesModel>> _localConnectionPropertiesDeserializer;
+        private readonly IDataProvider<string> _localPropertiesDataProvider;
+        private readonly IDatabaseConnector _databaseConnector;
+        private readonly IDataProvider<DataTable> _sqlDataProvider;
+        private readonly ISqlDatabaseMetaDataRetriever _sqlMetaDataRetriever;
+        private readonly ISqlDatabaseVersionVerifier _sqlDatabaseVersionVerifier;
+        private readonly ICryptographyProvider _cryptographyProvider;
 
-        private Func<string, Optional<SecureString>> AuthenticationRequestor { get; } = authenticationRequestor ?? ((filename) => MiscTools.PasswordDialog(filename, false));
+        private Func<string, Optional<SecureString>> AuthenticationRequestor { get; }
+
+        public SqlConnectionsLoader(
+            IDeserializer<string, IEnumerable<LocalConnectionPropertiesModel>> localConnectionPropertiesDeserializer,
+            IDataProvider<string> localPropertiesDataProvider,
+            IDatabaseConnector databaseConnector,
+            IDataProvider<DataTable> sqlDataProvider,
+            ISqlDatabaseMetaDataRetriever sqlMetaDataRetriever,
+            ISqlDatabaseVersionVerifier sqlDatabaseVersionVerifier,
+            ICryptographyProvider cryptographyProvider,
+            Func<string, Optional<SecureString>>? authenticationRequestor = null)
+        {
+            ArgumentNullException.ThrowIfNull(localConnectionPropertiesDeserializer);
+            ArgumentNullException.ThrowIfNull(localPropertiesDataProvider);
+            ArgumentNullException.ThrowIfNull(databaseConnector);
+            ArgumentNullException.ThrowIfNull(sqlDataProvider);
+            ArgumentNullException.ThrowIfNull(sqlMetaDataRetriever);
+            ArgumentNullException.ThrowIfNull(sqlDatabaseVersionVerifier);
+            ArgumentNullException.ThrowIfNull(cryptographyProvider);
+            _localConnectionPropertiesDeserializer = localConnectionPropertiesDeserializer;
+            _localPropertiesDataProvider = localPropertiesDataProvider;
+            _databaseConnector = databaseConnector;
+            _sqlDataProvider = sqlDataProvider;
+            _sqlMetaDataRetriever = sqlMetaDataRetriever;
+            _sqlDatabaseVersionVerifier = sqlDatabaseVersionVerifier;
+            _cryptographyProvider = cryptographyProvider;
+            AuthenticationRequestor = authenticationRequestor ?? ((filename) => MiscTools.PasswordDialog(filename, false));
+        }
 
         public ConnectionTreeModel Load()
         {

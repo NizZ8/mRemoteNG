@@ -705,7 +705,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             }
 
             if (Enum.TryParse(value, true, out RDGatewayUsageMethod parsedValue) &&
-                Enum.IsDefined(typeof(RDGatewayUsageMethod), parsedValue))
+                Enum.IsDefined<RDGatewayUsageMethod>(parsedValue))
             {
                 return parsedValue;
             }

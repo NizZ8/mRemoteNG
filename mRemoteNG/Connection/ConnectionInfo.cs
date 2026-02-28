@@ -485,24 +485,24 @@ namespace mRemoteNG.Connection
         private void SetConnectionDefaults()
         {
             Hostname = string.Empty;
-            ExternalAddressProvider = (ExternalAddressProvider)Enum.Parse(typeof(ExternalAddressProvider), Settings.Default.ConDefaultExternalAddressProvider);
+            ExternalAddressProvider = Enum.Parse<ExternalAddressProvider>(Settings.Default.ConDefaultExternalAddressProvider);
             EC2Region = Settings.Default.ConDefaultEC2Region;
-            ExternalCredentialProvider = (ExternalCredentialProvider)Enum.Parse(typeof(ExternalCredentialProvider), Settings.Default.ConDefaultExternalCredentialProvider);
+            ExternalCredentialProvider = Enum.Parse<ExternalCredentialProvider>(Settings.Default.ConDefaultExternalCredentialProvider);
             UserViaAPI = "";
         }
 
         private void SetProtocolDefaults()
         {
-            Protocol = (ProtocolType)Enum.Parse(typeof(ProtocolType), Settings.Default.ConDefaultProtocol);
+            Protocol = Enum.Parse<ProtocolType>(Settings.Default.ConDefaultProtocol);
             ExtApp = Settings.Default.ConDefaultExtApp;
             Port = 0;
             PuttySession = Settings.Default.ConDefaultPuttySession;
             UseConsoleSession = Settings.Default.ConDefaultUseConsoleSession;
-            RDPAuthenticationLevel = (AuthenticationLevel)Enum.Parse(typeof(AuthenticationLevel), Settings.Default.ConDefaultRDPAuthenticationLevel);
+            RDPAuthenticationLevel = Enum.Parse<AuthenticationLevel>(Settings.Default.ConDefaultRDPAuthenticationLevel);
             RDPMinutesToIdleTimeout = Settings.Default.ConDefaultRDPMinutesToIdleTimeout;
             RDPAlertIdleTimeout = Settings.Default.ConDefaultRDPAlertIdleTimeout;
             LoadBalanceInfo = Settings.Default.ConDefaultLoadBalanceInfo;
-            RenderingEngine = (HTTPBase.RenderingEngine)Enum.Parse(typeof(HTTPBase.RenderingEngine), Settings.Default.ConDefaultRenderingEngine);
+            RenderingEngine = Enum.Parse<HTTPBase.RenderingEngine>(Settings.Default.ConDefaultRenderingEngine);
             UseCredSsp = Settings.Default.ConDefaultUseCredSsp;
             UseRestrictedAdmin = Settings.Default.ConDefaultUseRestrictedAdmin;
             UseRCG = Settings.Default.ConDefaultUseRCG;
@@ -521,22 +521,22 @@ namespace mRemoteNG.Connection
 
         private void SetRdGatewayDefaults()
         {
-            RDGatewayUsageMethod = (RDGatewayUsageMethod)Enum.Parse(typeof(RDGatewayUsageMethod), Settings.Default.ConDefaultRDGatewayUsageMethod);
+            RDGatewayUsageMethod = Enum.Parse<RDGatewayUsageMethod>(Settings.Default.ConDefaultRDGatewayUsageMethod);
             RDGatewayHostname = Settings.Default.ConDefaultRDGatewayHostname;
-            RDGatewayUseConnectionCredentials = (RDGatewayUseConnectionCredentials)Enum.Parse(typeof(RDGatewayUseConnectionCredentials), Settings.Default.ConDefaultRDGatewayUseConnectionCredentials);
+            RDGatewayUseConnectionCredentials = Enum.Parse<RDGatewayUseConnectionCredentials>(Settings.Default.ConDefaultRDGatewayUseConnectionCredentials);
             RDGatewayUsername = Settings.Default.ConDefaultRDGatewayUsername;
             RDGatewayPassword = Settings.Default.ConDefaultRDGatewayPassword;
             RDGatewayDomain = Settings.Default.ConDefaultRDGatewayDomain;
-            RDGatewayExternalCredentialProvider = (ExternalCredentialProvider)Enum.Parse(typeof(ExternalCredentialProvider), Settings.Default.ConDefaultRDGatewayExternalCredentialProvider);
+            RDGatewayExternalCredentialProvider = Enum.Parse<ExternalCredentialProvider>(Settings.Default.ConDefaultRDGatewayExternalCredentialProvider);
             RDGatewayUserViaAPI = Settings.Default.ConDefaultRDGatewayUserViaAPI;
         }
 
         private void SetAppearanceDefaults()
         {
-            Resolution = (RDPResolutions)Enum.Parse(typeof(RDPResolutions), Settings.Default.ConDefaultResolution);
+            Resolution = Enum.Parse<RDPResolutions>(Settings.Default.ConDefaultResolution);
             DesktopScaleFactor = RDPDesktopScaleFactor.Auto;
             AutomaticResize = Settings.Default.ConDefaultAutomaticResize;
-            Colors = (RDPColors)Enum.Parse(typeof(RDPColors), Settings.Default.ConDefaultColors);
+            Colors = Enum.Parse<RDPColors>(Settings.Default.ConDefaultColors);
             CacheBitmaps = Settings.Default.ConDefaultCacheBitmaps;
             DisplayWallpaper = Settings.Default.ConDefaultDisplayWallpaper;
             DisplayThemes = Settings.Default.ConDefaultDisplayThemes;
@@ -560,8 +560,8 @@ namespace mRemoteNG.Connection
             RedirectPorts = Settings.Default.ConDefaultRedirectPorts;
             RedirectSmartCards = Settings.Default.ConDefaultRedirectSmartCards;
             RedirectAudioCapture = Settings.Default.ConDefaultRedirectAudioCapture;
-            RedirectSound = (RDPSounds)Enum.Parse(typeof(RDPSounds), Settings.Default.ConDefaultRedirectSound);
-            SoundQuality = (RDPSoundQuality)Enum.Parse(typeof(RDPSoundQuality), Settings.Default.ConDefaultSoundQuality);
+            RedirectSound = Enum.Parse<RDPSounds>(Settings.Default.ConDefaultRedirectSound);
+            SoundQuality = Enum.Parse<RDPSoundQuality>(Settings.Default.ConDefaultSoundQuality);
         }
 
         private void SetMiscDefaults()
@@ -593,16 +593,16 @@ namespace mRemoteNG.Connection
 
         private void SetVncDefaults()
         {
-            VNCCompression = (ProtocolVNC.Compression)Enum.Parse(typeof(ProtocolVNC.Compression), Settings.Default.ConDefaultVNCCompression);
-            VNCEncoding = (ProtocolVNC.Encoding)Enum.Parse(typeof(ProtocolVNC.Encoding), Settings.Default.ConDefaultVNCEncoding);
-            VNCAuthMode = (ProtocolVNC.AuthMode)Enum.Parse(typeof(ProtocolVNC.AuthMode), Settings.Default.ConDefaultVNCAuthMode);
-            VNCProxyType = (ProtocolVNC.ProxyType)Enum.Parse(typeof(ProtocolVNC.ProxyType), Settings.Default.ConDefaultVNCProxyType);
+            VNCCompression = Enum.Parse<ProtocolVNC.Compression>(Settings.Default.ConDefaultVNCCompression);
+            VNCEncoding = Enum.Parse<ProtocolVNC.Encoding>(Settings.Default.ConDefaultVNCEncoding);
+            VNCAuthMode = Enum.Parse<ProtocolVNC.AuthMode>(Settings.Default.ConDefaultVNCAuthMode);
+            VNCProxyType = Enum.Parse<ProtocolVNC.ProxyType>(Settings.Default.ConDefaultVNCProxyType);
             VNCProxyIP = Settings.Default.ConDefaultVNCProxyIP;
             VNCProxyPort = Settings.Default.ConDefaultVNCProxyPort;
             VNCProxyUsername = Settings.Default.ConDefaultVNCProxyUsername;
             VNCProxyPassword = Settings.Default.ConDefaultVNCProxyPassword;
-            VNCColors = (ProtocolVNC.Colors)Enum.Parse(typeof(ProtocolVNC.Colors), Settings.Default.ConDefaultVNCColors);
-            VNCSmartSizeMode = (ProtocolVNC.SmartSizeMode)Enum.Parse(typeof(ProtocolVNC.SmartSizeMode), Settings.Default.ConDefaultVNCSmartSizeMode);
+            VNCColors = Enum.Parse<ProtocolVNC.Colors>(Settings.Default.ConDefaultVNCColors);
+            VNCSmartSizeMode = Enum.Parse<ProtocolVNC.SmartSizeMode>(Settings.Default.ConDefaultVNCSmartSizeMode);
             VNCViewOnly = Settings.Default.ConDefaultVNCViewOnly;
         }
 

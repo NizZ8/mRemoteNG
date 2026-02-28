@@ -29,7 +29,7 @@ namespace mRemoteNG.Tools
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
         public class LocalizedDisplayNameAttribute(string value) : DisplayNameAttribute(value)
         {
-            private bool Localized = false;
+            private bool Localized;
 
             public override string DisplayName
             {
@@ -49,7 +49,7 @@ namespace mRemoteNG.Tools
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
         public class LocalizedDescriptionAttribute(string value) : DescriptionAttribute(value)
         {
-            private bool Localized = false;
+            private bool Localized;
 
             public override string Description
             {
@@ -80,7 +80,7 @@ namespace mRemoteNG.Tools
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
         public class LocalizedDisplayNameInheritAttribute(string value) : DisplayNameAttribute(value)
         {
-            private bool Localized = false;
+            private bool Localized;
 
             public override string DisplayName
             {
@@ -101,7 +101,7 @@ namespace mRemoteNG.Tools
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
         public class LocalizedDescriptionInheritAttribute(string value) : DescriptionAttribute(value)
         {
-            private bool Localized = false;
+            private bool Localized;
 
             public override string Description
             {

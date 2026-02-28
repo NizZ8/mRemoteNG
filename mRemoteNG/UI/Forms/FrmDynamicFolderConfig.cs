@@ -144,7 +144,7 @@ namespace mRemoteNG.UI.Forms
 
         private void LoadSettings()
         {
-            cboSourceType.DataSource = Enum.GetValues(typeof(DynamicSourceType));
+            cboSourceType.DataSource = Enum.GetValues<DynamicSourceType>();
             cboSourceType.SelectedItem = _container.DynamicSource;
             txtSourceValue.Text = _container.DynamicSourceValue;
             numRefreshInterval.Value = _container.DynamicRefreshInterval;

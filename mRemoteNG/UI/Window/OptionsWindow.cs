@@ -13,7 +13,7 @@ namespace mRemoteNG.UI.Window
     public partial class OptionsWindow : BaseWindow
     {
         private FrmOptions? _optionsForm;
-        private bool _isInitialized = false;
+        private bool _isInitialized;
 
         #region Public Methods
 
