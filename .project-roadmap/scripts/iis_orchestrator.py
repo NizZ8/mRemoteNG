@@ -194,6 +194,9 @@ ANALYZER_RULES = [
 # Suppress-only rules (too noisy, fix via .editorconfig)
 ANALYZER_SUPPRESS = ["CA1707"]
 
+# Directories to exclude from analyzer fixes (external libraries, not our code)
+ANALYZER_EXCLUDE_DIRS = ["ObjectListView", "ExternalConnectors"]
+
 BUILD_TIMEOUT = 300   # 5 min
 TEST_TIMEOUT = 600    # 10 min (2817 tests take 3-8 min depending on retries)
 CLAUDE_TIMEOUT = 900  # 15 min per task (Opus needs more time)
@@ -3357,7 +3360,8 @@ _ANALYZER_WARN_RE = re.compile(
 def parse_analyzer_warnings(build_output, target_codes=None):
     """Parse MSBuild output for analyzer warnings (CA/MA/RCS).
     Returns {file: [{line, code, message}]}.
-    If target_codes provided, filters to only those codes."""
+    If target_codes provided, filters to only those codes.
+    Excludes files from ANALYZER_EXCLUDE_DIRS (external libraries)."""
     result = {}
     for line in build_output.splitlines():
         m = _ANALYZER_WARN_RE.search(line)
@@ -3371,6 +3375,11 @@ def parse_analyzer_warnings(build_output, target_codes=None):
             continue
         # Filter to target codes if specified
         if target_codes and code not in target_codes:
+            continue
+        # Exclude external library directories
+        rel = os.path.relpath(fpath, REPO_ROOT)
+        if any(rel.startswith(d + os.sep) or rel.startswith(d + "/")
+               for d in ANALYZER_EXCLUDE_DIRS):
             continue
         result.setdefault(fpath, []).append(
             {"line": lineno, "code": code, "message": msg}
@@ -4800,8 +4809,8 @@ def flux_analyzer_warnings(status, dry_run=False, max_files=None, rules=None,
             status.data["warnings"]["by_type"][code]["now"] = total
             status.save()
 
-            # Sort: fewest warnings first (easier wins)
-            sorted_files = sorted(warnings.items(), key=lambda x: len(x[1]))
+            # Sort: most warnings first (maximize impact per build+test cycle)
+            sorted_files = sorted(warnings.items(), key=lambda x: -len(x[1]))
             if max_files:
                 sorted_files = sorted_files[:max_files]
 
