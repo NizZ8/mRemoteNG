@@ -44,7 +44,7 @@ namespace mRemoteNG.App
 
         public void Start()
         {
-            if (_disposed) throw new ObjectDisposedException(nameof(RestApiService));
+            ObjectDisposedException.ThrowIf(_disposed, this);
             if (IsRunning) return;
 
             _listener = new HttpListener();

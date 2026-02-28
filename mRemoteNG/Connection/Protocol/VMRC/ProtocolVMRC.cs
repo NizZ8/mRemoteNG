@@ -305,9 +305,9 @@ namespace mRemoteNG.Connection.Protocol.VMRC
             while (found == IntPtr.Zero &&
                    Environment.TickCount < startTicks + timeoutMs)
             {
-                NativeMethods.EnumWindows((hWnd, _) =>
+                NativeMethods.EnumWindows((hWnd, lParam) =>
                 {
-                    NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
+                    _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
                     if (windowPid == (uint)processId && NativeMethods.IsWindowVisible(hWnd))
                     {
                         found = hWnd;
@@ -332,9 +332,9 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                 List<int> childPids = GetChildProcessIds(parentProcessId);
                 foreach (int childPid in childPids)
                 {
-                    NativeMethods.EnumWindows((hWnd, _) =>
+                    NativeMethods.EnumWindows((hWnd, lParam) =>
                     {
-                        NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
+                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
                         if (windowPid == (uint)childPid && NativeMethods.IsWindowVisible(hWnd))
                         {
                             found = hWnd;
@@ -363,9 +363,9 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                 List<int> descendantPids = GetDescendantProcessIds(rootProcessId, maxDepth);
                 foreach (int descendantPid in descendantPids)
                 {
-                    NativeMethods.EnumWindows((hWnd, _) =>
+                    NativeMethods.EnumWindows((hWnd, lParam) =>
                     {
-                        NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
+                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
                         if (windowPid == (uint)descendantPid && NativeMethods.IsWindowVisible(hWnd))
                         {
                             found = hWnd;

@@ -528,7 +528,7 @@ namespace mRemoteNG.UI.TaskDialog
                         System.Media.SystemSounds.Exclamation.Play();
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(MainIcon), MainIcon, null);
+                        throw new ArgumentOutOfRangeException(null, MainIcon, "Unexpected MainIcon value.");
                 }
             }
 

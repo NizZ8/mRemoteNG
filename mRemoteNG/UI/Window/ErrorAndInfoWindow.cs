@@ -441,7 +441,7 @@ namespace mRemoteNG.UI.Window
 
             string filterText = tstbSearch.Text;
             if (string.IsNullOrEmpty(filterText) ||
-                item.Text.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                item.Text.Contains(filterText, StringComparison.OrdinalIgnoreCase))
             {
                 lvErrorCollector.Items.Insert(0, item);
             }
@@ -465,7 +465,7 @@ namespace mRemoteNG.UI.Window
             foreach (var item in _allItems)
             {
                 if (string.IsNullOrEmpty(filterText) ||
-                    item.Text.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                    item.Text.Contains(filterText, StringComparison.OrdinalIgnoreCase))
                 {
                     lvErrorCollector.Items.Add(item);
                 }

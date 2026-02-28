@@ -395,7 +395,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
             PropertyDescriptorCollection filtered = TypeDescriptor.GetProperties(obj, new[] { attribute });
             foreach (PropertyDescriptor pd in filtered)
             {
-                if (descriptors.Contains(pd)) descriptors.Remove(pd);
+                descriptors.Remove(pd);
             }
         }
     }

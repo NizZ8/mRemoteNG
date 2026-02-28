@@ -398,7 +398,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             }
             else
             {
-                throw new ArgumentException("Registry entry type must be either a valid Int32 or Int64 to use this validation.", nameof(ElementType));
+                throw new ArgumentException("Registry entry type must be either a valid Int32 or Int64 to use this validation.", (string?)null);
             }
         }
 
@@ -732,7 +732,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             string type =
                 typeCode == typeof(int) ? "dword" :
                 typeCode == typeof(long) ? "qword"
-                : throw new ArgumentException("Registry entry type must be either Int32 or Int64 to use this validation.", nameof(typeCode));
+                : throw new ArgumentException("Registry entry type must be either Int32 or Int64 to use this validation.", (string?)null);
 
             if (minValue.CompareTo(default(U)) < 0)
                 throw new ArgumentException($"Negative value not allowed for {type} parameter.", nameof(minValue));

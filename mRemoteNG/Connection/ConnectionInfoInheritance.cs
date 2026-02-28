@@ -865,7 +865,7 @@ namespace mRemoteNG.Connection
                 : Enumerable.Empty<string>();
         }
 
-        private bool FilterProperty(PropertyInfo propertyInfo)
+        private static bool FilterProperty(PropertyInfo propertyInfo)
         {
             return !s_exclusions.Contains(propertyInfo.Name);
         }

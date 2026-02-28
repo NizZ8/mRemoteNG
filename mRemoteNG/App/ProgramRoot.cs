@@ -465,7 +465,7 @@ namespace mRemoteNG.App
             }
             catch (TaskCanceledException) { /* Intentionally empty */ }
             catch (OperationCanceledException) { /* Intentionally empty */ }
-            catch (Exception) { /* Intentionally empty */ }
+            catch (Exception ex) { _ = ex; }
             finally
             {
                 if (_wpfSplashThread != null)

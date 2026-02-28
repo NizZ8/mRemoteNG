@@ -39,11 +39,8 @@ namespace mRemoteNG.Config.MachineIdentifier
             string combined = $"{diskId}_{macAddress}_{biosUuid}_{machineName}";
 
             // Hash the combined string to ensure a fixed length and improve security
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combined));
-                return BitConverter.ToString(hashBytes).Replace("-", "", StringComparison.Ordinal).ToLowerInvariant();
-            }
+            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(combined));
+            return Convert.ToHexStringLower(hashBytes);
         }
 
         /// <summary>

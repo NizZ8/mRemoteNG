@@ -11,6 +11,7 @@ using System.Runtime.Versioning;
 [SupportedOSPlatform("windows")]
 public class LocalDBManager
 {
+    private static readonly JsonSerializerOptions s_jsonOptions = new() { WriteIndented = true };
     private readonly string _dbPath;
     private readonly string _schemaPath;
     private readonly string _mRIdentifier = string.Empty; // Initialize to non-null default
@@ -322,7 +323,7 @@ public void EncryptDatabase()
                 settingsData[tableName] = new List<Setting>(settings);
             }
 
-            var json = JsonSerializer.Serialize(settingsData, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(settingsData, s_jsonOptions);
             if (jsonFilePath == null || jsonFilePath.Contains("../", StringComparison.Ordinal) || jsonFilePath.Contains(@"..\", StringComparison.Ordinal))
             {
                 throw new ArgumentException("Invalid file path", nameof(jsonFilePath));

@@ -37,13 +37,10 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 using Aes aes = Aes.Create();
                 aes.BlockSize = BlockSizeInBytes * 8;
 
-                using (MD5 md5 = MD5.Create())
-                {
-                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(encryptionKey.ConvertToUnsecureString()));
-                    aes.Key = key;
-                    aes.GenerateIV();
-                    CryptographicOperations.ZeroMemory(key);
-                }
+                byte[] key = MD5.HashData(Encoding.UTF8.GetBytes(encryptionKey.ConvertToUnsecureString()));
+                aes.Key = key;
+                aes.GenerateIV();
+                CryptographicOperations.ZeroMemory(key);
 
                 using MemoryStream ms = new();
                 ms.Write(aes.IV, 0, BlockSizeInBytes);
@@ -76,12 +73,9 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 using Aes aes = Aes.Create();
                 aes.BlockSize = BlockSizeInBytes * 8;
 
-                using (MD5 md5 = MD5.Create())
-                {
-                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(decryptionKey.ConvertToUnsecureString()));
-                    aes.Key = key;
-                    CryptographicOperations.ZeroMemory(key);
-                }
+                byte[] key = MD5.HashData(Encoding.UTF8.GetBytes(decryptionKey.ConvertToUnsecureString()));
+                aes.Key = key;
+                CryptographicOperations.ZeroMemory(key);
 
                 byte[] ciphertext = Convert.FromBase64String(cipherText);
 

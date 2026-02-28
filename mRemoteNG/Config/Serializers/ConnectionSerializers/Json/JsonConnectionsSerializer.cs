@@ -13,6 +13,12 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Json
     [SupportedOSPlatform("windows")]
     public class JsonConnectionsSerializer : ISerializer<ConnectionInfo, string>
     {
+        private static readonly JsonSerializerOptions s_jsonOptions = new()
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+
         private readonly SaveFilter _saveFilter;
 
         public Version Version { get; } = new(1, 0);
@@ -26,11 +32,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Json
         {
             serializationTarget.ThrowIfNull(nameof(serializationTarget));
             object node = SerializeNode(serializationTarget);
-            return JsonSerializer.Serialize(node, new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            });
+            return JsonSerializer.Serialize(node, s_jsonOptions);
         }
 
         private object SerializeNode(ConnectionInfo connectionInfo)

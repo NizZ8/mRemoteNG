@@ -97,6 +97,7 @@ namespace mRemoteNG.Tools
             ReleaseHandle();
 
             _disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

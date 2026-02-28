@@ -27,6 +27,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
     public static class DatabaseProfileManager
     {
         private static readonly string ProfilesPath = Path.Combine(GeneralAppInfo.HomePath, "databaseProfiles.json");
+        private static readonly JsonSerializerOptions s_jsonOptions = new() { WriteIndented = true };
         private static IList<DatabaseProfile> _profiles = new List<DatabaseProfile>();
 
         public static IList<DatabaseProfile> Profiles
@@ -65,7 +66,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
         {
             try
             {
-                string json = JsonSerializer.Serialize(_profiles, new JsonSerializerOptions { WriteIndented = true });
+                string json = JsonSerializer.Serialize(_profiles, s_jsonOptions);
                 File.WriteAllText(ProfilesPath, json);
             }
             catch (Exception ex)

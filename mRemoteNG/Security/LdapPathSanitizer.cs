@@ -213,7 +213,7 @@ namespace mRemoteNG.Security
                 return string.IsNullOrWhiteSpace(dnPart) || dnPart.Contains('=');
             }
 
-            if (distinguishedName.IndexOf("://", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (distinguishedName.Contains("://", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             if (ContainsUnsafeLdapUriCharacters(distinguishedName))
