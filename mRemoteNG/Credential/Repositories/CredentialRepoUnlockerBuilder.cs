@@ -2,7 +2,7 @@
 
 namespace mRemoteNG.Credential.Repositories
 {
-    public class CredentialRepoUnlockerBuilder
+    public static class CredentialRepoUnlockerBuilder
     {
         public static CompositeRepositoryUnlocker Build(IEnumerable<ICredentialRepository> repos)
         {

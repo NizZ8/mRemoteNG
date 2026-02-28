@@ -80,9 +80,9 @@ namespace mRemoteNG.UI.Controls
                 {
                     Tag = RuntimeHelpers.GetObjectValue(enumerator.Value)
                 };
-                if (!keyStr.Substring(0, 2).Equals("CN") ||
-                    keyStr.Equals("CN=Computers") ||
-                    keyStr.Equals("CN=Users"))
+                if (!keyStr.Substring(0, 2).Equals("CN", StringComparison.Ordinal) ||
+                    keyStr.Equals("CN=Computers", StringComparison.Ordinal) ||
+                    keyStr.Equals("CN=Users", StringComparison.Ordinal))
                     flag1 = true;
 
                 if (flag1)
@@ -92,7 +92,7 @@ namespace mRemoteNG.UI.Controls
                     {
                         foreach (TreeNode node2 in tNode.Nodes)
                         {
-                            if (!node2.Text.Equals(node1.Text)) continue;
+                            if (!node2.Text.Equals(node1.Text, StringComparison.Ordinal)) continue;
                             flag2 = true;
                             break;
                         }
@@ -116,9 +116,9 @@ namespace mRemoteNG.UI.Controls
 
         private static int GetImageIndex(string objType)
         {
-            if (objType.Equals("CN"))
+            if (objType.Equals("CN", StringComparison.Ordinal))
                 return 2;
-            return objType.Equals("OU") ? 1 : 3;
+            return objType.Equals("OU", StringComparison.Ordinal) ? 1 : 3;
         }
 
         #endregion Private Methods

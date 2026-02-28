@@ -157,7 +157,7 @@ namespace mRemoteNG.App
             {
                 HandleGetConnections(resp);
             }
-            else if (path.StartsWith("/api/connections/") && method == "GET")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "GET")
             {
                 string id = path["/api/connections/".Length..];
                 HandleGetConnection(resp, id);
@@ -166,12 +166,12 @@ namespace mRemoteNG.App
             {
                 await HandleCreateConnection(req, resp).ConfigureAwait(false);
             }
-            else if (path.StartsWith("/api/connections/") && method == "PUT")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "PUT")
             {
                 string id = path["/api/connections/".Length..];
                 await HandleUpdateConnection(req, resp, id).ConfigureAwait(false);
             }
-            else if (path.StartsWith("/api/connections/") && method == "DELETE")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "DELETE")
             {
                 string id = path["/api/connections/".Length..];
                 HandleDeleteConnection(resp, id);

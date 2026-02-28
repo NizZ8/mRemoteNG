@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
@@ -75,6 +76,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
         private void Dispose(bool itIsSafeToFreeManagedObjects)
         {

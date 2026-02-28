@@ -488,7 +488,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 if (hwnd == IntPtr.Zero) return;
 
                                 StringBuilder className = new StringBuilder(256);
-                                NativeMethods.GetClassName(hwnd, className, className.Capacity);
+                                _ = NativeMethods.GetClassName(hwnd, className, className.Capacity);
                                 string cls = className.ToString();
 
                                 if (cls.Contains("TscShellContainerClass") || cls.Contains("UIContainerClass"))
@@ -1473,7 +1473,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             DriveInfo[] myDrives = DriveInfo.GetDrives();
             foreach (DriveInfo myDrive in myDrives)
             {
-                if (myDrive.Name.Substring(0, 1).Equals(drive.Name.Substring(0,1)))
+                if (myDrive.Name.Substring(0, 1).Equals(drive.Name.Substring(0, 1), StringComparison.Ordinal))
                 {
                     return myDrive.DriveType == DriveType.Fixed;
                 }
@@ -1793,7 +1793,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 if (hwnd == IntPtr.Zero) return;
 
                                 StringBuilder className = new StringBuilder(256);
-                                NativeMethods.GetClassName(hwnd, className, className.Capacity);
+                                _ = NativeMethods.GetClassName(hwnd, className, className.Capacity);
                                 string cls = className.ToString();
 
                                 // Check for standard RDP container classes
@@ -1808,7 +1808,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                     if (needsAppWindow || hasToolWindow)
                                     {
                                         int newStyle = (exStyle | NativeMethods.WS_EX_APPWINDOW) & ~NativeMethods.WS_EX_TOOLWINDOW;
-                                        NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE, newStyle);
+                                        _ = NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE, newStyle);
                                     }
 
                                     // Fix #1402: position the fullscreen window to cover the entire monitor
@@ -2003,7 +2003,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 if (!ctrlHeld)  inputs[i++] = MakeKeyUp(VK_CONTROL);
                 if (!altHeld)   inputs[i++] = MakeKeyUp(VK_MENU);
 
-                NativeMethods.SendInput((uint)inputs.Length, inputs,
+                _ = NativeMethods.SendInput((uint)inputs.Length, inputs,
                     System.Runtime.InteropServices.Marshal.SizeOf<NativeMethods.INPUT>());
             }
             catch { }

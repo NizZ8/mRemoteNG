@@ -33,16 +33,14 @@ namespace mRemoteNG.Tree
 
         public void Execute(IConnectionTree connectionTree)
         {
-            if (connectionTree == null)
-                throw new ArgumentNullException(nameof(connectionTree));
+            ArgumentNullException.ThrowIfNull(connectionTree);
 
             Execute(connectionTree.GetRootConnectionNode());
         }
 
         public void Execute(RootNodeInfo rootConnectionNode)
         {
-            if (rootConnectionNode == null)
-                throw new ArgumentNullException(nameof(rootConnectionNode));
+            ArgumentNullException.ThrowIfNull(rootConnectionNode);
 
             string? connectTo = _connectTo;
             if (string.IsNullOrEmpty(connectTo))

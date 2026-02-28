@@ -144,7 +144,7 @@ namespace mRemoteNG.Connection.Protocol
                 }
                 else
                 {
-                    NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
+                    _ = NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
                     if (windowPid != (uint)_process.Id)
                     {
                         try
@@ -184,7 +184,7 @@ namespace mRemoteNG.Connection.Protocol
                                                      string.Format(Language.PanelHandle,
                                                                    InterfaceControl.Parent?.Handle), true);
 
-                Resize(this, new EventArgs());
+                Resize(this, EventArgs.Empty);
                 base.Connect();
                 return true;
             }
@@ -482,7 +482,7 @@ namespace mRemoteNG.Connection.Protocol
                     return CreateBuiltInShellTool(normalized + ".exe", normalized + ".exe");
                 default:
                     // Handle versioned Ubuntu launchers (e.g. ubuntu2004, ubuntu2204, ubuntu2404)
-                    if (normalized.Length > 6 && normalized.StartsWith("ubuntu") && char.IsDigit(normalized[6]))
+                    if (normalized.Length > 6 && normalized.StartsWith("ubuntu", StringComparison.Ordinal) && char.IsDigit(normalized[6]))
                         return CreateBuiltInShellTool(normalized + ".exe", normalized + ".exe");
                     return null;
             }
@@ -517,7 +517,7 @@ namespace mRemoteNG.Connection.Protocol
                 || identifier == "kali-linux"
                 || identifier == "kali"
                 // Versioned Ubuntu launchers (e.g. ubuntu2004, ubuntu2204, ubuntu2404)
-                || (identifier.Length > 6 && identifier.StartsWith("ubuntu") && char.IsDigit(identifier[6]));
+                || (identifier.Length > 6 && identifier.StartsWith("ubuntu", StringComparison.Ordinal) && char.IsDigit(identifier[6]));
         }
 
         private static string NormalizeShellToolName(string value)

@@ -291,7 +291,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
         private static volatile bool _isConnectionSuccessful;
         private static ExceptionDispatchInfo? _socketexception;
         private static readonly ManualResetEvent TimeoutObject = new(false);
-        private static readonly object _testConnectLock = new();
+        private static readonly Lock _testConnectLock = new();
 
         private TraceListener? _traceListener;
         private StringWriter? _traceWriter;

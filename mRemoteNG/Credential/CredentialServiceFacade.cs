@@ -15,13 +15,9 @@ namespace mRemoteNG.Credential
 
         public CredentialServiceFacade(ICredentialRepositoryList repositoryList, ILoader<IEnumerable<ICredentialRepository>> loader, ISaver<IEnumerable<ICredentialRepository>> saver)
         {
-            if (repositoryList == null)
-                throw new ArgumentNullException(nameof(repositoryList));
-            if (loader == null)
-                throw new ArgumentNullException(nameof(loader));
-            if (saver == null)
-                throw new ArgumentNullException(nameof(saver));
-
+            ArgumentNullException.ThrowIfNull(repositoryList);
+            ArgumentNullException.ThrowIfNull(loader);
+            ArgumentNullException.ThrowIfNull(saver);
             _repositoryList = repositoryList;
             _loader = loader;
             _saver = saver;

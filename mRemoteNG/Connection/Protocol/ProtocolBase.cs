@@ -117,9 +117,9 @@ namespace mRemoteNG.Connection.Protocol
             {
                 if (c == '+' || c == '^' || c == '%' || c == '~' || c == '!' || c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']')
                 {
-                    sb.Append("{");
+                    sb.Append('{');
                     sb.Append(c);
-                    sb.Append("}");
+                    sb.Append('}');
                 }
                 else
                 {
@@ -436,6 +436,7 @@ namespace mRemoteNG.Connection.Protocol
         }
 
 
+#pragma warning disable CA1707 // Legacy event handler naming convention; renaming would break many protocol subclasses
         public void Event_Closing(object sender)
         {
             ClosingEvent?.Invoke(sender);
@@ -473,6 +474,7 @@ namespace mRemoteNG.Connection.Protocol
         {
             Close();
         }
+#pragma warning restore CA1707
 
         /// <summary>
         /// Prompts the user to enter a new password after an authentication failure

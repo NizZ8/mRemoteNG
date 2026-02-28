@@ -32,8 +32,7 @@ namespace mRemoteNG.Tools
             IPAddress ipAddressStart = IpAddressMin(ipAddress1, ipAddress2);
             IPAddress ipAddressEnd = IpAddressMax(ipAddress1, ipAddress2);
 
-            if (timeoutInMilliseconds < 0)
-                throw new ArgumentOutOfRangeException(nameof(timeoutInMilliseconds));
+            ArgumentOutOfRangeException.ThrowIfNegative(timeoutInMilliseconds);
 
             _timeoutInMilliseconds = timeoutInMilliseconds;
             _ports.Clear();
@@ -62,8 +61,7 @@ namespace mRemoteNG.Tools
             if (portStart == 0)
                 portStart = portEnd;
 
-            if (timeoutInMilliseconds < 0)
-                throw new ArgumentOutOfRangeException(nameof(timeoutInMilliseconds));
+            ArgumentOutOfRangeException.ThrowIfNegative(timeoutInMilliseconds);
 
             _timeoutInMilliseconds = timeoutInMilliseconds;
             _ports.Clear();

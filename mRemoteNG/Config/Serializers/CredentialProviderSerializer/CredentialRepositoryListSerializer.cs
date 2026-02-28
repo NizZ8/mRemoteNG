@@ -7,7 +7,7 @@ using mRemoteNG.Credential;
 
 namespace mRemoteNG.Config.Serializers.CredentialProviderSerializer
 {
-    public class CredentialRepositoryListSerializer
+    public static class CredentialRepositoryListSerializer
     {
         public static string Serialize(IEnumerable<ICredentialRepository> credentialProviderCatalog)
         {

@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.Config.Import
 {
     [SupportedOSPlatform("windows")]
-    public class SecureCRTFolderImporter
+    public static class SecureCRTFolderImporter
     {
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace mRemoteNG.Config.Import
                 string dirName = Path.GetFileName(subDir);
 
                 // Skip hidden/internal directories
-                if (dirName.StartsWith(".", StringComparison.Ordinal) ||
+                if (dirName.StartsWith('.') ||
                     dirName.StartsWith("__", StringComparison.Ordinal))
                     continue;
 

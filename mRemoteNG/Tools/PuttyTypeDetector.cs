@@ -7,7 +7,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.Tools
 {
     [SupportedOSPlatform("windows")]
-    public class PuttyTypeDetector
+    public static class PuttyTypeDetector
     {
         public static PuttyType GetPuttyType()
         {

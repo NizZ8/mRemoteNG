@@ -30,7 +30,7 @@ namespace mRemoteNG.Config.Import
                     {
                         foreach (string sub in key.GetSubKeyNames())
                         {
-                            if (sub.EndsWith("Default%20Settings")) continue;
+                            if (sub.EndsWith("Default%20Settings", StringComparison.Ordinal)) continue;
                             using RegistryKey? subkey = key.OpenSubKey(sub);
                             if (subkey == null) continue;
                             string Hostname = subkey.GetValue("HostName") as string ?? string.Empty;

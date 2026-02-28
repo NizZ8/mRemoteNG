@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Versioning;
+using System.Threading;
 using System.Xml.Serialization;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
@@ -15,7 +16,7 @@ namespace mRemoteNG.Connection
         private const string FileName = "recentConnections.xml";
         private const int MaxRecentConnections = 10;
         private readonly string _filePath;
-        private readonly object _recentConnectionsLock = new();
+        private readonly Lock _recentConnectionsLock = new();
         private List<string> _recentConnectionIDs = new();
         private static readonly Lazy<RecentConnectionsService> _instance = new(() => new RecentConnectionsService());
 

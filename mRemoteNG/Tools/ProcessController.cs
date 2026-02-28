@@ -43,7 +43,7 @@ namespace mRemoteNG.Tools
                 return false;
 
             uint nCmdShow = visible ? NativeMethods.SW_SHOW : NativeMethods.SW_HIDE;
-            NativeMethods.ShowWindow(controlHandle, (int)nCmdShow);
+            _ = NativeMethods.ShowWindow(controlHandle, (int)nCmdShow);
             return true;
         }
 
@@ -148,7 +148,7 @@ namespace mRemoteNG.Tools
             IntPtr controlHandle = IntPtr.Zero;
             foreach (IntPtr control in Controls)
             {
-                NativeMethods.GetClassName(control, stringBuilder, stringBuilder.Capacity);
+                _ = NativeMethods.GetClassName(control, stringBuilder, stringBuilder.Capacity);
                 if (stringBuilder.ToString() != className) continue;
                 if (string.IsNullOrEmpty(text))
                 {

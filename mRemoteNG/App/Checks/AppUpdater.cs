@@ -185,8 +185,8 @@ namespace mRemoteNG.App.Update
                 await using FileStream stream = File.OpenRead(CurrentUpdateInfo.UpdateFilePath);
                 byte[] hash = await checksum.ComputeHashAsync(stream);
                 string hashString = BitConverter.ToString(hash).Replace("-", "").ToUpperInvariant();
-                if (!hashString.Equals(CurrentUpdateInfo.Checksum))
-                    throw new Exception("SHA512 Hashes didn't match!");
+                if (!hashString.Equals(CurrentUpdateInfo.Checksum, StringComparison.Ordinal))
+                    throw new InvalidOperationException("SHA512 Hashes didn't match!");
             } finally{
                 _getUpdateInfoCancelToken?.Dispose();
                 _getUpdateInfoCancelToken = null;

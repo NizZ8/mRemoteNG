@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Versioning;
+using System.Threading;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
 
@@ -9,7 +10,7 @@ namespace mRemoteNG.Connection
     [SupportedOSPlatform("windows")]
     public static class ConnectionAuditLogger
     {
-        private static readonly object _lock = new();
+        private static readonly Lock _lock = new();
         private const string AuditFileName = "connectionAudit.log";
         private const long MaxFileSize = 10 * 1024 * 1024; // 10 MB
 

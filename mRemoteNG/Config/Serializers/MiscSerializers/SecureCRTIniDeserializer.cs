@@ -8,7 +8,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.Config.Serializers.MiscSerializers
 {
     [SupportedOSPlatform("windows")]
-    public class SecureCRTIniDeserializer
+    public static class SecureCRTIniDeserializer
     {
         /// <summary>
         /// Parses a single SecureCRT .ini session file into a ConnectionInfo.
@@ -30,9 +30,9 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
                 if (line.Length == 0 || line.StartsWith(';'))
                     continue;
 
-                if (line.StartsWith("S:\""))
+                if (line.StartsWith("S:\"", StringComparison.Ordinal))
                     ParseStringEntry(line, strings);
-                else if (line.StartsWith("D:\""))
+                else if (line.StartsWith("D:\"", StringComparison.Ordinal))
                     ParseDwordEntry(line, dwords);
             }
 

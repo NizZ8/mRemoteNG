@@ -141,7 +141,7 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
                                                      string.Format(Language.IntAppTitle, _process.MainWindowTitle), true);
 
-                Resize(this, new EventArgs());
+                Resize(this, EventArgs.Empty);
                 base.Connect();
                 return true;
             }

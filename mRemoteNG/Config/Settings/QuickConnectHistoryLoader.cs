@@ -114,9 +114,9 @@ namespace mRemoteNG.Config.Settings
                 if (string.IsNullOrEmpty(hostname))
                     continue;
 
-                int.TryParse(item.Attributes?["Port"]?.Value, out int port);
-                Enum.TryParse(item.Attributes?["Protocol"]?.Value, out ProtocolType protocol);
-                bool.TryParse(item.Attributes?["Connected"]?.Value, out bool connected);
+                _ = int.TryParse(item.Attributes?["Port"]?.Value, out int port);
+                _ = Enum.TryParse(item.Attributes?["Protocol"]?.Value, out ProtocolType protocol);
+                _ = bool.TryParse(item.Attributes?["Connected"]?.Value, out bool connected);
 
                 historyItems.Add(new QuickConnectHistoryItem(hostname, port, protocol, connected));
             }

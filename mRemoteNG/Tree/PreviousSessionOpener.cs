@@ -19,9 +19,7 @@ namespace mRemoteNG.Tree
             IConnectionInitiator connectionInitiator,
             Func<IEnumerable<ConnectionInfo>>? previousQuickConnectSessionLoader = null)
         {
-            if (connectionInitiator == null)
-                throw new ArgumentNullException(nameof(connectionInitiator));
-
+            ArgumentNullException.ThrowIfNull(connectionInitiator);
             _connectionInitiator = connectionInitiator;
             _previousQuickConnectSessionLoader = previousQuickConnectSessionLoader ?? QuickConnectHistoryLoader.LoadPreviouslyConnectedQuickConnectSessions;
         }

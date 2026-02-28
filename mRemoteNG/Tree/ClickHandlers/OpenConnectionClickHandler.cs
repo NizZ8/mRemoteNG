@@ -12,15 +12,13 @@ namespace mRemoteNG.Tree.ClickHandlers
 
         public OpenConnectionClickHandler(IConnectionInitiator connectionInitiator)
         {
-            if (connectionInitiator == null)
-                throw new ArgumentNullException(nameof(connectionInitiator));
+            ArgumentNullException.ThrowIfNull(connectionInitiator);
             _connectionInitiator = connectionInitiator;
         }
 
         public void Execute(ConnectionInfo clickedNode)
         {
-            if (clickedNode == null)
-                throw new ArgumentNullException(nameof(clickedNode));
+            ArgumentNullException.ThrowIfNull(clickedNode);
 
             var nodeType = clickedNode.GetTreeNodeType();
             bool isConnectable = nodeType == TreeNodeType.Connection ||

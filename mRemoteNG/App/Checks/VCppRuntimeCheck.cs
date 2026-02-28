@@ -5,7 +5,7 @@ using System.Runtime.Versioning; // Add for SupportedOSPlatform
 
 namespace mRemoteNG.App.Update
 {
-    public class VCppRuntimeCheck
+    public static class VCppRuntimeCheck
     {
         [SupportedOSPlatform("windows")]
         public static List<string> GetInstalledVcRedistVersions()

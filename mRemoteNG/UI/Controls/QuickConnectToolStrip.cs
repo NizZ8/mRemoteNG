@@ -245,7 +245,7 @@ namespace mRemoteNG.UI.Controls
             _btnQuickConnect.Text = protocol;
             foreach (ToolStripMenuItem menuItem in _mnuQuickConnectProtocol.Items)
             {
-                menuItem.Checked = string.Equals(menuItem.Text, protocol);
+                menuItem.Checked = string.Equals(menuItem.Text, protocol, StringComparison.Ordinal);
             }
         }
 

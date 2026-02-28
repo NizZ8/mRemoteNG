@@ -8,8 +8,7 @@ namespace mRemoteNG.UI
     {
         public NotificationMessageListViewItem(IMessage message)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            ArgumentNullException.ThrowIfNull(message);
 
             ImageIndex = Convert.ToInt32(message.Class);
             Text = message.Text.Replace(Environment.NewLine, "  ");

@@ -23,7 +23,7 @@ namespace mRemoteNG.Security.PasswordCreation
         public bool Validate(SecureString password)
         {
             Regex regex = new(@"[A-Z]");
-            return regex.Matches(password.ConvertToUnsecureString()).Count >= _minimumCount;
+            return regex.Count(password.ConvertToUnsecureString()) >= _minimumCount;
         }
     }
 }

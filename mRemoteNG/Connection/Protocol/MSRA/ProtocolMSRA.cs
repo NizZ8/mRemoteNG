@@ -268,7 +268,7 @@ namespace mRemoteNG.Connection.Protocol.MSRA
                                 if (InterfaceControl != null)
                                 {
                                     NativeMethods.SetParent(_handle, InterfaceControl.Handle);
-                                    Resize(this, new EventArgs());
+                                    Resize(this, EventArgs.Empty);
                                 }
 
                                 return true;

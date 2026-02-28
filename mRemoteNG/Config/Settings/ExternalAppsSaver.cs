@@ -14,7 +14,7 @@ using mRemoteNG.Tools;
 namespace mRemoteNG.Config.Settings
 {
     [SupportedOSPlatform("windows")]
-    public class ExternalAppsSaver
+    public static class ExternalAppsSaver
     {
         public static void Save(IEnumerable<ExternalTool> externalTools)
         {

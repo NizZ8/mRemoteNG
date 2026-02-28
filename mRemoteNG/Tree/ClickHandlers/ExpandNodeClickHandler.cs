@@ -11,9 +11,7 @@ namespace mRemoteNG.Tree.ClickHandlers
 
         public ExpandNodeClickHandler(IConnectionTree connectionTree)
         {
-            if (connectionTree == null)
-                throw new ArgumentNullException(nameof(connectionTree));
-
+            ArgumentNullException.ThrowIfNull(connectionTree);
             _connectionTree = connectionTree;
         }
 

@@ -65,7 +65,7 @@ namespace mRemoteNG.Config.Connections
             Optional<SecureString> decryptionKey = GetDecryptionKey(metaData);
 
             if (!decryptionKey.Any())
-                throw new Exception("Could not load SQL connections");
+                throw new InvalidOperationException("Could not load SQL connections");
 
             _sqlDatabaseVersionVerifier.VerifyDatabaseVersion(metaData.ConfVersion);
             System.Data.DataTable dataTable = _sqlDataProvider.Load();

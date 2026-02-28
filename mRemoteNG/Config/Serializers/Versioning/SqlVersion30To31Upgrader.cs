@@ -90,7 +90,7 @@ CREATE TABLE [dbo].[tblExternalTools] (
                 }
                 else
                 {
-                    throw new Exception("Unknown database back-end");
+                    throw new NotSupportedException("Unknown database back-end");
                 }
                 DbParameter pConfVersion = dbCommand.CreateParameter();
                 pConfVersion.ParameterName = "confVersion";

@@ -11,7 +11,7 @@ using mRemoteNG.Tools;
 namespace mRemoteNG.Config.Settings
 {
     [SupportedOSPlatform("windows")]
-    public class CommandSnippetsSaver
+    public static class CommandSnippetsSaver
     {
         public static void Save(IEnumerable<CommandSnippet> snippets)
         {

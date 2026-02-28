@@ -248,7 +248,7 @@ public class SqlConnectionsLoaderIntegrationTests
         var loader = CreateLoader(authRequestor: mockPasswordRequestor);
 
         // Act & Assert
-        var ex = Assert.Throws<Exception>(() => loader.Load());
+        var ex = Assert.Throws<InvalidOperationException>(() => loader.Load());
         Assert.That(ex.Message, Is.EqualTo("Could not load SQL connections"));
         mockPasswordRequestor.Received(3).Invoke("");
     }
@@ -273,7 +273,7 @@ public class SqlConnectionsLoaderIntegrationTests
         var loader = CreateLoader(authRequestor: mockPasswordRequestor);
 
         // Act & Assert
-        var ex = Assert.Throws<Exception>(() => loader.Load());
+        var ex = Assert.Throws<InvalidOperationException>(() => loader.Load());
         Assert.That(ex.Message, Is.EqualTo("Could not load SQL connections"));
         mockPasswordRequestor.Received(1).Invoke("");
     }

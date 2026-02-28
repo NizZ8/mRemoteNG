@@ -408,7 +408,7 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
                                 if (InterfaceControl != null)
                                 {
                                     NativeMethods.SetParent(_handle, InterfaceControl.Handle);
-                                    Resize(this, new EventArgs());
+                                    Resize(this, EventArgs.Empty);
                                 }
 
                                 return true;

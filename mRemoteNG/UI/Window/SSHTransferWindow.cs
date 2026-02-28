@@ -499,10 +499,10 @@ namespace mRemoteNG.UI.Window
                     }
                 }
 
-                if (txtRemoteFile.Text.EndsWith("/") || txtRemoteFile.Text.EndsWith("\\"))
+                if (txtRemoteFile.Text.EndsWith('/') || txtRemoteFile.Text.EndsWith('\\'))
                 {
                     txtRemoteFile.Text +=
-                        txtLocalFile.Text.Substring(txtLocalFile.Text.LastIndexOf("\\", StringComparison.Ordinal) + 1);
+                        txtLocalFile.Text.Substring(txtLocalFile.Text.LastIndexOf('\\') + 1);
                 }
 
                 return true;

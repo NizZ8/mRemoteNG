@@ -401,9 +401,9 @@ namespace mRemoteNG.Connection.Protocol.Http
                 string combinedPath = parsed.AbsolutePath;
                 if (!string.IsNullOrEmpty(httpPath))
                 {
-                    if (!combinedPath.EndsWith("/") && !httpPath.StartsWith("/"))
+                    if (!combinedPath.EndsWith('/') && !httpPath.StartsWith('/'))
                         combinedPath = combinedPath + "/" + httpPath;
-                    else if (combinedPath.EndsWith("/") && httpPath.StartsWith("/"))
+                    else if (combinedPath.EndsWith('/') && httpPath.StartsWith('/'))
                         combinedPath = combinedPath + httpPath[1..];
                     else
                         combinedPath = combinedPath + httpPath;

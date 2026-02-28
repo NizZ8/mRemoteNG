@@ -125,7 +125,7 @@ namespace mRemoteNG.Tools
             }
         }
 
-        public void ReconnectGroup_Load(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
             ApplyLanguage();
         }

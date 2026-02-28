@@ -33,7 +33,7 @@ namespace mRemoteNG.Connection
     [SupportedOSPlatform("windows")]
     public class ConnectionsService(PuttySessionsManager puttySessionsManager)
     {
-        private static readonly object SaveLock = new();
+        private static readonly Lock SaveLock = new();
         private readonly PuttySessionsManager _puttySessionsManager = puttySessionsManager ?? throw new ArgumentNullException(nameof(puttySessionsManager));
         private readonly IDataProvider<string> _localConnectionPropertiesDataProvider = new FileDataProvider(Path.Combine(SettingsFileInfo.SettingsPath, SettingsFileInfo.LocalConnectionProperties));
         private readonly LocalConnectionPropertiesXmlSerializer _localConnectionPropertiesSerializer = new LocalConnectionPropertiesXmlSerializer();
@@ -111,13 +111,13 @@ namespace mRemoteNG.Connection
                 };
                 string explicitUsername = string.Empty;
 
-                if (connectionString.Contains("@"))
+                if (connectionString.Contains('@'))
                 {
                     string[] x = connectionString.Split('@');
                     explicitUsername = x[0];
                     connectionString = x[1];
                 }
-                if (connectionString.Contains(":"))
+                if (connectionString.Contains(':'))
                 {
                     string[] x = connectionString.Split(':');
                     connectionString = x[0];

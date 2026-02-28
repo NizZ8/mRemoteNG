@@ -7,6 +7,7 @@ using System.Text;
 
 #pragma warning disable 649
 #pragma warning disable 169
+#pragma warning disable CA1707 // P/Invoke and Windows API constants use SCREAMING_SNAKE_CASE by convention
 
 namespace mRemoteNG.App
 {

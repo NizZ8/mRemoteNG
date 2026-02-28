@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
@@ -110,6 +111,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool itIsSafeToFreeManagedObjects)

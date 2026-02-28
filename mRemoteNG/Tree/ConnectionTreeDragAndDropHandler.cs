@@ -21,7 +21,7 @@ namespace mRemoteNG.Tree
         private bool _enableFeedback;
 
 
-        public void HandleEvent_ModelDropped(object sender, ModelDropEventArgs e)
+        public void OnModelDropped(object sender, ModelDropEventArgs e)
         {
             if (Properties.Settings.Default.DisableTreeDragAndDrop || Properties.OptionsDBsPage.Default.SQLReadOnly) return;
             if (e.TargetModel is not ConnectionInfo dropTarget) return;
@@ -77,7 +77,7 @@ namespace mRemoteNG.Tree
                 dropTarget.Parent.SetChildBelow(dropSource, dropTarget);
         }
 
-        public void HandleEvent_ModelCanDrop(object sender, ModelDropEventArgs e)
+        public void OnModelCanDrop(object sender, ModelDropEventArgs e)
         {
             if (Properties.Settings.Default.DisableTreeDragAndDrop || Properties.OptionsDBsPage.Default.SQLReadOnly)
             {

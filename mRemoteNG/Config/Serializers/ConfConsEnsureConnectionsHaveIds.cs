@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace mRemoteNG.Config.Serializers
 {
-    public class ConfConsEnsureConnectionsHaveIds
+    public static class ConfConsEnsureConnectionsHaveIds
     {
         public static void EnsureElementsHaveIds(XDocument xdoc)
         {

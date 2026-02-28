@@ -50,8 +50,7 @@ namespace mRemoteNG.Connection
 
         public static ConnectionPreset FromConnection(string name, ConnectionInfo sourceConnection)
         {
-            if (sourceConnection == null)
-                throw new ArgumentNullException(nameof(sourceConnection));
+            ArgumentNullException.ThrowIfNull(sourceConnection);
 
             ConnectionPreset preset = new(name);
             preset.CaptureFrom(sourceConnection);
@@ -67,8 +66,7 @@ namespace mRemoteNG.Connection
 
         public void CaptureFrom(ConnectionInfo sourceConnection)
         {
-            if (sourceConnection == null)
-                throw new ArgumentNullException(nameof(sourceConnection));
+            ArgumentNullException.ThrowIfNull(sourceConnection);
 
             CopyPropertyValues(
                 ConfigurableConnectionPropertiesInternal,
@@ -83,8 +81,7 @@ namespace mRemoteNG.Connection
 
         public void ApplyTo(ConnectionInfo targetConnection)
         {
-            if (targetConnection == null)
-                throw new ArgumentNullException(nameof(targetConnection));
+            ArgumentNullException.ThrowIfNull(targetConnection);
 
             CopyPropertyValues(
                 ConfigurableConnectionPropertiesInternal,

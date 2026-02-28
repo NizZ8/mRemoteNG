@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.Odbc;
@@ -58,6 +59,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private void Initialize()

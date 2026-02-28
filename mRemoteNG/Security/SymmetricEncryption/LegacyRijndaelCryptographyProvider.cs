@@ -26,10 +26,10 @@ namespace mRemoteNG.Security.SymmetricEncryption
             BlockSizeInBytes = 16;
         }
 
-        public string Encrypt(string strToEncrypt, SecureString strSecret)
+        public string Encrypt(string plainText, SecureString encryptionKey)
         {
-            if (string.IsNullOrWhiteSpace(strToEncrypt) || strSecret.Length == 0)
-                return strToEncrypt;
+            if (string.IsNullOrWhiteSpace(plainText) || encryptionKey.Length == 0)
+                return plainText;
 
             try
             {
@@ -38,7 +38,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
 
                 using (MD5 md5 = MD5.Create())
                 {
-                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(strSecret.ConvertToUnsecureString()));
+                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(encryptionKey.ConvertToUnsecureString()));
                     aes.Key = key;
                     aes.GenerateIV();
                     CryptographicOperations.ZeroMemory(key);
@@ -48,7 +48,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 ms.Write(aes.IV, 0, BlockSizeInBytes);
 
                 using CryptoStream cs = new(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
-                byte[] data = Encoding.UTF8.GetBytes(strToEncrypt);
+                byte[] data = Encoding.UTF8.GetBytes(plainText);
 
                 cs.Write(data, 0, data.Length);
                 cs.FlushFinalBlock();
@@ -62,13 +62,13 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(Language.ErrorEncryptionFailed, ex.Message));
             }
 
-            return strToEncrypt;
+            return plainText;
         }
 
-        public string Decrypt(string ciphertextBase64, SecureString password)
+        public string Decrypt(string cipherText, SecureString decryptionKey)
         {
-            if (string.IsNullOrEmpty(ciphertextBase64) || password.Length == 0)
-                return ciphertextBase64;
+            if (string.IsNullOrEmpty(cipherText) || decryptionKey.Length == 0)
+                return cipherText;
 
             try
             {
@@ -77,12 +77,12 @@ namespace mRemoteNG.Security.SymmetricEncryption
 
                 using (MD5 md5 = MD5.Create())
                 {
-                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(password.ConvertToUnsecureString()));
+                    byte[] key = md5.ComputeHash(Encoding.UTF8.GetBytes(decryptionKey.ConvertToUnsecureString()));
                     aes.Key = key;
                     CryptographicOperations.ZeroMemory(key);
                 }
 
-                byte[] ciphertext = Convert.FromBase64String(ciphertextBase64);
+                byte[] ciphertext = Convert.FromBase64String(cipherText);
 
                 using MemoryStream ms = new(ciphertext);
 

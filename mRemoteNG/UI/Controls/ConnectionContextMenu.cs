@@ -1810,7 +1810,7 @@ namespace mRemoteNG.UI.Controls
 
                 if (connectionInfo.Port != defaultPort)
                 {
-                    if (host.EndsWith("/"))
+                    if (host.EndsWith('/'))
                         host = host[..^1];
                     host = host + ":" + connectionInfo.Port;
                 }
@@ -1818,9 +1818,9 @@ namespace mRemoteNG.UI.Controls
                 string path = connectionInfo.HttpPath?.Trim() ?? string.Empty;
                 if (!string.IsNullOrEmpty(path))
                 {
-                    if (!host.EndsWith("/") && !path.StartsWith("/"))
+                    if (!host.EndsWith('/') && !path.StartsWith('/'))
                         host = host + "/" + path;
-                    else if (host.EndsWith("/") && path.StartsWith("/"))
+                    else if (host.EndsWith('/') && path.StartsWith('/'))
                         host = host + path[1..];
                     else
                         host = host + path;

@@ -663,7 +663,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             // For boolean elements, check if the value is valid and convert it to the appropriate value kind.
             else if (ElementType == typeof(bool))
             {
-                if (!booleanRegistryValueKindMap.TryGetValue(value?.ToString()?.ToLower() ?? string.Empty, out var valueKind))
+                if (!booleanRegistryValueKindMap.TryGetValue(value?.ToString()?.ToLowerInvariant() ?? string.Empty, out var valueKind))
                     throw new ArgumentException("Invalid value. Supported values are ci strings 'True'/'False' or numbers '0'/'1'.", nameof(value));
 
                 ValueKind = valueKind;

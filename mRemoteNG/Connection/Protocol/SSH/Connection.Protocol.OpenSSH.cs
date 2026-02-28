@@ -61,13 +61,13 @@ namespace mRemoteNG.Connection.Protocol.SSH
 
                 if (!_consoleControl.IsHandleCreated)
                 {
-                    throw new Exception("Failed to initialize OpenSSH console within 5 seconds.");
+                    throw new TimeoutException("Failed to initialize OpenSSH console within 5 seconds.");
                 }
 
                 _handle = _consoleControl.Handle;
                 NativeMethods.SetParent(_handle, InterfaceControl.Handle);
 
-                Resize(this, new EventArgs());
+                Resize(this, EventArgs.Empty);
                 base.Connect();
                 return true;
             }

@@ -30,11 +30,8 @@ namespace mRemoteNG.Config.Settings
 
         public DockPanelLayoutLoader(FrmMain mainForm, MessageCollector messageCollector)
         {
-            if (mainForm == null)
-                throw new ArgumentNullException(nameof(mainForm));
-            if (messageCollector == null)
-                throw new ArgumentNullException(nameof(messageCollector));
-
+            ArgumentNullException.ThrowIfNull(mainForm);
+            ArgumentNullException.ThrowIfNull(messageCollector);
             _mainForm = mainForm;
             _messageCollector = messageCollector;
         }
@@ -137,8 +134,8 @@ namespace mRemoteNG.Config.Settings
         private IDockContent? GetContentFromPersistString(string persistString)
         {
             // pnlLayout.xml persistence XML fix for refactoring to mRemoteNG
-            if (persistString.StartsWith("mRemote."))
-                persistString = persistString.Replace("mRemote.", "mRemoteNG.");
+            if (persistString.StartsWith("mRemote.", StringComparison.Ordinal))
+                persistString = persistString.Replace("mRemote.", "mRemoteNG.", StringComparison.Ordinal);
 
             try
             {
@@ -147,7 +144,7 @@ namespace mRemoteNG.Config.Settings
                     return contentFactory.Invoke();
                 }
 
-                if (persistString.StartsWith("mRemoteNG.UI.Window.ConnectionWindow"))
+                if (persistString.StartsWith("mRemoteNG.UI.Window.ConnectionWindow", StringComparison.Ordinal))
                 {
                     var parts = persistString.Split(';');
                     string title = "";

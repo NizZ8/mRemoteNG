@@ -13,7 +13,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.UI
 {
     [SupportedOSPlatform("windows")]
-    public class DialogFactory
+    public static class DialogFactory
     {
         public static OpenFileDialog BuildLoadConnectionsDialog()
         {

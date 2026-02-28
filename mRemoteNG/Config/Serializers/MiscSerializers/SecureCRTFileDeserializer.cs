@@ -13,7 +13,7 @@ using System.Xml;
 namespace mRemoteNG.Config.Serializers.MiscSerializers
 {
     [SupportedOSPlatform("windows")]
-    public class SecureCRTFileDeserializer
+    public static class SecureCRTFileDeserializer
     {
         enum SecureCRTNodeType { folder, session };
 
@@ -136,7 +136,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             if (protocolNode == null)
                 throw new FileFormatException($"Protocol node not found");
 
-            string protocolText = protocolNode.InnerText.ToUpper();
+            string protocolText = protocolNode.InnerText.ToUpperInvariant();
             switch (protocolText)
             {
                 case "RDP":

@@ -55,9 +55,9 @@ namespace mRemoteNG.Config.Import
                 foreach (var group in groups)
                 {
                     var container = groupMap[group.Id];
-                    if (group.ParentId.HasValue && groupMap.ContainsKey(group.ParentId.Value))
+                    if (group.ParentId.HasValue && groupMap.TryGetValue(group.ParentId.Value, out var parentContainer))
                     {
-                        groupMap[group.ParentId.Value].AddChild(container);
+                        parentContainer.AddChild(container);
                     }
                     else
                     {
@@ -77,9 +77,9 @@ namespace mRemoteNG.Config.Import
                 {
                     var connectionInfo = CreateConnectionInfo(conn, parameters.Where(p => p.ConnectionId == conn.Id));
                     
-                    if (conn.ParentId.HasValue && groupMap.ContainsKey(conn.ParentId.Value))
+                    if (conn.ParentId.HasValue && groupMap.TryGetValue(conn.ParentId.Value, out var connParentContainer))
                     {
-                        groupMap[conn.ParentId.Value].AddChild(connectionInfo);
+                        connParentContainer.AddChild(connectionInfo);
                     }
                     else
                     {

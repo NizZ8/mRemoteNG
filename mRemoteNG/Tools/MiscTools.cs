@@ -160,12 +160,12 @@ namespace mRemoteNG.Tools
         {
             private readonly Type _enumType = type;
 
-            public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destType)
+            public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
             {
-                return destType == typeof(string);
+                return destinationType == typeof(string);
             }
 
-            public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type? destType)
+            public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type? destinationType)
             {
                 if (value == null) return string.Empty;
 
@@ -185,9 +185,9 @@ namespace mRemoteNG.Tools
                 return dna?.Description ?? value.ToString() ?? string.Empty;
             }
 
-            public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? srcType)
+            public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
             {
-                return srcType == typeof(string);
+                return sourceType == typeof(string);
             }
 
             public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
@@ -232,17 +232,17 @@ namespace mRemoteNG.Tools
                         : throw new ArgumentNullException(nameof(value), "Value cannot be null.");
                 }
 
-                if (string.Equals(stringValue, Language.Yes, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(stringValue, Language.Yes, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
 
-                if (string.Equals(stringValue, Language.No, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(stringValue, Language.No, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
 
-                throw new Exception("Values must be \"Yes\" or \"No\"");
+                throw new FormatException("Values must be \"Yes\" or \"No\"");
             }
 
             public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
@@ -286,7 +286,7 @@ namespace mRemoteNG.Tools
                 }
 
                 if (value is string stringValue &&
-                    string.Equals(stringValue, AutoText, StringComparison.CurrentCultureIgnoreCase))
+                    string.Equals(stringValue, AutoText, StringComparison.OrdinalIgnoreCase))
                 {
                     return ConvertFromAutoSelection(context);
                 }

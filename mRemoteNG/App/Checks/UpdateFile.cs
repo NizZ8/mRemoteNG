@@ -63,7 +63,7 @@ namespace mRemoteNG.App.Update
         private string GetString(string key)
         {
             // ReSharper restore MemberCanBePrivate.Local
-            return !Items.ContainsKey(key) ? string.Empty : Items[key];
+            return Items.TryGetValue(key, out string? value) ? value : string.Empty;
         }
 
         public Version? GetVersion(string key = "Version")

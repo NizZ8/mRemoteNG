@@ -13,7 +13,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.UI.Panels
 {
     [SupportedOSPlatform("windows")]
-    public class PanelAdder
+    public static class PanelAdder
     {
         public static ConnectionWindow? AddPanel(string title = "", bool showImmediately = true)
         {

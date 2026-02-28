@@ -15,10 +15,8 @@ namespace mRemoteNG.Security.KeyDerivation
 
         public Pkcs5S2KeyGenerator(int keyBitSize = 256, int iterations = 1000)
         {
-            if (iterations < 1000)
-                throw new ArgumentOutOfRangeException($"Minimum value of {nameof(iterations)} is 1000");
-            if (keyBitSize < 0)
-                throw new ArgumentOutOfRangeException($"{nameof(keyBitSize)} must be positive");
+            ArgumentOutOfRangeException.ThrowIfLessThan(iterations, 1000);
+            ArgumentOutOfRangeException.ThrowIfNegative(keyBitSize);
             _keyBitSize = keyBitSize;
             _iterations = iterations;
         }

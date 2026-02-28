@@ -20,13 +20,9 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 
         public XmlConnectionNodeSerializer26(ICryptographyProvider cryptographyProvider, SecureString encryptionKey, SaveFilter saveFilter)
         {
-            if (cryptographyProvider == null)
-                throw new ArgumentNullException(nameof(cryptographyProvider));
-            if (encryptionKey == null)
-                throw new ArgumentNullException(nameof(encryptionKey));
-            if (saveFilter == null)
-                throw new ArgumentNullException(nameof(saveFilter));
-
+            ArgumentNullException.ThrowIfNull(cryptographyProvider);
+            ArgumentNullException.ThrowIfNull(encryptionKey);
+            ArgumentNullException.ThrowIfNull(saveFilter);
             _cryptographyProvider = cryptographyProvider;
             _encryptionKey = encryptionKey;
             _saveFilter = saveFilter;

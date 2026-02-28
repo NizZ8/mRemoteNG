@@ -509,7 +509,7 @@ namespace mRemoteNG.Tools
                     {
                         string arg = arguments.Substring(startIndex, i - startIndex).Trim();
                         // Remove surrounding quotes if present
-                        if (arg.StartsWith("\"") && arg.EndsWith("\"") && arg.Length > 1)
+                        if (arg.StartsWith('"') && arg.EndsWith('"') && arg.Length > 1)
                             arg = arg.Substring(1, arg.Length - 2);
                         if (!string.IsNullOrWhiteSpace(arg))
                             result.Add(arg);
@@ -517,13 +517,13 @@ namespace mRemoteNG.Tools
                     startIndex = i + 1;
                 }
             }
-            
+
             // Add the last argument
             if (startIndex < arguments.Length)
             {
                 string arg = arguments.Substring(startIndex).Trim();
                 // Remove surrounding quotes if present
-                if (arg.StartsWith("\"") && arg.EndsWith("\"") && arg.Length > 1)
+                if (arg.StartsWith('"') && arg.EndsWith('"') && arg.Length > 1)
                     arg = arg.Substring(1, arg.Length - 2);
                 if (!string.IsNullOrWhiteSpace(arg))
                     result.Add(arg);

@@ -13,9 +13,7 @@ namespace mRemoteNG.Security.Factories
 
         public CryptoProviderFactoryFromXml(XElement element)
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            ArgumentNullException.ThrowIfNull(element);
             _element = element;
         }
 

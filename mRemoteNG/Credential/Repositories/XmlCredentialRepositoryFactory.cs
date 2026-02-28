@@ -17,11 +17,8 @@ namespace mRemoteNG.Credential.Repositories
         public XmlCredentialRepositoryFactory(ISecureSerializer<IEnumerable<ICredentialRecord>, string> serializer,
                                               ISecureDeserializer<string, IEnumerable<ICredentialRecord>> deserializer)
         {
-            if (serializer == null)
-                throw new ArgumentNullException(nameof(serializer));
-            if (deserializer == null)
-                throw new ArgumentNullException(nameof(deserializer));
-
+            ArgumentNullException.ThrowIfNull(serializer);
+            ArgumentNullException.ThrowIfNull(deserializer);
             _serializer = serializer;
             _deserializer = deserializer;
         }
@@ -35,7 +32,7 @@ namespace mRemoteNG.Credential.Repositories
         {
             string? stringId = repositoryXElement.Attribute("Id")?.Value;
             Guid id;
-            Guid.TryParse(stringId, out id);
+            _ = Guid.TryParse(stringId, out id);
             if (id.Equals(Guid.Empty)) id = Guid.NewGuid();
             CredentialRepositoryConfig config = new(id)
             {

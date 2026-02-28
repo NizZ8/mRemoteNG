@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
@@ -290,7 +291,7 @@ namespace mRemoteNG.Config.Settings.Registry
                 return false;
 
             // Convert the path to uppercase for case-insensitive comparison
-            path = path.ToUpper();
+            path = path.ToUpperInvariant();
 
             // Check if the drive letter is valid
             char driveLetter = path[0];
@@ -305,7 +306,7 @@ namespace mRemoteNG.Config.Settings.Registry
             string invalidFileNameChars = new string(Path.GetInvalidPathChars()) + @":/?*""<>|";
             if (path.Substring(3).Any(ch => invalidFileNameChars.Contains(ch)))
                 return false;
-            if (path.EndsWith("."))
+            if (path.EndsWith(".", StringComparison.Ordinal))
                 return false;
 
             return true;

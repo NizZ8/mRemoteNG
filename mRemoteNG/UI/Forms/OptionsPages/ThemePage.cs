@@ -68,7 +68,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             cboTheme.SelectedItem = _themeManager.ActiveTheme;
             // Store the original active theme for reverting
             _oriActiveTheme = _themeManager.ActiveTheme;
-            cboTheme_SelectionChangeCommitted(this, new EventArgs());
+            cboTheme_SelectionChangeCommitted(this, EventArgs.Empty);
 
             listPalette.FormatCell += ListPalette_FormatCell; //Color cell formatter
 
@@ -94,7 +94,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             if (cboTheme.SelectedItem != null)
             {
                 ThemeInfo selectedTheme = (ThemeInfo)cboTheme.SelectedItem;
-                if (!Properties.OptionsThemePage.Default.ThemeName.Equals(selectedTheme.Name))
+                if (!Properties.OptionsThemePage.Default.ThemeName.Equals(selectedTheme.Name, StringComparison.Ordinal))
                 {
                     Properties.OptionsThemePage.Default.ThemeName = selectedTheme.Name;
                     _themeManager.ActiveTheme = selectedTheme;
@@ -125,7 +125,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 cboTheme.Items.Clear();
                 cboTheme.Items.AddRange(_themeManager.LoadThemes().OrderBy(x => x.Name).ToArray());
                 cboTheme.SelectedItem = _oriActiveTheme;
-                cboTheme_SelectionChangeCommitted(this, new EventArgs());
+                cboTheme_SelectionChangeCommitted(this, EventArgs.Empty);
             }
         }
 

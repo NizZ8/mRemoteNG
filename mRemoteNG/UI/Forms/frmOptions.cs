@@ -302,7 +302,7 @@ namespace mRemoteNG.UI.Forms
             bool isSet = false;
             for (int i = 0; i < lstOptionPages.Items.Count; i++)
             {
-                if (!lstOptionPages.Items[i].Text.Equals(_pageName)) continue;
+                if (!lstOptionPages.Items[i].Text.Equals(_pageName, StringComparison.Ordinal)) continue;
                 lstOptionPages.Items[i].Selected = true;
                 isSet = true;
                 break;

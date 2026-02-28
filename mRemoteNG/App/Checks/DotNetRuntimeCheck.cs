@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace mRemoteNG.DotNet.Update
 {
     [SupportedOSPlatform("windows")]
-    public class DotNetRuntimeCheck
+    public static class DotNetRuntimeCheck
     {
         public const string RequiredDotnetVersion = "10.0";
         private const string ReleaseFeedUrl = "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json";

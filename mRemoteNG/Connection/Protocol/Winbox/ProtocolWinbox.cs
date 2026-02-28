@@ -150,7 +150,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
                                                      string.Format(Language.IntAppHandle, _handle), true);
 
-                Resize(this, new EventArgs());
+                Resize(this, EventArgs.Empty);
                 base.Connect();
                 return true;
             }
@@ -268,7 +268,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
 
             // Handle port if specified in hostname or port field?
             // Usually Winbox uses address:port.
-            if (_connectionInfo.Port > 0 && !address.Contains(":"))
+            if (_connectionInfo.Port > 0 && !address.Contains(':'))
             {
                  address = $"{address}:{_connectionInfo.Port}";
             }

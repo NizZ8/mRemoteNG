@@ -77,8 +77,8 @@ namespace mRemoteNG.Tools
             string fileName = Path.GetFileName(Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty);
 
             // make sure the control is not running inside Visual Studio Designer
-            if (string.Compare(fileName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 ||
-                string.Compare(fileName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Equals(fileName, "devenv.exe", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(fileName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -119,8 +119,8 @@ namespace mRemoteNG.Tools
             var fileName = Path.GetFileName(Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty);
 
             // make sure the control is not running inside Visual Studio Designer
-            if (string.Compare(fileName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 ||
-                string.Compare(fileName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Equals(fileName, "devenv.exe", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(fileName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -172,11 +172,11 @@ namespace mRemoteNG.Tools
                         version = ieKey.GetValue("Version");
                         if (version == null)
                         {
-                            throw new ApplicationException("Microsoft Internet Explorer is required!");
+                            throw new InvalidOperationException("Microsoft Internet Explorer is required!");
                         }
                     }
 
-                    int.TryParse(version.ToString()?.Split('.')[0], out browserVersion);
+                    _ = int.TryParse(version.ToString()?.Split('.')[0], out browserVersion);
                 }
             }
 

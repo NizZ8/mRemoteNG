@@ -2179,7 +2179,9 @@ namespace mRemoteNG.UI.Window
 
         #region Protocols
 
+#pragma warning disable CA1707 // Legacy event handler naming; referenced by ConnectionInitiator via delegate
         public void Prot_Event_Closed(object sender)
+#pragma warning restore CA1707
         {
             bool keepTabOpen = Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect;
             HandleProtocolClosed(sender, keepTabOpen);

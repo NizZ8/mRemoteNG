@@ -37,7 +37,7 @@ namespace mRemoteNG.Connection.Protocol
         private const int OpeningCommandPollIntervalMs = 250;
         private bool _isPuttyNg;
         private readonly DisplayProperties _display = new();
-        private readonly object _terminalTitleSync = new();
+        private readonly Lock _terminalTitleSync = new();
         private Timer? _terminalTitleTimer;
         private string _fallbackTabText = string.Empty;
         private string _initialTerminalTitle = string.Empty;
@@ -312,7 +312,7 @@ namespace mRemoteNG.Connection.Protocol
                         // verification alert (class "#32770"). Dialogs must remain as
                         // top-level windows so the user can interact with them.
                         StringBuilder className = new(256);
-                        NativeMethods.GetClassName(candidateHandle, className, className.Capacity);
+                        _ = NativeMethods.GetClassName(candidateHandle, className, className.Capacity);
                         string cls = className.ToString();
 
                         if (cls.Equals("PuTTY", StringComparison.OrdinalIgnoreCase))
@@ -1189,6 +1189,7 @@ namespace mRemoteNG.Connection.Protocol
 
         #region Enums
 
+#pragma warning disable CA1707 // Legacy PuTTY protocol enum names; renaming would require updating all subclasses
         protected enum Putty_Protocol
         {
             ssh = 0,
@@ -1203,6 +1204,7 @@ namespace mRemoteNG.Connection.Protocol
             ssh1 = 1,
             ssh2 = 2
         }
+#pragma warning restore CA1707
 
         #endregion
 

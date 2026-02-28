@@ -2,7 +2,7 @@
 
 namespace mRemoteNG.Connection.Protocol.RDP
 {
-    public class AzureLoadBalanceInfoEncoder
+    public static class AzureLoadBalanceInfoEncoder
     {
         public static string Encode(string loadBalanceInfo)
         {

@@ -64,14 +64,14 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             switch (xmlNode.Name)
             {
                 case "root":
-                    if (string.Compare(xmlNodeType, "database", StringComparison.OrdinalIgnoreCase) != 0)
+                    if (!string.Equals(xmlNodeType, "database", StringComparison.OrdinalIgnoreCase))
                     {
                         throw (new FileFormatException($"Unrecognized root node type ({xmlNodeType})."));
                     }
 
                     break;
                 case "container":
-                    if (string.Compare(xmlNodeType, "folder", StringComparison.OrdinalIgnoreCase) != 0)
+                    if (!string.Equals(xmlNodeType, "folder", StringComparison.OrdinalIgnoreCase))
                     {
                         throw (new FileFormatException($"Unrecognized root node type ({xmlNodeType})."));
                     }
@@ -98,7 +98,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
         private static void ImportConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             string? connectionNodeType = connectionNode.Attributes?["type"]?.Value;
-            if (string.Compare(connectionNodeType, "PuTTY", StringComparison.OrdinalIgnoreCase) != 0)
+            if (!string.Equals(connectionNodeType, "PuTTY", StringComparison.OrdinalIgnoreCase))
                 throw (new FileFormatException($"Unrecognized connection node type ({connectionNodeType})."));
 
             ConnectionInfo connectionInfo = ConnectionInfoFromXml(connectionNode);

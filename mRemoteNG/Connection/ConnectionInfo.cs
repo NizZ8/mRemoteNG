@@ -238,10 +238,10 @@ namespace mRemoteNG.Connection
             return GetProperties(excludedProperties);
         }
 
-        public virtual void SetParent(ContainerInfo newParent)
+        public virtual void SetParent(ContainerInfo containerInfo)
         {
             RemoveParent();
-            newParent?.AddChild(this);
+            containerInfo?.AddChild(this);
         }
 
         public void RemoveParent()
@@ -376,7 +376,7 @@ namespace mRemoteNG.Connection
                     Type connectionInfoType = currentParent.GetType();
                     PropertyInfo? parentPropertyInfo = connectionInfoType.GetProperty(propertyName);
                     if (parentPropertyInfo == null)
-                        throw new NullReferenceException(
+                        throw new InvalidOperationException(
                             $"Could not retrieve property data for property '{propertyName}' on parent node '{currentParent.Name}'"
                         );
 

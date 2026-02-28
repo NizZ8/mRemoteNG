@@ -21,8 +21,7 @@ namespace mRemoteNG.Config
 
         public IEnumerable<ICredentialRecord> Harvest(XDocument xDocument, SecureString decryptionKey)
         {
-            if (xDocument == null)
-                throw new ArgumentNullException(nameof(xDocument));
+            ArgumentNullException.ThrowIfNull(xDocument);
 
             XElement root = xDocument.Root ?? throw new InvalidOperationException("XML document has no root element.");
             ICryptographyProvider cryptoProvider = new CryptoProviderFactoryFromXml(root).Build();
@@ -33,7 +32,7 @@ namespace mRemoteNG.Config
                 ICredentialRecord newCredential = BuildCredential(element, cryptoProvider, decryptionKey);
 
                 Guid connectionId;
-                Guid.TryParse(element.Attribute("Id")?.Value, out connectionId);
+                _ = Guid.TryParse(element.Attribute("Id")?.Value, out connectionId);
                 if (connectionId == Guid.Empty)
                 {
                     //error

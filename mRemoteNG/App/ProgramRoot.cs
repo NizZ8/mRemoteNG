@@ -402,7 +402,7 @@ namespace mRemoteNG.App
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            FrmUnhandledException window = new(e.ExceptionObject as Exception ?? new Exception(e.ExceptionObject?.ToString()), e.IsTerminating);
+            FrmUnhandledException window = new(e.ExceptionObject as Exception ?? new InvalidOperationException(e.ExceptionObject?.ToString()), e.IsTerminating);
             window.ShowDialog(FrmMain.Default);
         }
 

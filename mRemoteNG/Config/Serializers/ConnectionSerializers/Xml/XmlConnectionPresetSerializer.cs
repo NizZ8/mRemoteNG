@@ -18,8 +18,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 
         public string Serialize(IEnumerable<ConnectionPreset> presets)
         {
-            if (presets == null)
-                throw new ArgumentNullException(nameof(presets));
+            ArgumentNullException.ThrowIfNull(presets);
 
             XElement rootElement = new(
                 "ConnectionPresets",

@@ -37,7 +37,9 @@ namespace mRemoteNG.UI.Controls
             OUT
         }
 
+#pragma warning disable CA1707 // Designer-generated code uses this name; renaming would break .Designer.cs files
         public MouseState _mice { get; set; }
+#pragma warning restore CA1707
 
 
         protected override void OnCreateControl()
@@ -73,18 +75,18 @@ namespace mRemoteNG.UI.Controls
         }
 
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs pevent)
         {
             if (_themeManager is null || !_themeManager.ActiveAndExtended)
             {
-                base.OnPaint(e);
+                base.OnPaint(pevent);
                 return;
             }
 
             var palette = _themeManager.ActiveTheme.ExtendedPalette;
             if (palette is null)
             {
-                base.OnPaint(e);
+                base.OnPaint(pevent);
                 return;
             }
 
@@ -120,23 +122,23 @@ namespace mRemoteNG.UI.Controls
             }
 
             Color parentBack = Parent?.BackColor ?? BackColor;
-            e.Graphics.Clear(parentBack);
+            pevent.Graphics.Clear(parentBack);
 
             using (Pen p = new(checkBorder))
             {
                 Rectangle boxRect = new(0, _checkboxYCoord, _checkboxSize.Width, _checkboxSize.Height);
-                e.Graphics.FillRectangle(new SolidBrush(back), boxRect);
-                e.Graphics.DrawRectangle(p, boxRect);
+                pevent.Graphics.FillRectangle(new SolidBrush(back), boxRect);
+                pevent.Graphics.DrawRectangle(p, boxRect);
             }
 
             if (Checked)
             {
                 // | \uE001 | &#xE001; |  |  is the tick/check mark and it exists in Segoe UI Symbol at least...
-                e.Graphics.DrawString("\uE001", new Font("Segoe UI Symbol", 7.75f), new SolidBrush(glyph), -4, 0);
+                pevent.Graphics.DrawString("\uE001", new Font("Segoe UI Symbol", 7.75f), new SolidBrush(glyph), -4, 0);
             }
 
             Rectangle textRect = new(_textXCoord, 0, Width - 16, Height);
-            TextRenderer.DrawText(e.Graphics, Text, Font, textRect, fore, parentBack,
+            TextRenderer.DrawText(pevent.Graphics, Text, Font, textRect, fore, parentBack,
                                   TextFormatFlags.PathEllipsis);
         }
 

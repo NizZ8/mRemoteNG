@@ -40,7 +40,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
 
         private static void SetConnectionInfoParameter(ConnectionInfo connectionInfo, string key, string value)
         {
-            switch (key.ToLower())
+            switch (key.ToLowerInvariant())
             {
                 case "full address":
                     Uri uri = new("dummyscheme" + Uri.SchemeDelimiter + value);

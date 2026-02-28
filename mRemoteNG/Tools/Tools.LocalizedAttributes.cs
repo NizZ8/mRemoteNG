@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using mRemoteNG.Resources.Language;
 
 // ReSharper disable ArrangeAccessorOwnerBody
 
 namespace mRemoteNG.Tools
 {
-    public class LocalizedAttributes
+    public static class LocalizedAttributes
     {
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
         public class LocalizedCategoryAttribute(string value, int Order = 1) : CategoryAttribute(value)
@@ -22,7 +23,7 @@ namespace mRemoteNG.Tools
                     OrderPrefix += Convert.ToString("\t");
                 }
 
-                return OrderPrefix + Language.ResourceManager.GetString(value);
+                return OrderPrefix + Language.ResourceManager.GetString(value, CultureInfo.CurrentCulture);
             }
         }
 
@@ -38,7 +39,7 @@ namespace mRemoteNG.Tools
                     if (!Localized)
                     {
                         Localized = true;
-                        DisplayNameValue = Language.ResourceManager.GetString(DisplayNameValue) ?? DisplayNameValue;
+                        DisplayNameValue = Language.ResourceManager.GetString(DisplayNameValue, CultureInfo.CurrentCulture) ?? DisplayNameValue;
                     }
 
                     return base.DisplayName;
@@ -58,7 +59,7 @@ namespace mRemoteNG.Tools
                     if (!Localized)
                     {
                         Localized = true;
-                        DescriptionValue = Language.ResourceManager.GetString(DescriptionValue) ?? DescriptionValue;
+                        DescriptionValue = Language.ResourceManager.GetString(DescriptionValue, CultureInfo.CurrentCulture) ?? DescriptionValue;
                     }
 
                     return base.Description;
@@ -67,7 +68,7 @@ namespace mRemoteNG.Tools
         }
 
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
-        public class LocalizedDefaultValueAttribute(string name) : DefaultValueAttribute(Language.ResourceManager.GetString(name))
+        public class LocalizedDefaultValueAttribute(string name) : DefaultValueAttribute(Language.ResourceManager.GetString(name, CultureInfo.CurrentCulture))
         {
 
             // This allows localized attributes in a derived class to override a matching
@@ -90,7 +91,7 @@ namespace mRemoteNG.Tools
                     {
                         Localized = true;
                         DisplayNameValue = string.Format(Language.FormatInherit,
-                                                         Language.ResourceManager.GetString(DisplayNameValue));
+                                                         Language.ResourceManager.GetString(DisplayNameValue, CultureInfo.CurrentCulture));
                     }
 
                     return base.DisplayName;
@@ -111,7 +112,7 @@ namespace mRemoteNG.Tools
                     {
                         Localized = true;
                         DescriptionValue = string.Format(Language.FormatInheritDescription,
-                                                         Language.ResourceManager.GetString(DescriptionValue));
+                                                         Language.ResourceManager.GetString(DescriptionValue, CultureInfo.CurrentCulture));
                     }
 
                     return base.Description;

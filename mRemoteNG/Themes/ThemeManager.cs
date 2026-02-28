@@ -184,8 +184,8 @@ namespace mRemoteNG.Themes
                         ThemeInfo extTheme = ThemeSerializer.LoadFromXmlFile(themeFile, defaultTheme);
                         if (extTheme.Theme == null || extTheme.Name == null || themes.ContainsKey(extTheme.Name)) continue;
 
-                        if (extTheme.Name.Equals("darcula") || extTheme.Name.Equals("vs2015blue") ||
-                            extTheme.Name.Equals("vs2015dark"))
+                        if (extTheme.Name.Equals("darcula", StringComparison.Ordinal) || extTheme.Name.Equals("vs2015blue", StringComparison.Ordinal) ||
+                            extTheme.Name.Equals("vs2015dark", StringComparison.Ordinal))
                             extTheme.Name = $"{extTheme.Name}NG";
 
                         themes.Add(extTheme.Name, extTheme);

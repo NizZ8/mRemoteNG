@@ -79,6 +79,7 @@ namespace mRemoteNG.Config.DatabaseConnectors
             if (_disposed) return;
             _database.Dispose();
             _disposed = true;
+            GC.SuppressFinalize(this);
         }
     }
 }

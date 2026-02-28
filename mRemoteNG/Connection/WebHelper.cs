@@ -1,4 +1,5 @@
-﻿using mRemoteNG.App;
+﻿using System;
+using mRemoteNG.App;
 using mRemoteNG.Connection.Protocol;
 using mRemoteNG.Resources.Language;
 using mRemoteNG.UI.Forms;
@@ -8,7 +9,7 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.Connection
 {
     [SupportedOSPlatform("windows")]
-    public class WebHelper
+    public static class WebHelper
     {
         public static void GoToUrl(string url)
         {
@@ -17,7 +18,7 @@ namespace mRemoteNG.Connection
 
             connectionInfo.Name = "";
             connectionInfo.Hostname = url;
-            connectionInfo.Protocol = url.StartsWith("https:") ? ProtocolType.HTTPS : ProtocolType.HTTP;
+            connectionInfo.Protocol = url.StartsWith("https:", StringComparison.Ordinal) ? ProtocolType.HTTPS : ProtocolType.HTTP;
             connectionInfo.SetDefaultPort();
             if (string.IsNullOrEmpty(connectionInfo.Panel))
             {

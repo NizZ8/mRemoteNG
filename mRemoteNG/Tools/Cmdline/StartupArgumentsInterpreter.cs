@@ -60,9 +60,7 @@ namespace mRemoteNG.Tools.Cmdline
 
         public StartupArgumentsInterpreter(MessageCollector messageCollector)
         {
-            if (messageCollector == null)
-                throw new ArgumentNullException(nameof(messageCollector));
-
+            ArgumentNullException.ThrowIfNull(messageCollector);
             _messageCollector = messageCollector;
         }
 

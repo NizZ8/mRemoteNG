@@ -127,7 +127,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 
             if (!(_confVersion > MaxSupportedConfVersion)) return;
             ShowIncompatibleVersionDialogBox();
-            throw new Exception($"Incompatible connection file format (file format version {_confVersion}).");
+            throw new NotSupportedException($"Incompatible connection file format (file format version {_confVersion}).");
         }
 
         private void ShowIncompatibleVersionDialogBox()

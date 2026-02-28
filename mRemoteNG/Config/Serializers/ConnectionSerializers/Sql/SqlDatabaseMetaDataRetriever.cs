@@ -38,7 +38,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                     // so throw instead to surface the problem without causing data loss (#1784).
                     if (DoesDbTableExist(databaseConnector, "tblCons"))
                     {
-                        throw new Exception(
+                        throw new InvalidOperationException(
                             "Database is in an inconsistent state: tblCons exists but tblRoot is missing. " +
                             "Load aborted to prevent data loss. Please restore the tblRoot table or " +
                             "recreate the database schema manually.");
@@ -750,7 +750,7 @@ CREATE TABLE `tblExternalTools` (
             }
             else
             {
-                throw new Exception("Unknown database backend");
+                throw new NotSupportedException("Unknown database backend");
             }
 
             DbCommand cmd = databaseConnector.DbCommand(sql);

@@ -35,11 +35,11 @@ namespace mRemoteNG.Tools
             List<Replacement> replacements = new();
             do
             {
-                int tokenStart = input.IndexOf("%", index, StringComparison.InvariantCulture);
+                int tokenStart = input.IndexOf('%', index);
                 if (tokenStart == -1)
                     break;
 
-                int tokenEnd = input.IndexOf("%", tokenStart + 1, StringComparison.InvariantCulture);
+                int tokenEnd = input.IndexOf('%', tokenStart + 1);
                 if (tokenEnd == -1)
                     break;
 
@@ -323,7 +323,7 @@ namespace mRemoteNG.Tools
 
         private static bool IsUserFieldVariable(string variableName)
         {
-            return variableName.ToLowerInvariant().StartsWith("userfield");
+            return variableName.ToLowerInvariant().StartsWith("userfield", StringComparison.Ordinal);
         }
 
         private static string PerformReplacements(string input, List<Replacement> replacements)

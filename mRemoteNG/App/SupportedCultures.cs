@@ -47,7 +47,7 @@ namespace mRemoteNG.App
             return SingletonInstance.ContainsValue(CultureNativeName);
         }
 
-        public static string get_CultureName(string CultureNativeName)
+        public static string GetCultureName(string CultureNativeName)
         {
             string[] Names = new string[SingletonInstance.Count + 1];
             string[] NativeNames = new string[SingletonInstance.Count + 1];
@@ -66,7 +66,7 @@ namespace mRemoteNG.App
             throw (new KeyNotFoundException());
         }
 
-        public static string get_CultureNativeName(string CultureName)
+        public static string GetCultureNativeName(string CultureName)
         {
             return SingletonInstance[CultureName];
         }

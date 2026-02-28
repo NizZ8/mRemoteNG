@@ -55,7 +55,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             if (!string.IsNullOrEmpty(Settings.Default.OverrideUICulture) &&
                 SupportedCultures.IsNameSupported(Settings.Default.OverrideUICulture))
             {
-                cboLanguage.SelectedItem = SupportedCultures.get_CultureNativeName(Settings.Default.OverrideUICulture);
+                cboLanguage.SelectedItem = SupportedCultures.GetCultureNativeName(Settings.Default.OverrideUICulture);
             }
 
             if (cboLanguage.SelectedIndex == -1)
@@ -79,7 +79,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             if (cboLanguage.SelectedIndex > 0 &&
                 SupportedCultures.IsNativeNameSupported(selectedItemStr))
             {
-                Settings.Default.OverrideUICulture = SupportedCultures.get_CultureName(selectedItemStr);
+                Settings.Default.OverrideUICulture = SupportedCultures.GetCultureName(selectedItemStr);
             }
             else
             {

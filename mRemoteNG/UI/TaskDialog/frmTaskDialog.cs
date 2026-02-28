@@ -468,7 +468,7 @@ namespace mRemoteNG.UI.TaskDialog
         protected override void OnShown(EventArgs e)
         {
             if (!_formBuilt)
-                throw new Exception("frmTaskDialog : Please call .BuildForm() before showing the TaskDialog");
+                throw new InvalidOperationException("frmTaskDialog : Please call .BuildForm() before showing the TaskDialog");
             base.OnShown(e);
         }
 

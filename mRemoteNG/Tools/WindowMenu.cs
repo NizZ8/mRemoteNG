@@ -5,6 +5,7 @@ using Microsoft.Win32.SafeHandles;
 using System.Runtime.Versioning;
 
 // ReSharper disable MemberCanBeMadeStatic.Global
+#pragma warning disable CA1707 // Windows API enum values use SCREAMING_SNAKE_CASE by convention
 
 namespace mRemoteNG.Tools
 {
@@ -16,7 +17,10 @@ namespace mRemoteNG.Tools
         {
             MF_STRING = NativeMethods.MF_STRING,
             MF_SEPARATOR = NativeMethods.MF_SEPARATOR,
+            // MF_BYCOMMAND has the same value as MF_STRING (0) — intentional Win32 alias
+#pragma warning disable CA1069
             MF_BYCOMMAND = NativeMethods.MF_BYCOMMAND,
+#pragma warning restore CA1069
             MF_BYPOSITION = NativeMethods.MF_BYPOSITION,
             MF_POPUP = NativeMethods.MF_POPUP,
             WM_SYSCOMMAND = NativeMethods.WM_SYSCOMMAND

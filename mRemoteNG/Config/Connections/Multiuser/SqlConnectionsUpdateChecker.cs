@@ -120,6 +120,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool itIsSafeToDisposeManagedObjects)

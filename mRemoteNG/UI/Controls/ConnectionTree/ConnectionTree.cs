@@ -196,8 +196,8 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             MouseClick += OnMouse_SingleClick;
             MouseClick += OnMouse_MiddleClick;
             CellToolTipShowing += TvConnections_CellToolTipShowing;
-            ModelCanDrop += _dragAndDropHandler.HandleEvent_ModelCanDrop;
-            ModelDropped += _dragAndDropHandler.HandleEvent_ModelDropped;
+            ModelCanDrop += _dragAndDropHandler.OnModelCanDrop;
+            ModelDropped += _dragAndDropHandler.OnModelDropped;
             BeforeLabelEdit += OnBeforeLabelEdit;
             AfterLabelEdit += OnAfterLabelEdit;
             FormatCell += ConnectionTree_FormatCell;

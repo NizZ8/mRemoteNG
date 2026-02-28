@@ -28,8 +28,7 @@ namespace mRemoteNG.Security.PasswordCreation
         public PasswordIncludesSpecialCharactersConstraint(IEnumerable<char> specialCharacters, int minimumCount = 1)
             : this(minimumCount)
         {
-            if (specialCharacters == null)
-                throw new ArgumentNullException(nameof(specialCharacters));
+            ArgumentNullException.ThrowIfNull(specialCharacters);
 
             SpecialCharacters = specialCharacters;
             ConstraintHint = string.Format(Language.PasswordConstainsSpecialCharactersConstraintHint, _minimumCount,
@@ -39,7 +38,7 @@ namespace mRemoteNG.Security.PasswordCreation
         public bool Validate(SecureString password)
         {
             Regex regex = new($"[{string.Concat(SpecialCharacters)}]");
-            return regex.Matches(password.ConvertToUnsecureString()).Count >= _minimumCount;
+            return regex.Count(password.ConvertToUnsecureString()) >= _minimumCount;
         }
     }
 }

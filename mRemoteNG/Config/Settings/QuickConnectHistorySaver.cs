@@ -18,7 +18,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace mRemoteNG.Config.Settings
 {
     [SupportedOSPlatform("windows")]
-    public class QuickConnectHistorySaver
+    public static class QuickConnectHistorySaver
     {
         private static HashSet<QuickConnectSessionKey>? _capturedOpenQuickConnectSessions;
         private static List<QuickConnectComboBox.HistoryItemData>? _capturedHistoryItems;

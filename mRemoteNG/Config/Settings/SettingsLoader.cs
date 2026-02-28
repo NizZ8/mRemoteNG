@@ -282,7 +282,7 @@ namespace mRemoteNG.Config.Settings
 
         private ToolStripPanel ToolStripPanelFromString(string panel)
         {
-            switch (panel.ToLower())
+            switch (panel.ToLowerInvariant())
             {
                 case "top":
                     return MainForm.tsContainer.TopToolStripPanel;

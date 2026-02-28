@@ -66,7 +66,7 @@ namespace mRemoteNG.Connection.Protocol
         Winbox = 21
     }
 
-    public class ProtocolFeature
+    public static class ProtocolFeature
     {
         public static bool SupportBlankHostname(ProtocolType protocolType)
         {

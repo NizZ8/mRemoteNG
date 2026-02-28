@@ -12,9 +12,7 @@ namespace mRemoteNG.Config
 
         public CredentialRepositoryListSaver(IDataProvider<string> dataProvider)
         {
-            if (dataProvider == null)
-                throw new ArgumentNullException(nameof(dataProvider));
-
+            ArgumentNullException.ThrowIfNull(dataProvider);
             _dataProvider = dataProvider;
         }
 

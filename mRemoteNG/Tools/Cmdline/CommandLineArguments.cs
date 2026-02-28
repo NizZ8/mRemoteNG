@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -42,7 +43,7 @@ namespace mRemoteNG.Tools.Cmdline
             if (string.IsNullOrEmpty(argument))
                 return argument;
 
-            if (argument.StartsWith("-"))
+            if (argument.StartsWith("-", StringComparison.Ordinal))
                 argument = ".\\" + argument;
 
             return argument;
@@ -75,7 +76,7 @@ namespace mRemoteNG.Tools.Cmdline
 
         public static string QuoteArgument(string argument, bool forceQuotes = false)
         {
-            if (!forceQuotes && !string.IsNullOrEmpty(argument) && !argument.Contains(" "))
+            if (!forceQuotes && !string.IsNullOrEmpty(argument) && !argument.Contains(' '))
             {
                 return argument;
             }

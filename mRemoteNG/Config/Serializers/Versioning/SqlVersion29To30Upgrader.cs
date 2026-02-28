@@ -174,7 +174,7 @@ ALTER TABLE tblCons ADD `UserViaAPI` varchar(512) NOT NULL;
                 }
                 else
                 {
-                    throw new Exception("Unknown database back-end");
+                    throw new NotSupportedException("Unknown database back-end");
                 }
                 DbParameter pConfVersion = dbCommand.CreateParameter();
                 pConfVersion.ParameterName = "confVersion";

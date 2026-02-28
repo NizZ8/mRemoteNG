@@ -75,7 +75,7 @@ namespace mRemoteNG.Config.Putty
                 case "serial":
                     return null;
                 case "ssh":
-                    int.TryParse(sessionKey.GetValue("SshProt")?.ToString(), out int sshVersion);
+                    _ = int.TryParse(sessionKey.GetValue("SshProt")?.ToString(), out int sshVersion);
                     /* Per PUTTY.H in PuTTYNG & PuTTYNG Upstream (PuTTY proper currently)
                      * expect 0 for SSH1, 3 for SSH2 ONLY
                      * 1 for SSH1 with a 2 fallback
@@ -92,7 +92,7 @@ namespace mRemoteNG.Config.Putty
                     return null;
             }
 
-            int.TryParse(sessionKey.GetValue("PortNumber")?.ToString(), out int portNumber);
+            _ = int.TryParse(sessionKey.GetValue("PortNumber")?.ToString(), out int portNumber);
             if (portNumber == default(int))
                 sessionInfo.SetDefaultPort();
             else

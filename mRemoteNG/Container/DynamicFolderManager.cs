@@ -60,10 +60,10 @@ namespace mRemoteNG.Container
 
         public void ScheduleRefresh(ContainerInfo container)
         {
-            if (_timers.ContainsKey(container.ConstantID))
+            if (_timers.TryGetValue(container.ConstantID, out var existingTimer))
             {
-                _timers[container.ConstantID].Stop();
-                _timers[container.ConstantID].Dispose();
+                existingTimer.Stop();
+                existingTimer.Dispose();
                 _timers.Remove(container.ConstantID);
             }
 
@@ -79,10 +79,10 @@ namespace mRemoteNG.Container
         
         public void UnscheduleRefresh(ContainerInfo container)
         {
-             if (_timers.ContainsKey(container.ConstantID))
+            if (_timers.TryGetValue(container.ConstantID, out var timerToRemove))
             {
-                _timers[container.ConstantID].Stop();
-                _timers[container.ConstantID].Dispose();
+                timerToRemove.Stop();
+                timerToRemove.Dispose();
                 _timers.Remove(container.ConstantID);
             }
         }
@@ -160,7 +160,7 @@ namespace mRemoteNG.Container
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to read file '{filePath}'", ex);
+                throw new InvalidOperationException($"Failed to read file '{filePath}'", ex);
             }
         }
 
@@ -187,7 +187,7 @@ namespace mRemoteNG.Container
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to execute script '{scriptPath}'", ex);
+                throw new InvalidOperationException($"Failed to execute script '{scriptPath}'", ex);
             }
         }
 
@@ -229,9 +229,9 @@ namespace mRemoteNG.Container
             {
                  string error = errorTask.Result;
                  if (!string.IsNullOrWhiteSpace(error))
-                     throw new Exception($"Script exited with code {process.ExitCode}: {error}");
-                 
-                 throw new Exception($"Script exited with code {process.ExitCode}");
+                     throw new InvalidOperationException($"Script exited with code {process.ExitCode}: {error}");
+
+                 throw new InvalidOperationException($"Script exited with code {process.ExitCode}");
             }
 
             return outputTask.Result;

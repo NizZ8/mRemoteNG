@@ -14,9 +14,7 @@ namespace mRemoteNG.Credential.Repositories
 
         public CompositeRepositoryUnlocker(IEnumerable<ICredentialRepository> repositories)
         {
-            if (repositories == null)
-                throw new ArgumentNullException(nameof(repositories));
-
+            ArgumentNullException.ThrowIfNull(repositories);
             _repositories.AddRange(repositories);
             SelectNextLockedRepository();
         }

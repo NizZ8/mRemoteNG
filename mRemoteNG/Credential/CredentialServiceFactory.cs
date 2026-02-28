@@ -11,7 +11,7 @@ using mRemoteNG.Security.Factories;
 namespace mRemoteNG.Credential
 {
     [SupportedOSPlatform("windows")]
-    public class CredentialServiceFactory
+    public static class CredentialServiceFactory
     {
         // When we get a true CompositionRoot we can move this to that class. We should only require 1 instance of this service at a time
         public static CredentialServiceFacade Build()

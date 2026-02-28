@@ -17,7 +17,6 @@ namespace mRemoteNG.UI.Window
     [SupportedOSPlatform("windows")]
     public partial class ExternalToolsWindow
     {
-        private readonly ExternalAppsSaver _externalAppsSaver;
         private readonly ThemeManager _themeManager;
         private readonly FullyObservableCollection<ExternalTool> _currentlySelectedExternalTools;
 
@@ -29,7 +28,6 @@ namespace mRemoteNG.UI.Window
             DockPnl = new DockContent();
             _themeManager = ThemeManager.getInstance();
             _themeManager.ThemeChanged += ApplyTheme;
-            _externalAppsSaver = new ExternalAppsSaver();
             _currentlySelectedExternalTools = [];
             _currentlySelectedExternalTools.CollectionUpdated += CurrentlySelectedExternalToolsOnCollectionUpdated;
             BrowseButton.Height = FilenameTextBox.Height;

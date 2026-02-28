@@ -29,7 +29,9 @@ namespace mRemoteNG.UI.Controls
             ThemeManager.getInstance().ThemeChanged += OnCreateControl;
         }
 
+#pragma warning disable CA1707 // Designer-generated code uses this name; renaming would break .Designer.cs files
         public MouseState _mice { get; set; }
+#pragma warning restore CA1707
 
         /// <summary>
         /// Rewrite the function to allow for coloring the component depending on the mouse state
@@ -74,12 +76,12 @@ namespace mRemoteNG.UI.Controls
         /// Repaint the componente, the elements considered are the clipping rectangle, text and an icon
         /// </summary>
         /// <param name="e"></param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs pevent)
         {
             var themeManager = _themeManager;
             if (themeManager is null || !themeManager.ActiveAndExtended)
             {
-                base.OnPaint(e);
+                base.OnPaint(pevent);
                 return;
             }
 
@@ -119,22 +121,22 @@ namespace mRemoteNG.UI.Controls
 
 
             using (SolidBrush backBrush = new(back))
-                e.Graphics.FillRectangle(backBrush, e.ClipRectangle);
+                pevent.Graphics.FillRectangle(backBrush, pevent.ClipRectangle);
             using (Pen borderPen = new(border, 1))
-                e.Graphics.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                pevent.Graphics.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+            pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            pevent.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             //Warning. the app doesnt use many images in buttons so this positions are kinda tailored just for the used by the app
             //not by general usage of iamges in buttons
             if (Image != null)
             {
-                SizeF stringSize = e.Graphics.MeasureString(Text, Font);
+                SizeF stringSize = pevent.Graphics.MeasureString(Text, Font);
 
-                e.Graphics.DrawImageUnscaled(Image, Width / 2 - (int)stringSize.Width / 2 - Image.Width,
+                pevent.Graphics.DrawImageUnscaled(Image, Width / 2 - (int)stringSize.Width / 2 - Image.Width,
                                              Height / 2 - Image.Height / 2);
             }
 
-            TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, fore,
+            TextRenderer.DrawText(pevent.Graphics, Text, Font, ClientRectangle, fore,
                                   TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
         }
 

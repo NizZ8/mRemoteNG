@@ -32,8 +32,8 @@ namespace mRemoteNG.Tools
             }
             catch (COMException ex)
             {
-                if (ex.Message.ToLower().Equals("the server is not operational"))
-                    throw new Exception("Could not find AD Server", ex);
+                if (ex.Message.Equals("the server is not operational", StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException("Could not find AD Server", ex);
             }
         }
     }

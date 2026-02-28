@@ -7,11 +7,11 @@ using mRemoteNG.Properties;
 namespace mRemoteNG.App.Initialization
 {
     [SupportedOSPlatform("windows")]
-    public class CredsAndConsSetup
+    public static class CredsAndConsSetup
     {
         public static void LoadCredsAndCons()
         {
-            new SaveConnectionsOnEdit(Runtime.ConnectionsService);
+            _ = new SaveConnectionsOnEdit(Runtime.ConnectionsService);
 
             if (Properties.App.Default.FirstStart && !Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation && !File.Exists(ConnectionsService.GetStartupConnectionFileName()))
                 Runtime.ConnectionsService.NewConnectionsFile(ConnectionsService.GetStartupConnectionFileName());

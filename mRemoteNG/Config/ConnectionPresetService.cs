@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Threading;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
 using mRemoteNG.Config.Serializers.ConnectionSerializers.Xml;
@@ -15,7 +16,7 @@ namespace mRemoteNG.Config
     [SupportedOSPlatform("windows")]
     public class ConnectionPresetService
     {
-        private readonly object _syncRoot = new();
+        private readonly Lock _syncRoot = new();
         private readonly List<ConnectionPreset> _presets = [];
         private readonly string _presetFilePath;
         private readonly XmlConnectionPresetSerializer _serializer;
@@ -59,9 +60,7 @@ namespace mRemoteNG.Config
 
         public bool SavePreset(string presetName, ConnectionInfo sourceConnection)
         {
-            if (sourceConnection == null)
-                throw new ArgumentNullException(nameof(sourceConnection));
-
+            ArgumentNullException.ThrowIfNull(sourceConnection);
             string normalizedName = presetName?.Trim() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(normalizedName))
                 return false;
@@ -98,8 +97,7 @@ namespace mRemoteNG.Config
 
         public bool ApplyPreset(string presetName, IEnumerable<ConnectionInfo> targetConnections)
         {
-            if (targetConnections == null)
-                throw new ArgumentNullException(nameof(targetConnections));
+            ArgumentNullException.ThrowIfNull(targetConnections);
 
             string normalizedName = presetName?.Trim() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(normalizedName))

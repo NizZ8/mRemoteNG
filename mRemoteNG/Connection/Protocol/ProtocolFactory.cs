@@ -73,7 +73,7 @@ namespace mRemoteNG.Connection.Protocol
                 case ProtocolType.IntApp:
                     if (connectionInfo.ExtApp == "")
                     {
-                        throw (new Exception(Language.NoExtAppDefined));
+                        throw new InvalidOperationException(Language.NoExtAppDefined);
                     }
                     return new IntegratedProgram();
             }

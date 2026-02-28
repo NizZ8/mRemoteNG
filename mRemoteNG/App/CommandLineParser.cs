@@ -239,10 +239,10 @@ namespace mRemoteNG.App
             if (argument.StartsWith("--", StringComparison.Ordinal))
                 return ParseSwitch(argument, 2, out switchName, out inlineValue);
 
-            if (argument.StartsWith("-", StringComparison.Ordinal))
+            if (argument.StartsWith('-'))
                 return ParseSwitch(argument, 1, out switchName, out inlineValue);
 
-            if (argument.StartsWith("/", StringComparison.Ordinal))
+            if (argument.StartsWith('/'))
                 return ParseSwitch(argument, 1, out switchName, out inlineValue);
 
             return false;
