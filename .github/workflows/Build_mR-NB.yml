@@ -69,7 +69,6 @@ jobs:
             Write-Host "ERROR: Could not locate a .sln or .slnx file!" -ForegroundColor Red
             exit 1
           }
-          write-host "Solution file: " $SOLUTION_FILE
 
       - name: (02) Install .NET 10 SDK
         uses: actions/setup-dotnet@v5
@@ -115,7 +114,7 @@ jobs:
         if: matrix.deployment == 'framework-dependent'
         shell: pwsh
         run: |
-          msbuild "$Env:GITHUB_WORKSPACE\mRemoteNG.sln" -p:Configuration="Release" -p:Platform=${{ matrix.platform }} /verbosity:minimal
+          msbuild "$Env:GITHUB_WORKSPACE\$($sln.Name)" -p:Configuration="Release" -p:Platform=${{ matrix.platform }} /verbosity:minimal
 
       - name: (08) Build Self-Contained Release
         if: matrix.deployment == 'self-contained'
