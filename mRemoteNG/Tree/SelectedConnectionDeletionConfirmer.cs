@@ -1,6 +1,7 @@
 ﻿using mRemoteNG.Connection;
 using mRemoteNG.Container;
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.Resources.Language;
 using System.Runtime.Versioning;
@@ -27,19 +28,19 @@ namespace mRemoteNG.Tree
 
         private bool UserConfirmsEmptyFolderDeletion(AbstractConnectionRecord deletionTarget)
         {
-            string messagePrompt = string.Format(Language.ConfirmDeleteNodeFolder, deletionTarget.Name);
+            string messagePrompt = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteNodeFolder, deletionTarget.Name);
             return PromptUser(messagePrompt);
         }
 
         private bool UserConfirmsNonEmptyFolderDeletion(AbstractConnectionRecord deletionTarget)
         {
-            string messagePrompt = string.Format(Language.ConfirmDeleteNodeFolderNotEmpty, deletionTarget.Name);
+            string messagePrompt = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteNodeFolderNotEmpty, deletionTarget.Name);
             return PromptUser(messagePrompt);
         }
 
         private bool UserConfirmsConnectionDeletion(AbstractConnectionRecord deletionTarget)
         {
-            string messagePrompt = string.Format(Language.ConfirmDeleteNodeConnection, deletionTarget.Name);
+            string messagePrompt = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteNodeConnection, deletionTarget.Name);
             return PromptUser(messagePrompt);
         }
 

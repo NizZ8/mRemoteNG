@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Management;
 using System.Runtime.Versioning;
@@ -115,7 +116,7 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                     return false;
                 }
 
-                NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
+                _ = NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
                 if (windowPid != (uint)_process.Id)
                 {
                     try
@@ -137,9 +138,9 @@ namespace mRemoteNG.Connection.Protocol.VMRC
 
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.IntAppStuff, true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.IntAppHandle, _handle), true);
+                                                     string.Format(CultureInfo.InvariantCulture, Language.IntAppHandle, _handle), true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.IntAppTitle, _process.MainWindowTitle), true);
+                                                     string.Format(CultureInfo.InvariantCulture, Language.IntAppTitle, _process.MainWindowTitle), true);
 
                 Resize(this, EventArgs.Empty);
                 base.Connect();
@@ -281,7 +282,7 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                         break;
 
                     process.Refresh();
-                    if (process.MainWindowTitle != "Default IME")
+                    if (!string.Equals(process.MainWindowTitle, "Default IME", StringComparison.Ordinal))
                     {
                         handle = process.MainWindowHandle;
                     }
@@ -392,7 +393,7 @@ namespace mRemoteNG.Connection.Protocol.VMRC
                     $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
                 foreach (ManagementObject obj in searcher.Get())
                 {
-                    children.Add(Convert.ToInt32(obj["ProcessId"]));
+                    children.Add(Convert.ToInt32(obj["ProcessId"], CultureInfo.InvariantCulture));
                 }
             }
             catch

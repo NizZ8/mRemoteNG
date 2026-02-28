@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security;
@@ -121,7 +122,7 @@ namespace mRemoteNG.Connection
                 {
                     string[] x = connectionString.Split(':');
                     connectionString = x[0];
-                    uriBuilder.Port = Convert.ToInt32(x[1]);
+                    uriBuilder.Port = Convert.ToInt32(x[1], CultureInfo.InvariantCulture);
                 }
 
                 uriBuilder.Host = connectionString;
@@ -130,7 +131,7 @@ namespace mRemoteNG.Connection
                 newConnectionInfo.CopyFrom(DefaultConnectionInfo.Instance);
 
                 newConnectionInfo.Name = Properties.OptionsTabsPanelsPage.Default.IdentifyQuickConnectTabs
-                    ? string.Format(Language.Quick, connectionString)
+                    ? string.Format(CultureInfo.InvariantCulture, Language.Quick, connectionString)
                     : connectionString;
 
                 newConnectionInfo.Protocol = protocol;
@@ -190,7 +191,7 @@ namespace mRemoteNG.Connection
                         .Any(r => string.Equals(r.Filename, filename, StringComparison.OrdinalIgnoreCase)))
                 {
                     Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
-                        string.Format("Connection file '{0}' is already open.", filename));
+                        string.Format(CultureInfo.InvariantCulture, "Connection file '{0}' is already open.", filename));
                     return;
                 }
 
@@ -219,7 +220,7 @@ namespace mRemoteNG.Connection
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddExceptionMessage(string.Format(Language.LoadFromXmlFailed, filename), ex);
+                Runtime.MessageCollector.AddExceptionMessage(string.Format(CultureInfo.InvariantCulture, Language.LoadFromXmlFailed, filename), ex);
             }
         }
 
@@ -515,7 +516,7 @@ namespace mRemoteNG.Connection
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector?.AddExceptionMessage(string.Format(Language.ConnectionsFileCouldNotSaveAs, connectionFileName), ex, logOnly: false);
+                Runtime.MessageCollector?.AddExceptionMessage(string.Format(CultureInfo.InvariantCulture, Language.ConnectionsFileCouldNotSaveAs, connectionFileName), ex, logOnly: false);
             }
             finally
             {

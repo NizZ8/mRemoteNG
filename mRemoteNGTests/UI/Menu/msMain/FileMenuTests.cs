@@ -28,7 +28,7 @@ namespace mRemoteNGTests.UI.Menu.msMain
             
             // Find the item
             var items = menu!.DropDownItems.OfType<ToolStripItem>().ToList();
-            var newConnectionItem = items.FirstOrDefault(i => i.Name == "mMenNewConnection");
+            var newConnectionItem = items.FirstOrDefault(i => string.Equals(i.Name, "mMenNewConnection", StringComparison.Ordinal));
 
             Assert.That(newConnectionItem, Is.Not.Null, "New Connection menu item should exist");
             Assert.That(newConnectionItem!.Text, Is.EqualTo("New Connection"), "Menu item text should match 'New Connection'");

@@ -28,7 +28,7 @@ namespace mRemoteNG.App.Initialization
             {
                 string relativePath = f.Substring(_path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Length)
                     .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                    .Replace(".ico", "");
+                    .Replace(".ico", "", StringComparison.Ordinal);
                 Array.Resize(ref ConnectionIcon.Icons, ConnectionIcon.Icons.Length + 1);
                 ConnectionIcon.Icons.SetValue(relativePath, ConnectionIcon.Icons.Length - 1);
             }

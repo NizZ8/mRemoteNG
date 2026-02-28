@@ -224,7 +224,7 @@ namespace mRemoteNG.Connection.Protocol.Http
         private void NavigateTo(string url)
         {
             if (string.IsNullOrWhiteSpace(url)) return;
-            if (!url.Contains("://"))
+            if (!url.Contains("://", StringComparison.Ordinal))
                 url = "https://" + url;
             if (_wBrowser is Microsoft.Web.WebView2.WinForms.WebView2 edge && edge.CoreWebView2 != null)
                 edge.CoreWebView2.Navigate(url);
@@ -366,7 +366,7 @@ namespace mRemoteNG.Connection.Protocol.Http
                 string httpPath = InterfaceControl.Info.HttpPath?.Trim() ?? string.Empty;
 
                 // Ensure hostname has a scheme so Uri.TryCreate can parse host and embedded port
-                if (!rawHost.Contains("://"))
+                if (!rawHost.Contains("://", StringComparison.Ordinal))
                     rawHost = httpOrS + "://" + rawHost;
 
                 if (!Uri.TryCreate(rawHost, UriKind.Absolute, out Uri? parsed))
@@ -531,7 +531,7 @@ namespace mRemoteNG.Connection.Protocol.Http
                         string fullUserDataPath = Path.GetFullPath(_userDataFolder);
                         
                         if (fullUserDataPath.StartsWith(Path.GetFullPath(tempPath), StringComparison.OrdinalIgnoreCase) &&
-                            fullUserDataPath.Contains("mRemoteNG_WebView2"))
+                            fullUserDataPath.Contains("mRemoteNG_WebView2", StringComparison.Ordinal))
                         {
                             Directory.Delete(_userDataFolder, true);
                         }

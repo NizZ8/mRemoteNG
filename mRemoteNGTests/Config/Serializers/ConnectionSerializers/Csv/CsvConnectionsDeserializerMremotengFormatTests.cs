@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using mRemoteNG.Config.Serializers.ConnectionSerializers.Csv;
@@ -92,8 +93,8 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             var treeModel = ConnectionTreeModelBuilder.Build();
             var csv = _serializer.Serialize(treeModel);
             var deserializedConnections = _deserializer.Deserialize(csv);
-            var con1 = deserializedConnections.GetRecursiveChildList().First(info => info.Name == "Con1");
-            var folder1 = deserializedConnections.GetRecursiveChildList().First(info => info.Name == "folder1");
+            var con1 = deserializedConnections.GetRecursiveChildList().First(info => string.Equals(info.Name, "Con1", StringComparison.Ordinal));
+            var folder1 = deserializedConnections.GetRecursiveChildList().First(info => string.Equals(info.Name, "folder1", StringComparison.Ordinal));
             Assert.That(con1.Parent, Is.EqualTo(folder1));
         }
 
@@ -202,7 +203,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
 
                 foreach (var property in properties)
                 {
-                    if (property.Name == "Password")
+                    if (string.Equals(property.Name, "Password", StringComparison.Ordinal))
                         continue;
 
                     testCases.Add(

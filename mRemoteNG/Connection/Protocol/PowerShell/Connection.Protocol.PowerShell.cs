@@ -252,7 +252,7 @@ namespace mRemoteNG.Connection.Protocol.PowerShell
         /// Escapes a value for embedding in a PowerShell single-quoted string literal.
         /// Single quotes are escaped by doubling them, preventing injection via crafted values.
         /// </summary>
-        private static string EscapePsString(string value) => value.Replace("'", "''");
+        private static string EscapePsString(string value) => value.Replace("'", "''", StringComparison.Ordinal);
 
         #endregion
 

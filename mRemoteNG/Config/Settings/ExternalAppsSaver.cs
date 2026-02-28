@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Text;
@@ -68,7 +69,7 @@ namespace mRemoteNG.Config.Settings
                     xmlTextWriter.WriteAttributeString("PrivateKeyFile", "", extA.PrivateKeyFile);
                     xmlTextWriter.WriteAttributeString("Passphrase", "", extA.Passphrase);
                     if (extA.Hotkey != System.Windows.Forms.Keys.None)
-                        xmlTextWriter.WriteAttributeString("Hotkey", "", Convert.ToString((int)extA.Hotkey));
+                        xmlTextWriter.WriteAttributeString("Hotkey", "", Convert.ToString((int)extA.Hotkey, CultureInfo.InvariantCulture));
                     xmlTextWriter.WriteEndElement();
                 }
 

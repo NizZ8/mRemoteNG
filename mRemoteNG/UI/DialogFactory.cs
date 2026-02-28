@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -77,7 +78,7 @@ namespace mRemoteNG.UI
                 }
                 catch (Exception exception)
                 {
-                    Runtime.MessageCollector.AddExceptionMessage(string .Format(Language.ConnectionsFileCouldNotBeLoadedNew, connectionFileName), exception, MessageClass.WarningMsg);
+                    Runtime.MessageCollector.AddExceptionMessage(string.Format(CultureInfo.InvariantCulture, Language.ConnectionsFileCouldNotBeLoadedNew, connectionFileName), exception, MessageClass.WarningMsg);
                 }
             }
         }

@@ -135,7 +135,7 @@ public class LocalDBManager
         {
             if (!string.IsNullOrWhiteSpace(schemaFilePath) && File.Exists(schemaFilePath))
             {
-                if (string.IsNullOrWhiteSpace(schemaFilePath) || schemaFilePath.Contains("../") || schemaFilePath.Contains(@"..\"))
+                if (string.IsNullOrWhiteSpace(schemaFilePath) || schemaFilePath.Contains("../", StringComparison.Ordinal) || schemaFilePath.Contains(@"..\", StringComparison.Ordinal))
                 {
                     throw new ArgumentException("Invalid file path");
                 }
@@ -275,7 +275,7 @@ public void EncryptDatabase()
     {
         if (File.Exists(jsonFilePath))
         {
-            if (jsonFilePath == null || jsonFilePath.Contains("../") || jsonFilePath.Contains(@"..\"))
+            if (jsonFilePath == null || jsonFilePath.Contains("../", StringComparison.Ordinal) || jsonFilePath.Contains(@"..\", StringComparison.Ordinal))
             {
                 throw new ArgumentException("Invalid file path");
             }
@@ -323,7 +323,7 @@ public void EncryptDatabase()
             }
 
             var json = JsonSerializer.Serialize(settingsData, new JsonSerializerOptions { WriteIndented = true });
-            if (jsonFilePath == null || jsonFilePath.Contains("../") || jsonFilePath.Contains(@"..\"))
+            if (jsonFilePath == null || jsonFilePath.Contains("../", StringComparison.Ordinal) || jsonFilePath.Contains(@"..\", StringComparison.Ordinal))
             {
                 throw new ArgumentException("Invalid file path");
             }

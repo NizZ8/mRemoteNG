@@ -34,7 +34,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         public void Check4ACL()
         {
-            if (Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+            if (string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
             {
                 lblACL.Visible = true;
                 lblBacupPageShowInOptionsMenu.Visible = true;

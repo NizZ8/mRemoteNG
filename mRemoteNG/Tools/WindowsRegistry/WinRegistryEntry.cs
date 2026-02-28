@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
@@ -370,12 +371,12 @@ namespace mRemoteNG.Tools.WindowsRegistry
 
         public WinRegistryEntry<T> SetValidation(string minValue, string maxValue)
         {
-            if (string.IsNullOrEmpty(minValue) || minValue == "*")
+            if (string.IsNullOrEmpty(minValue) || string.Equals(minValue, "*", StringComparison.Ordinal))
                 minValue = "0";
-            if ((string.IsNullOrEmpty(maxValue) || maxValue == "*"))
+            if ((string.IsNullOrEmpty(maxValue) || string.Equals(maxValue, "*", StringComparison.Ordinal)))
                 maxValue = (ElementType == typeof(int))
-                    ? Int32.MaxValue.ToString()
-                    : Int64.MaxValue.ToString();
+                    ? Int32.MaxValue.ToString(CultureInfo.InvariantCulture)
+                    : Int64.MaxValue.ToString(CultureInfo.InvariantCulture);
 
             if (ElementType == typeof(int))
             {
@@ -672,7 +673,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             // For integer or long elements, ensure the value is not negative.
             else if (ElementType == typeof(int) || ElementType == typeof(long))
             {
-                if (Convert.ToInt64(value) < 0)
+                if (Convert.ToInt64(value, CultureInfo.InvariantCulture) < 0)
                     throw new ArgumentException("Value cannot be negative.", nameof(value));
                 return value;
             }
@@ -876,7 +877,7 @@ namespace mRemoteNG.Tools.WindowsRegistry
             {
                 foreach (object enumValue in Enum.GetValues(EnumType))
                 {
-                    if (Convert.ToInt32(enumValue) == value)
+                    if (Convert.ToInt32(enumValue, CultureInfo.InvariantCulture) == value)
                     {
                         return true;
                     }

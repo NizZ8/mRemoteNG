@@ -107,7 +107,7 @@ namespace mRemoteNG.Config.Putty
 
             try
             {
-                string keyName = string.Join("\\", CurrentUserSid, PuttySessionsKey).Replace("\\", "\\\\");
+                string keyName = string.Join("\\", CurrentUserSid, PuttySessionsKey).Replace("\\", "\\\\", StringComparison.Ordinal);
                 RegistryKey? sessionsKey = Registry.Users.OpenSubKey(keyName);
                 if (sessionsKey == null)
                 {

@@ -51,7 +51,7 @@ namespace mRemoteNG.Network.Proxy
                 string statusLine = responseText.Split(new[] { "\r\n" }, StringSplitOptions.None)[0];
 
                 string[] statusParts = statusLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                if (statusParts.Length < 2 || statusParts[1] != "200")
+                if (statusParts.Length < 2 || !string.Equals(statusParts[1], "200", StringComparison.Ordinal))
                     throw new IOException($"HTTP proxy CONNECT failed: {statusLine}");
 
                 return tcpClient;

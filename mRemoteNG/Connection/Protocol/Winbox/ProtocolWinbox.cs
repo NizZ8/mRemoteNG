@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Management;
 using System.Runtime.Versioning;
@@ -121,7 +122,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
 
                 // If the window's actual owner process differs from the launched process (e.g. single-instance
                 // WinBox forwarded args to an existing instance), track the correct process.
-                NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
+                _ = NativeMethods.GetWindowThreadProcessId(_handle, out uint windowPid);
                 if (windowPid != (uint)processId)
                 {
                     try
@@ -148,7 +149,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                 // Notify user
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.IntAppStuff, true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.IntAppHandle, _handle), true);
+                                                     string.Format(CultureInfo.InvariantCulture, Language.IntAppHandle, _handle), true);
 
                 Resize(this, EventArgs.Empty);
                 base.Connect();
@@ -292,7 +293,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                 {
                     if (process.HasExited) break;
                     process.Refresh();
-                    if (process.MainWindowTitle != "Default IME")
+                    if (!string.Equals(process.MainWindowTitle, "Default IME", StringComparison.Ordinal))
                     {
                         handle = process.MainWindowHandle;
                     }
@@ -376,7 +377,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
                     $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
                 foreach (ManagementObject obj in searcher.Get())
                 {
-                    children.Add(Convert.ToInt32(obj["ProcessId"]));
+                    children.Add(Convert.ToInt32(obj["ProcessId"], CultureInfo.InvariantCulture));
                 }
             }
             catch

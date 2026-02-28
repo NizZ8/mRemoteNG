@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Properties;
@@ -32,7 +33,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             lblLanguage.Text = Language.LanguageString;
             lblLanguageRestartRequired.Text =
-                string.Format(Language.LanguageRestartRequired, Application.ProductName);
+                string.Format(CultureInfo.CurrentCulture, Language.LanguageRestartRequired, Application.ProductName);
             chkShowDescriptionTooltipsInTree.Text = Language.ShowDescriptionTooltips;
             chkShowFullConnectionsFilePathInTitle.Text = Language.ShowFullConsFilePath;
             chkShowSystemTrayIcon.Text = Language.AlwaysShowSysTrayIcon;
@@ -75,7 +76,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         public override void SaveSettings()
         {
-            var selectedItemStr = Convert.ToString(cboLanguage.SelectedItem) ?? string.Empty;
+            var selectedItemStr = Convert.ToString(cboLanguage.SelectedItem, CultureInfo.InvariantCulture) ?? string.Empty;
             if (cboLanguage.SelectedIndex > 0 &&
                 SupportedCultures.IsNativeNameSupported(selectedItemStr))
             {

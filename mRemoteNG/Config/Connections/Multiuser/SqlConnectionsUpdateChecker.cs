@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Runtime.Versioning;
 using System.Threading;
 using mRemoteNG.App;
@@ -78,7 +79,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
                 sqlReader.Read();
                 if (sqlReader.HasRows)
                 {
-                    lastUpdateInDb = Convert.ToDateTime(sqlReader["LastUpdate"]);
+                    lastUpdateInDb = Convert.ToDateTime(sqlReader["LastUpdate"], CultureInfo.InvariantCulture);
                 }
                 sqlReader.Close();
             }

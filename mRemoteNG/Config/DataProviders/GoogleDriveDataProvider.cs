@@ -156,7 +156,7 @@ namespace mRemoteNG.Config.DataProviders
 
             // Search by name
             var listRequest = service.Files.List();
-            listRequest.Q = $"name = '{_driveFileName.Replace("'", "\\'")}' and trashed = false";
+            listRequest.Q = $"name = '{_driveFileName.Replace("'", "\\'", StringComparison.Ordinal)}' and trashed = false";
             listRequest.Fields = "files(id, name)";
             listRequest.PageSize = 1;
 

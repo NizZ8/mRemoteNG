@@ -632,7 +632,7 @@ namespace mRemoteNG.UI.Forms
                 Language.AskUpdatesCommandAskLater
             ];
 
-            CTaskDialog.ShowTaskDialogBox(this, GeneralAppInfo.ProductName, Language.AskUpdatesMainInstruction, string.Format(Language.AskUpdatesContent, GeneralAppInfo.ProductName), "", "", "", "", string.Join(" | ", commandButtons), ETaskDialogButtons.None, ESysIcons.Question, ESysIcons.Question);
+            CTaskDialog.ShowTaskDialogBox(this, GeneralAppInfo.ProductName, Language.AskUpdatesMainInstruction, string.Format(CultureInfo.CurrentCulture, Language.AskUpdatesContent, GeneralAppInfo.ProductName), "", "", "", "", string.Join(" | ", commandButtons), ETaskDialogButtons.None, ESysIcons.Question, ESysIcons.Question);
 
             if (CTaskDialog.CommandButtonResult == 0 | CTaskDialog.CommandButtonResult == 1)
             {
@@ -1089,7 +1089,7 @@ namespace mRemoteNG.UI.Forms
                                     // only focus the autohide toolstrip
                                     controlThatWasClicked.Focus();
                                 }
-                                else if (controlThatWasClicked.GetType().Namespace?.Contains("WinFormsUI") == true)
+                                else if (controlThatWasClicked.GetType().Namespace?.Contains("WinFormsUI", StringComparison.Ordinal) == true)
                                 {
                                     // DockPanel infrastructure controls (splitters, pane dividers) handle their
                                     // own mouse drag. Calling ActivateConnection() here would refocus the
@@ -1112,9 +1112,7 @@ namespace mRemoteNG.UI.Forms
                             break;
 
                         // Ignore this message if the window wasn't activated
-                        if (Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.WINDOWPOS))
-                            is not NativeMethods.WINDOWPOS windowPos)
-                            break;
+                        var windowPos = Marshal.PtrToStructure<NativeMethods.WINDOWPOS>(m.LParam);
                         if ((windowPos.flags & NativeMethods.SWP_NOACTIVATE) == 0)
                         {
                             _pendingActivateConnectionOnAppReactivation = false;

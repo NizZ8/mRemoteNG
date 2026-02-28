@@ -196,10 +196,10 @@ namespace mRemoteNGTests.Connection
                     return Task.FromResult(validationCallCount > 2);
                 });
 
-                _mockProtocolFactory.CreateProtocol(Arg.Is<ConnectionInfo>(c => c.Name == "MyTunnel"))
+                _mockProtocolFactory.CreateProtocol(Arg.Is<ConnectionInfo>(c => string.Equals(c.Name, "MyTunnel", StringComparison.Ordinal)))
                                    .Returns(mockTunnelProtocol);
 
-                _mockProtocolFactory.CreateProtocol(Arg.Is<ConnectionInfo>(c => c.Hostname == "localhost"))
+                _mockProtocolFactory.CreateProtocol(Arg.Is<ConnectionInfo>(c => string.Equals(c.Hostname, "localhost", StringComparison.OrdinalIgnoreCase)))
                                    .Returns(mockTargetProtocol);
 
                 mockTargetProtocol.InitializeAsync().Returns(Task.FromResult(true));
@@ -230,7 +230,7 @@ namespace mRemoteNGTests.Connection
                 // Assert
                 Assert.That(completed, Is.True, "Tunnel port validation should have been called 3 times (2 failures + 1 success)");
                 _mockTunnelPortValidator.Received(3).ValidatePortAsync(Arg.Any<int>());
-                _mockProtocolFactory.Received(1).CreateProtocol(Arg.Is<ConnectionInfo>(c => c.Hostname == "localhost"));
+                _mockProtocolFactory.Received(1).CreateProtocol(Arg.Is<ConnectionInfo>(c => string.Equals(c.Hostname, "localhost", StringComparison.OrdinalIgnoreCase)));
             }
             finally
             {

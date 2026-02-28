@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using mRemoteNG.App;
@@ -362,7 +363,7 @@ namespace mRemoteNG.Connection
         {
             Type inheritType = Inheritance.GetType();
             PropertyInfo? inheritPropertyInfo = inheritType.GetProperty(propertyName);
-            bool inheritPropertyValue = inheritPropertyInfo != null && Convert.ToBoolean(inheritPropertyInfo.GetValue(Inheritance, null));
+            bool inheritPropertyValue = inheritPropertyInfo != null && Convert.ToBoolean(inheritPropertyInfo.GetValue(Inheritance, null), CultureInfo.InvariantCulture);
             return inheritPropertyValue;
         }
 

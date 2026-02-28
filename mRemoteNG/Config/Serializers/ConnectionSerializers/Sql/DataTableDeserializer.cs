@@ -339,7 +339,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 if (!nodeById.TryGetValue(id, out ConnectionInfo? connectionInfo))
                     continue;
                 string parentId = row["ParentID"] as string ?? "0";
-                if (parentId == "0" || !nodeById.TryGetValue(parentId, out ConnectionInfo? parentNode))
+                if (string.Equals(parentId, "0", StringComparison.Ordinal) || !nodeById.TryGetValue(parentId, out ConnectionInfo? parentNode))
                     rootNode.AddChild(connectionInfo);
                 else
                     (parentNode as ContainerInfo)?.AddChild(connectionInfo);

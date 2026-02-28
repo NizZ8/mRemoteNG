@@ -61,13 +61,13 @@ namespace mRemoteNG.Tools
         private static bool IsPutty(string filename)
         {
             return !string.IsNullOrEmpty(filename) && File.Exists(filename) &&
-                   (FileVersionInfo.GetVersionInfo(filename).InternalName?.Contains("PuTTY") == true);
+                   (FileVersionInfo.GetVersionInfo(filename).InternalName?.Contains("PuTTY", StringComparison.Ordinal) == true);
         }
 
         private static bool IsPuttyNg(string filename)
         {
             return !string.IsNullOrEmpty(filename) && File.Exists(filename) &&
-                   (FileVersionInfo.GetVersionInfo(filename).InternalName?.Contains("PuTTYNG") == true);
+                   (FileVersionInfo.GetVersionInfo(filename).InternalName?.Contains("PuTTYNG", StringComparison.Ordinal) == true);
         }
 
         private static bool IsKitty(string filename)
@@ -75,8 +75,8 @@ namespace mRemoteNG.Tools
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                 return false;
             var versionInfo = FileVersionInfo.GetVersionInfo(filename);
-            return versionInfo.InternalName?.Contains("PuTTY") == true &&
-                   versionInfo.Comments?.Contains("KiTTY") == true;
+            return versionInfo.InternalName?.Contains("PuTTY", StringComparison.Ordinal) == true &&
+                   versionInfo.Comments?.Contains("KiTTY", StringComparison.Ordinal) == true;
         }
 
         private static bool IsXming(string filename)
@@ -84,8 +84,8 @@ namespace mRemoteNG.Tools
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                 return false;
             var versionInfo = FileVersionInfo.GetVersionInfo(filename);
-            return versionInfo.InternalName?.Contains("PuTTY") == true &&
-                   versionInfo.ProductVersion?.Contains("Xming") == true;
+            return versionInfo.InternalName?.Contains("PuTTY", StringComparison.Ordinal) == true &&
+                   versionInfo.ProductVersion?.Contains("Xming", StringComparison.Ordinal) == true;
         }
 
         public enum PuttyType

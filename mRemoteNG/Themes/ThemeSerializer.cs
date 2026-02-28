@@ -17,9 +17,9 @@ namespace mRemoteNG.Themes
         /// <param name="baseTheme"></param>
         public static void SaveToXmlFile(ThemeInfo themeToSave, ThemeInfo baseTheme)
         {
-            if (string.IsNullOrEmpty(baseTheme.URI) || baseTheme.URI.Contains("../") || baseTheme.URI.Contains(@"..\"))
+            if (string.IsNullOrEmpty(baseTheme.URI) || baseTheme.URI.Contains("../", StringComparison.Ordinal) || baseTheme.URI.Contains(@"..\", StringComparison.Ordinal))
                 throw new ArgumentException("Invalid file path");
-            if (themeToSave.Name == null || themeToSave.Name.Contains("../") || themeToSave.Name.Contains(@"..\"))
+            if (themeToSave.Name == null || themeToSave.Name.Contains("../", StringComparison.Ordinal) || themeToSave.Name.Contains(@"..\", StringComparison.Ordinal))
                 throw new ArgumentException("Invalid file path");
             string oldURI = baseTheme.URI;
             string directoryName = Path.GetDirectoryName(oldURI) ?? string.Empty;
@@ -30,7 +30,7 @@ namespace mRemoteNG.Themes
 
         public static void DeleteFile(ThemeInfo themeToDelete)
         {
-            if (themeToDelete.URI == null || themeToDelete.URI.Contains("../") || themeToDelete.URI.Contains(@"..\"))
+            if (themeToDelete.URI == null || themeToDelete.URI.Contains("../", StringComparison.Ordinal) || themeToDelete.URI.Contains(@"..\", StringComparison.Ordinal))
                 throw new ArgumentException("Invalid file path");
             File.Delete(themeToDelete.URI);
         }
@@ -41,7 +41,7 @@ namespace mRemoteNG.Themes
         /// <param name="themeToUpdate"></param>
         public static void UpdateThemeXMLValues(ThemeInfo themeToUpdate)
         {
-            if (themeToUpdate.URI == null || themeToUpdate.URI.Contains("../") || themeToUpdate.URI.Contains(@"..\"))
+            if (themeToUpdate.URI == null || themeToUpdate.URI.Contains("../", StringComparison.Ordinal) || themeToUpdate.URI.Contains(@"..\", StringComparison.Ordinal))
                 throw new ArgumentException("Invalid file path");
             byte[] bytesIn = File.ReadAllBytes(themeToUpdate.URI);
             ExtendedColorPalette palette = themeToUpdate.ExtendedPalette
@@ -59,7 +59,7 @@ namespace mRemoteNG.Themes
         /// <returns></returns>
         public static ThemeInfo LoadFromXmlFile(string filename, ThemeInfo? defaultTheme = null)
         {
-            if (filename == null || filename.Contains("../") || filename.Contains(@"..\"))
+            if (filename == null || filename.Contains("../", StringComparison.Ordinal) || filename.Contains(@"..\", StringComparison.Ordinal))
                 throw new ArgumentException("Invalid file path");
             byte[] bytes = File.ReadAllBytes(filename);
             //Load the dockpanel part

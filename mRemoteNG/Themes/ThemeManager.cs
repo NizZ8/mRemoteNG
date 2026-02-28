@@ -179,7 +179,7 @@ namespace mRemoteNG.Themes
                     foreach (string themeFile in themeFiles)
                     {
                         // Skip the default theme here, since it will get loaded again without the *NG below...
-                        if (themeFile.Contains("vs2015light.vstheme")) continue;
+                        if (themeFile.Contains("vs2015light.vstheme", StringComparison.Ordinal)) continue;
                         //filter default one
                         ThemeInfo extTheme = ThemeSerializer.LoadFromXmlFile(themeFile, defaultTheme);
                         if (extTheme.Theme == null || extTheme.Name == null || themes.ContainsKey(extTheme.Name)) continue;
@@ -300,7 +300,7 @@ namespace mRemoteNG.Themes
         // ReSharper disable once UnusedParameter.Local
         private void NotifyThemeChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name")
+            if (string.Equals(e.PropertyName, "Name", StringComparison.Ordinal))
             {
                 return;
             }

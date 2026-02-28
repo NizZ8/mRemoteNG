@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.Tree;
@@ -25,8 +26,8 @@ namespace mRemoteNG.Credential
             ICredentialRecord[] targetsArray = confirmationTargets.ToArray();
             if (targetsArray.Length == 0) return false;
             if (targetsArray.Length > 1)
-                return PromptUser(string.Format("Are you sure you want to delete these {0} selected credentials?", targetsArray.Length));
-            return PromptUser(string.Format(Language.ConfirmDeleteCredentialRecord,targetsArray.First().Title));
+                return PromptUser(string.Format(CultureInfo.CurrentCulture, "Are you sure you want to delete these {0} selected credentials?", targetsArray.Length));
+            return PromptUser(string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteCredentialRecord, targetsArray.First().Title));
         }
 
         private bool PromptUser(string promptMessage)

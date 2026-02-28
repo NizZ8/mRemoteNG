@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
@@ -91,56 +92,56 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Rdp
             StringBuilder sb = new();
 
             // Connection settings
-            sb.AppendLine($"full address:s:{con.Hostname}");
-            sb.AppendLine($"server port:i:{con.Port}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"full address:s:{con.Hostname}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"server port:i:{con.Port}");
 
             // Credentials (only if save filter allows)
             if (_saveFilter.SaveUsername && !string.IsNullOrEmpty(con.Username))
-                sb.AppendLine($"username:s:{con.Username}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"username:s:{con.Username}");
 
             if (_saveFilter.SaveDomain && !string.IsNullOrEmpty(con.Domain))
-                sb.AppendLine($"domain:s:{con.Domain}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"domain:s:{con.Domain}");
 
             // Resolution
             WriteResolution(sb, con.Resolution);
 
             // Color depth
-            sb.AppendLine($"session bpp:i:{(int)con.Colors}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"session bpp:i:{(int)con.Colors}");
 
             // Display settings
-            sb.AppendLine($"disable wallpaper:i:{BoolToRdp(!con.DisplayWallpaper)}");
-            sb.AppendLine($"disable themes:i:{BoolToRdp(!con.DisplayThemes)}");
-            sb.AppendLine($"disable full window drag:i:{BoolToRdp(con.DisableFullWindowDrag)}");
-            sb.AppendLine($"disable menu anims:i:{BoolToRdp(con.DisableMenuAnimations)}");
-            sb.AppendLine($"disable cursor setting:i:{BoolToRdp(con.DisableCursorShadow)}");
-            sb.AppendLine($"allow font smoothing:i:{BoolToRdp(con.EnableFontSmoothing)}");
-            sb.AppendLine($"allow desktop composition:i:{BoolToRdp(con.EnableDesktopComposition)}");
-            sb.AppendLine($"bitmapcachepersistenable:i:{BoolToRdp(con.CacheBitmaps)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"disable wallpaper:i:{BoolToRdp(!con.DisplayWallpaper)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"disable themes:i:{BoolToRdp(!con.DisplayThemes)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"disable full window drag:i:{BoolToRdp(con.DisableFullWindowDrag)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"disable menu anims:i:{BoolToRdp(con.DisableMenuAnimations)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"disable cursor setting:i:{BoolToRdp(con.DisableCursorShadow)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"allow font smoothing:i:{BoolToRdp(con.EnableFontSmoothing)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"allow desktop composition:i:{BoolToRdp(con.EnableDesktopComposition)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"bitmapcachepersistenable:i:{BoolToRdp(con.CacheBitmaps)}");
 
             // Redirect settings
-            sb.AppendLine($"redirectclipboard:i:{BoolToRdp(con.RedirectClipboard)}");
-            sb.AppendLine($"redirectprinters:i:{BoolToRdp(con.RedirectPrinters)}");
-            sb.AppendLine($"redirectcomports:i:{BoolToRdp(con.RedirectPorts)}");
-            sb.AppendLine($"redirectsmartcards:i:{BoolToRdp(con.RedirectSmartCards)}");
-            sb.AppendLine($"redirectdrives:i:{WriteDriveRedirect(con.RedirectDiskDrives)}");
-            sb.AppendLine($"audiocapturemode:i:{BoolToRdp(con.RedirectAudioCapture)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectclipboard:i:{BoolToRdp(con.RedirectClipboard)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectprinters:i:{BoolToRdp(con.RedirectPrinters)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectcomports:i:{BoolToRdp(con.RedirectPorts)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectsmartcards:i:{BoolToRdp(con.RedirectSmartCards)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectdrives:i:{WriteDriveRedirect(con.RedirectDiskDrives)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"audiocapturemode:i:{BoolToRdp(con.RedirectAudioCapture)}");
 
             // Sound
-            sb.AppendLine($"audiomode:i:{(int)con.RedirectSound}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"audiomode:i:{(int)con.RedirectSound}");
 
             // Keyboard redirect
-            sb.AppendLine($"keyboardhook:i:{(con.RedirectKeys ? 1 : 0)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"keyboardhook:i:{(con.RedirectKeys ? 1 : 0)}");
 
             // Console session
-            sb.AppendLine($"connect to console:i:{BoolToRdp(con.UseConsoleSession)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"connect to console:i:{BoolToRdp(con.UseConsoleSession)}");
 
             // Authentication
-            sb.AppendLine($"authentication level:i:{(int)con.RDPAuthenticationLevel}");
-            sb.AppendLine($"enablecredsspsupport:i:{BoolToRdp(con.UseCredSsp)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"authentication level:i:{(int)con.RDPAuthenticationLevel}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"enablecredsspsupport:i:{BoolToRdp(con.UseCredSsp)}");
 
             // Load balance info
             if (!string.IsNullOrEmpty(con.LoadBalanceInfo))
-                sb.AppendLine($"loadbalanceinfo:s:{con.LoadBalanceInfo}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"loadbalanceinfo:s:{con.LoadBalanceInfo}");
 
             // RD Gateway
             WriteGatewaySettings(sb, con);
@@ -148,9 +149,9 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Rdp
             // Start program
             if (!string.IsNullOrEmpty(con.RDPStartProgram))
             {
-                sb.AppendLine($"alternate shell:s:{con.RDPStartProgram}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"alternate shell:s:{con.RDPStartProgram}");
                 if (!string.IsNullOrEmpty(con.RDPStartProgramWorkDir))
-                    sb.AppendLine($"shell working directory:s:{con.RDPStartProgramWorkDir}");
+                    sb.AppendLine(CultureInfo.InvariantCulture, $"shell working directory:s:{con.RDPStartProgramWorkDir}");
             }
 
             return sb.ToString();
@@ -174,8 +175,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Rdp
                     (int w, int h) = GetResolutionDimensions(resolution);
                     if (w > 0 && h > 0)
                     {
-                        sb.AppendLine($"desktopwidth:i:{w}");
-                        sb.AppendLine($"desktopheight:i:{h}");
+                        sb.AppendLine(CultureInfo.InvariantCulture, $"desktopwidth:i:{w}");
+                        sb.AppendLine(CultureInfo.InvariantCulture, $"desktopheight:i:{h}");
                     }
                     break;
             }
@@ -208,14 +209,14 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Rdp
 
         private static void WriteGatewaySettings(StringBuilder sb, ConnectionInfo con)
         {
-            sb.AppendLine($"gatewayusagemethod:i:{(int)con.RDGatewayUsageMethod}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"gatewayusagemethod:i:{(int)con.RDGatewayUsageMethod}");
 
             if (con.RDGatewayUsageMethod != RDGatewayUsageMethod.Never)
             {
                 if (!string.IsNullOrEmpty(con.RDGatewayHostname))
-                    sb.AppendLine($"gatewayhostname:s:{con.RDGatewayHostname}");
+                    sb.AppendLine(CultureInfo.InvariantCulture, $"gatewayhostname:s:{con.RDGatewayHostname}");
 
-                sb.AppendLine($"gatewaycredentialssource:i:{MapGatewayCredentialSource(con.RDGatewayUseConnectionCredentials)}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"gatewaycredentialssource:i:{MapGatewayCredentialSource(con.RDGatewayUseConnectionCredentials)}");
 
                 // Profile method: 1 = NTLM
                 sb.AppendLine("gatewayprofileusagemethod:i:1");

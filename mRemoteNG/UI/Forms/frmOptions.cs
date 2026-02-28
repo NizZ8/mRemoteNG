@@ -183,84 +183,84 @@ namespace mRemoteNG.UI.Forms
                 case "StartupExitPage":
                     {
                         if (Properties.OptionsStartupExitPage.Default.cbStartupExitPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new StartupExitPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "AppearancePage":
                     {
                         if (Properties.OptionsAppearancePage.Default.cbAppearancePageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new AppearancePage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "ConnectionsPage":
                     {
                         if (Properties.OptionsConnectionsPage.Default.cbConnectionsPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new ConnectionsPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "TabsPanelsPage":
                     {
                         if (Properties.OptionsTabsPanelsPage.Default.cbTabsPanelsPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new TabsPanelsPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "NotificationsPage":
                     {
                         if (Properties.OptionsNotificationsPage.Default.cbNotificationsPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new NotificationsPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "CredentialsPage":
                     {
                         if (Properties.OptionsCredentialsPage.Default.cbCredentialsPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new CredentialsPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "SqlServerPage":
                     {
                         if (Properties.OptionsDBsPage.Default.cbDBsPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new SqlServerPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "UpdatesPage":
                     {
                         if (Properties.OptionsUpdatesPage.Default.cbUpdatesPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new UpdatesPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "ThemePage":
                     {
                         if (Properties.OptionsThemePage.Default.cbThemePageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new ThemePage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "SecurityPage":
                     {
                         if (Properties.OptionsSecurityPage.Default.cbSecurityPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new SecurityPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "AdvancedPage":
                     {
                         if (Properties.OptionsAdvancedPage.Default.cbAdvancedPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new AdvancedPage { Dock = DockStyle.Fill };
                         break;
                     }
                 case "BackupPage":
                     {
                         if (Properties.OptionsBackupPage.Default.cbBacupPageInOptionMenu ||
-                            Properties.OptionsRbac.Default.ActiveRole == "AdminRole")
+                            string.Equals(Properties.OptionsRbac.Default.ActiveRole, "AdminRole", StringComparison.Ordinal))
                             page = new BackupPage { Dock = DockStyle.Fill };
                         break;
                     }

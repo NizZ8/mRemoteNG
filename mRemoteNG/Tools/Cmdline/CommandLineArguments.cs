@@ -43,7 +43,7 @@ namespace mRemoteNG.Tools.Cmdline
             if (string.IsNullOrEmpty(argument))
                 return argument;
 
-            if (argument.StartsWith("-", StringComparison.Ordinal))
+            if (argument.StartsWith('-'))
                 argument = ".\\" + argument;
 
             return argument;

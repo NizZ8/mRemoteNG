@@ -29,7 +29,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         public override string PageName
         {
-            get => Language.TabsAndPanels.Replace("&&", "&");
+            get => Language.TabsAndPanels.Replace("&&", "&", StringComparison.Ordinal);
             set { }
         }
 

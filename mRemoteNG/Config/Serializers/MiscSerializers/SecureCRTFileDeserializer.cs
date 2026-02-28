@@ -6,6 +6,7 @@ using mRemoteNG.Security;
 using mRemoteNG.Tree;
 using mRemoteNG.Tree.Root;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Xml;
@@ -44,7 +45,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             foreach (XmlNode child in rootNode.ChildNodes)
             {
                 string? name = child.Attributes?["name"]?.Value;
-                if (name == "Default" || name == "Default_LocalShell")
+                if (string.Equals(name, "Default", StringComparison.Ordinal) || string.Equals(name, "Default_LocalShell", StringComparison.Ordinal))
                     continue;
                 SecureCRTNodeType nodeType = GetFolderOrSession(child);
                 switch (nodeType)
@@ -122,11 +123,11 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             switch (protocol)
             {
                 case ProtocolType.SSH1:
-                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"[SSH1] Port\"]")?.InnerText);
+                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"[SSH1] Port\"]")?.InnerText, CultureInfo.InvariantCulture);
                 case ProtocolType.SSH2:
-                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"[SSH2] Port\"]")?.InnerText);
+                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"[SSH2] Port\"]")?.InnerText, CultureInfo.InvariantCulture);
                 default:
-                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"Port\"]")?.InnerText);
+                    return Convert.ToInt32(xmlNode.SelectSingleNode("dword[@name=\"Port\"]")?.InnerText, CultureInfo.InvariantCulture);
             }
         }
 

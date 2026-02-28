@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.App;
@@ -589,7 +590,7 @@ namespace mRemoteNG.UI.Window
 
         private static string GetPanelName(ConnectionWindow panel)
         {
-            return panel.Text.Replace("&&", "&");
+            return panel.Text.Replace("&&", "&", StringComparison.Ordinal);
         }
 
         private static ConnectionWindow? GetOwningConnectionWindow(ConnectionTab connectionTab)
@@ -753,7 +754,7 @@ namespace mRemoteNG.UI.Window
                     titleText += @")";
                 }
 
-                titleText = titleText.Replace("&", "&&");
+                titleText = titleText.Replace("&", "&&", StringComparison.Ordinal);
 
                 string tabToolTip = BuildTabToolTip(connectionInfo);
 
@@ -1080,7 +1081,7 @@ namespace mRemoteNG.UI.Window
                  Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.Multiple &
                  connDock.Documents.Count() > 1))
             {
-                DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName, string.Format(Language.ConfirmCloseConnectionPanelMainInstruction, Text), "", "", "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.DisconnectCancel, ESysIcons.Question, ESysIcons.Question);
+                DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName, string.Format(CultureInfo.CurrentCulture, Language.ConfirmCloseConnectionPanelMainInstruction, Text), "", "", "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.DisconnectCancel, ESysIcons.Question, ESysIcons.Question);
                 if (CTaskDialog.VerificationChecked)
                 {
                     if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
@@ -1470,12 +1471,12 @@ namespace mRemoteNG.UI.Window
                 Image? screenshot = MiscTools.TakeScreenshot(selectedTab);
                 if (screenshot == null) return;
 
-                string connectionName = selectedTab.TabText.Replace("&&", "&");
+                string connectionName = selectedTab.TabText.Replace("&&", "&", StringComparison.Ordinal);
                 // Sanitize the connection name for use in a file name
                 foreach (char c in System.IO.Path.GetInvalidFileNameChars())
                     connectionName = connectionName.Replace(c, '_');
 
-                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
                 string fileName = $"{connectionName}_{timestamp}.png";
 
                 string screenshotDir = System.IO.Path.Combine(
@@ -1585,7 +1586,7 @@ namespace mRemoteNG.UI.Window
                 AppWindows.SshtransferForm.Username = connectionInfo.Username;
                 //App.Windows.SshtransferForm.Password = connectionInfo.Password.ConvertToUnsecureString();
                 AppWindows.SshtransferForm.Password = connectionInfo.Password;
-                AppWindows.SshtransferForm.Port = Convert.ToString(connectionInfo.Port);
+                AppWindows.SshtransferForm.Port = Convert.ToString(connectionInfo.Port, CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -1807,7 +1808,7 @@ namespace mRemoteNG.UI.Window
                 ConnectionInfo? connectionInfo = GetConnectionInfoForTab(selectedTab);
                 if (connectionInfo != null && Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
                 {
-                    string confirmMessage = string.Format(Language.ConfirmDisconnectConnection, connectionInfo.Name);
+                    string confirmMessage = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDisconnectConnection, connectionInfo.Name);
                     DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
                                                         confirmMessage, "", "", "",
                                                         Language.CheckboxDoNotShowThisMessageAgain,
@@ -1842,7 +1843,7 @@ namespace mRemoteNG.UI.Window
             if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.Multiple)
             {
                 DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
-                                                    string.Format(Language.ConfirmCloseConnectionOthersInstruction,
+                                                    string.Format(CultureInfo.CurrentCulture, Language.ConfirmCloseConnectionOthersInstruction,
                                                                   selectedTab.TabText), "", "", "",
                                                     Language.CheckboxDoNotShowThisMessageAgain,
                                                     ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,
@@ -2069,7 +2070,7 @@ namespace mRemoteNG.UI.Window
                 InterfaceControl? interfaceControl = GetInterfaceControl();
                 if (interfaceControl != null && Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
                 {
-                    string confirmMessage = string.Format(Language.ConfirmReconnectConnection, connectionInfo.Name);
+                    string confirmMessage = string.Format(CultureInfo.CurrentCulture, Language.ConfirmReconnectConnection, connectionInfo.Name);
                     DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
                                                         confirmMessage, "", "", "",
                                                         Language.CheckboxDoNotShowThisMessageAgain,
@@ -2109,7 +2110,7 @@ namespace mRemoteNG.UI.Window
                     DialogResult dr = frmInputBox.ShowDialog();
                     if (dr != DialogResult.OK) return;
                     if (!string.IsNullOrEmpty(frmInputBox.returnValue))
-                        connectionTab.TabText = frmInputBox.returnValue.Replace("&", "&&");
+                        connectionTab.TabText = frmInputBox.returnValue.Replace("&", "&&", StringComparison.Ordinal);
                 }
             }
             catch (Exception ex)

@@ -164,7 +164,7 @@ namespace mRemoteNG.Tools
         private static bool IsLocalMachine(string? serverName)
         {
             return string.IsNullOrEmpty(serverName)
-                || serverName == "."
+                || string.Equals(serverName, ".", StringComparison.Ordinal)
                 || serverName.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase);
         }
 

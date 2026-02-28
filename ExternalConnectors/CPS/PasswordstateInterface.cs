@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using Microsoft.Win32;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
@@ -54,7 +55,7 @@ public class PasswordstateInterface
                 f.tbServerURL.Text = url;
 
                 var b = key.GetValue("SSO");
-                if (b == null || (string)b != "True")
+                if (b == null || !string.Equals((string)b, "True", StringComparison.Ordinal))
                     ssSSO = false;
                 else
                     ssSSO = true;

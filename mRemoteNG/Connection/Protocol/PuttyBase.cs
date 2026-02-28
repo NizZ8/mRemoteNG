@@ -13,6 +13,7 @@ using mRemoteNG.UI.Tabs;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -349,10 +350,10 @@ namespace mRemoteNG.Connection.Protocol
             }
 
             Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, Language.PuttyStuff, true);
-            Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(Language.PuttyHandle, PuttyHandle), true);
+            Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(CultureInfo.InvariantCulture, Language.PuttyHandle, PuttyHandle), true);
             if (PuttyProcess != null)
-                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(Language.PuttyTitle, PuttyProcess.MainWindowTitle), true);
-            Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(Language.PanelHandle, InterfaceControl.Parent?.Handle), true);
+                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(CultureInfo.InvariantCulture, Language.PuttyTitle, PuttyProcess.MainWindowTitle), true);
+            Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(CultureInfo.InvariantCulture, Language.PanelHandle, InterfaceControl.Parent?.Handle), true);
 
             if (!string.IsNullOrEmpty(InterfaceControl.Info?.OpeningCommand) && PuttyHandle != IntPtr.Zero)
             {
@@ -418,7 +419,7 @@ namespace mRemoteNG.Connection.Protocol
                 }
             }
 
-            string tabText = terminalTitle.Replace("&", "&&");
+            string tabText = terminalTitle.Replace("&", "&&", StringComparison.Ordinal);
 
             if (Properties.OptionsTabsPanelsPage.Default.ShowLogonInfoOnTabs)
             {
@@ -796,7 +797,7 @@ namespace mRemoteNG.Connection.Protocol
 
                         if (string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(optionalTemporaryPrivateKeyPath))
                         {
-                            if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "custom")
+                            if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                             {
                                 LegacyRijndaelCryptographyProvider cryptographyProvider = new();
                                 password = cryptographyProvider.Decrypt(Properties.OptionsCredentialsPage.Default.DefaultPassword, Runtime.EncryptionKey);
@@ -857,7 +858,7 @@ namespace mRemoteNG.Connection.Protocol
                                 using var reader = new StreamReader(server, Utf8NoBom, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true);
                                 using var writer = new StreamWriter(server, Utf8NoBom, bufferSize: 1024, leaveOpen: true) { AutoFlush = true };
                                 string? pingMessage = await reader.ReadLineAsync(cts);
-                                if (pingMessage != "ping") throw new FormatException("Invalid ping from VaultOpenbao SSH OTP plugin");
+                                if (!string.Equals(pingMessage, "ping", StringComparison.Ordinal)) throw new FormatException("Invalid ping from VaultOpenbao SSH OTP plugin");
                                 await writer.WriteLineAsync("pong");
                                 string dataRequest = await reader.ReadLineAsync(cts) ?? throw new FormatException("Invalid data request from VaultOpenbao SSH OTP plugin");
                                 var data = DeserializeData(dataRequest);
@@ -890,13 +891,13 @@ namespace mRemoteNG.Connection.Protocol
 
                     }
 
-                    arguments.Add("-P", InterfaceControl.Info?.Port.ToString() ?? "22");
+                    arguments.Add("-P", InterfaceControl.Info?.Port.ToString(CultureInfo.InvariantCulture) ?? "22");
                     arguments.Add(InterfaceControl.Info?.Hostname ?? "");
                 }
 
                 if (_isPuttyNg)
                 {
-                    arguments.Add("-hwndparent", InterfaceControl.Handle.ToString());
+                    arguments.Add("-hwndparent", InterfaceControl.Handle.ToString(CultureInfo.InvariantCulture));
                 }
 
                 PuttyProcess.StartInfo.Arguments = arguments.ToString();
@@ -1281,7 +1282,7 @@ namespace mRemoteNG.Connection.Protocol
             return (
                 Encoding.UTF8.GetString(Convert.FromBase64String(strings[0])),
                 Encoding.UTF8.GetString(Convert.FromBase64String(strings[1])),
-                uint.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(strings[2])))
+                uint.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(strings[2])), CultureInfo.InvariantCulture)
             );
         }
         #endregion

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace mRemoteNG.Security
@@ -75,7 +76,7 @@ namespace mRemoteNG.Security
                         if (c < 0x20 || c == 0x7F)
                         {
                             result.Append('\\');
-                            result.Append(((int)c).ToString("x2"));
+                            result.Append(((int)c).ToString("x2", CultureInfo.InvariantCulture));
                         }
                         else
                         {
@@ -127,7 +128,7 @@ namespace mRemoteNG.Security
                         if (c < 0x20 || c == 0x7F)
                         {
                             result.Append('\\');
-                            result.Append(((int)c).ToString("x2"));
+                            result.Append(((int)c).ToString("x2", CultureInfo.InvariantCulture));
                         }
                         else
                         {

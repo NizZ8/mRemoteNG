@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.IO;
 using System.Windows.Forms;
@@ -50,7 +51,7 @@ namespace mRemoteNG.App
 						openFileDialog.FileNames,
 						importDestinationContainer,
 						Runtime.ConnectionsService,
-						fileName => MessageBox.Show(string.Format(Language.ImportFileFailedContent, fileName), Language.AskUpdatesMainInstruction,
+						fileName => MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Language.ImportFileFailedContent, fileName), Language.AskUpdatesMainInstruction,
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1),
                         (nodes) =>
                         {
@@ -133,7 +134,7 @@ namespace mRemoteNG.App
                         openFileDialog.FileNames,
                         importDestinationContainer,
                         Runtime.ConnectionsService,
-                        fileName => MessageBox.Show(string.Format(Language.ImportFileFailedContent, fileName), Language.AskUpdatesMainInstruction,
+                        fileName => MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Language.ImportFileFailedContent, fileName), Language.AskUpdatesMainInstruction,
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1));
                 }
             }

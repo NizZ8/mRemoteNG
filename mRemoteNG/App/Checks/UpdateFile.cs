@@ -80,7 +80,7 @@ namespace mRemoteNG.App.Update
 
         public string GetThumbprint(string key = "CertificateThumbprint")
         {
-            return GetString(key).Replace(" ", "").ToUpperInvariant();
+            return GetString(key).Replace(" ", "", StringComparison.Ordinal).ToUpperInvariant();
         }
 
         public string GetFileName()
@@ -92,7 +92,7 @@ namespace mRemoteNG.App.Update
 
         public string GetChecksum(string key = "Checksum")
         {
-            return GetString(key).Replace(" ", "").ToUpperInvariant();
+            return GetString(key).Replace(" ", "", StringComparison.Ordinal).ToUpperInvariant();
         }
 
         #endregion

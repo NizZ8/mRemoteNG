@@ -82,13 +82,13 @@ namespace mRemoteNG.UI.Forms
             foreach (PropertyInfo prop in typeof(ConnectionInfo).GetProperties())
             {
                 if (!prop.CanRead || !prop.CanWrite) continue;
-                if (prop.Name == "Parent" || 
-                    prop.Name == "Inheritance" || 
-                    prop.Name == "OpenConnections" || 
-                    prop.Name == "ConstantID" ||
-                    prop.Name == "TreeNode" || 
-                    prop.Name == "IsContainer" || 
-                    prop.Name == "IsRoot") continue;
+                if (string.Equals(prop.Name, "Parent", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "Inheritance", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "OpenConnections", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "ConstantID", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "TreeNode", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "IsContainer", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "IsRoot", StringComparison.Ordinal)) continue;
 
                 try
                 {

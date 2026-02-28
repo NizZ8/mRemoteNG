@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Runtime.Versioning;
 
 // ReSharper disable ArrangeAccessorOwnerBody
@@ -17,7 +18,7 @@ namespace mRemoteNG.Connection.Protocol
                 if (index is ProtocolBase @base)
                     return @base;
                 if (index is int)
-                    return List[Convert.ToInt32(index)] as ProtocolBase;
+                    return List[Convert.ToInt32(index, CultureInfo.InvariantCulture)] as ProtocolBase;
                 return null;
             }
         }

@@ -98,7 +98,7 @@ namespace mRemoteNG.Config.Serializers
             bool connectionsFileIsNotEncrypted = false;
             try
             {
-                connectionsFileIsNotEncrypted = _cryptographyProvider.Decrypt(protectedString, GetDecryptionKey()) == "ThisIsNotProtected";
+                connectionsFileIsNotEncrypted = string.Equals(_cryptographyProvider.Decrypt(protectedString, GetDecryptionKey()), "ThisIsNotProtected", StringComparison.Ordinal);
             }
             catch (EncryptionException)
             {

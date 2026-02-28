@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using mRemoteNG.App;
 using mRemoteNG.Config.Connections.Multiuser;
 using mRemoteNG.Config.DatabaseConnectors;
@@ -244,7 +245,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         private void btnExpandOptions_Click(object sender, EventArgs e)
         {
-            if (btnExpandOptions.Text == "Advanced >>")
+            if (string.Equals(btnExpandOptions.Text, "Advanced >>", StringComparison.Ordinal))
             {
                 btnExpandOptions.Text = "<< Simple";
                 tabCtrlSQL.Visible = true;
@@ -282,17 +283,17 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 case ConnectionTestResult.ServerNotAccessible:
                     UpdateConnectionImage(false);
                     lblTestConnectionResults.Text =
-                        BuildTestFailedMessage(string.Format(Language.ServerNotAccessible, server));
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.ServerNotAccessible, server));
                     break;
                 case ConnectionTestResult.CredentialsRejected:
                     UpdateConnectionImage(false);
                     lblTestConnectionResults.Text =
-                        BuildTestFailedMessage(string.Format(Language.LoginFailedForUser, username));
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.LoginFailedForUser, username));
                     break;
                 case ConnectionTestResult.UnknownDatabase:
                     UpdateConnectionImage(false);
                     lblTestConnectionResults.Text =
-                        BuildTestFailedMessage(string.Format(Language.DatabaseNotAvailable, database));
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database));
                     break;
                 case ConnectionTestResult.UnknownError:
                     UpdateConnectionImage(false);
@@ -324,7 +325,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 string? selectedValue = txtSQLAuthType.SelectedItem.ToString();
 
                 // Check the selected value and call appropriate action
-                if (selectedValue == "Windows Authentication")
+                if (string.Equals(selectedValue, "Windows Authentication", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = false;
@@ -333,7 +334,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = false;
                     txtSQLPassword.Visible = false;
                 }
-                else if (selectedValue == "SQL Server Authentication")
+                else if (string.Equals(selectedValue, "SQL Server Authentication", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "login:";
                     lblSQLUsername.Enabled = true;
@@ -342,7 +343,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = true;
                     txtSQLPassword.Visible = true;
                 }
-                else if (selectedValue == "Microsoft Entra MFA")
+                else if (string.Equals(selectedValue, "Microsoft Entra MFA", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = true;
@@ -351,7 +352,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = false;
                     txtSQLPassword.Visible = false;
                 }
-                else if (selectedValue == "Microsoft Entra Password")
+                else if (string.Equals(selectedValue, "Microsoft Entra Password", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = true;
@@ -360,7 +361,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = true;
                     txtSQLPassword.Visible = true;
                 }
-                else if (selectedValue == "Microsoft Entra Integrated")
+                else if (string.Equals(selectedValue, "Microsoft Entra Integrated", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = false;
@@ -369,7 +370,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = false;
                     txtSQLPassword.Visible = false;
                 }
-                else if (selectedValue == "Microsoft Entra Service Principal")
+                else if (string.Equals(selectedValue, "Microsoft Entra Service Principal", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = true;
@@ -378,7 +379,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = true;
                     txtSQLPassword.Visible = true;
                 }
-                else if (selectedValue == "Microsoft Entra Managed Identity")
+                else if (string.Equals(selectedValue, "Microsoft Entra Managed Identity", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User assigned identity:";
                     lblSQLUsername.Enabled = true;
@@ -387,7 +388,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     lblSQLPassword.Visible = false;
                     txtSQLPassword.Visible = false;
                 }
-                else if (selectedValue == "Microsoft Entra Default")
+                else if (string.Equals(selectedValue, "Microsoft Entra Default", StringComparison.Ordinal))
                 {
                     lblSQLUsername.Text = "User name:";
                     lblSQLUsername.Enabled = true;
@@ -522,8 +523,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             if (match.Success && match.Groups.Count == 3)
             {
-                int major = int.Parse(match.Groups[1].Value);
-                int minor = int.Parse(match.Groups[2].Value);
+                int major = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+                int minor = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
                 return new Version(major, minor);
             }
 

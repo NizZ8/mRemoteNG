@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security;
 using mRemoteNG.Resources.Language;
 
@@ -25,8 +26,8 @@ namespace mRemoteNG.Security.PasswordCreation
             _minLength = minimumLength;
             _maxLength = maxLength;
             ConstraintHint = maxLength == int.MaxValue
-                ? string.Format(Language.PasswordMinimumLengthConstraintHint, _minLength)
-                : string.Format(Language.PasswordLengthConstraintHint, _minLength, _maxLength);
+                ? string.Format(CultureInfo.CurrentCulture, Language.PasswordMinimumLengthConstraintHint, _minLength)
+                : string.Format(CultureInfo.CurrentCulture, Language.PasswordLengthConstraintHint, _minLength, _maxLength);
         }
 
         public bool Validate(SecureString password)

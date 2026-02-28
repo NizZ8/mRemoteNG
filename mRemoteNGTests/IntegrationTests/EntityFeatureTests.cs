@@ -59,7 +59,7 @@ namespace mRemoteNGTests.IntegrationTests
 
             // Assert
             var loadedRoot = loadedModel.RootNodes.First();
-            var loadedEntity = loadedRoot.Children.FirstOrDefault(c => c.Name == "MyEntity");
+            var loadedEntity = loadedRoot.Children.FirstOrDefault(c => string.Equals(c.Name, "MyEntity", StringComparison.Ordinal));
 
             Assert.That(loadedEntity, Is.Not.Null);
             Assert.That(loadedEntity, Is.InstanceOf<ContainerInfo>());

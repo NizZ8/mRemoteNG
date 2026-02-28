@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
@@ -103,7 +104,7 @@ namespace mRemoteNG.Config.Settings
                 {
                     writer.WriteStartElement("Item");
                     writer.WriteAttributeString("Hostname", item.Hostname);
-                    writer.WriteAttributeString("Port", Convert.ToString(item.Port));
+                    writer.WriteAttributeString("Port", Convert.ToString(item.Port, CultureInfo.InvariantCulture));
                     writer.WriteAttributeString("Protocol", item.Protocol.ToString());
                     bool connected = connectedQuickSessions.Contains(new QuickConnectSessionKey(item.Hostname, item.Port, item.Protocol));
                     writer.WriteAttributeString("Connected", connected.ToString().ToLowerInvariant());

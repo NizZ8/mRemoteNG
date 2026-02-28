@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using Microsoft.Win32;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
@@ -45,7 +46,7 @@ public class SecretServerInterface
                 f.tbSSURL.Text = url;
 
                 var b = key.GetValue("SSO");
-                if (b == null || (string)b != "True")
+                if (b == null || !string.Equals((string)b, "True", StringComparison.Ordinal))
                     ssSSO = false;
                 else
                     ssSSO = true;
@@ -169,19 +170,19 @@ public class SecretServerInterface
         // parse data and extract what we need
         foreach (var item in secret.Items)
         {
-            if (item.FieldName.ToLower().Equals("domain"))
+            if (item.FieldName.Equals("domain", StringComparison.OrdinalIgnoreCase))
                 secretDomain = item.ItemValue;
-            else if (item.FieldName.ToLower().Equals("username"))
+            else if (item.FieldName.Equals("username", StringComparison.OrdinalIgnoreCase))
                 secretUsername = item.ItemValue;
-            else if (item.FieldName.ToLower().Equals("password"))
+            else if (item.FieldName.Equals("password", StringComparison.OrdinalIgnoreCase))
                 secretPassword = item.ItemValue;
-            else if (item.FieldName.ToLower().Equals("private key"))
+            else if (item.FieldName.Equals("private key", StringComparison.OrdinalIgnoreCase))
             {
                 client.ReadResponseNoJSONConvert = true;
                 privatekey = Task.Run(() => client.GetFieldAsync(false, false, secretID, "private-key")).GetAwaiter().GetResult();
                 client.ReadResponseNoJSONConvert = false;
             }
-            else if (item.FieldName.ToLower().Equals("private key passphrase"))
+            else if (item.FieldName.Equals("private key passphrase", StringComparison.OrdinalIgnoreCase))
                 privatekeypassphrase = item.ItemValue;
         }
 

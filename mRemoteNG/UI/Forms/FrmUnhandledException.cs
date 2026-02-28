@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,8 +46,8 @@ namespace mRemoteNG.UI.Forms
         private void SetEnvironmentText()
         {
             textBoxEnvironment.Text = new StringBuilder()
-                .AppendLine($"OS: {Environment.OSVersion}")
-                .AppendLine($"{GeneralAppInfo.ProductName} Version: {GeneralAppInfo.ApplicationVersion}")
+                .AppendLine(CultureInfo.InvariantCulture, $"OS: {Environment.OSVersion}")
+                .AppendLine(CultureInfo.InvariantCulture, $"{GeneralAppInfo.ProductName} Version: {GeneralAppInfo.ApplicationVersion}")
                 .AppendLine("Edition: " + (Runtime.IsPortableEdition ? "Portable" : "MSI"))
                 .AppendLine("Cmd line args: " + string.Join(" ", Environment.GetCommandLineArgs().Skip(1)))
                 .ToString();
@@ -117,7 +118,7 @@ namespace mRemoteNG.UI.Forms
         {
             return Assembly.GetExecutingAssembly()
                 .GetCustomAttributes<AssemblyMetadataAttribute>()
-                .FirstOrDefault(a => a.Key == "CrashReportToken")?.Value;
+                .FirstOrDefault(a => string.Equals(a.Key, "CrashReportToken", StringComparison.Ordinal))?.Value;
         }
 
         private async Task SubmitViaApiAsync(string token)
@@ -202,8 +203,8 @@ namespace mRemoteNG.UI.Forms
             body.AppendLine("## Crash Report");
             body.AppendLine();
             body.AppendLine("### Exception");
-            body.AppendLine($"**Type:** `{exceptionType}`");
-            body.AppendLine($"**Message:** {exceptionMessage}");
+            body.AppendLine(CultureInfo.InvariantCulture, $"**Type:** `{exceptionType}`");
+            body.AppendLine(CultureInfo.InvariantCulture, $"**Message:** {exceptionMessage}");
             body.AppendLine();
             body.AppendLine("### Stack Trace");
             body.AppendLine("```");

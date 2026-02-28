@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Security;
 using System.Windows.Forms;
@@ -120,7 +121,7 @@ namespace mRemoteNG.UI.Forms
         {
             Text = string.IsNullOrEmpty(_passwordName)
                 ? Language.TitlePassword
-                : string.Format(Language.TitlePasswordWithName, _passwordName);
+                : string.Format(CultureInfo.CurrentCulture, Language.TitlePasswordWithName, _passwordName);
 
             lblPassword.Text = Language.Password;
             lblVerify.Text = Language.Verify;

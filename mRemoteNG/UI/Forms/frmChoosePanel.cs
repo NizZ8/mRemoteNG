@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Themes;
 using mRemoteNG.UI.Panels;
@@ -58,7 +59,7 @@ namespace mRemoteNG.UI.Forms
             {
                 var window = Runtime.WindowList[i];
                 if (window is null) continue;
-                cbPanels.Items.Add(window.Text.Replace("&&", "&"));
+                cbPanels.Items.Add(window.Text.Replace("&&", "&", StringComparison.Ordinal));
             }
 
             if (cbPanels.Items.Count > 0)

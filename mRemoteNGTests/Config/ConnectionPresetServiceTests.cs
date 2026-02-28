@@ -28,7 +28,7 @@ namespace mRemoteNGTests.Config
                 Assert.That(File.Exists(presetFilePath), Is.True);
 
                 ConnectionPresetService reloadedService = new(presetFilePath);
-                ConnectionPreset reloadedPreset = reloadedService.GetPresets().Single(preset => preset.Name == "My Preset");
+                ConnectionPreset reloadedPreset = reloadedService.GetPresets().Single(preset => string.Equals(preset.Name, "My Preset", StringComparison.Ordinal));
 
                 AssertPresetMatchesConnection(reloadedPreset, sourceConnection);
             }

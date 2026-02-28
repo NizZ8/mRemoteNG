@@ -903,7 +903,7 @@ namespace mRemoteNG.UI.Window
                 portToCheck,
                 HostStatusCheckTimeoutMilliseconds);
 
-            if (_btnHostStatus.Tag as string == "checking")
+            if (string.Equals(_btnHostStatus.Tag as string, "checking", StringComparison.Ordinal))
             {
                 ShowStatusImage(
                     isHostReachable

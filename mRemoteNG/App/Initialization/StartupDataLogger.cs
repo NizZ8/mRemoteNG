@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Management;
 using System.Runtime.Versioning;
@@ -45,7 +46,7 @@ namespace mRemoteNG.App.Initialization
                     .Get())
                 {
                     ManagementObject managementObject = (ManagementObject)o;
-                    osVersion = Convert.ToString(managementObject.GetPropertyValue("Caption"))?.Trim() ?? string.Empty;
+                    osVersion = Convert.ToString(managementObject.GetPropertyValue("Caption"), CultureInfo.InvariantCulture)?.Trim() ?? string.Empty;
                     servicePack = GetOSServicePack(servicePack, managementObject);
                 }
             }
@@ -60,7 +61,7 @@ namespace mRemoteNG.App.Initialization
 
         private static string GetOSServicePack(string servicePack, ManagementObject managementObject)
         {
-            int servicePackNumber = Convert.ToInt32(managementObject.GetPropertyValue("ServicePackMajorVersion"));
+            int servicePackNumber = Convert.ToInt32(managementObject.GetPropertyValue("ServicePackMajorVersion"), CultureInfo.InvariantCulture);
             if (servicePackNumber != 0)
             {
                 servicePack = $"Service Pack {servicePackNumber}";
@@ -77,7 +78,7 @@ namespace mRemoteNG.App.Initialization
                 foreach (ManagementBaseObject o in new ManagementObjectSearcher("SELECT AddressWidth FROM Win32_Processor WHERE DeviceID=\'CPU0\'").Get())
                 {
                     ManagementObject managementObject = (ManagementObject)o;
-                    int addressWidth = Convert.ToInt32(managementObject.GetPropertyValue("AddressWidth"));
+                    int addressWidth = Convert.ToInt32(managementObject.GetPropertyValue("AddressWidth"), CultureInfo.InvariantCulture);
                     architecture = $"{addressWidth}-bit";
                 }
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.App;
@@ -123,7 +124,7 @@ namespace mRemoteNG.UI.Window
             {
                 if (sync.LastExternalSync.HasValue)
                 {
-                    string time = sync.LastExternalSync.Value.ToLocalTime().ToString("HH:mm:ss");
+                    string time = sync.LastExternalSync.Value.ToLocalTime().ToString("HH:mm:ss", CultureInfo.InvariantCulture);
                     _syncStatusLabel.Text = $"Synced {time}";
                     _syncStatusLabel.ToolTipText = $"Connection file sync is active. Last external update: {time}";
                 }

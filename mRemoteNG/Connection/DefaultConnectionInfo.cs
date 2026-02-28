@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Globalization;
 using System.Runtime.Versioning;
 using mRemoteNG.App;
 
@@ -42,7 +43,7 @@ namespace mRemoteNG.Connection
                         continue;
                     }
 
-                    property.SetValue(Instance, Convert.ChangeType(valueFromSource, property.PropertyType), null);
+                    property.SetValue(Instance, Convert.ChangeType(valueFromSource, property.PropertyType, CultureInfo.InvariantCulture), null);
                 }
                 catch (Exception ex)
                 {
@@ -75,7 +76,7 @@ namespace mRemoteNG.Connection
                     }
                     else
                     {
-                        value = Convert.ChangeType(property.GetValue(Instance, null), propertyFromDestination.PropertyType);
+                        value = Convert.ChangeType(property.GetValue(Instance, null), propertyFromDestination.PropertyType, CultureInfo.InvariantCulture);
                     }
 
                     propertyFromDestination.SetValue(destinationInstance, value, null);

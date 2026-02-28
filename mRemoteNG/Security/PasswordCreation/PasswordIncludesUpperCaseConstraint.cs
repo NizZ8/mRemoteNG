@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security;
 using System.Text.RegularExpressions;
 using mRemoteNG.Resources.Language;
@@ -17,7 +18,7 @@ namespace mRemoteNG.Security.PasswordCreation
                 throw new ArgumentException($"{nameof(minimumCount)} must be a positive value");
 
             _minimumCount = minimumCount;
-            ConstraintHint = string.Format(Language.PasswordContainsUpperCaseConstraintHint, _minimumCount);
+            ConstraintHint = string.Format(CultureInfo.CurrentCulture, Language.PasswordContainsUpperCaseConstraintHint, _minimumCount);
         }
 
         public bool Validate(SecureString password)

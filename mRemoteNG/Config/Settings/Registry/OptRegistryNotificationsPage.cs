@@ -306,7 +306,7 @@ namespace mRemoteNG.Config.Settings.Registry
             string invalidFileNameChars = new string(Path.GetInvalidPathChars()) + @":/?*""<>|";
             if (path.Substring(3).Any(ch => invalidFileNameChars.Contains(ch)))
                 return false;
-            if (path.EndsWith(".", StringComparison.Ordinal))
+            if (path.EndsWith('.'))
                 return false;
 
             return true;

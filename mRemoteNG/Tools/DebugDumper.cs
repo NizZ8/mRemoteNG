@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
@@ -47,13 +48,13 @@ namespace mRemoteNG.Tools
         private static void AddSystemInfo(ZipArchive archive)
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"mRemoteNG Version: {GeneralAppInfo.ApplicationVersion}");
-            sb.AppendLine($"OS Version: {Environment.OSVersion}");
-            sb.AppendLine($"64-bit OS: {Environment.Is64BitOperatingSystem}");
-            sb.AppendLine($"64-bit Process: {Environment.Is64BitProcess}");
-            sb.AppendLine($"CLR Version: {Environment.Version}");
-            sb.AppendLine($"Current Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");
-            sb.AppendLine($"Portable Edition: {Runtime.IsPortableEdition}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"mRemoteNG Version: {GeneralAppInfo.ApplicationVersion}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"OS Version: {Environment.OSVersion}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"64-bit OS: {Environment.Is64BitOperatingSystem}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"64-bit Process: {Environment.Is64BitProcess}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"CLR Version: {Environment.Version}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"Current Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"Portable Edition: {Runtime.IsPortableEdition}");
             
             var entry = archive.CreateEntry("SystemInfo.txt");
             using (var entryStream = entry.Open())

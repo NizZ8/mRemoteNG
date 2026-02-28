@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Xml;
@@ -143,7 +144,7 @@ namespace mRemoteNG.Config.Settings
             connectionInfo.PleaseConnect = item.Connected;
 
             connectionInfo.Name = OptionsTabsPanelsPage.Default.IdentifyQuickConnectTabs
-                ? string.Format(Language.Quick, item.Hostname)
+                ? string.Format(CultureInfo.InvariantCulture, Language.Quick, item.Hostname)
                 : item.Hostname;
 
             connectionInfo.Port = item.Port > 0

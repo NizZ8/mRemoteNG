@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Versioning;
 using mRemoteNG.Connection;
@@ -114,7 +115,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv.RemoteDesktopMa
             RemoteDesktopManagerConnectionInfo? connectionType = _connectionTypes.FirstOrDefault(x => x.Name == connectionTypeString);
             if (connectionType == null) return default;
 
-            string portString = connectionCsv[headers.IndexOf("Port")] ?? connectionType.Port.ToString();
+            string portString = connectionCsv[headers.IndexOf("Port")] ?? connectionType.Port.ToString(CultureInfo.InvariantCulture);
             if (!int.TryParse(portString, out int port)) port = connectionType.Port;
 
             string name = connectionCsv[headers.IndexOf("Name")];

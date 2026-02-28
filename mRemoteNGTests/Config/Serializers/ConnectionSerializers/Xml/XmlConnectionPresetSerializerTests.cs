@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,8 +29,8 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Xml
 
             Assert.That(deserializedPresets.Count, Is.EqualTo(2));
 
-            ConnectionPreset deserializedOne = deserializedPresets.Single(preset => preset.Name == "Preset One");
-            ConnectionPreset deserializedTwo = deserializedPresets.Single(preset => preset.Name == "Preset Two");
+            ConnectionPreset deserializedOne = deserializedPresets.Single(preset => string.Equals(preset.Name, "Preset One", StringComparison.Ordinal));
+            ConnectionPreset deserializedTwo = deserializedPresets.Single(preset => string.Equals(preset.Name, "Preset Two", StringComparison.Ordinal));
 
             AssertPresetMatchesConnection(deserializedOne, sourceOne);
             AssertPresetMatchesConnection(deserializedTwo, sourceTwo);

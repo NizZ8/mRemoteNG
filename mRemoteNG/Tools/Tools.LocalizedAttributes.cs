@@ -20,7 +20,7 @@ namespace mRemoteNG.Tools
                 string OrderPrefix = "";
                 for (int x = 0; x <= MaxOrder - Order; x++)
                 {
-                    OrderPrefix += Convert.ToString("\t");
+                    OrderPrefix += Convert.ToString("\t", CultureInfo.InvariantCulture);
                 }
 
                 return OrderPrefix + Language.ResourceManager.GetString(value, CultureInfo.CurrentCulture);
@@ -90,7 +90,7 @@ namespace mRemoteNG.Tools
                     if (!Localized)
                     {
                         Localized = true;
-                        DisplayNameValue = string.Format(Language.FormatInherit,
+                        DisplayNameValue = string.Format(CultureInfo.CurrentCulture, Language.FormatInherit,
                                                          Language.ResourceManager.GetString(DisplayNameValue, CultureInfo.CurrentCulture));
                     }
 
@@ -111,7 +111,7 @@ namespace mRemoteNG.Tools
                     if (!Localized)
                     {
                         Localized = true;
-                        DescriptionValue = string.Format(Language.FormatInheritDescription,
+                        DescriptionValue = string.Format(CultureInfo.CurrentCulture, Language.FormatInheritDescription,
                                                          Language.ResourceManager.GetString(DescriptionValue, CultureInfo.CurrentCulture));
                     }
 

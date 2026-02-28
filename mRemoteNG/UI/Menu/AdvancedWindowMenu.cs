@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.Tools;
 using mRemoteNG.Resources.Language;
@@ -45,7 +46,7 @@ namespace mRemoteNG.UI.Menu
             {
                 _sysMenSubItems[i] = 200 + i;
                 WindowMenu.AppendMenuItem(popMen, WindowMenu.Flags.MF_STRING, new IntPtr(_sysMenSubItems[i]),
-                                           Language.Screen + " " + Convert.ToString(i + 1));
+                                           Language.Screen + " " + Convert.ToString(i + 1, CultureInfo.InvariantCulture));
             }
             WindowMenu.InsertMenuItem(_windowMenu.SystemMenuHandle, 0,
                 WindowMenu.Flags.MF_POPUP | WindowMenu.Flags.MF_BYPOSITION, popMen,

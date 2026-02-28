@@ -13,6 +13,7 @@ using mRemoteNG.UI;
 using mRemoteNG.UI.Forms;
 using mRemoteNG.UI.TaskDialog;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Security;
 using System.Xml;
@@ -159,7 +160,7 @@ namespace mRemoteNG.App
                 if (Properties.OptionsDBsPage.Default.UseSQLServer)
                 {
                     MessageCollector.AddExceptionMessage(Language.LoadFromSqlFailed, ex);
-                    string commandButtons = string.Join("|", Language._TryAgain, Language.CommandOpenConnectionFile, Language.CommandStartWithEmptyConnections, string.Format(Language.CommandExitProgram, Application.ProductName));
+                    string commandButtons = string.Join("|", Language._TryAgain, Language.CommandOpenConnectionFile, Language.CommandStartWithEmptyConnections, string.Format(CultureInfo.CurrentCulture, Language.CommandExitProgram, Application.ProductName));
                     CTaskDialog.ShowCommandBox(Application.ProductName ?? GeneralAppInfo.ProductName, Language.LoadFromSqlFailed, Language.LoadFromSqlFailedContent, MiscTools.GetExceptionMessageRecursive(ex), "", "", commandButtons, false, ESysIcons.Error, ESysIcons.Error);
                     switch (CTaskDialog.CommandButtonResult)
                     {
@@ -184,7 +185,7 @@ namespace mRemoteNG.App
                 if ((ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException || ex is XmlException) && !withDialog)
                 {
                     MessageCollector.AddExceptionMessage(
-                                                         string.Format(Language.ConnectionsFileCouldNotBeLoadedNew,
+                                                         string.Format(CultureInfo.InvariantCulture, Language.ConnectionsFileCouldNotBeLoadedNew,
                                                                        connectionFileName), ex,
                                                          MessageClass.InformationMsg);
 
@@ -227,7 +228,7 @@ namespace mRemoteNG.App
                         }
                         catch (Exception exc)
                         {
-                            MessageCollector.AddExceptionMessage(string.Format(Language.ConnectionsFileCouldNotBeLoadedNew, connectionFileName), exc, MessageClass.InformationMsg);
+                            MessageCollector.AddExceptionMessage(string.Format(CultureInfo.InvariantCulture, Language.ConnectionsFileCouldNotBeLoadedNew, connectionFileName), exc, MessageClass.InformationMsg);
                         }
                     }
 
@@ -235,7 +236,7 @@ namespace mRemoteNG.App
                 }
 
                 MessageCollector.AddExceptionStackTrace(
-                                                        string.Format(Language.ConnectionsFileCouldNotBeLoaded,
+                                                        string.Format(CultureInfo.InvariantCulture, Language.ConnectionsFileCouldNotBeLoaded,
                                                                       connectionFileName), ex);
                 if (connectionFileName != Connection.ConnectionsService.GetStartupConnectionFileName())
                 {
@@ -243,7 +244,7 @@ namespace mRemoteNG.App
                 }
                 else
                 {
-                    MessageBox.Show(FrmMain.Default, string.Format(Language.ErrorStartupConnectionFileLoad, Environment.NewLine, Application.ProductName, Connection.ConnectionsService.GetStartupConnectionFileName(), MiscTools.GetExceptionMessageRecursive(ex)), @"Could not load startup file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(FrmMain.Default, string.Format(CultureInfo.CurrentCulture, Language.ErrorStartupConnectionFileLoad, Environment.NewLine, Application.ProductName, Connection.ConnectionsService.GetStartupConnectionFileName(), MiscTools.GetExceptionMessageRecursive(ex)), @"Could not load startup file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                 }
             }

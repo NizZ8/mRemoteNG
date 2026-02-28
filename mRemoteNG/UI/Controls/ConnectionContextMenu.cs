@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.App;
@@ -1266,13 +1267,13 @@ namespace mRemoteNG.UI.Controls
             foreach (System.Reflection.PropertyInfo prop in typeof(ConnectionInfo).GetProperties())
             {
                 if (!prop.CanRead || !prop.CanWrite) continue;
-                if (prop.Name == "Parent" || 
-                    prop.Name == "Inheritance" || 
-                    prop.Name == "OpenConnections" || 
-                    prop.Name == "ConstantID" ||
-                    prop.Name == "TreeNode" || 
-                    prop.Name == "IsContainer" || 
-                    prop.Name == "IsRoot") continue;
+                if (string.Equals(prop.Name, "Parent", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "Inheritance", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "OpenConnections", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "ConstantID", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "TreeNode", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "IsContainer", StringComparison.Ordinal) ||
+                    string.Equals(prop.Name, "IsRoot", StringComparison.Ordinal)) continue;
 
                 try
                 {
@@ -1414,7 +1415,7 @@ namespace mRemoteNG.UI.Controls
                 // Check if confirmation is needed based on settings
                 if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
                 {
-                    string confirmMessage = string.Format(Language.ConfirmDisconnectConnection, connectionInfo.Name);
+                    string confirmMessage = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDisconnectConnection, connectionInfo.Name);
                     DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
                                                         confirmMessage, "", "", "",
                                                         Language.CheckboxDoNotShowThisMessageAgain,
@@ -1484,7 +1485,7 @@ namespace mRemoteNG.UI.Controls
                 AppWindows.SshtransferForm.Username = _connectionTree.SelectedNode.Username;
                 //App.Windows.SshtransferForm.Password = _connectionTree.SelectedNode.Password.ConvertToUnsecureString();
                 AppWindows.SshtransferForm.Password = _connectionTree.SelectedNode.Password;
-                AppWindows.SshtransferForm.Port = Convert.ToString(_connectionTree.SelectedNode.Port);
+                AppWindows.SshtransferForm.Port = Convert.ToString(_connectionTree.SelectedNode.Port, CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -1805,7 +1806,7 @@ namespace mRemoteNG.UI.Controls
                 string host = connectionInfo.Hostname?.Trim() ?? string.Empty;
                 if (string.IsNullOrEmpty(host)) return;
 
-                if (!host.Contains("://"))
+                if (!host.Contains("://", StringComparison.Ordinal))
                     host = scheme + "://" + host;
 
                 if (connectionInfo.Port != defaultPort)

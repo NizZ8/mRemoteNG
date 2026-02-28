@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Linq;
 using mRemoteNG.Tools;
 
@@ -16,7 +17,7 @@ namespace mRemoteNG.Config.DataProviders
             if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(directoryName))
                 return;
 
-            string searchPattern = string.Format(Properties.OptionsBackupPage.Default.BackupFileNameFormat, fileName, "*");
+            string searchPattern = string.Format(CultureInfo.InvariantCulture, Properties.OptionsBackupPage.Default.BackupFileNameFormat, fileName, "*");
             string[] files = Directory.GetFiles(directoryName, searchPattern);
 
             if (files.Length <= maxBackupsToKeep)

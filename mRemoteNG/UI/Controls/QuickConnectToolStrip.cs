@@ -174,9 +174,9 @@ namespace mRemoteNG.UI.Controls
                 _mnuQuickConnectProtocol.Items.Clear();
                 foreach (System.Reflection.FieldInfo fieldInfo in typeof(ProtocolType).GetFields())
                 {
-                    if (fieldInfo.Name == "value__" || fieldInfo.Name == "IntApp") continue;
+                    if (string.Equals(fieldInfo.Name, "value__", StringComparison.Ordinal) || string.Equals(fieldInfo.Name, "IntApp", StringComparison.Ordinal)) continue;
                     ToolStripMenuItem menuItem = new(fieldInfo.Name);
-                    if (fieldInfo.Name == Settings.Default.QuickConnectProtocol)
+                    if (string.Equals(fieldInfo.Name, Settings.Default.QuickConnectProtocol, StringComparison.Ordinal))
                     {
                         menuItem.Checked = true;
                         _btnQuickConnect.Text = Settings.Default.QuickConnectProtocol;

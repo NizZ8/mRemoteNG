@@ -14,6 +14,7 @@ using mRemoteNG.UI.Tabs;
 using MSTSCLib;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -336,9 +337,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             catch (COMException ex)
             {
-                if (ex.Message.Contains("CLASS_E_CLASSNOTAVAILABLE"))
+                if (ex.Message.Contains("CLASS_E_CLASSNOTAVAILABLE", StringComparison.Ordinal))
                 {
-                    Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(Language.RdpProtocolVersionNotSupported, connectionInfo.RdpVersion));
+                    Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(CultureInfo.InvariantCulture, Language.RdpProtocolVersionNotSupported, connectionInfo.RdpVersion));
                 }
                 else
                 {
@@ -383,9 +384,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             catch (COMException ex)
             {
-                if (ex.Message.Contains("CLASS_E_CLASSNOTAVAILABLE"))
+                if (ex.Message.Contains("CLASS_E_CLASSNOTAVAILABLE", StringComparison.Ordinal))
                 {
-                    Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(Language.RdpProtocolVersionNotSupported, connectionInfo.RdpVersion));
+                    Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(CultureInfo.InvariantCulture, Language.RdpProtocolVersionNotSupported, connectionInfo.RdpVersion));
                 }
                 else
                 {
@@ -491,7 +492,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 _ = NativeMethods.GetClassName(hwnd, className, className.Capacity);
                                 string cls = className.ToString();
 
-                                if (cls.Contains("TscShellContainerClass") || cls.Contains("UIContainerClass"))
+                                if (cls.Contains("TscShellContainerClass", StringComparison.Ordinal) || cls.Contains("UIContainerClass", StringComparison.Ordinal))
                                 {
                                     Rectangle bounds = targetScreen.Bounds;
                                     NativeMethods.SetWindowPos(hwnd, IntPtr.Zero,
@@ -945,12 +946,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                 if (RdpVersion >= Versions.RDC61)
                 {
-                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(Language.RdpSetConsoleSwitch, RdpVersion), true);
+                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(CultureInfo.InvariantCulture, Language.RdpSetConsoleSwitch, RdpVersion), true);
                     _rdpClient.AdvancedSettings7.ConnectToAdministerServer = value;
                 }
                 else
                 {
-                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, $"{string.Format(Language.RdpSetConsoleSwitch, RdpVersion)}{Environment.NewLine}No longer supported in this RDP version. Reference: https://msdn.microsoft.com/en-us/library/aa380863(v=vs.85).aspx", true);
+                    Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, $"{string.Format(CultureInfo.InvariantCulture, Language.RdpSetConsoleSwitch, RdpVersion)}{Environment.NewLine}No longer supported in this RDP version. Reference: https://msdn.microsoft.com/en-us/library/aa380863(v=vs.85).aspx", true);
                     // ConnectToServerConsole is deprecated
                     //https://msdn.microsoft.com/en-us/library/aa380863(v=vs.85).aspx
                     //_rdpClient.AdvancedSettings2.ConnectToServerConsole = value;
@@ -1132,9 +1133,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                 if (string.IsNullOrEmpty(password))
                 {
-                    if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "custom")
+                    if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                     {
-                        if (Properties.OptionsCredentialsPage.Default.DefaultPassword != "")
+                        if (!string.IsNullOrEmpty(Properties.OptionsCredentialsPage.Default.DefaultPassword))
                         {
                             LegacyRijndaelCryptographyProvider cryptographyProvider = new();
                             _rdpClient.AdvancedSettings2.ClearTextPassword = cryptographyProvider.Decrypt(Properties.OptionsCredentialsPage.Default.DefaultPassword, Runtime.EncryptionKey);
@@ -1797,7 +1798,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                 string cls = className.ToString();
 
                                 // Check for standard RDP container classes
-                                if (cls.Contains("TscShellContainerClass") || cls.Contains("UIContainerClass"))
+                                if (cls.Contains("TscShellContainerClass", StringComparison.Ordinal) || cls.Contains("UIContainerClass", StringComparison.Ordinal))
                                 {
                                     int exStyle = NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE);
                                     bool needsAppWindow = (exStyle & NativeMethods.WS_EX_APPWINDOW) == 0;
@@ -2131,7 +2132,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             {
                 if (ReconnectGroup == null) return;
 
-                bool srvReady = PortScanner.IsPortOpen(connectionInfo.Hostname, Convert.ToString(connectionInfo.Port));
+                bool srvReady = PortScanner.IsPortOpen(connectionInfo.Hostname, Convert.ToString(connectionInfo.Port, CultureInfo.InvariantCulture));
 
                 ReconnectGroup.ServerReady = srvReady;
 
@@ -2144,7 +2145,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage(
-                    string.Format(Language.AutomaticReconnectError, connectionInfo.Hostname),
+                    string.Format(CultureInfo.InvariantCulture, Language.AutomaticReconnectError, connectionInfo.Hostname),
                     ex, MessageClass.WarningMsg, false);
             }
         }

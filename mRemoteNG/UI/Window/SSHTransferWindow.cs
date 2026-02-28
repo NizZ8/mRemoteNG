@@ -1,5 +1,6 @@
 ﻿using mRemoteNG.App;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using mRemoteNG.Tools;
@@ -396,7 +397,7 @@ namespace mRemoteNG.UI.Window
 
             try
             {
-                st = new SecureTransfer(txtHost.Text, txtUser.Text, txtPassword.Text, int.Parse(txtPort.Text), Protocol,
+                st = new SecureTransfer(txtHost.Text, txtUser.Text, txtPassword.Text, int.Parse(txtPort.Text, CultureInfo.InvariantCulture), Protocol,
                                         txtLocalFile.Text, txtRemoteFile.Text);
 
                 // Connect creates the protocol objects and makes the initial connection.

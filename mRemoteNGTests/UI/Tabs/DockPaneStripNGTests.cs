@@ -149,7 +149,7 @@ namespace mRemoteNGTests.UI.Tabs
         {
             foreach (Control c in parent.Controls)
             {
-                if (c.GetType().Name == "DockPaneStripNG")
+                if (string.Equals(c.GetType().Name, "DockPaneStripNG", StringComparison.Ordinal))
                     return c;
                 
                 var result = FindDockPaneStripNG(c);

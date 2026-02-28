@@ -117,7 +117,7 @@ namespace mRemoteNGTests.IntegrationTests
 
             var serializedContent = _serializer.Serialize(connectionTreeModel);
             var deserializedModel = _deserializer.Deserialize(serializedContent);
-            var deserializedLinkedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => node.Name == "source-link");
+            var deserializedLinkedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => string.Equals(node.Name, "source-link", StringComparison.Ordinal));
 
             Assert.That(deserializedLinkedConnectionInfo.LinkedConnectionId, Is.EqualTo(sourceConnectionInfo.ConstantID));
         }

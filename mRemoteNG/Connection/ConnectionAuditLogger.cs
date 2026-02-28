@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Threading;
@@ -61,7 +62,7 @@ namespace mRemoteNG.Connection
                 {
                     RotateIfNeeded(filePath);
 
-                    string timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    string timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
                     string line = $"{timestamp}\t{eventType}\t{hostname ?? ""}\t{protocol ?? ""}\t{user ?? ""}\t{detail ?? ""}";
                     File.AppendAllText(filePath, line + Environment.NewLine);
                 }

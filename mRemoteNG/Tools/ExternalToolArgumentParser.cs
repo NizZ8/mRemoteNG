@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Versioning;
 using mRemoteNG.App;
 using mRemoteNG.Connection;
@@ -200,28 +201,28 @@ namespace mRemoteNG.Tools
                     replacement = _connectionInfo.Hostname;
                     break;
                 case "port":
-                    replacement = Convert.ToString(_connectionInfo.Port);
+                    replacement = Convert.ToString(_connectionInfo.Port, CultureInfo.InvariantCulture);
                     break;
                 case "username":
                     replacement = _connectionInfo.Username;
                     if (string.IsNullOrEmpty(replacement))
-                        if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "windows")
+                        if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "windows", StringComparison.Ordinal))
                             replacement = Environment.UserName;
-                        else if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "custom")
+                        else if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                             replacement = Properties.OptionsCredentialsPage.Default.DefaultUsername;
                     break;
                 case "password":
                     //replacement = _connectionInfo.Password.ConvertToUnsecureString();
                     replacement = _connectionInfo.Password;
-                    if (string.IsNullOrEmpty(replacement) && Properties.OptionsCredentialsPage.Default.EmptyCredentials == "custom")
+                    if (string.IsNullOrEmpty(replacement) && string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                         replacement = new LegacyRijndaelCryptographyProvider().Decrypt(Convert.ToString(Properties.OptionsCredentialsPage.Default.DefaultPassword), Runtime.EncryptionKey);
                     break;
                 case "domain":
                     replacement = _connectionInfo.Domain;
                     if (string.IsNullOrEmpty(replacement))
-                        if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "windows")
+                        if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "windows", StringComparison.Ordinal))
                             replacement = Environment.UserDomainName;
-                        else if (Properties.OptionsCredentialsPage.Default.EmptyCredentials == "custom")
+                        else if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                             replacement = Properties.OptionsCredentialsPage.Default.DefaultDomain;
                     break;
                 case "description":

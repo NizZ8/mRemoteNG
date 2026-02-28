@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
@@ -155,8 +156,8 @@ namespace mRemoteNG.UI.Window
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            string selectedItem = Convert.ToString(cbProtocol.SelectedItem) ?? string.Empty;
-            if (selectedItem == "All detected")
+            string selectedItem = Convert.ToString(cbProtocol.SelectedItem, CultureInfo.InvariantCulture) ?? string.Empty;
+            if (string.Equals(selectedItem, "All detected", StringComparison.Ordinal))
             {
                 importAllDetectedProtocols();
                 return;

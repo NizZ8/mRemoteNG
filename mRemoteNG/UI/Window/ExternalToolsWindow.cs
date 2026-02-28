@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
@@ -251,10 +252,10 @@ namespace mRemoteNG.UI.Window
             {
                 string message;
                 if (_currentlySelectedExternalTools.Count == 1)
-                    message = string.Format(Language.ConfirmDeleteExternalTool,
+                    message = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteExternalTool,
                                             _currentlySelectedExternalTools[0].DisplayName);
                 else if (_currentlySelectedExternalTools.Count > 1)
-                    message = string.Format(Language.ConfirmDeleteExternalToolMultiple,
+                    message = string.Format(CultureInfo.CurrentCulture, Language.ConfirmDeleteExternalToolMultiple,
                                             _currentlySelectedExternalTools.Count);
                 else
                     return;

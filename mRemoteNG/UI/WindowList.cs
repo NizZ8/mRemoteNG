@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
 using mRemoteNG.UI.Window;
 
 namespace mRemoteNG.UI
@@ -16,7 +17,7 @@ namespace mRemoteNG.UI
                 if (Index is BaseWindow)
                     return IndexByObject(Index);
                 if (Index is int)
-                    return IndexByNumber(Convert.ToInt32(Index));
+                    return IndexByNumber(Convert.ToInt32(Index, CultureInfo.InvariantCulture));
 
                 return null;
             }
@@ -60,7 +61,7 @@ namespace mRemoteNG.UI
             for (int i = 0; i < List.Count; i++)
             {
                 BaseWindow? window = this[i];
-                if (window?.Text == uiWindow.Replace("&", "&&"))
+                if (string.Equals(window?.Text, uiWindow.Replace("&", "&&", StringComparison.Ordinal), StringComparison.Ordinal))
                 {
                     return window;
                 }

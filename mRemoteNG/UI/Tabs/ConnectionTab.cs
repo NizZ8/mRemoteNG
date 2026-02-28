@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
@@ -173,7 +174,7 @@ namespace mRemoteNG.UI.Tabs
                     {
                         DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
                                                             string
-                                                                .Format(Language.ConfirmCloseConnectionPanelMainInstruction,
+                                                                .Format(CultureInfo.CurrentCulture, Language.ConfirmCloseConnectionPanelMainInstruction,
                                                                         TabText), "", "", "",
                                                             Language.CheckboxDoNotShowThisMessageAgain,
                                                             ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,

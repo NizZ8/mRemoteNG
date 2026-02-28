@@ -4,6 +4,7 @@ using mRemoteNG.Config.DatabaseConnectors;
 using mRemoteNG.Messages;
 using mRemoteNG.Resources.Language;
 using System;
+using System.Globalization;
 using System.Runtime.Versioning;
 
 namespace mRemoteNG.Config.Serializers.Versioning
@@ -60,11 +61,11 @@ namespace mRemoteNG.Config.Serializers.Versioning
                     return true;
                 }
 
-                Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(Language.ErrorBadDatabaseVersion, databaseVersion, GeneralAppInfo.ProductName));
+                Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(CultureInfo.InvariantCulture, Language.ErrorBadDatabaseVersion, databaseVersion, GeneralAppInfo.ProductName));
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(Language.ErrorVerifyDatabaseVersionFailed, ex.Message));
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(CultureInfo.InvariantCulture, Language.ErrorVerifyDatabaseVersionFailed, ex.Message));
             }
 
             return false;

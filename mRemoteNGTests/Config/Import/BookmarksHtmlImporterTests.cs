@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace mRemoteNGTests.Config.Import
 
                 Assert.That(destination.Children, Has.Count.EqualTo(2), "Expected 2 children at root level");
                 
-                var folder = destination.Children.OfType<ContainerInfo>().FirstOrDefault(c => c.Name == "My Folder");
+                var folder = destination.Children.OfType<ContainerInfo>().FirstOrDefault(c => string.Equals(c.Name, "My Folder", StringComparison.Ordinal));
                 Assert.That(folder, Is.Not.Null, "My Folder not found");
                 Assert.That(folder.Children, Has.Count.EqualTo(1), "Expected 1 child in My Folder");
                 
@@ -52,7 +53,7 @@ namespace mRemoteNGTests.Config.Import
                 Assert.That(exampleConn.Hostname, Is.EqualTo("https://example.com"));
                 Assert.That(exampleConn.Protocol, Is.EqualTo(ProtocolType.HTTPS));
 
-                var googleConn = destination.Children.OfType<ConnectionInfo>().FirstOrDefault(c => c.Name == "Google");
+                var googleConn = destination.Children.OfType<ConnectionInfo>().FirstOrDefault(c => string.Equals(c.Name, "Google", StringComparison.Ordinal));
                 Assert.That(googleConn, Is.Not.Null, "Google connection not found");
                 Assert.That(googleConn.Hostname, Is.EqualTo("http://google.com"));
                 Assert.That(googleConn.Protocol, Is.EqualTo(ProtocolType.HTTP));

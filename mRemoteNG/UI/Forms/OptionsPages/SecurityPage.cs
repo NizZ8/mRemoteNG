@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.App;
@@ -151,7 +152,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             timer.Stop();
 
             MessageBox.Show(this,
-                string.Format(Language.EncryptionTestResultMessage,
+                string.Format(CultureInfo.CurrentCulture, Language.EncryptionTestResultMessage,
                 nodeCount, engine, mode, numberBoxKdfIterations.Value, timer.Elapsed.TotalSeconds),
                 Language.EncryptionTest,
                 MessageBoxButtons.OK,

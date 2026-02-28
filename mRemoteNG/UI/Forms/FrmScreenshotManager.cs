@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using mRemoteNG.App.Info;
@@ -85,7 +86,7 @@ namespace mRemoteNG.UI.Forms
             {
                 var fi = new FileInfo(file);
                 var item = new ListViewItem(fi.Name) { Tag = fi.FullName };
-                item.SubItems.Add(fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                item.SubItems.Add(fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
                 item.SubItems.Add($"{Math.Max(1, fi.Length / 1024)} KB");
                 _listView.Items.Add(item);
             }

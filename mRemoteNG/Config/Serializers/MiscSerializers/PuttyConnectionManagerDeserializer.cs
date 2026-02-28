@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Xml;
@@ -126,7 +127,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
 
             connectionInfo.Hostname = connectionInfoNode?.SelectSingleNode("./host")?.InnerText ?? string.Empty;
-            connectionInfo.Port = Convert.ToInt32(connectionInfoNode?.SelectSingleNode("./port")?.InnerText);
+            connectionInfo.Port = Convert.ToInt32(connectionInfoNode?.SelectSingleNode("./port")?.InnerText, CultureInfo.InvariantCulture);
             connectionInfo.PuttySession = connectionInfoNode?.SelectSingleNode("./session")?.InnerText ?? string.Empty;
             // ./commandline
             connectionInfo.Description = connectionInfoNode?.SelectSingleNode("./description")?.InnerText ?? string.Empty;

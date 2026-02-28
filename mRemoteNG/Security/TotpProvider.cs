@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Versioning;
 using System.Security.Cryptography;
 using System.Text;
@@ -59,7 +60,7 @@ namespace mRemoteNG.Security
                            | (hash[offset + 3] & 0xFF);
 
             int otp = binaryCode % PowersOfTen[CodeDigits];
-            return otp.ToString().PadLeft(CodeDigits, '0');
+            return otp.ToString(CultureInfo.InvariantCulture).PadLeft(CodeDigits, '0');
         }
 
         /// <summary>

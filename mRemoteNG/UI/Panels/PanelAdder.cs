@@ -4,6 +4,7 @@ using mRemoteNG.UI.Forms;
 using mRemoteNG.UI.Window;
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -56,7 +57,7 @@ namespace mRemoteNG.UI.Panels
         {
             if (string.IsNullOrEmpty(title))
                 title = "New Panel";
-            connectionForm.SetFormText(title.Replace("&", "&&"));
+            connectionForm.SetFormText(title.Replace("&", "&&", StringComparison.Ordinal));
         }
 
         private static void BuildConnectionWindowContextMenu(DockContent pnlcForm)
@@ -115,7 +116,7 @@ namespace mRemoteNG.UI.Panels
 
                 using (FrmInputBox newTitle = new(Language.NewTitle, Language.NewTitle + ":", ""))
                     if (newTitle.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(newTitle.returnValue))
-                        conW.SetFormText(newTitle.returnValue.Replace("&", "&&"));
+                        conW.SetFormText(newTitle.returnValue.Replace("&", "&&", StringComparison.Ordinal));
             }
             catch (Exception ex)
             {
@@ -146,7 +147,7 @@ namespace mRemoteNG.UI.Panels
 
                 for (int i = 0; i <= Screen.AllScreens.Length - 1; i++)
                 {
-                    ToolStripMenuItem cMenScreen = new(Language.Screen + " " + Convert.ToString(i + 1))
+                    ToolStripMenuItem cMenScreen = new(Language.Screen + " " + Convert.ToString(i + 1, CultureInfo.InvariantCulture))
                     {
                         Tag = new ArrayList(),
                         Image = Properties.Resources.Monitor_16x

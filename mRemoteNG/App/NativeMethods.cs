@@ -285,7 +285,7 @@ namespace mRemoteNG.App
         {
             LASTINPUTINFO lastInputInfo = new()
             {
-                cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO))
+                cbSize = (uint)Marshal.SizeOf<LASTINPUTINFO>()
             };
 
             if (!GetLastInputInfo(ref lastInputInfo))

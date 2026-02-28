@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -196,7 +197,7 @@ namespace mRemoteNG.UI.Window
                              
                              if (string.IsNullOrEmpty(result.Connection.Hostname)) return false;
 
-                             return PortScanner.IsPortOpen(result.Connection.Hostname, port.ToString());
+                             return PortScanner.IsPortOpen(result.Connection.Hostname, port.ToString(CultureInfo.InvariantCulture));
                          }
                          catch
                          {

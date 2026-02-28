@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -28,11 +29,11 @@ namespace mRemoteNGTests.UI.Controls
             var items = menu!.Items.Cast<ToolStripItem>().ToList();
             
             // Look for Options menu item
-            var optionsItem = items.FirstOrDefault(i => i.Name == "_cMenTreeOptions");
+            var optionsItem = items.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeOptions", StringComparison.Ordinal));
             Assert.That(optionsItem, Is.Not.Null, "Options menu item not found");
             
             // Look for separator before Options
-            var separator = items.FirstOrDefault(i => i.Name == "_cMenTreeSep5");
+            var separator = items.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeSep5", StringComparison.Ordinal));
              Assert.That(separator, Is.Not.Null, "Separator before Options menu item not found");
         }
 
@@ -51,11 +52,11 @@ namespace mRemoteNGTests.UI.Controls
 
             Assert.That(menu, Is.Not.Null);
             var items = menu!.Items.Cast<ToolStripItem>().ToList();
-            var importItem = items.FirstOrDefault(i => i.Name == "_cMenTreeImport") as ToolStripMenuItem;
+            var importItem = items.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeImport", StringComparison.Ordinal)) as ToolStripMenuItem;
 
             Assert.That(importItem, Is.Not.Null, "Import menu item not found");
             var importDropdownItems = importItem!.DropDownItems.Cast<ToolStripItem>().ToList();
-            var textListItem = importDropdownItems.FirstOrDefault(i => i.Name == "_cMenTreeImportTextList");
+            var textListItem = importDropdownItems.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeImportTextList", StringComparison.Ordinal));
 
             Assert.That(textListItem, Is.Not.Null, "Import from text list menu item not found");
         }

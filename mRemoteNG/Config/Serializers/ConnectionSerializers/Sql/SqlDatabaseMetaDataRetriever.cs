@@ -68,7 +68,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 {
                     Name = dbDataReader["Name"] as string ?? "",
                     Protected = dbDataReader["Protected"] as string ?? "",
-                    Export = dbDataReader["Export"] != DBNull.Value && Convert.ToBoolean(dbDataReader["Export"]),
+                    Export = dbDataReader["Export"] != DBNull.Value && Convert.ToBoolean(dbDataReader["Export"], CultureInfo.InvariantCulture),
                     ConfVersion = new Version(Convert.ToString(dbDataReader["confVersion"], CultureInfo.InvariantCulture) ?? string.Empty)
                 };
             }
@@ -214,7 +214,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 databaseNameParam.Value = database_name;
                 cmd.Parameters.Add(databaseNameParam);
 
-                short cmdResult = Convert.ToInt16(cmd.ExecuteScalar());
+                short cmdResult = Convert.ToInt16(cmd.ExecuteScalar(), CultureInfo.InvariantCulture);
                 exists = (cmdResult == 1);
 
                 // If information_schema reports the table as absent, verify with a direct
@@ -862,7 +862,7 @@ CREATE TABLE `tblExternalTools` (
                  }
 
                  object? result = cmd.ExecuteScalar();
-                 return result != null && Convert.ToInt32(result) > 0;
+                 return result != null && Convert.ToInt32(result, CultureInfo.InvariantCulture) > 0;
              }
              catch
              {

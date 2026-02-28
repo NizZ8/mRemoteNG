@@ -51,7 +51,7 @@ namespace mRemoteNG.Tools
 
         public static string LeadingZero(string Number)
         {
-            if (Convert.ToInt32(Number) < 10)
+            if (Convert.ToInt32(Number, CultureInfo.InvariantCulture) < 10)
             {
                 return "0" + Number;
             }
@@ -69,7 +69,7 @@ namespace mRemoteNG.Tools
             }
             if (type == typeof(string))
             {
-                return (string)dataObject == "1";
+                return string.Equals((string)dataObject, "1", StringComparison.Ordinal);
             }
             if (type == typeof(sbyte))
             {
@@ -85,10 +85,10 @@ namespace mRemoteNG.Tools
 			switch (Properties.OptionsDBsPage.Default.SQLServerType)
 			{
 				case "mysql":
-					return Dt.ToString("yyyy/MM/dd HH:mm:ss");
+					return Dt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 				case "mssql":
 				default:
-					return Dt.ToString("yyyyMMdd HH:mm:ss");
+					return Dt.ToString("yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture);
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace mRemoteNG.Tools
 
         public static string PrepareValueForDB(string Text)
         {
-            return Text.Replace("\'", "\'\'");
+            return Text.Replace("\'", "\'\'", StringComparison.Ordinal);
         }
 
         public static string GetExceptionMessageRecursive(Exception ex)
@@ -249,7 +249,7 @@ namespace mRemoteNG.Tools
             {
                 if (destinationType == typeof(string))
                 {
-                    return Convert.ToBoolean(value) ? Language.Yes : Language.No;
+                    return Convert.ToBoolean(value, CultureInfo.InvariantCulture) ? Language.Yes : Language.No;
                 }
 
                 return base.ConvertTo(context, culture, value, destinationType) ?? throw new InvalidOperationException("Base conversion returned null.");

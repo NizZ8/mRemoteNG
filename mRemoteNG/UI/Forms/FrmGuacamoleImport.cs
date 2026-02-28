@@ -132,11 +132,11 @@ namespace mRemoteNG.UI.Forms
                     host += ":" + txtPort.Text;
                 }
 
-                if (cmbType.SelectedItem?.ToString() == "MySQL")
+                if (string.Equals(cmbType.SelectedItem?.ToString(), "MySQL", StringComparison.Ordinal))
                 {
                     connector = new MySqlDatabaseConnector(host, txtDatabase.Text, txtUsername.Text, txtPassword.Text);
                 }
-                else if (cmbType.SelectedItem?.ToString() == "SQL Server")
+                else if (string.Equals(cmbType.SelectedItem?.ToString(), "SQL Server", StringComparison.Ordinal))
                 {
                     connector = new MSSqlDatabaseConnector(host, txtDatabase.Text, txtUsername.Text, txtPassword.Text);
                 }

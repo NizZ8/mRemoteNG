@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace mRemoteNGTests.Connection
         public void ConstantIDIsNotSerializable()
         {
             var constantId = ConnectionPropertyReflector.GetAllProperties()
-                .FirstOrDefault(p => p.Name == "ConstantID");
+                .FirstOrDefault(p => string.Equals(p.Name, "ConstantID", StringComparison.Ordinal));
 
             Assert.That(constantId, Is.Not.Null);
             Assert.That(constantId!.Serializable, Is.False);
@@ -73,7 +74,7 @@ namespace mRemoteNGTests.Connection
         public void NameIsNotInheritable()
         {
             var name = ConnectionPropertyReflector.GetAllProperties()
-                .FirstOrDefault(p => p.Name == "Name");
+                .FirstOrDefault(p => string.Equals(p.Name, "Name", StringComparison.Ordinal));
 
             Assert.That(name, Is.Not.Null);
             Assert.That(name!.Inheritable, Is.False);
@@ -83,7 +84,7 @@ namespace mRemoteNGTests.Connection
         public void HostnameIsInheritable()
         {
             var hostname = ConnectionPropertyReflector.GetAllProperties()
-                .FirstOrDefault(p => p.Name == "Hostname");
+                .FirstOrDefault(p => string.Equals(p.Name, "Hostname", StringComparison.Ordinal));
 
             Assert.That(hostname, Is.Not.Null);
             Assert.That(hostname!.Inheritable, Is.True);

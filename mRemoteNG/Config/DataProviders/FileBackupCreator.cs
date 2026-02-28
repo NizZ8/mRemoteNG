@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using mRemoteNG.App;
@@ -21,7 +22,7 @@ namespace mRemoteNG.Config.DataProviders
                     return;
 
                 string backupFileName =
-                    string.Format(Properties.OptionsBackupPage.Default.BackupFileNameFormat, fileName, DateTime.Now);
+                    string.Format(CultureInfo.InvariantCulture, Properties.OptionsBackupPage.Default.BackupFileNameFormat, fileName, DateTime.Now);
                 
                 PathValidator.ValidatePathOrThrow(backupFileName, nameof(backupFileName));
                 

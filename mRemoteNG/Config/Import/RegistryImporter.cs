@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
 using mRemoteNG.App;
@@ -42,7 +43,7 @@ namespace mRemoteNG.Config.Import
 
                                 string? ProtocolType = subkey.GetValue("Protocol") as string;
                                 Connection.Protocol.ProtocolType Protocol = Connection.Protocol.ProtocolType.SSH2;
-                                if (ProtocolType == "raw")
+                                if (string.Equals(ProtocolType, "raw", StringComparison.Ordinal))
                                 {
                                     Protocol = Connection.Protocol.ProtocolType.RAW;
                                 }
@@ -51,7 +52,7 @@ namespace mRemoteNG.Config.Import
                                 {
                                     string? portStr = subkey.GetValue("PortNumber") as string;
                                     if (portStr != null)
-                                        Port = int.Parse(portStr);
+                                        Port = int.Parse(portStr, CultureInfo.InvariantCulture);
                                 }
                                 catch { }
                                 try

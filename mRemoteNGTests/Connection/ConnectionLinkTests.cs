@@ -122,8 +122,8 @@ namespace mRemoteNGTests.Connection
             }
 
             var newRoot = newTreeModel.RootNodes[0];
-            var newSource = newRoot.Children.FirstOrDefault(c => c.Name == "SourceConnection") as ConnectionInfo;
-            var newLink = newRoot.Children.FirstOrDefault(c => c.Name == "LinkToSource") as ConnectionInfo;
+            var newSource = newRoot.Children.FirstOrDefault(c => string.Equals(c.Name, "SourceConnection", StringComparison.Ordinal)) as ConnectionInfo;
+            var newLink = newRoot.Children.FirstOrDefault(c => string.Equals(c.Name, "LinkToSource", StringComparison.Ordinal)) as ConnectionInfo;
 
             Assert.That(newSource, Is.Not.Null, "Source connection should exist after deserialization");
             Assert.That(newLink, Is.Not.Null, "Linked connection should exist after deserialization");

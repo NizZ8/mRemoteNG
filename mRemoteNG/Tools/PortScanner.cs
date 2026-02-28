@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -112,7 +113,7 @@ namespace mRemoteNG.Tools
         {
             try
             {
-                TcpClient tcpClient = new(hostname, Convert.ToInt32(port));
+                TcpClient tcpClient = new(hostname, Convert.ToInt32(port, CultureInfo.InvariantCulture));
                 tcpClient.Close();
                 return true;
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using mRemoteNG.App;
 using mRemoteNG.Config.DatabaseConnectors;
@@ -109,7 +110,7 @@ namespace mRemoteNG.Config.Import
                     {
                         groups.Add(new GuacamoleGroup
                         {
-                            Id = Convert.ToInt32(reader["connection_group_id"]),
+                            Id = Convert.ToInt32(reader["connection_group_id"], CultureInfo.InvariantCulture),
                             ParentId = GetNullableInt(reader["parent_id"]),
                             Name = reader["connection_group_name"]?.ToString() ?? string.Empty,
                             Type = reader["type"]?.ToString() ?? string.Empty
@@ -131,7 +132,7 @@ namespace mRemoteNG.Config.Import
                     {
                         connections.Add(new GuacamoleConnection
                         {
-                            Id = Convert.ToInt32(reader["connection_id"]),
+                            Id = Convert.ToInt32(reader["connection_id"], CultureInfo.InvariantCulture),
                             ParentId = GetNullableInt(reader["parent_id"]),
                             Name = reader["connection_name"]?.ToString() ?? string.Empty,
                             Protocol = reader["protocol"]?.ToString() ?? string.Empty
@@ -153,7 +154,7 @@ namespace mRemoteNG.Config.Import
                     {
                         parameters.Add(new GuacamoleParameter
                         {
-                            ConnectionId = Convert.ToInt32(reader["connection_id"]),
+                            ConnectionId = Convert.ToInt32(reader["connection_id"], CultureInfo.InvariantCulture),
                             Name = reader["parameter_name"]?.ToString() ?? string.Empty,
                             Value = reader["parameter_value"]?.ToString() ?? string.Empty
                         });
@@ -166,7 +167,7 @@ namespace mRemoteNG.Config.Import
         private static int? GetNullableInt(object value)
         {
             if (value == null || value == DBNull.Value) return null;
-            return Convert.ToInt32(value);
+            return Convert.ToInt32(value, CultureInfo.InvariantCulture);
         }
 
         private static ConnectionInfo CreateConnectionInfo(GuacamoleConnection conn, IEnumerable<GuacamoleParameter> parameters)
@@ -215,7 +216,7 @@ namespace mRemoteNG.Config.Import
                    // Map security settings if needed
                 }
                 // ... map other RDP settings like width, height, color-depth, console, etc.
-                if (paramsDict.TryGetValue("console", out var console) && console == "true") info.UseConsoleSession = true;
+                if (paramsDict.TryGetValue("console", out var console) && string.Equals(console, "true", StringComparison.Ordinal)) info.UseConsoleSession = true;
             }
 
             return info;

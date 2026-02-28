@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using mRemoteNG.Config.Serializers.MiscSerializers;
 using mRemoteNG.Tree;
@@ -41,10 +42,10 @@ namespace mRemoteNGTests.Config.Serializers.MiscSerializers
             var root = model.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
             Assert.That(root, Is.Not.Null);
             // In schema 1 test file, there is a group named "Group1"
-            var group1 = root.Children.OfType<ContainerInfo>().FirstOrDefault(n => n.Name == "Group1");
+            var group1 = root.Children.OfType<ContainerInfo>().FirstOrDefault(n => string.Equals(n.Name, "Group1", StringComparison.Ordinal));
             Assert.That(group1, Is.Not.Null, "Schema 1 deserialization failed: Group1 not found");
 
-            var server1 = group1.Children.OfType<mRemoteNG.Connection.ConnectionInfo>().FirstOrDefault(c => c.Name == "server1_displayname");
+            var server1 = group1.Children.OfType<mRemoteNG.Connection.ConnectionInfo>().FirstOrDefault(c => string.Equals(c.Name, "server1_displayname", StringComparison.Ordinal));
             Assert.That(server1, Is.Not.Null, "Schema 1 deserialization failed: server1 not found (or name is empty/wrong)");
         }
 

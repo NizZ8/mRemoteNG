@@ -9,6 +9,7 @@ using System;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -35,7 +36,7 @@ namespace mRemoteNG.App
         public static void Main(string[] args)
         {
             // Smoke test: --version prints version and exits immediately (no GUI)
-            if (args.Length > 0 && args[0] == "--version")
+            if (args.Length > 0 && string.Equals(args[0], "--version", StringComparison.Ordinal))
             {
                 var version = Assembly.GetExecutingAssembly()
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
@@ -357,7 +358,7 @@ namespace mRemoteNG.App
             {
                 try
                 {
-                    string backup = configPath + ".corrupted." + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    string backup = configPath + ".corrupted." + DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
                     File.Copy(configPath, backup, true);
                     File.Delete(configPath);
                 }

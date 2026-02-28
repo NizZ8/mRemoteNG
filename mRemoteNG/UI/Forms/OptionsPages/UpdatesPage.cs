@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
@@ -336,7 +337,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                         break;
                     default:
                         int nCustom =
-                            cboUpdateCheckFrequency.Items.Add(string.Format(Language.UpdateFrequencyCustom, Properties.OptionsUpdatesPage.Default.CheckForUpdatesFrequencyDays));
+                            cboUpdateCheckFrequency.Items.Add(string.Format(CultureInfo.CurrentCulture, Language.UpdateFrequencyCustom, Properties.OptionsUpdatesPage.Default.CheckForUpdatesFrequencyDays));
                         cboUpdateCheckFrequency.SelectedIndex = nCustom;
                         break;
                 }

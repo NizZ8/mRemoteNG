@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Connection.Protocol;
@@ -210,13 +211,13 @@ namespace mRemoteNG.Connection
                     var treeModel = Runtime.ConnectionsService.ConnectionTreeModel;
                     if (treeModel == null)
                     {
-                        Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(Language.SshTunnelConfigProblem, connectionInfoOriginal.Name, connectionInfoOriginal.SSHTunnelConnectionName));
+                        Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(CultureInfo.InvariantCulture, Language.SshTunnelConfigProblem, connectionInfoOriginal.Name, connectionInfoOriginal.SSHTunnelConnectionName));
                         return;
                     }
                     connectionInfoSshTunnel = getSSHConnectionInfoByName(treeModel.RootNodes, connectionInfoOriginal.SSHTunnelConnectionName!);
                     if (connectionInfoSshTunnel == null)
                     {
-                        Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(Language.SshTunnelConfigProblem, connectionInfoOriginal.Name, connectionInfoOriginal.SSHTunnelConnectionName));
+                        Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, string.Format(CultureInfo.InvariantCulture, Language.SshTunnelConfigProblem, connectionInfoOriginal.Name, connectionInfoOriginal.SSHTunnelConnectionName));
                         return;
                     }
                     Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
@@ -249,7 +250,7 @@ namespace mRemoteNG.Connection
                         if (!(protocolSshTunnel is PuttyBase puttyBaseSshTunnel))
                         {
                             Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
-                                string.Format(Language.SshTunnelIsNotPutty, connectionInfoOriginal.Name, currentTunnelInfo.Name));
+                                string.Format(CultureInfo.InvariantCulture, Language.SshTunnelIsNotPutty, connectionInfoOriginal.Name, currentTunnelInfo.Name));
                             return;
                         }
 
@@ -302,7 +303,7 @@ namespace mRemoteNG.Connection
                     if (!tunnelStarted)
                     {
                         Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                            string.Format(Language.SshTunnelFailed, connectionInfoOriginal.Name, connectionInfoSshTunnel.Name));
+                            string.Format(CultureInfo.InvariantCulture, Language.SshTunnelFailed, connectionInfoOriginal.Name, connectionInfoSshTunnel.Name));
                         return;
                     }
                 }
@@ -556,6 +557,7 @@ namespace mRemoteNG.Connection
                 }
                 Runtime.MessageCollector.AddMessage(msgClass,
                                                     string.Format(
+                                                                  CultureInfo.InvariantCulture,
                                                                   Language.ProtocolEventDisconnected,
                                                                   disconnectedMessage,
                                                                   strHostname,
@@ -584,7 +586,7 @@ namespace mRemoteNG.Connection
                 else
                     connDetail = "UNKNOWN";
 
-                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(Language.ConnenctionClosedByUser, connDetail, prot.InterfaceControl.Info.Protocol, Environment.UserName));
+                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, string.Format(CultureInfo.InvariantCulture, Language.ConnenctionClosedByUser, connDetail, prot.InterfaceControl.Info.Protocol, Environment.UserName));
                 ConnectionAuditLogger.LogConnectionClosed(connDetail, prot.InterfaceControl.Info.Protocol.ToString(), Environment.UserName);
                 prot.InterfaceControl.OriginalInfo.OpenConnections.Remove(prot);
                 if (_activeConnections.Contains(prot.InterfaceControl.Info.ConstantID))
@@ -621,6 +623,7 @@ namespace mRemoteNG.Connection
                 Runtime.MessageCollector.AddMessage(
                     MessageClass.InformationMsg,
                     string.Format(
+                        CultureInfo.InvariantCulture,
                         Language.ConnectionEventConnectedDetail,
                         originalInfo.Hostname,
                         connectionInfo.Protocol,
@@ -694,10 +697,11 @@ namespace mRemoteNG.Connection
                 ProtocolBase prot = (ProtocolBase)sender;
 
                 string msg = string.Format(
+                                        CultureInfo.InvariantCulture,
                                         Language.ConnectionEventErrorOccured,
                                         errorMessage,
                                         prot.InterfaceControl.OriginalInfo.Hostname,
-                                        errorCode?.ToString() ?? "-");
+                                        errorCode?.ToString(CultureInfo.InvariantCulture) ?? "-");
                 Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, msg);
                 ConnectionAuditLogger.LogConnectionError(prot.InterfaceControl.OriginalInfo.Hostname, prot.InterfaceControl.Info.Protocol.ToString(), errorMessage, errorCode);
             }

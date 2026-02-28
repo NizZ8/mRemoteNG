@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -28,12 +29,12 @@ namespace mRemoteNGTests.UI.Controls
             var items = menu!.Items.Cast<ToolStripItem>().ToList();
             
             // Look for ConnectWithOptions menu item
-            var connectWithOptionsItem = items.FirstOrDefault(i => i.Name == "_cMenTreeConnectWithOptions") as ToolStripMenuItem;
+            var connectWithOptionsItem = items.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeConnectWithOptions", StringComparison.Ordinal)) as ToolStripMenuItem;
             Assert.That(connectWithOptionsItem, Is.Not.Null, "ConnectWithOptions menu item not found");
             Assert.That(connectWithOptionsItem!.DropDownItems, Is.Not.Empty, "ConnectWithOptions has no dropdown items");
             
             var dropdownItems = connectWithOptionsItem.DropDownItems.Cast<ToolStripItem>().ToList();
-            var credentialsItem = dropdownItems.FirstOrDefault(i => i.Name == "_cMenTreeConnectWithOptionsWithCredentials");
+            var credentialsItem = dropdownItems.FirstOrDefault(i => string.Equals(i.Name, "_cMenTreeConnectWithOptionsWithCredentials", StringComparison.Ordinal));
             Assert.That(credentialsItem, Is.Not.Null, "Connect with credentials menu item not found");
             Assert.That(credentialsItem!.Text, Is.EqualTo("Connect with credentials..."));
         }

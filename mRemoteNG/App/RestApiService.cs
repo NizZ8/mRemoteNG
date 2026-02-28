@@ -131,7 +131,7 @@ namespace mRemoteNG.App
             resp.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             resp.Headers.Add("Access-Control-Allow-Headers", "X-API-Key, Content-Type");
 
-            if (req.HttpMethod == "OPTIONS")
+            if (string.Equals(req.HttpMethod, "OPTIONS", StringComparison.Ordinal))
             {
                 resp.StatusCode = 204;
                 resp.Close();
@@ -149,34 +149,34 @@ namespace mRemoteNG.App
             string path = req.Url?.AbsolutePath?.TrimEnd('/') ?? "";
             string method = req.HttpMethod;
 
-            if (path == "/api/status" && method == "GET")
+            if (string.Equals(path, "/api/status", StringComparison.Ordinal) && string.Equals(method, "GET", StringComparison.Ordinal))
             {
                 HandleStatus(resp);
             }
-            else if (path == "/api/connections" && method == "GET")
+            else if (string.Equals(path, "/api/connections", StringComparison.Ordinal) && string.Equals(method, "GET", StringComparison.Ordinal))
             {
                 HandleGetConnections(resp);
             }
-            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "GET")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && string.Equals(method, "GET", StringComparison.Ordinal))
             {
                 string id = path["/api/connections/".Length..];
                 HandleGetConnection(resp, id);
             }
-            else if (path == "/api/connections" && method == "POST")
+            else if (string.Equals(path, "/api/connections", StringComparison.Ordinal) && string.Equals(method, "POST", StringComparison.Ordinal))
             {
                 await HandleCreateConnection(req, resp).ConfigureAwait(false);
             }
-            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "PUT")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && string.Equals(method, "PUT", StringComparison.Ordinal))
             {
                 string id = path["/api/connections/".Length..];
                 await HandleUpdateConnection(req, resp, id).ConfigureAwait(false);
             }
-            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && method == "DELETE")
+            else if (path.StartsWith("/api/connections/", StringComparison.Ordinal) && string.Equals(method, "DELETE", StringComparison.Ordinal))
             {
                 string id = path["/api/connections/".Length..];
                 HandleDeleteConnection(resp, id);
             }
-            else if (path == "/api/tree" && method == "GET")
+            else if (string.Equals(path, "/api/tree", StringComparison.Ordinal) && string.Equals(method, "GET", StringComparison.Ordinal))
             {
                 HandleGetTree(resp);
             }
@@ -509,7 +509,7 @@ namespace mRemoteNG.App
             byte[] bytes = new byte[32];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(bytes);
-            return Convert.ToBase64String(bytes).Replace("+", "").Replace("/", "").Replace("=", "")[..32];
+            return Convert.ToBase64String(bytes).Replace("+", "", StringComparison.Ordinal).Replace("/", "", StringComparison.Ordinal).Replace("=", "", StringComparison.Ordinal)[..32];
         }
 
         #endregion

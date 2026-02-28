@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
@@ -967,7 +968,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 _reconnectAttemptInProgress = false;
                 DisposeProxyTunnel();
                 Runtime.MessageCollector.AddExceptionMessage(
-                    string.Format(Language.AutomaticReconnectError, _info?.Hostname),
+                    string.Format(CultureInfo.InvariantCulture, Language.AutomaticReconnectError, _info?.Hostname),
                     ex, Messages.MessageClass.WarningMsg, false);
             }
         }
@@ -983,7 +984,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
             try
             {
                 (string probeHost, int probePort) = GetReconnectProbeEndpoint(capturedInfo);
-                bool srvReady = PortScanner.IsPortOpen(probeHost, Convert.ToString(probePort));
+                bool srvReady = PortScanner.IsPortOpen(probeHost, Convert.ToString(probePort, CultureInfo.InvariantCulture));
 
                 // ServerReady setter already handles InvokeRequired internally.
                 if (ReconnectGroup != null)
@@ -1040,7 +1041,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 _reconnectAttemptInProgress = false;
                 DisposeProxyTunnel();
                 Runtime.MessageCollector.AddExceptionMessage(
-                    string.Format(Language.AutomaticReconnectError, capturedInfo.Hostname),
+                    string.Format(CultureInfo.InvariantCulture, Language.AutomaticReconnectError, capturedInfo.Hostname),
                     ex, Messages.MessageClass.WarningMsg, false);
             }
         }

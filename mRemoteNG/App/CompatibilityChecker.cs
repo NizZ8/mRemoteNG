@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -45,7 +46,7 @@ namespace mRemoteNG.App
 
             if (!FipsPolicyEnabledForServer2003() && !FipsPolicyEnabledForServer2008AndNewer()) return;
 
-            string errorText = string.Format(Language.ErrorFipsPolicyIncompatible, GeneralAppInfo.ProductName);
+            string errorText = string.Format(CultureInfo.CurrentCulture, Language.ErrorFipsPolicyIncompatible, GeneralAppInfo.ProductName);
             messageCollector.AddMessage(MessageClass.ErrorMsg, errorText, true);
 
             //About to pop up a message, let's not block it...
@@ -113,7 +114,7 @@ namespace mRemoteNG.App
             messageCollector.AddMessage(MessageClass.WarningMsg, "Lenovo AutoScroll Utility found", true);
 
             CTaskDialog.MessageBox(Application.ProductName ?? string.Empty, Language.CompatibilityProblemDetected,
-                                   string.Format(Language.CompatibilityLenovoAutoScrollUtilityDetected,
+                                   string.Format(CultureInfo.CurrentCulture, Language.CompatibilityLenovoAutoScrollUtilityDetected,
                                                  Application.ProductName), "",
                                    "", Language.CheckboxDoNotShowThisMessageAgain, ETaskDialogButtons.Ok,
                                    ESysIcons.Warning,

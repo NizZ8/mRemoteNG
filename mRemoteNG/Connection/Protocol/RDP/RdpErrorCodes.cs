@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
 using System.Runtime.Versioning;
 using mRemoteNG.App;
 using mRemoteNG.Resources.Language;
@@ -34,12 +35,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 if (_description == null)
                     InitDescription();
 
-                return (string?)_description?[id] ?? string.Format(Language.RdpErrorUnknown, hostname, id);
+                return (string?)_description?[id] ?? string.Format(CultureInfo.InvariantCulture, Language.RdpErrorUnknown, hostname, id);
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionStackTrace(Language.RdpErrorGetFailure, ex);
-                return string.Format(Language.RdpErrorUnknown, hostname, id);
+                return string.Format(CultureInfo.InvariantCulture, Language.RdpErrorUnknown, hostname, id);
             }
         }
     }

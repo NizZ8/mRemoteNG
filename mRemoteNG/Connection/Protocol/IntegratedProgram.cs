@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Management;
 using System.Threading;
@@ -39,7 +40,7 @@ namespace mRemoteNG.Connection.Protocol
             if (_externalTool == null)
             {
                 Runtime.MessageCollector?.AddMessage(MessageClass.ErrorMsg,
-                                                     string.Format(Language.CouldNotFindExternalTool,
+                                                     string.Format(CultureInfo.InvariantCulture, Language.CouldNotFindExternalTool,
                                                                    InterfaceControl.Info.ExtApp));
                 return false;
             }
@@ -176,12 +177,12 @@ namespace mRemoteNG.Connection.Protocol
 
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.IntAppStuff, true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.IntAppHandle, _handle), true);
+                                                     string.Format(CultureInfo.InvariantCulture, Language.IntAppHandle, _handle), true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.IntAppTitle, _process.MainWindowTitle),
+                                                     string.Format(CultureInfo.InvariantCulture, Language.IntAppTitle, _process.MainWindowTitle),
                                                      true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.PanelHandle,
+                                                     string.Format(CultureInfo.InvariantCulture, Language.PanelHandle,
                                                                    InterfaceControl.Parent?.Handle), true);
 
                 Resize(this, EventArgs.Empty);
@@ -291,7 +292,7 @@ namespace mRemoteNG.Connection.Protocol
                 {
                     if (process.HasExited) break;
                     process.Refresh();
-                    if (process.MainWindowTitle != "Default IME")
+                    if (!string.Equals(process.MainWindowTitle, "Default IME", StringComparison.Ordinal))
                     {
                         handle = process.MainWindowHandle;
                     }
@@ -417,7 +418,7 @@ namespace mRemoteNG.Connection.Protocol
                     $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
                 foreach (ManagementObject obj in searcher.Get())
                 {
-                    children.Add(Convert.ToInt32(obj["ProcessId"]));
+                    children.Add(Convert.ToInt32(obj["ProcessId"], CultureInfo.InvariantCulture));
                 }
             }
             catch
@@ -506,16 +507,16 @@ namespace mRemoteNG.Connection.Protocol
 
         private static bool IsShellToolIdentifier(string identifier)
         {
-            return identifier == "cmd"
-                || identifier == "pwsh"
-                || identifier == "powershell"
-                || identifier == "windows powershell"
-                || identifier == "wsl"
-                || identifier == "bash"
-                || identifier == "ubuntu"
-                || identifier == "debian"
-                || identifier == "kali-linux"
-                || identifier == "kali"
+            return string.Equals(identifier, "cmd", StringComparison.Ordinal)
+                || string.Equals(identifier, "pwsh", StringComparison.Ordinal)
+                || string.Equals(identifier, "powershell", StringComparison.Ordinal)
+                || string.Equals(identifier, "windows powershell", StringComparison.Ordinal)
+                || string.Equals(identifier, "wsl", StringComparison.Ordinal)
+                || string.Equals(identifier, "bash", StringComparison.Ordinal)
+                || string.Equals(identifier, "ubuntu", StringComparison.Ordinal)
+                || string.Equals(identifier, "debian", StringComparison.Ordinal)
+                || string.Equals(identifier, "kali-linux", StringComparison.Ordinal)
+                || string.Equals(identifier, "kali", StringComparison.Ordinal)
                 // Versioned Ubuntu launchers (e.g. ubuntu2004, ubuntu2204, ubuntu2404)
                 || (identifier.Length > 6 && identifier.StartsWith("ubuntu", StringComparison.Ordinal) && char.IsDigit(identifier[6]));
         }

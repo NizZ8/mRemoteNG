@@ -395,7 +395,7 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
 
                                 // Store the actual AnyDesk process for later cleanup
                                 // Dispose the PowerShell process if it's different
-                                if (_process != null && _process.ProcessName != "AnyDesk")
+                                if (_process != null && !string.Equals(_process.ProcessName, "AnyDesk", StringComparison.Ordinal))
                                 {
                                     _process.Exited -= ProcessExited;
                                     _process = anydeskProcess;

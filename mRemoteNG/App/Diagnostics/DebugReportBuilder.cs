@@ -66,7 +66,7 @@ namespace mRemoteNG.App.Diagnostics
             StringBuilder reportBuilder = new();
 
             reportBuilder.AppendLine("# mRemoteNG Debug Report");
-            reportBuilder.AppendLine($"GeneratedUtc: {DateTime.UtcNow:O}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"GeneratedUtc: {DateTime.UtcNow:O}");
             reportBuilder.AppendLine();
 
             AppendApplicationInfo(reportBuilder);
@@ -81,26 +81,26 @@ namespace mRemoteNG.App.Diagnostics
         private static void AppendApplicationInfo(StringBuilder reportBuilder)
         {
             reportBuilder.AppendLine("## Application");
-            reportBuilder.AppendLine($"Product: {GeneralAppInfo.ProductName}");
-            reportBuilder.AppendLine($"Version: {GeneralAppInfo.ApplicationVersion}");
-            reportBuilder.AppendLine($"Edition: {(Runtime.IsPortableEdition ? "Portable" : "Installed")}");
-            reportBuilder.AppendLine($".NET CLR: {Environment.Version}");
-            reportBuilder.AppendLine($"CommandLine: {SanitizeText(string.Join(" ", Environment.GetCommandLineArgs()))}");
-            reportBuilder.AppendLine($"SettingsFile: {SanitizeText(SettingsFileInfo.UserSettingsFilePath)}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"Product: {GeneralAppInfo.ProductName}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"Version: {GeneralAppInfo.ApplicationVersion}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"Edition: {(Runtime.IsPortableEdition ? "Portable" : "Installed")}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $".NET CLR: {Environment.Version}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"CommandLine: {SanitizeText(string.Join(" ", Environment.GetCommandLineArgs()))}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"SettingsFile: {SanitizeText(SettingsFileInfo.UserSettingsFilePath)}");
             reportBuilder.AppendLine();
         }
 
         private static void AppendOperatingSystemInfo(StringBuilder reportBuilder)
         {
             reportBuilder.AppendLine("## Operating System");
-            reportBuilder.AppendLine($"OSDescription: {RuntimeInformation.OSDescription}");
-            reportBuilder.AppendLine($"OSVersion: {Environment.OSVersion}");
-            reportBuilder.AppendLine($"OSArchitecture: {RuntimeInformation.OSArchitecture}");
-            reportBuilder.AppendLine($"ProcessArchitecture: {RuntimeInformation.ProcessArchitecture}");
-            reportBuilder.AppendLine($"64BitOS: {Environment.Is64BitOperatingSystem}");
-            reportBuilder.AppendLine($"64BitProcess: {Environment.Is64BitProcess}");
-            reportBuilder.AppendLine($"Culture: {CultureInfo.CurrentCulture.Name}");
-            reportBuilder.AppendLine($"UICulture: {CultureInfo.CurrentUICulture.Name}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"OSDescription: {RuntimeInformation.OSDescription}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"OSVersion: {Environment.OSVersion}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"OSArchitecture: {RuntimeInformation.OSArchitecture}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"ProcessArchitecture: {RuntimeInformation.ProcessArchitecture}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"64BitOS: {Environment.Is64BitOperatingSystem}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"64BitProcess: {Environment.Is64BitProcess}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"Culture: {CultureInfo.CurrentCulture.Name}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"UICulture: {CultureInfo.CurrentUICulture.Name}");
             reportBuilder.AppendLine();
         }
 
@@ -111,7 +111,7 @@ namespace mRemoteNG.App.Diagnostics
             IEnumerable<ApplicationSettingsBase> settingsCollections = GetSettingsCollections();
             foreach (ApplicationSettingsBase settingsCollection in settingsCollections)
             {
-                reportBuilder.AppendLine($"[{settingsCollection.GetType().Name}]");
+                reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"[{settingsCollection.GetType().Name}]");
 
                 List<SettingsProperty> properties = settingsCollection.Properties.Cast<SettingsProperty>()
                     .OrderBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
@@ -121,7 +121,7 @@ namespace mRemoteNG.App.Diagnostics
                 {
                     string value = TryGetSettingValue(settingsCollection, property.Name);
                     string sanitizedValue = SanitizeSettingValue(property.Name, value);
-                    reportBuilder.AppendLine($"{property.Name}={sanitizedValue}");
+                    reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"{property.Name}={sanitizedValue}");
                 }
 
                 reportBuilder.AppendLine();
@@ -146,7 +146,7 @@ namespace mRemoteNG.App.Diagnostics
             foreach (IMessage message in recentMessages)
             {
                 string sanitizedText = SanitizeText(message.Text);
-                reportBuilder.AppendLine($"{message.Date:O} [{message.Class}] {sanitizedText}");
+                reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"{message.Date:O} [{message.Class}] {sanitizedText}");
             }
 
             reportBuilder.AppendLine();
@@ -157,7 +157,7 @@ namespace mRemoteNG.App.Diagnostics
             reportBuilder.AppendLine("## Log Excerpt");
 
             string logFilePath = GetLogFilePath();
-            reportBuilder.AppendLine($"LogPath: {SanitizeText(logFilePath)}");
+            reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"LogPath: {SanitizeText(logFilePath)}");
 
             if (string.IsNullOrWhiteSpace(logFilePath) || !File.Exists(logFilePath))
             {
@@ -175,7 +175,7 @@ namespace mRemoteNG.App.Diagnostics
             }
             catch (Exception ex)
             {
-                reportBuilder.AppendLine($"<unable to read log file: {ex.GetType().Name}>");
+                reportBuilder.AppendLine(CultureInfo.InvariantCulture, $"<unable to read log file: {ex.GetType().Name}>");
             }
 
             reportBuilder.AppendLine();

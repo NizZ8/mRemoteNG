@@ -121,7 +121,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 throw new XmlException("Failed to parse XML connection file.");
 
             if (_xmlDocument.DocumentElement != null && _xmlDocument.DocumentElement.HasAttribute("ConfVersion"))
-                _confVersion = Convert.ToDouble(_xmlDocument.DocumentElement.Attributes["ConfVersion"]?.Value.Replace(",", "."), CultureInfo.InvariantCulture);
+                _confVersion = Convert.ToDouble(_xmlDocument.DocumentElement.Attributes["ConfVersion"]?.Value.Replace(",", ".", StringComparison.Ordinal), CultureInfo.InvariantCulture);
             else
                 Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, Language.OldConffile);
 
@@ -133,7 +133,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         private void ShowIncompatibleVersionDialogBox()
         {
             CTaskDialog.ShowTaskDialogBox(FrmMain.Default, Application.ProductName ?? "mRemoteNG", "Incompatible connection file format", $"The format of this connection file is not supported. Please upgrade to a newer version of {Application.ProductName}.",
-                                          string .Format("{1}{0}File Format Version: {2}{0}Highest Supported Version: {3}", Environment.NewLine, ConnectionFileName, _confVersion, MaxSupportedConfVersion),
+                                          string.Format(CultureInfo.InvariantCulture, "{1}{0}File Format Version: {2}{0}Highest Supported Version: {3}", Environment.NewLine, ConnectionFileName, _confVersion, MaxSupportedConfVersion),
                                           "", "", "", "", ETaskDialogButtons.Ok, ESysIcons.Error, ESysIcons.Error);
         }
 
@@ -406,7 +406,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 {
                     if (xmlnode.GetAttributeAsBool("Inherit"))
                         connectionInfo.Inheritance.TurnOnInheritanceCompletely();
-                    connectionInfo.Icon = xmlnode.GetAttributeAsString("Icon").Replace(".ico", "");
+                    connectionInfo.Icon = xmlnode.GetAttributeAsString("Icon").Replace(".ico", "", StringComparison.Ordinal);
                     connectionInfo.Panel = "General";
                 }
 
@@ -670,7 +670,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(Language.GetConnectionInfoFromXmlFailed, connectionInfo.Name, ConnectionFileName, ex.Message));
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, string.Format(CultureInfo.InvariantCulture, Language.GetConnectionInfoFromXmlFailed, connectionInfo.Name, ConnectionFileName, ex.Message));
             }
 
             return connectionInfo;

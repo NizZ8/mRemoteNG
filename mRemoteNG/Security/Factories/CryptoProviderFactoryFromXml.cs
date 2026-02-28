@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Versioning;
 using System.Xml.Linq;
 using mRemoteNG.Security.AsymmetricEncryption;
@@ -36,7 +37,7 @@ namespace mRemoteNG.Security.Factories
                                                         _element?.Attribute("BlockCipherMode")?.Value ?? "");
                 cryptoProvider = new CryptoProviderFactory(engine, mode).Build();
 
-                int keyDerivationIterations = int.Parse(_element?.Attribute("KdfIterations")?.Value ?? "");
+                int keyDerivationIterations = int.Parse(_element?.Attribute("KdfIterations")?.Value ?? "", CultureInfo.InvariantCulture);
                 cryptoProvider.KeyDerivationIterations = keyDerivationIterations;
             }
             catch (Exception)
