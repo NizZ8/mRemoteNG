@@ -377,7 +377,7 @@ namespace mRemoteNG.UI.Window
         /// Determines where the imported hosts will be placed
         /// in the connection tree.
         /// </summary>
-        private ContainerInfo? GetDestinationContainerForImportedHosts()
+        private static ContainerInfo? GetDestinationContainerForImportedHosts()
         {
             ConnectionInfo? selectedNode = AppWindows.TreeForm?.SelectedNode ?? AppWindows.TreeForm?.ConnectionTree.ConnectionTreeModel.RootNodes.OfType<RootNodeInfo>().First();
 

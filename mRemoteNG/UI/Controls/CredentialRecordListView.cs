@@ -115,7 +115,7 @@ namespace mRemoteNG.UI.Controls
             return keyValuePair.Value.Config.Title;
         }
 
-        private KeyValuePair<ICredentialRecord, ICredentialRepository> CastRowObject(object model)
+        private static KeyValuePair<ICredentialRecord, ICredentialRepository> CastRowObject(object model)
         {
             if (!(model is KeyValuePair<ICredentialRecord, ICredentialRepository>))
                 return default(KeyValuePair<ICredentialRecord, ICredentialRepository>);

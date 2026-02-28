@@ -78,7 +78,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return containerInfo;
         }
 
-        private SecureCRTNodeType GetFolderOrSession(XmlNode xmlNode)
+        private static SecureCRTNodeType GetFolderOrSession(XmlNode xmlNode)
         {
             if (GetHostnameFromNode(xmlNode) == null)
                 return SecureCRTNodeType.folder;
@@ -86,7 +86,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return SecureCRTNodeType.session;
         }
 
-        private ConnectionInfo? ConnectionInfoFromXml(XmlNode xmlNode)
+        private static ConnectionInfo? ConnectionInfoFromXml(XmlNode xmlNode)
         {
             ConnectionInfo connectionInfo = new();
             try

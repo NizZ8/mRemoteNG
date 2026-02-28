@@ -29,7 +29,7 @@ namespace mRemoteNG.Config.Serializers.CredentialSerializer
             return _baseDeserializer.Deserialize(decryptedXml);
         }
 
-        private string DecryptPasswords(string xml, SecureString key)
+        private static string DecryptPasswords(string xml, SecureString key)
         {
             if (string.IsNullOrEmpty(xml)) return xml;
             XDocument xdoc = XDocument.Parse(xml);

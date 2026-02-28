@@ -94,8 +94,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 
         private XElement CompileRootNode(RootNodeInfo rootNodeInfo, bool fullFileEncryption)
         {
-            XmlRootNodeSerializer rootNodeSerializer = new();
-            return rootNodeSerializer.SerializeRootNodeInfo(rootNodeInfo, _cryptographyProvider, _connectionNodeSerializer.Version, fullFileEncryption);
+            return XmlRootNodeSerializer.SerializeRootNodeInfo(rootNodeInfo, _cryptographyProvider, _connectionNodeSerializer.Version, fullFileEncryption);
         }
 
         private XElement CompileConnectionInfoNode(ConnectionInfo connectionInfo)

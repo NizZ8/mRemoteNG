@@ -194,7 +194,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             return true;
         }
 
-        private bool DoesDbTableExist(IDatabaseConnector databaseConnector, string tableName)
+        private static bool DoesDbTableExist(IDatabaseConnector databaseConnector, string tableName)
         {
             bool exists;
 
@@ -803,7 +803,7 @@ CREATE TABLE `tblExternalTools` (
             }
         }
 
-        private void UpgradeMssqlSchema(IDatabaseConnector databaseConnector)
+        private static void UpgradeMssqlSchema(IDatabaseConnector databaseConnector)
         {
             DataTable expectedSchema = DataTableSerializer.GetExpectedSchema();
 

@@ -35,7 +35,7 @@ namespace mRemoteNG.Tree
             e.Handled = true;
         }
 
-        public void DropModel(ConnectionInfo dropSource,
+        public static void DropModel(ConnectionInfo dropSource,
                               ConnectionInfo dropTarget,
                               DropTargetLocation dropTargetLocation)
         {

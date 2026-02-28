@@ -60,7 +60,7 @@ namespace mRemoteNG.Config.Settings
             _capturedHistoryItems = CaptureHistoryItems(comboBox);
         }
 
-        public void Save(QuickConnectComboBox comboBox)
+        public static void Save(QuickConnectComboBox comboBox)
         {
             try
             {

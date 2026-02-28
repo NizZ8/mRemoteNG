@@ -69,7 +69,7 @@ namespace mRemoteNG.Connection.Protocol.WSL
             }
         }
 
-        private bool IsWslInstalled()
+        private static bool IsWslInstalled()
         {
             try
             {

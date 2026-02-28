@@ -137,8 +137,7 @@ namespace mRemoteNG.Config.Settings
         private static void SaveQuickConnectHistory(QuickConnectToolStrip? quickConnectToolStrip)
         {
             if (quickConnectToolStrip?.QuickConnectComboBox == null) return;
-            QuickConnectHistorySaver saver = new();
-            saver.Save(quickConnectToolStrip.QuickConnectComboBox);
+            QuickConnectHistorySaver.Save(quickConnectToolStrip.QuickConnectComboBox);
         }
     }
 }

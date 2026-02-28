@@ -48,7 +48,7 @@ namespace mRemoteNG.UI.Controls
             txtMultiSsh.ForeColor = _themeManager.ActiveTheme.ExtendedPalette!.getColor("TextBox_Foreground");
         }
 
-        private ConnectionWindow? GetCurrentConnectionPanel()
+        private static ConnectionWindow? GetCurrentConnectionPanel()
         {
             if (FrmMain.Default.pnlDock.ActiveDocument is ConnectionWindow activePanel)
                 return activePanel;

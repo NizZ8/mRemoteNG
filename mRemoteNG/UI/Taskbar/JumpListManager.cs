@@ -36,7 +36,7 @@ namespace mRemoteNG.UI.Taskbar
         /// Initializes the JumpList after connections are loaded.
         /// Call from FrmMain after connections are ready.
         /// </summary>
-        public void Initialize()
+        public static void Initialize()
         {
             try
             {

@@ -32,7 +32,7 @@ namespace mRemoteNGTests.Connection
             inheritanceSource.TurnOnInheritanceCompletely();
 	        DefaultConnectionInheritance.Instance.TurnOffInheritanceCompletely();
 
-            DefaultConnectionInheritance.Instance.LoadFrom(inheritanceSource);
+            DefaultConnectionInheritance.LoadFrom(inheritanceSource);
 
 	        var valueInDestination = property.GetValue(DefaultConnectionInheritance.Instance);
 	        var valueInSource = property.GetValue(inheritanceSource);
@@ -46,7 +46,7 @@ namespace mRemoteNGTests.Connection
 	        saveTarget.TurnOffInheritanceCompletely();
 	        DefaultConnectionInheritance.Instance.TurnOnInheritanceCompletely();
 
-	        DefaultConnectionInheritance.Instance.SaveTo(saveTarget);
+	        DefaultConnectionInheritance.SaveTo(saveTarget);
 
 	        var valueInDestination = property.GetValue(saveTarget);
 	        var valueInSource = property.GetValue(DefaultConnectionInheritance.Instance);

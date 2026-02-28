@@ -8,7 +8,7 @@ namespace mRemoteNG.App.Initialization
     [SupportedOSPlatform("windows")]
     public class CredsAndConsSetup
     {
-        public void LoadCredsAndCons()
+        public static void LoadCredsAndCons()
         {
             new SaveConnectionsOnEdit(Runtime.ConnectionsService);
 

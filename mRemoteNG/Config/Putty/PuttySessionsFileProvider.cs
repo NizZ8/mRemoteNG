@@ -16,7 +16,7 @@ namespace mRemoteNG.Config.Putty
     {
         private FileSystemWatcher? _fileWatcher;
 
-        private string? GetSessionsDirectory()
+        private static string? GetSessionsDirectory()
         {
             // We re-evaluate this every time because PuttyPath might change
             string? puttyPath = PuttyBase.PuttyPath;

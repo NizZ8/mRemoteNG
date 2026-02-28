@@ -1468,7 +1468,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
         }
 
-        private bool IsLocal(IMsRdpDrive drive)
+        private static bool IsLocal(IMsRdpDrive drive)
         {
             DriveInfo[] myDrives = DriveInfo.GetDrives();
             foreach (DriveInfo myDrive in myDrives)
@@ -1559,7 +1559,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             try
             {
                 _rdpClient.AdvancedSettings2.LoadBalanceInfo = LoadBalanceInfoUseUtf8
-                    ? new AzureLoadBalanceInfoEncoder().Encode(connectionInfo.LoadBalanceInfo)
+                    ? AzureLoadBalanceInfoEncoder.Encode(connectionInfo.LoadBalanceInfo)
                     : connectionInfo.LoadBalanceInfo;
             }
             catch (Exception ex)

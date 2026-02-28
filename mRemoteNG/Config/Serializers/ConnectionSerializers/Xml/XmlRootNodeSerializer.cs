@@ -10,7 +10,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
     [SupportedOSPlatform("windows")]
     public class XmlRootNodeSerializer
     {
-        public XElement SerializeRootNodeInfo(RootNodeInfo rootNodeInfo, ICryptographyProvider cryptographyProvider, Version version, bool fullFileEncryption = false)
+        public static XElement SerializeRootNodeInfo(RootNodeInfo rootNodeInfo, ICryptographyProvider cryptographyProvider, Version version, bool fullFileEncryption = false)
         {
             XNamespace xmlNamespace = "http://mremoteng.org";
             XElement element = new(xmlNamespace + "Connections");

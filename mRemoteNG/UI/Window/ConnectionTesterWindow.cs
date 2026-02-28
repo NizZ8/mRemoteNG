@@ -238,7 +238,7 @@ namespace mRemoteNG.UI.Window
             return list;
         }
 
-        private void Traverse(IConnectionNode node, List<ConnectionInfo> list)
+        private static void Traverse(IConnectionNode node, List<ConnectionInfo> list)
         {
             if (node is ConnectionInfo c && !c.IsContainer)
             {

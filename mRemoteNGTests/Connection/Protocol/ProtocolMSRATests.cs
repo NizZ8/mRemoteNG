@@ -69,14 +69,14 @@ namespace mRemoteNGTests.Connection.Protocol
         private bool InvokeIsValidHostname(string hostname)
         {
             var method = typeof(ProtocolMSRA).GetMethod("IsValidHostname",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            
+                BindingFlags.NonPublic | BindingFlags.Static);
+
             if (method == null)
             {
                 throw new Exception("IsValidHostname method not found.");
             }
 
-            return (bool)method.Invoke(_protocolMsra, new object[] { hostname });
+            return (bool)method.Invoke(null, new object[] { hostname });
         }
 
         #endregion

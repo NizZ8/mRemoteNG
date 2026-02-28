@@ -138,7 +138,7 @@ namespace mRemoteNG.Container
             }
         }
 
-        private void ImportFromFile(ContainerInfo container)
+        private static void ImportFromFile(ContainerInfo container)
         {
             string filePath = container.DynamicSourceValue;
             if (string.IsNullOrWhiteSpace(filePath))
@@ -164,7 +164,7 @@ namespace mRemoteNG.Container
             }
         }
 
-        private void ImportFromScript(ContainerInfo container)
+        private static void ImportFromScript(ContainerInfo container)
         {
             string scriptPath = container.DynamicSourceValue;
             if (string.IsNullOrWhiteSpace(scriptPath))

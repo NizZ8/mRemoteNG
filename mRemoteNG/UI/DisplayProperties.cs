@@ -108,7 +108,7 @@ namespace mRemoteNG.UI
         /// Scale the given nominal height value by the <see cref="ResolutionScalingFactor"/>
         /// </summary>
         /// <param name="width"></param>
-        private int CalculateScaledValue(float value, float scalingValue)
+        private static int CalculateScaledValue(float value, float scalingValue)
         {
             return (int)Math.Round(value * scalingValue);
         }

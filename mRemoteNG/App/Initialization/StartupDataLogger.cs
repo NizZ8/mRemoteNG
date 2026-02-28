@@ -58,7 +58,7 @@ namespace mRemoteNG.App.Initialization
             return osData;
         }
 
-        private string GetOSServicePack(string servicePack, ManagementObject managementObject)
+        private static string GetOSServicePack(string servicePack, ManagementObject managementObject)
         {
             int servicePackNumber = Convert.ToInt32(managementObject.GetPropertyValue("ServicePackMajorVersion"));
             if (servicePackNumber != 0)

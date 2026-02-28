@@ -36,7 +36,7 @@ namespace mRemoteNG.Config.Import
             }
         }
 
-        private void ImportContent(string content, ContainerInfo rootContainer)
+        private static void ImportContent(string content, ContainerInfo rootContainer)
         {
             var stack = new Stack<ContainerInfo>();
             stack.Push(rootContainer);

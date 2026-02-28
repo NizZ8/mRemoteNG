@@ -1111,7 +1111,7 @@ namespace mRemoteNG.UI.Tabs
                 g.DrawIcon(tab.Content.DockHandler.Icon, rectIcon);
         }
 
-        private Color? GetCustomTabColor(IDockContent content)
+        private static Color? GetCustomTabColor(IDockContent content)
         {
             try
             {

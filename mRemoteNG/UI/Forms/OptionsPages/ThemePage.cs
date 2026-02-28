@@ -103,7 +103,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             foreach (ThemeInfo updatedTheme in modifiedThemes)
             {
-                _themeManager.updateTheme(updatedTheme);
+                ThemeManager.updateTheme(updatedTheme);
             }
 
             Properties.OptionsThemePage.Default.Save();

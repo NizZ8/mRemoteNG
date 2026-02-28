@@ -38,7 +38,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
         }
 
 
-        private void SetConnectionInfoParameter(ConnectionInfo connectionInfo, string key, string value)
+        private static void SetConnectionInfoParameter(ConnectionInfo connectionInfo, string key, string value)
         {
             switch (key.ToLower())
             {

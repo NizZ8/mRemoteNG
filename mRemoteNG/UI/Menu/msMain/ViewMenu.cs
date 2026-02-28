@@ -360,7 +360,7 @@ namespace mRemoteNG.UI.Menu
             _mMenViewLoadLayout.DropDownItems.Clear();
 
             var loader = new DockPanelLayoutLoader(MainForm, Runtime.MessageCollector);
-            var layoutNames = loader.GetLayoutNames();
+            var layoutNames = DockPanelLayoutLoader.GetLayoutNames();
 
             if (layoutNames.Count > 0)
             {

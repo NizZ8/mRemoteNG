@@ -263,7 +263,7 @@ namespace mRemoteNG.Themes
         }
 
         //Synchronize the theme XML values from memory to disk
-        public void updateTheme(ThemeInfo themeToUpdate)
+        public static void updateTheme(ThemeInfo themeToUpdate)
         {
             ThemeSerializer.UpdateThemeXMLValues(themeToUpdate);
         }

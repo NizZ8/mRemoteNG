@@ -48,7 +48,7 @@ namespace mRemoteNG.App
             IeBrowserEmulation.Register();
             _connectionIconLoader.GetConnectionIcons();
             DefaultConnectionInfo.Instance.LoadFrom(Settings.Default, a => "ConDefault" + a);
-            DefaultConnectionInheritance.Instance.LoadFrom(Settings.Default, a => "InhDefault" + a);
+            DefaultConnectionInheritance.LoadFrom(Settings.Default, a => "InhDefault" + a);
             PluginManager.Instance.LoadPlugins();
         }
 

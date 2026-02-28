@@ -69,7 +69,7 @@ namespace mRemoteNG.Config.Settings
             }
         }
 
-        public void DeleteLayout(string name)
+        public static void DeleteLayout(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Layout name cannot be empty", nameof(name));

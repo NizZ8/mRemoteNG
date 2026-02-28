@@ -341,7 +341,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
               .Append(FormatForCsv(con.Inheritance.WaitForIPTimeout));
         }
 
-        private string FormatForCsv(object value)
+        private static string FormatForCsv(object value)
         {
             string text = value?.ToString() ?? string.Empty;
             if (text.Contains(';') || text.Contains('"'))

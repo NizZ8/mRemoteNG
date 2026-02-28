@@ -438,7 +438,7 @@ namespace mRemoteNG.UI.Window
             return sourcePanel != null && !ReferenceEquals(sourcePanel, this);
         }
 
-        private bool CanDropConnectionInfo(IDataObject? dataObject, out List<ConnectionInfo> connectionInfos)
+        private static bool CanDropConnectionInfo(IDataObject? dataObject, out List<ConnectionInfo> connectionInfos)
         {
             return TryGetDraggedConnectionInfos(dataObject, out connectionInfos);
         }
@@ -536,7 +536,7 @@ namespace mRemoteNG.UI.Window
             MoveConnectionTabToPanel(selectedTab, targetPanel);
         }
 
-        private bool MoveConnectionTabToPanel(ConnectionTab connectionTab, ConnectionWindow targetPanel)
+        private static bool MoveConnectionTabToPanel(ConnectionTab connectionTab, ConnectionWindow targetPanel)
         {
             if (targetPanel.IsDisposed)
                 return false;
@@ -1593,7 +1593,7 @@ namespace mRemoteNG.UI.Window
             }
         }
 
-        private void VncTransferFile()
+        private static void VncTransferFile()
         {
             try
             {
@@ -1622,7 +1622,7 @@ namespace mRemoteNG.UI.Window
             }
         }
 
-        private void StartChat()
+        private static void StartChat()
         {
             try
             {

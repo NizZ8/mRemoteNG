@@ -81,7 +81,7 @@ namespace mRemoteNG.UI.Forms
             this.Close();
         }
 
-        private ContainerInfo? GetDestinationContainer()
+        private static ContainerInfo? GetDestinationContainer()
         {
             var selectedNode = AppWindows.TreeForm?.SelectedNode;
 

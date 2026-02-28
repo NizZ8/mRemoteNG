@@ -167,7 +167,7 @@ namespace mRemoteNG.Tools
             return replacements;
         }
 
-        private EscapeType DetermineEscapeType(string token)
+        private static EscapeType DetermineEscapeType(string token)
         {
             EscapeType escape = EscapeType.All;
             char prefix = token[1];
@@ -326,7 +326,7 @@ namespace mRemoteNG.Tools
             return variableName.ToLowerInvariant().StartsWith("userfield");
         }
 
-        private string PerformReplacements(string input, List<Replacement> replacements)
+        private static string PerformReplacements(string input, List<Replacement> replacements)
         {
             int index;
             string result = input;

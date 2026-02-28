@@ -346,7 +346,7 @@ namespace mRemoteNG.Connection
         }
 
         // recursively traverse the tree to find ConnectionInfo of a specific name
-        private ConnectionInfo? getSSHConnectionInfoByName(IEnumerable<ConnectionInfo> rootnodes, string SSHTunnelConnectionName)
+        private static ConnectionInfo? getSSHConnectionInfoByName(IEnumerable<ConnectionInfo> rootnodes, string SSHTunnelConnectionName)
         {
             ConnectionInfo? result = null;
             foreach (ConnectionInfo node in rootnodes)
@@ -479,7 +479,7 @@ namespace mRemoteNG.Connection
                 : null;
         }
 
-        private ConnectionWindow? SetConnectionForm(ConnectionWindow? conForm, string connectionPanel, bool switchToConnection)
+        private static ConnectionWindow? SetConnectionForm(ConnectionWindow? conForm, string connectionPanel, bool switchToConnection)
         {
             ConnectionWindow? connectionForm = conForm ?? Runtime.WindowList.FromString(connectionPanel) as ConnectionWindow;
 

@@ -110,7 +110,7 @@ namespace mRemoteNG.Connection.Protocol
             }
         }
 
-        protected string EscapeSendKeys(string str)
+        protected static string EscapeSendKeys(string str)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             foreach (char c in str)

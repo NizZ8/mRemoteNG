@@ -592,7 +592,7 @@ namespace mRemoteNG.Connection
             }
         }
 
-        private string GetDefaultStartupConnectionFileNameNormalEdition()
+        private static string GetDefaultStartupConnectionFileNameNormalEdition()
         {
             string appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Application.ProductName ?? "mRemoteNG", ConnectionsFileInfo.DefaultConnectionsFile);
             return File.Exists(appDataPath) ? appDataPath : GetDefaultStartupConnectionFileNamePortableEdition();

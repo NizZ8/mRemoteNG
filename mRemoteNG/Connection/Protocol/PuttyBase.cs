@@ -168,7 +168,7 @@ namespace mRemoteNG.Connection.Protocol
             return PuttyProcess?.HasExited == false;
         }
 
-        public void CreatePipe(object oData)
+        public static void CreatePipe(object oData)
         {
             string data = (string)oData;
             string random = data[..8];

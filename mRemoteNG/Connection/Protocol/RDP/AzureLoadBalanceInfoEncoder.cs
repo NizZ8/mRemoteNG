@@ -4,7 +4,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
 {
     public class AzureLoadBalanceInfoEncoder
     {
-        public string Encode(string loadBalanceInfo)
+        public static string Encode(string loadBalanceInfo)
         {
             // The ActiveX component requires a UTF-8 encoded string, but .NET uses
             // UTF-16 encoded strings by default.  The following code converts

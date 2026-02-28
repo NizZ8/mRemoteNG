@@ -64,7 +64,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private ConnectionInfo ConnectionInfoFromNode(XmlNode sessionNode)
+        private static ConnectionInfo ConnectionInfoFromNode(XmlNode sessionNode)
         {
             string name = sessionNode.SelectSingleNode("./SessionDisplayName")?.InnerText ?? string.Empty;
             ConnectionInfo connectionInfo = new() { Name = name };

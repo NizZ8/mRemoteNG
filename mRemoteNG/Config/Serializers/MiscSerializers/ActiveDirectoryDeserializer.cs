@@ -82,7 +82,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             }
         }
 
-        private void DeserializeConnection(DirectoryEntry directoryEntry, ContainerInfo parentContainer)
+        private static void DeserializeConnection(DirectoryEntry directoryEntry, ContainerInfo parentContainer)
         {
             string displayName = Convert.ToString(directoryEntry.Properties["cn"].Value) ?? string.Empty;
             string description = Convert.ToString(directoryEntry.Properties["Description"].Value) ?? string.Empty;

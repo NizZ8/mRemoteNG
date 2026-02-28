@@ -287,8 +287,7 @@ namespace mRemoteNG.UI.Forms
             // background WPF message pump from intercepting WinForms mouse events.
             ProgramRoot.CloseSplash();
 
-            CredsAndConsSetup credsAndConsSetup = new();
-            credsAndConsSetup.LoadCredsAndCons();
+            CredsAndConsSetup.LoadCredsAndCons();
             _autoLockTimer.Start();
 
             // Initialize panel binding for Connections and Config panels
@@ -480,7 +479,7 @@ namespace mRemoteNG.UI.Forms
         private void ConnectionsServiceOnConnectionsLoaded(object? sender, ConnectionsLoadedEventArgs connectionsLoadedEventArgs)
         {
             UpdateWindowTitle();
-            UI.Taskbar.JumpListManager.Instance.Initialize();
+            UI.Taskbar.JumpListManager.Initialize();
             StartRestApiIfConfigured();
         }
 
@@ -829,7 +828,7 @@ namespace mRemoteNG.UI.Forms
             return rootNodeInfo is { Password: true, AutoLockOnMinimize: true };
         }
 
-        private RootNodeInfo? GetConnectionRootNodeInfo()
+        private static RootNodeInfo? GetConnectionRootNodeInfo()
         {
             return Runtime.ConnectionsService.ConnectionTreeModel?.RootNodes
                 ?.OfType<RootNodeInfo>()
@@ -1453,7 +1452,7 @@ namespace mRemoteNG.UI.Forms
             pnlDock.Size = new Size(1, 1);
         }
 
-        public void ShowHideConnectionTabs()
+        public static void ShowHideConnectionTabs()
         {
             if (Runtime.WindowList == null) return;
 

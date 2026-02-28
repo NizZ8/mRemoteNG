@@ -352,7 +352,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             return Objects.OfType<RootPuttySessionsNodeInfo>();
         }
 
-        private bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
+        private static bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
 
         public void AddConnection()
         {
@@ -402,7 +402,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                 ContainerInfo newFolder = new();
                 newFolder.IsRoot = true;
                 DefaultConnectionInfo.Instance.SaveTo(newFolder);
-                DefaultConnectionInheritance.Instance.SaveTo(newFolder.Inheritance);
+                DefaultConnectionInheritance.SaveTo(newFolder.Inheritance);
                 if (Settings.Default.InhDefaultEverythingInherited)
                     newFolder.Inheritance.TurnOnInheritanceCompletely();
 
@@ -431,7 +431,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             // use root node if no node is selected
             ConnectionInfo parentNode = SelectedNode ?? GetRootConnectionNode();
             DefaultConnectionInfo.Instance.SaveTo(newNode);
-            DefaultConnectionInheritance.Instance.SaveTo(newNode.Inheritance);
+            DefaultConnectionInheritance.SaveTo(newNode.Inheritance);
             if (Settings.Default.InhDefaultEverythingInherited)
                 newNode.Inheritance.TurnOnInheritanceCompletely();
             ContainerInfo? selectedContainer = parentNode as ContainerInfo;
@@ -462,7 +462,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             return selectedNodes;
         }
 
-        private void ExecuteInBatchedSaveContext(Action action)
+        private static void ExecuteInBatchedSaveContext(Action action)
         {
             Runtime.ConnectionsService.BeginBatchingSaves();
 

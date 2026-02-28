@@ -238,7 +238,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             parentContainer.AddChild(connectionInfo);
         }
 
-        private void SetCommonProperties(XmlNode xmlNode, ConnectionInfo connectionInfo)
+        private static void SetCommonProperties(XmlNode xmlNode, ConnectionInfo connectionInfo)
         {
             connectionInfo.Name = GetStringProperty(xmlNode, "Name") ?? string.Empty;
             connectionInfo.Description = GetStringProperty(xmlNode, "Description") ?? string.Empty;

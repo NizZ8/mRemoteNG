@@ -115,7 +115,7 @@ namespace mRemoteNG.UI.Forms
             }
         }
 
-        private void ApplyLanguage()
+        private static void ApplyLanguage()
         {
             // TODO: Use Language resources if available for generic terms
             // For now hardcoded English as fallback or specific labels

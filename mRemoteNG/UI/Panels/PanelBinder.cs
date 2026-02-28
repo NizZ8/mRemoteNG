@@ -446,7 +446,7 @@ namespace mRemoteNG.UI.Panels
         /// <summary>
         /// Checks if a dock state is an auto-hide state
         /// </summary>
-        private bool IsAutoHideState(DockState state)
+        private static bool IsAutoHideState(DockState state)
         {
             return state == DockState.DockLeftAutoHide ||
                    state == DockState.DockRightAutoHide ||

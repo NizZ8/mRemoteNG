@@ -92,14 +92,14 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
         public void DefaultConnectionPropertiesCanBeShownRegardlessOfWhichNodeIsSelected(ConnectionInfo selectedObject)
         {
 	        _configWindow.SelectedTreeNode = selectedObject;
-			Assert.That(_configWindow.CanShowDefaultProperties, Is.True);
+			Assert.That(ConfigWindow.CanShowDefaultProperties, Is.True);
         }
 
         [TestCaseSource(nameof(EveryNodeType))]
         public void DefaultInheritancePropertiesCanBeShownRegardlessOfWhichNodeIsSelected(ConnectionInfo selectedObject)
         {
 	        _configWindow.SelectedTreeNode = selectedObject;
-	        Assert.That(_configWindow.CanShowDefaultInheritance, Is.True);
+	        Assert.That(ConfigWindow.CanShowDefaultInheritance, Is.True);
         }
 
         [TestCaseSource(nameof(EveryNodeType))]

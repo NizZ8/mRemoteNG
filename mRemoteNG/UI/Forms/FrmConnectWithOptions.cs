@@ -75,7 +75,7 @@ namespace mRemoteNG.UI.Forms
             ResumeLayout(false);
         }
 
-        private ConnectionInfo CreateFlattenedClone(ConnectionInfo original)
+        private static ConnectionInfo CreateFlattenedClone(ConnectionInfo original)
         {
             var clone = new ConnectionInfo();
             // Copy properties resolving inheritance

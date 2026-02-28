@@ -42,7 +42,7 @@ namespace mRemoteNG.Config.Import
                 destinationContainer.AddChild(rootContainer);
         }
 
-        private void ImportFolder(string folderPath, ContainerInfo parentContainer)
+        private static void ImportFolder(string folderPath, ContainerInfo parentContainer)
         {
             // Import .ini session files in this directory
             foreach (string filePath in Directory.GetFiles(folderPath, "*.ini"))

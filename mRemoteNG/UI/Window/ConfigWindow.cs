@@ -250,10 +250,10 @@ namespace mRemoteNG.UI.Window
                                           SelectedTreeNodes.All(n => n.Parent != null);
 
         public bool DefaultPropertiesVisible => _btnShowDefaultProperties.Checked;
-        public bool CanShowDefaultProperties => true;
+        public static bool CanShowDefaultProperties => true;
 
         public bool DefaultInheritanceVisible => _btnShowDefaultInheritance.Checked;
-        public bool CanShowDefaultInheritance => true;
+        public static bool CanShowDefaultInheritance => true;
 
         /// <summary>
         /// A list of properties being shown for the current object.

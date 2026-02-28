@@ -152,7 +152,7 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
             return GetVisibleGridItemsRecursive(gridRoot, []);
         }
 
-        private List<GridItem> GetVisibleGridItemsRecursive(GridItem item, List<GridItem> gridItems)
+        private static List<GridItem> GetVisibleGridItemsRecursive(GridItem item, List<GridItem> gridItems)
         {
             if (item.GridItemType == GridItemType.Property && !gridItems.Contains(item))
                 gridItems.Add(item);

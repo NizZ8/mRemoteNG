@@ -21,7 +21,7 @@ namespace mRemoteNG.Connection
         }
 
 
-        public void LoadFrom<TSource>(TSource sourceInstance, Func<string, string>? propertyNameMutator = null)
+        public static void LoadFrom<TSource>(TSource sourceInstance, Func<string, string>? propertyNameMutator = null)
         {
             propertyNameMutator ??= a => a;
             System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo> inheritanceProperties = GetProperties();
@@ -39,7 +39,7 @@ namespace mRemoteNG.Connection
             }
         }
 
-        public void SaveTo<TDestination>(TDestination destinationInstance,
+        public static void SaveTo<TDestination>(TDestination destinationInstance,
                                          Func<string, string>? propertyNameMutator = null)
         {
             propertyNameMutator ??= a => a;

@@ -111,7 +111,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             return dataTable;
         }
 
-        private void EnsureSchemaCompatibility(DataTable dataTable)
+        private static void EnsureSchemaCompatibility(DataTable dataTable)
         {
             if (dataTable.Columns.Count == 0)
             {
@@ -337,7 +337,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataTable.Columns.Add("ID", typeof(int));
         }
 
-        private void SetPrimaryKey(DataTable dataTable)
+        private static void SetPrimaryKey(DataTable dataTable)
         {
             dataTable.PrimaryKey = new[] { dataTable.Columns["ConstantID"] };
         }

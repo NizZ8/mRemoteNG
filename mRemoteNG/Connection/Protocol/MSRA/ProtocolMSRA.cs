@@ -218,7 +218,7 @@ namespace mRemoteNG.Connection.Protocol.MSRA
             }
         }
 
-        private bool IsValidHostname(string hostname)
+        private static bool IsValidHostname(string hostname)
         {
             if (string.IsNullOrWhiteSpace(hostname)) return false;
             foreach (char c in hostname)

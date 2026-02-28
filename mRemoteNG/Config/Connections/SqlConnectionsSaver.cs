@@ -136,7 +136,7 @@ namespace mRemoteNG.Config.Connections
             Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg, "Saved local connection properties");
         }
 
-        private void UpdateRootNodeTable(RootNodeInfo rootTreeNode, IDatabaseConnector databaseConnector)
+        private static void UpdateRootNodeTable(RootNodeInfo rootTreeNode, IDatabaseConnector databaseConnector)
         {
             UpdateRootNodeTable(rootTreeNode, databaseConnector, null);
         }

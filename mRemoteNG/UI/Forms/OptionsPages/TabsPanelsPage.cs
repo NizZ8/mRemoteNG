@@ -112,7 +112,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 FrmMain.Default.BeginInvoke(new System.Windows.Forms.MethodInvoker(() =>
                 {
                     FrmMain.Default.ShowHidePanelTabs();
-                    FrmMain.Default.ShowHideConnectionTabs();
+                    FrmMain.ShowHideConnectionTabs();
                     FrmMain.Default.SetPanelLock();
                 }));
             }

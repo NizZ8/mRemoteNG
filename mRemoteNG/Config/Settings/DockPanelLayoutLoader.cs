@@ -114,7 +114,7 @@ namespace mRemoteNG.Config.Settings
             }
         }
 
-        public List<string> GetLayoutNames()
+        public static List<string> GetLayoutNames()
         {
             var names = new List<string>();
             string layoutsDir = Path.Combine(SettingsFileInfo.SettingsPath, "Layouts");

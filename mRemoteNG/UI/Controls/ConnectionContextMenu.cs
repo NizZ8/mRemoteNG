@@ -885,7 +885,7 @@ namespace mRemoteNG.UI.Controls
             }
         }
 
-        private bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
+        private static bool IsReadOnly => Properties.OptionsDBsPage.Default.SQLReadOnly;
 
         internal void ShowHideMenuItemsForRootPuttyNode()
         {
@@ -1259,7 +1259,7 @@ namespace mRemoteNG.UI.Controls
             }
         }
 
-        private ConnectionInfo CreateFlattenedConnectionInfo(ConnectionInfo original)
+        private static ConnectionInfo CreateFlattenedConnectionInfo(ConnectionInfo original)
         {
             var clone = new ConnectionInfo();
             // Copy properties resolving inheritance
@@ -1784,7 +1784,7 @@ namespace mRemoteNG.UI.Controls
             if (_connectionTree.SelectedNode == null)
                 return;
 
-            DefaultConnectionInheritance.Instance.SaveTo(_connectionTree.SelectedNode.Inheritance);
+            DefaultConnectionInheritance.SaveTo(_connectionTree.SelectedNode.Inheritance);
         }
 
         private void OnOptionsClicked(object sender, EventArgs e)

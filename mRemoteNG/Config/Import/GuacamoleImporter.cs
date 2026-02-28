@@ -163,13 +163,13 @@ namespace mRemoteNG.Config.Import
             return parameters;
         }
 
-        private int? GetNullableInt(object value)
+        private static int? GetNullableInt(object value)
         {
             if (value == null || value == DBNull.Value) return null;
             return Convert.ToInt32(value);
         }
 
-        private ConnectionInfo CreateConnectionInfo(GuacamoleConnection conn, IEnumerable<GuacamoleParameter> parameters)
+        private static ConnectionInfo CreateConnectionInfo(GuacamoleConnection conn, IEnumerable<GuacamoleParameter> parameters)
         {
             var info = new ConnectionInfo
             {

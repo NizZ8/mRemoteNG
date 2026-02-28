@@ -234,7 +234,7 @@ namespace mRemoteNG.Connection.Protocol.Winbox
 
         #region Private Methods
 
-        private string? FindWinboxExecutable()
+        private static string? FindWinboxExecutable()
         {
             // Check PATH
             string? pathVariable = Environment.GetEnvironmentVariable("PATH");

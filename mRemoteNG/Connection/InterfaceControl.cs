@@ -85,7 +85,7 @@ namespace mRemoteNG.Connection
             }
         }
 
-        private Color GetFrameColor(ConnectionFrameColor frameColor)
+        private static Color GetFrameColor(ConnectionFrameColor frameColor)
         {
             return frameColor switch
             {

@@ -95,7 +95,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
             return containerInfo;
         }
 
-        private void ImportConnection(XmlNode connectionNode, ContainerInfo parentContainer)
+        private static void ImportConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
             string? connectionNodeType = connectionNode.Attributes?["type"]?.Value;
             if (string.Compare(connectionNodeType, "PuTTY", StringComparison.OrdinalIgnoreCase) != 0)
