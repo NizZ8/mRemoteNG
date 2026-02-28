@@ -233,12 +233,20 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 
 **SonarCloud Quality Gate failure (beta.5 PR #3188):** Codex attempted to fix Sonar issues but introduced 2 CRITICAL bugs + 1 BLOCKER — incorrect method inlining, bypassed property flow, incomplete Dispose pattern.
 
+**Parallelization attempts (days of work, zero success):**
+- **NUnit `[assembly: Parallelizable]`**: 27 failures from race conditions on shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.EncryptionKey`, `Runtime.ConnectionsService`). Every attempt to make singletons thread-safe cascaded into more failures. Abandoned after 3 days — multi-process isolation is the only viable approach.
+- **MSBuild `-m` scaling**: With only 3 projects in the solution, parallelism maxes out at ~4 effective cores regardless of CPU. The 587-file main project is the bottleneck — Roslyn parallelizes file compilation internally but there's no way to split a single project across build agents.
+- **Concurrent orchestrator agents**: Running 2+ AI agents in parallel on the same repo caused git conflicts, garbled test output, and file locks. Tried worktrees, separate clones, and output directory isolation — all failed on Windows due to MSBuild file locking and shared COM registration. Serial execution remains the only reliable approach.
+
+**Codex deleted the entire local repository (Feb 27):**
+- Codex agent ran `git clean -fdx` followed by operations that wiped all untracked and ignored files — including build outputs, local configs, and uncommitted work
+- Everything since the last `git push` was lost permanently. Hours of local-only changes, test configurations, and debugging notes — gone
+- **Lesson learned the hard way:** Push early, push often. Local repo is NOT a backup. The orchestrator now pushes after every successful commit, not in batches. And we keep a second clone as cold backup.
+
 **Infrastructure pitfalls:**
 - `subprocess.run(timeout=T)` on Windows: hangs indefinitely when child processes inherit pipe handles
 - PowerShell 5.1: Unicode em-dash corrupts the parser at a completely unrelated `}`
-- MSBuild `-m` doesn't scale past ~4 cores on 3 projects
 - `dotnet build` fails with COM references (`MSB4803`) — must use full MSBuild
-- NUnit fixture-level parallelism: 27 failures from race conditions on shared mutable singletons
 
 ### What Worked — The Success Patterns
 
@@ -265,6 +273,8 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 5. **Human oversight remains essential.** 7 regressions out of 585 issues is ~1.2% — but one of them (PuTTY root save) would silently destroy all user connections. Percentages don't capture severity.
 
 6. **Self-healing beats manual monitoring.** The supervisor eliminated 24/7 babysitting. 12 failure modes × multiple occurrences each = hundreds of manual interventions avoided.
+
+7. **AI agents will destroy your local repo.** Codex wiped the entire local clone with `git clean -fdx`. Push after every commit. Keep a cold backup clone. Treat local state as ephemeral — if it's not pushed, it doesn't exist.
 
 ### Rules for AI Agent Development (Added After Failures)
 
