@@ -4679,14 +4679,14 @@ def _fix_analyzer_warnings_in_file(fpath, file_warnings, status, rule_code, rule
 
     w_text = "\n".join(
         f"  Line {w['line']}: {w['code']} -- {w['message']}"
-        for w in file_warnings[:50]
+        for w in file_warnings[:500]
     )
 
     prompt = f"""Project: mRemoteNG (.NET 10, WinForms)
 Working directory: D:\\github\\mRemoteNG
 File: {rel}
 
-Fix ALL these {rule_code} ({rule_name}) warnings:
+Fix ALL {n} of these {rule_code} ({rule_name}) warnings (listed below). Fix EVERY SINGLE ONE:
 {w_text}
 
 RULES:
