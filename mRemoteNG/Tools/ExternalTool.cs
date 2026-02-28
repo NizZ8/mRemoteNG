@@ -381,28 +381,12 @@ namespace mRemoteNG.Tools
             if (RunElevated && !useAlternateCredentials)
             {
                 process.StartInfo.Verb = "runas";
-
-                if (isBatch)
-                {
-                    // Batch files run through cmd.exe — commas/semicolons are weak delimiters.
-                    // Double-quoting each argument is the only reliable protection.
-                    string rawArgs = argParser.ParseArguments(Arguments, escapeForShell: false);
-                    var parts = SplitCommandLineArguments(rawArgs);
-                    process.StartInfo.Arguments = string.Join(" ", parts
-                        .Where(a => !string.IsNullOrWhiteSpace(a))
-                        .Select(QuoteArgumentForCmd));
-                }
-                else
-                {
-                    // Non-batch elevated: ShellExecuteEx passes args directly to the target app
-                    // (no cmd.exe involved), so shell-escaping (^→^^) would corrupt metacharacters.
-                    // Double-quoting each argument protects special chars like ^ without doubling them.
-                    string rawArgs = argParser.ParseArguments(Arguments, escapeForShell: false);
-                    var parts = SplitCommandLineArguments(rawArgs);
-                    process.StartInfo.Arguments = string.Join(" ", parts
-                        .Where(a => !string.IsNullOrWhiteSpace(a))
-                        .Select(QuoteArgumentForCmd));
-                }
+                // Elevated launch uses ShellExecute; build a safely quoted argument string.
+                string rawArgs = argParser.ParseArguments(Arguments, escapeForShell: false);
+                var parts = SplitCommandLineArguments(rawArgs);
+                process.StartInfo.Arguments = string.Join(" ", parts
+                    .Where(a => !string.IsNullOrWhiteSpace(a))
+                    .Select(QuoteArgumentForCmd));
             }
             else
             {

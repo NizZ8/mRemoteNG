@@ -15,6 +15,7 @@ namespace mRemoteNG.Connection
         private const string FileName = "recentConnections.xml";
         private const int MaxRecentConnections = 10;
         private readonly string _filePath;
+        private readonly object _recentConnectionsLock = new();
         private List<string> _recentConnectionIDs = new();
         private static readonly Lazy<RecentConnectionsService> _instance = new(() => new RecentConnectionsService());
 
@@ -39,7 +40,7 @@ namespace mRemoteNG.Connection
             try
             {
                 bool changed = false;
-                lock (_recentConnectionIDs)
+                lock (_recentConnectionsLock)
                 {
                     // Move to front if already in list
                     if (_recentConnectionIDs.Contains(connectionInfo.ConstantID))
@@ -77,7 +78,7 @@ namespace mRemoteNG.Connection
 
             var result = new List<ConnectionInfo>();
             
-            lock (_recentConnectionIDs)
+            lock (_recentConnectionsLock)
             {
                 foreach (var id in _recentConnectionIDs)
                 {
@@ -104,7 +105,7 @@ namespace mRemoteNG.Connection
                 var loaded = (List<string>?)serializer.Deserialize(stream);
                 if (loaded != null)
                 {
-                    lock (_recentConnectionIDs)
+                    lock (_recentConnectionsLock)
                     {
                         _recentConnectionIDs = loaded;
                     }
@@ -127,7 +128,7 @@ namespace mRemoteNG.Connection
                     Directory.CreateDirectory(dir);
 
                 using var stream = new FileStream(_filePath, FileMode.Create, FileAccess.Write);
-                lock (_recentConnectionIDs)
+                lock (_recentConnectionsLock)
                 {
                     serializer.Serialize(stream, _recentConnectionIDs);
                 }

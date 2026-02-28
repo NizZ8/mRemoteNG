@@ -47,7 +47,9 @@ namespace mRemoteNG.Security
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(timeBytes);
 
+#pragma warning disable S4790 // RFC 6238 compatibility: TOTP commonly uses HMAC-SHA1.
             using HMACSHA1 hmac = new(key);
+#pragma warning restore S4790
             byte[] hash = hmac.ComputeHash(timeBytes);
 
             int offset = hash[^1] & 0x0F;

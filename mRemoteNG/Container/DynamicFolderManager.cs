@@ -203,12 +203,12 @@ namespace mRemoteNG.Container
 
             if (scriptPath.EndsWith(".ps1", StringComparison.OrdinalIgnoreCase))
             {
-                startInfo.FileName = "powershell.exe";
+                startInfo.FileName = GetSystemExecutablePath(Path.Combine("WindowsPowerShell", "v1.0", "powershell.exe"));
                 startInfo.Arguments = $"-ExecutionPolicy Bypass -File \"{scriptPath}\"";
             }
             else if (scriptPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase) || scriptPath.EndsWith(".cmd", StringComparison.OrdinalIgnoreCase))
             {
-                startInfo.FileName = "cmd.exe";
+                startInfo.FileName = GetSystemExecutablePath("cmd.exe");
                 startInfo.Arguments = $"/c \"{scriptPath}\"";
             }
             else
@@ -235,6 +235,19 @@ namespace mRemoteNG.Container
             }
 
             return outputTask.Result;
+        }
+
+        private static string GetSystemExecutablePath(string relativeExecutablePath)
+        {
+            string systemDirectory = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            if (string.IsNullOrWhiteSpace(systemDirectory))
+                throw new InvalidOperationException("System directory could not be resolved.");
+
+            string fullPath = Path.Combine(systemDirectory, relativeExecutablePath);
+            if (!File.Exists(fullPath))
+                throw new FileNotFoundException($"Executable not found in system directory: {fullPath}", fullPath);
+
+            return fullPath;
         }
 
         private void ImportXml(string xmlContent, ContainerInfo container, string sourceName)

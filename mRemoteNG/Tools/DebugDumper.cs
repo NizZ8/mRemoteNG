@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
+using mRemoteNG.Connection;
 using System.Runtime.Versioning;
 
 namespace mRemoteNG.Tools
@@ -125,9 +126,10 @@ namespace mRemoteNG.Tools
                  try {
                      string content = File.ReadAllText(configPath);
                      // Sanitize - remove passwords
-                     // Regex to replace Password="..." with Password="***REMOVED***"
-                     
-                     content = Regex.Replace(content, "Password=\"[^\"]*\"", "Password=\"***REMOVED***\"");
+                     string passwordAttributeName = nameof(AbstractConnectionRecord.Password);
+                     string passwordAttributePattern = $"{Regex.Escape(passwordAttributeName)}=\"[^\"]*\"";
+                     string passwordAttributeReplacement = $"{passwordAttributeName}=\"***REMOVED***\"";
+                     content = Regex.Replace(content, passwordAttributePattern, passwordAttributeReplacement, RegexOptions.CultureInvariant);
                      
                      var entry = archive.CreateEntry("confCons.xml");
                      using (var entryStream = entry.Open())

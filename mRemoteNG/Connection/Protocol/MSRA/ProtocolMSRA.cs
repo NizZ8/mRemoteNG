@@ -167,6 +167,14 @@ namespace mRemoteNG.Connection.Protocol.MSRA
                         "Invalid hostname format. Only alphanumeric characters, dashes, dots and underscores are allowed.", true);
                     return false;
                 }
+
+                string systemDirectory = Environment.GetFolderPath(Environment.SpecialFolder.System);
+                string msraPath = Path.Combine(systemDirectory, "msra.exe");
+                if (string.IsNullOrWhiteSpace(systemDirectory) || !File.Exists(msraPath))
+                {
+                    Runtime.MessageCollector?.AddMessage(MessageClass.ErrorMsg, "MSRA executable not found in the system directory.", true);
+                    return false;
+                }
                 
                 string arguments = $"/offerra \"{hostname}\"";
 
@@ -174,7 +182,7 @@ namespace mRemoteNG.Connection.Protocol.MSRA
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = "msra.exe",
+                        FileName = msraPath,
                         Arguments = arguments,
                         UseShellExecute = false
                     },

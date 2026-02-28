@@ -218,15 +218,8 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
 
         private void ImportFileTransferConnection(XmlNode connectionNode, ContainerInfo parentContainer)
         {
-            // Map SFTP/SCP to SSH2, FTP to HTTP (closest match)
-            string? ftType = GetStringProperty(connectionNode, "FileTransferConnectionType");
-            ProtocolType protocol = ftType switch
-            {
-                "SFTP" or "SCP" => ProtocolType.SSH2,
-                _ => ProtocolType.SSH2
-            };
-
-            ConnectionInfo connectionInfo = new() { Protocol = protocol };
+            // RoyalTS file-transfer entries are imported as SSH2 connections.
+            ConnectionInfo connectionInfo = new() { Protocol = ProtocolType.SSH2 };
 
             SetCommonProperties(connectionNode, connectionInfo);
 

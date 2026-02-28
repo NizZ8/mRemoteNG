@@ -171,6 +171,7 @@ namespace mRemoteNG.UI.Window
             prgBar.Maximum = connections.Count;
             prgBar.Value = 0;
 
+            _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = new System.Threading.CancellationTokenSource();
             var token = _cancellationTokenSource.Token;
 
@@ -220,6 +221,7 @@ namespace mRemoteNG.UI.Window
             {
                 _isTesting = false;
                 btnStart.Text = "Start Test";
+                _cancellationTokenSource?.Dispose();
                 _cancellationTokenSource = null;
             }
         }
