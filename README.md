@@ -126,7 +126,7 @@ A single orchestrator run produced 247 test invocations. Only 46 actually ran te
 
 **The lesson:** An orchestrator without monitoring is more dangerous than manual work. It can destroy a night's worth of progress while you sleep.
 
-#### Gen 4: Self-Healing Supervisor + Claude-Only (Feb 18–28) — What Worked
+#### Gen 4: Self-Healing Supervisor + Adaptive Model Selection (Feb 18–28) — What Worked
 
 The architecture that actually produced results:
 
@@ -137,14 +137,16 @@ orchestrator_supervisor.py (~800 lines)
   └─► iis_orchestrator.py (~6,100 lines)
         │ sync → triage → implement → verify → commit
         │
-        ├─► Claude Sonnet (primary — fast, cost-effective)
-        │     └─► Claude Opus (escalation — when Sonnet fails)
+        ├─► Codex Spark (primary — fastest, cheapest, 86% success rate)
+        │     └─► Claude Sonnet → Opus (escalation chain)
         │
         └─► Independent Verification (no AI — deterministic)
               1. build.ps1 (MSBuild)
               2. run-tests-core.sh (5,967 tests, 9 groups)
               3. git commit (green) OR git restore (red)
 ```
+
+**The Feb 27 session — Codex-only, 104 issues:** The most productive single session used Codex Spark exclusively. 89/104 issues resolved (86%), 87 on the first attempt with no escalation. Only 4 issues (#1796, #1822 — RDP edge cases) resisted after 4 retries. Zero Claude or Gemini involvement. This contradicted our earlier assumption that Claude was the most reliable — Codex was faster, cheaper, and had a higher success rate when the orchestrator fed it correct context.
 
 **12 failure modes handled automatically (FM1–FM12):**
 
@@ -253,6 +255,7 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 
 - **585 issues addressed** out of 838 tracked (70%), 1,365 commits in February 2026
 - **5,967 tests** (up from 2,179 at v1.79.0), 0 failures
+- **Codex Spark session (Feb 27):** 89/104 issues resolved (86%), 87 on first attempt — most productive single session
 - **Self-healing supervisor:** 12 failure modes handled automatically — zero human babysitting
 - **Test-fix-first:** 2 fix attempts before revert — recovers work that would otherwise be lost
 - **Circuit breaker:** 5 consecutive failures → baseline check → stop if infrastructure is broken
@@ -269,9 +272,9 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 
 3. **Only max-tier subscriptions are cost-effective.** Intermediate tiers generate retry overhead (rate limits, sandbox failures) that erases the savings. The cheapest path is the most capable model with the fewest retries.
 
-4. **Simplicity beats complexity.** 3-agent orchestra (Gen 2) → 1 primary agent with fallback (Gen 4). Fewer moving parts, fewer failure modes, more reliable.
+4. **Simplicity beats complexity.** 3-agent orchestra (Gen 2) → 1 primary agent with fallback (Gen 4). The Feb 27 Codex-only session (89/104 issues, 86% success, zero escalation to other models) proved that a single fast model with good context outperforms a complex multi-model chain.
 
-5. **Different models for different roles.** Codex Spark is unmatched for fast code interpretation and implementation — reliable, cheap, instant. Opus is the right choice for supervision, planning, and decision-making — prudent, efficient, and clear in a way that inspires confidence. Sonnet is the workhorse in between. Gemini is probably capable but rate limits make it practically unusable. The optimal architecture is Opus as the "brain" orchestrating Spark/Sonnet as the "hands."
+5. **Different models for different roles.** Codex Spark is the most cost-effective for implementation — 86% success rate, fastest median (274s), cheapest per issue. Opus is the right choice for supervision, planning, and decision-making — prudent, efficient, and clear in a way that inspires confidence. Sonnet is the workhorse for complex multi-file changes. Gemini is probably capable but rate limits make it practically unusable. The optimal architecture is Opus as the "brain" orchestrating Spark as the primary "hands," with Sonnet as fallback for issues Spark can't resolve.
 
 6. **Human oversight remains essential.** 7 regressions out of 585 issues is ~1.2% — but one of them (PuTTY root save) would silently destroy all user connections. Percentages don't capture severity.
 
@@ -300,20 +303,21 @@ Raw timing data from `_timeout_history.json` across 220 agent invocations:
 
 | Model | Task | n | Median | p80 | <10s | >600s |
 |-------|------|---|--------|-----|------|-------|
-| **Codex Spark** | implement | 50 | 7.4s* | 544s | 34% | 12% |
+| **Codex Spark** | implement | 50 | 274s* | 544s | 34% | 12% |
 | **Claude Sonnet** | implement | 50 | 474s | 630s | 0% | 24% |
 | **Claude Sonnet** | triage | 50 | 12s | 16s | 34% | 0% |
 | **Gemini Pro** | implement | 50 | 417s | 566s | 0% | 12% |
 | **Gemini Pro** | triage | 50 | 47s | 72s | 0% | 0% |
 | **GPT-4.1** | triage | 20 | 2.1s | 2.4s | 100% | 0% |
 
-*Codex has a bimodal distribution: 17/50 under 10s (Spark xHigh resolves instantly), remaining 200–700s (fallback to Codex regular).
+*Codex has a bimodal distribution: 17/50 under 10s (Spark xHigh resolves instantly with median 7.4s), remaining 33 in the 200–770s range (Codex regular). This makes Codex the fastest overall (274s median vs 417–474s for Gemini/Claude) despite high variance.
 
 **Key observations from production:**
+- **Feb 27 session — Codex alone resolved 89/104 issues (86%)**, 87 on first attempt. The most productive single session used zero Claude or Gemini. Codex Spark was the most cost-effective model by a wide margin.
 - **Spark xHigh:** 0% test failures when given correct context — the most reliable model for single-file fixes
-- **Opus:** 120–240s per task but far more prudent and efficient — conveys confidence in problem management that Sonnet doesn't
-- **Timeout management** was probably the hardest engineering problem in the orchestrator. Adaptive timeouts (60–1200s) with 1.3x escalation factor, yet small models still timed out frequently
-- **93 escalations tracked** (54 implementation + 39 triage) — ~40% of issues required at least one retry across the agent chain
+- **Opus:** 120–240s per task but far more prudent and efficient — conveys confidence in problem management that Sonnet doesn't. Best suited for supervision and review, not routine implementation.
+- **Timeout management** was probably the hardest engineering problem in the orchestrator. Adaptive timeouts (60–1200s) with 1.3x escalation factor, yet models still timed out frequently
+- **93 escalations tracked** (54 implementation + 39 triage) in the timeout history. Separately, the Feb 27 Codex-only session needed only 17/104 retries — confirming that a single reliable model with good context beats a multi-model chain
 
 *Note: This section has not yet undergone peer review. Data and interpretations are preliminary.*
 
