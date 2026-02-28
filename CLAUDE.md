@@ -102,18 +102,25 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 
 | Level | Tool | Scope | Config |
 |-------|------|-------|--------|
-| 1 | .NET Analyzers + Roslynator + Meziantou | Local build (warnings) | `Directory.Build.props`, `mRemoteNG/.editorconfig` |
-| 2 | SonarCloud | PR gate (CI) | `sonarcloud.yml`, `sonar-project.properties` |
-| 3 | CodeQL | Security scanning (CI + weekly) | `codeql.yml` |
+| 1 | .NET Analyzers + Roslynator + Meziantou | Local build (warnings) | `Directory.Build.props`, `.editorconfig` (root + mRemoteNG/) |
+| 2 | SonarCloud | Push to `main` (CI) | `.github/workflows/sonarcloud.yml` |
+| 3 | CodeQL | Push to `main` + weekly (CI) | `.github/workflows/codeql.yml` |
 | 4 | Roslynator | Included in Level 1 (NuGet) | `Directory.Packages.props` |
 
 ### Rules:
 - **Gradual adoption** — warnings only, NOT `TreatWarningsAsErrors` (legacy codebase)
 - Noisy rules suppressed in `.editorconfig` (MA0004 ConfigureAwait, MA0011 IFormatProvider, MA0076 ToString culture)
 - `EnforceCodeStyleInBuild=true`, `AnalysisLevel=latest-recommended` in `Directory.Build.props`
-- SonarCloud requires `SONAR_TOKEN` secret (setup: sonarcloud.io → Import repo → copy token → GitHub Secrets)
-- CodeQL uses `build-mode: manual` (COM refs break autobuild)
-- `.editorconfig` cu reguli analyzer e doar în `mRemoteNG/` — ExternalConnectors primește default severities
+- **Două `.editorconfig`**: root (pentru ExternalConnectors, ObjectListView etc.) + `mRemoteNG/.editorconfig` (cu `root=true`, nu moștenește de la root)
+- SonarCloud: `SONAR_TOKEN` secret setat, Automatic Analysis DEZACTIVAT pe sonarcloud.io (altfel conflict cu CI scan)
+- CodeQL: `build-mode: manual` (COM refs break autobuild), CodeQL Action **v4** (v3 deprecated Dec 2026), Default Setup DEZACTIVAT în repo Settings → Code Security
+- **NU există `sonar-project.properties`** — SonarScanner for .NET nu-l suportă, toate setările se dau ca parametri la `dotnet-sonarscanner begin`
+
+### Lecții setup CI (2026-02-28):
+- CodeQL default setup NU coexistă cu workflow custom — trebuie dezactivat în Settings → Code Security
+- SonarCloud Automatic Analysis NU coexistă cu CI analysis — trebuie dezactivat în SonarCloud → Administration → Analysis Method
+- Meziantou MA0049 (type name matches namespace) e **error** by default — trebuie suprimat explicit pentru legacy code
+- `gh run list` pe un fork caută pe upstream — folosește `--repo robertpopa22/mRemoteNG`
 
 ## Branch Strategy
 
