@@ -162,10 +162,19 @@ namespace mRemoteNG.Config.Putty
             string? sessionsDir = GetSessionsDirectory();
             if (sessionsDir == null) return;
 
-            FileSystemWatcher? watcher = null;
+            FileSystemWatcher watcher;
             try
             {
                 watcher = new FileSystemWatcher(sessionsDir);
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionMessage("PuttySessionsFileProvider.StartWatcher() failed.", ex, MessageClass.WarningMsg);
+                return;
+            }
+
+            try
+            {
                 watcher.NotifyFilter = NotifyFilters.LastWrite
                                      | NotifyFilters.FileName
                                      | NotifyFilters.DirectoryName;
@@ -181,7 +190,7 @@ namespace mRemoteNG.Config.Putty
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("PuttySessionsFileProvider.StartWatcher() failed.", ex, MessageClass.WarningMsg);
-                watcher?.Dispose();
+                watcher.Dispose();
             }
         }
 

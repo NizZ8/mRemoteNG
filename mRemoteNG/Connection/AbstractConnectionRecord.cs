@@ -256,7 +256,7 @@ namespace mRemoteNG.Connection
          AttributeUsedInAllProtocolsExcept()]
         public virtual string Hostname
         {
-            get => GetPropertyValue(nameof(Hostname), GetEffectiveHostname());
+            get => GetPropertyValue(nameof(Hostname), GetEffectiveHostname(_hostname));
             set => SetField(ref _hostname, value?.Trim() ?? string.Empty, nameof(Hostname));
         }
 
@@ -264,11 +264,11 @@ namespace mRemoteNG.Connection
         /// Returns the effective hostname based on <see cref=nameof(ConnectionAddressPrimary)/> setting,
         /// with <c>%name%</c> tokens expanded.
         /// </summary>
-        private string GetEffectiveHostname()
+        private string GetEffectiveHostname(string hostname)
         {
             string raw = _connectionAddressPrimary == ConnectionAddressPrimary.IPAddress && !string.IsNullOrWhiteSpace(_ipAddress)
                 ? _ipAddress.Trim()
-                : _hostname?.Trim() ?? string.Empty;
+                : hostname?.Trim() ?? string.Empty;
             return ExpandHostnameVariables(raw);
         }
 

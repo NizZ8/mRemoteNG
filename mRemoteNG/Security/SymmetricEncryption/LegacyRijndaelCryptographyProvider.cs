@@ -82,7 +82,7 @@ namespace mRemoteNG.Security.SymmetricEncryption
                 using MemoryStream ms = new(ciphertext);
 
                 byte[] iv = new byte[BlockSizeInBytes];
-                ms.Read(iv, 0, iv.Length);
+                ms.ReadExactly(iv, 0, iv.Length);
                 aes.IV = iv;
 
                 using CryptoStream cryptoStream = new(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);

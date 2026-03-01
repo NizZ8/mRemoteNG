@@ -167,7 +167,7 @@ public class LocalDBManager
                                 collection.Insert(settingsData);
                                 Console.WriteLine($"Inserted default setting '{settingsData.Key}' for table '{tableName}'.");
                             }
-                        };
+                        }
                         Console.WriteLine($"Inserted default settings for table '{tableName}'.");
                     }
                 }
