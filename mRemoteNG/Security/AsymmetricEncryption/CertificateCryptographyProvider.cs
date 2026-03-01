@@ -112,8 +112,20 @@ namespace mRemoteNG.Security.AsymmetricEncryption
             try { data = Convert.FromBase64String(cipherText); }
             catch (FormatException ex) { throw new EncryptionException(Language.ErrorDecryptionFailed, ex); }
 
+            // Minimum: 4 (key length) + 1 (key) + NonceSizeBytes + TagSizeBytes
+            const int minimumDataLength = 4 + 1 + NonceSizeBytes + TagSizeBytes;
+            if (data.Length < minimumDataLength)
+                throw new EncryptionException(Language.ErrorDecryptionFailed);
+
             int pos = 0;
             int encryptedKeyLen = BitConverter.ToInt32(data, pos); pos += 4;
+
+            // Validate the embedded key length against what the buffer actually contains
+            const int maxReasonableKeyLen = 4096; // RSA-4096 max
+            if (encryptedKeyLen <= 0 || encryptedKeyLen > maxReasonableKeyLen ||
+                encryptedKeyLen > data.Length - 4 - NonceSizeBytes - TagSizeBytes)
+                throw new EncryptionException(Language.ErrorDecryptionFailed);
+
             byte[] encryptedAesKey = new byte[encryptedKeyLen];
             Buffer.BlockCopy(data, pos, encryptedAesKey, 0, encryptedKeyLen); pos += encryptedKeyLen;
 

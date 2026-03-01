@@ -102,11 +102,11 @@ namespace mRemoteNG.Config.Settings
                     if (xEl.HasAttribute("AuthUsername"))
                         extA.AuthenticationUsername = xEl.Attributes["AuthUsername"]?.Value ?? string.Empty;
                     if (xEl.HasAttribute("AuthPassword"))
-                        extA.AuthenticationPassword = xEl.Attributes["AuthPassword"]?.Value ?? string.Empty;
+                        extA.AuthenticationPassword = ExternalAppsSaver.UnprotectValue(xEl.Attributes["AuthPassword"]?.Value ?? string.Empty);
                     if (xEl.HasAttribute("PrivateKeyFile"))
                         extA.PrivateKeyFile = xEl.Attributes["PrivateKeyFile"]?.Value ?? string.Empty;
                     if (xEl.HasAttribute("Passphrase"))
-                        extA.Passphrase = xEl.Attributes["Passphrase"]?.Value ?? string.Empty;
+                        extA.Passphrase = ExternalAppsSaver.UnprotectValue(xEl.Attributes["Passphrase"]?.Value ?? string.Empty);
 
                     if (xEl.HasAttribute("Hotkey") && int.TryParse(xEl.Attributes["Hotkey"]!.Value, out int hotkeyValue))
                         extA.Hotkey = (System.Windows.Forms.Keys)hotkeyValue;

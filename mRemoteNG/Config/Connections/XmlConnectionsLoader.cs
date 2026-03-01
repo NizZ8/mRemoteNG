@@ -64,7 +64,7 @@ namespace mRemoteNG.Config.Connections
             {
                 return deserializer.Deserialize(xmlString);
             }
-            catch (XmlException ex)
+            catch (Exception ex) when (ex is XmlException or FormatException or InvalidOperationException or NotSupportedException)
             {
                 _messageCollector.AddExceptionMessage(
                     $"Failed to parse XML connection file '{_connectionFilePath}'. Attempting backup recovery.",
