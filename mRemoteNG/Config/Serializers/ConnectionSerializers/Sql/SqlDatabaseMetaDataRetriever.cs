@@ -814,16 +814,18 @@ CREATE TABLE `tblExternalTools` (
                     continue;
                 }
 
+                // Use NOT NULL DEFAULT for value-type columns so existing rows get
+                // a proper default value and new INSERTs don't fail.  (#1796)
                 string sqlType = expectedColumn.DataType switch
                 {
-                    Type t when t == typeof(bool) => "bit",
-                    Type t when t == typeof(int) => "int",
-                    Type t when t == typeof(SqlDateTime) || t == typeof(DateTime) => "datetime",
-                    Type t when t == typeof(string) => "nvarchar(4000)",
-                    _ => "nvarchar(4000)",
+                    Type t when t == typeof(bool) => "bit NOT NULL DEFAULT 0",
+                    Type t when t == typeof(int) => "int NOT NULL DEFAULT 0",
+                    Type t when t == typeof(SqlDateTime) || t == typeof(DateTime) => "datetime NULL",
+                    Type t when t == typeof(string) => "nvarchar(4000) NULL",
+                    _ => "nvarchar(4000) NULL",
                 };
 
-                databaseConnector.DbCommand($"ALTER TABLE [tblCons] ADD [{expectedColumn.ColumnName}] {sqlType} NULL").ExecuteNonQuery();
+                databaseConnector.DbCommand($"ALTER TABLE [tblCons] ADD [{expectedColumn.ColumnName}] {sqlType}").ExecuteNonQuery();
             }
         }
 

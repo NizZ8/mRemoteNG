@@ -335,6 +335,30 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataTable.Columns.Add("VmId", typeof(string));
             dataTable.Columns[0].AutoIncrement = true;
             dataTable.Columns.Add("ID", typeof(int));
+            SetColumnDefaults(dataTable);
+        }
+
+        /// <summary>
+        /// Sets DefaultValue on every DataTable column so that NewRow() never produces
+        /// DBNull for value-type columns.  This prevents "Cannot insert the value NULL
+        /// into column … column does not allow nulls" errors when the DataAdapter
+        /// generates INSERT commands for new rows.  (#1796)
+        /// </summary>
+        private static void SetColumnDefaults(DataTable dataTable)
+        {
+            foreach (DataColumn col in dataTable.Columns)
+            {
+                if (col.AutoIncrement || col.DefaultValue != DBNull.Value)
+                    continue;
+
+                col.DefaultValue = col.DataType switch
+                {
+                    Type t when t == typeof(bool) => false,
+                    Type t when t == typeof(int) => 0,
+                    Type t when t == typeof(string) => "",
+                    _ => DBNull.Value
+                };
+            }
         }
 
         private static void SetPrimaryKey(DataTable dataTable)
@@ -656,10 +680,15 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataRow["DisplayThemes"] = connectionInfo.DisplayThemes;
             dataRow["DisplayWallpaper"] = connectionInfo.DisplayWallpaper;
             dataRow["Domain"] = _saveFilter.SaveDomain ? connectionInfo.Domain : "";
+            dataRow["EC2InstanceId"] = connectionInfo.EC2InstanceId;
+            dataRow["EC2Region"] = connectionInfo.EC2Region;
             dataRow["EnableDesktopComposition"] = connectionInfo.EnableDesktopComposition;
             dataRow["EnableFontSmoothing"] = connectionInfo.EnableFontSmoothing;
+            dataRow["EnhancedMode"] = connectionInfo.UseEnhancedMode;
             dataRow["Expanded"] = false;
             dataRow["ExtApp"] = connectionInfo.ExtApp;
+            dataRow["ExternalAddressProvider"] = connectionInfo.ExternalAddressProvider.ToString();
+            dataRow["ExternalCredentialProvider"] = connectionInfo.ExternalCredentialProvider.ToString();
             dataRow["Favorite"] = connectionInfo.Favorite;
             dataRow["Hostname"] = connectionInfo.Hostname;
             dataRow["ICAEncryptionStrength"] = string.Empty;
@@ -670,7 +699,6 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataRow["MacAddress"] = connectionInfo.MacAddress;
             dataRow["Name"] = connectionInfo.Name;
             dataRow["OpeningCommand"] = connectionInfo.OpeningCommand;
-            // dataRow["OpeningCommand"] = connectionInfo.OpeningCommand; dublicate?
             dataRow["Panel"] = connectionInfo.Panel;
             dataRow["ParentID"] = connectionInfo.Parent?.ConstantID ?? "";
             //dataRow["Password"] = _saveFilter.SavePassword ? _cryptographyProvider.Encrypt(connectionInfo.Password?.ConvertToUnsecureString(), _encryptionKey) : "";
@@ -682,14 +710,18 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataRow["Protocol"] = connectionInfo.Protocol;
             dataRow["PuttySession"] = connectionInfo.PuttySession;
             dataRow["RDGatewayDomain"] = connectionInfo.RDGatewayDomain;
+            dataRow["RDGatewayExternalCredentialProvider"] = connectionInfo.RDGatewayExternalCredentialProvider.ToString();
             dataRow["RDGatewayHostname"] = connectionInfo.RDGatewayHostname;
             dataRow["RDGatewayPassword"] = _cryptographyProvider.Encrypt(connectionInfo.RDGatewayPassword, _encryptionKey);
             dataRow["RDGatewayUsageMethod"] = connectionInfo.RDGatewayUsageMethod;
             dataRow["RDGatewayUseConnectionCredentials"] = connectionInfo.RDGatewayUseConnectionCredentials;
+            dataRow["RDGatewayUserViaAPI"] = connectionInfo.RDGatewayUserViaAPI;
             dataRow["RDGatewayUsername"] = connectionInfo.RDGatewayUsername;
             dataRow["RDPAlertIdleTimeout"] = connectionInfo.RDPAlertIdleTimeout;
             dataRow["RDPAuthenticationLevel"] = connectionInfo.RDPAuthenticationLevel;
             dataRow["RDPMinutesToIdleTimeout"] = connectionInfo.RDPMinutesToIdleTimeout;
+            dataRow["RDPSignScope"] = connectionInfo.RDPSignScope;
+            dataRow["RDPSignature"] = connectionInfo.RDPSignature;
             dataRow["RdpVersion"] = connectionInfo.RdpVersion;
             dataRow["RedirectAudioCapture"] = connectionInfo.RedirectAudioCapture;
             dataRow["RedirectClipboard"] = connectionInfo.RedirectClipboard;
@@ -766,7 +798,6 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritLoadBalanceInfo"] = connectionInfo.Inheritance.LoadBalanceInfo;
                 dataRow["InheritMacAddress"] = connectionInfo.Inheritance.MacAddress;
                 dataRow["InheritOpeningCommand"] = connectionInfo.Inheritance.OpeningCommand;
-                dataRow["InheritOpeningCommand"] = connectionInfo.Inheritance.OpeningCommand;
                 dataRow["InheritPanel"] = connectionInfo.Inheritance.Panel;
                 dataRow["InheritPassword"] = connectionInfo.Inheritance.Password;
                 dataRow["InheritPort"] = connectionInfo.Inheritance.Port;
@@ -785,6 +816,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritRDPAlertIdleTimeout"] = connectionInfo.Inheritance.RDPAlertIdleTimeout;
                 dataRow["InheritRDPAuthenticationLevel"] = connectionInfo.Inheritance.RDPAuthenticationLevel;
                 dataRow["InheritRDPMinutesToIdleTimeout"] = connectionInfo.Inheritance.RDPMinutesToIdleTimeout;
+                dataRow["InheritRDPSignScope"] = connectionInfo.Inheritance.RDPSignScope;
+                dataRow["InheritRDPSignature"] = connectionInfo.Inheritance.RDPSignature;
                 dataRow["InheritRdpVersion"] = connectionInfo.Inheritance.RdpVersion;
                 dataRow["InheritRedirectAudioCapture"] = connectionInfo.Inheritance.RedirectAudioCapture;
                 dataRow["InheritRedirectClipboard"] = connectionInfo.Inheritance.RedirectClipboard;
@@ -802,6 +835,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritSoundQuality"] = connectionInfo.Inheritance.SoundQuality;
                 dataRow["InheritUseConsoleSession"] = connectionInfo.Inheritance.UseConsoleSession;
                 dataRow["InheritUseCredSsp"] = connectionInfo.Inheritance.UseCredSsp;
+                dataRow["InheritEnhancedMode"] = connectionInfo.Inheritance.UseEnhancedMode;
                 dataRow["InheritUseEnhancedMode"] = connectionInfo.Inheritance.UseEnhancedMode;
                 dataRow["InheritUseRCG"] = connectionInfo.Inheritance.UseRCG;
                 dataRow["InheritUseRestrictedAdmin"] = connectionInfo.Inheritance.UseRestrictedAdmin;
@@ -877,6 +911,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritRDPAlertIdleTimeout"] = false;
                 dataRow["InheritRDPAuthenticationLevel"] = false;
                 dataRow["InheritRDPMinutesToIdleTimeout"] = false;
+                dataRow["InheritRDPSignScope"] = false;
+                dataRow["InheritRDPSignature"] = false;
                 dataRow["InheritRdpVersion"] = false;
                 dataRow["InheritRedirectAudioCapture"] = false;
                 dataRow["InheritRedirectClipboard"] = false;
@@ -894,9 +930,22 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritSoundQuality"] = false;
                 dataRow["InheritUseConsoleSession"] = false;
                 dataRow["InheritUseCredSsp"] = false;
+                dataRow["InheritUseEnhancedMode"] = false;
                 dataRow["InheritUseRCG"] = false;
                 dataRow["InheritUseRestrictedAdmin"] = false;
+                dataRow["InheritUseVmId"] = false;
+                dataRow["InheritEnhancedMode"] = false;
                 dataRow["InheritUserField"] = false;
+                dataRow["InheritUserField1"] = false;
+                dataRow["InheritUserField2"] = false;
+                dataRow["InheritUserField3"] = false;
+                dataRow["InheritUserField4"] = false;
+                dataRow["InheritUserField5"] = false;
+                dataRow["InheritUserField6"] = false;
+                dataRow["InheritUserField7"] = false;
+                dataRow["InheritUserField8"] = false;
+                dataRow["InheritUserField9"] = false;
+                dataRow["InheritUserField10"] = false;
                 dataRow["InheritEnvironmentTags"] = false;
                 dataRow["InheritUserViaAPI"] = false;
                 dataRow["InheritUsername"] = false;
