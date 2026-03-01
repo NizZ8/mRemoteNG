@@ -8,6 +8,8 @@ using LiteDB;
 using mRemoteNG.Config.MachineIdentifier;
 using System.Runtime.Versioning;
 
+namespace mRemoteNG.Config.Settings;
+
 [SupportedOSPlatform("windows")]
 public class LocalDBManager
 {
