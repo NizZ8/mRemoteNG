@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -306,6 +307,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
 
         public ProtocolVNC()
         {
+            PatchVncKeyTranslationTable();
             Control = new VncSharpCore.RemoteDesktop();
             tmrReconnect.Tick += tmrReconnect_Tick;
             _keepAliveTimer.Tick += KeepAlive_Tick;
@@ -874,6 +876,39 @@ namespace mRemoteNG.Connection.Protocol.VNC
             {
                 tcpclient?.Close();
                 TimeoutObject.Set();
+            }
+        }
+
+        private static bool _keyTablePatched;
+        private static readonly object _patchLock = new();
+
+        /// <summary>
+        /// Patches the VncSharpCore KeyTranslationTable to add a missing entry for the Caps Lock key.
+        /// Without this, pressing Caps Lock sends a 't' keypress to the remote because ToAscii()
+        /// incorrectly maps VK_CAPITAL (0x14) when it is absent from the translation table.
+        /// </summary>
+        private static void PatchVncKeyTranslationTable()
+        {
+            lock (_patchLock)
+            {
+                if (_keyTablePatched) return;
+                try
+                {
+                    var tableField = typeof(VncSharpCore.RemoteDesktop)
+                        .GetField("KeyTranslationTable", BindingFlags.NonPublic | BindingFlags.Static);
+                    if (tableField?.GetValue(null) is Dictionary<int, int> table)
+                    {
+                        const int VK_CAPITAL = 0x14;     // Windows virtual key code for Caps Lock
+                        const int XK_Caps_Lock = 0xFF20; // X11 keysym for Caps Lock
+                        table.TryAdd(VK_CAPITAL, XK_Caps_Lock);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Runtime.MessageCollector.AddMessage(Messages.MessageClass.WarningMsg,
+                        $"Failed to patch VncSharpCore KeyTranslationTable for Caps Lock fix: {ex.Message}", true);
+                }
+                _keyTablePatched = true;
             }
         }
 
