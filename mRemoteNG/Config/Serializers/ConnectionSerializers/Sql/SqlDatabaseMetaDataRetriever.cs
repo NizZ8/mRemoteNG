@@ -765,6 +765,10 @@ CREATE TABLE `tblExternalTools` (
                 {
                     UpgradeMssqlSchema(databaseConnector);
                 }
+                else if (databaseConnector.GetType() == typeof(MySqlDatabaseConnector))
+                {
+                    UpgradeMysqlSchema(databaseConnector);
+                }
 
                 if (!DoesColumnExist(databaseConnector, "tblCons", "User"))
                 {
@@ -826,6 +830,30 @@ CREATE TABLE `tblExternalTools` (
                 };
 
                 databaseConnector.DbCommand($"ALTER TABLE [tblCons] ADD [{expectedColumn.ColumnName}] {sqlType}").ExecuteNonQuery();
+            }
+        }
+
+        private static void UpgradeMysqlSchema(IDatabaseConnector databaseConnector)
+        {
+            DataTable expectedSchema = DataTableSerializer.GetExpectedSchema();
+
+            foreach (DataColumn expectedColumn in expectedSchema.Columns)
+            {
+                if (DoesColumnExist(databaseConnector, "tblCons", expectedColumn.ColumnName))
+                {
+                    continue;
+                }
+
+                string sqlType = expectedColumn.DataType switch
+                {
+                    Type t when t == typeof(bool) => "TINYINT(1) NOT NULL DEFAULT 0",
+                    Type t when t == typeof(int) => "INT NOT NULL DEFAULT 0",
+                    Type t when t == typeof(SqlDateTime) || t == typeof(DateTime) => "DATETIME NULL",
+                    Type t when t == typeof(string) => "VARCHAR(4000) NULL",
+                    _ => "VARCHAR(4000) NULL",
+                };
+
+                databaseConnector.DbCommand($"ALTER TABLE tblCons ADD COLUMN `{expectedColumn.ColumnName}` {sqlType}").ExecuteNonQuery();
             }
         }
 
