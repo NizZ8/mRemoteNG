@@ -51,6 +51,10 @@ namespace mRemoteNG.App
                         if (OptionsFormWindow == null || OptionsFormWindow.IsDisposed)
                             OptionsFormWindow = new OptionsWindow();
                         OptionsFormWindow.SetActivatedPage(Language.StartupExit);
+                        // Reload controls from stored settings before every show so that any
+                        // edits left over from a previous hide (Tab-X without Apply/OK) are
+                        // discarded.  Safe on first call — no-op until FrmOptions is embedded.
+                        OptionsFormWindow.RefreshSettings();
                         OptionsFormWindow.Show(dockPanel);
                         break;
                     case WindowType.SSHTransfer:

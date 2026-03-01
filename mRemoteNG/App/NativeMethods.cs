@@ -677,6 +677,10 @@ namespace mRemoteNG.App
 
         #region Window Styles
 
+        public const int WS_BORDER = 0x800000;
+        public const int WS_DLGFRAME = 0x400000;
+        public const int WS_CAPTION = WS_BORDER | WS_DLGFRAME;
+        public const int WS_THICKFRAME = 0x40000;
         public const int WS_MAXIMIZE = 0x1000000;
         public const int WS_VISIBLE = 0x10000000;
         public const int WS_CHILD = 0x40000000;

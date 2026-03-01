@@ -155,7 +155,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Controls.Add(lblRegistrySettingsUsedInfo);
             Name = "StartupExitPage";
             Size = new System.Drawing.Size(610, 490);
-            Load += StartupExitPage_Load;
             pnlOptions.ResumeLayout(false);
             pnlOptions.PerformLayout();
             ResumeLayout(false);

@@ -14,9 +14,10 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         {
             try
             {
-                if (disposing && components != null)
+                if (disposing)
                 {
-                    components.Dispose();
+                    _themeManager.ThemeChanged -= ApplyTheme;
+                    components?.Dispose();
                 }
             }
             finally
