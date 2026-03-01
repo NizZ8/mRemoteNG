@@ -11,7 +11,7 @@
   "created_at": "2024-01-17T16:25:29Z",
   "github_updated_at": "2026-02-21T10:23:13Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI am trying to launch MRemoteNg and it is crashing (closing the application soon after the launch). I am using mRemoteNG-Installer-1.76.20.24615.msi\r\n\r\nError: \r\n\r\n2024-01-17 11:04:02,735 [1] WARN  - XmingPortablePuttySessions.Watcher.StartWatching() failed: 'sessions' does not exist.\r\n2024-01-17 11:04:52,037 [1] INFO  - mRemoteNG 1.76.20.24615 starting.\r\n2024-01-17 11:04:52,040 [1] INFO  - Command Line: C:\\Program Files (x86)\\m...",
-  "our_status": "needs_human",
+  "our_status": "testing",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -55,7 +55,7 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty, labels are legacy (1.76.20), no reproduction steps provided, and the existing triage comment already requests retesting on the latest build before further action.\nApproach: Requester must retest on v1.79.x+ and provide repro steps; if still valid, add null/missing-directory guard in StartWatching() before creating FileSystemWatcher\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "XmingPortablePuttySessions class removed in current codebase. PuttySessionsRegistryProvider has try/catch guard.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 835,

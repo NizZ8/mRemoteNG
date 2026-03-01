@@ -12,7 +12,7 @@
   "created_at": "2023-06-28T18:20:17Z",
   "github_updated_at": "2026-02-21T10:23:31Z",
   "body_snippet": "Hello Everyone,\r\n\r\n## Current Behavior\r\nI am actually working for a compagny. We actually have the last stable mRemoteNG release version. We need to upgrade on the last one.\r\n\r\nAll is working fine exept when mRemoteNG is opening. The first view is on \"Configuration\" and not on \"Connexions\" what will make users \"angry\" and not very nice.\r\n\r\n## Question, Bug\r\nHow it is possible to force the first view to be on \"Connexion\" or like before, to have half-half, \"connexions\" on top and \"Configuration\" b...",
-  "our_status": "needs_human",
+  "our_status": "testing",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -65,7 +65,7 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and comments only indicate stale status/triage with no reproducible steps or clear description of what 'Opening Tab is not Connexions' means.\nApproach: Request reporter to provide steps to reproduce, expected vs actual behavior, and retest on latest build\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "Settings save was disabled in upstream 1.77.3 NB. Our fork has it enabled — startup panel layout persists.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 84,
