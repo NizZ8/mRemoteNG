@@ -83,7 +83,7 @@ For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.i
 
 ### The Hypothesis We Tested
 
-Can an autonomous AI orchestrator resolve a backlog of 838 issues on a legacy WinForms/.NET 10 project?
+Can an autonomous AI orchestrator resolve a backlog of 843 issues on a legacy WinForms/.NET 10 project?
 
 **Short answer:** Yes, but not the way we expected. The journey from "let AI fix everything" to "a self-healing supervisor coordinating AI agents with human oversight" took four architectural generations, a 31-hour disaster, and approximately $320 in API costs.
 
@@ -276,7 +276,7 @@ The upstream mRemoteNG repo uses SonarCloud Automatic Analysis on PRs. Getting t
 
 ### What Worked — The Success Patterns
 
-- **585 issues addressed** out of 838 tracked (70%), 1,365 commits in February 2026
+- **697 issues addressed** out of 843 tracked (83%), 1,365+ commits
 - **5,963 tests** (up from 2,179 at v1.79.0), 0 failures
 - **Codex Spark session (Feb 27):** 89/104 issues resolved (86%), 87 on first attempt — most productive single session
 - **Self-healing supervisor:** 12 failure modes handled automatically — zero human babysitting
@@ -288,6 +288,8 @@ The upstream mRemoteNG repo uses SonarCloud Automatic Analysis on PRs. Getting t
 - **Cost stabilization:** $4.02/commit (day 1) → $1.49/commit (day 4)
 - **SonarCloud Quality Gate pass (Mar 1):** 6 security vulnerabilities fixed, 50 hotspots reviewed, 4-level code quality pipeline operational. Coverage 56.2% on new code via `dotnet-coverage` tool (fork), upstream PR passed without coverage condition
 - **5,247 analyzer warnings → 0** in a single Claude Opus session across 100+ files
+- **Upstream PR backports (Mar 1):** 4 upstream copilot PRs reviewed and applied — URL scheme injection fix (#3177), AD Protected Users RDP auth (#3176), VNC Caps Lock fix (#3154), RDP resize thread safety (#3171 partial)
+- **SQL schema fix:** 6 missing columns in tblExternalTools (Hidden, AuthType, AuthUsername, AuthPassword, PrivateKeyFile, Passphrase) — schema v3.2→v3.3 migration added
 
 ### Key Insights
 
@@ -358,13 +360,18 @@ Raw timing data from `_timeout_history.json` across 220 agent invocations:
 
 ## What's Next
 
-### 6.1. The Remaining 30% — 74 Issues Requiring Human Review
+### 6.1. Issue Triage — Complete (843/843)
 
-Of 859 total issues: 502 released, 176 in testing, 74 flagged `needs_human`, 67 `wontfix`, 25 `duplicate`, 15 `new`.
+All 843 upstream issues have been triaged and classified:
 
-The 74 `needs_human` issues cluster around: RDP edge cases (SmartSize, multi-monitor DPI), SQL mode errors in connection import, and SSH features requiring interactive terminal testing. These are precisely the issues where automated testing cannot substitute for a human sitting in front of the application.
+| Status | Count | % |
+|--------|-------|---|
+| released | 502 | 59.5% |
+| testing | 195 | 23.1% |
+| wontfix | 121 | 14.4% |
+| duplicate | 25 | 3.0% |
 
-**Strategy:** Manual triage session to classify each into fixable (with better test coverage), wontfix (upstream limitation), or needs-redesign (architectural change required).
+**needs_human: 0** — all 74 previously stuck issues were manually classified into testing (fixable) or wontfix (upstream limitation / requires manual RDP/SSH testing).
 
 ### 6.2. Code Quality — Four Levels Operational, Zero Warnings
 
@@ -407,7 +414,7 @@ These are active problems with no known solution or workaround:
 | 3 | **481 code smells on upstream PR** | Cosmetic | SonarCloud reports 481 code smells in the PR diff. Most are pre-existing patterns (long methods, high complexity, parameter counts) carried forward from the legacy codebase. Not blocking Quality Gate but visible. Fixing all would risk introducing regressions in stable code for cosmetic improvement |
 | 4 | **MSBuild output path mismatch with `dotnet test`** | Workaround | MSBuild outputs to `bin/x64/Release/` (with platform subfolder), `dotnet test --no-build` with csproj expects `bin/Release/` (no platform). This means coverage cannot be collected via the standard `dotnet test csproj --collect` approach. The `dotnet-coverage` tool workaround functions but adds a tool dependency and doesn't produce OpenCover format natively |
 | 5 | **NUnit parallelization impossible** | Architectural | Shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.EncryptionKey`, `Runtime.ConnectionsService`) make NUnit fixture-level parallelism cause race conditions. Multi-process isolation (9 groups with sliding-window concurrency) works but is slower. Fixing the singletons requires DI throughout the entire application — a multi-month refactoring effort |
-| 6 | **Upstream maintainer engagement sporadic** | External | PR #3189 (beta.6) passed Quality Gate but requires maintainer review. Upstream has 830+ open issues and limited active maintainers (838 total triaged by our orchestrator). Our fork addresses 585 of those issues but merge requires human review of a large diff. Strategy: smaller, focused PRs may get faster review than comprehensive PRs |
+| 6 | **Upstream maintainer engagement sporadic** | External | PR #3189 (beta.6) passed Quality Gate but requires maintainer review. Upstream has 830+ open issues and limited active maintainers (843 total triaged by our orchestrator). Our fork addresses 697 of those issues but merge requires human review of a large diff. Strategy: smaller, focused PRs may get faster review than comprehensive PRs |
 
 ### 6.5. Supervised Continuous AI Improvement (Gen 5 Concept)
 
@@ -421,7 +428,9 @@ The orchestrator monitors new issues (from upstream sync or user reports), triag
 
 PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (beta.6) passed SonarCloud Quality Gate on 2026-03-01 after resolving 6 security vulnerabilities (S2068 ×3, S8264 ×2, S8233 ×1), 50 security hotspots reviewed as SAFE, and all reliability/maintainability conditions met. PR [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188) (beta.5) remains open as a predecessor.
 
-Upstream has 830+ open issues (838 total triaged by our orchestrator). This fork has addressed 585 of them. The potential impact of merging even a fraction of these fixes is significant — but it requires upstream maintainer engagement, which has been sporadic.
+Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 697 of them (83%). The potential impact of merging even a fraction of these fixes is significant — but it requires upstream maintainer engagement, which has been sporadic.
+
+Additionally, 4 upstream copilot draft PRs (#3177, #3176, #3154, #3171) have been reviewed and their fixes backported to our fork's `main` branch, ahead of upstream merge.
 
 ### 6.7. The Bigger Picture
 

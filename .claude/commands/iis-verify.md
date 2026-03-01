@@ -95,7 +95,65 @@ except Exception as e:
 cd D:/github/mRemoteNG && echo "Branch: $(git branch --show-current)" && echo "Uncommitted:" && git status --short | head -20 && echo "Unpushed:" && git log --oneline origin/main..HEAD | head -10
 ```
 
-### 7. Warning Fixability Analysis
+### 7. Upstream PR & Qodo Review Status
+```bash
+# Check upstream PR #3189 status
+gh pr view 3189 --repo mRemoteNG/mRemoteNG --json state,reviews,comments,statusCheckRollup 2>&1 | python -c "
+import json, sys
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+data = json.load(sys.stdin)
+print(f'PR #3189: {data[\"state\"]}')
+print(f'  Reviews: {len(data.get(\"reviews\",[]))}')
+print(f'  Comments: {len(data.get(\"comments\",[]))}')
+for c in data.get('statusCheckRollup', []):
+    status = c.get('conclusion', c.get('status', '?'))
+    icon = {'SUCCESS':'OK','FAILURE':'FAIL','PENDING':'...'}.get(status, status)
+    print(f'  [{icon:>4}] {c.get(\"name\",\"?\")}')
+"
+
+# Check for Qodo review comments (bot name: qodo-code-review or github-actions)
+echo "--- Qodo Review Issues ---"
+gh api repos/mRemoteNG/mRemoteNG/pulls/3189/comments --paginate 2>&1 | python -c "
+import json, sys
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+comments = json.load(sys.stdin)
+qodo = [c for c in comments if 'qodo' in (c.get('user',{}).get('login','') + c.get('body','')).lower()]
+if qodo:
+    for c in qodo:
+        body = c.get('body','')[:200]
+        print(f'  [{c[\"user\"][\"login\"]}] {c.get(\"path\",\"?\")}:{c.get(\"line\",\"?\")} — {body}')
+    print(f'  Total Qodo comments: {len(qodo)}')
+else:
+    print('  No Qodo review comments found')
+" 2>/dev/null || echo "  Qodo: unavailable"
+```
+
+### 8. Issues Triage Status
+```bash
+cd D:/github/mRemoteNG && python -c "
+import sys, json, os, glob
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+issues_dir = '.project-roadmap/issues-db/upstream'
+statuses = {}
+impl_failed = 0
+for f in glob.glob(os.path.join(issues_dir, '*.json')):
+    with open(f, encoding='utf-8') as fh:
+        data = json.load(fh)
+    s = data.get('our_status', 'unknown')
+    statuses[s] = statuses.get(s, 0) + 1
+    if data.get('impl_failed'):
+        impl_failed += 1
+total = sum(statuses.values())
+print(f'Issues: {total} total')
+for k in sorted(statuses.keys()):
+    pct = statuses[k] / total * 100
+    print(f'  {k:>12}: {statuses[k]:>4} ({pct:.1f}%)')
+if impl_failed:
+    print(f'  impl_failed: {impl_failed} (already classified)')
+"
+```
+
+### 9. Warning Fixability Analysis
 Classify each warning rule into fixability tiers:
 ```bash
 cat /tmp/iis-verify-warnings.txt | python -c "
@@ -254,6 +312,9 @@ TESTS:      [OK/FAIL]  passed/total (Xs)
 CI:         [OK/FAIL]  (last run details)
 SONARCLOUD: [OK/FAIL]  (quality gate status)
 GIT:        [CLEAN/DIRTY]  branch: main
+PR #3189:   [OPEN/MERGED/CLOSED]  (reviews, checks)
+QODO:       [OK/N issues]  (review comments)
+ISSUES:     NNN/NNN triaged  (needs_human: N)
 
 --- Analyzer Warnings: NNNN total ---
   Autofix (safe):     NNN  (CA1510, CA2263, ...)
