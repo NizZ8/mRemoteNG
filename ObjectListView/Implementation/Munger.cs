@@ -255,7 +255,7 @@ namespace BrightIdeasSoftware
         /// <summary>
         /// Gets the list of SimpleMungers that match our AspectName
         /// </summary>
-        private IList<SimpleMunger> Parts {
+        private List<SimpleMunger> Parts {
             get {
                 if (aspectParts == null)
                     aspectParts = BuildParts(this.AspectName);

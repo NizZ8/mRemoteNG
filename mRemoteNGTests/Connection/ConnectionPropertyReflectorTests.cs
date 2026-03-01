@@ -148,7 +148,7 @@ namespace mRemoteNGTests.Connection
         [Test]
         public void DescriptorToStringIsReadable()
         {
-            var first = ConnectionPropertyReflector.GetAllProperties().First();
+            var first = ConnectionPropertyReflector.GetAllProperties()[0];
             var str = first.ToString();
             Assert.That(str, Does.Contain(first.Name));
         }

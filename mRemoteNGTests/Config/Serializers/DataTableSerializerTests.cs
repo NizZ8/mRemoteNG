@@ -31,7 +31,7 @@ public class DataTableSerializerTests
     {
         var model = CreateConnectionTreeModel();
         var dataTable = _dataTableSerializer.Serialize(model);
-        Assert.That(dataTable.Rows.Count, Is.EqualTo(model.GetRecursiveChildList().Count()));
+        Assert.That(dataTable.Rows.Count, Is.EqualTo(model.GetRecursiveChildList().Count));
     }
 
     [Test]

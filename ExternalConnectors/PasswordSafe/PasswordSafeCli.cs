@@ -12,7 +12,7 @@ public class PasswordSafeCliException(string message, string arguments) : Except
     public string Arguments { get; set; } = arguments;
 }
 
-public class PasswordSafeCli
+public static class PasswordSafeCli
 {
     private const string PwSafeCliExecutable = "pwsafe-cli.exe"; // NOSONAR — S2068 false positive: CLI executable name, not a credential
     private const string PwSafeScheme = "pwsafe://"; // NOSONAR — S2068 false positive: URI scheme, not a credential

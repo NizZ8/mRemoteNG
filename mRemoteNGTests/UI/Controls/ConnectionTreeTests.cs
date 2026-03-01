@@ -16,6 +16,10 @@ namespace mRemoteNGTests.UI.Controls
 {
 	public class ConnectionTreeTests
 	{
+		private static readonly string[] SortedAb = ["a", "b"];
+		private static readonly string[] SortedCd = ["c", "d"];
+		private static readonly string[] Reordered2143 = ["2", "1", "4", "3"];
+
 		/// <summary>
 		/// Runs the given action on a dedicated STA thread with a WinForms message pump.
 		/// Required because ConnectionTree inherits from TreeListView/ObjectListView
@@ -324,8 +328,8 @@ namespace mRemoteNGTests.UI.Controls
 			Application.DoEvents();
 			tree.SortSelectedNodesRecursive(ListSortDirection.Ascending);
 
-			Assert.That(folder1.Children.Select(node => node.Name), Is.EqualTo(new[] { "a", "b" }));
-			Assert.That(folder2.Children.Select(node => node.Name), Is.EqualTo(new[] { "c", "d" }));
+			Assert.That(folder1.Children.Select(node => node.Name), Is.EqualTo(SortedAb));
+			Assert.That(folder2.Children.Select(node => node.Name), Is.EqualTo(SortedCd));
 		});
 
 		[Test]
@@ -349,7 +353,7 @@ namespace mRemoteNGTests.UI.Controls
 			Application.DoEvents();
 			tree.MoveSelectedNodesUp();
 
-			Assert.That(root.Children.Select(node => node.Name), Is.EqualTo(new[] { "2", "1", "4", "3" }));
+			Assert.That(root.Children.Select(node => node.Name), Is.EqualTo(Reordered2143));
 		});
 
 		[Test]
@@ -373,7 +377,7 @@ namespace mRemoteNGTests.UI.Controls
 			Application.DoEvents();
 			tree.MoveSelectedNodesDown();
 
-			Assert.That(root.Children.Select(node => node.Name), Is.EqualTo(new[] { "2", "1", "4", "3" }));
+			Assert.That(root.Children.Select(node => node.Name), Is.EqualTo(Reordered2143));
 		});
 
 		[Test]

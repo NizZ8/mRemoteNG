@@ -9,11 +9,13 @@ using mRemoteNG.Tools.WindowsRegistry;
 namespace mRemoteNGTests.Tools.Registry.RegistryEntryTest
 {
     [SupportedOSPlatform("windows")]
-    internal class StringEntryTest
+    internal sealed class StringEntryTest
     {
         private const string TestRoot = @"Software\mRemoteNGTest";
         private const RegistryHive TestHive = RegistryHive.CurrentUser;
         private const string TestPath = $"{TestRoot}\\StringEntryTest";
+
+        private static readonly string[] FruitValues = ["Banana", "Strawberry", "Apple"];
 
         public enum TestEnum
         {
@@ -34,7 +36,7 @@ namespace mRemoteNGTests.Tools.Registry.RegistryEntryTest
         public void IsValid_AllowedValuesSet_ValueInAllowedValues_ReturnsTrue()
         {
             Assert.DoesNotThrow(() => WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsValid", "Banana").Write());
-            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsValid").SetValidation(new string[] { "Banana", "Strawberry", "Apple" }).Read();
+            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsValid").SetValidation(FruitValues).Read();
             Assert.That(entry.IsValid, Is.True);
         }
         
@@ -42,7 +44,7 @@ namespace mRemoteNGTests.Tools.Registry.RegistryEntryTest
         public void IsValid_AllowedValuesSet_ValueNotInAllowedValues_ReturnsFalse()
         {
             Assert.DoesNotThrow(() => WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsInValid", "Cheese").Write());
-            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsInValid").SetValidation(new string[] { "Banana", "Strawberry", "Apple" }).Read();
+            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayIsInValid").SetValidation(FruitValues).Read();
             Assert.That(entry.IsValid, Is.False);
         }
 
@@ -50,7 +52,7 @@ namespace mRemoteNGTests.Tools.Registry.RegistryEntryTest
         public void IsValid_AllowedValuesSet_CorrectsValueSpellingAndValidatesSuccessfully()
         {
             Assert.DoesNotThrow(() => WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayCorrectsSpellingIsValid", "StrawBerry").Write());
-            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayCorrectsSpellingIsValid").SetValidation(new string[] { "Banana", "Strawberry", "Apple" }).Read();
+            var entry = WinRegistryEntry<string>.New(TestHive, TestPath, "ArrayCorrectsSpellingIsValid").SetValidation(FruitValues).Read();
 
             Assert.Multiple(() =>
             {

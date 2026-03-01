@@ -11,7 +11,7 @@ namespace mRemoteNGTests.Config.DatabaseConnectors
     {
         private LiteDbRepository<TestDocument> _repo = null!;
 
-        private class TestDocument
+        private sealed class TestDocument
         {
             public Guid Id { get; set; }
             public string Name { get; set; } = string.Empty;

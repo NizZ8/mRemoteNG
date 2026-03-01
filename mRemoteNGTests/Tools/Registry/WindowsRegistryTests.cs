@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace mRemoteNGTests.Tools.Registry
 {
     [SupportedOSPlatform("windows")]
-    internal class WindowsRegistryTests : WinRegistry
+    internal sealed class WindowsRegistryTests : WinRegistry
     {
         private const string TestRoot = @"Software\mRemoteNGTest";
         private const RegistryHive TestHive = RegistryHive.CurrentUser;

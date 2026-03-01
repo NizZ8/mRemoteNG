@@ -12,7 +12,7 @@ namespace mRemoteNGTests.UI.Controls
     [TestFixture]
     public class ConnectionContextMenuRecursiveTests
     {
-        private class MockProtocol : ProtocolBase
+        private sealed class MockProtocol : ProtocolBase
         {
             public bool IsDisconnected { get; private set; }
 

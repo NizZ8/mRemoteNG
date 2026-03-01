@@ -379,7 +379,7 @@ namespace BrightIdeasSoftware {
                 this.HitTestLocation, this.HitTestLocationEx, this.item, this.subItem, this.location, this.Group, this.ColumnIndex);
         }
 
-        internal class HeaderHitTestInfo
+        internal sealed class HeaderHitTestInfo
         {
             public int ColumnIndex;
             public bool IsOverCheckBox;

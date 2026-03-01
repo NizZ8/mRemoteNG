@@ -185,7 +185,7 @@ namespace BrightIdeasSoftware
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public class HDHITTESTINFO
+        public sealed class HDHITTESTINFO
         {
             public int pt_x;
             public int pt_y;
@@ -194,7 +194,7 @@ namespace BrightIdeasSoftware
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public class HDLAYOUT
+        public sealed class HDLAYOUT
         {
             public IntPtr prc;
             public IntPtr pwpos;
@@ -507,7 +507,7 @@ namespace BrightIdeasSoftware
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public class SCROLLINFO
+        public sealed class SCROLLINFO
         {
             public int cbSize = Marshal.SizeOf<NativeMethods.SCROLLINFO>();
             public int fMask;
@@ -519,7 +519,7 @@ namespace BrightIdeasSoftware
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public class TOOLINFO
+        public sealed class TOOLINFO
         {
             public int cbSize = Marshal.SizeOf<NativeMethods.TOOLINFO>();
             public int uFlags;

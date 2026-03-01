@@ -34,7 +34,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
         {
             var csv = _serializer.Serialize(GetTestConnection());
             var deserializedConnections = _deserializer.Deserialize(csv);
-            var connection = deserializedConnections.GetRecursiveChildList().FirstOrDefault();
+            var connection = deserializedConnections.GetRecursiveChildList()[0];
             var propertyValue = typeof(ConnectionInfo).GetProperty(propertyToCheck)?.GetValue(connection);
             return propertyValue;
         }
@@ -44,7 +44,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
         {
             var csv = _serializer.Serialize(GetTestConnectionWithAllInherited());
             var deserializedConnections = _deserializer.Deserialize(csv);
-            var connection = deserializedConnections.GetRecursiveChildList().FirstOrDefault();
+            var connection = deserializedConnections.GetRecursiveChildList()[0];
             connection?.RemoveParent();
             var propertyValue = typeof(ConnectionInfoInheritance).GetProperty(propertyToCheck)?.GetValue(connection?.Inheritance);
             return propertyValue;
@@ -57,7 +57,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             // (much fewer than the full mRemoteNG format) should import cleanly.
             const string csv = "Name;Hostname;Protocol\r\nMyServer;192.168.1.1;RDP";
             var tree = _deserializer.Deserialize(csv);
-            var connection = tree.GetRecursiveChildList().FirstOrDefault();
+            var connection = tree.GetRecursiveChildList()[0];
             Assert.That(connection, Is.Not.Null);
             Assert.That(connection!.Name, Is.EqualTo("MyServer"));
             Assert.That(connection.Hostname, Is.EqualTo("192.168.1.1"));
@@ -71,7 +71,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             const string csv = "Name;Hostname;Protocol;Port\r\nMyServer;192.168.1.1";
             Assert.That(() => _deserializer.Deserialize(csv), Throws.Nothing);
             var tree = _deserializer.Deserialize(csv);
-            var connection = tree.GetRecursiveChildList().FirstOrDefault();
+            var connection = tree.GetRecursiveChildList()[0];
             Assert.That(connection, Is.Not.Null);
             Assert.That(connection!.Name, Is.EqualTo("MyServer"));
         }

@@ -8,7 +8,7 @@ using mRemoteNG.Tools.WindowsRegistry;
 namespace mRemoteNGTests.Tools.Registry.RegistryEntryTest
 {
     [SupportedOSPlatform("windows")]
-    internal class BoolEntryTest
+    internal sealed class BoolEntryTest
     {
         private const string TestRoot = @"Software\mRemoteNGTest";
         private const RegistryHive TestHive = RegistryHive.CurrentUser;

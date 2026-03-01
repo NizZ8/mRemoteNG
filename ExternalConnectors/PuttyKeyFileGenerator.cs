@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace ExternalConnectors;
 
-public class PuttyKeyFileGenerator
+public static class PuttyKeyFileGenerator
 {
     private const int prefixSize = 4;
     private const int paddedPrefixSize = prefixSize + 1;
@@ -39,7 +39,7 @@ public class PuttyKeyFileGenerator
         }
         var privateBlob = System.Convert.ToBase64String(privateBuffer);
 
-        HMACSHA1 hmacSha1 = new(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes("putty-private-key-file-mac-key")));
+        HMACSHA1 hmacSha1 = new(SHA1.HashData(Encoding.ASCII.GetBytes("putty-private-key-file-mac-key")));
         byte[] bytesToHash = new byte[prefixSize + keyType.Length + prefixSize + encryptionType.Length + prefixSize + Comment.Length + prefixSize + publicBuffer.Length + prefixSize + privateBuffer.Length];
 
         using (var bw = new BinaryWriter(new MemoryStream(bytesToHash)))
@@ -87,7 +87,7 @@ public class PuttyKeyFileGenerator
 
     private static string[] SpliceText(string text, int lineLength)
     {
-        return Regex.Matches(text, ".{1," + lineLength + "}").Cast<Match>().Select(m => m.Value).ToArray();
+        return Regex.Matches(text, ".{1," + lineLength + "}", RegexOptions.None, TimeSpan.FromSeconds(5)).Cast<Match>().Select(m => m.Value).ToArray();
     }
 
     private static int GetPrefixSize(byte[]? bytes)

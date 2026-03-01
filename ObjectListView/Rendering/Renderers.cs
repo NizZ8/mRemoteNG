@@ -231,7 +231,7 @@ namespace BrightIdeasSoftware {
     /// This class provides compatibility for v1 RendererDelegates
     /// </summary>
     [ToolboxItem(false)]
-    internal class Version1Renderer(RenderDelegate renderDelegate) : AbstractRenderer {
+    internal sealed class Version1Renderer(RenderDelegate renderDelegate) : AbstractRenderer {
 
         /// <summary>
         /// The renderer delegate that this renderer wraps
@@ -699,7 +699,7 @@ namespace BrightIdeasSoftware {
                 case HorizontalAlignment.Right:
                     return outer.Right - inner.Width - 1;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(alignment));
+                    throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
             }
         }
 
@@ -732,7 +732,7 @@ namespace BrightIdeasSoftware {
                 case StringAlignment.Far:
                     return outer.Bottom - innerHeight - 1;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(alignment));
+                    throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
             }
         }
 
@@ -1748,7 +1748,7 @@ namespace BrightIdeasSoftware {
                     case StringAlignment.Far:
                         return TextFormatFlags.Bottom;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(alignment));
+                        throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
                 }
             }
         }
@@ -2653,7 +2653,7 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Instances of this class kept track of the animation state of a single image.
         /// </summary>
-        internal class AnimationState {
+        internal sealed class AnimationState {
             private const int PropertyTagTypeShort = 3;
             private const int PropertyTagTypeLong = 4;
             private const int PropertyTagFrameDelay = 0x5100;

@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace mRemoteNGTests.Config.Connections;
 
-internal class XmlConnectionsLoaderTests
+internal sealed class XmlConnectionsLoaderTests
 {
     private static readonly Func<string, Optional<System.Security.SecureString>> NoPasswordRequestor =
         _ => Optional<System.Security.SecureString>.Empty;

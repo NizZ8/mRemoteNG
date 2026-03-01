@@ -417,7 +417,9 @@ namespace BrightIdeasSoftware
         public virtual IEnumerable Roots {
             get { return this.TreeModel.RootObjects; }
             set {
+#pragma warning disable CA2245 // Self-assignment triggers side effects in setter
                 this.TreeColumnRenderer = this.TreeColumnRenderer;
+#pragma warning restore CA2245
                 this.TreeModel.RootObjects = value ?? new ArrayList();
                 this.UpdateVirtualListSize();
             }

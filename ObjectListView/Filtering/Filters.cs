@@ -123,14 +123,14 @@ namespace BrightIdeasSoftware
         /// <summary>
         /// Create an empty filter
         /// </summary>
-        public CompositeFilter() {
+        protected CompositeFilter() {
         }
 
         /// <summary>
         /// Create a composite filter from the given list of filters
         /// </summary>
         /// <param name="filters">A list of filters</param>
-        public CompositeFilter(IEnumerable<IModelFilter> filters) {
+        protected CompositeFilter(IEnumerable<IModelFilter> filters) {
             foreach (IModelFilter filter in filters) {
                 if (filter != null)
                     Filters.Add(filter);

@@ -66,7 +66,7 @@ public class DataTableDeserializerTests
 
         _deserializer = new DataTableDeserializer(_cryptographyProvider, new SecureString());
         var output = _deserializer.Deserialize(dataTable);
-        var connection = output.GetRecursiveChildList().First();
+        var connection = output.GetRecursiveChildList()[0];
 
         Assert.That(connection.Domain, Is.EqualTo("corp.example.com"));
     }
@@ -82,7 +82,7 @@ public class DataTableDeserializerTests
         _deserializer = new DataTableDeserializer(_cryptographyProvider, new SecureString());
         ConnectionTreeModel output = null;
         Assert.DoesNotThrow(() => output = _deserializer.Deserialize(dataTable));
-        Assert.That(output.GetRecursiveChildList().First().Domain, Is.EqualTo(""));
+        Assert.That(output.GetRecursiveChildList()[0].Domain, Is.EqualTo(""));
     }
 
 

@@ -8,6 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
     <EnableWinFormsAnalyzers>false</EnableWinFormsAnalyzers>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)' == 'x86'">
     <PlatformTarget>x86</PlatformTarget>

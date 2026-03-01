@@ -447,7 +447,7 @@ namespace BrightIdeasSoftware {
             /// <param name="cellText">The text of the cell we want to search</param>
             /// <returns>Return true if the given cellText matches our strategy</returns>
             override public bool MatchesText(string cellText) {
-                return cellText.IndexOf(this.Text, this.StringComparison) != -1;
+                return cellText.Contains(this.Text, this.StringComparison);
             }
 
             /// <summary>
@@ -595,7 +595,7 @@ namespace BrightIdeasSoftware {
             public override bool MatchesText(string cellText) {
                 if (this.IsRegexInvalid)
                     return true;
-                return this.Regex.Match(cellText).Success;
+                return this.Regex.IsMatch(cellText);
             }
 
             /// <summary>

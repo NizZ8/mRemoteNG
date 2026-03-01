@@ -21,7 +21,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             // Assert
             var connections = model.GetRecursiveChildList();
             Assert.That(connections.Count, Is.EqualTo(1));
-            var connection = connections.First();
+            var connection = connections[0];
             Assert.That(connection.Name, Is.EqualTo("TestConnection"));
             Assert.That(connection.Hostname, Is.EqualTo("example.com"));
             Assert.That(connection.Port, Is.EqualTo(3389));
@@ -40,7 +40,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             // Assert
             var connections = model.GetRecursiveChildList();
             Assert.That(connections.Count, Is.EqualTo(1));
-            var connection = connections.First();
+            var connection = connections[0];
             Assert.That(connection.Name, Is.EqualTo("TestConnection"));
             Assert.That(connection.Hostname, Is.EqualTo("example.com"));
             Assert.That(connection.Port, Is.EqualTo(3389));

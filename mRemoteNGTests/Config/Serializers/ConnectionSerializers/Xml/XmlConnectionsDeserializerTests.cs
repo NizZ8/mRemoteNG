@@ -76,7 +76,7 @@ public class XmlConnectionsDeserializerTests
         Setup(testData.ConfCons, testData.Password);
         var connectionRoot = _connectionTreeModel.RootNodes[0];
         var folder2 = GetFolderNamed("Folder2", connectionRoot.Children);
-        var folder1Count = folder2?.Children.Count();
+        var folder1Count = folder2?.Children.Count;
         Assert.That(folder1Count, Is.EqualTo(3));
     }
 

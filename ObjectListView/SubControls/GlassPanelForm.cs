@@ -52,7 +52,7 @@ namespace BrightIdeasSoftware
     /// <summary>
     /// A GlassPanelForm sits transparently over an ObjectListView to show overlays.
     /// </summary>
-    internal partial class GlassPanelForm : Form
+    internal sealed partial class GlassPanelForm : Form
     {
         public GlassPanelForm() {
             this.Name = "GlassPanelForm";

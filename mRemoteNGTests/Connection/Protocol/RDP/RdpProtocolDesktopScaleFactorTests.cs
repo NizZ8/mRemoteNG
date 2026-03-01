@@ -8,7 +8,7 @@ namespace mRemoteNGTests.Connection.Protocol.RDP
     [Apartment(System.Threading.ApartmentState.STA)]
     public class RdpProtocolDesktopScaleFactorTests
     {
-        private class TestableRdpProtocol : RdpProtocol
+        private sealed class TestableRdpProtocol : RdpProtocol
         {
             public void SetConnectionInfo(ConnectionInfo info)
             {

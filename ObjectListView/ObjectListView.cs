@@ -1298,7 +1298,9 @@ namespace BrightIdeasSoftware
                 this.VirtualMode = true;
 
                 // Re-enact the bits that we lost by switching to virtual mode
+#pragma warning disable CA2245 // Self-assignment triggers side effects in setter
                 this.ShowGroups = this.ShowGroups;
+#pragma warning restore CA2245
                 this.BuildList(true);
             }
             else
@@ -3253,7 +3255,9 @@ namespace BrightIdeasSoftware
             get { return base.ShowGroups; }
             set
             {
+#pragma warning disable CA2245 // Self-assignment triggers side effects in setter
                 this.GroupImageList = this.GroupImageList;
+#pragma warning restore CA2245
                 base.ShowGroups = value;
             }
         }
@@ -5936,7 +5940,7 @@ namespace BrightIdeasSoftware
         /// Instances of this class are used to store the state of an ObjectListView.
         /// </summary>
         [Serializable]
-        internal class ObjectListViewState
+        internal sealed class ObjectListViewState
         {
             // ReSharper disable NotAccessedField.Global
             public int VersionNumber = 1;
@@ -8922,7 +8926,7 @@ namespace BrightIdeasSoftware
         /// Implementation only class that suspends and resumes selection
         /// events on instance creation and disposal.
         /// </summary>
-        private class SuspendSelectionDisposable : IDisposable
+        private sealed class SuspendSelectionDisposable : IDisposable
         {
             public SuspendSelectionDisposable(ObjectListView objectListView)
             {
@@ -10246,12 +10250,16 @@ namespace BrightIdeasSoftware
             hc.WordWrap = this.HeaderWordWrap;
 
             // Make sure any overlays that are set on the hot item style take effect
+#pragma warning disable CA2245 // Self-assignment triggers side effects in setter
             this.HotItemStyle = this.HotItemStyle;
+#pragma warning restore CA2245
 
             // Arrange for any group images to be installed after the control is created
             NativeMethods.SetGroupImageList(this, this.GroupImageList);
 
+#pragma warning disable CA2245 // Self-assignment triggers side effects in setter
             this.UseExplorerTheme = this.UseExplorerTheme;
+#pragma warning restore CA2245
 
             this.RememberDisplayIndicies();
             this.SetGroupSpacing();

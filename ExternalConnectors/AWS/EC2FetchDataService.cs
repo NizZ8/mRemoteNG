@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace ExternalConnectors.AWS
 {
-    public class EC2FetchDataService
+    public static class EC2FetchDataService
     {
         private static DateTime lastFetch;
         private static List<InstanceInfo>? lastData;
@@ -15,14 +15,14 @@ namespace ExternalConnectors.AWS
         public static async Task<string> GetEC2InstanceDataAsync(string input, string region)
         {
             // get secret id
-            if (!input.StartsWith("AWSAPI:"))
-                throw new Exception("calling this function requires AWSAPI: input");
+            if (!input.StartsWith("AWSAPI:", StringComparison.Ordinal))
+                throw new ArgumentException("calling this function requires AWSAPI: input", nameof(input));
             string InstanceID = input[7..];
 
             // init connection credentials, display popup if necessary
             AWSConnectionData.Init();
             var alldata = await GetEC2IPDataAsync(region);
-            var found = alldata.Where(x => x.InstanceId == InstanceID).SingleOrDefault();
+            var found = alldata.Where(x => string.Equals(x.InstanceId, InstanceID, StringComparison.Ordinal)).SingleOrDefault();
             return (found == null) ? "" : found.PublicIP;
         }
 

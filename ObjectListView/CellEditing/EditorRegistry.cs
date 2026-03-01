@@ -146,8 +146,7 @@ namespace BrightIdeasSoftware {
         /// <remarks>Does nothing if the given type doesn't exist</remarks>
         /// <param name="type">The type whose registration is to be removed</param>
         public void Unregister(Type type) {
-            if (this.creatorMap.ContainsKey(type))
-                this.creatorMap.Remove(type);
+            this.creatorMap.Remove(type);
         }
 
         #endregion

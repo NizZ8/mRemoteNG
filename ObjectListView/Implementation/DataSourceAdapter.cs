@@ -313,7 +313,7 @@ namespace BrightIdeasSoftware
         protected virtual bool ShouldCreateColumn(PropertyDescriptor property) {
 
             // Is there a column that already shows this property? If so, we don't show it again
-            if (this.ListView.AllColumns.Exists(delegate(OLVColumn x) { return x.AspectName == property.Name; }))
+            if (this.ListView.AllColumns.Exists(delegate(OLVColumn x) { return string.Equals(x.AspectName, property.Name, StringComparison.Ordinal); }))
                 return false;
 
             // Relationships to other tables turn up as IBindibleLists. Don't make columns to show them.

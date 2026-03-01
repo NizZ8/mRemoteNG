@@ -64,6 +64,35 @@ namespace BrightIdeasSoftware.Design
     /// </remarks>
     public class ObjectListViewDesigner : ControlDesigner
     {
+        private static readonly string[] UnwantedPropertyNames = [
+            "BackgroundImage", "BackgroundImageTiled", "HotTracking", "HoverSelection",
+            "LabelEdit", "VirtualListSize", "VirtualMode"
+        ];
+
+        private static readonly string[] TreeListViewUnwantedPropertyNames = [
+            "GroupImageList", "GroupWithItemCountFormat", "GroupWithItemCountSingularFormat", "HasCollapsibleGroups",
+            "SpaceBetweenGroups", "ShowGroups", "SortGroupItemsByPrimaryColumn", "ShowItemCountOnGroups"
+        ];
+
+        private static readonly string[] UnwantedEventNames = [
+            "AfterLabelEdit",
+            "BeforeLabelEdit",
+            "DrawColumnHeader",
+            "DrawItem",
+            "DrawSubItem",
+            "RetrieveVirtualItem",
+            "SearchForVirtualItem",
+            "VirtualItemsSelectionRangeChanged"
+        ];
+
+        private static readonly string[] TreeListViewUnwantedEventNames = [
+            "AboutToCreateGroups",
+            "AfterCreatingGroups",
+            "BeforeCreatingGroups",
+            "GroupTaskClicked",
+            "GroupExpandingCollapsing",
+            "GroupStateChanged"
+        ];
 
         #region Initialize & Dispose
 
@@ -79,7 +108,7 @@ namespace BrightIdeasSoftware.Design
             Type tListViewDesigner = Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design") ??
                                      Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design, " +
                                                   "Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-            if (tListViewDesigner == null) throw new ArgumentException("Could not load ListViewDesigner", nameof(tListViewDesigner));
+            if (tListViewDesigner == null) throw new InvalidOperationException("Could not load ListViewDesigner");
 
             this.listViewDesigner = (ControlDesigner)Activator.CreateInstance(tListViewDesigner, BindingFlags.Instance | BindingFlags.Public, null, null, null);
             this.designerFilter = this.listViewDesigner;
@@ -185,9 +214,7 @@ namespace BrightIdeasSoftware.Design
             // So we shadow the unwanted properties, and give the replacement properties
             // non-browsable attributes so that they are hidden from the user
 
-            List<string> unwantedProperties = new List<string>(new string[] { 
-                "BackgroundImage", "BackgroundImageTiled", "HotTracking", "HoverSelection", 
-                "LabelEdit", "VirtualListSize", "VirtualMode" });
+            List<string> unwantedProperties = new List<string>(UnwantedPropertyNames);
 
             // Also hid Tooltip properties, since giving a tooltip to the control through the IDE
             // messes up the tooltip handling
@@ -200,10 +227,7 @@ namespace BrightIdeasSoftware.Design
             // If we are looking at a TreeListView, remove group related properties
             // since TreeListViews can't show groups
             if (this.Control is TreeListView) {
-                unwantedProperties.AddRange(new string[] {
-                    "GroupImageList", "GroupWithItemCountFormat", "GroupWithItemCountSingularFormat", "HasCollapsibleGroups", 
-                    "SpaceBetweenGroups", "ShowGroups", "SortGroupItemsByPrimaryColumn", "ShowItemCountOnGroups"
-                });
+                unwantedProperties.AddRange(TreeListViewUnwantedPropertyNames);
             }
 
             // Shadow the unwanted properties, and give the replacement properties
@@ -228,28 +252,12 @@ namespace BrightIdeasSoftware.Design
 
             // Remove the events that don't make sense for an ObjectListView.
             // See PreFilterProperties() for why we do this dance rather than just remove the event.
-            List<string> unwanted = new List<string>(new string[] {
-                "AfterLabelEdit",
-                "BeforeLabelEdit",
-                "DrawColumnHeader",
-                "DrawItem",
-                "DrawSubItem",
-                "RetrieveVirtualItem",
-                "SearchForVirtualItem",
-                "VirtualItemsSelectionRangeChanged"
-            });
+            List<string> unwanted = new List<string>(UnwantedEventNames);
 
             // If we are looking at a TreeListView, remove group related events
             // since TreeListViews can't show groups
             if (this.Control is TreeListView) {
-                unwanted.AddRange(new string[] {
-                    "AboutToCreateGroups",
-                    "AfterCreatingGroups",
-                    "BeforeCreatingGroups",
-                    "GroupTaskClicked",
-                    "GroupExpandingCollapsing", 
-                    "GroupStateChanged"
-                });
+                unwanted.AddRange(TreeListViewUnwantedEventNames);
             }
 
             foreach (string unwantedEvent in unwanted) {
@@ -370,7 +378,7 @@ namespace BrightIdeasSoftware.Design
         /// only have to modify the returned collection of actions, but we have to implement
         /// the properties and commands that the returned actions use. </para>
         /// </remarks>
-        private class ListViewActionListAdapter(ObjectListViewDesigner designer, DesignerActionList wrappedList) : DesignerActionList(wrappedList.Component)
+        private sealed class ListViewActionListAdapter(ObjectListViewDesigner designer, DesignerActionList wrappedList) : DesignerActionList(wrappedList.Component)
         {
             public override DesignerActionItemCollection GetSortedActionItems() {
                 DesignerActionItemCollection items = wrappedList.GetSortedActionItems();
@@ -428,7 +436,7 @@ namespace BrightIdeasSoftware.Design
 
         #region DesignerCommandSet
 
-        private class CDDesignerCommandSet(ComponentDesigner componentDesigner) : DesignerCommandSet
+        private sealed class CDDesignerCommandSet(ComponentDesigner componentDesigner) : DesignerCommandSet
         {
             public override ICollection GetCommands(string name) {
                 // Debug.WriteLine("CDDesignerCommandSet.GetCommands:" + name);
@@ -511,7 +519,7 @@ namespace BrightIdeasSoftware.Design
     /// <summary>
     /// Control how the overlay is presented in the IDE
     /// </summary>
-    internal class OverlayConverter : ExpandableObjectConverter
+    internal sealed class OverlayConverter : ExpandableObjectConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) {
             return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);

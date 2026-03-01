@@ -295,7 +295,7 @@ namespace mRemoteNGTests.Connection.Protocol
         /// <summary>
         /// Testable version of RdpProtocol8 that exposes resize methods for testing
         /// </summary>
-        private class TestableRdpProtocol8 : IDisposable
+        private sealed class TestableRdpProtocol8 : IDisposable
         {
             private readonly Form _mainForm;
             private FormWindowState _lastWindowState = FormWindowState.Normal;

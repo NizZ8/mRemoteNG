@@ -4,7 +4,7 @@
 	/// A ConnectionInfo that has only the serializable properties as string types.
 	/// Only used for testing.
 	/// </summary>
-	internal class SerializableConnectionInfoAllPropertiesOfType<TType>
+	internal sealed class SerializableConnectionInfoAllPropertiesOfType<TType>
 	{
 		public TType CredentialId { get; set; }
 		public TType Description { get; set; }

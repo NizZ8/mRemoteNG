@@ -166,7 +166,7 @@ namespace BrightIdeasSoftware
     /// CLS-compliant type. If you want to use, just copy the code to this class
     /// into your project and use it from there.</remarks>
     [ToolboxItem(false)]
-    internal class UintUpDown : NumericUpDown
+    internal sealed class UintUpDown : NumericUpDown
     {
         public UintUpDown() {
             this.DecimalPlaces = 0;

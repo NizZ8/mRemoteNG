@@ -13,7 +13,7 @@ namespace mRemoteNGTests.Connection;
 public class AbstractConnectionInfoDataTests
 {
 #pragma warning disable 618
-    private class TestAbstractConnectionInfoData : AbstractConnectionRecord
+    private sealed class TestAbstractConnectionInfoData : AbstractConnectionRecord
     {
         public TestAbstractConnectionInfoData() : base(Guid.NewGuid().ToString())
         {

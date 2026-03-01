@@ -8,6 +8,8 @@ namespace mRemoteNGTests.UI.Controls
 	[NUnit.Framework.Apartment(System.Threading.ApartmentState.STA)]
 	public class FilteredPropertyGridTests
 	{
+		private static readonly string[] NonExistentProperty = ["NonExistantProperty"];
+
 		[Test]
 		public void AllPropertiesVisibleByDefault()
 		{
@@ -60,7 +62,7 @@ namespace mRemoteNGTests.UI.Controls
 			grid.SelectedObject = obj;
 
 			Assert.DoesNotThrow(() =>
-				grid.BrowsableProperties = new[] {"NonExistantProperty"});
+				grid.BrowsableProperties = NonExistentProperty);
 
 			Assert.That(grid.VisibleProperties, Is.Empty);
 		}
@@ -72,7 +74,7 @@ namespace mRemoteNGTests.UI.Controls
 			var obj = new { Prop1 = "hello" };
 			grid.SelectedObject = obj;
 
-			Assert.DoesNotThrow(() => grid.HiddenProperties = new[] { "NonExistantProperty" });
+			Assert.DoesNotThrow(() => grid.HiddenProperties = NonExistentProperty);
 		}
 
 		[Test]

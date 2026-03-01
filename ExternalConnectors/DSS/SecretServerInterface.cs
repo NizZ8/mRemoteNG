@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 
 namespace ExternalConnectors.DSS;
 
-public class SecretServerInterface
+public static class SecretServerInterface
 {
     private static class SSConnectionData
     {
@@ -201,7 +201,7 @@ public class SecretServerInterface
         }
 
         // conversion to putty format necessary?
-        if (!string.IsNullOrEmpty(privatekey) && !privatekey.StartsWith("PuTTY-User-Key-File-2"))
+        if (!string.IsNullOrEmpty(privatekey) && !privatekey.StartsWith("PuTTY-User-Key-File-2", StringComparison.Ordinal))
         {
             try
             {
@@ -231,7 +231,7 @@ public class SecretServerInterface
 
         return ""+textWriter.ToString();
     }
-    private class PasswordFinder(string password) : IPasswordFinder
+    private sealed class PasswordFinder(string password) : IPasswordFinder
     {
         private string password = password;
 

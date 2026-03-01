@@ -7,6 +7,15 @@ namespace mRemoteNGTests.Installer
     [TestFixture]
     public class InstalledWindowsUpdateCheckerTests
     {
+        private static readonly string[] SingleValidKb = ["KB1234567"];
+        private static readonly string[] TwoValidKbs = ["KB1234567", "KB7654321"];
+        private static readonly string[] ValidAndInvalidKbs = ["KB1234567", "KB1234'; DROP--", "KB7654321"];
+        private static readonly string[] AllInvalidKbs = ["'; DROP TABLE", "OR 1=1--"];
+        private static readonly string[] KbsWithNull = ["KB1234567", null, "KB7654321"];
+        private static readonly string[] MixedCaseKbs = ["kb1234567", "KB7654321"];
+        private static readonly string[] DigitOnlyKb = ["1234567"];
+        private static readonly string[] MixedPrefixKbs = ["1234567", "KB7654321", "kb9999999"];
+
         private CustomActions.InstalledWindowsUpdateChecker _checker;
         private MethodInfo _sanitizeKbIdMethod;
         private MethodInfo _buildWhereClauseMethod;
@@ -129,28 +138,28 @@ namespace mRemoteNGTests.Installer
         [Test]
         public void BuildWhereClause_SingleValidKb_ReturnsCorrectClause()
         {
-            var result = InvokeBuildWhereClause(new[] { "KB1234567" });
+            var result = InvokeBuildWhereClause(SingleValidKb);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567'"));
         }
 
         [Test]
         public void BuildWhereClause_MultipleValidKbs_ReturnsOrClause()
         {
-            var result = InvokeBuildWhereClause(new[] { "KB1234567", "KB7654321" });
+            var result = InvokeBuildWhereClause(TwoValidKbs);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567' OR HotFixID='KB7654321'"));
         }
 
         [Test]
         public void BuildWhereClause_InvalidKb_SkipsInvalid()
         {
-            var result = InvokeBuildWhereClause(new[] { "KB1234567", "KB1234'; DROP--", "KB7654321" });
+            var result = InvokeBuildWhereClause(ValidAndInvalidKbs);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567' OR HotFixID='KB7654321'"));
         }
 
         [Test]
         public void BuildWhereClause_AllInvalidKbs_ReturnsEmpty()
         {
-            var result = InvokeBuildWhereClause(new[] { "'; DROP TABLE", "OR 1=1--" });
+            var result = InvokeBuildWhereClause(AllInvalidKbs);
             Assert.That(result, Is.Empty);
         }
 
@@ -164,28 +173,28 @@ namespace mRemoteNGTests.Installer
         [Test]
         public void BuildWhereClause_NullValues_SkipsNulls()
         {
-            var result = InvokeBuildWhereClause(new[] { "KB1234567", null, "KB7654321" });
+            var result = InvokeBuildWhereClause(KbsWithNull);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567' OR HotFixID='KB7654321'"));
         }
 
         [Test]
         public void BuildWhereClause_MixedCaseKbs_NormalizesToUppercase()
         {
-            var result = InvokeBuildWhereClause(new[] { "kb1234567", "KB7654321" });
+            var result = InvokeBuildWhereClause(MixedCaseKbs);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567' OR HotFixID='KB7654321'"));
         }
 
         [Test]
         public void BuildWhereClause_DigitOnlyKb_AddsKbPrefix()
         {
-            var result = InvokeBuildWhereClause(new[] { "1234567" });
+            var result = InvokeBuildWhereClause(DigitOnlyKb);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567'"));
         }
 
         [Test]
         public void BuildWhereClause_MixedPrefixedAndDigitOnly_NormalizesAll()
         {
-            var result = InvokeBuildWhereClause(new[] { "1234567", "KB7654321", "kb9999999" });
+            var result = InvokeBuildWhereClause(MixedPrefixKbs);
             Assert.That(result, Is.EqualTo("HotFixID='KB1234567' OR HotFixID='KB7654321' OR HotFixID='KB9999999'"));
         }
 

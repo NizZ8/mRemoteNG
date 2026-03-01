@@ -10,7 +10,7 @@ public class OnePasswordCliException(string message, string arguments) : Excepti
 	public string Arguments { get; set; } = arguments;
 }
 
-public class OnePasswordCli
+public static class OnePasswordCli
 {
 	private const string OnePasswordCliExecutable = "op.exe";
 	private const string OpScheme = "op://";
@@ -31,11 +31,11 @@ public class OnePasswordCli
 	private const string SshKeyType = "SSHKEY";
 	private const string DomainLabel = "domain";
 
-	private record VaultUrl(string Label, string Href);
+	private sealed record VaultUrl(string Label, string Href);
 
-	private record VaultField(string Id, string Label, string Type, string Purpose, string Value);
+	private sealed record VaultField(string Id, string Label, string Type, string Purpose, string Value);
 
-	private record VaultItem(VaultUrl[]? Urls, VaultField[]? Fields);
+	private sealed record VaultItem(VaultUrl[]? Urls, VaultField[]? Fields);
 
 	private static readonly JsonSerializerOptions JsonSerializerOptions = new()
 	{
@@ -167,11 +167,11 @@ public class OnePasswordCli
 			!string.IsNullOrEmpty(x.Value))?.Value ??
 			items.Fields?.FirstOrDefault(x =>
 				SupportsFallbackType(x.Type) &&
-				string.Equals(x.Id, fallbackLabel, StringComparison.InvariantCultureIgnoreCase) &&
+				string.Equals(x.Id, fallbackLabel, StringComparison.OrdinalIgnoreCase) &&
 				!string.IsNullOrEmpty(x.Value))?.Value ??
 			items.Fields?.FirstOrDefault(x =>
 				SupportsFallbackType(x.Type) &&
-				string.Equals(x.Label, fallbackLabel, StringComparison.InvariantCultureIgnoreCase) &&
+				string.Equals(x.Label, fallbackLabel, StringComparison.OrdinalIgnoreCase) &&
 				!string.IsNullOrEmpty(x.Value))?.Value ??
 			string.Empty;
     }

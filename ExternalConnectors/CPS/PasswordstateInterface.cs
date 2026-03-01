@@ -10,7 +10,7 @@ using System.Text.Json.Nodes;
 
 namespace ExternalConnectors.CPS;
 
-public class PasswordstateInterface
+public static class PasswordstateInterface
 {
     private static class CPSConnectionData
     {
@@ -235,7 +235,7 @@ public class PasswordstateInterface
         }
 
         // conversion to putty format necessary?
-        if (!string.IsNullOrEmpty(privatekey) && !privatekey.StartsWith("PuTTY-User-Key-File-2"))
+        if (!string.IsNullOrEmpty(privatekey) && !privatekey.StartsWith("PuTTY-User-Key-File-2", StringComparison.Ordinal))
         {
             try
             {
@@ -265,7 +265,7 @@ public class PasswordstateInterface
 
         return ""+textWriter.ToString();
     }
-    private class PasswordFinder(string password) : IPasswordFinder
+    private sealed class PasswordFinder(string password) : IPasswordFinder
     {
         private string password = password;
 

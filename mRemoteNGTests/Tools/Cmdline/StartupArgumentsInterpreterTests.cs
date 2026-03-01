@@ -8,6 +8,9 @@ namespace mRemoteNGTests.Tools.Cmdline
 {
     public class StartupArgumentsInterpreterTests
     {
+        private static readonly string[] ConnectArgs = ["mRemoteNG.exe", "--connect", "ConnA"];
+        private static readonly string[] StartupArgs = ["mRemoteNG.exe", "--startup", "ConnA"];
+
         [SetUp]
         public void SetUp()
         {
@@ -20,7 +23,7 @@ namespace mRemoteNGTests.Tools.Cmdline
         {
             var startupArgumentsInterpreter = CreateSut();
 
-            startupArgumentsInterpreter.ParseArguments(new[] { "mRemoteNG.exe", "--connect", "ConnA" });
+            startupArgumentsInterpreter.ParseArguments(ConnectArgs);
 
             Assert.That(StartupArgumentsInterpreter.ConnectTo, Is.EqualTo("ConnA"));
             Assert.That(StartupArgumentsInterpreter.StartupConnectTo, Is.Null);
@@ -31,7 +34,7 @@ namespace mRemoteNGTests.Tools.Cmdline
         {
             var startupArgumentsInterpreter = CreateSut();
 
-            startupArgumentsInterpreter.ParseArguments(new[] { "mRemoteNG.exe", "--startup", "ConnA" });
+            startupArgumentsInterpreter.ParseArguments(StartupArgs);
 
             Assert.That(StartupArgumentsInterpreter.StartupConnectTo, Is.EqualTo("ConnA"));
             Assert.That(StartupArgumentsInterpreter.ConnectTo, Is.Null);

@@ -8,6 +8,8 @@ namespace mRemoteNGTests.Security.PasswordCreation
 {
     public class PasswordIncludesSpecialCharactersConstraintTests
     {
+        private static readonly char[] CustomCharsOpenParen = ['('];
+
         private PasswordIncludesSpecialCharactersConstraint _specialCharactersConstraint;
 
         [Test]
@@ -46,7 +48,7 @@ namespace mRemoteNGTests.Security.PasswordCreation
         public void PasswordMatchingCustomCharsPassesValidation()
         {
             var password = "hello(".ConvertToSecureString();
-            _specialCharactersConstraint = new PasswordIncludesSpecialCharactersConstraint(new[] {'('});
+            _specialCharactersConstraint = new PasswordIncludesSpecialCharactersConstraint(CustomCharsOpenParen);
             Assert.That(_specialCharactersConstraint.Validate(password), Is.True);
         }
 
@@ -54,7 +56,7 @@ namespace mRemoteNGTests.Security.PasswordCreation
         public void PasswordWithoutCustomCharsFailsValidation()
         {
             var password = "hello!".ConvertToSecureString();
-            _specialCharactersConstraint = new PasswordIncludesSpecialCharactersConstraint(new[] { '(' });
+            _specialCharactersConstraint = new PasswordIncludesSpecialCharactersConstraint(CustomCharsOpenParen);
             Assert.That(_specialCharactersConstraint.Validate(password), Is.False);
         }
 

@@ -7,6 +7,10 @@ root = true
 dotnet_diagnostic.MA0004.severity = none
 # MA0011: IFormatProvider — too pervasive in legacy code
 dotnet_diagnostic.MA0011.severity = none
+# MA0013: Types should not extend System.ApplicationException — legacy exception hierarchy
+dotnet_diagnostic.MA0013.severity = none
+# MA0025: Implement the functionality instead of throwing NotImplementedException — legacy stubs
+dotnet_diagnostic.MA0025.severity = none
 # MA0026: Fix TODO/HACK/FIXME comment
 dotnet_diagnostic.MA0026.severity = none
 # MA0028: Optimize StringBuilder — low priority
@@ -21,8 +25,14 @@ dotnet_diagnostic.MA0048.severity = suggestion
 dotnet_diagnostic.MA0049.severity = suggestion
 # MA0051: Method is too long
 dotnet_diagnostic.MA0051.severity = suggestion
+# MA0055: Do not use finalizer — legacy resource management
+dotnet_diagnostic.MA0055.severity = none
+# MA0062: Non-flags enums should not be marked with FlagsAttribute — legacy enum definitions
+dotnet_diagnostic.MA0062.severity = none
 # MA0076: Do not use implicit culture-sensitive ToString
 dotnet_diagnostic.MA0076.severity = none
+# MA0097: Class should be sealed or static — legacy inheritance patterns
+dotnet_diagnostic.MA0097.severity = none
 
 # ===== Roslynator =====
 # RCS1194: Implement exception constructors
@@ -31,10 +41,20 @@ dotnet_diagnostic.RCS1194.severity = none
 dotnet_diagnostic.RCS1090.severity = none
 
 # ===== .NET Analyzers =====
+# CA1001: Types that own disposable fields should be disposable — legacy WinForms, massive refactoring
+dotnet_diagnostic.CA1001.severity = none
+# CA1036: Override methods on comparable types — legacy IComparable implementations
+dotnet_diagnostic.CA1036.severity = none
+# CA1305: Specify IFormatProvider — same as MA0011, too pervasive in legacy code
+dotnet_diagnostic.CA1305.severity = none
+# CA1716: Identifiers should not match keywords — legacy API parameter names
+dotnet_diagnostic.CA1716.severity = none
 # CA1848: Use LoggerMessage source generation — not applicable (log4net)
 dotnet_diagnostic.CA1848.severity = none
 # CA2007: ConfigureAwait — WinForms needs SynchronizationContext
 dotnet_diagnostic.CA2007.severity = none
+# CA5350: Do not use weak cryptographic algorithms — PuTTY key format requires SHA1/HMACSHA1
+dotnet_diagnostic.CA5350.severity = none
 
 # ===== ObjectListView — suppress naming/API conventions for third-party forked library =====
 [{ObjectListView/*.cs,ObjectListView/**/*.cs}]
@@ -50,3 +70,13 @@ dotnet_diagnostic.CA1725.severity = none
 dotnet_diagnostic.CA2211.severity = none
 # MA0056: Do not call overridable members in constructor — adding CancellationToken would break OLV API
 dotnet_diagnostic.MA0056.severity = none
+# MA0069: Non-virtual public events — OLV public event API, cannot make virtual without breaking changes
+dotnet_diagnostic.MA0069.severity = none
+# MA0016: Prefer collection abstraction — OLV public API uses concrete List<T>/Dictionary<K,V>
+dotnet_diagnostic.MA0016.severity = none
+# MA0099: Use Regex source generation — OLV uses dynamic regex patterns at runtime
+dotnet_diagnostic.MA0099.severity = none
+# CA2101: Specify marshaling for P/Invoke — OLV NativeMethods P/Invoke signatures
+dotnet_diagnostic.CA2101.severity = none
+# CA2020: IntPtr explicit conversion overflow — OLV WndProc message handling
+dotnet_diagnostic.CA2020.severity = none
