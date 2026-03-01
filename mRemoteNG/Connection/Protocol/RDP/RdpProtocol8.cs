@@ -196,8 +196,15 @@ namespace mRemoteNG.Connection.Protocol.RDP
             Runtime.MessageCollector?.AddMessage(MessageClass.DebugMsg,
                 $"Debounce timer fired - executing delayed resize to {_pendingResizeSize.Width}x{_pendingResizeSize.Height}");
 
-            // Execute the actual RDP session resize
-            DoResizeClient();
+            // Marshal to the UI thread because DoResizeClient() accesses WinForms and COM objects
+            if (InterfaceControl.InvokeRequired)
+            {
+                InterfaceControl.BeginInvoke(new Action(DoResizeClient));
+            }
+            else
+            {
+                DoResizeClient();
+            }
         }
 
         public override void OnDisplaySettingsChanged()
