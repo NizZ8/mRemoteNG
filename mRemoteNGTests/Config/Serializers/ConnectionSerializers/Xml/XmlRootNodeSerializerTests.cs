@@ -152,8 +152,8 @@ public class XmlRootNodeSerializerTests
         {
             get
             {
-                foreach (var engine in Enum.GetValues(typeof(BlockCipherEngines)))
-                foreach (var mode in Enum.GetValues(typeof(BlockCipherModes)))
+                foreach (var engine in Enum.GetValues<BlockCipherEngines>())
+                foreach (var mode in Enum.GetValues<BlockCipherModes>())
                     yield return new TestCaseData(engine, mode);
             }
         }

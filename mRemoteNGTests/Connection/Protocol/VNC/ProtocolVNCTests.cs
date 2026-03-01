@@ -42,9 +42,9 @@ namespace mRemoteNGTests.Connection.Protocol.VNC
             {
                 _vncProtocol?.Disconnect();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore exceptions during disconnect in teardown
+                _ = ex; // Intentionally suppressed
             }
         }
 

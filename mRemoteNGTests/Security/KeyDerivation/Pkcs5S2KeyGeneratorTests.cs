@@ -32,8 +32,8 @@ namespace mRemoteNGTests.Security.KeyDerivation
         public void IdenticalParametersProduceIdenticalKeys()
         {
             var keyDerivationFunction = new Pkcs5S2KeyGenerator();
-            var key1 = keyDerivationFunction.DeriveKey("", new byte[0]);
-            var key2 = keyDerivationFunction.DeriveKey("", new byte[0]);
+            var key1 = keyDerivationFunction.DeriveKey("", Array.Empty<byte>());
+            var key2 = keyDerivationFunction.DeriveKey("", Array.Empty<byte>());
             Assert.That(key1, Is.EquivalentTo(key2));
         }
 
@@ -42,8 +42,8 @@ namespace mRemoteNGTests.Security.KeyDerivation
         {
             var keyDerivationFunction1 = new Pkcs5S2KeyGenerator(256, 1001);
             var keyDerivationFunction2 = new Pkcs5S2KeyGenerator(256, 1002);
-            var key1 = keyDerivationFunction1.DeriveKey("", new byte[0]);
-            var key2 = keyDerivationFunction2.DeriveKey("", new byte[0]);
+            var key1 = keyDerivationFunction1.DeriveKey("", Array.Empty<byte>());
+            var key2 = keyDerivationFunction2.DeriveKey("", Array.Empty<byte>());
             Assert.That(key1, Is.Not.EquivalentTo(key2));
         }
 
@@ -52,8 +52,8 @@ namespace mRemoteNGTests.Security.KeyDerivation
         {
             var keyDerivationFunction1 = new Pkcs5S2KeyGenerator();
             var keyDerivationFunction2 = new Pkcs5S2KeyGenerator(512);
-            var key1 = keyDerivationFunction1.DeriveKey("", new byte[0]);
-            var key2 = keyDerivationFunction2.DeriveKey("", new byte[0]);
+            var key1 = keyDerivationFunction1.DeriveKey("", Array.Empty<byte>());
+            var key2 = keyDerivationFunction2.DeriveKey("", Array.Empty<byte>());
             Assert.That(key1, Is.Not.EquivalentTo(key2));
         }
 
@@ -61,8 +61,8 @@ namespace mRemoteNGTests.Security.KeyDerivation
         public void DifferingPasswordsProduceDifferingKeys()
         {
             var keyDerivationFunction = new Pkcs5S2KeyGenerator();
-            var key1 = keyDerivationFunction.DeriveKey("a", new byte[0]);
-            var key2 = keyDerivationFunction.DeriveKey("b", new byte[0]);
+            var key1 = keyDerivationFunction.DeriveKey("a", Array.Empty<byte>());
+            var key2 = keyDerivationFunction.DeriveKey("b", Array.Empty<byte>());
             Assert.That(key1, Is.Not.EquivalentTo(key2));
         }
 
@@ -70,7 +70,7 @@ namespace mRemoteNGTests.Security.KeyDerivation
         public void DifferingSaltsProduceDifferingKeys()
         {
             var keyDerivationFunction = new Pkcs5S2KeyGenerator();
-            var key1 = keyDerivationFunction.DeriveKey("", new byte[0]);
+            var key1 = keyDerivationFunction.DeriveKey("", Array.Empty<byte>());
             var key2 = keyDerivationFunction.DeriveKey("", new byte[] {1});
             Assert.That(key1, Is.Not.EquivalentTo(key2));
         }
@@ -110,7 +110,7 @@ namespace mRemoteNGTests.Security.KeyDerivation
         public void KeyLengthIsKeyBitSizeDividedBy8(int keyBitSize)
         {
             var keyDerivationFunction = new Pkcs5S2KeyGenerator(keyBitSize);
-            var key = keyDerivationFunction.DeriveKey("", new byte[0]);
+            var key = keyDerivationFunction.DeriveKey("", Array.Empty<byte>());
             Assert.That(key.Length, Is.EqualTo(keyBitSize / 8));
         }
     }

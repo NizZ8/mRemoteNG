@@ -98,7 +98,7 @@ namespace BrightIdeasSoftware
             this.objectListView1.SetObjects(this.RearrangableColumns);
             this.EnableControls();
         }
-        private List<OLVColumn> AllColumns = null;
+        private List<OLVColumn> AllColumns;
         private List<OLVColumn> RearrangableColumns = new List<OLVColumn>();
         private Dictionary<OLVColumn, bool> MapColumnToVisible = new Dictionary<OLVColumn, bool>();
 

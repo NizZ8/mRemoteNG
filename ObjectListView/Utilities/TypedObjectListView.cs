@@ -447,7 +447,7 @@ namespace BrightIdeasSoftware
         /// </remarks>
         public void GenerateAspectGetter() {
             if (!String.IsNullOrEmpty(this.column.AspectName))
-                this.AspectGetter = this.GenerateAspectGetter(typeof(T), this.column.AspectName);
+                this.AspectGetter = GenerateAspectGetter(typeof(T), this.column.AspectName);
         }
 
         /// <summary>
@@ -458,10 +458,10 @@ namespace BrightIdeasSoftware
         /// <param name="path">A dotted chain of selectors. Each selector can be the name of a 
         /// field, property or parameter-less method.</param>
         /// <returns>A typed delegate</returns>
-        private TypedAspectGetterDelegate GenerateAspectGetter(Type type, string path) {
+        private static TypedAspectGetterDelegate GenerateAspectGetter(Type type, string path) {
             DynamicMethod getter = new DynamicMethod(String.Empty,
                 typeof(Object), new Type[] { type }, type, true);
-            this.GenerateIL(type, path, getter.GetILGenerator());
+            GenerateIL(type, path, getter.GetILGenerator());
             return (TypedAspectGetterDelegate)getter.CreateDelegate(typeof(TypedAspectGetterDelegate));
         }
 
@@ -471,14 +471,14 @@ namespace BrightIdeasSoftware
         /// <param name="type"></param>
         /// <param name="path"></param>
         /// <param name="il"></param>
-        private void GenerateIL(Type type, string path, ILGenerator il) {
+        private static void GenerateIL(Type type, string path, ILGenerator il) {
             // Push our model object onto the stack
             il.Emit(OpCodes.Ldarg_0);
 
             // Generate the IL to access each part of the dotted chain
             string[] parts = path.Split('.');
             for (int i = 0; i < parts.Length; i++) {
-                type = this.GeneratePart(il, type, parts[i], (i == parts.Length - 1));
+                type = GeneratePart(il, type, parts[i], (i == parts.Length - 1));
                 if (type == null)
                     break;
             }
@@ -491,7 +491,7 @@ namespace BrightIdeasSoftware
             il.Emit(OpCodes.Ret);
         }
 
-        private Type GeneratePart(ILGenerator il, Type type, string pathPart, bool isLastPart) {
+        private static Type GeneratePart(ILGenerator il, Type type, string pathPart, bool isLastPart) {
             // TODO: Generate check for null
 
             // Find the first member with the given nam that is a field, property, or parameter-less method

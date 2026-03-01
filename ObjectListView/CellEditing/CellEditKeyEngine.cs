@@ -198,7 +198,7 @@ namespace BrightIdeasSoftware {
         /// <param name="keyData"></param>
         /// <returns>True if the key was completely handled.</returns>
         public virtual bool HandleKey(ObjectListView olv, Keys keyData) {
-            if (olv == null) throw new ArgumentNullException("olv");
+            ArgumentNullException.ThrowIfNull(olv);
 
             CellEditCharacterBehaviour behaviour;
             if (!CellEditKeyMap.TryGetValue(keyData, out behaviour))

@@ -642,7 +642,7 @@ namespace BrightIdeasSoftware
         internal NativeMethods.LVGROUP2 AsNativeGroup(bool withId) {
 
             NativeMethods.LVGROUP2 group = new NativeMethods.LVGROUP2();
-            group.cbSize = (uint)Marshal.SizeOf(typeof(NativeMethods.LVGROUP2));
+            group.cbSize = (uint)Marshal.SizeOf<NativeMethods.LVGROUP2>();
             group.mask = (uint)(GroupMask.LVGF_HEADER ^ GroupMask.LVGF_ALIGN ^ GroupMask.LVGF_STATE);
             group.pszHeader = this.Header;
             group.uAlign = (uint)this.HeaderAlignment;
@@ -722,7 +722,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         protected int SetState(GroupState newState, GroupState mask) {
             NativeMethods.LVGROUP2 group = new NativeMethods.LVGROUP2();
-            group.cbSize = ((uint)Marshal.SizeOf(typeof(NativeMethods.LVGROUP2)));
+            group.cbSize = ((uint)Marshal.SizeOf<NativeMethods.LVGROUP2>());
             group.mask = (uint)GroupMask.LVGF_STATE;
             group.state = (uint)newState;
             group.stateMask = (uint)mask;

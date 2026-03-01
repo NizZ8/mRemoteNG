@@ -63,13 +63,13 @@ namespace mRemoteNGTests.Security
         private static IEnumerable GetAllBlockCipherEngineAndModeCombinations()
         {
             var combinationList = new ArrayList();
-            var engineChoices = Enum.GetValues(typeof(BlockCipherEngines));
-            var modeChoices = Enum.GetValues(typeof(BlockCipherModes));
+            var engineChoices = Enum.GetValues<BlockCipherEngines>();
+            var modeChoices = Enum.GetValues<BlockCipherModes>();
             foreach (var engine in engineChoices)
             {
                 foreach (var mode in modeChoices)
                 {
-                    combinationList.Add(new[] { engine, mode });
+                    combinationList.Add(new object[] { engine, mode });
                 }
             }
             return combinationList;
@@ -110,9 +110,9 @@ namespace mRemoteNGTests.Security
             {
                 get
                 {
-                    foreach (var engine in Enum.GetValues(typeof(BlockCipherEngines)))
+                    foreach (var engine in Enum.GetValues<BlockCipherEngines>())
                     {
-                        foreach (var mode in Enum.GetValues(typeof(BlockCipherModes)))
+                        foreach (var mode in Enum.GetValues<BlockCipherModes>())
                         {
                             yield return new TestCaseData(engine, mode);
                         }

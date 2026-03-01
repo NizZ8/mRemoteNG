@@ -53,7 +53,7 @@ namespace BrightIdeasSoftware
         /// Make a DataSourceAdapter
         /// </summary>
         public DataSourceAdapter(ObjectListView olv) {
-            if (olv == null) throw new ArgumentNullException("olv");
+            ArgumentNullException.ThrowIfNull(olv);
 
             this.ListView = olv;
             // ReSharper disable once DoNotCallOverridableMethodsInConstructor
@@ -543,7 +543,7 @@ namespace BrightIdeasSoftware
                 this.isChangingIndex = false;
             }
         }
-        private bool isChangingIndex = false;
+        private bool isChangingIndex;
 
         /// <summary>
         /// Change the control's position (which is it's currently selected row)
@@ -614,7 +614,7 @@ namespace BrightIdeasSoftware
                 }
             }
         }
-        private bool alreadyFreezing = false;
+        private bool alreadyFreezing;
 
         /// <summary>
         /// Handle a change to the BindingContext of our ListView.

@@ -72,7 +72,7 @@ public class PasswordSafeCli
         privateKey = string.Empty;
 
         // Attempt to parse JSON if the output looks like JSON
-        if (output.StartsWith("{") && output.EndsWith("}"))
+        if (output.StartsWith('{') && output.EndsWith('}'))
         {
              try
              {

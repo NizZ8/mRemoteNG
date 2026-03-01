@@ -378,14 +378,14 @@ namespace BrightIdeasSoftware.Design
                 return items;
             }
 
-            private void EditValue(ComponentDesigner componentDesigner, IComponent iComponent, string propertyName) {
+            private static void EditValue(ComponentDesigner componentDesigner, IComponent iComponent, string propertyName) {
                 // One more complication. The ListViewActionList classes uses an internal class, EditorServiceContext, to 
                 // edit the items/columns/groups collections. So, we use reflection to bypass the data hiding.
                 Type tEditorServiceContext = Type.GetType("System.Windows.Forms.Design.EditorServiceContext, System.Design");
                 tEditorServiceContext.InvokeMember("EditValue", BindingFlags.InvokeMethod | BindingFlags.Static, null, null, new object[] { componentDesigner, iComponent, propertyName });
             }
 
-            private void SetValue(object target, string propertyName, object value) {
+            private static void SetValue(object target, string propertyName, object value) {
                 TypeDescriptor.GetProperties(target)[propertyName].SetValue(target, value);
             }
 
@@ -406,17 +406,17 @@ namespace BrightIdeasSoftware.Design
 
             public ImageList LargeImageList {
                 get { return ((ListView)base.Component).LargeImageList; }
-                set { SetValue(base.Component, "LargeImageList", value); }
+                set { SetValue(base.Component, nameof(LargeImageList), value); }
             }
 
             public ImageList SmallImageList {
                 get { return ((ListView)base.Component).SmallImageList; }
-                set { SetValue(base.Component, "SmallImageList", value); }
+                set { SetValue(base.Component, nameof(SmallImageList), value); }
             }
 
             public View View {
                 get { return ((ListView)base.Component).View; }
-                set { SetValue(base.Component, "View", value); }
+                set { SetValue(base.Component, nameof(View), value); }
             }
 
             ObjectListViewDesigner designer = designer;
@@ -475,10 +475,8 @@ namespace BrightIdeasSoftware.Design
         /// <param name="value"></param>
         /// <returns></returns>
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) {
-            if (context == null)
-                throw new ArgumentNullException("context");
-            if (provider == null)
-                throw new ArgumentNullException("provider");
+            ArgumentNullException.ThrowIfNull(context);
+            ArgumentNullException.ThrowIfNull(provider);
 
             // Figure out which ObjectListView we are working on. This should be the Instance of the context.
             ObjectListView olv = context.Instance as ObjectListView;

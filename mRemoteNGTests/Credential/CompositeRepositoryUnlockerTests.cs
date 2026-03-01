@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security;
 using mRemoteNG.Credential;
 using mRemoteNG.Credential.Repositories;
@@ -78,7 +79,7 @@ namespace mRemoteNGTests.Credential
         [Test]
         public void NothingIsSelectedIfNoReposExist()
         {
-            var repositoryUnlocker = new CompositeRepositoryUnlocker(new ICredentialRepository[0]);
+            var repositoryUnlocker = new CompositeRepositoryUnlocker(Array.Empty<ICredentialRepository>());
             repositoryUnlocker.SelectNextLockedRepository();
             Assert.That(repositoryUnlocker.SelectedRepository, Is.Null);
         }

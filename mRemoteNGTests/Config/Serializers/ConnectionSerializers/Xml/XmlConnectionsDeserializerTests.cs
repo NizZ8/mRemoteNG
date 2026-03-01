@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using mRemoteNG.Config.Serializers.ConnectionSerializers.Xml;
@@ -147,7 +148,7 @@ public class XmlConnectionsDeserializerTests
         ConnectionInfo firstConnection = _connectionTreeModel.GetRecursiveChildList()
             .First(node => node is not ContainerInfo);
 
-        Assert.That(System.Enum.IsDefined(typeof(RDGatewayUsageMethod), firstConnection.RDGatewayUsageMethod), Is.True);
+        Assert.That(Enum.IsDefined(firstConnection.RDGatewayUsageMethod), Is.True);
         Assert.That(firstConnection.RDGatewayUsageMethod, Is.EqualTo(RDGatewayUsageMethod.Never));
     }
 

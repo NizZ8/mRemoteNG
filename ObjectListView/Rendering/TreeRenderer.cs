@@ -77,7 +77,7 @@ namespace BrightIdeasSoftware {
                 get { return useTriangles; }
                 set { useTriangles = value; }
             }
-            private bool useTriangles = false;
+            private bool useTriangles;
 
             #endregion
 

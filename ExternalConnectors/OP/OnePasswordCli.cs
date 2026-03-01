@@ -76,7 +76,7 @@ public class OnePasswordCli
 		string vaultPart = string.Empty;
 		string itemPart;
 
-		if (pathPart.StartsWith("/", StringComparison.Ordinal))
+		if (pathPart.StartsWith('/'))
 		{
 			itemPart = pathPart.TrimStart('/');
 		}

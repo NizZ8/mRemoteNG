@@ -966,7 +966,7 @@ namespace BrightIdeasSoftware
             Rectangle r = bounds;
             r.Inflate((int)-penWidth / 2, (int)-penWidth / 2);
             using (Pen p = new Pen(Color.FromArgb(128, this.FeedbackColor), penWidth)) {
-                using (GraphicsPath path = this.GetRoundedRect(r, 30.0f)) {
+                using (GraphicsPath path = GetRoundedRect(r, 30.0f)) {
                     g.DrawPath(p, path);
                 }
             }
@@ -986,7 +986,7 @@ namespace BrightIdeasSoftware
             Rectangle r = this.CalculateDropTargetRectangle(this.DropTargetItem, this.DropTargetSubItemIndex);
             r.Inflate(1, 1);
             float diameter = r.Height / 3;
-            using (GraphicsPath path = this.GetRoundedRect(r, diameter)) {
+            using (GraphicsPath path = GetRoundedRect(r, diameter)) {
                 using (SolidBrush b = new SolidBrush(Color.FromArgb(48, this.FeedbackColor))) {
                     g.FillPath(b, path);
                 }
@@ -1028,7 +1028,7 @@ namespace BrightIdeasSoftware
         /// <param name="rect"></param>
         /// <param name="diameter"></param>
         /// <returns></returns>
-        protected GraphicsPath GetRoundedRect(Rectangle rect, float diameter) {
+        protected static GraphicsPath GetRoundedRect(Rectangle rect, float diameter) {
             GraphicsPath path = new GraphicsPath();
 
             RectangleF arc = new RectangleF(rect.X, rect.Y, diameter, diameter);

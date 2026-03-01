@@ -20,8 +20,8 @@ public class PasswordstateInterface
         public static string ssOTP = "";
         public static DateTime ssOTPTimeStampExpiration;
 
-        public static bool ssSSO = false;
-        public static bool initdone = false;
+        public static bool ssSSO;
+        public static bool initdone;
 
         //token 
         //public static string ssTokenBearer = "";
@@ -228,9 +228,9 @@ public class PasswordstateInterface
                 var key = DecodePrivateKey(privatekey, privatekeypassphrase);
                 privatekey = key;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-
+                _ = ex; // Intentionally suppressed
             }
         }
 
@@ -242,9 +242,9 @@ public class PasswordstateInterface
                 RSACryptoServiceProvider key = ImportPrivateKey(privatekey);
                 privatekey = PuttyKeyFileGenerator.ToPuttyPrivateKey(key);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _ = ex; // Intentionally suppressed
             }
         }
     }

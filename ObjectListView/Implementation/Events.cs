@@ -775,7 +775,7 @@ namespace BrightIdeasSoftware
             }
             lastValidatingEvent = Environment.TickCount;
         }
-        private int lastValidatingEvent = 0;
+        private int lastValidatingEvent;
 
         /// <summary>
         /// Tell the world when a cell is about to finish being edited.
@@ -2141,7 +2141,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="group"> </param>
         public GroupExpandingCollapsingEventArgs(OLVGroup group) {
-            if (group == null) throw new ArgumentNullException("group");
+            ArgumentNullException.ThrowIfNull(group);
             this.olvGroup = group;
         }
 

@@ -162,7 +162,7 @@ namespace BrightIdeasSoftware
                 return false;
 
             OLVColumn column = this.ListView.GetColumn(columnIndex);
-            if (!this.HasCheckBox(column))
+            if (!HasCheckBox(column))
                 return false;
 
             Rectangle r = this.GetCheckBoxBounds(column);
@@ -294,9 +294,9 @@ namespace BrightIdeasSoftware
             if (column.HasHeaderImage)
                 r.Width -= column.ImageList.ImageSize.Width + 3;
             if (this.HasFilterIndicator(column))
-                r.Width -= this.CalculateFilterIndicatorWidth(r);
-            if (this.HasCheckBox(column))
-                r.Width -= this.CalculateCheckBoxBounds(g, r).Width;
+                r.Width -= CalculateFilterIndicatorWidth(r);
+            if (HasCheckBox(column))
+                r.Width -= CalculateCheckBoxBounds(g, r).Width;
             SizeF size = TextRenderer.MeasureText(g, column.Text, f, new Size(r.Width, 100), flags);
             return size.Height + fudge;
         }
@@ -311,7 +311,7 @@ namespace BrightIdeasSoftware
             Rectangle r = this.GetHeaderDrawRect(column.Index);
 
             using (Graphics g = this.ListView.CreateGraphics())
-                return this.CalculateCheckBoxBounds(g, r);
+                return CalculateCheckBoxBounds(g, r);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public bool HasCheckBox(OLVColumn column)
+        public static bool HasCheckBox(OLVColumn column)
         {
             return column.HeaderCheckBox || column.HeaderTriStateCheckBox;
         }
@@ -738,8 +738,8 @@ namespace BrightIdeasSoftware
                 return true;
 
             NativeMethods.HDLAYOUT hdlayout = (NativeMethods.HDLAYOUT)m.GetLParam(typeof(NativeMethods.HDLAYOUT));
-            NativeMethods.RECT rect = (NativeMethods.RECT)Marshal.PtrToStructure(hdlayout.prc, typeof(NativeMethods.RECT));
-            NativeMethods.WINDOWPOS wpos = (NativeMethods.WINDOWPOS)Marshal.PtrToStructure(hdlayout.pwpos, typeof(NativeMethods.WINDOWPOS));
+            NativeMethods.RECT rect = Marshal.PtrToStructure<NativeMethods.RECT>(hdlayout.prc);
+            NativeMethods.WINDOWPOS wpos = Marshal.PtrToStructure<NativeMethods.WINDOWPOS>(hdlayout.pwpos);
 
             using (Graphics g = this.ListView.CreateGraphics())
             {
@@ -798,7 +798,7 @@ namespace BrightIdeasSoftware
             if (this.ListView.HeaderUsesThemes)
                 return false;
 
-            if (this.NeedsCustomDraw(this.ListView.HeaderFormatStyle))
+            if (NeedsCustomDraw(this.ListView.HeaderFormatStyle))
                 return true;
 
             foreach (OLVColumn column in this.ListView.Columns)
@@ -807,27 +807,27 @@ namespace BrightIdeasSoftware
                     !column.ShowTextInHeader ||
                     column.IsHeaderVertical ||
                     this.HasFilterIndicator(column) ||
-                    this.HasCheckBox(column) ||
+                    HasCheckBox(column) ||
                     column.TextAlign != column.HeaderTextAlignOrDefault ||
                     (column.Index == 0 && column.HeaderTextAlignOrDefault != HorizontalAlignment.Left) ||
-                    this.NeedsCustomDraw(column.HeaderFormatStyle))
+                    NeedsCustomDraw(column.HeaderFormatStyle))
                     return true;
             }
 
             return false;
         }
 
-        private bool NeedsCustomDraw(HeaderFormatStyle style)
+        private static bool NeedsCustomDraw(HeaderFormatStyle style)
         {
             if (style == null)
                 return false;
 
-            return (this.NeedsCustomDraw(style.Normal) ||
-                this.NeedsCustomDraw(style.Hot) ||
-                this.NeedsCustomDraw(style.Pressed));
+            return (NeedsCustomDraw(style.Normal) ||
+                NeedsCustomDraw(style.Hot) ||
+                NeedsCustomDraw(style.Pressed));
         }
 
-        private bool NeedsCustomDraw(HeaderStateStyle style)
+        private static bool NeedsCustomDraw(HeaderStateStyle style)
         {
             if (style == null)
                 return false;
@@ -853,7 +853,7 @@ namespace BrightIdeasSoftware
         {
             OLVColumn column = this.ListView.GetColumn(columnIndex);
 
-            bool hasCheckBox = this.HasCheckBox(column);
+            bool hasCheckBox = HasCheckBox(column);
             bool isMouseOverCheckBox = columnIndex == this.lastCheckBoxUnderCursor;
             bool isMouseDownOnCheckBox = isMouseOverCheckBox && Control.MouseButtons == MouseButtons.Left;
             bool isHot = (columnIndex == this.ColumnIndexUnderCursor) && (!(hasCheckBox && isMouseOverCheckBox));
@@ -896,10 +896,10 @@ namespace BrightIdeasSoftware
             }
 
             if (this.HasFilterIndicator(column))
-                r = this.DrawFilterIndicator(g, r);
+                r = DrawFilterIndicator(g, r);
 
             if (hasCheckBox)
-                r = this.DrawCheckBox(g, r, column.HeaderCheckState, column.HeaderCheckBoxDisabled, isMouseOverCheckBox, isMouseDownOnCheckBox);
+                r = DrawCheckBox(g, r, column.HeaderCheckState, column.HeaderCheckBoxDisabled, isMouseOverCheckBox, isMouseDownOnCheckBox);
 
             // Debugging - Where is the text going to be drawn
             //            g.DrawRectangle(Pens.Blue, r);
@@ -908,11 +908,11 @@ namespace BrightIdeasSoftware
             this.DrawHeaderImageAndText(g, r, column, stateStyle);
         }
 
-        private Rectangle DrawCheckBox(Graphics g, Rectangle r, CheckState checkState, bool isDisabled, bool isHot,
+        private static Rectangle DrawCheckBox(Graphics g, Rectangle r, CheckState checkState, bool isDisabled, bool isHot,
             bool isPressed)
         {
-            CheckBoxState checkBoxState = this.GetCheckBoxState(checkState, isDisabled, isHot, isPressed);
-            Rectangle checkBoxBounds = this.CalculateCheckBoxBounds(g, r);
+            CheckBoxState checkBoxState = GetCheckBoxState(checkState, isDisabled, isHot, isPressed);
+            Rectangle checkBoxBounds = CalculateCheckBoxBounds(g, r);
             CheckBoxRenderer.DrawCheckBox(g, checkBoxBounds.Location, checkBoxState);
 
             // Move the left edge without changing the right edge
@@ -923,7 +923,7 @@ namespace BrightIdeasSoftware
             return r;
         }
 
-        private Rectangle CalculateCheckBoxBounds(Graphics g, Rectangle cellBounds)
+        private static Rectangle CalculateCheckBoxBounds(Graphics g, Rectangle cellBounds)
         {
             Size checkBoxSize = CheckBoxRenderer.GetGlyphSize(g, CheckBoxState.CheckedNormal);
 
@@ -932,7 +932,7 @@ namespace BrightIdeasSoftware
             return new Rectangle(cellBounds.X + 3, cellBounds.Y + topOffset, checkBoxSize.Width, checkBoxSize.Height);
         }
 
-        private CheckBoxState GetCheckBoxState(CheckState checkState, bool isDisabled, bool isHot, bool isPressed)
+        private static CheckBoxState GetCheckBoxState(CheckState checkState, bool isDisabled, bool isHot, bool isPressed)
         {
             // Should the checkbox be drawn as disabled?
             if (isDisabled)
@@ -1126,9 +1126,9 @@ namespace BrightIdeasSoftware
         /// <param name="g"></param>
         /// <param name="r"></param>
         /// <returns></returns>
-        protected Rectangle DrawFilterIndicator(Graphics g, Rectangle r)
+        protected static Rectangle DrawFilterIndicator(Graphics g, Rectangle r)
         {
-            int width = this.CalculateFilterIndicatorWidth(r);
+            int width = CalculateFilterIndicatorWidth(r);
             if (width <= 0)
                 return r;
 
@@ -1141,7 +1141,7 @@ namespace BrightIdeasSoftware
             return r;
         }
 
-        private int CalculateFilterIndicatorWidth(Rectangle r)
+        private static int CalculateFilterIndicatorWidth(Rectangle r)
         {
             if (Resources.ColumnFilterIndicator == null || r.Width < 48)
                 return 0;
@@ -1185,13 +1185,13 @@ namespace BrightIdeasSoftware
             }
         }
 
-        private void DrawText(Graphics g, Rectangle r, OLVColumn column, TextFormatFlags flags, Font f, Color color)
+        private static void DrawText(Graphics g, Rectangle r, OLVColumn column, TextFormatFlags flags, Font f, Color color)
         {
             if (column.ShowTextInHeader)
                 TextRenderer.DrawText(g, column.Text, f, r, color, Color.Transparent, flags);
         }
 
-        private void DrawImageAndText(Graphics g, Rectangle r, OLVColumn column, TextFormatFlags flags, Font f,
+        private static void DrawImageAndText(Graphics g, Rectangle r, OLVColumn column, TextFormatFlags flags, Font f,
             Color color, int imageTextGap)
         {
             Rectangle textRect = r;
@@ -1212,7 +1212,7 @@ namespace BrightIdeasSoftware
 
             column.ImageList.Draw(g, imageX, imageY, column.ImageList.Images.IndexOfKey(column.HeaderImageKey));
 
-            this.DrawText(g, textRect, column, flags, f, color);
+            DrawText(g, textRect, column, flags, f, color);
         }
 
         private static void DrawVerticalText(Graphics g, Rectangle r, OLVColumn column, Font f, Color color)

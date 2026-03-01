@@ -1085,8 +1085,8 @@ namespace BrightIdeasSoftware
                 if (newSize == 0 && this.TopItemIndex > 0)
                     this.TopItemIndex = 0;
             }
-            catch (Exception) {
-                // Ignore any failures
+            catch (Exception ex) {
+                _ = ex; // Ignore any failures
             }
 
             // In strange cases, this can throw the exceptions too. The best we can do is ignore them :(

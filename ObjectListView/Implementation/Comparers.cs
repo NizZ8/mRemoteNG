@@ -121,7 +121,7 @@ namespace BrightIdeasSoftware
                 else
                     result = (xIsNull ? -1 : 1);
             } else {
-                result = this.CompareValues(x1, y1);
+                result = CompareValues(x1, y1);
             }
 
             if (this.sortOrder == SortOrder.Descending)
@@ -140,13 +140,13 @@ namespace BrightIdeasSoftware
         /// <param name="x">The aspect extracted from the first row</param>
         /// <param name="y">The aspect extracted from the second row</param>
         /// <returns>An ordering indication: -1, 0, 1</returns>
-        public int CompareValues(object x, object y)
+        public static int CompareValues(object x, object y)
         {
             // Force case insensitive compares on strings
             String xAsString = x as String;
             if (xAsString != null)
                 return CompareStrings(xAsString, y as String);
-            
+
             IComparable comparable = x as IComparable;
             return comparable != null ? comparable.CompareTo(y) : 0;
         }
@@ -265,7 +265,7 @@ namespace BrightIdeasSoftware
                 else
                     result = (xIsNull ? -1 : 1);
             } else {
-                result = this.CompareValues(x1, y1);
+                result = CompareValues(x1, y1);
             }
 
             if (this.sortOrder == SortOrder.Descending)
@@ -284,13 +284,13 @@ namespace BrightIdeasSoftware
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public int CompareValues(object x, object y)
+        public static int CompareValues(object x, object y)
         {
             // Force case insensitive compares on strings
             String xStr = x as String;
             if (xStr != null)
                 return CompareStrings(xStr, y as String);
-            
+
             IComparable comparable = x as IComparable;
             return comparable != null ? comparable.CompareTo(y) : 0;
         }

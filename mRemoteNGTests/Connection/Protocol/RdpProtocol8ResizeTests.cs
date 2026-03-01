@@ -299,7 +299,7 @@ namespace mRemoteNGTests.Connection.Protocol
         {
             private readonly Form _mainForm;
             private FormWindowState _lastWindowState = FormWindowState.Normal;
-            private bool _hasPendingResize = false;
+            private bool _hasPendingResize;
 
             public int DoResizeControlCallCount { get; private set; }
             public int DoResizeClientCallCount { get; private set; }

@@ -129,9 +129,9 @@ namespace BrightIdeasSoftware {
         /// <param name="column"></param>
         /// <returns>The strip that should be shown to the user</returns>
         virtual public ToolStripDropDown MakeFilterMenu(ToolStripDropDown strip, ObjectListView listView, OLVColumn column) {
-            if (strip == null) throw new ArgumentNullException("strip");
-            if (listView == null) throw new ArgumentNullException("listView");
-            if (column == null) throw new ArgumentNullException("column");
+            ArgumentNullException.ThrowIfNull(strip);
+            ArgumentNullException.ThrowIfNull(listView);
+            ArgumentNullException.ThrowIfNull(column);
 
             if (!column.UseFiltering || column.ClusteringStrategy == null || listView.Objects == null)
                 return strip;
@@ -189,8 +189,8 @@ namespace BrightIdeasSoftware {
 
             // Group by key
             foreach (object key in nullCorrected) {
-                if (map.ContainsKey(key))
-                    map[key].Count += 1;
+                if (map.TryGetValue(key, out var existing))
+                    existing.Count += 1;
                 else
                     map[key] = strategy.CreateCluster(key);
             }
@@ -256,7 +256,7 @@ namespace BrightIdeasSoftware {
                 alreadyInHandleItemChecked = false;
             }
         }
-        bool alreadyInHandleItemChecked = false;
+        bool alreadyInHandleItemChecked;
 
         /// <summary>
         /// Handle a user-generated ItemCheck event

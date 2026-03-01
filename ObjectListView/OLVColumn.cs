@@ -1801,10 +1801,8 @@ namespace BrightIdeasSoftware {
         /// <param name="tasks"></param>
         public void MakeGroupies<T>(T[] values, string[] descriptions, object[] images, string[] subtitles, string[] tasks) {
             // Sanity checks
-            if (values == null)
-                throw new ArgumentNullException("values");
-            if (descriptions == null)
-                throw new ArgumentNullException("descriptions");
+            ArgumentNullException.ThrowIfNull(values);
+            ArgumentNullException.ThrowIfNull(descriptions);
             if (values.Length + 1 != descriptions.Length)
                 throw new ArgumentException("descriptions must have one more element than values.");
 
@@ -1869,10 +1867,8 @@ namespace BrightIdeasSoftware {
         /// <param name="tasks"></param>
         public void MakeEqualGroupies<T>(T[] values, string[] descriptions, object[] images, string[] subtitles, string[] tasks) {
             // Sanity checks
-            if (values == null)
-                throw new ArgumentNullException("values");
-            if (descriptions == null)
-                throw new ArgumentNullException("descriptions");
+            ArgumentNullException.ThrowIfNull(values);
+            ArgumentNullException.ThrowIfNull(descriptions);
             if (values.Length != descriptions.Length)
                 throw new ArgumentException("descriptions must have the same number of elements as values.");
 

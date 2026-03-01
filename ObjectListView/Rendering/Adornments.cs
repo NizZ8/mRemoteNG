@@ -88,7 +88,7 @@ namespace BrightIdeasSoftware
             get { return this.offset; }
             set { this.offset = value; }
         }
-        private Size offset = new Size();
+        private Size offset;
 
         /// <summary>
         /// Gets or sets the point of the reference rectangle to which the adornment will be aligned.

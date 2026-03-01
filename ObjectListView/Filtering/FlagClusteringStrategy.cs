@@ -46,9 +46,9 @@ namespace BrightIdeasSoftware {
         /// </summary>
         /// <param name="enumType"></param>
         public FlagClusteringStrategy(Type enumType) {
-            if (enumType == null) throw new ArgumentNullException("enumType");
-            if (!enumType.IsEnum) throw new ArgumentException("Type must be enum", "enumType");
-            if (enumType.GetCustomAttributes(typeof(FlagsAttribute), false) == null) throw new ArgumentException("Type must have [Flags] attribute", "enumType");
+            ArgumentNullException.ThrowIfNull(enumType);
+            if (!enumType.IsEnum) throw new ArgumentException("Type must be enum", nameof(enumType));
+            if (enumType.GetCustomAttributes(typeof(FlagsAttribute), false) == null) throw new ArgumentException("Type must have [Flags] attribute", nameof(enumType));
 
             List<long> flags = new List<long>();
             foreach (object x in Enum.GetValues(enumType))
@@ -94,9 +94,9 @@ namespace BrightIdeasSoftware {
         private string[] labels;
 
         private void SetValues(long[] flags, string[] flagLabels) {
-            if (flags == null || flags.Length == 0) throw new ArgumentNullException("flags");
-            if (flagLabels == null || flagLabels.Length == 0) throw new ArgumentNullException("flagLabels");
-            if (flags.Length != flagLabels.Length) throw new ArgumentException("values and labels must have the same number of entries", "flags");
+            if (flags == null || flags.Length == 0) throw new ArgumentNullException(nameof(flags));
+            if (flagLabels == null || flagLabels.Length == 0) throw new ArgumentNullException(nameof(flagLabels));
+            if (flags.Length != flagLabels.Length) throw new ArgumentException("values and labels must have the same number of entries", nameof(flags));
 
             this.Values = flags;
             this.Labels = flagLabels;

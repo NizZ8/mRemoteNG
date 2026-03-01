@@ -154,7 +154,7 @@ namespace BrightIdeasSoftware {
         /// </remarks>
         /// <param name="fragment">The HTML to put onto the clipboard. It must be valid HTML!</param>
         /// <returns>A string that can be put onto the clipboard and will be recognized as HTML</returns>
-        private string ConvertToHtmlFragment(string fragment) {
+        private static string ConvertToHtmlFragment(string fragment) {
             // Minimal implementation of HTML clipboard format
             const string SOURCE = "http://www.codeproject.com/Articles/16009/A-Much-Easier-to-Use-ListView";
 

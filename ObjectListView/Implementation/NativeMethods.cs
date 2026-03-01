@@ -509,7 +509,7 @@ namespace BrightIdeasSoftware
         [StructLayout(LayoutKind.Sequential)]
         public class SCROLLINFO
         {
-            public int cbSize = Marshal.SizeOf(typeof(NativeMethods.SCROLLINFO));
+            public int cbSize = Marshal.SizeOf<NativeMethods.SCROLLINFO>();
             public int fMask;
             public int nMin;
             public int nMax;
@@ -521,7 +521,7 @@ namespace BrightIdeasSoftware
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public class TOOLINFO
         {
-            public int cbSize = Marshal.SizeOf(typeof(NativeMethods.TOOLINFO));
+            public int cbSize = Marshal.SizeOf<NativeMethods.TOOLINFO>();
             public int uFlags;
             public IntPtr hwnd;
             public IntPtr uId;

@@ -3443,7 +3443,7 @@ namespace BrightIdeasSoftware
                 return;
 
             NativeMethods.LVGROUPMETRICS metrics = new NativeMethods.LVGROUPMETRICS();
-            metrics.cbSize = ((uint)Marshal.SizeOf(typeof(NativeMethods.LVGROUPMETRICS)));
+            metrics.cbSize = ((uint)Marshal.SizeOf<NativeMethods.LVGROUPMETRICS>());
             metrics.mask = (uint)GroupMetricsMask.LVGMF_BORDERSIZE;
             metrics.Bottom = (uint)this.SpaceBetweenGroups;
             NativeMethods.SetGroupMetrics(this, metrics);
@@ -3688,7 +3688,7 @@ namespace BrightIdeasSoftware
         [Category("ObjectListView"),
          Description("Should the selected row be drawn with non-standard foreground and background colors?"),
          DefaultValue(false)]
-        public bool UseCustomSelectionColors
+        public static bool UseCustomSelectionColors
         {
             get { return false; }
             // ReSharper disable once ValueParameterNotUsed
@@ -7169,8 +7169,8 @@ namespace BrightIdeasSoftware
                     NativeMethods.NMLISTVIEW nmlistviewPtr2 = (NativeMethods.NMLISTVIEW)m.GetLParam(typeof(NativeMethods.NMLISTVIEW));
                     if ((nmlistviewPtr2.uChanged & LVIF_STATE) != 0)
                     {
-                        CheckState currentValue = this.CalculateCheckState(nmlistviewPtr2.uOldState);
-                        CheckState newCheckValue = this.CalculateCheckState(nmlistviewPtr2.uNewState);
+                        CheckState currentValue = CalculateCheckState(nmlistviewPtr2.uOldState);
+                        CheckState newCheckValue = CalculateCheckState(nmlistviewPtr2.uNewState);
                         if (currentValue != newCheckValue)
                         {
                             // Remove the state indicies so that we don't trigger the OnItemChecked method
@@ -7218,8 +7218,8 @@ namespace BrightIdeasSoftware
                     NativeMethods.NMLISTVIEW nmlistviewPtr = (NativeMethods.NMLISTVIEW)m.GetLParam(typeof(NativeMethods.NMLISTVIEW));
                     if ((nmlistviewPtr.uChanged & LVIF_STATE) != 0)
                     {
-                        CheckState currentValue = this.CalculateCheckState(nmlistviewPtr.uOldState);
-                        CheckState newCheckValue = this.CalculateCheckState(nmlistviewPtr.uNewState);
+                        CheckState currentValue = CalculateCheckState(nmlistviewPtr.uOldState);
+                        CheckState newCheckValue = CalculateCheckState(nmlistviewPtr.uNewState);
 
                         if (currentValue != newCheckValue)
                         {
@@ -7251,7 +7251,7 @@ namespace BrightIdeasSoftware
         }
         private bool skipNextHitTest;
 
-        private CheckState CalculateCheckState(int state)
+        private static CheckState CalculateCheckState(int state)
         {
             switch ((state & 0xf000) >> 12)
             {
@@ -7358,7 +7358,7 @@ namespace BrightIdeasSoftware
                 case HDN_TRACKW:
                     if (nmheader.iItem >= 0 && nmheader.iItem < this.Columns.Count)
                     {
-                        NativeMethods.HDITEM hditem = (NativeMethods.HDITEM)Marshal.PtrToStructure(nmheader.pHDITEM, typeof(NativeMethods.HDITEM));
+                        NativeMethods.HDITEM hditem = Marshal.PtrToStructure<NativeMethods.HDITEM>(nmheader.pHDITEM);
                         OLVColumn column = this.GetColumn(nmheader.iItem);
                         if (hditem.cxy < column.MinimumWidth)
                             hditem.cxy = column.MinimumWidth;
@@ -7373,7 +7373,7 @@ namespace BrightIdeasSoftware
                     nmheader = (NativeMethods.NMHEADER)m.GetLParam(typeof(NativeMethods.NMHEADER));
                     if (nmheader.iItem >= 0 && nmheader.iItem < this.Columns.Count)
                     {
-                        NativeMethods.HDITEM hditem = (NativeMethods.HDITEM)Marshal.PtrToStructure(nmheader.pHDITEM, typeof(NativeMethods.HDITEM));
+                        NativeMethods.HDITEM hditem = Marshal.PtrToStructure<NativeMethods.HDITEM>(nmheader.pHDITEM);
                         OLVColumn column = this.GetColumn(nmheader.iItem);
                         // Check the mask to see if the width field is valid, and if it is, make sure it's within range
                         if ((hditem.mask & 1) == 1)
@@ -9153,7 +9153,7 @@ namespace BrightIdeasSoftware
                 Point pt1 = new Point(midX - deltaX, midY + deltaY);
                 Point pt2 = new Point(midX, midY - deltaY - 1);
                 Point pt3 = new Point(midX + deltaX, midY + deltaY);
-                il.Images.Add(SORT_INDICATOR_UP_KEY, this.MakeTriangleBitmap(il.ImageSize, new Point[] { pt1, pt2, pt3 }));
+                il.Images.Add(SORT_INDICATOR_UP_KEY, MakeTriangleBitmap(il.ImageSize, new Point[] { pt1, pt2, pt3 }));
             }
 
             if (il.Images.IndexOfKey(SORT_INDICATOR_DOWN_KEY) == -1)
@@ -9161,13 +9161,13 @@ namespace BrightIdeasSoftware
                 Point pt1 = new Point(midX - deltaX, midY - deltaY);
                 Point pt2 = new Point(midX, midY + deltaY);
                 Point pt3 = new Point(midX + deltaX, midY - deltaY);
-                il.Images.Add(SORT_INDICATOR_DOWN_KEY, this.MakeTriangleBitmap(il.ImageSize, new Point[] { pt1, pt2, pt3 }));
+                il.Images.Add(SORT_INDICATOR_DOWN_KEY, MakeTriangleBitmap(il.ImageSize, new Point[] { pt1, pt2, pt3 }));
             }
 
             this.SetSmallImageList(il);
         }
 
-        private Bitmap MakeTriangleBitmap(Size sz, Point[] pts)
+        private static Bitmap MakeTriangleBitmap(Size sz, Point[] pts)
         {
             Bitmap bm = new Bitmap(sz.Width, sz.Height);
             Graphics g = Graphics.FromImage(bm);
@@ -9708,7 +9708,7 @@ namespace BrightIdeasSoftware
             else
             {
                 int width = (this.shadowedImageList == null ? 16 : this.shadowedImageList.ImageSize.Width);
-                this.BaseSmallImageList = this.MakeResizedImageList(width, rowHeight, shadowedImageList);
+                this.BaseSmallImageList = MakeResizedImageList(width, rowHeight, shadowedImageList);
             }
         }
 
@@ -9720,7 +9720,7 @@ namespace BrightIdeasSoftware
         /// <param name="height">Height and width of the new images</param>
         /// <param name="source">Source of the images (can be null)</param>
         /// <returns>A new image list</returns>
-        private ImageList MakeResizedImageList(int width, int height, ImageList source)
+        private static ImageList MakeResizedImageList(int width, int height, ImageList source)
         {
             ImageList il = new ImageList();
             il.ImageSize = new Size(width, height);
@@ -9735,7 +9735,7 @@ namespace BrightIdeasSoftware
             // Fill the imagelist with resized copies from the source
             for (int i = 0; i < source.Images.Count; i++)
             {
-                Bitmap bm = this.MakeResizedImage(width, height, source.Images[i], source.TransparentColor);
+                Bitmap bm = MakeResizedImage(width, height, source.Images[i], source.TransparentColor);
                 il.Images.Add(bm);
             }
 
@@ -9756,7 +9756,7 @@ namespace BrightIdeasSoftware
         /// <param name="image">Image to be centred</param>
         /// <param name="transparent">The background color</param>
         /// <returns>A new bitmap</returns>
-        private Bitmap MakeResizedImage(int width, int height, Image image, Color transparent)
+        private static Bitmap MakeResizedImage(int width, int height, Image image, Color transparent)
         {
             Bitmap bm = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bm);
@@ -9798,11 +9798,11 @@ namespace BrightIdeasSoftware
             // checkbox is clicked. So we have to get exactly the right number of images in the 
             // image list.
             if (this.StateImageList.Images.Count == 0)
-                this.AddCheckStateBitmap(this.StateImageList, UNCHECKED_KEY, CheckBoxState.UncheckedNormal);
+                AddCheckStateBitmap(this.StateImageList, UNCHECKED_KEY, CheckBoxState.UncheckedNormal);
             if (this.StateImageList.Images.Count <= 1)
-                this.AddCheckStateBitmap(this.StateImageList, CHECKED_KEY, CheckBoxState.CheckedNormal);
+                AddCheckStateBitmap(this.StateImageList, CHECKED_KEY, CheckBoxState.CheckedNormal);
             if (this.TriStateCheckBoxes && this.StateImageList.Images.Count <= 2)
-                this.AddCheckStateBitmap(this.StateImageList, INDETERMINATE_KEY, CheckBoxState.MixedNormal);
+                AddCheckStateBitmap(this.StateImageList, INDETERMINATE_KEY, CheckBoxState.MixedNormal);
             else
             {
                 if (this.StateImageList.Images.ContainsKey(INDETERMINATE_KEY))
@@ -9867,14 +9867,14 @@ namespace BrightIdeasSoftware
                 il.ColorDepth = ColorDepth.Depth32Bit;
             }
 
-            this.AddCheckStateBitmap(il, CHECKED_KEY, CheckBoxState.CheckedNormal);
-            this.AddCheckStateBitmap(il, UNCHECKED_KEY, CheckBoxState.UncheckedNormal);
-            this.AddCheckStateBitmap(il, INDETERMINATE_KEY, CheckBoxState.MixedNormal);
+            AddCheckStateBitmap(il, CHECKED_KEY, CheckBoxState.CheckedNormal);
+            AddCheckStateBitmap(il, UNCHECKED_KEY, CheckBoxState.UncheckedNormal);
+            AddCheckStateBitmap(il, INDETERMINATE_KEY, CheckBoxState.MixedNormal);
 
             this.SetSmallImageList(il);
         }
 
-        private void AddCheckStateBitmap(ImageList il, string key, CheckBoxState boxState)
+        private static void AddCheckStateBitmap(ImageList il, string key, CheckBoxState boxState)
         {
             Bitmap b = new Bitmap(il.ImageSize.Width, il.ImageSize.Height);
             Graphics g = Graphics.FromImage(b);

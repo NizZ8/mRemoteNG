@@ -175,15 +175,15 @@ namespace BrightIdeasSoftware {
 
             // Try to find a creator based on the type of the value (or the column)
             Type type = value == null ? column.DataType : value.GetType();
-            if (type != null && this.creatorMap.ContainsKey(type)) {
-                editor = this.creatorMap[type](model, column, value);
+            if (type != null && this.creatorMap.TryGetValue(type, out var creator)) {
+                editor = creator(model, column, value);
                 if (editor != null)
                     return editor;
             }
 
             // Enums without other processing get a special editor
             if (value != null && value.GetType().IsEnum)
-                return this.CreateEnumEditor(value.GetType());
+                return CreateEnumEditor(value.GetType());
 
             // Give any default creator a final chance
             if (this.defaultCreator != null)
@@ -196,7 +196,7 @@ namespace BrightIdeasSoftware {
         /// Create and return an editor that will edit values of the given type
         /// </summary>
         /// <param name="type">A enum type</param>
-        protected Control CreateEnumEditor(Type type) {
+        protected static Control CreateEnumEditor(Type type) {
             return new EnumCellEditor(type);
         }
 
