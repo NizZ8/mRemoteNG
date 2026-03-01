@@ -38,7 +38,7 @@ namespace mRemoteNG.Security.Factories
                 cryptoProvider = new CryptoProviderFactory(engine, mode).Build();
 
                 int keyDerivationIterations = int.Parse(_element?.Attribute("KdfIterations")?.Value ?? "", CultureInfo.InvariantCulture);
-                cryptoProvider.KeyDerivationIterations = keyDerivationIterations;
+                cryptoProvider.KeyDerivationIterations = Math.Clamp(keyDerivationIterations, 1000, 10_000_000);
             }
             catch (Exception)
             {

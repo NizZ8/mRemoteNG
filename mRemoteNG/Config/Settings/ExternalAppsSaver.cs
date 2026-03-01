@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using mRemoteNG.App;
@@ -65,9 +66,9 @@ namespace mRemoteNG.Config.Settings
                     xmlTextWriter.WriteAttributeString("Hidden", "", Convert.ToString(extA.Hidden));
                     xmlTextWriter.WriteAttributeString("AuthType", "", extA.AuthenticationType);
                     xmlTextWriter.WriteAttributeString("AuthUsername", "", extA.AuthenticationUsername);
-                    xmlTextWriter.WriteAttributeString("AuthPassword", "", extA.AuthenticationPassword);
+                    xmlTextWriter.WriteAttributeString("AuthPassword", "", ProtectValue(extA.AuthenticationPassword));
                     xmlTextWriter.WriteAttributeString("PrivateKeyFile", "", extA.PrivateKeyFile);
-                    xmlTextWriter.WriteAttributeString("Passphrase", "", extA.Passphrase);
+                    xmlTextWriter.WriteAttributeString("Passphrase", "", ProtectValue(extA.Passphrase));
                     if (extA.Hotkey != System.Windows.Forms.Keys.None)
                         xmlTextWriter.WriteAttributeString("Hotkey", "", Convert.ToString((int)extA.Hotkey, CultureInfo.InvariantCulture));
                     xmlTextWriter.WriteEndElement();
@@ -108,8 +109,8 @@ namespace mRemoteNG.Config.Settings
                     foreach (ExternalTool extA in externalTools)
                     {
                         cmd = dbConnector.DbCommand(
-                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, Hidden, RunOnStartup, StopOnShutdown, Hotkey) " +
-                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, @WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @Hidden, @RunOnStartup, @StopOnShutdown, @Hotkey)");
+                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, RunOnStartup, StopOnShutdown, Hotkey) " +
+                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, @WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @RunOnStartup, @StopOnShutdown, @Hotkey)");
                         cmd.Transaction = transaction;
 
                         AddParameter(cmd, "@DisplayName", extA.DisplayName);
@@ -122,7 +123,6 @@ namespace mRemoteNG.Config.Settings
                         AddParameter(cmd, "@RunElevated", extA.RunElevated);
                         AddParameter(cmd, "@ShowOnToolbar", extA.ShowOnToolbar);
                         AddParameter(cmd, "@Category", extA.Category);
-                        AddParameter(cmd, "@Hidden", extA.Hidden);
                         AddParameter(cmd, "@RunOnStartup", extA.RunOnStartup);
                         AddParameter(cmd, "@StopOnShutdown", extA.StopOnShutdown);
                         AddParameter(cmd, "@Hotkey", (int)extA.Hotkey);
@@ -150,6 +150,30 @@ namespace mRemoteNG.Config.Settings
             param.ParameterName = name;
             param.Value = value;
             cmd.Parameters.Add(param);
+        }
+
+        internal static string ProtectValue(string plainText)
+        {
+            if (string.IsNullOrEmpty(plainText)) return string.Empty;
+            byte[] data = Encoding.UTF8.GetBytes(plainText);
+            byte[] encrypted = ProtectedData.Protect(data, null, DataProtectionScope.CurrentUser);
+            return Convert.ToBase64String(encrypted);
+        }
+
+        internal static string UnprotectValue(string protectedText)
+        {
+            if (string.IsNullOrEmpty(protectedText)) return string.Empty;
+            try
+            {
+                byte[] data = Convert.FromBase64String(protectedText);
+                byte[] decrypted = ProtectedData.Unprotect(data, null, DataProtectionScope.CurrentUser);
+                return Encoding.UTF8.GetString(decrypted);
+            }
+            catch
+            {
+                // Fallback: treat as plaintext (migration from unencrypted format)
+                return protectedText;
+            }
         }
     }
 }
