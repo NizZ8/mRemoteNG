@@ -155,3 +155,19 @@ git fetch upstream && git merge upstream/v1.78.2-dev
 
 For orchestrator operations, release checklists, IIS system, issue tracking,
 PR history, and release status, see: **`.project-roadmap/DEVELOPER_GUIDE.md`**
+
+## Evidence & Scientific Documentation
+
+For the complete evidence trail of the AI-assisted modernization process
+(metrics, agent performance, CI data, methodology notes), see: **`docs/EVIDENCE.md`**
+
+## Current Release Status (2026-03-01)
+
+| Metric | Value |
+|--------|-------|
+| Version | 1.81.0-beta.6 |
+| Analyzer warnings | 0 (5,247 eliminated) |
+| Tests | 5,963 passed, 0 failures |
+| CI status | All 6 workflows GREEN |
+| Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev) |
+| Nightly release | [Auto-generated on push to main](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
