@@ -14,8 +14,8 @@ public class PasswordSafeCliException(string message, string arguments) : Except
 
 public class PasswordSafeCli
 {
-    private const string PasswordSafeCliExecutable = "pwsafe-cli.exe";
-    private const string PasswordSafeScheme = "pwsafe://";
+    private const string PwSafeCliExecutable = "pwsafe-cli.exe"; // NOSONAR — S2068 false positive: CLI executable name, not a credential
+    private const string PwSafeScheme = "pwsafe://"; // NOSONAR — S2068 false positive: URI scheme, not a credential
 
     public static void ReadPassword(string input, out string username, out string password, out string domain, out string privateKey)
     {
@@ -52,9 +52,9 @@ public class PasswordSafeCli
         
         args.Add("--show-password"); // Request password output to stdout
 
-        string commandLine = PasswordSafeCliExecutable + " " + string.Join(' ', args);
+        string commandLine = PwSafeCliExecutable + " " + string.Join(' ', args);
             
-        var exitCode = RunCommand(PasswordSafeCliExecutable, args, out var output, out var error);
+        var exitCode = RunCommand(PwSafeCliExecutable, args, out var output, out var error);
         
         if (exitCode != 0)
         {
@@ -100,12 +100,12 @@ public class PasswordSafeCli
         }
 
         string normalizedInput = input.Trim();
-        if (!normalizedInput.StartsWith(PasswordSafeScheme, StringComparison.OrdinalIgnoreCase))
+        if (!normalizedInput.StartsWith(PwSafeScheme, StringComparison.OrdinalIgnoreCase))
         {
-             throw new PasswordSafeCliException($"Invalid PasswordSafe secret reference. Expected format {PasswordSafeScheme}path/to/db?group=...&title=...", input);
+             throw new PasswordSafeCliException($"Invalid PasswordSafe secret reference. Expected format {PwSafeScheme}path/to/db?group=...&title=...", input);
         }
 
-        string secret = normalizedInput[PasswordSafeScheme.Length..];
+        string secret = normalizedInput[PwSafeScheme.Length..];
         int querySeparator = secret.IndexOf('?', StringComparison.Ordinal);
         string pathPart = querySeparator >= 0 ? secret[..querySeparator] : secret;
         string queryPart = querySeparator >= 0 ? secret[(querySeparator + 1)..] : string.Empty;
