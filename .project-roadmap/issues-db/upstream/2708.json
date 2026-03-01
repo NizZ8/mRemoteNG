@@ -12,7 +12,7 @@
   "created_at": "2025-06-24T08:50:16Z",
   "github_updated_at": "2026-02-21T10:23:31Z",
   "body_snippet": "Нужно добавить флаги которые будут отображаться с права от языка в случае если экран большой \nКартинки флагов находятся в src/lib/i18n/flags\nчтоб было что то похожее на \n\n![Image](https://github.com/user-attachments/assets/eb16659d-9890-4d45-8212-7e77bfc6fe71)\n\nуточнение:\nПри малом размере экрана отображать только флаги, а название - при наведении курсора (всплывающее подсказки)\n\nПри наведении на выбор языков - курсор должен меняться на пальчик:\n\n![Image](https://github.com/user-attachments/asse...",
-  "our_status": "needs_human",
+  "our_status": "wontfix",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -47,7 +47,7 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty, labeled 'web site' suggesting it may be out of scope for the desktop app, and no details provided about which language switcher component or UI context this refers to.\nApproach: Requires clarification on whether this targets the desktop app or website, and which language switcher component needs flag icons added.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "Feature: add country flags to language switcher. UI translation enhancement (Russian).",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 516,

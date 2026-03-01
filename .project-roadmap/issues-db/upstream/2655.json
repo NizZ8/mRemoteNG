@@ -15,7 +15,7 @@
   "created_at": "2024-11-20T08:33:13Z",
   "github_updated_at": "2026-02-21T10:23:48Z",
   "body_snippet": "Hello everyone,\r\nI've been using mremoteng recently, everything seems to be working as it should except for one thing, in the tab i don't have the name of the server i'm connected to even though everything is set up conrctly in the settings. The only thing I see is that the tab always takes the name of the saved session and not the full name of the server. \r\nOn the putty side, everything is set up correctly and I have also checked the versions but have not been able to get the desired setting.\r\n...",
-  "our_status": "needs_human",
+  "our_status": "wontfix",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -122,7 +122,7 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and the maintainer explicitly requested reproducible steps, logs/screenshots, and retest on latest build before proceeding.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "Feature: show server name in tab title for SSH. PuTTY tab naming controlled by PuTTY, not mRemoteNG.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 423,

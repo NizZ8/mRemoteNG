@@ -12,7 +12,7 @@
   "created_at": "2023-04-26T12:25:59Z",
   "github_updated_at": "2026-02-21T10:23:26Z",
   "body_snippet": "When putty disconnects you get the notification popup, but no visual feedback which tab is affected if you have multiple conncetions open.\r\n\r\nWish: Change icon when disconnected to something like 🚫 or add **(inactive)** to the tab title like putty does.\r\n\r\nReconnect behaviour\r\nkeep tab on the same place and don't move it to the end when doing a reconnect.\r\n",
-  "our_status": "needs_human",
+  "our_status": "wontfix",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -47,7 +47,7 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and carries only a legacy 1.77.4 label with no reproducible steps, expected vs actual behavior, or details about what PuTTY disconnect visibility/behavior change is requested.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "Feature: PuTTY disconnect visual indicator + tab position on reconnect. UX enhancement, low priority.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 339,
