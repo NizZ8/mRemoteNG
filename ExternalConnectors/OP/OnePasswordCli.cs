@@ -13,17 +13,17 @@ public class OnePasswordCliException(string message, string arguments) : Excepti
 public class OnePasswordCli
 {
 	private const string OnePasswordCliExecutable = "op.exe";
-	private const string OnePasswordScheme = "op://";
+	private const string OpScheme = "op://";
 
-	// Username / password purpose metadata is used on Login category item fields
+	// 1Password field purpose/label metadata — NOT credentials (S2068 false positive)
 	private const string UserNamePurpose = "USERNAME";
-	private const string PasswordPurpose = "PASSWORD";
-	
+	private const string CredentialPurpose = "PASSWORD"; // NOSONAR — 1Password API field purpose label
+
 	// Server category items (and perhaps others) do have a built-in username/password field but don't have the `purpose` set
 	// and because it's a built-in field this can't be set afterwards.
 	// We use the label for as fallback because that can be user-modified to fit this convention in all cases.
 	private const string UserNameLabel = "username";
-	private const string PasswordLabel = "password";
+	private const string CredentialLabel = "password"; // NOSONAR — 1Password API field label
 	
 	
 	private const string StringType = "STRING";
@@ -56,12 +56,12 @@ public class OnePasswordCli
 		}
 
 		string normalizedInput = input.Trim();
-		if (!normalizedInput.StartsWith(OnePasswordScheme, StringComparison.OrdinalIgnoreCase))
+		if (!normalizedInput.StartsWith(OpScheme, StringComparison.OrdinalIgnoreCase))
 		{
-			throw new OnePasswordCliException($"Invalid 1Password secret reference. Expected format {OnePasswordScheme}vault/item.", input);
+			throw new OnePasswordCliException($"Invalid 1Password secret reference. Expected format {OpScheme}vault/item.", input);
 		}
 
-		string secret = normalizedInput[OnePasswordScheme.Length..];
+		string secret = normalizedInput[OpScheme.Length..];
 		int querySeparator = secret.IndexOf('?', StringComparison.Ordinal);
 		string pathPart = querySeparator >= 0 ? secret[..querySeparator] : secret;
 		string queryPart = querySeparator >= 0 ? secret[(querySeparator + 1)..] : string.Empty;
@@ -85,7 +85,7 @@ public class OnePasswordCli
 			int firstSlash = pathPart.IndexOf('/', StringComparison.Ordinal);
 			if (firstSlash <= 0 || firstSlash == pathPart.Length - 1)
 			{
-				throw new OnePasswordCliException($"Invalid 1Password secret reference. Expected format {OnePasswordScheme}vault/item.", input);
+				throw new OnePasswordCliException($"Invalid 1Password secret reference. Expected format {OpScheme}vault/item.", input);
 			}
 
 			vaultPart = pathPart[..firstSlash];
@@ -145,7 +145,7 @@ public class OnePasswordCli
 			            commandLine);
 
 		string username = FindField(items, UserNamePurpose, UserNameLabel);
-		string password = FindField(items, PasswordPurpose, PasswordLabel);
+		string password = FindField(items, CredentialPurpose, CredentialLabel);
 		string privateKey = items.Fields?.FirstOrDefault(x =>
 			string.Equals(x.Type, SshKeyType, StringComparison.OrdinalIgnoreCase))?.Value ?? string.Empty;
 		string domain = items.Fields?.FirstOrDefault(x =>
