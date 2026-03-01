@@ -18,8 +18,8 @@ Full transparency: this project is built by humans and AI working together. We b
   <a href="https://github.com/mRemoteNG/mRemoteNG/pull/3189">
     <img alt="Stable" src="https://img.shields.io/badge/stable-v1.81.0--beta.6-brightgreen?style=for-the-badge">
   </a>
-  <a href="https://github.com/robertpopa22/mRemoteNG/tree/release/1.81">
-    <img alt="Release Branch" src="https://img.shields.io/badge/branch-release%2F1.81-orange?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
+    <img alt="Next" src="https://img.shields.io/badge/next-v1.82.0--beta.1-blue?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
