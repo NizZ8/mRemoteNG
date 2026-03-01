@@ -880,7 +880,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
         }
 
         private static bool _keyTablePatched;
-        private static readonly object _patchLock = new();
+        private static readonly System.Threading.Lock _patchLock = new();
 
         /// <summary>
         /// Patches the VncSharpCore KeyTranslationTable to add a missing entry for the Caps Lock key.
