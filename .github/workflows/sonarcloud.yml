@@ -54,7 +54,7 @@ jobs:
             /o:"robertpopa22" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
+            /d:sonar.cs.opencover.reportsPaths="**\coverage.opencover.xml" `
             /d:sonar.exclusions="**/obj/**,**/bin/**,**/*.Designer.cs,**/Interop*.cs,ObjectListView/**,.project-roadmap/**"
 
       - name: Build with MSBuild
@@ -63,14 +63,17 @@ jobs:
           msbuild "$env:GITHUB_WORKSPACE\mRemoteNG.sln" /restore /m /verbosity:minimal -p:Configuration=Release -p:Platform=x64
 
       - name: Run tests with coverage
-        shell: bash
+        shell: pwsh
         continue-on-error: true
         run: |
-          dotnet test mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll \
-            --results-directory /tmp/testresults \
-            --verbosity normal \
-            --collect:"XPlat Code Coverage" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnet test mRemoteNGTests\mRemoteNGTests.csproj `
+            --no-build `
+            --configuration Release `
+            --results-directory $env:TEMP\testresults `
+            --verbosity normal `
+            --collect:"XPlat Code Coverage" `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover `
+            DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[ObjectListView]*"
 
       - name: End SonarCloud analysis
         shell: pwsh
