@@ -55,6 +55,8 @@ using System.Windows.Forms;
 /// the titlebar correctly. Also the squares of checkboxes are forgotten.
 /// </summary>
 
+namespace mRemoteNG.UI;
+
 static class DPI_Per_Monitor
 {
     [DllImport("SHCore.dll")]

@@ -35,7 +35,7 @@ namespace mRemoteNG.Security
             ArgumentNullException.ThrowIfNull(unsecuredPassword);
 
             SecureString secureString = new();
-            foreach (char character in unsecuredPassword.ToCharArray())
+            foreach (char character in unsecuredPassword)
                 secureString.AppendChar(character);
             return secureString;
         }

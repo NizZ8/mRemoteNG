@@ -52,8 +52,8 @@ namespace mRemoteNG.Tools
 
                 if (tokenStart > 0)
                 {
-                    char tokenStartPrefix = input.Substring(tokenStart - 1, 1).ToCharArray()[0];
-                    char tokenEndPrefix = input.Substring(tokenEnd - 1, 1).ToCharArray()[0];
+                    char tokenStartPrefix = input[tokenStart - 1];
+                    char tokenEndPrefix = input[tokenEnd - 1];
 
                     if (tokenStartPrefix == '\\' && tokenEndPrefix == '\\')
                     {
@@ -142,7 +142,7 @@ namespace mRemoteNG.Tools
                     else if (escapeForShell)
                     {
                         char trailing = tokenEnd + 2 <= input.Length
-                            ? input.Substring(tokenEnd + 1, 1).ToCharArray()[0]
+                            ? input[tokenEnd + 1]
                             : '\0';
 
                         if (escape == EscapeType.All)

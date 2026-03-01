@@ -48,7 +48,7 @@ namespace mRemoteNG.DotNet.Update
                     {
                         if (sharedHostKey == null) {
                             continue;
-                        };
+                        }
 
                         // Look for the "Version" value in sharedhost
                         object? versionValue = sharedHostKey.GetValue("Version");
