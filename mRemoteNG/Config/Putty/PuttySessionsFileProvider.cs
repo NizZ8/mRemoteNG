@@ -162,29 +162,26 @@ namespace mRemoteNG.Config.Putty
             string? sessionsDir = GetSessionsDirectory();
             if (sessionsDir == null) return;
 
+            FileSystemWatcher? watcher = null;
             try
             {
-                _fileWatcher = new FileSystemWatcher(sessionsDir);
-                // Watch for changes in LastWrite times, and the renaming of files or directory name.
-                _fileWatcher.NotifyFilter = NotifyFilters.LastWrite
-                                          | NotifyFilters.FileName
-                                          | NotifyFilters.DirectoryName;
+                watcher = new FileSystemWatcher(sessionsDir);
+                watcher.NotifyFilter = NotifyFilters.LastWrite
+                                     | NotifyFilters.FileName
+                                     | NotifyFilters.DirectoryName;
 
-                _fileWatcher.Created += OnFileChanged;
-                _fileWatcher.Deleted += OnFileChanged;
-                _fileWatcher.Renamed += OnFileRenamed;
-                _fileWatcher.Changed += OnFileChanged;
+                watcher.Created += OnFileChanged;
+                watcher.Deleted += OnFileChanged;
+                watcher.Renamed += OnFileRenamed;
+                watcher.Changed += OnFileChanged;
 
-                _fileWatcher.EnableRaisingEvents = true;
+                watcher.EnableRaisingEvents = true;
+                _fileWatcher = watcher;
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("PuttySessionsFileProvider.StartWatcher() failed.", ex, MessageClass.WarningMsg);
-                if (_fileWatcher != null)
-                {
-                    _fileWatcher.Dispose();
-                    _fileWatcher = null;
-                }
+                watcher?.Dispose();
             }
         }
 

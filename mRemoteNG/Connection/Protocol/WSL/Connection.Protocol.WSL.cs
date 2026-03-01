@@ -54,7 +54,6 @@ namespace mRemoteNG.Connection.Protocol.WSL
 
                 _consoleControl.StartProcess(wslExe, arguments);
 
-                while (!_consoleControl.IsHandleCreated) break;
                 _handle = _consoleControl.Handle;
                 NativeMethods.SetParent(_handle, InterfaceControl.Handle);
 
