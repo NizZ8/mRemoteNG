@@ -129,7 +129,7 @@ namespace mRemoteNG.Tools
                      // Sanitize - remove credentials from XML before archiving
                      var attrName = nameof(AbstractConnectionRecord.Password); // NOSONAR — S2068 false positive: not a credential
                      var attrPattern = $"{Regex.Escape(attrName)}=\"[^\"]*\"";
-                     var sanitized = $"{attrName}=\"***REMOVED***\"";
+                     var sanitized = $"{attrName}=\"***REMOVED***\""; // NOSONAR — S2068 false positive: sanitization replacement, not a credential
                      content = Regex.Replace(content, attrPattern, sanitized, RegexOptions.CultureInvariant);
                      
                      var entry = archive.CreateEntry("confCons.xml");
