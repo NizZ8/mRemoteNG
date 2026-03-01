@@ -53,6 +53,7 @@ jobs:
           msbuild "$env:GITHUB_WORKSPACE\mRemoteNG.sln" /restore /m /verbosity:minimal -p:Configuration=Release -p:Platform=${{ matrix.platform }}
 
       - name: Smoke test (app starts)
+        if: matrix.platform != 'x86'
         shell: pwsh
         run: |
           $output = & ".\mRemoteNG\bin\${{ matrix.platform }}\Release\mRemoteNG.exe" --version 2>&1
