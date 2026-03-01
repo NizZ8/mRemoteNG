@@ -559,14 +559,12 @@ namespace mRemoteNG.Connection
 
         public static string GetStartupConnectionFileName()
         {
-            /*
-            if (Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation == true && Properties.OptionsBackupPage.Default.BackupLocation != "")
+            // Command-line /cons: or /c: override (session-only, not persisted)
+            if (!string.IsNullOrWhiteSpace(Tools.Cmdline.StartupArgumentsInterpreter.CustomConnectionFile))
             {
-                return Properties.OptionsBackupPage.Default.BackupLocation;
-            } else {
-                return GetDefaultStartupConnectionFileName();
+                return Tools.Cmdline.StartupArgumentsInterpreter.CustomConnectionFile;
             }
-            */
+
             if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
             {
                 return Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);

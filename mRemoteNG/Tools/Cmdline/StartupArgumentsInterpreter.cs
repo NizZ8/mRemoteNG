@@ -43,6 +43,12 @@ namespace mRemoteNG.Tools.Cmdline
         public static string? QuickConnectProtocol { get; private set; }
 
         /// <summary>
+        /// Custom connections file path specified via --cons or --c command-line argument.
+        /// Overrides the default/configured connection file for this session only.
+        /// </summary>
+        public static string? CustomConnectionFile { get; private set; }
+
+        /// <summary>
         /// When true, mRemoteNG will exit automatically after the last connection
         /// opened via --connect, --startup, or --quickconnect is closed.
         /// Set by the --exitafter command-line argument.
@@ -55,6 +61,7 @@ namespace mRemoteNG.Tools.Cmdline
             StartupConnectTo = null;
             QuickConnectTo = null;
             QuickConnectProtocol = null;
+            CustomConnectionFile = null;
             ExitAfterLastConnection = false;
         }
 
@@ -139,23 +146,21 @@ namespace mRemoteNG.Tools.Cmdline
             string? consValue = args[consParam];
             if (consValue == null) return;
 
-            if (File.Exists(consValue) == false)
+            if (File.Exists(consValue))
             {
-                if (File.Exists(Path.Combine(GeneralAppInfo.HomePath, consValue)))
-                {
-                    Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation = true;
-                    Properties.OptionsBackupPage.Default.BackupLocation = Path.Combine(GeneralAppInfo.HomePath, consValue);
-                    return;
-                }
-
-                if (!File.Exists(Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, consValue))) return;
-                Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation = true;
-                Properties.OptionsBackupPage.Default.BackupLocation = Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, consValue);
+                CustomConnectionFile = consValue;
+            }
+            else if (File.Exists(Path.Combine(GeneralAppInfo.HomePath, consValue)))
+            {
+                CustomConnectionFile = Path.Combine(GeneralAppInfo.HomePath, consValue);
+            }
+            else if (File.Exists(Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, consValue)))
+            {
+                CustomConnectionFile = Path.Combine(ConnectionsFileInfo.DefaultConnectionsPath, consValue);
             }
             else
             {
-                Properties.OptionsBackupPage.Default.LoadConsFromCustomLocation = true;
-                Properties.OptionsBackupPage.Default.BackupLocation = consValue;
+                _messageCollector.AddMessage(MessageClass.WarningMsg, $"Cmdline arg: custom connection file not found: {consValue}");
             }
         }
 
