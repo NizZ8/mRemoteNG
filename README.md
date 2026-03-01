@@ -15,11 +15,11 @@ Full transparency: this project is built by humans and AI working together. We b
 </blockquote>
 
 <p align="center">
-  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6">
-    <img alt="Beta" src="https://img.shields.io/badge/beta-v1.81.0--beta.6-orange?style=for-the-badge">
+  <a href="https://github.com/mRemoteNG/mRemoteNG/pull/3189">
+    <img alt="Stable" src="https://img.shields.io/badge/stable-v1.81.0--beta.6-brightgreen?style=for-the-badge">
   </a>
-  <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
-    <img alt="Next" src="https://img.shields.io/badge/next-v1.81.0--beta.7-blue?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/tree/release/1.81">
+    <img alt="Release Branch" src="https://img.shields.io/badge/branch-release%2F1.81-orange?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
@@ -48,13 +48,13 @@ Full transparency: this project is built by humans and AI working together. We b
 
 ## Downloads
 
-| Channel | Version | What you get |
-|---------|---------|--------------|
-| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest from `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
-| **[Beta](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | High-velocity builds — .NET 10, security hardening, experimental features. Promoted to Stable after 5+ iterations. |
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | Production-ready. Recommended for most users. |
+| Channel | Version | Branch | What you get |
+|---------|---------|--------|--------------|
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `release/1.81` | .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** Also the upstream PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189). |
+| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
+| **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
 
-### Beta download matrix
+### Download matrix
 
 | Variant | x64 | x86 | ARM64 |
 |---------|-----|-----|-------|
