@@ -99,6 +99,13 @@ namespace mRemoteNG.UI.Window
                 return;
             }
 
+            // Only allow http/https URLs to prevent exploitation via custom URI schemes
+            if (!linkUri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase) &&
+                !linkUri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = linkUri.ToString(),
@@ -221,7 +228,9 @@ namespace mRemoteNG.UI.Window
                 if (_appUpdate?.CurrentUpdateInfo?.IsGitHubSource == true)
                 {
                     Uri? releasePageUrl = _appUpdate.CurrentUpdateInfo.ReleasePageUrl;
-                    if (releasePageUrl != null && !releasePageUrl.IsFile && !releasePageUrl.IsUnc && !releasePageUrl.IsLoopback)
+                    if (releasePageUrl != null && !releasePageUrl.IsFile && !releasePageUrl.IsUnc && !releasePageUrl.IsLoopback
+                        && (releasePageUrl.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase)
+                            || releasePageUrl.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase)))
                         Process.Start(new ProcessStartInfo { FileName = releasePageUrl.ToString(), UseShellExecute = true });
                     return;
                 }

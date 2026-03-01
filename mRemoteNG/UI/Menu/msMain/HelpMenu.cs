@@ -270,6 +270,11 @@ namespace mRemoteNG.UI.Menu
 
         private static void OpenUrl(string url)
         {
+            if (string.IsNullOrWhiteSpace(url) ||
+                (!url.StartsWith("https://", StringComparison.OrdinalIgnoreCase) &&
+                 !url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)))
+                return;
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = url,
