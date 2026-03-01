@@ -45,9 +45,10 @@ jobs:
       - name: Smoke test (app starts)
         shell: pwsh
         run: |
-          $output = & .\mRemoteNG\bin\x64\Release\mRemoteNG.exe --version 2>&1
-          if ($LASTEXITCODE -ne 0) { throw "Smoke test failed: exit code $LASTEXITCODE" }
-          Write-Host "Smoke test passed: $output"
+          # WinExe app needs Start-Process (no attached console for & operator)
+          $proc = Start-Process -FilePath ".\mRemoteNG\bin\x64\Release\mRemoteNG.exe" -ArgumentList "--version" -Wait -PassThru -WindowStyle Hidden
+          if ($proc.ExitCode -ne 0) { throw "Smoke test failed: exit code $($proc.ExitCode)" }
+          Write-Host "Smoke test passed (exit code: $($proc.ExitCode))"
 
       - name: Run tests
         shell: bash
