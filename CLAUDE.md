@@ -99,7 +99,7 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 - Code signing: SignPath Foundation (mandatory — see `CODE_SIGNING_POLICY.md`)
 - Version: read from `mRemoteNG/mRemoteNG.csproj` `<Version>` element
 
-## Code Quality — 4 Levels
+## Code Quality — 5 Levels
 
 | Level | Tool | Scope | Config |
 |-------|------|-------|--------|
@@ -107,6 +107,7 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 | 2 | SonarCloud | Push to `main` (CI) | `.github/workflows/sonarcloud.yml` |
 | 3 | CodeQL | Push to `main` + weekly (CI) | `.github/workflows/codeql.yml` |
 | 4 | Roslynator | Included in Level 1 (NuGet) | `Directory.Packages.props` |
+| 5 | Qodo Code Review | On-demand (AI review) | GitHub App + `qodo-review.sh` |
 
 ### Rules:
 - **Gradual adoption** — warnings only, NOT `TreatWarningsAsErrors` (legacy codebase)
@@ -116,6 +117,13 @@ Every test failure MUST be resolved before finishing a task. NO EXCEPTIONS.
 - SonarCloud: `SONAR_TOKEN` secret setat, Automatic Analysis DEZACTIVAT pe sonarcloud.io (altfel conflict cu CI scan)
 - CodeQL: `build-mode: manual` (COM refs break autobuild), CodeQL Action **v4** (v3 deprecated Dec 2026), Default Setup DEZACTIVAT în repo Settings → Code Security
 - **NU există `sonar-project.properties`** — SonarScanner for .NET nu-l suportă, toate setările se dau ca parametri la `dotnet-sonarscanner begin`
+
+### Qodo Code Review:
+- GitHub App `qodo-code-review` instalat pe fork — AI-powered review complementar cu static analysis
+- **On-demand only** — rulat prin `./qodo-review.sh [commits] [branch]`
+- **NU funcționează ca GitHub Action** — Qodo ignoră PR-uri create de bots
+- **Targetează doar default branch** — PR-ul trebuie să aibă `main` ca base
+- Prinde bugs logice (bounds check, SQL mismatch, plaintext secrets) pe care SonarCloud/CodeQL le ratează
 
 ### Lecții setup CI (2026-02-28):
 - CodeQL default setup NU coexistă cu workflow custom — trebuie dezactivat în Settings → Code Security
