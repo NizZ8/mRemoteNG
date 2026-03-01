@@ -60,7 +60,7 @@ public class ValidateXmlSchemas
         using (var stream = GenerateStreamFromString(xml))
         {
             var reader = XmlReader.Create(stream, _xmlReaderSettings);
-            while (reader.Read()) ;
+            while (reader.Read()) { }
         }
 
         Assert.That(sb.ToString(), Is.Empty);
