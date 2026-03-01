@@ -27,8 +27,6 @@ namespace mRemoteNG.UI.TaskDialog
         private readonly DisplayProperties _display = new();
         private Control? _focusControl;
 
-        private bool _isVista;
-
         private int _mainInstructionLeftMargin;
         private int _mainInstructionRightMargin;
 
@@ -121,8 +119,7 @@ namespace mRemoteNG.UI.TaskDialog
         {
             InitializeComponent();
 
-            // _isVista = VistaTaskDialog.IsAvailableOnThisOS;
-            if (!_isVista && CTaskDialog.UseToolWindowOnXp) // <- shall we use the smaller toolbar?
+            if (CTaskDialog.UseToolWindowOnXp)
                 FormBorderStyle = FormBorderStyle.FixedToolWindow;
 
             MainInstruction = "Main Instruction";
@@ -244,8 +241,6 @@ namespace mRemoteNG.UI.TaskDialog
                     {
                         Parent = pnlCommandButtons, Location = new Point(_display.ScaleWidth(50), t)
                     };
-                    if (_isVista) // <- tweak font if vista
-                        btn.Font = new Font(btn.Font, FontStyle.Regular);
                     btn.Text = arr[i];
                     btn.Size = new Size(Width - btn.Left - _display.ScaleWidth(15), btn.GetBestHeight());
                     t += btn.Height;

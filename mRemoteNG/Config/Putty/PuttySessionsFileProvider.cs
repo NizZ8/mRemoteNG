@@ -180,7 +180,7 @@ namespace mRemoteNG.Config.Putty
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("PuttySessionsFileProvider.StartWatcher() failed.", ex, MessageClass.WarningMsg);
-                _fileWatcher?.Dispose();
+                _fileWatcher.Dispose();
                 _fileWatcher = null;
             }
         }

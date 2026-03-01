@@ -37,8 +37,6 @@ namespace mRemoteNG.Security
             SecureString secureString = new();
             foreach (char character in unsecuredPassword.ToCharArray())
                 secureString.AppendChar(character);
-            // ReSharper disable once RedundantAssignment
-            unsecuredPassword = null!;
             return secureString;
         }
 

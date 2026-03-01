@@ -83,7 +83,7 @@ namespace mRemoteNG.Config.Settings.Registry
         /// </summary>
         private static void SetupValidation()
         {
-
+            // No validation rules required for tabs/panels settings at this time.
         }
 
         /// <summary>

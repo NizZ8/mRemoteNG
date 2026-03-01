@@ -147,7 +147,7 @@ namespace mRemoteNG.Config.Settings.Registry
         /// </summary>
         private static void SetupValidation()
         {
-
+            // No validation rules required for notification settings at this time.
         }
 
         /// <summary>

@@ -73,15 +73,15 @@ jobs:
 
     steps:
       - name: (01) Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: (02) Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5
         with:
           dotnet-version: 10.0.x
 
       - name: (03) Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
         with:
           vs-version: ${{ matrix.platform == 'ARM64' && '17.14.12' || '[18.0,19.0)' }}
 
@@ -138,7 +138,7 @@ jobs:
         id: version_info
 
       - name: (05) Cache NuGet Packages
-        uses: actions/cache@v5
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -156,12 +156,14 @@ jobs:
 
       - name: (07) Build Release
         shell: pwsh
+        env:
+          CRASH_REPORT_TOKEN: ${{ secrets.CRASH_REPORT_TOKEN }}
         run: |
           $msbuildArgs = @(
             "`"$Env:GITHUB_WORKSPACE\mRemoteNG.sln`""
             "-p:Configuration=Release"
             "-p:Platform=${{ matrix.platform }}"
-            "-p:CrashReportToken=${{ secrets.CRASH_REPORT_TOKEN }}"
+            "-p:CrashReportToken=$env:CRASH_REPORT_TOKEN"
             "/verbosity:minimal"
           )
           if ('${{ matrix.selfcontained }}' -eq 'true') {
@@ -266,7 +268,7 @@ jobs:
       # --------------------------------------------------------
       - name: (10a) Upload build artifact
         id: upload-build
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: build-${{ matrix.arch }}${{ matrix.suffix }}
           path: ${{ steps.version.outputs.zipname }}
@@ -279,7 +281,7 @@ jobs:
       - name: (10b) Submit signing request to SignPath
         id: sign
         continue-on-error: true
-        uses: signpath/github-action-submit-signing-request@v2
+        uses: signpath/github-action-submit-signing-request@3f9250c56651ff692d6729a2fbb0603a42d7d322 # v2
         with:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
@@ -292,7 +294,7 @@ jobs:
 
       - name: (10c) Upload signed artifact (if signing succeeded)
         if: steps.sign.outcome == 'success'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: signed-${{ matrix.arch }}${{ matrix.suffix }}
           path: ${{ github.workspace }}/signed/*
@@ -307,7 +309,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: (01) Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: (02) Compute release metadata
         id: meta
@@ -373,7 +375,7 @@ jobs:
           echo "EOF" >> $env:GITHUB_OUTPUT
 
       - name: (04) Download build artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           pattern: build-*
           path: release-assets
