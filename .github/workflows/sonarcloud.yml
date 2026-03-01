@@ -62,6 +62,16 @@ jobs:
         run: |
           msbuild "$env:GITHUB_WORKSPACE\mRemoteNG.sln" /restore /m /verbosity:minimal -p:Configuration=Release -p:Platform=x64
 
+      - name: Run tests with coverage
+        shell: bash
+        continue-on-error: true
+        run: |
+          dotnet test mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll \
+            --results-directory /tmp/testresults \
+            --verbosity normal \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
       - name: End SonarCloud analysis
         shell: pwsh
         env:
