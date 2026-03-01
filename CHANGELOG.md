@@ -3,6 +3,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.81.0-beta.6] - 2026-03-01
+
+### Highlight: Zero Analyzer Warnings + CI Hardening
+
+Complete code quality sweep: **5,247 analyzer warnings eliminated** (CA/MA/RCS rules from Roslynator + Meziantou), all GitHub Actions pinned to full commit SHAs, SonarCloud hotspots resolved, and CI smoke test failures fixed.
+
+### Fixed
+- **5,247 analyzer warnings → 0** across 100+ files (CA1507 nameof, CA1822 static, CA1305 IFormatProvider, MA0006 string.Equals, CA1510 ThrowIfNull, etc.)
+- **Nightly Build smoke test** — replaced `dotnet restore` + `msbuild` with `msbuild /restore` (COM reference handling)
+- **PR_Validation x86 smoke test** — skip on 64-bit runner (no x86 .NET Desktop Runtime available)
+- **NUnit filter leak** — `!~` operator silently ignored by NUnit3TestAdapter; replaced with `Name!=` exclusion
+- **SonarCloud bug** — removed redundant null check in PuttySessionsFileProvider.cs
+- **Dead code** — removed unused `_isVista` field and unreachable Vista font tweak in frmTaskDialog
+- **Useless assignment** — removed null assignment to `unsecuredPassword` in SecureStringExtensions
+
+### Security
+- **GitHub Actions SHA pinning** — all 7 workflows now use full commit SHAs instead of mutable version tags
+- **Secrets not expanded in run blocks** — SonarCloud and Build workflows use `env:` variables instead of inline `${{ secrets.* }}`
+
+### Code Quality
+- 46 analyzer rules suppressed in `.editorconfig` for legacy WinForms architectural patterns
+- Empty method bodies annotated with explanatory comments (SonarCloud S1186)
+- Test count: 5,963 passed, 0 failures
+
 ## [1.81.0-beta.5] - 2026-02-27
 
 ### Highlight: Manual Testing Catches 7 AI-Introduced Regressions
