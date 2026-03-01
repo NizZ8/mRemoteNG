@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.82.0-beta.1] - Unreleased
+
+### Highlight: New Development Cycle
+
+Fresh development cycle after v1.81.0-beta.6 was promoted to stable (upstream PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) — SonarCloud Quality Gate passed). Branch `release/1.81` frozen; `main` targets v1.82.0.
+
+### Added
+- _(nothing yet)_
+
+### Fixed
+- _(nothing yet)_
+
+### Changed
+- Version bumped to 1.82.0-beta.1
+
+---
+
 ## [1.81.0-beta.6] - 2026-03-01
 
 ### Highlight: Zero Analyzer Warnings + CI Hardening

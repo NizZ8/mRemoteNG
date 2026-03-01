@@ -31,7 +31,8 @@ If you are running as an automated agent via `claude -p`:
 ## Repository Structure
 - **Origin (fork):** `robertpopa22/mRemoteNG`
 - **Upstream (official):** `mRemoteNG/mRemoteNG`
-- **Main branch:** `main` — active development (v1.81.0-beta.2)
+- **Main branch:** `main` — active development (v1.82.0-beta.1)
+- **Stable branch:** `release/1.81` — frozen, upstream PR #3189
 - **Solution:** `mRemoteNG.sln` (.NET 10, SDK-style projects with COM references)
 
 ## Build Instructions
@@ -165,7 +166,7 @@ For the complete evidence trail of the AI-assisted modernization process
 
 | Metric | Value |
 |--------|-------|
-| Version | 1.81.0-beta.6 |
+| Version | 1.82.0-beta.1 (dev) / 1.81.0-beta.6 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
 | Tests | 5,963 passed, 0 failures |
 | CI status | All 6 workflows GREEN |
