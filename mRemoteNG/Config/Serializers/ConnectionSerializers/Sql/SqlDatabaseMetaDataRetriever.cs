@@ -481,7 +481,13 @@ CREATE TABLE [dbo].[tblExternalTools] (
         [Category] [nvarchar] (256) NOT NULL DEFAULT '',
         [RunOnStartup] [bit] NOT NULL DEFAULT 0,
         [StopOnShutdown] [bit] NOT NULL DEFAULT 0,
-        [Hotkey] [int] NOT NULL DEFAULT 0
+        [Hotkey] [int] NOT NULL DEFAULT 0,
+        [Hidden] [bit] NOT NULL DEFAULT 0,
+        [AuthType] [nvarchar] (256) NOT NULL DEFAULT '',
+        [AuthUsername] [nvarchar] (512) NOT NULL DEFAULT '',
+        [AuthPassword] [nvarchar] (1024) NOT NULL DEFAULT '',
+        [PrivateKeyFile] [nvarchar] (1024) NOT NULL DEFAULT '',
+        [Passphrase] [nvarchar] (1024) NOT NULL DEFAULT ''
 ) ON [PRIMARY]
 ";
             }
@@ -732,6 +738,12 @@ CREATE TABLE `tblExternalTools` (
     `RunOnStartup` tinyint NOT NULL DEFAULT 0,
     `StopOnShutdown` tinyint NOT NULL DEFAULT 0,
     `Hotkey` int NOT NULL DEFAULT 0,
+    `Hidden` tinyint NOT NULL DEFAULT 0,
+    `AuthType` varchar(256) NOT NULL DEFAULT '',
+    `AuthUsername` varchar(512) NOT NULL DEFAULT '',
+    `AuthPassword` varchar(1024) NOT NULL DEFAULT '',
+    `PrivateKeyFile` varchar(1024) NOT NULL DEFAULT '',
+    `Passphrase` varchar(1024) NOT NULL DEFAULT '',
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

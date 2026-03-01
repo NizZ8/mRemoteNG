@@ -109,8 +109,12 @@ namespace mRemoteNG.Config.Settings
                     foreach (ExternalTool extA in externalTools)
                     {
                         cmd = dbConnector.DbCommand(
-                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, RunOnStartup, StopOnShutdown, Hotkey) " +
-                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, @WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @RunOnStartup, @StopOnShutdown, @Hotkey)");
+                            "INSERT INTO tblExternalTools (DisplayName, FileName, IconPath, Arguments, WorkingDir, " +
+                            "WaitForExit, TryIntegrate, RunElevated, ShowOnToolbar, Category, RunOnStartup, StopOnShutdown, " +
+                            "Hotkey, Hidden, AuthType, AuthUsername, AuthPassword, PrivateKeyFile, Passphrase) " +
+                            "VALUES (@DisplayName, @FileName, @IconPath, @Arguments, @WorkingDir, " +
+                            "@WaitForExit, @TryIntegrate, @RunElevated, @ShowOnToolbar, @Category, @RunOnStartup, @StopOnShutdown, " +
+                            "@Hotkey, @Hidden, @AuthType, @AuthUsername, @AuthPassword, @PrivateKeyFile, @Passphrase)");
                         cmd.Transaction = transaction;
 
                         AddParameter(cmd, "@DisplayName", extA.DisplayName);
@@ -126,6 +130,12 @@ namespace mRemoteNG.Config.Settings
                         AddParameter(cmd, "@RunOnStartup", extA.RunOnStartup);
                         AddParameter(cmd, "@StopOnShutdown", extA.StopOnShutdown);
                         AddParameter(cmd, "@Hotkey", (int)extA.Hotkey);
+                        AddParameter(cmd, "@Hidden", extA.Hidden);
+                        AddParameter(cmd, "@AuthType", extA.AuthenticationType);
+                        AddParameter(cmd, "@AuthUsername", extA.AuthenticationUsername);
+                        AddParameter(cmd, "@AuthPassword", ProtectValue(extA.AuthenticationPassword));
+                        AddParameter(cmd, "@PrivateKeyFile", extA.PrivateKeyFile);
+                        AddParameter(cmd, "@Passphrase", ProtectValue(extA.Passphrase));
 
                         cmd.ExecuteNonQuery();
                     }
