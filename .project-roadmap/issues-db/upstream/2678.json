@@ -11,7 +11,7 @@
   "created_at": "2025-03-25T20:40:59Z",
   "github_updated_at": "2026-02-21T10:23:23Z",
   "body_snippet": ":-) Where can i find the roadmap and the ongoing path to?",
-  "our_status": "needs_human",
+  "our_status": "wontfix",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -100,7 +100,7 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue is a vague stability question with no reproducible steps, and a triage refresh comment explicitly requests retesting on latest build before further action.\nApproach: Request reporter to retest on latest fork build and provide specific reproducible steps with expected vs actual behavior\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "General stability complaint with no specific bug report or repro steps.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 79,

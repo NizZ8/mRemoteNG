@@ -12,7 +12,7 @@
   "created_at": "2023-08-03T09:37:14Z",
   "github_updated_at": "2026-02-21T10:23:35Z",
   "body_snippet": "Hi all,\r\n\r\nI have installed the Stable version and i want to update to Nightly but i have issue with the DB. \r\nIs there any way to migrate my database from the stable version to the Nightly version?\r\n\r\n\r\n## Your Environment\r\nWindows\r\n",
-  "our_status": "needs_human",
+  "our_status": "testing",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -83,7 +83,7 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue lacks reproducible steps, error details, or confirmation that the problem still exists in current versions; comment thread suggests it may be a usage/expectation issue rather than a real bug.\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]",
+  "notes": "Fixed: auto-upgrade schema logic adds missing columns when migrating between versions for both MSSQL and MySQL.",
   "token_usage": {
     "input_tokens": 3,
     "output_tokens": 67,
