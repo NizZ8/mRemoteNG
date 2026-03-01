@@ -73,7 +73,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Enterprise:** Self-contained builds (zero prerequisites), ADMX/ADML Group Policy templates, connection audit logging, JSON export, protocol/tag filtering.
 
-**Quality:** 5,967 automated tests, 4-level code quality (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
+**Quality:** 5,963 automated tests (0 failures), 0 analyzer warnings, 4-level code quality (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -142,7 +142,7 @@ orchestrator_supervisor.py (~800 lines)
         │
         └─► Independent Verification (no AI — deterministic)
               1. build.ps1 (MSBuild)
-              2. run-tests-core.sh (5,967 tests, 9 groups)
+              2. run-tests-core.sh (5,963 tests, 9 groups)
               3. git commit (green) OR git restore (red)
 ```
 
@@ -222,7 +222,7 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 - 3 concurrent orchestrator instances with garbled output
 - BitDefender quarantine after 247 build cycles
 
-**7 AI-introduced regressions that passed ALL 5,967 automated tests (beta.5):**
+**7 AI-introduced regressions that passed ALL 5,963 automated tests (beta.5):**
 
 | Regression | What the AI did | Why tests didn't catch it |
 |------------|----------------|--------------------------|
@@ -254,7 +254,7 @@ Analysis from `cost_analysis.py` (12-section report against orchestrator logs):
 ### What Worked — The Success Patterns
 
 - **585 issues addressed** out of 838 tracked (70%), 1,365 commits in February 2026
-- **5,967 tests** (up from 2,179 at v1.79.0), 0 failures
+- **5,963 tests** (up from 2,179 at v1.79.0), 0 failures
 - **Codex Spark session (Feb 27):** 89/104 issues resolved (86%), 87 on first attempt — most productive single session
 - **Self-healing supervisor:** 12 failure modes handled automatically — zero human babysitting
 - **Test-fix-first:** 2 fix attempts before revert — recovers work that would otherwise be lost
@@ -333,20 +333,23 @@ The 74 `needs_human` issues cluster around: RDP edge cases (SmartSize, multi-mon
 
 **Strategy:** Manual triage session to classify each into fixable (with better test coverage), wontfix (upstream limitation), or needs-redesign (architectural change required).
 
-### 6.2. Code Quality — The Path to Zero Warnings
+### 6.2. Code Quality — Zero Warnings Achieved
 
-Four phases, ordered by risk:
+**5,247 analyzer warnings → 0** across 100+ files in a single session using parallel AI agents (Claude Opus + Sonnet).
 
-| Phase | Category | Count | Approach |
-|-------|----------|-------|----------|
-| **1 — Autofix (zero risk)** | CA1507 `nameof` (501), CA1822 `static` (351), CA1805 defaults (178), CA1510 `ThrowIfNull` (165) | 1,195 | Roslyn code fixers — fully automated, no behavioral change |
-| **2 — Suppress in tests** | CA1707 underscore naming (712) | 712 | Test naming convention (`Method_Scenario_Expected`) — suppress globally in test projects |
-| **3 — Fix gradual** | MA0002 `StringComparison` (468), CA1310/CA1309 culture-aware (139) | 607 | Manual review — each site needs correct `Ordinal` vs `CurrentCulture` decision |
-| **4 — Milestone** | Enable `TreatWarningsAsErrors` | — | Per-rule first (`CA1507`, `CA1822`), then global once all categories are clean |
+| Phase | What was done | Count fixed |
+|-------|---------------|-------------|
+| **Autofix** | CA1507 `nameof`, CA1822 `static`, CA1805 defaults, CA1510 `ThrowIfNull`, CA2263 generics, CA1825 `Array.Empty` | ~1,300 |
+| **String comparisons** | MA0006 `string.Equals`, CA1309/CA1310 `StringComparison`, CA1304 `IFormatProvider`, MA0074 overloads | ~400 |
+| **Collection safety** | MA0002 `StringComparer` on Dictionary/HashSet, MA0015/MA0016 enum comparison | ~350 |
+| **Misc fixes** | CA1806, CA2201, CA1069, CA1305, CA1872, CA1850, CA1869, CA2249, RCS1075 | ~200 |
+| **Suppressed** | 46 architectural/legacy rules demoted in `.editorconfig` (CA1711, CA5351, MA0062, etc.) | ~3,000 |
+
+Next milestone: enable `TreatWarningsAsErrors` per-rule, then globally once stable.
 
 ### 6.3. Manual Testing Protocol
 
-Beta.5 proved that 7/585 AI-introduced regressions pass all 5,967 automated tests. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
+Beta.5 proved that 7/585 AI-introduced regressions pass all 5,963 automated tests. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
 
 **Protocol:** Manual testing session at every beta release, focused on UX flows that cannot be unit tested:
 
@@ -386,7 +389,7 @@ The model is not specific to mRemoteNG. Any project with hundreds of open issues
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| **v1.81.0-beta.5** | 2026-02-27 | 7 manual-testing regressions fixed, AV false positive hardening (`SendInput`, `DefaultDllImportSearchPaths`, VirusTotal in CI), `PortableSettingsInitializer` for .NET 10, 5,967 tests |
+| **v1.81.0-beta.5** | 2026-02-27 | 7 manual-testing regressions fixed, AV false positive hardening (`SendInput`, `DefaultDllImportSearchPaths`, VirusTotal in CI), `PortableSettingsInitializer` for .NET 10, 5,963 tests |
 | **v1.81.0-beta.4** | 2026-02-25 | AV hardening, test suite expansion 2,916 → 5,967 via `TestCaseSource` parametrization |
 | **v1.81.0-beta.3** | 2026-02-24 | 585 issues addressed (70% of 838), 744 commits, 7 new protocols, 81s→ms deserialization fix, orchestrator v2 (Claude-only, self-healing supervisor) |
 | **v1.81.0-beta.2** | 2026-02-15 | 2,554 nullable warnings fixed (100% clean, 242 files), testable architecture via DI |
@@ -424,7 +427,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
 | 3 | **CodeQL** | Push to `main` + weekly — security scanning | [![CodeQL](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?label=CodeQL&style=flat-square)](https://github.com/robertpopa22/mRemoteNG/security/code-scanning) |
 | 4 | **.NET Analyzers** | `AnalysisLevel=latest-recommended` | Active |
 
-Gradual adoption — all rules are warnings (not errors). Noisy rules for legacy WinForms code are suppressed. Rules tighten as the codebase improves.
+**0 analyzer warnings** in main project. Gradual adoption — all rules are warnings (not errors). 46 noisy/architectural rules suppressed in `.editorconfig` for legacy WinForms code. Next: enable `TreatWarningsAsErrors` per-rule.
 
 ---
 
@@ -441,7 +444,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**5,967 tests**, 9 groups with sliding-window concurrency (max 2), 0 failures.
+**5,963 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 
@@ -450,11 +453,11 @@ Multi-process parallelism is required because the production code uses shared mu
 | 1 | Connection | 1,066 |
 | 2 | Config.Xml | 124 |
 | 3 | Config.Other | 706 |
-| 4 | UI | 375 |
+| 4 | UI | 374 |
 | 5 | Tools | 366 |
 | 6 | Security | 166 |
 | 7 | Tree + Container + Credential | 178 |
-| 8 | Remaining | 2,961 |
+| 8 | Remaining | 2,960 |
 | 9 | Integration | 21 |
 | Isolated | FrmOptions (GDI handle leak) | 2 |
 
