@@ -1131,20 +1131,27 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     _rdpClient.UserName = userName;
                 }
 
-                if (string.IsNullOrEmpty(password))
+                // Restricted Admin and Remote Credential Guard modes use the current user's Kerberos
+                // credentials and do not forward explicit passwords to the remote host.
+                // Skipping password assignment avoids potential NTLM fallback attempts that would
+                // fail for accounts in the AD Protected Users security group.
+                if (!connectionInfo.UseRestrictedAdmin && !connectionInfo.UseRCG)
                 {
-                    if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
+                    if (string.IsNullOrEmpty(password))
                     {
-                        if (!string.IsNullOrEmpty(Properties.OptionsCredentialsPage.Default.DefaultPassword))
+                        if (string.Equals(Properties.OptionsCredentialsPage.Default.EmptyCredentials, "custom", StringComparison.Ordinal))
                         {
-                            LegacyRijndaelCryptographyProvider cryptographyProvider = new();
-                            _rdpClient.AdvancedSettings2.ClearTextPassword = cryptographyProvider.Decrypt(Properties.OptionsCredentialsPage.Default.DefaultPassword, Runtime.EncryptionKey);
+                            if (!string.IsNullOrEmpty(Properties.OptionsCredentialsPage.Default.DefaultPassword))
+                            {
+                                LegacyRijndaelCryptographyProvider cryptographyProvider = new();
+                                _rdpClient.AdvancedSettings2.ClearTextPassword = cryptographyProvider.Decrypt(Properties.OptionsCredentialsPage.Default.DefaultPassword, Runtime.EncryptionKey);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    _rdpClient.AdvancedSettings2.ClearTextPassword = password;
+                    else
+                    {
+                        _rdpClient.AdvancedSettings2.ClearTextPassword = password;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(domain))
