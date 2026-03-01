@@ -82,8 +82,8 @@ namespace ExternalConnectors.AWS
         {
             private static readonly RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\mRemoteAWSInterface");
 
-            public static string awsKeyID = "";
-            public static string awsKey = "";
+            internal static string awsKeyID = "";
+            internal static string awsKey = "";
             //public static string _region = "eu-central-1";
 
             public static void Init()

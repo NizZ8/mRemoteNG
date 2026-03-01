@@ -3,7 +3,7 @@ using mRemoteNG.Tools;
 
 namespace mRemoteNGTests.TestHelpers
 {
-	public class FileTestHelpers
+	public static class FileTestHelpers
     {
         public static void DeleteTestFile(string path)
         {

@@ -14,8 +14,8 @@ namespace mRemoteNGTests.IntegrationTests
 {
     public class XmlCredentialSerializerLifeCycleTests
     {
-        private ISecureSerializer<IEnumerable<ICredentialRecord>, string> _serializer;
-        private ISecureDeserializer<string, IEnumerable<ICredentialRecord>> _deserializer;
+        private XmlCredentialPasswordEncryptorDecorator _serializer;
+        private XmlCredentialPasswordDecryptorDecorator _deserializer;
         private readonly Guid _id = Guid.NewGuid();
         private const string Title = "mycredential1";
         private const string Username = "user1";

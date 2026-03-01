@@ -944,7 +944,7 @@ namespace BrightIdeasSoftware
             if (this.Billboard != null) {
                 Point pt = args.MouseLocation;
                 pt.Offset(5, 5);
-                if (this.Billboard.Text != this.dropEventArgs.InfoMessage || this.Billboard.Location != pt) {
+                if (!string.Equals(this.Billboard.Text, this.dropEventArgs.InfoMessage, StringComparison.Ordinal) || this.Billboard.Location != pt) {
                     this.Billboard.Text = this.dropEventArgs.InfoMessage;
                     this.Billboard.Location = pt;
                     this.ListView.Invalidate();

@@ -73,7 +73,7 @@ namespace mRemoteNGTests.Connection.Protocol
 
             if (method == null)
             {
-                throw new Exception("IsValidHostname method not found.");
+                throw new InvalidOperationException("IsValidHostname method not found.");
             }
 
             return (bool)method.Invoke(null, new object[] { hostname });

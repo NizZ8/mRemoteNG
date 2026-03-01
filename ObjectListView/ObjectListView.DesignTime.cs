@@ -41,6 +41,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
@@ -78,7 +79,7 @@ namespace BrightIdeasSoftware.Design
             Type tListViewDesigner = Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design") ??
                                      Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design, " +
                                                   "Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-            if (tListViewDesigner == null) throw new ArgumentException("Could not load ListViewDesigner");
+            if (tListViewDesigner == null) throw new ArgumentException("Could not load ListViewDesigner", nameof(tListViewDesigner));
 
             this.listViewDesigner = (ControlDesigner)Activator.CreateInstance(tListViewDesigner, BindingFlags.Instance | BindingFlags.Public, null, null, null);
             this.designerFilter = this.listViewDesigner;
@@ -191,7 +192,7 @@ namespace BrightIdeasSoftware.Design
             // Also hid Tooltip properties, since giving a tooltip to the control through the IDE
             // messes up the tooltip handling
             foreach (string propertyName in properties.Keys) {
-                if (propertyName.StartsWith("ToolTip")) {
+                if (propertyName.StartsWith("ToolTip", StringComparison.Ordinal)) {
                     unwantedProperties.Add(propertyName);
                 }
             }
@@ -382,7 +383,7 @@ namespace BrightIdeasSoftware.Design
                 // One more complication. The ListViewActionList classes uses an internal class, EditorServiceContext, to 
                 // edit the items/columns/groups collections. So, we use reflection to bypass the data hiding.
                 Type tEditorServiceContext = Type.GetType("System.Windows.Forms.Design.EditorServiceContext, System.Design");
-                tEditorServiceContext.InvokeMember("EditValue", BindingFlags.InvokeMethod | BindingFlags.Static, null, null, new object[] { componentDesigner, iComponent, propertyName });
+                tEditorServiceContext.InvokeMember("EditValue", BindingFlags.InvokeMethod | BindingFlags.Static, null, null, new object[] { componentDesigner, iComponent, propertyName }, CultureInfo.InvariantCulture);
             }
 
             private static void SetValue(object target, string propertyName, object value) {
@@ -432,10 +433,10 @@ namespace BrightIdeasSoftware.Design
             public override ICollection GetCommands(string name) {
                 // Debug.WriteLine("CDDesignerCommandSet.GetCommands:" + name);
                 if (componentDesigner != null) {
-                    if (name.Equals("Verbs")) {
+                    if (name.Equals("Verbs", StringComparison.Ordinal)) {
                         return componentDesigner.Verbs;
                     }
-                    if (name.Equals("ActionLists")) {
+                    if (name.Equals("ActionLists", StringComparison.Ordinal)) {
                         return componentDesigner.ActionLists;
                     }
                 }

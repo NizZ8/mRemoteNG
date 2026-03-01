@@ -38,7 +38,7 @@ public class XmlConnectionsLoaderIntegrationTests
         return new LegacyRijndaelCryptographyProvider();
     }
 
-    private static string WriteXmlToString(XNode xmlDocument)
+    private static string WriteXmlToString(XDocument xmlDocument)
     {
         string xmlString;
         XmlWriterSettings xmlWriterSettings = new() { Indent = true, IndentChars = "    ", Encoding = Encoding.UTF8};

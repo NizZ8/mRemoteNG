@@ -224,7 +224,7 @@ public class ConnectionInfoInheritanceTests
 
     private static bool PropertyIsBoolean(PropertyInfo property)
     {
-        return property.PropertyType.Name == typeof(bool).Name;
+        return string.Equals(property.PropertyType.Name, typeof(bool).Name, StringComparison.Ordinal);
     }
 
     private static bool BooleanPropertyIsSetToFalse(PropertyInfo property, ConnectionInfoInheritance inheritance)

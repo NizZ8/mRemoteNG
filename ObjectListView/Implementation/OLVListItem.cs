@@ -196,7 +196,7 @@ namespace BrightIdeasSoftware {
                 return this.decorations;
             }
         }
-        private IList<IDecoration> decorations;
+        private List<IDecoration> decorations;
 
         /// <summary>
         /// Gets whether or not this row can be selected and activated

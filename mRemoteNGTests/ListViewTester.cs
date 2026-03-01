@@ -176,7 +176,7 @@ namespace mRemoteNGTests
         {
             for (int i = 0; i < Properties.Items.Count; i++)
             {
-                if (Properties.Items[i].Text == text)
+                if (string.Equals(Properties.Items[i].Text, text, StringComparison.Ordinal))
                 {
                     return i;
                 }

@@ -1235,7 +1235,7 @@ namespace BrightIdeasSoftware
                     // If the branch is expanded, select the first child.
                     // If it isn't expanded and can be, expand it.
                     if (br.IsExpanded) {
-                        List<Branch> filtered = br.FilteredChildBranches;
+                        IList<Branch> filtered = br.FilteredChildBranches;
                         if (filtered.Count > 0)
                             this.SelectObject(filtered[0].Model, true);
                     } else {
@@ -1499,7 +1499,7 @@ namespace BrightIdeasSoftware
             /// </summary>
             protected virtual void RebuildList() {
                 this.objectList = ArrayList.Adapter(this.trunk.Flatten());
-                List<Branch> filtered = this.trunk.FilteredChildBranches;
+                IList<Branch> filtered = this.trunk.FilteredChildBranches;
                 if (filtered.Count > 0) {
                     filtered[0].IsFirstBranch = true;
                     filtered[0].IsOnlyBranch = (filtered.Count == 1);
@@ -1878,7 +1878,7 @@ namespace BrightIdeasSoftware
             /// <summary>
             /// Gets a list of all the branches that survive filtering
             /// </summary>
-            public List<Branch> FilteredChildBranches {
+            public IList<Branch> FilteredChildBranches {
                 get {
                     if (!this.IsExpanded && !this.Tree.IsFiltering)
                         return new List<Branch>();
@@ -1986,7 +1986,7 @@ namespace BrightIdeasSoftware
                     if (!this.IsExpanded)
                         return 0;
 
-                    List<Branch> filtered = this.FilteredChildBranches;
+                    IList<Branch> filtered = this.FilteredChildBranches;
                     int count = filtered.Count;
                     foreach (Branch br in filtered)
                         count += br.NumberVisibleDescendents;

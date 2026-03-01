@@ -35,3 +35,18 @@ dotnet_diagnostic.RCS1090.severity = none
 dotnet_diagnostic.CA1848.severity = none
 # CA2007: ConfigureAwait — WinForms needs SynchronizationContext
 dotnet_diagnostic.CA2007.severity = none
+
+# ===== ObjectListView — suppress naming/API conventions for third-party forked library =====
+[{ObjectListView/*.cs,ObjectListView/**/*.cs}]
+# CA1707: Identifiers should not contain underscores — OLV uses WIN32 constant naming (LVHT_ONITEMICON etc.)
+dotnet_diagnostic.CA1707.severity = none
+# CA1711: Identifiers should not have incorrect suffix — OLV API uses Delegate/Ex suffixes
+dotnet_diagnostic.CA1711.severity = none
+# CA1051: Do not declare visible instance fields — OLV EventArgs use public fields extensively
+dotnet_diagnostic.CA1051.severity = none
+# CA1725: Parameter names should match base declaration — OLV interface implementations use different param names
+dotnet_diagnostic.CA1725.severity = none
+# CA2211: Non-constant fields should not be visible — OLV static config pattern
+dotnet_diagnostic.CA2211.severity = none
+# MA0056: Do not call overridable members in constructor — adding CancellationToken would break OLV API
+dotnet_diagnostic.MA0056.severity = none

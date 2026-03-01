@@ -75,9 +75,9 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Sql
         public void WriteDatabaseMetaData_OnFailure_RollsBackCreatedTransaction()
         {
             var rootNode = new RootNodeInfo(RootNodeType.Connection);
-            _mockCommand.When(x => x.ExecuteNonQuery()).Do(x => throw new Exception("DB Error"));
+            _mockCommand.When(x => x.ExecuteNonQuery()).Do(x => throw new InvalidOperationException("DB Error"));
 
-            Assert.Throws<Exception>(() => _retriever.WriteDatabaseMetaData(rootNode, _mockConnector, null));
+            Assert.Throws<InvalidOperationException>(() => _retriever.WriteDatabaseMetaData(rootNode, _mockConnector, null));
 
             // Verify that a new transaction was started
             _mockConnection.Received(1).BeginTransaction();

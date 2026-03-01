@@ -15,17 +15,21 @@ namespace mRemoteNGTests.Connection.Protocol.VNC
 
         public class MockVncClient : VncClient
         {
-            public uint LastKeysym;
-            public bool LastPressed;
-            public int CallCount;
+            private uint _lastKeysym;
+            private bool _lastPressed;
+            private int _callCount;
+
+            public uint LastKeysym => _lastKeysym;
+            public bool LastPressed => _lastPressed;
+            public int CallCount => _callCount;
 
             // Hide the base method to intercept the call.
             // VncLockKeyFilter uses .GetType().GetMethod(), so it will find this method on the instance.
             public new void WriteKeyboardEvent(uint keysym, bool pressed)
             {
-                LastKeysym = keysym;
-                LastPressed = pressed;
-                CallCount++;
+                _lastKeysym = keysym;
+                _lastPressed = pressed;
+                _callCount++;
             }
         }
 

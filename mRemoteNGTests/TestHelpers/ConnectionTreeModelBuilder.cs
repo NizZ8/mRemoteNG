@@ -6,7 +6,7 @@ using mRemoteNG.Tree.Root;
 
 namespace mRemoteNGTests.TestHelpers
 {
-    public class ConnectionTreeModelBuilder
+    public static class ConnectionTreeModelBuilder
     {
         /// <summary>
         /// Builds a tree which looks like:

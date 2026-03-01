@@ -262,14 +262,14 @@ namespace BrightIdeasSoftware
                 return aspectParts;
             }
         }
-        private IList<SimpleMunger> aspectParts;
+        private List<SimpleMunger> aspectParts;
 
         /// <summary>
         /// Convert a possibly dotted AspectName into a list of SimpleMungers
         /// </summary>
         /// <param name="aspect"></param>
         /// <returns></returns>
-        private static IList<SimpleMunger> BuildParts(string aspect) {
+        private static List<SimpleMunger> BuildParts(string aspect) {
             List<SimpleMunger> parts = new List<SimpleMunger>();
             if (!String.IsNullOrEmpty(aspect)) {
                 foreach (string part in aspect.Split('.')) {
@@ -428,7 +428,7 @@ namespace BrightIdeasSoftware
 
         private void ResolveName(object target, string name, int numberMethodParameters) {
 
-            if (cachedTargetType == target.GetType() && cachedName == name && cachedNumberParameters == numberMethodParameters)
+            if (cachedTargetType == target.GetType() && string.Equals(cachedName, name, StringComparison.Ordinal) && cachedNumberParameters == numberMethodParameters)
                 return;
 
             cachedTargetType = target.GetType();
@@ -443,14 +443,14 @@ namespace BrightIdeasSoftware
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance /*| BindingFlags.NonPublic*/;
 
             foreach (PropertyInfo pinfo in target.GetType().GetProperties(flags)) {
-                if (pinfo.Name == name) {
+                if (string.Equals(pinfo.Name, name, StringComparison.Ordinal)) {
                     resolvedPropertyInfo = pinfo;
                     return;
                 }
-                
+
                 // See if we can find an string indexer property while we are here.
                 // We also need to allow for old style <object> keyed collections.
-                if (indexerPropertyInfo == null && pinfo.Name == "Item") {
+                if (indexerPropertyInfo == null && string.Equals(pinfo.Name, "Item", StringComparison.Ordinal)) {
                     ParameterInfo[] par = pinfo.GetGetMethod().GetParameters();
                     if (par.Length > 0) {
                          Type parameterType = par[0].ParameterType;
@@ -461,14 +461,14 @@ namespace BrightIdeasSoftware
             }
 
             foreach (FieldInfo info in target.GetType().GetFields(flags)) {
-                if (info.Name == name) {
+                if (string.Equals(info.Name, name, StringComparison.Ordinal)) {
                     resolvedFieldInfo = info;
                     return;
                 }
             }
 
             foreach (MethodInfo info in target.GetType().GetMethods(flags)) {
-                if (info.Name == name && info.GetParameters().Length == numberMethodParameters) {
+                if (string.Equals(info.Name, name, StringComparison.Ordinal) && info.GetParameters().Length == numberMethodParameters) {
                     resolvedMethodInfo = info;
                     return;
                 }

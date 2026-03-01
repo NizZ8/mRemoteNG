@@ -18,7 +18,7 @@ namespace mRemoteNGTests.IntegrationTests
         private XmlConnectionsSerializer _serializer;
         private XmlConnectionsDeserializer _deserializer;
         private ConnectionTreeModel _originalModel;
-        private readonly ICryptoProviderFactory _cryptoFactory = new CryptoProviderFactory(BlockCipherEngines.AES , BlockCipherModes.GCM);
+        private readonly CryptoProviderFactory _cryptoFactory = new CryptoProviderFactory(BlockCipherEngines.AES , BlockCipherModes.GCM);
 
         [SetUp]
         public void Setup()
@@ -66,7 +66,7 @@ namespace mRemoteNGTests.IntegrationTests
             var originalConnectionInfo = new ConnectionInfo {Name = "con1", Description = "£°úg¶┬ä" };
             var serializedContent = _serializer.Serialize(originalConnectionInfo);
             var deserializedModel = _deserializer.Deserialize(serializedContent);
-            var deserializedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => node.Name == originalConnectionInfo.Name);
+            var deserializedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => string.Equals(node.Name, originalConnectionInfo.Name, StringComparison.Ordinal));
             Assert.That(deserializedConnectionInfo.Description, Is.EqualTo(originalConnectionInfo.Description));
         }
 
@@ -97,7 +97,7 @@ namespace mRemoteNGTests.IntegrationTests
             serializedContent = serializedContent.Replace(originalConnectionInfo.ConstantID, "");
 
             var deserializedModel = _deserializer.Deserialize(serializedContent);
-            var deserializedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => node.Name == originalConnectionInfo.Name);
+            var deserializedConnectionInfo = deserializedModel.GetRecursiveChildList().First(node => string.Equals(node.Name, originalConnectionInfo.Name, StringComparison.Ordinal));
             Assert.That(Guid.TryParse(deserializedConnectionInfo.ConstantID, out var guid));
         }
 
@@ -136,7 +136,7 @@ namespace mRemoteNGTests.IntegrationTests
             var sb = new StringBuilder();
             foreach (var property in originalConnectionInfo.GetSerializableProperties())
             {
-                if (property.Name == nameof(ConnectionInfo.Password))
+                if (string.Equals(property.Name, nameof(ConnectionInfo.Password), StringComparison.Ordinal))
                     continue;
 
                 var originalValue = property.GetValue(originalConnectionInfo);
@@ -167,7 +167,7 @@ namespace mRemoteNGTests.IntegrationTests
             var sb = new StringBuilder();
             foreach (var property in ConnectionInfoInheritance.GetProperties())
             {
-                if (property.Name == nameof(originalConnectionInfo.Password))
+                if (string.Equals(property.Name, nameof(originalConnectionInfo.Password), StringComparison.Ordinal))
                     continue;
 
                 var originalValue = property.GetValue(originalConnectionInfo.Inheritance);

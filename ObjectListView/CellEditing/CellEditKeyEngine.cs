@@ -387,7 +387,7 @@ namespace BrightIdeasSoftware {
                 break;
             case CellEditAtEdgeBehaviour.ChangeColumn:
                 // Figure out the next editable column
-                List<OLVColumn> editableColumnsInDisplayOrder = this.EditableColumnsInDisplayOrder;
+                IList<OLVColumn> editableColumnsInDisplayOrder = this.EditableColumnsInDisplayOrder;
                 int displayIndex = Math.Max(0, editableColumnsInDisplayOrder.IndexOf(this.ListView.GetColumn(subItemIndex)));
                 if (isGoingUp)
                     displayIndex = (editableColumnsInDisplayOrder.Count + displayIndex - 1) % editableColumnsInDisplayOrder.Count;
@@ -417,7 +417,7 @@ namespace BrightIdeasSoftware {
             if (this.ListView.View != View.Details)
                 return;
 
-            List<OLVColumn> editableColumns = this.EditableColumnsInDisplayOrder;
+            IList<OLVColumn> editableColumns = this.EditableColumnsInDisplayOrder;
             OLVListItem olvi = this.ItemBeingEdited;
             int displayIndex = Math.Max(0,
                 editableColumns.IndexOf(this.ListView.GetColumn(this.SubItemIndexBeingEdited)));
@@ -505,7 +505,7 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Gets a collection of columns that are editable in the order they are shown to the user
         /// </summary>
-        protected List<OLVColumn> EditableColumnsInDisplayOrder {
+        protected IList<OLVColumn> EditableColumnsInDisplayOrder {
             get {
                 List<OLVColumn> editableColumnsInDisplayOrder = new List<OLVColumn>();
                 foreach (OLVColumn x in this.ListView.ColumnsInDisplayOrder)

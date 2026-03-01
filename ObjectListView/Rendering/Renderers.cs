@@ -699,7 +699,7 @@ namespace BrightIdeasSoftware {
                 case HorizontalAlignment.Right:
                     return outer.Right - inner.Width - 1;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(alignment));
             }
         }
 
@@ -723,7 +723,8 @@ namespace BrightIdeasSoftware {
         /// <param name="innerHeight"></param>
         /// <returns></returns>
         protected int AlignVertically(Rectangle outer, int innerHeight) {
-            switch (this.EffectiveCellVerticalAlignment) {
+            var alignment = this.EffectiveCellVerticalAlignment;
+            switch (alignment) {
                 case StringAlignment.Near:
                     return outer.Top + 1;
                 case StringAlignment.Center:
@@ -731,7 +732,7 @@ namespace BrightIdeasSoftware {
                 case StringAlignment.Far:
                     return outer.Bottom - innerHeight - 1;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(alignment));
             }
         }
 
@@ -1738,7 +1739,8 @@ namespace BrightIdeasSoftware {
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         protected TextFormatFlags CellVerticalAlignmentAsTextFormatFlag {
             get {
-                switch (this.EffectiveCellVerticalAlignment) {
+                var alignment = this.EffectiveCellVerticalAlignment;
+                switch (alignment) {
                     case StringAlignment.Near:
                         return TextFormatFlags.Top;
                     case StringAlignment.Center:
@@ -1746,7 +1748,7 @@ namespace BrightIdeasSoftware {
                     case StringAlignment.Far:
                         return TextFormatFlags.Bottom;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(alignment));
                 }
             }
         }
@@ -2213,7 +2215,7 @@ namespace BrightIdeasSoftware {
         public MappedImageRenderer(Object[] keysAndImages)
             : this() {
             if ((keysAndImages.GetLength(0) % 2) != 0)
-                throw new ArgumentException("Array must have key/image pairs");
+                throw new ArgumentException("Array must have key/image pairs", nameof(keysAndImages));
 
             for (int i = 0; i < keysAndImages.GetLength(0); i += 2)
                 this.Add(keysAndImages[i], keysAndImages[i + 1]);

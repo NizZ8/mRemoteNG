@@ -30,7 +30,7 @@ public class SqlConnectionsLoaderIntegrationTests
     private IDataProvider<DataTable> _sqlDataProviderMock;
     private ISqlDatabaseMetaDataRetriever _metaDataRetrieverMock;
     private ISqlDatabaseVersionVerifier _versionVerifierMock;
-    private ICryptographyProvider _cryptographyProvider;
+    private LegacyRijndaelCryptographyProvider _cryptographyProvider;
 
     [SetUp]
     public void Setup()

@@ -106,6 +106,7 @@ namespace BrightIdeasSoftware {
     /// A collection of ListViewHitTest constants
     /// </summary>
     [Flags]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "Win32 API constants share values by design")]
     public enum HitTestLocationEx {
         /// <summary>
         /// 

@@ -1,4 +1,5 @@
 using System;
+using System;
 using System.Linq;
 using mRemoteNG.Config.Serializers.ConnectionSerializers.Json;
 using mRemoteNG.Connection;
@@ -178,13 +179,13 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Json
 
                     // Check nesting structure via string index comparison (crude but effective)
 
-                    int rootIdx = json.IndexOf("\"Name\": \"Root\"");
+                    int rootIdx = json.IndexOf("\"Name\": \"Root\"", StringComparison.Ordinal);
 
-                    int l1Idx = json.IndexOf("\"Name\": \"Level 1\"");
+                    int l1Idx = json.IndexOf("\"Name\": \"Level 1\"", StringComparison.Ordinal);
 
-                    int l2Idx = json.IndexOf("\"Name\": \"Level 2\"");
+                    int l2Idx = json.IndexOf("\"Name\": \"Level 2\"", StringComparison.Ordinal);
 
-                    int leafIdx = json.IndexOf("\"Name\": \"Leaf\"");
+                    int leafIdx = json.IndexOf("\"Name\": \"Leaf\"", StringComparison.Ordinal);
 
         
 

@@ -242,7 +242,7 @@ public class ProtocolAnyDeskTests
 
         if (method == null)
         {
-            throw new Exception("IsValidAnydeskId method not found. The method may have been renamed or removed.");
+            throw new InvalidOperationException("IsValidAnydeskId method not found. The method may have been renamed or removed.");
         }
 
         return (bool)method.Invoke(null, new object[] { anydeskId });

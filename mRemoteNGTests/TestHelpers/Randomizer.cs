@@ -46,7 +46,7 @@ namespace mRemoteNGTests.TestHelpers
         internal static T RandomEnum<T>(params object[] excludeValues) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
-                throw new ArgumentException("T must be an enum");
+                throw new ArgumentException("T must be an enum", nameof(excludeValues));
 
             return (T)RandomEnum(typeof(T), excludeValues);
         }
@@ -54,7 +54,7 @@ namespace mRemoteNGTests.TestHelpers
         internal static object RandomEnum(Type enumType, params object[] excludeValues)
         {
             if (!enumType.IsEnum)
-                throw new ArgumentException("enumType must be an enum");
+                throw new ArgumentException("enumType must be an enum", nameof(enumType));
 
             var values = Enum.GetValues(enumType);
             return GetNonExcludedValue(() => values.GetValue(Random.Next(values.Length)), excludeValues);

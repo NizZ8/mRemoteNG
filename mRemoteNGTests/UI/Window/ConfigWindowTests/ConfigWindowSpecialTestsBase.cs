@@ -10,9 +10,9 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
     {
         protected abstract ProtocolType Protocol { get; }
         protected bool TestAgainstContainerInfo { get; set; }
-        protected ConfigWindow ConfigWindow;
-        protected ConnectionInfo ConnectionInfo;
-        protected List<string> ExpectedPropertyList;
+        protected ConfigWindow ConfigWindow { get; set; }
+        protected ConnectionInfo ConnectionInfo { get; set; }
+        protected List<string> ExpectedPropertyList { get; set; }
 
         [SetUp]
         public virtual void Setup()

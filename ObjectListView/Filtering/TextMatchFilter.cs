@@ -560,7 +560,7 @@ namespace BrightIdeasSoftware {
                 get {
                     if (this.regex == null) {
                         try {
-                            this.regex = new Regex(this.Text, this.RegexOptions);
+                            this.regex = new Regex(this.Text, this.RegexOptions, TimeSpan.FromSeconds(1));
                         }
                         catch (ArgumentException) {
                             this.regex = TextRegexMatchingStrategy.InvalidRegexMarker;
@@ -582,7 +582,7 @@ namespace BrightIdeasSoftware {
                     return this.Regex == TextRegexMatchingStrategy.InvalidRegexMarker;
                 }
             }
-            static private Regex InvalidRegexMarker = new Regex(".*");
+            static private Regex InvalidRegexMarker = new Regex(".*", RegexOptions.None, TimeSpan.FromSeconds(1));
 
             /// <summary>
             /// Does the given text match the filter

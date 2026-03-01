@@ -112,7 +112,7 @@ namespace mRemoteNGTests.Connection
             Assert.That(expectedNoHostnameText, Is.Not.Null.And.Not.Empty, "Could not resolve expected resource text");
 
             var hostnameErrors = _messageCollector.Messages
-                .Where(m => m.Text == expectedNoHostnameText)
+                .Where(m => string.Equals(m.Text, expectedNoHostnameText, StringComparison.Ordinal))
                 .ToList();
 
             Assert.That(hostnameErrors, Is.Empty, 

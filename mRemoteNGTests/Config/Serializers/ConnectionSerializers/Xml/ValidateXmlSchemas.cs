@@ -74,7 +74,7 @@ public class ValidateXmlSchemas
         return filePath;
     }
 
-    private static Stream GenerateStreamFromString(string s)
+    private static MemoryStream GenerateStreamFromString(string s)
     {
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream);

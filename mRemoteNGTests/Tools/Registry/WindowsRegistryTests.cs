@@ -561,7 +561,7 @@ namespace mRemoteNGTests.Tools.Registry
             Assert.That(entries, Is.InstanceOf<List< WinRegistryEntry<string>>> ());
 
             // Assert that the subkey is included in the entries list
-            Assert.That(entries.Any(e => e.Name == testNameSubKey), Is.True, "Subkey entry should be included in the entries list.");
+            Assert.That(entries.Any(e => string.Equals(e.Name, testNameSubKey, StringComparison.Ordinal)), Is.True, "Subkey entry should be included in the entries list.");
 
             foreach (var entry in entries)
             {

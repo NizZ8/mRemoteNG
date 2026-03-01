@@ -124,7 +124,7 @@ namespace BrightIdeasSoftware {
                 return this.decorations;
             }
         }
-        private IList<IDecoration> decorations;
+        private List<IDecoration> decorations;
 
         /// <summary>
         /// Get or set the image that should be shown against this item

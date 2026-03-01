@@ -11,12 +11,12 @@ namespace mRemoteNGTests.UI.Forms
         private static void SetLockPanels(bool value)
         {
             var optionsType = typeof(FrmMain).Assembly.GetType("mRemoteNG.Properties.OptionsTabsPanelsPage")
-                ?? throw new Exception("Could not find OptionsTabsPanelsPage type");
+                ?? throw new InvalidOperationException("Could not find OptionsTabsPanelsPage type");
             var defaultProp = optionsType.GetProperty("Default", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
-                ?? throw new Exception("Could not find Default property");
+                ?? throw new InvalidOperationException("Could not find Default property");
             var defaultInstance = defaultProp.GetValue(null);
             var lockPanelsProp = optionsType.GetProperty("LockPanels", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                ?? throw new Exception("Could not find LockPanels property");
+                ?? throw new InvalidOperationException("Could not find LockPanels property");
             lockPanelsProp.SetValue(defaultInstance, value);
         }
 

@@ -37,8 +37,8 @@
 using System;
 using System.ComponentModel;
 using System.Data;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
@@ -117,7 +117,7 @@ namespace BrightIdeasSoftware
         public virtual string DataMember {
             get { return dataMember; }
             set {
-                if (dataMember != value) {
+                if (!string.Equals(dataMember, value, StringComparison.Ordinal)) {
                     dataMember = value;
                     RebindDataSource();
                 }

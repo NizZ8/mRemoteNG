@@ -307,7 +307,7 @@ public class RemoteDesktopConnectionManagerDeserializerTests
     [Test]
     public void CanDeserializeRdcMan282File()
     {
-        var fileContents = Resources.ResourceManager.GetString("test_rdcman_v2_82_schema3");
+        var fileContents = Resources.ResourceManager.GetString("test_rdcman_v2_82_schema3", System.Globalization.CultureInfo.InvariantCulture);
         Assert.That(fileContents, Is.Not.Null.And.Not.Empty);
 
         var connectionTreeModel282 = _deserializer.Deserialize(fileContents!);
@@ -317,7 +317,7 @@ public class RemoteDesktopConnectionManagerDeserializerTests
     [Test]
     public void RdcMan282ConnectionPropertiesImported()
     {
-        var fileContents = Resources.ResourceManager.GetString("test_rdcman_v2_82_schema3");
+        var fileContents = Resources.ResourceManager.GetString("test_rdcman_v2_82_schema3", System.Globalization.CultureInfo.InvariantCulture);
         Assert.That(fileContents, Is.Not.Null.And.Not.Empty);
 
         var connectionTreeModel282 = _deserializer.Deserialize(fileContents!);

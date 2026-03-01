@@ -650,6 +650,10 @@ namespace BrightIdeasSoftware
     [Designer(typeof(BrightIdeasSoftware.Design.ObjectListViewDesigner))]
     public partial class ObjectListView : ListView, ISupportInitialize
     {
+        private static readonly JsonSerializerOptions s_jsonSerializerOptions = new JsonSerializerOptions
+        {
+            WriteIndented = false
+        };
 
         #region Life and death
 
@@ -5869,11 +5873,7 @@ namespace BrightIdeasSoftware
             using (MemoryStream ms = new MemoryStream())
             {
                 // Use System.Text.Json for serialization
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = false
-                };
-                byte[] serializedData = JsonSerializer.SerializeToUtf8Bytes(olvState, options);
+                byte[] serializedData = JsonSerializer.SerializeToUtf8Bytes(olvState, s_jsonSerializerOptions);
                 ms.Write(serializedData, 0, serializedData.Length);
                 return ms.ToArray();
             }
@@ -5968,7 +5968,7 @@ namespace BrightIdeasSoftware
             Application.Idle -= new EventHandler(HandleApplicationIdle);
             this.hasIdleHandler = false;
 
-            this.OnSelectionChanged(new EventArgs());
+            this.OnSelectionChanged(EventArgs.Empty);
         }
 
         /// <summary>
@@ -6265,7 +6265,7 @@ namespace BrightIdeasSoftware
 
             // If this control is showing checkboxes, we want to ignore single space presses,
             // since they are used to toggle the selected checkboxes.
-            if (this.GetCheckBoxes() && this.lastSearchString == " ")
+            if (this.GetCheckBoxes() && string.Equals(this.lastSearchString, " ", StringComparison.Ordinal))
             {
                 this.timeLastCharEvent = 0;
                 return true;
@@ -8461,7 +8461,7 @@ namespace BrightIdeasSoftware
         {
             foreach (ColumnHeader column in this.Columns)
             {
-                if (column.Text == name)
+                if (string.Equals(column.Text, name, StringComparison.Ordinal))
                     return (OLVColumn)column;
             }
             return null;
@@ -9393,7 +9393,7 @@ namespace BrightIdeasSoftware
             if (columnIndex >= 0)
             {
                 OLVListSubItem subItem = this.GetSubItem(rowIndex, columnIndex);
-                if (subItem != null && !String.IsNullOrEmpty(subItem.Url) && subItem.Url != subItem.Text &&
+                if (subItem != null && !String.IsNullOrEmpty(subItem.Url) && !string.Equals(subItem.Url, subItem.Text, StringComparison.Ordinal) &&
                     this.HotCellHitLocation == HitTestLocation.Text)
                     return subItem.Url;
             }
@@ -10585,7 +10585,7 @@ namespace BrightIdeasSoftware
 
             try
             {
-                return control.GetType().InvokeMember("Value", BindingFlags.GetProperty, null, control, null);
+                return control.GetType().InvokeMember("Value", BindingFlags.GetProperty, null, control, null, CultureInfo.InvariantCulture);
             }
             catch (MissingMethodException)
             { // Microsoft throws this
@@ -11372,7 +11372,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="g">A Graphics</param>
         /// <param name="itemsThatWereRedrawn">The items that were redrawn and whose decorations should also be redrawn</param>
-        protected virtual void DrawAllDecorations(Graphics g, List<OLVListItem> itemsThatWereRedrawn)
+        protected virtual void DrawAllDecorations(Graphics g, IList<OLVListItem> itemsThatWereRedrawn)
         {
             g.TextRenderingHint = ObjectListView.TextRenderingHint;
             g.SmoothingMode = ObjectListView.SmoothingMode;

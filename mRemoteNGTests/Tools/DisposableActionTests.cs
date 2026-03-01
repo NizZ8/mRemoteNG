@@ -9,7 +9,7 @@ namespace mRemoteNGTests.Tools
 		public void InitializerActionRunsWhenObjectIsCreated()
 		{
 			var initializerRan = false;
-			new DisposableAction(() => initializerRan = true, () => { });
+			_ = new DisposableAction(() => initializerRan = true, () => { });
 
 			Assert.That(initializerRan);
 		}

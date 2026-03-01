@@ -41,6 +41,7 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// What format will be used for exporting
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "TSV is an intentional alias for TabSeparated")]
         public enum ExportFormat {
 
             /// <summary>

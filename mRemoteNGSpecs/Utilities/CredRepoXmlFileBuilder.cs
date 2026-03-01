@@ -1,6 +1,6 @@
 ﻿namespace mRemoteNGSpecs.Utilities
 {
-    public class CredRepoXmlFileBuilder
+    public static class CredRepoXmlFileBuilder
     {
         public static string Build(string authHeader, int kdfIterations = 600_000)
         {

@@ -111,7 +111,7 @@ namespace BrightIdeasSoftware {
 
             string keyAsString = this.ClusterKey as string;
             if (keyAsString != null)
-                return String.Compare(keyAsString, otherCluster.ClusterKey as string, StringComparison.CurrentCultureIgnoreCase);
+                return String.Compare(keyAsString, otherCluster.ClusterKey as string, StringComparison.OrdinalIgnoreCase);
 
             IComparable keyAsComparable = this.ClusterKey as IComparable;
             if (keyAsComparable != null)

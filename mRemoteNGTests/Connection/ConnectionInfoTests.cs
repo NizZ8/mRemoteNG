@@ -245,7 +245,7 @@ namespace mRemoteNGTests.Connection
             Assert.That(_connectionInfo.Hostname, Is.EqualTo("myserver.example.com"));
         }
 
-	    private class InheritancePropertyProvider
+	    private static class InheritancePropertyProvider
 	    {
 		    public static IEnumerable<PropertyInfo> GetProperties()
 		    {

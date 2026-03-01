@@ -47,10 +47,10 @@ namespace mRemoteNGTests.Config.Connections
             var rootNode = new RootNodeInfo(RootNodeType.Connection);
             
             // Force an exception when ExecuteNonQuery is called
-            _dbCommand.ExecuteNonQuery().Throws(new Exception("Database error"));
+            _dbCommand.ExecuteNonQuery().Throws(new InvalidOperationException("Database error"));
 
             // Act & Assert
-            Assert.Throws<Exception>(() => _retriever.WriteDatabaseMetaData(rootNode, _dbConnector));
+            Assert.Throws<InvalidOperationException>(() => _retriever.WriteDatabaseMetaData(rootNode, _dbConnector));
             
             // Verify rollback was called
             _transaction.Received(1).Rollback();

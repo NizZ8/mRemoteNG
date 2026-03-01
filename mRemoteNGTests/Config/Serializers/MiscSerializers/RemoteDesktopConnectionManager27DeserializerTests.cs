@@ -142,7 +142,7 @@ public class RemoteDesktopConnectionManager27DeserializerTests
         Assert.That(() => _deserializer.Deserialize(badFileContents), Throws.TypeOf<FileFormatException>());
     }
 
-    private static IEnumerable<TestCaseData> ExpectedPropertyValues()
+    private static TestCaseData[] ExpectedPropertyValues()
     {
         return new[]
         {
@@ -193,7 +193,7 @@ public class RemoteDesktopConnectionManager27DeserializerTests
         };
     }
 
-    private static IEnumerable<TestCaseData> NullPropertyValues()
+    private static TestCaseData[] NullPropertyValues()
     {
         return new[]
         {

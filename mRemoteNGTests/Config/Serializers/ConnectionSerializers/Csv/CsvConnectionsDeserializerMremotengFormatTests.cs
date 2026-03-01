@@ -185,9 +185,9 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
             return connectionInfo;
         }
 
-        private class DeserializationTestSource
+        private static class DeserializationTestSource
         {
-            public static IEnumerable ConnectionPropertyTestCases()
+            public static List<TestCaseData> ConnectionPropertyTestCases()
             {
                 var ignoreProperties = new[]
                 {
@@ -214,7 +214,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Csv
                 return testCases;
             }
 
-            public static IEnumerable InheritanceTestCases()
+            public static List<TestCaseData> InheritanceTestCases()
             {
                 var ignoreProperties = new[]
                 {

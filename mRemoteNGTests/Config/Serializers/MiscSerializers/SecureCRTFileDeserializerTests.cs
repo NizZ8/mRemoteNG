@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using mRemoteNG.Config.Serializers.MiscSerializers;
 using mRemoteNG.Connection;
@@ -150,16 +151,16 @@ public class SecureCRTFileDeserializerTests
 
     private static ContainerInfo GetContainerNamed(string name, IEnumerable<ConnectionInfo> list)
     {
-        return list.First(node => node is ContainerInfo && node.Name == name) as ContainerInfo;
+        return list.First(node => node is ContainerInfo && string.Equals(node.Name, name, StringComparison.Ordinal)) as ContainerInfo;
     }
 
     private static ConnectionInfo GetConnectionNamed(string name, IEnumerable<ConnectionInfo> list)
     {
-        return list.First(node => node is ConnectionInfo && node.Name == name);
+        return list.First(node => node is ConnectionInfo && string.Equals(node.Name, name, StringComparison.Ordinal));
     }
 
     private static bool ContainsNodeNamed(string name, IEnumerable<ConnectionInfo> list)
     {
-        return list.Any(node => node.Name == name);
+        return list.Any(node => string.Equals(node.Name, name, StringComparison.Ordinal));
     }
 }

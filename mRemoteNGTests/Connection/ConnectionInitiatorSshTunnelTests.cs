@@ -229,7 +229,7 @@ namespace mRemoteNGTests.Connection
 
                 // Assert
                 Assert.That(completed, Is.True, "Tunnel port validation should have been called 3 times (2 failures + 1 success)");
-                _mockTunnelPortValidator.Received(3).ValidatePortAsync(Arg.Any<int>());
+                _ = _mockTunnelPortValidator.Received(3).ValidatePortAsync(Arg.Any<int>());
                 _mockProtocolFactory.Received(1).CreateProtocol(Arg.Is<ConnectionInfo>(c => string.Equals(c.Hostname, "localhost", StringComparison.OrdinalIgnoreCase)));
             }
             finally

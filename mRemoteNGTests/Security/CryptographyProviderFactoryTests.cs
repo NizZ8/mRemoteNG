@@ -24,7 +24,7 @@ namespace mRemoteNGTests.Security
             Assert.That(cryptoProvider.CipherMode, Is.EqualTo(mode));
         }
 
-        private class TestCaseSources
+        private static class TestCaseSources
         {
             public static IEnumerable AllEngineAndModeCombos
             {

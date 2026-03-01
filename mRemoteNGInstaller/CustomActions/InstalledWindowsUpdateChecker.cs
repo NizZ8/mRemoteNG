@@ -9,7 +9,7 @@ namespace CustomActions
     public class InstalledWindowsUpdateChecker
     {
         private readonly ManagementScope _managementScope;
-        private static readonly Regex KbPattern = new Regex(@"^(KB)?\d+$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex KbPattern = new Regex(@"^(?:KB)?\d+$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(1));
 
         public InstalledWindowsUpdateChecker()
         {
@@ -98,7 +98,7 @@ namespace CustomActions
             var normalizedKb = trimmedKb.ToUpperInvariant();
             
             // Ensure KB prefix is present (Win32_QuickFixEngineering always uses the KB prefix)
-            if (!normalizedKb.StartsWith("KB"))
+            if (!normalizedKb.StartsWith("KB", StringComparison.Ordinal))
                 normalizedKb = "KB" + normalizedKb;
 
             return normalizedKb;

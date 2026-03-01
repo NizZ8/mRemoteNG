@@ -161,7 +161,7 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
             return (bool)isHostReachableMethod!.Invoke(null, new object[] { hostname, port, timeoutMilliseconds })!;
         }
 
-        private static IEnumerable<TestCaseData> ConnectionInfoGeneralTestCases()
+        private static List<TestCaseData> ConnectionInfoGeneralTestCases()
         {
             var protocolTypes = typeof(ProtocolType).GetEnumValues().OfType<ProtocolType>();
             var testCases = new List<TestCaseData>();

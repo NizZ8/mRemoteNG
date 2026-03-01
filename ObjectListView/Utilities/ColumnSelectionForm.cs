@@ -248,7 +248,7 @@ namespace BrightIdeasSoftware
                     return 1;
 
                 if (x.DisplayIndex == y.DisplayIndex)
-                    return x.Text.CompareTo(y.Text);
+                    return string.Compare(x.Text, y.Text, StringComparison.Ordinal);
                 else
                     return x.DisplayIndex - y.DisplayIndex;
             }

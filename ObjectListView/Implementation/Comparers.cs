@@ -154,7 +154,7 @@ namespace BrightIdeasSoftware
         private static int CompareStrings(string x, string y)
         {
             if (StringComparer == null)
-                return String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase);
+                return String.Compare(x, y, StringComparison.OrdinalIgnoreCase);
             else
                 return StringComparer(x, y);
         }
@@ -190,7 +190,7 @@ namespace BrightIdeasSoftware
             if (x.SortValue != null && y.SortValue != null)
                 result = x.SortValue.CompareTo(y.SortValue);
             else
-                result = String.Compare(x.Header, y.Header, StringComparison.CurrentCultureIgnoreCase);
+                result = String.Compare(x.Header, y.Header, StringComparison.OrdinalIgnoreCase);
 
             if (this.sortOrder == SortOrder.Descending)
                 result = 0 - result;
@@ -298,7 +298,7 @@ namespace BrightIdeasSoftware
         private static int CompareStrings(string x, string y)
         {
             if (StringComparer == null)
-                return String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase);
+                return String.Compare(x, y, StringComparison.OrdinalIgnoreCase);
             else
                 return StringComparer(x, y);
         }

@@ -12,7 +12,7 @@ namespace mRemoteNGTests.Security
 {
     public class AeadCryptographyProviderTests
     {
-        private ICryptographyProvider _cryptographyProvider;
+        private AeadCryptographyProvider? _cryptographyProvider;
         private SecureString _encryptionKey;
         private string _plainText;
 
@@ -60,7 +60,7 @@ namespace mRemoteNGTests.Security
             Assert.That(cipherText1, Is.Not.EqualTo(cipherText2));
         }
 
-        private static IEnumerable GetAllBlockCipherEngineAndModeCombinations()
+        private static ArrayList GetAllBlockCipherEngineAndModeCombinations()
         {
             var combinationList = new ArrayList();
             var engineChoices = Enum.GetValues<BlockCipherEngines>();
@@ -104,7 +104,7 @@ namespace mRemoteNGTests.Security
         }
 
 
-        private class TestCaseSources
+        private static class TestCaseSources
         {
             public static IEnumerable AllEngineAndModeCombos
             {

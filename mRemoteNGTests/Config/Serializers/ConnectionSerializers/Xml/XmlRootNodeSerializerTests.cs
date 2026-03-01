@@ -12,7 +12,7 @@ namespace mRemoteNGTests.Config.Serializers.ConnectionSerializers.Xml;
 
 public class XmlRootNodeSerializerTests
 {
-    private ICryptographyProvider _cryptographyProvider;
+    private AeadCryptographyProvider _cryptographyProvider;
     private RootNodeInfo _rootNodeInfo;
     private Version _version;
 
@@ -146,7 +146,7 @@ public class XmlRootNodeSerializerTests
         Assert.That(confVersion, Is.EqualTo(_version));
     }
 
-    private class TestCaseSources
+    private static class TestCaseSources
     {
         public static IEnumerable AllEngineAndModeCombos
         {

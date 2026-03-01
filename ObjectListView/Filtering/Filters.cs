@@ -189,7 +189,7 @@ namespace BrightIdeasSoftware
     /// Create a filter
     /// </remarks>
     /// <param name="filters"></param>
-    public class CompositeAllFilter(List<IModelFilter> filters) : CompositeFilter(filters) {
+    public class CompositeAllFilter(IList<IModelFilter> filters) : CompositeFilter(filters) {
 
         /// <summary>
         /// Decide whether or not the given model should be included by the filter
@@ -215,7 +215,7 @@ namespace BrightIdeasSoftware
     /// Create a filter from the given filters
     /// </remarks>
     /// <param name="filters"></param>
-    public class CompositeAnyFilter(List<IModelFilter> filters) : CompositeFilter(filters) {
+    public class CompositeAnyFilter(IList<IModelFilter> filters) : CompositeFilter(filters) {
 
         /// <summary>
         /// Decide whether or not the given model should be included by the filter

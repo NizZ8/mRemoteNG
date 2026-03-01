@@ -94,7 +94,7 @@ namespace mRemoteNGTests.Tools
 
 
 
-        private class ParserTestsDataSource
+        private static class ParserTestsDataSource
         {
             public static IEnumerable TestCases
             {

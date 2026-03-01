@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using mRemoteNG.Connection;
 using mRemoteNG.Tree.Smart;
@@ -36,7 +37,7 @@ namespace mRemoteNGTests.Tree.Smart
             bool fired = false;
             
             smart.PropertyChanged += (s, e) => {
-                if (e.PropertyName == nameof(ConnectionInfo.Name)) fired = true;
+                if (string.Equals(e.PropertyName, nameof(ConnectionInfo.Name), StringComparison.Ordinal)) fired = true;
             };
 
             // Act

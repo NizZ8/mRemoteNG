@@ -9,7 +9,7 @@ namespace mRemoteNGTests.Security
 {
     public class LegacyRijndaelCryptographyProviderTests
     {
-        private ICryptographyProvider _rijndaelCryptographyProvider;
+        private LegacyRijndaelCryptographyProvider? _rijndaelCryptographyProvider;
         private SecureString _encryptionKey;
         private string _plainText;
         private const string CipherText = "RmV7zw/a7ZRRzZdcTkrLDgBfyEmeh8OFMgg2OKFJnwg=";

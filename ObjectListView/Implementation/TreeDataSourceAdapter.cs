@@ -42,7 +42,7 @@ namespace BrightIdeasSoftware
         public virtual string KeyAspectName {
             get { return keyAspectName; }
             set {
-                if (keyAspectName == value)
+                if (string.Equals(keyAspectName, value, StringComparison.Ordinal))
                     return;
                 keyAspectName = value;
                 this.keyMunger = new Munger(this.KeyAspectName);
@@ -69,7 +69,7 @@ namespace BrightIdeasSoftware
         public virtual string ParentKeyAspectName {
             get { return parentKeyAspectName; }
             set {
-                if (parentKeyAspectName == value)
+                if (string.Equals(parentKeyAspectName, value, StringComparison.Ordinal))
                     return;
                 parentKeyAspectName = value;
                 this.parentKeyMunger = new Munger(this.ParentKeyAspectName);
@@ -155,7 +155,7 @@ namespace BrightIdeasSoftware
         /// <returns></returns>
         protected override bool ShouldCreateColumn(PropertyDescriptor property) {
             // If the property is a key column, and we aren't supposed to show keys, don't show it
-            if (!this.ShowKeyColumns && (property.Name == this.KeyAspectName || property.Name == this.ParentKeyAspectName))
+            if (!this.ShowKeyColumns && (string.Equals(property.Name, this.KeyAspectName, StringComparison.Ordinal) || string.Equals(property.Name, this.ParentKeyAspectName, StringComparison.Ordinal)))
                 return false;
 
             return base.ShouldCreateColumn(property);
@@ -171,9 +171,9 @@ namespace BrightIdeasSoftware
             // tell the previous parent to refresh itself. If the id itself has changed, things that used
             // to be children will no longer be children. Just rebuild everything.
             // It seems PropertyDescriptor is only filled in .NET 4 :(
-            if (e.PropertyDescriptor != null && 
-                (e.PropertyDescriptor.Name == this.KeyAspectName ||
-                 e.PropertyDescriptor.Name == this.ParentKeyAspectName))
+            if (e.PropertyDescriptor != null &&
+                (string.Equals(e.PropertyDescriptor.Name, this.KeyAspectName, StringComparison.Ordinal) ||
+                 string.Equals(e.PropertyDescriptor.Name, this.ParentKeyAspectName, StringComparison.Ordinal)))
                 this.InitializeDataSource();
             else
                 base.HandleListChangedItemChanged(e);

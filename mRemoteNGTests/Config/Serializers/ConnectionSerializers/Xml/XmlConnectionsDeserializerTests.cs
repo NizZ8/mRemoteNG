@@ -154,17 +154,17 @@ public class XmlConnectionsDeserializerTests
 
     private static bool ContainsNodeNamed(string name, IEnumerable<ConnectionInfo> list)
     {
-        return list.Any(node => node.Name == name);
+        return list.Any(node => string.Equals(node.Name, name, StringComparison.Ordinal));
     }
 
     private static ContainerInfo GetFolderNamed(string name, IEnumerable<ConnectionInfo> list)
     {
-        var folder = list.First(node => node is ContainerInfo && node.Name == name) as ContainerInfo;
+        var folder = list.First(node => node is ContainerInfo && string.Equals(node.Name, name, StringComparison.Ordinal)) as ContainerInfo;
         return folder;
     }
 }
 
-public class XmlConnectionsDeserializerFixtureData
+public static class XmlConnectionsDeserializerFixtureData
 {
     public static IEnumerable FixtureParams
     {

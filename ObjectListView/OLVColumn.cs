@@ -31,12 +31,13 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Drawing;
 using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Design;
+using System.Globalization;
+using System.Windows.Forms;
 
 namespace BrightIdeasSoftware {
 
@@ -1521,7 +1522,7 @@ namespace BrightIdeasSoftware {
             if (this.UseInitialLetterForGroup) {
                 String keyAsString = key as String;
                 if (!String.IsNullOrEmpty(keyAsString))
-                    return keyAsString.Substring(0, 1).ToUpper();
+                    return keyAsString.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture);
                 }
 
             return key;
@@ -1804,7 +1805,7 @@ namespace BrightIdeasSoftware {
             ArgumentNullException.ThrowIfNull(values);
             ArgumentNullException.ThrowIfNull(descriptions);
             if (values.Length + 1 != descriptions.Length)
-                throw new ArgumentException("descriptions must have one more element than values.");
+                throw new ArgumentException("descriptions must have one more element than values.", nameof(descriptions));
 
             // Install a delegate that returns the index of the description to be shown
             this.GroupKeyGetter = delegate(object row) {
@@ -1870,7 +1871,7 @@ namespace BrightIdeasSoftware {
             ArgumentNullException.ThrowIfNull(values);
             ArgumentNullException.ThrowIfNull(descriptions);
             if (values.Length != descriptions.Length)
-                throw new ArgumentException("descriptions must have the same number of elements as values.");
+                throw new ArgumentException("descriptions must have the same number of elements as values.", nameof(descriptions));
 
             ArrayList valuesArray = new ArrayList(values);
 
