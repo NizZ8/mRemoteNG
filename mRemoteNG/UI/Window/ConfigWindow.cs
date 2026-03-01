@@ -59,6 +59,7 @@ namespace mRemoteNG.UI.Window
             get => _selectedTreeNode;
             set
             {
+                _selectedTreeNode = value;
                 SelectedTreeNodes = value != null ? new[] { value } : null;
             }
         }
