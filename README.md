@@ -50,7 +50,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | What you get |
 |---------|---------|--------|--------------|
-| **[Latest Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
+| **[Latest Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. .NET 10, 6,123 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
 | **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
 
@@ -73,7 +73,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Enterprise:** Self-contained builds (zero prerequisites), ADMX/ADML Group Policy templates, connection audit logging, JSON export, protocol/tag filtering.
 
-**Quality:** 5,963 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 4-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
+**Quality:** 6,123 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 4-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -145,7 +145,7 @@ Next milestone: enable `TreatWarningsAsErrors` per-rule, then globally once stab
 
 ### 6.3. Manual Testing Protocol
 
-Beta.5 proved that 7/585 AI-introduced regressions passed all 5,963 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
+Beta.5 proved that 7/585 AI-introduced regressions passed all 6,123 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
 
 **Protocol:** Manual testing session at every beta release, focused on UX flows that cannot be unit tested:
 
@@ -256,20 +256,20 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**5,963 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
+**6,123 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 
 | Group | Namespace | Tests |
 |-------|-----------|-------|
-| 1 | Connection | 1,066 |
+| 1 | Connection | 1,083 |
 | 2 | Config.Xml | 124 |
-| 3 | Config.Other | 706 |
+| 3 | Config.Other | 744 |
 | 4 | UI | 374 |
-| 5 | Tools | 366 |
+| 5 | Tools | 391 |
 | 6 | Security | 166 |
 | 7 | Tree + Container + Credential | 178 |
-| 8 | Remaining | 2,960 |
+| 8 | Remaining | 3,040 |
 | 9 | Integration | 21 |
 | Isolated | FrmOptions (GDI handle leak) | 2 |
 

@@ -47,7 +47,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1"
 # Fast incremental (skip restore):
 pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -NoRestore
 
-# Self-contained (embeds .NET runtime, output: bin\x64\Release\win-x64-sc\):
+# Self-contained (embeds .NET runtime, output: bin\x64\Release\publish\):
 pwsh -NoProfile -ExecutionPolicy Bypass -File "D:\github\mRemoteNG\build.ps1" -SelfContained
 ```
 
@@ -174,10 +174,10 @@ For the complete evidence trail of the AI-assisted modernization process
 
 | Metric | Value |
 |--------|-------|
-| Version | 1.82.0-beta.1 (dev) / 1.81.0-beta.6 (stable) |
+| Version | 1.82.0-beta.1 (dev) / 1.81.0 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
-| Tests | 5,963 passed, 0 failures |
-| CI status | All workflows GREEN |
+| Tests | 6,123 passed, 0 failures |
+| CI status | All 6 workflows GREEN |
 | SonarCloud | Quality Gate PASSED (A/A/A, 80.7% coverage, 1.6% duplication) |
 | Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev) |
 | Nightly release | [Auto-generated on push to main](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
