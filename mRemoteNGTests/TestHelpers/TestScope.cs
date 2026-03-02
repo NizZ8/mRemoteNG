@@ -91,7 +91,7 @@ namespace mRemoteNGTests.TestHelpers
         private static Dictionary<string, object?> SnapshotProperties(
             object instance, IEnumerable<PropertyInfo> properties)
         {
-            var snapshot = new Dictionary<string, object?>();
+            var snapshot = new Dictionary<string, object?>(StringComparer.Ordinal);
             foreach (var prop in properties)
             {
                 if (!prop.CanRead) continue;

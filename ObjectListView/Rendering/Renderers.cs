@@ -699,7 +699,7 @@ namespace BrightIdeasSoftware {
                 case HorizontalAlignment.Right:
                     return outer.Right - inner.Width - 1;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
+                    throw new InvalidOperationException($"Unexpected horizontal alignment: {alignment}");
             }
         }
 
@@ -732,7 +732,7 @@ namespace BrightIdeasSoftware {
                 case StringAlignment.Far:
                     return outer.Bottom - innerHeight - 1;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
+                    throw new InvalidOperationException($"Unexpected vertical alignment: {alignment}");
             }
         }
 
@@ -1748,7 +1748,7 @@ namespace BrightIdeasSoftware {
                     case StringAlignment.Far:
                         return TextFormatFlags.Bottom;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
+                        throw new InvalidOperationException($"Unexpected vertical alignment: {alignment}");
                 }
             }
         }

@@ -72,7 +72,7 @@ namespace ExternalConnectors.AWS
                 }
             }
 
-            lastData = instanceList.OrderBy(x => x.Name).ToList();
+            lastData = instanceList.OrderBy(x => x.Name, StringComparer.Ordinal).ToList();
             lastFetch = DateTime.Now;
             return lastData;
         }

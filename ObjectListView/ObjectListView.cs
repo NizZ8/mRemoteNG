@@ -4789,7 +4789,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         public virtual void ClearUrlVisited()
         {
-            this.visitedUrlMap = new Dictionary<string, bool>();
+            this.visitedUrlMap = new Dictionary<string, bool>(StringComparer.Ordinal);
         }
 
         /// <summary>
@@ -10809,7 +10809,7 @@ namespace BrightIdeasSoftware
             // CONSIDER: Should we use ClusteringStrategy here?
 
             // Build a list of unique values, to be used as autocomplete on the editor
-            Dictionary<string, bool> alreadySeen = new Dictionary<string, bool>();
+            Dictionary<string, bool> alreadySeen = new Dictionary<string, bool>(StringComparer.Ordinal);
             List<string> values = new List<string>();
             for (int i = 0; i < maxRows; i++)
             {
@@ -11811,7 +11811,7 @@ namespace BrightIdeasSoftware
         private int suspendSelectionEventCount; // How many unmatched SuspendSelectionEvents() calls have been made?
 
         private readonly List<GlassPanelForm> glassPanels = new List<GlassPanelForm>(); // The transparent panel that draws overlays
-        private Dictionary<string, bool> visitedUrlMap = new Dictionary<string, bool>(); // Which urls have been visited?
+        private Dictionary<string, bool> visitedUrlMap = new Dictionary<string, bool>(StringComparer.Ordinal); // Which urls have been visited?
 
         // TODO
         //private CheckBoxSettings checkBoxSettings = new CheckBoxSettings();

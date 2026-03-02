@@ -98,7 +98,7 @@ namespace BrightIdeasSoftware
         public AutoCompleteCellEditor(ObjectListView lv, OLVColumn column) {
             this.DropDownStyle = ComboBoxStyle.DropDown;
 
-            Dictionary<String, bool> alreadySeen = new Dictionary<string, bool>();
+            Dictionary<String, bool> alreadySeen = new Dictionary<string, bool>(StringComparer.Ordinal);
             for (int i = 0; i < Math.Min(lv.GetItemCount(), 1000); i++) {
                 String str = column.GetStringValue(lv.GetModelObject(i));
                 if (!alreadySeen.ContainsKey(str)) {
