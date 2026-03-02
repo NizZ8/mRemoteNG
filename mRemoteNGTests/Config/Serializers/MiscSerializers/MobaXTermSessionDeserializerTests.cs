@@ -1,0 +1,97 @@
+using System.Linq;
+using mRemoteNG.Config.Serializers.MiscSerializers;
+using mRemoteNG.Connection;
+using mRemoteNG.Connection.Protocol;
+using mRemoteNG.Container;
+using mRemoteNG.Tree;
+using mRemoteNGTests.Properties;
+using NUnit.Framework;
+
+namespace mRemoteNGTests.Config.Serializers.MiscSerializers;
+
+public class MobaXTermSessionDeserializerTests
+{
+    private MobaXTermSessionDeserializer _deserializer;
+    private ConnectionTreeModel _connectionTreeModel;
+
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
+    {
+        _deserializer = new MobaXTermSessionDeserializer();
+        _connectionTreeModel = _deserializer.Deserialize(Resources.test_mobaxterm_moba);
+    }
+
+    [Test]
+    public void ConnectionTreeModelHasARootNode()
+    {
+        Assert.That(_connectionTreeModel.RootNodes.Count, Is.GreaterThan(0));
+    }
+
+    [Test]
+    public void CreatesContainerForBookmarkSections()
+    {
+        var containers = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().ToList();
+        Assert.That(containers.Count, Is.EqualTo(2));
+        Assert.That(containers[0].Name, Is.EqualTo("Servers"));
+        Assert.That(containers[1].Name, Is.EqualTo("Network"));
+    }
+
+    [Test]
+    public void DeserializesRdpSession()
+    {
+        var servers = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().First();
+        var rdp = servers.Children.OfType<ConnectionInfo>().First(c => c.Name == "RDP Server");
+        Assert.That(rdp.Hostname, Is.EqualTo("rdphost.example.com"));
+        Assert.That(rdp.Port, Is.EqualTo(3389));
+        Assert.That(rdp.Username, Is.EqualTo("admin"));
+        Assert.That(rdp.Protocol, Is.EqualTo(ProtocolType.RDP));
+    }
+
+    [Test]
+    public void DeserializesSshSession()
+    {
+        var servers = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().First();
+        var ssh = servers.Children.OfType<ConnectionInfo>().First(c => c.Name == "SSH Server");
+        Assert.That(ssh.Hostname, Is.EqualTo("sshhost.example.com"));
+        Assert.That(ssh.Port, Is.EqualTo(22));
+        Assert.That(ssh.Username, Is.EqualTo("root"));
+        Assert.That(ssh.Protocol, Is.EqualTo(ProtocolType.SSH2));
+    }
+
+    [Test]
+    public void DeserializesVncSession()
+    {
+        var servers = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().First();
+        var vnc = servers.Children.OfType<ConnectionInfo>().First(c => c.Name == "VNC Server");
+        Assert.That(vnc.Hostname, Is.EqualTo("vnchost.example.com"));
+        Assert.That(vnc.Port, Is.EqualTo(5900));
+        Assert.That(vnc.Protocol, Is.EqualTo(ProtocolType.VNC));
+    }
+
+    [Test]
+    public void DeserializesTelnetSession()
+    {
+        var network = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().Last();
+        var telnet = network.Children.OfType<ConnectionInfo>().First(c => c.Name == "Telnet Switch");
+        Assert.That(telnet.Hostname, Is.EqualTo("switch.example.com"));
+        Assert.That(telnet.Port, Is.EqualTo(23));
+        Assert.That(telnet.Username, Is.EqualTo("netadmin"));
+        Assert.That(telnet.Protocol, Is.EqualTo(ProtocolType.Telnet));
+    }
+
+    [Test]
+    public void HandlesUnknownProtocolDefaultsToRdp()
+    {
+        var network = _connectionTreeModel.RootNodes.First().Children.OfType<ContainerInfo>().Last();
+        var unknown = network.Children.OfType<ConnectionInfo>().First(c => c.Name == "Unknown Proto");
+        Assert.That(unknown.Protocol, Is.EqualTo(ProtocolType.RDP));
+    }
+
+    [Test]
+    public void HandlesEmptyFile()
+    {
+        var result = _deserializer.Deserialize("");
+        Assert.That(result.RootNodes.Count, Is.GreaterThan(0));
+        Assert.That(result.RootNodes.First().Children, Is.Empty);
+    }
+}

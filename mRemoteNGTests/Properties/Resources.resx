@@ -184,6 +184,12 @@
   <data name="test_rdcman_v2_7_schema3_null_values" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\test_rdcman_v2_7_schema3_null_values.rdg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="test_mobaxterm_moba" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_mobaxterm.moba;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="test_msrdclient_backup_rdb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_msrdclient_backup.rdb;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="test_remotedesktopconnection_rdp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\test_remotedesktopconnection.rdp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>

@@ -375,6 +375,18 @@ namespace mRemoteNGTests.Properties {
         ///disable themes:i:1
         /// [rest of string was truncated]&quot;;.
         /// </summary>
+        internal static string test_mobaxterm_moba {
+            get {
+                return ResourceManager.GetString("test_mobaxterm_moba", resourceCulture);
+            }
+        }
+
+        internal static string test_msrdclient_backup_rdb {
+            get {
+                return ResourceManager.GetString("test_msrdclient_backup_rdb", resourceCulture);
+            }
+        }
+
         internal static string test_remotedesktopconnection_rdp {
             get {
                 return ResourceManager.GetString("test_remotedesktopconnection_rdp", resourceCulture);

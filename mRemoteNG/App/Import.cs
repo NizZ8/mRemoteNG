@@ -31,7 +31,7 @@ namespace mRemoteNG.App
                     openFileDialog.Multiselect = true;
 
                     List<string> fileTypes = new();
-                    fileTypes.AddRange(new[] {Language.FilterAllImportable, "*.xml;*.rdp;*.rdg;*.dat;*.csv;*.html;*.htm;*.txt;*.ini;*.crt"});
+                    fileTypes.AddRange(new[] {Language.FilterAllImportable, "*.xml;*.rdp;*.rdg;*.dat;*.csv;*.html;*.htm;*.txt;*.ini;*.crt;*.moba;*.rdb"});
                     fileTypes.AddRange(new[] {Language.FiltermRemoteXML, "*.xml"});
                     fileTypes.AddRange(new[] {Language.FiltermRemoteCSV, "*.csv"});
                     fileTypes.AddRange(new[] {Language.FilterRDP, "*.rdp"});
@@ -41,6 +41,8 @@ namespace mRemoteNG.App
                     fileTypes.AddRange(new[] {"Text List Files (*.txt)", "*.txt"});
                     fileTypes.AddRange(new[] {Language.FilterAll, "*.*"});
                     fileTypes.AddRange(new[] { Language.FilterSecureCRT, "*.crt" });
+                    fileTypes.AddRange(new[] { "MobaXTerm Session Files (*.moba)", "*.moba" });
+                    fileTypes.AddRange(new[] { "MS Remote Desktop Client Backup (*.rdb)", "*.rdb" });
 
                     openFileDialog.Filter = string.Join("|", fileTypes.ToArray());
 
@@ -329,6 +331,10 @@ namespace mRemoteNG.App
                     return new TextListConnectionImporter();
                 case ".ini":
                     return new SecureCRTIniFileImporter();
+                case ".moba":
+                    return new MobaXTermImporter();
+                case ".rdb":
+                    return new MicrosoftRdClientBackupImporter();
                 default:
                     throw new FileFormatException("Unrecognized file format.");
             }

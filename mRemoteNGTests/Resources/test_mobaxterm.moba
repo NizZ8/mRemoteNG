@@ -1,0 +1,16 @@
+[Bookmarks]
+SubRep=
+ImgNum=42
+
+[Bookmarks_1]
+SubRep=Servers
+ImgNum=42
+RDP Server=#91#rdphost.example.com%3389%admin%%%0%-1%-1%0%0%0%%0%0
+SSH Server=#109#sshhost.example.com%22%root%%%0%-1%-1%0%0%0%%0%0
+VNC Server=#128#vnchost.example.com%5900%%%%0%-1%-1%0%0%0%%0%0
+
+[Bookmarks_2]
+SubRep=Network
+ImgNum=42
+Telnet Switch=#98#switch.example.com%23%netadmin%%%0%-1%-1%0%0%0%%0%0
+Unknown Proto=#999#mystery.example.com%1234%%%%0%-1%-1%0%0%0%%0%0
