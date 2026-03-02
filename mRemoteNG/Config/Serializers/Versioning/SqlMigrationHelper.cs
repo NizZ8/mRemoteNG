@@ -1,0 +1,122 @@
+using mRemoteNG.Config.DatabaseConnectors;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Runtime.Versioning;
+
+namespace mRemoteNG.Config.Serializers.Versioning
+{
+    [SupportedOSPlatform("windows")]
+    internal static class SqlMigrationHelper
+    {
+        private const string MsSqlVersionUpdate = "UPDATE tblRoot SET ConfVersion=@confVersion;";
+        private const string MySqlVersionUpdate = "SET SQL_SAFE_UPDATES=0; UPDATE tblRoot SET ConfVersion=?; SET SQL_SAFE_UPDATES=1;";
+
+        /// <summary>
+        /// Executes a database migration with separate SQL for MS-SQL and MySQL backends,
+        /// wrapped in a serializable transaction with version tracking.
+        /// </summary>
+        public static void ExecuteMigration(
+            IDatabaseConnector connector,
+            Version toVersion,
+            string msSqlAlter,
+            string? mySqlAlter)
+        {
+            using DbTransaction sqlTran = connector.DbConnection().BeginTransaction(IsolationLevel.Serializable);
+            DbCommand dbCommand;
+            if (connector is MSSqlDatabaseConnector or OdbcDatabaseConnector)
+            {
+                if (!string.IsNullOrEmpty(msSqlAlter))
+                {
+                    dbCommand = connector.DbCommand(msSqlAlter);
+                    dbCommand.Transaction = sqlTran;
+                    dbCommand.ExecuteNonQuery();
+                }
+
+                dbCommand = connector.DbCommand(MsSqlVersionUpdate);
+                dbCommand.Transaction = sqlTran;
+            }
+            else if (connector is MySqlDatabaseConnector)
+            {
+                if (!string.IsNullOrEmpty(mySqlAlter))
+                {
+                    dbCommand = connector.DbCommand(mySqlAlter);
+                    dbCommand.Transaction = sqlTran;
+                    dbCommand.ExecuteNonQuery();
+                }
+
+                dbCommand = connector.DbCommand(MySqlVersionUpdate);
+                dbCommand.Transaction = sqlTran;
+            }
+            else
+            {
+                throw new NotSupportedException("Unknown database back-end");
+            }
+
+            DbParameter pConfVersion = dbCommand.CreateParameter();
+            pConfVersion.ParameterName = "confVersion";
+            pConfVersion.Value = toVersion.ToString();
+            pConfVersion.DbType = DbType.String;
+            pConfVersion.Direction = ParameterDirection.Input;
+            dbCommand.Parameters.Add(pConfVersion);
+
+            dbCommand.ExecuteNonQuery();
+            sqlTran.Commit();
+        }
+
+        /// <summary>
+        /// Like ExecuteMigration but MySQL uses individual ALTERs with idempotency
+        /// (catches "Duplicate column" errors).
+        /// </summary>
+        public static void ExecuteMigrationIdempotent(
+            IDatabaseConnector connector,
+            Version toVersion,
+            string msSqlAlter,
+            string[] mySqlAlters)
+        {
+            using DbTransaction sqlTran = connector.DbConnection().BeginTransaction(IsolationLevel.Serializable);
+            DbCommand dbCommand;
+            if (connector is MSSqlDatabaseConnector or OdbcDatabaseConnector)
+            {
+                dbCommand = connector.DbCommand(msSqlAlter);
+                dbCommand.Transaction = sqlTran;
+                dbCommand.ExecuteNonQuery();
+                dbCommand = connector.DbCommand(MsSqlVersionUpdate);
+                dbCommand.Transaction = sqlTran;
+            }
+            else if (connector is MySqlDatabaseConnector)
+            {
+                foreach (string alterSql in mySqlAlters)
+                {
+                    try
+                    {
+                        dbCommand = connector.DbCommand(alterSql);
+                        dbCommand.Transaction = sqlTran;
+                        dbCommand.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) when (ex.Message.Contains("Duplicate column", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Column already exists -- safe to ignore
+                    }
+                }
+
+                dbCommand = connector.DbCommand(MySqlVersionUpdate);
+                dbCommand.Transaction = sqlTran;
+            }
+            else
+            {
+                throw new NotSupportedException("Unknown database back-end");
+            }
+
+            DbParameter pConfVersion = dbCommand.CreateParameter();
+            pConfVersion.ParameterName = "confVersion";
+            pConfVersion.Value = toVersion.ToString();
+            pConfVersion.DbType = DbType.String;
+            pConfVersion.Direction = ParameterDirection.Input;
+            dbCommand.Parameters.Add(pConfVersion);
+
+            dbCommand.ExecuteNonQuery();
+            sqlTran.Commit();
+        }
+    }
+}

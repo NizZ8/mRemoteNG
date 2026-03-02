@@ -1,10 +1,8 @@
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Threading;
-using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Messages;
 using mRemoteNG.Resources.Language;
@@ -12,13 +10,11 @@ using mRemoteNG.Resources.Language;
 namespace mRemoteNG.Connection.Protocol.AnyDesk
 {
     [SupportedOSPlatform("windows")]
-    public class ProtocolAnyDesk : ProtocolBase
+    public class ProtocolAnyDesk : ExternalProcessProtocolBase
     {
         #region Private Fields
 
-        private IntPtr _handle;
         private readonly ConnectionInfo _connectionInfo;
-        private Process? _process;
         private const string DefaultAnydeskPath = @"C:\Program Files (x86)\AnyDesk\AnyDesk.exe";
         private const string AlternateAnydeskPath = @"C:\Program Files\AnyDesk\AnyDesk.exe";
 
@@ -82,68 +78,10 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
             }
         }
 
-        public override void Focus()
-        {
-            try
-            {
-                if (_handle != IntPtr.Zero)
-                {
-                    NativeMethods.SetForegroundWindow(_handle);
-                }
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppFocusFailed, ex);
-            }
-        }
-
-        protected override void Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_handle == IntPtr.Zero || InterfaceControl.Size == Size.Empty)
-                    return;
-
-                // Use ClientRectangle to account for padding (for connection frame color)
-                Rectangle clientRect = InterfaceControl.ClientRectangle;
-                NativeMethods.MoveWindow(_handle,
-                    clientRect.X - SystemInformation.FrameBorderSize.Width,
-                    clientRect.Y - (SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
-                    clientRect.Width + SystemInformation.FrameBorderSize.Width * 2,
-                    clientRect.Height + SystemInformation.CaptionHeight +
-                    SystemInformation.FrameBorderSize.Height * 2, true);
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppResizeFailed, ex);
-            }
-        }
-
         public override void Close()
         {
             try
             {
-                // Try to close all AnyDesk processes related to this connection
-                if (_process != null)
-                {
-                    try
-                    {
-                        if (!_process.HasExited)
-                        {
-                            _process.Kill();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppKillFailed, ex);
-                    }
-                    finally
-                    {
-                        _process?.Dispose();
-                        _process = null;
-                    }
-                }
-
                 // Also try to close by window handle if we have it
                 if (_handle != IntPtr.Zero)
                 {
@@ -436,11 +374,6 @@ namespace mRemoteNG.Connection.Protocol.AnyDesk
             }
 
             return false;
-        }
-
-        private void ProcessExited(object sender, EventArgs e)
-        {
-            Event_Closed(this);
         }
 
         #endregion

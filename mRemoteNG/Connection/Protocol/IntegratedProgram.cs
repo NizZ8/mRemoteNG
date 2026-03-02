@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Management;
-using System.Threading;
-using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Messages;
 using mRemoteNG.Properties;
@@ -17,13 +12,11 @@ using System.Runtime.Versioning;
 namespace mRemoteNG.Connection.Protocol
 {
     [SupportedOSPlatform("windows")]
-    public class IntegratedProgram : ProtocolBase
+    public class IntegratedProgram : ExternalProcessProtocolBase
     {
         #region Private Fields
 
         private ExternalTool? _externalTool;
-        private IntPtr _handle;
-        private Process? _process;
 
         #endregion
 
@@ -212,252 +205,9 @@ namespace mRemoteNG.Connection.Protocol
             }
         }
 
-        protected override void Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                if (InterfaceControl.Size == Size.Empty) return;
-                // Use ClientRectangle to account for padding (for connection frame color)
-                Rectangle clientRect = InterfaceControl.ClientRectangle;
-                NativeMethods.MoveWindow(_handle, 
-                                         clientRect.X - SystemInformation.FrameBorderSize.Width,
-                                         clientRect.Y - (SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
-                                         clientRect.Width + SystemInformation.FrameBorderSize.Width * 2,
-                                         clientRect.Height + SystemInformation.CaptionHeight +
-                                         SystemInformation.FrameBorderSize.Height * 2, true);
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector.AddExceptionMessage(Language.IntAppResizeFailed, ex);
-            }
-        }
-
-        public override void Close()
-        {
-            /* only attempt this if we have a valid process object
-             * Non-integrated tools will still call base.Close() and don't have a valid process object.
-             * See Connect() above... This just muddies up the log.
-             */
-            if (_process != null)
-            {
-                try
-                {
-                    if (!_process.HasExited)
-                    {
-                        _process.Kill();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Runtime.MessageCollector.AddExceptionMessage(Language.IntAppKillFailed, ex);
-                }
-
-                try
-                {
-                    if (!_process.HasExited)
-                    {
-                        _process.Dispose();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Runtime.MessageCollector.AddExceptionMessage(Language.IntAppDisposeFailed, ex);
-                }
-            }
-
-            base.Close();
-        }
-
         #endregion
 
         #region Private Methods
-
-        private void ProcessExited(object sender, EventArgs e)
-        {
-            Event_Closed(this);
-        }
-
-        /// <summary>
-        /// Polls Process.MainWindowHandle for up to <paramref name="timeoutMs"/> milliseconds.
-        /// This is the original strategy — works for direct GUI apps (PuTTY, Notepad++, etc.).
-        /// </summary>
-        private static IntPtr PollMainWindowHandle(Process process, int timeoutMs)
-        {
-            IntPtr handle = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (handle == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                try
-                {
-                    if (process.HasExited) break;
-                    process.Refresh();
-                    if (!string.Equals(process.MainWindowTitle, "Default IME", StringComparison.Ordinal))
-                    {
-                        handle = process.MainWindowHandle;
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    break; // Process exited
-                }
-
-                if (handle == IntPtr.Zero)
-                    Thread.Sleep(50);
-            }
-            return handle;
-        }
-
-        /// <summary>
-        /// Uses EnumWindows + GetWindowThreadProcessId to find a visible top-level window
-        /// belonging to the given process ID. Catches windows that .NET's MainWindowHandle misses
-        /// (e.g. conhost windows, multi-window apps).
-        /// </summary>
-        private static IntPtr FindWindowByProcessId(int processId, int timeoutMs)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                NativeMethods.EnumWindows((hWnd, lParam) =>
-                {
-                    _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                    if (windowPid == (uint)processId && NativeMethods.IsWindowVisible(hWnd))
-                    {
-                        found = hWnd;
-                        return false; // Stop enumeration
-                    }
-                    return true;
-                }, IntPtr.Zero);
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(50);
-            }
-            return found;
-        }
-
-        /// <summary>
-        /// Searches for visible windows belonging to child processes of the given parent PID.
-        /// This handles launcher-style apps (git-bash.exe → mintty.exe, wt.exe → child, etc.)
-        /// where the launched process spawns a child and may exit.
-        /// </summary>
-        private static IntPtr FindWindowInChildProcesses(int parentProcessId, int timeoutMs)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                List<int> childPids = GetChildProcessIds(parentProcessId);
-                foreach (int childPid in childPids)
-                {
-                    NativeMethods.EnumWindows((hWnd, lParam) =>
-                    {
-                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                        if (windowPid == (uint)childPid && NativeMethods.IsWindowVisible(hWnd))
-                        {
-                            found = hWnd;
-                            return false;
-                        }
-                        return true;
-                    }, IntPtr.Zero);
-
-                    if (found != IntPtr.Zero) break;
-                }
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(100);
-            }
-            return found;
-        }
-
-        /// <summary>
-        /// Searches for visible windows belonging to descendants of the given root PID.
-        /// Useful for launchers that create a multi-level process chain.
-        /// </summary>
-        private static IntPtr FindWindowInDescendantProcesses(int rootProcessId, int timeoutMs, int maxDepth)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                List<int> descendantPids = GetDescendantProcessIds(rootProcessId, maxDepth);
-                foreach (int descendantPid in descendantPids)
-                {
-                    NativeMethods.EnumWindows((hWnd, lParam) =>
-                    {
-                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                        if (windowPid == (uint)descendantPid && NativeMethods.IsWindowVisible(hWnd))
-                        {
-                            found = hWnd;
-                            return false;
-                        }
-                        return true;
-                    }, IntPtr.Zero);
-
-                    if (found != IntPtr.Zero) break;
-                }
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(100);
-            }
-            return found;
-        }
-
-        /// <summary>
-        /// Gets child process IDs for a given parent process ID via WMI.
-        /// </summary>
-        private static List<int> GetChildProcessIds(int parentPid)
-        {
-            List<int> children = [];
-            try
-            {
-                using var searcher = new ManagementObjectSearcher(
-                    $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
-                foreach (ManagementObject obj in searcher.Get())
-                {
-                    children.Add(Convert.ToInt32(obj["ProcessId"], CultureInfo.InvariantCulture));
-                }
-            }
-            catch
-            {
-                // WMI query can fail if access is denied or service unavailable — not critical
-            }
-            return children;
-        }
-
-        private static List<int> GetDescendantProcessIds(int rootProcessId, int maxDepth)
-        {
-            if (maxDepth <= 0)
-                return [];
-
-            List<int> descendants = [];
-            HashSet<int> visited = [rootProcessId];
-            List<int> currentLevel = [rootProcessId];
-
-            for (int depth = 0; depth < maxDepth && currentLevel.Count > 0; depth++)
-            {
-                List<int> nextLevel = [];
-                foreach (int pid in currentLevel)
-                {
-                    List<int> children = GetChildProcessIds(pid);
-                    foreach (int childPid in children)
-                    {
-                        if (visited.Add(childPid))
-                        {
-                            descendants.Add(childPid);
-                            nextLevel.Add(childPid);
-                        }
-                    }
-                }
-
-                currentLevel = nextLevel;
-            }
-
-            return descendants;
-        }
 
         private static ExternalTool? CreateBuiltInShellPresetForIntegration(string extAppName)
         {

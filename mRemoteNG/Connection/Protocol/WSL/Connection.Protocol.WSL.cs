@@ -10,11 +10,10 @@ using mRemoteNG.Resources.Language;
 namespace mRemoteNG.Connection.Protocol.WSL
 {
     [SupportedOSPlatform("windows")]
-    public class ProtocolWSL(ConnectionInfo connectionInfo) : ProtocolBase
+    public class ProtocolWSL(ConnectionInfo connectionInfo) : ExternalProcessProtocolBase
     {
         #region Private Fields
 
-        private IntPtr _handle;
         private readonly ConnectionInfo _connectionInfo = connectionInfo;
         private ConsoleControl.ConsoleControl? _consoleControl;
 
@@ -111,38 +110,6 @@ namespace mRemoteNG.Connection.Protocol.WSL
             }
 
             return arguments.Trim();
-        }
-
-        public override void Focus()
-        {
-            try
-            {
-                NativeMethods.SetForegroundWindow(_handle);
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector.AddExceptionMessage(Language.IntAppFocusFailed, ex);
-            }
-        }
-
-        protected override void Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                if (InterfaceControl.Size == Size.Empty) return;
-                // Use ClientRectangle to account for padding (for connection frame color)
-                Rectangle clientRect = InterfaceControl.ClientRectangle;
-                NativeMethods.MoveWindow(_handle, 
-                                         clientRect.X - SystemInformation.FrameBorderSize.Width,
-                                         clientRect.Y - (SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
-                                         clientRect.Width + SystemInformation.FrameBorderSize.Width * 2,
-                                         clientRect.Height + SystemInformation.CaptionHeight +
-                                         SystemInformation.FrameBorderSize.Height * 2, true);
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector.AddExceptionMessage(Language.IntAppResizeFailed, ex);
-            }
         }
 
         #endregion

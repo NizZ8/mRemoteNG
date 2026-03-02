@@ -2,7 +2,6 @@ using mRemoteNG.App;
 using mRemoteNG.Config.DatabaseConnectors;
 using mRemoteNG.Messages;
 using System;
-using System.Data.Common;
 using System.Runtime.Versioning;
 
 namespace mRemoteNG.Config.Serializers.Versioning
@@ -94,41 +93,8 @@ ALTER TABLE tblExternalTools ALTER COLUMN [WorkingDir] nvarchar(1024) NOT NULL;
 ALTER TABLE tblExternalTools ALTER COLUMN [Category] nvarchar(256) NOT NULL;
 ";
 
-            const string mySqlUpdate = @"SET SQL_SAFE_UPDATES=0; UPDATE tblRoot SET ConfVersion=?; SET SQL_SAFE_UPDATES=1;";
-            const string msSqlUpdate = @"UPDATE tblRoot SET ConfVersion=@confVersion;";
-
-            using (DbTransaction sqlTran = _databaseConnector.DbConnection().BeginTransaction(System.Data.IsolationLevel.Serializable))
-            {
-                DbCommand dbCommand;
-                if (_databaseConnector is MSSqlDatabaseConnector or OdbcDatabaseConnector)
-                {
-                    dbCommand = _databaseConnector.DbCommand(msSqlAlter);
-                    dbCommand.Transaction = sqlTran;
-                    dbCommand.ExecuteNonQuery();
-                    dbCommand = _databaseConnector.DbCommand(msSqlUpdate);
-                    dbCommand.Transaction = sqlTran;
-                }
-                else if (_databaseConnector is MySqlDatabaseConnector)
-                {
-                    dbCommand = _databaseConnector.DbCommand(mySqlUpdate);
-                    dbCommand.Transaction = sqlTran;
-                }
-                else
-                {
-                    throw new NotSupportedException("Unknown database back-end");
-                }
-
-                DbParameter pConfVersion = dbCommand.CreateParameter();
-                pConfVersion.ParameterName = "confVersion";
-                pConfVersion.Value = _version.ToString();
-                pConfVersion.DbType = System.Data.DbType.String;
-                pConfVersion.Direction = System.Data.ParameterDirection.Input;
-                dbCommand.Parameters.Add(pConfVersion);
-
-                dbCommand.ExecuteNonQuery();
-                sqlTran.Commit();
-            }
-
+            // No MySQL ALTER needed -- varchar already supports Unicode in MySQL
+            SqlMigrationHelper.ExecuteMigration(_databaseConnector, _version, msSqlAlter, null);
             return _version;
         }
     }

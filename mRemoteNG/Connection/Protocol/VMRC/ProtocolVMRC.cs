@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Management;
 using System.Runtime.Versioning;
-using System.Threading;
-using System.Windows.Forms;
 using mRemoteNG.App;
-using mRemoteNG.Connection;
 using mRemoteNG.Messages;
 using mRemoteNG.Resources.Language;
 using mRemoteNG.Tools;
@@ -17,11 +12,9 @@ using mRemoteNG.Tools;
 namespace mRemoteNG.Connection.Protocol.VMRC
 {
     [SupportedOSPlatform("windows")]
-    public class ProtocolVMRC : ProtocolBase
+    public class ProtocolVMRC : ExternalProcessProtocolBase
     {
         private readonly ConnectionInfo _connectionInfo;
-        private IntPtr _handle;
-        private Process? _process;
 
         private static readonly string[] DefaultVmwareViewExecutables =
         [
@@ -169,54 +162,6 @@ namespace mRemoteNG.Connection.Protocol.VMRC
             }
         }
 
-        protected override void Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_handle == IntPtr.Zero || InterfaceControl.Size == Size.Empty)
-                    return;
-
-                Rectangle clientRect = InterfaceControl.ClientRectangle;
-                NativeMethods.MoveWindow(_handle,
-                    clientRect.X - SystemInformation.FrameBorderSize.Width,
-                    clientRect.Y - (SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
-                    clientRect.Width + SystemInformation.FrameBorderSize.Width * 2,
-                    clientRect.Height + SystemInformation.CaptionHeight +
-                    SystemInformation.FrameBorderSize.Height * 2, true);
-            }
-            catch (Exception ex)
-            {
-                Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppResizeFailed, ex);
-            }
-        }
-
-        public override void Close()
-        {
-            if (_process != null)
-            {
-                try
-                {
-                    if (!_process.HasExited)
-                        _process.Kill();
-                }
-                catch (Exception ex)
-                {
-                    Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppKillFailed, ex);
-                }
-
-                try
-                {
-                    _process.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    Runtime.MessageCollector?.AddExceptionMessage(Language.IntAppDisposeFailed, ex);
-                }
-            }
-
-            base.Close();
-        }
-
         private static List<string> BuildArguments(
             string serverUrl,
             string? desktopName,
@@ -267,176 +212,6 @@ namespace mRemoteNG.Connection.Protocol.VMRC
             }
 
             return null;
-        }
-
-        private static IntPtr PollMainWindowHandle(Process process, int timeoutMs)
-        {
-            IntPtr handle = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (handle == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                try
-                {
-                    if (process.HasExited)
-                        break;
-
-                    process.Refresh();
-                    if (!string.Equals(process.MainWindowTitle, "Default IME", StringComparison.Ordinal))
-                    {
-                        handle = process.MainWindowHandle;
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    break;
-                }
-
-                if (handle == IntPtr.Zero)
-                    Thread.Sleep(50);
-            }
-            return handle;
-        }
-
-        private static IntPtr FindWindowByProcessId(int processId, int timeoutMs)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                NativeMethods.EnumWindows((hWnd, lParam) =>
-                {
-                    _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                    if (windowPid == (uint)processId && NativeMethods.IsWindowVisible(hWnd))
-                    {
-                        found = hWnd;
-                        return false;
-                    }
-                    return true;
-                }, IntPtr.Zero);
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(50);
-            }
-            return found;
-        }
-
-        private static IntPtr FindWindowInChildProcesses(int parentProcessId, int timeoutMs)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                List<int> childPids = GetChildProcessIds(parentProcessId);
-                foreach (int childPid in childPids)
-                {
-                    NativeMethods.EnumWindows((hWnd, lParam) =>
-                    {
-                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                        if (windowPid == (uint)childPid && NativeMethods.IsWindowVisible(hWnd))
-                        {
-                            found = hWnd;
-                            return false;
-                        }
-                        return true;
-                    }, IntPtr.Zero);
-
-                    if (found != IntPtr.Zero)
-                        break;
-                }
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(100);
-            }
-            return found;
-        }
-
-        private static IntPtr FindWindowInDescendantProcesses(int rootProcessId, int timeoutMs, int maxDepth)
-        {
-            IntPtr found = IntPtr.Zero;
-            int startTicks = Environment.TickCount;
-            while (found == IntPtr.Zero &&
-                   Environment.TickCount < startTicks + timeoutMs)
-            {
-                List<int> descendantPids = GetDescendantProcessIds(rootProcessId, maxDepth);
-                foreach (int descendantPid in descendantPids)
-                {
-                    NativeMethods.EnumWindows((hWnd, lParam) =>
-                    {
-                        _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint windowPid);
-                        if (windowPid == (uint)descendantPid && NativeMethods.IsWindowVisible(hWnd))
-                        {
-                            found = hWnd;
-                            return false;
-                        }
-                        return true;
-                    }, IntPtr.Zero);
-
-                    if (found != IntPtr.Zero)
-                        break;
-                }
-
-                if (found == IntPtr.Zero)
-                    Thread.Sleep(100);
-            }
-            return found;
-        }
-
-        private static List<int> GetChildProcessIds(int parentPid)
-        {
-            List<int> children = [];
-            try
-            {
-                using var searcher = new ManagementObjectSearcher(
-                    $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = {parentPid}");
-                foreach (ManagementObject obj in searcher.Get())
-                {
-                    children.Add(Convert.ToInt32(obj["ProcessId"], CultureInfo.InvariantCulture));
-                }
-            }
-            catch
-            {
-                // Ignore WMI errors.
-            }
-
-            return children;
-        }
-
-        private static List<int> GetDescendantProcessIds(int rootProcessId, int maxDepth)
-        {
-            if (maxDepth <= 0)
-                return [];
-
-            List<int> descendants = [];
-            HashSet<int> visited = [rootProcessId];
-            List<int> currentLevel = [rootProcessId];
-
-            for (int depth = 0; depth < maxDepth && currentLevel.Count > 0; depth++)
-            {
-                List<int> nextLevel = [];
-                foreach (int pid in currentLevel)
-                {
-                    List<int> children = GetChildProcessIds(pid);
-                    foreach (int childPid in children)
-                    {
-                        if (visited.Add(childPid))
-                        {
-                            descendants.Add(childPid);
-                            nextLevel.Add(childPid);
-                        }
-                    }
-                }
-                currentLevel = nextLevel;
-            }
-
-            return descendants;
-        }
-
-        private void ProcessExited(object sender, EventArgs e)
-        {
-            Event_Closed(this);
         }
 
         public enum Defaults
