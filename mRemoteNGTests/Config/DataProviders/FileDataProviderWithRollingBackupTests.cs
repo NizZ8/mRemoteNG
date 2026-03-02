@@ -35,7 +35,10 @@ public class FileDataProviderWithRollingBackupTests
         for (var i = 0; i < 3; i++)
         {
             _dataProvider.Save("");
-            Thread.Sleep(100);
+            // Rolling backup filename uses yyyyMMdd-HHmmssffff (0.1ms precision)
+            // but DateTime.Now on Windows has ~15.6ms resolution.
+            // On fast CI runners, 100ms was insufficient to guarantee distinct timestamps.
+            Thread.Sleep(500);
         }
 
         var rollingBackupFiles = Directory.GetFiles(_testFileDirectory, _testFileRollingBackup);
