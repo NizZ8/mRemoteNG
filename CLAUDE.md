@@ -168,7 +168,7 @@ PR history, and release status, see: **`.project-roadmap/DEVELOPER_GUIDE.md`**
 ## Evidence & Scientific Documentation
 
 For the complete evidence trail of the AI-assisted modernization process
-(metrics, agent performance, CI data, methodology notes), see: **`docs/EVIDENCE.md`**
+(metrics, agent performance, CI data, methodology notes), see: **`scientific-paper/EVIDENCE.md`**
 
 ## Current Release Status (2026-03-02)
 
@@ -176,7 +176,7 @@ For the complete evidence trail of the AI-assisted modernization process
 |--------|-------|
 | Version | 1.82.0-beta.1 (dev) / 1.81.0-beta.6 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
-| Tests | 6,123 passed, 0 failures |
+| Tests | 5,963 passed, 0 failures |
 | CI status | All workflows GREEN |
 | SonarCloud | Quality Gate PASSED (A/A/A, 80.7% coverage, 1.6% duplication) |
 | Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev) |
