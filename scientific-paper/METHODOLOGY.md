@@ -44,9 +44,9 @@ Each issue was assigned exactly one disposition status upon triage completion. T
 
 | Status | Definition | Criteria | Count | % |
 |--------|------------|----------|------:|----:|
-| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 692 | 82.1% |
+| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 699 | 82.9% |
 | `testing` | Implementation failed after multiple auto-fix attempts | Multiple automated fix attempts failed; requires manual developer intervention | 3 | 0.4% |
-| `wontfix` | Out of scope for resolution | Upstream limitation, external hardware/driver requirement, not reproducible on current framework, or explicitly declined by maintainer | 123 | 14.6% |
+| `wontfix` | Out of scope for resolution | Upstream limitation, external hardware/driver requirement, not reproducible on current framework, or explicitly declined by maintainer | 116 | 13.8% |
 | `duplicate` | Same root cause as another issue | Linked to a primary issue; resolution of the primary resolves the duplicate | 25 | 3.0% |
 
 ### Classification rules

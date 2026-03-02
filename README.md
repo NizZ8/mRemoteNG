@@ -112,9 +112,9 @@ All 843 upstream issues have been triaged and classified:
 
 | Status | Count | % |
 |--------|-------|---|
-| released | 692 | 82.1% |
+| released | 699 | 82.9% |
 | testing | 3 | 0.4% |
-| wontfix | 123 | 14.6% |
+| wontfix | 116 | 13.8% |
 | duplicate | 25 | 3.0% |
 
 **Post-triage verification (2026-03-02):** 179 issues previously in `testing` were bulk-verified (commit hashes validated against git history) and promoted to `released`. Only 3 remain in `testing` (implementation failed after multiple attempts).

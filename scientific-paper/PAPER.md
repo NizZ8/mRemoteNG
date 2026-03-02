@@ -55,9 +55,9 @@ All 843 issues were triaged and classified into four categories:
 
 | Status | Count | % | Definition |
 |--------|-------|---|------------|
-| released | 692 | 82.1% | Fix committed, build/test verified, included in a release |
+| released | 699 | 82.9% | Fix committed, build/test verified, included in a release |
 | testing | 3 | 0.4% | Implementation failed after multiple attempts, awaiting manual intervention |
-| wontfix | 123 | 14.6% | Out-of-scope (upstream limitation, requires hardware, or not reproducible) |
+| wontfix | 116 | 13.8% | Out-of-scope (upstream limitation, requires hardware, or not reproducible) |
 | duplicate | 25 | 3.0% | Merged with another issue tracking the same root cause |
 
 **Post-triage verification (2026-03-02):** 179 issues previously classified as `testing` were bulk-verified by validating commit hashes against git history and promoted to `released`. The 3 remaining `testing` issues had implementation failures after 2-12 auto-fix attempts.
