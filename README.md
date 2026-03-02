@@ -15,7 +15,7 @@ Full transparency: this project is built by humans and AI working together. We b
 </blockquote>
 
 <p align="center">
-  <a href="https://github.com/mRemoteNG/mRemoteNG/pull/3189">
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6">
     <img alt="Stable" src="https://img.shields.io/badge/stable-v1.81.0--beta.6-brightgreen?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
@@ -50,7 +50,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | What you get |
 |---------|---------|--------|--------------|
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `main` | .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** Also submitted upstream as PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (on `release/1.81` branch). |
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `main` | Last tested release before v1.82.0 version bump. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
 | **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
 
