@@ -414,7 +414,7 @@ These are active problems with no known solution or workaround:
 | 3 | **481 code smells on upstream PR** | Cosmetic | SonarCloud reports 481 code smells in the PR diff. Most are pre-existing patterns (long methods, high complexity, parameter counts) carried forward from the legacy codebase. Not blocking Quality Gate but visible. Fixing all would risk introducing regressions in stable code for cosmetic improvement |
 | 4 | **MSBuild output path mismatch with `dotnet test`** | Workaround | MSBuild outputs to `bin/x64/Release/` (with platform subfolder), `dotnet test --no-build` with csproj expects `bin/Release/` (no platform). This means coverage cannot be collected via the standard `dotnet test csproj --collect` approach. The `dotnet-coverage` tool workaround functions but adds a tool dependency and doesn't produce OpenCover format natively |
 | 5 | **NUnit parallelization impossible** | Architectural | Shared mutable singletons (`DefaultConnectionInheritance.Instance`, `Runtime.EncryptionKey`, `Runtime.ConnectionsService`) make NUnit fixture-level parallelism cause race conditions. Multi-process isolation (9 groups with sliding-window concurrency) works but is slower. Fixing the singletons requires DI throughout the entire application — a multi-month refactoring effort |
-| 6 | **Upstream maintainer engagement sporadic** | External | PR #3189 (beta.6) passed Quality Gate but requires maintainer review. Upstream has 830+ open issues and limited active maintainers (843 total triaged by our orchestrator). Our fork addresses 697 of those issues but merge requires human review of a large diff. Strategy: smaller, focused PRs may get faster review than comprehensive PRs |
+| 6 | **Large PR review is inherently slow** | Expected | PR #3189 (beta.6) passed Quality Gate but is a massive diff (761 files, 64K insertions). Reviewing this responsibly takes time — the upstream maintainers built and maintained mRemoteNG for years, and careful review of such a large contribution is entirely reasonable. Strategy: smaller, focused PRs in future releases to make review more manageable |
 
 ### 6.5. Supervised Continuous AI Improvement (Gen 5 Concept)
 
@@ -428,7 +428,7 @@ The orchestrator monitors new issues (from upstream sync or user reports), triag
 
 PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (beta.6) passed SonarCloud Quality Gate on 2026-03-01 after resolving 6 security vulnerabilities (S2068 ×3, S8264 ×2, S8233 ×1), 50 security hotspots reviewed as SAFE, and all reliability/maintainability conditions met. PR [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188) (beta.5) remains open as a predecessor.
 
-Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 697 of them (83%). The potential impact of merging even a fraction of these fixes is significant — but it requires upstream maintainer engagement, which has been sporadic.
+Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 697 of them (83%). The potential impact of merging even a fraction of these fixes is significant. PR #3189 is a large diff and we understand it takes time to review responsibly — the upstream team built this project and their careful stewardship is what makes it worth contributing to.
 
 Additionally, 4 upstream copilot draft PRs (#3177, #3176, #3154, #3171) have been reviewed and their fixes backported to our fork's `main` branch, ahead of upstream merge.
 
