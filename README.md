@@ -50,7 +50,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | What you get |
 |---------|---------|--------|--------------|
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `main` | Last tested release before v1.82.0 version bump. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `release/1.81` | Frozen release branch. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
 | **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
 
