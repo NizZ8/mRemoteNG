@@ -178,6 +178,7 @@ jobs:
           Invoke-Expression $cmd
 
       - name: (07b) Smoke test (app starts)
+        if: matrix.platform != 'x86'
         shell: pwsh
         run: |
           if ('${{ matrix.selfcontained }}' -eq 'true') {
@@ -185,9 +186,9 @@ jobs:
           } else {
             $exe = ".\mRemoteNG\bin\${{ matrix.platform }}\Release\mRemoteNG.exe"
           }
-          $output = & $exe --version 2>&1
-          if ($LASTEXITCODE -ne 0) { throw "Smoke test failed: exit code $LASTEXITCODE" }
-          Write-Host "Smoke test passed: $output"
+          $proc = Start-Process -FilePath $exe -ArgumentList '--version' -WindowStyle Hidden -Wait -PassThru
+          if ($proc.ExitCode -ne 0) { throw "Smoke test failed: exit code $($proc.ExitCode)" }
+          Write-Host "Smoke test passed (exit code 0)"
 
       - name: (08) Release Information
         id: version

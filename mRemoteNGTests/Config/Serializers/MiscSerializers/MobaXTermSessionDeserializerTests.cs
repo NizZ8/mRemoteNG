@@ -94,4 +94,72 @@ public class MobaXTermSessionDeserializerTests
         Assert.That(result.RootNodes.Count, Is.GreaterThan(0));
         Assert.That(result.RootNodes.First().Children, Is.Empty);
     }
+
+    [Test]
+    public void SessionAtRootLevel_NoContainer()
+    {
+        const string content = "[Bookmarks]\nSubRep=\nImgNum=42\nMyServer=#91#host.test%3389%user%%%0%0%0\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var root = result.RootNodes.First();
+        var conn = root.Children.OfType<ConnectionInfo>().FirstOrDefault(c => c.Name == "MyServer");
+        Assert.That(conn, Is.Not.Null);
+        Assert.That(conn.Hostname, Is.EqualTo("host.test"));
+    }
+
+    [Test]
+    public void MalformedSession_NoHashPrefix_ReturnsNull()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nBadEntry=noHashHere\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var container = result.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
+        Assert.That(container, Is.Not.Null);
+        Assert.That(container.Children, Is.Empty);
+    }
+
+    [Test]
+    public void MalformedSession_SingleHash_ReturnsNull()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nBadEntry=#onlyOneHash\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var container = result.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
+        Assert.That(container.Children, Is.Empty);
+    }
+
+    [Test]
+    public void MalformedSession_BadProtocolCode_ReturnsNull()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nBadEntry=#abc#host%22%user\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var container = result.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
+        Assert.That(container.Children, Is.Empty);
+    }
+
+    [Test]
+    public void FtpProtocol_MapsToHttp()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nFtpServer=#130#ftp.test%21%user\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var conn = result.RootNodes.First().Children.OfType<ContainerInfo>().First()
+            .Children.OfType<ConnectionInfo>().First();
+        Assert.That(conn.Protocol, Is.EqualTo(ProtocolType.HTTP));
+    }
+
+    [Test]
+    public void DefaultPort_WhenNotSpecified()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nSshNoPort=#109#host.test%%user\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var conn = result.RootNodes.First().Children.OfType<ContainerInfo>().First()
+            .Children.OfType<ConnectionInfo>().First();
+        Assert.That(conn.Port, Is.EqualTo(22));
+    }
+
+    [Test]
+    public void EmptySessionValue_ReturnsNull()
+    {
+        const string content = "[Bookmarks_1]\nSubRep=Test\nEmpty=\n";
+        var result = new MobaXTermSessionDeserializer().Deserialize(content);
+        var container = result.RootNodes.First().Children.OfType<ContainerInfo>().FirstOrDefault();
+        Assert.That(container.Children, Is.Empty);
+    }
 }

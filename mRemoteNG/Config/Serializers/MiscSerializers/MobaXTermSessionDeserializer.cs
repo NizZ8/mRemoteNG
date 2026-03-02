@@ -107,10 +107,7 @@ namespace mRemoteNG.Config.Serializers.MiscSerializers
                 return null;
 
             string[] fields = fieldsStr.Split('%');
-            if (fields.Length < 1)
-                return null;
-
-            string hostname = fields.Length > 0 ? fields[0] : "";
+            string hostname = fields[0];
             string portStr = fields.Length > 1 ? fields[1] : "";
             string username = fields.Length > 2 ? fields[2] : "";
 
