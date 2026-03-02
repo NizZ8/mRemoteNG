@@ -8,6 +8,9 @@
     <!-- Suppress CS8618 (non-nullable field uninitialized) — WinForms designer fields set in InitializeComponent() -->
     <NoWarn>$(NoWarn);CA1416;CS8622;CS8618</NoWarn>
 
+    <!-- Treat select compiler warnings as errors (safe subset — unused vars, unreachable code) -->
+    <WarningsAsErrors>CS0168;CS0219;CS0162;CS0164</WarningsAsErrors>
+
     <!-- Code quality analyzers -->
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
