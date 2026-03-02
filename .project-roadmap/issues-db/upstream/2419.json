@@ -13,7 +13,7 @@
   "created_at": "2023-04-03T15:34:18Z",
   "github_updated_at": "2026-02-26T08:06:09Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen you export your configuration to a CSV file Password are in open text.\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nEncrypted\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the difference fr...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -96,5 +96,5 @@
   "needs_action": true,
   "waiting_for_us": false,
   "last_synced": "2026-02-26T08:28:13Z",
-  "notes": "AI triage (claude): Exporting passwords in plain text without warning or opt-out is a security vulnerability; at minimum a warning dialog and/or option to strip passwords during export is required.\nApproach: Add export dialog option to strip passwords or warn user when exporting with plain-text credentials included"
+  "notes": "PASS by code review: export warning covers CSV+JSON. commit 4c27b9db"
 }

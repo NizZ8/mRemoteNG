@@ -15,7 +15,7 @@
   "created_at": "2024-08-21T01:56:07Z",
   "github_updated_at": "2026-02-26T09:03:26Z",
   "body_snippet": "ICryptographyProvider interface and implementations are not secure by design, nor by implementation. Re-design to keep exposure of plaintext secrets to a minimum.\r\n\r\n## Expected Behavior\r\nNo persistent copies of plaintext/unencrypted secrets in memory. Any plaintext should be ephemeral, and explicitly zero-ed after use.\r\n\r\n## Current Behavior\r\nPlaintext copies of secrets are available in memory dumps of the application, from startup.\r\n\r\n## Possible Solution\r\nRe-design interface with no use of Sy...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -89,5 +89,5 @@
   "needs_action": false,
   "waiting_for_us": false,
   "last_synced": "2026-02-26T11:26:01Z",
-  "notes": "AI triage (claude): Security enhancement to ICryptographyProvider interface and implementations is a labeled high-priority security issue still open and relevant to the fork.\nApproach: Audit ICryptographyProvider interface and all implementations for cryptographic weaknesses (weak algorithms, improper IV handling, key derivation issues), then upgrade to authenticated encryption (AES-GCM or ChaCha20-Poly1305) with proper key derivation (Argon2/PBKDF2) and secure random IV generation"
+  "notes": "PASS by code review: CryptographicOperations.ZeroMemory in all 4 crypto providers. commit e1fdeca9"
 }
