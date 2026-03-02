@@ -3,8 +3,18 @@ param(
     [switch]$Portable,     # Self-contained + PORTABLE flag (settings in app folder, embeds .NET runtime)
     [switch]$Rebuild,
     [switch]$NoRestore,    # Skip dotnet restore (use for fast incremental builds)
-    [string]$Configuration = "Release"
+    [string]$Configuration = "Release",
+    [ValidateSet("x64", "x86", "ARM64")]
+    [string]$Arch = "x64"
 )
+
+# Map arch to MSBuild Platform and .NET RuntimeIdentifier
+$platform = $Arch
+$rid = switch ($Arch) {
+    "x64"   { "win-x64" }
+    "x86"   { "win-x86" }
+    "ARM64" { "win-arm64" }
+}
 
 # Find the newest VS BuildTools installation (VS2026 > VS2022 > etc.)
 $vsBasePaths = @(
@@ -38,32 +48,33 @@ if (-not $devShell) {
 Write-Host "Using: $devShell"
 & $devShell -Arch amd64
 
+$sln = "$PSScriptRoot\mRemoteNG.sln"
 $timer = [System.Diagnostics.Stopwatch]::StartNew()
 
 if ($Portable) {
-    Write-Host "Building portable edition (self-contained + PORTABLE flag)..."
+    Write-Host "Building portable edition ($Arch, self-contained + PORTABLE flag)..."
     if (-not $NoRestore) {
-        dotnet restore "D:\github\mRemoteNG\mRemoteNG.sln" --runtime win-x64
+        dotnet restore $sln --runtime $rid
     }
-    # Uses Release config (recognized by all projects) with explicit PORTABLE + SC properties.
     # PublishReadyToRun=false avoids NETSDK1094 crossgen2 issue; startup impact is negligible.
-    msbuild "D:\github\mRemoteNG\mRemoteNG.sln" -m "-verbosity:minimal" "-p:Configuration=Release" "-p:Platform=x64" "-p:DefineConstants=PORTABLE" "-p:SelfContained=true" "-p:RuntimeIdentifier=win-x64" "-p:PublishReadyToRun=false" "-p:SignAssembly=false" "-p:PublishDir=bin\x64\Portable\" -t:Publish
-    Write-Host "Portable output: mRemoteNG\bin\x64\Portable\" -ForegroundColor Green
+    msbuild $sln -m "-verbosity:minimal" "-p:Configuration=Release" "-p:Platform=$platform" "-p:DefineConstants=PORTABLE" "-p:SelfContained=true" "-p:RuntimeIdentifier=$rid" "-p:PublishReadyToRun=false" "-p:SignAssembly=false" "-p:PublishDir=bin\$platform\Portable\" -t:Publish
+    Write-Host "Portable output: mRemoteNG\bin\$platform\Portable\" -ForegroundColor Green
 } elseif ($SelfContained) {
-    Write-Host "Building self-contained (embedded .NET runtime, non-portable)..."
+    Write-Host "Building self-contained $Arch (embedded .NET runtime)..."
     if (-not $NoRestore) {
-        dotnet restore "D:\github\mRemoteNG\mRemoteNG.sln" --runtime win-x64 /p:PublishReadyToRun=true
+        dotnet restore $sln --runtime $rid /p:PublishReadyToRun=true
     }
-    msbuild "D:\github\mRemoteNG\mRemoteNG.sln" -m "-verbosity:minimal" "-p:Configuration=Release" "-p:Platform=x64" "-p:SelfContained=true" "-p:RuntimeIdentifier=win-x64" "-p:PublishDir=bin\x64\Release\win-x64-sc\" -t:Publish
+    # PublishReadyToRun=false avoids NETSDK1094 crossgen2 issue on local builds.
+    msbuild $sln -m "-verbosity:minimal" "-p:Configuration=Release" "-p:Platform=$platform" "-p:SelfContained=true" "-p:RuntimeIdentifier=$rid" "-p:PublishReadyToRun=false" "-p:PublishDir=bin\$platform\Release\publish\" -t:Publish
 } else {
-    Write-Host "Building framework-dependent..."
+    Write-Host "Building framework-dependent $Arch..."
     if (-not $NoRestore) {
-        dotnet restore "D:\github\mRemoteNG\mRemoteNG.sln"
+        dotnet restore $sln
     }
-    $msbuildArgs = @('-m', '-verbosity:minimal', "-p:Configuration=$Configuration", '-p:Platform=x64', '-p:SignAssembly=false')
+    $msbuildArgs = @('-m', '-verbosity:minimal', "-p:Configuration=$Configuration", "-p:Platform=$platform", '-p:SignAssembly=false')
     if ($Rebuild) { $msbuildArgs += '-t:Rebuild' }
     if ($NoRestore) { $msbuildArgs += '-p:RestorePackages=false' }
-    msbuild "D:\github\mRemoteNG\mRemoteNG.sln" @msbuildArgs
+    msbuild $sln @msbuildArgs
 }
 
 $timer.Stop()
