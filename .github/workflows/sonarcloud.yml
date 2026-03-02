@@ -55,7 +55,8 @@ jobs:
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.cs.vscoveragexml.reportsPaths="**/coverage.opencover.xml" `
-            /d:sonar.exclusions="**/obj/**,**/bin/**,**/*.Designer.cs,**/Interop*.cs,ObjectListView/**,.project-roadmap/**"
+            /d:sonar.exclusions="**/obj/**,**/bin/**,**/*.Designer.cs,**/Interop*.cs,ObjectListView/**,.project-roadmap/**" `
+            /d:sonar.coverage.exclusions="**/UI/**/*.cs,**/Protocol/RDP/**/*.cs,**/Protocol/VNC/**/*.cs,**/Themes/**/*.cs,**/TaskDialog/**/*.cs,**/App/ProgramRoot.cs,**/App/Runtime.cs,**/App/Diagnostics/**/*.cs,**/Config/Settings/DockPanelLayoutLoader.cs,**/Config/Settings/LocalSettingsManager.cs,ExternalConnectors/**/*.cs"
 
       - name: Build with MSBuild
         shell: pwsh
