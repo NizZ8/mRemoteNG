@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "ConEmu integration is already achievable via External Tools as described in the comments, and native protocol integration would be low priority with no PR submitted"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: ConEmu already works via External Tools, no code change needed"
     }
   ],
   "comments": [

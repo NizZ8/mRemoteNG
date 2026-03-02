@@ -15,7 +15,14 @@
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Malware on mremoteng.COM domain — domain squatting outside project control"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7lsUGn",

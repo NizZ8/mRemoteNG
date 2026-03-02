@@ -30,6 +30,12 @@
         "cost_usd": 0.140139,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: User question about release cadence, not a code change request"
     }
   ],
   "comments": [

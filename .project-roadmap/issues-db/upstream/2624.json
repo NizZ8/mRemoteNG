@@ -30,6 +30,12 @@
         "cost_usd": 0.157364,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Zmodem support requires deep PuTTY terminal emulator modification"
     }
   ],
   "comments": [

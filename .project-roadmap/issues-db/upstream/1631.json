@@ -48,6 +48,12 @@
       "date": "2026-02-24",
       "type": "triaged",
       "description": "Skipped: 12 failed auto-fix attempts"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Chrome Remote Desktop + IME interaction is not mRemoteNG bug"
     }
   ],
   "comments": [

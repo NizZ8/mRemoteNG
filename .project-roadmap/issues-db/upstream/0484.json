@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "VNC proxy support is a significant protocol-level feature requiring upstream VNC library changes, out of scope for our fork which focuses on stability and bug fixes"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: VNC proxy requires deep protocol changes in abandoned VncSharp library"
     }
   ],
   "comments": [

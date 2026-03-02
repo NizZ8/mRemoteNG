@@ -30,6 +30,12 @@
         "cost_usd": 0.142192,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Multi-user RBAC requires fundamental architectural overhaul"
     }
   ],
   "comments": [

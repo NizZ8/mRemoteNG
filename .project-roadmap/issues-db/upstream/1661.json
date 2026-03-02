@@ -45,6 +45,12 @@
       "date": "2026-02-24",
       "type": "triaged",
       "description": "Skipped: 10 failed auto-fix attempts"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: RDP panel sizing on detach depends on MSTSCLib COM control resize behavior which varies by Windows version"
     }
   ],
   "comments": [

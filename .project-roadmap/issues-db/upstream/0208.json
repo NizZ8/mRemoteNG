@@ -23,6 +23,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Credential repository is a major architectural feature requiring new infrastructure (vault integration, credential provider API, UI redesign) that is out of scope for the current fork's maintenance-focused roadmap"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Credential repository requires new provider architecture and vault integration"
     }
   ],
   "comments": [

@@ -29,6 +29,12 @@
         "cost_usd": 0.153939,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: RDP Gateway session limits controlled by gateway server, not mRemoteNG"
     }
   ],
   "comments": [

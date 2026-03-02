@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "KeePass integration is a major feature requiring external dependency management and security considerations, out of scope for current roadmap; commenters already found a viable workaround using KeePass URL overrides and command-line integration"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: KeePass integration requires re-implementing Argon2d/AES-KDF crypto or external dependency on running KeePass instance"
     }
   ],
   "comments": [

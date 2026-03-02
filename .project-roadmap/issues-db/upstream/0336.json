@@ -24,6 +24,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Multi-instance file syncing is a complex architectural feature requiring conflict resolution logic akin to KeePass/SQLite, which is out of scope for the current roadmap and the existing SQL backend is experimental and unsuitable"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Multi-instance file sync requires conflict resolution logic (concurrent XML writes) — high risk of data loss"
     }
   ],
   "comments": [

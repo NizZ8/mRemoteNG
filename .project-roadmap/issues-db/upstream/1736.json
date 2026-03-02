@@ -29,6 +29,12 @@
         "cost_usd": 0.22797,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Already fixed — SSH.NET upgraded to v2025.1.0 resolves crypto mismatch"
     }
   ],
   "comments": [

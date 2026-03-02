@@ -30,6 +30,12 @@
         "cost_usd": 0.159414,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: VNC domain auth (MS Logon) is protocol-level limitation of VNC libraries"
     }
   ],
   "comments": [

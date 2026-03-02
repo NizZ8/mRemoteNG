@@ -31,6 +31,12 @@
         "cost_usd": 0.156701,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: PuTTY saved sessions are managed by PuTTY registry, not mRemoteNG — filtering adds complexity"
     }
   ],
   "comments": [

@@ -29,6 +29,12 @@
         "cost_usd": 0.13677,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Undock/redock tabs between OS-level instances requires major IPC architecture"
     }
   ],
   "comments": [

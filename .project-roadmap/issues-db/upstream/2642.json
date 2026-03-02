@@ -30,6 +30,12 @@
         "cost_usd": 0.16862,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: DwmSetWindowAttribute title bar coloring requires per-monitor DPI handling and Windows version checks"
     }
   ],
   "comments": [

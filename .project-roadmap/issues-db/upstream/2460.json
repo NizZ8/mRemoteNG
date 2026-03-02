@@ -30,6 +30,12 @@
         "cost_usd": 0.14262,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Special characters in credentials are handled correctly in current XML/SQL serialization — needs reproduction steps"
     }
   ],
   "comments": [

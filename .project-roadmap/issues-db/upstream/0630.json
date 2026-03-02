@@ -21,6 +21,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "vSphere VM list import requires storing vCenter credentials securely and maintaining a VMware SDK dependency, which is out of scope for a remote connections manager and adds significant attack surface"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: vSphere VM import requires VMware API authentication and inventory enumeration — not a simple file import"
     }
   ],
   "comments": [

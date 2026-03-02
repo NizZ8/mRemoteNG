@@ -23,6 +23,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "PortableApps.com format packaging is out of scope for our fork — mRemoteNG already ships as a portable ZIP and the upstream project has marked this as Not Planned"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: PortableApps.com format is niche — portable ZIP already ships"
     }
   ],
   "comments": [

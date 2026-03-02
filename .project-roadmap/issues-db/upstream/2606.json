@@ -28,6 +28,12 @@
         "cost_usd": 0.155726,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Bulk edit inheritance on multi-select requires undo/redo support to prevent accidental mass changes"
     }
   ],
   "comments": [

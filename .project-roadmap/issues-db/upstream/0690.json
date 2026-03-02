@@ -22,6 +22,12 @@
       "date": "2026-02-17",
       "type": "wontfix",
       "description": "The issue is already closed and comments confirm that settings storage was updated to use the Roaming AppData directory."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Issue already closed upstream — settings moved to Roaming AppData"
     }
   ],
   "comments": [

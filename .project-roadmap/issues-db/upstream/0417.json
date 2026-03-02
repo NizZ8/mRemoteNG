@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "External tool window integration via SetParent is already available as 'Try to integrate' option, and CMD-based tools (ping, tracert) cannot be embedded as tabs due to console window limitations - this is a fundamental Windows API constraint, not a fixable bug."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: SetParent integration exists as \"Try to integrate\" — console embedding is Windows API limitation"
     }
   ],
   "comments": [

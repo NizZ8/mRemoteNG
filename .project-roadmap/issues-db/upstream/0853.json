@@ -23,6 +23,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "The crash is documented as a Microsoft upstream RDP/MSCTF issue and was reported fixed by Windows updates, so there is no actionable mRemoteNG-side fix."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Microsoft MSCTF bug fixed by Windows updates — not mRemoteNG issue"
     }
   ],
   "comments": [

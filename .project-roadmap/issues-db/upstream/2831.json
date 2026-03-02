@@ -31,6 +31,12 @@
         "cost_usd": 0.179577,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Backup/restore is file copy of AppData folder — documented in FAQ, no code change needed"
     }
   ],
   "comments": [

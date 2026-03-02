@@ -30,6 +30,12 @@
         "cost_usd": 0.168202,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: File locking or single-instance enforcement breaks legitimate multi-instance usage by sysadmins"
     }
   ],
   "comments": [

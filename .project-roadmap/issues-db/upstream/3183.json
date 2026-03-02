@@ -21,6 +21,12 @@
       "date": "2026-02-27",
       "type": "wontfix",
       "description": "Already implemented in current code: the context menu exposes \"Connect (with options) -> Connect without credentials\", and connection matching differentiates sessions by username/domain so a no-credentials launch does not collapse into an existing credentialed session."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Website download links issue, not application code"
     }
   ],
   "comments": [

@@ -31,6 +31,12 @@
         "cost_usd": 0.14997,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: SSH scrollback on reconnect requires PuTTY terminal emulator modification"
     }
   ],
   "comments": [

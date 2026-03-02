@@ -25,6 +25,12 @@
         "cost_usd": 0.166883,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Test issue with no content"
     }
   ],
   "comments": [],

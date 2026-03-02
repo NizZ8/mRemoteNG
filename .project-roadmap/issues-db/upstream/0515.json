@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Custom Virtual Channel DLL support is a niche RDP feature requiring significant ActiveX/COM integration work with no community demand beyond one request, and the original maintainer already deferred it indefinitely."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: MSTSCLib Virtual Channels API has poor documentation and requires RDP server-side testing infrastructure"
     }
   ],
   "comments": [

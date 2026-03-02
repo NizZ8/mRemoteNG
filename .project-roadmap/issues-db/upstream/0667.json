@@ -21,6 +21,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "Major architectural redesign of credential management system is out of scope for our fork — this is a long-term upstream design decision requiring consensus on credential provider architecture"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Credential manager DB redesign depends on unbuilt credential provider architecture (#208)"
     }
   ],
   "comments": [

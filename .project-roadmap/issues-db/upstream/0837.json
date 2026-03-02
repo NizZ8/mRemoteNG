@@ -21,6 +21,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "extApps.xml is intended to hold external app templates and use runtime replacement tokens (for example, `%PASSWORD%`) instead of storing sensitive values directly, so file-level encryption is not required."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: External Tools credential handling works by design via %PASSWORD% tokens"
     }
   ],
   "comments": [

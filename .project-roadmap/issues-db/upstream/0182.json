@@ -23,6 +23,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Major architectural rewrite of SQL storage layer is out of scope for our fork — this is a large-scale feature requiring upstream consensus and dedicated contributors"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: SQL storage layer rewrite is major architectural undertaking requiring upstream consensus"
     }
   ],
   "comments": [

@@ -24,6 +24,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Cross-platform (Mac/Mobile) support requires a complete UI framework rewrite far beyond the scope of this WinForms/.NET 10 fork, and MAUI/web alternatives remain immature for this use case"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Cross-platform Mac/Linux/Mobile requires complete rewrite — COM/ActiveX dependencies"
     }
   ],
   "comments": [

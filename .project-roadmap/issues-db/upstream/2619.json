@@ -30,6 +30,12 @@
         "cost_usd": 0.162895,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Enterprise/commercial version request — project is explicitly free and open source"
     }
   ],
   "comments": [

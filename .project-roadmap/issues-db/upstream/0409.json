@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Cloud sync and multi-user configuration access is a major architectural feature requiring a new storage backend, conflict resolution, and sync protocol — far out of scope for the current fork which focuses on stability and bug fixes"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Cloud sync with conflict resolution is major architectural feature"
     }
   ],
   "comments": [

@@ -27,6 +27,12 @@
         "cost_usd": 0.14597,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Legacy v1.76.20 issue, confirmed fixed in nightly builds"
     }
   ],
   "comments": [

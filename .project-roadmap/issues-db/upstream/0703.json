@@ -21,6 +21,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "A web-based rewrite of mRemoteNG is fundamentally out of scope — mRemoteNG is a native Windows desktop application relying on COM/ActiveX controls (RDP, VNC, PuTTY) that cannot run in a browser; commenters already suggest existing alternatives like RDWA and Windows Admin Center"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Web-based rewrite is fundamentally different product — COM/ActiveX cannot run in browser"
     }
   ],
   "comments": [

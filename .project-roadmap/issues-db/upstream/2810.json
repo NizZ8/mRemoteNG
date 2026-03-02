@@ -32,6 +32,12 @@
         "cost_usd": 0.174483,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: DPI awareness is already set to PerMonitorV2 in .NET 10 — specific blurriness needs reproduction steps"
     }
   ],
   "comments": [

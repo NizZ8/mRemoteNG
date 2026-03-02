@@ -29,6 +29,12 @@
         "cost_usd": 0.15597,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: RustDesk already works via External Tools — native protocol integration not justified"
     }
   ],
   "comments": [

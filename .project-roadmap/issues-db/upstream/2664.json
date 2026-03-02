@@ -29,6 +29,12 @@
       "branch": null,
       "release": null,
       "comment_posted": false
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Windows 11 24H2 RDP auth bug fixed by KB5044285"
     }
   ],
   "comments": [

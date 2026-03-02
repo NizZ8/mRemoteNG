@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Social media auto-posting is out of scope for a desktop remote connections manager - this is a project infrastructure/marketing task, not a code feature, and the referenced PowerShell module is unmaintained"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Social media auto-posting is marketing infrastructure, not application code"
     }
   ],
   "comments": [

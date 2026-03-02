@@ -30,6 +30,12 @@
         "cost_usd": 0.178133,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Fullscreen RDP on virtual desktops is a Windows/MSTSCLib interaction — varies by Windows version"
     }
   ],
   "comments": [

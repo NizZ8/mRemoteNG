@@ -28,6 +28,12 @@
         "cost_usd": 0.16217,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Vague stability question with no actionable bug report"
     }
   ],
   "comments": [

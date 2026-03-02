@@ -27,6 +27,12 @@
       "branch": null,
       "release": null,
       "comment_posted": false
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: RDP auth error 0x80080005 caused by Windows Update KB5074109"
     }
   ],
   "comments": [

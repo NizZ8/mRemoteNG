@@ -27,6 +27,12 @@
         "cost_usd": 0.150702,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Chrome Remote Desktop is proprietary Google protocol with no public API"
     }
   ],
   "comments": [

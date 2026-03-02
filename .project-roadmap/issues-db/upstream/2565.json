@@ -28,6 +28,12 @@
         "cost_usd": 0.152945,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: RDP load balancing properties depend on MSTSCLib version and server-side configuration"
     }
   ],
   "comments": [

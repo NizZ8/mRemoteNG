@@ -24,6 +24,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "VncSharp has been abandoned upstream and maintainers prefer replacing the entire VNC implementation rather than patching compatibility with specific VNC server versions; this is a long-term architectural decision tracked separately."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: RealVNC uses proprietary RFB 4.0+ protocol incompatible with VncSharp"
     }
   ],
   "comments": [

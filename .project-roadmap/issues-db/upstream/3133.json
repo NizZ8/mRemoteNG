@@ -37,6 +37,12 @@
         "cost_usd": 0.166814,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Our own release announcement post, not an actionable issue"
     }
   ],
   "comments": [

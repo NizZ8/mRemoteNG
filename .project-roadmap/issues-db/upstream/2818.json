@@ -26,6 +26,12 @@
       "branch": null,
       "release": null,
       "comment_posted": false
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Website CSP header issue, not application code"
     }
   ],
   "comments": [],

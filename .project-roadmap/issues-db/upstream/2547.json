@@ -28,6 +28,12 @@
         "cost_usd": 0.151133,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: ESXi uses HTTPS web UI — already works via existing HTTP/S protocol type"
     }
   ],
   "comments": [

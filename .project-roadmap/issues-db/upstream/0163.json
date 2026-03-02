@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "URL handler/protocol association is an OS-level feature requiring deep shell integration and was already proposed for a major 2.0 redesign, making it out of scope for current incremental releases"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: URL scheme handling requires security hardening (URL injection risk, see #3177) and registry management"
     }
   ],
   "comments": [

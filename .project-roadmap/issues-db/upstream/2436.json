@@ -29,6 +29,12 @@
         "cost_usd": 0.14092,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Vaultwarden/Bitwarden integration requires OAuth/API key management and external service dependency"
     }
   ],
   "comments": [

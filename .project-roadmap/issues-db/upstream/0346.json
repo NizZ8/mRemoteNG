@@ -23,6 +23,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Chocolatey/winget packaging is a distribution/infrastructure task, not a code change — out of scope for our fork's development roadmap"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Chocolatey/winget packaging is distribution infrastructure, not application code — out of fork scope"
     }
   ],
   "comments": [

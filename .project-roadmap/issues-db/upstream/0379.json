@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Scripting/expect support for terminal sessions is a major architectural feature far outside the current project scope and would require embedding a scripting engine, terminal session interception, and event hooks — effectively a different product"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Terminal scripting engine requires intercepting PuTTY I/O — effectively different product"
     }
   ],
   "comments": [

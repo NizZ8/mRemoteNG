@@ -28,6 +28,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "This is a net-new enhancement request with no technical details and it is already marked Not Planned."
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Syslog appender is a niche enterprise feature — users can configure log4net.config manually"
     }
   ],
   "comments": [],

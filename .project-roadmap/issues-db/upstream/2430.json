@@ -29,6 +29,12 @@
         "cost_usd": 0.145639,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: PuTTY disconnect detection requires monitoring external process state — unreliable with embedded PuTTY"
     }
   ],
   "comments": [

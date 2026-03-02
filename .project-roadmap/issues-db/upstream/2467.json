@@ -34,6 +34,12 @@
         "cost_usd": 0.14877,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Environment variable substitution in username fields adds complexity and potential security risks"
     }
   ],
   "comments": [

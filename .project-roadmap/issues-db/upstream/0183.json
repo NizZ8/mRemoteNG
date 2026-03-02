@@ -23,6 +23,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Full-featured file transfer (SCP/SFTP) is a major new feature requiring significant architecture changes, out of scope for current maintenance releases and better suited for a hypothetical 2.0 rewrite"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Built-in SCP/SFTP requires new protocol handler, UI, and file transfer engine"
     }
   ],
   "comments": [

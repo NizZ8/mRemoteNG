@@ -31,6 +31,12 @@
         "cost_usd": 0.159808,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: MSTSCLib COM reference upgrade risks build breakage on older Windows Server versions"
     }
   ],
   "comments": [

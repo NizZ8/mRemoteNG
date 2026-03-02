@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Niche RDP feature request with viable workarounds (WSL+Remmina, AHK scripts); requires deep RDP ActiveX/MSTSCLib changes for minimal user impact, and the community has already found acceptable solutions"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Mouse button swap limited by MSTSCLib COM control API"
     }
   ],
   "comments": [

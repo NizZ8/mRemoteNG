@@ -24,6 +24,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Replacing PuTTY with SSH.NET is a massive architectural undertaking requiring a full protocol handler rewrite, no active contributor, and PuTTY integration works adequately — out of scope for our fork's roadmap"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: PuTTY→SSH.NET replacement requires complete terminal emulator rewrite"
     }
   ],
   "comments": [

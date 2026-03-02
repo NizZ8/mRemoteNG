@@ -30,6 +30,12 @@
         "cost_usd": 0.177779,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Trend Micro AV policy blocks nested RDP — not mRemoteNG-specific"
     }
   ],
   "comments": [

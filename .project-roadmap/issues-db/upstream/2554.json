@@ -29,6 +29,12 @@
         "cost_usd": 0.150645,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Shared credential pairs require schema migration (XML + SQL) — high risk of breaking existing configs"
     }
   ],
   "comments": [

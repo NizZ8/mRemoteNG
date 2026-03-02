@@ -16,7 +16,14 @@
   "target_release": null,
   "our_branch": null,
   "our_pr": null,
-  "iterations": [],
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: BinaryFormatter RCE already mitigated, disabled by default in .NET 10"
+    }
+  ],
   "comments": [
     {
       "id": "IC_kwDOAAcIMM7mXYdV",

@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "CII Best Practices badge is a project governance/process initiative, not a code change - already marked in progress by maintainers and tracked externally via the CII badging platform"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: CII badge is governance/process checklist, not a code change"
     }
   ],
   "comments": [

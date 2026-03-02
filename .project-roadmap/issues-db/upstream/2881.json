@@ -32,6 +32,12 @@
         "cost_usd": 0.181864,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: PuttyNG ARM64 binary not available — third-party dependency outside our control"
     }
   ],
   "comments": [

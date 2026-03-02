@@ -28,6 +28,12 @@
         "cost_usd": 0.146308,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Reporter requested closure after 2+ years of inactivity"
     }
   ],
   "comments": [

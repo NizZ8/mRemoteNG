@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Gecko/XUL engine (GeckoFX) was removed from mRemoteNG long ago as it was obsolete and unmaintained; the HTTP protocol now uses IE/Edge WebView, making this issue obsolete with no reproducible steps provided despite multiple triage requests"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Gecko engine integration was removed — issue is obsolete"
     }
   ],
   "comments": [

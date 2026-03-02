@@ -28,6 +28,12 @@
         "cost_usd": 0.113435,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Upstream repo admin task (delete gh-pages branch), not a code change"
     }
   ],
   "comments": [

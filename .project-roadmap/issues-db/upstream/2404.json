@@ -31,6 +31,12 @@
         "cost_usd": 0.147358,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: SSH auto-reconnect requires PuTTY process lifecycle management — PuTTY is embedded as external process"
     }
   ],
   "comments": [

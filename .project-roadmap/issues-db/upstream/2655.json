@@ -32,6 +32,12 @@
         "cost_usd": 0.169826,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Tab title from SSH hostname requires PuTTY integration — PuTTY controls naming"
     }
   ],
   "comments": [

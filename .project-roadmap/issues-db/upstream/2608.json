@@ -32,6 +32,12 @@
         "cost_usd": 0.156926,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Parallel input to multiple RDP sessions requires major architectural changes"
     }
   ],
   "comments": [

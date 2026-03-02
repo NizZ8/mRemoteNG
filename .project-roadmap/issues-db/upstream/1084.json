@@ -28,6 +28,12 @@
         "cost_usd": 0.15763,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Showing all inheritable properties regardless of protocol creates confusing UX with irrelevant fields"
     }
   ],
   "comments": [

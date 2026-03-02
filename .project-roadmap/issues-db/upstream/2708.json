@@ -29,6 +29,12 @@
         "cost_usd": 0.175495,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Website language switcher issue, not desktop application code"
     }
   ],
   "comments": [

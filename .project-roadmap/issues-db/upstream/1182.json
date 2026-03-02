@@ -33,6 +33,12 @@
       "date": "2026-02-24",
       "type": "triaged",
       "description": "Skipped: 12 failed auto-fix attempts"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Printer redirection behavior is MSTSCLib COM limitation, varies by driver/OS"
     }
   ],
   "comments": [

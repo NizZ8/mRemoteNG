@@ -35,6 +35,12 @@
       "date": "2026-03-02",
       "type": "wontfix",
       "description": "RDS admin workaround exists"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Machine-wide SQL config requires elevated permissions and conflicts with per-user portable usage"
     }
   ],
   "comments": [

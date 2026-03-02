@@ -66,6 +66,12 @@
       "date": "2026-02-26",
       "type": "triaged",
       "description": "Skipped: 10 failed auto-fix attempts"
+    },
+    {
+      "seq": 7,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Idle timeout auto-close could disconnect active sessions unexpectedly — risky UX for sysadmins"
     }
   ],
   "comments": [

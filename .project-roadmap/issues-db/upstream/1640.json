@@ -29,6 +29,12 @@
         "cost_usd": 0.178834,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Per-folder password protection requires deep encryption architecture changes"
     }
   ],
   "comments": [

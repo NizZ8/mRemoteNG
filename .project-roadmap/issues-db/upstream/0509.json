@@ -22,6 +22,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "VNC Chat is an obscure legacy VNC feature with no implementation details provided, out of scope for mRemoteNG which is a connection manager not a VNC server/client implementation"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: VNC Chat is obscure UltraVNC-specific feature"
     }
   ],
   "comments": [],

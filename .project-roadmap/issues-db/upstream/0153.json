@@ -21,6 +21,12 @@
       "date": "2026-02-15",
       "type": "wontfix",
       "description": "Major UI architecture redesign request from 2014 with no clear specification - merging the connections and config panels would require extensive WinForms layout restructuring that is out of scope for the current roadmap"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: DockPanel Suite layout restructuring risks breaking saved layouts for all users"
     }
   ],
   "comments": [

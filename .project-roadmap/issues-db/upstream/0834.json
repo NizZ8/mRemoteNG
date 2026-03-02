@@ -23,6 +23,12 @@
       "date": "2026-02-16",
       "type": "wontfix",
       "description": "The original reporter requested closure and marked the issue moot, leaving no actionable reproducible defect to address."
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Repass confirmed: Reporter explicitly requested closure"
     }
   ],
   "comments": [

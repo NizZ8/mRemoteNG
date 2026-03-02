@@ -46,6 +46,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 5b04dd65"
+    },
+    {
+      "seq": 5,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Changing default encryption password is a breaking change for existing users with encrypted config files"
     }
   ],
   "comments": [

@@ -30,6 +30,12 @@
         "cost_usd": 0.160283,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "wontfix",
+      "description": "Wontfix: Cross-domain AD import requires alternate credentials LDAP binding — security implications need careful design"
     }
   ],
   "comments": [
