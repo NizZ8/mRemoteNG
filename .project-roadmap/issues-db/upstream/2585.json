@@ -15,7 +15,7 @@
   "created_at": "2024-04-22T14:01:25Z",
   "github_updated_at": "2026-02-21T10:23:26Z",
   "body_snippet": "Hello Folks!\r\n\r\nI'm glad to come across mRemoteNG when I searched for Libre Software alternative to SecureCRT.\r\n\r\nUnfortunately, when I requested my organization to install mRemoteNG (either v1.76.20 or v1.77.3.1784-NB) on my work laptop, the SOC team rejected my request citing the following CVEs.\r\n[1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-24307\r\n[2] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-30367\r\n\r\nAny inside information regarding these?\r\n\r\nP.S.\r\nThank you all f...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -38,6 +38,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in f34c13e7"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f34c13e7 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

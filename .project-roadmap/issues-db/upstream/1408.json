@@ -11,7 +11,7 @@
   "created_at": "2019-04-13T18:27:37Z",
   "github_updated_at": "2026-02-24T00:14:22Z",
   "body_snippet": "## Expected Behavior\r\nWhen the user clicks on a ConnectionWindow tab that hosts a puttyng.exe window, Putty shall receive the input focus. This is how it is working in the master branch. \r\n\r\n## Current Behavior\r\nThe expected behaviour has changed in the develop branch, probably unintentionally, Putty does not get the focus anymore and the user needs an additional click every time.\r\n\r\n## Possible Solution\r\nThe ConnectionTab looks less fancy in the master branch, so I assume there was some kind of...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -22,6 +22,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in f34c13e7"
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f34c13e7 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

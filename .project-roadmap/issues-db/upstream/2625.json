@@ -13,7 +13,7 @@
   "created_at": "2024-08-05T22:18:25Z",
   "github_updated_at": "2026-02-21T10:23:35Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nRDP to servers, disconnect from one machine, reconnect on another machine, and be able to pick back up with RDPing to servers.  \r\n\r\n\r\n## Current Behavior\r\nSigned into a PC on the Citrix server RDP to a few customer servers, disconnect my session, drive home, reconnect my session on a different PC, try to RDP and it will not allow me to.  It just opens a blank white screen until I close out all RDP sessio...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

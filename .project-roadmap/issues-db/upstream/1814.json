@@ -10,7 +10,7 @@
   "created_at": "2020-07-10T00:28:34Z",
   "github_updated_at": "2026-02-25T16:43:21Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nI would like to be able to configure some connection profiles for various domains, various devices, etc.. then i'd like to organize all of my connections by location rather than by credentials. \r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what h...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -39,6 +39,12 @@
         "cost_usd": 1.486853,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit a186e5d9 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

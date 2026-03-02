@@ -13,7 +13,7 @@
   "created_at": "2026-02-23T09:12:22Z",
   "github_updated_at": "2026-02-26T09:38:43Z",
   "body_snippet": "## Case\n- RDP (via mstsc) connection to mRemoteNG active workstation (jump-host) breaks RDP tab resolution\n\n## To reproduce\n- Connect to jump-host machine via RDP via mstsc (where mRemoteNG should be launched)\n- Open mRemoteNG on jump-host\n- Connect to any RDP from your profile via mRemoteNG\n- Disconnect from jump-host\n- Connect to jump-host again via RDP\n- Got wrong resolution inside RDP tab\n\n## Mitigation fix\n- RDP tab > Reconnect\n- Or try to drag whole mRemoteNG window and maxize again\n\n## Ve...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -42,6 +42,12 @@
         "cost_usd": 1.430503,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit d2d51841 exists (HIGH confidence)"
     }
   ],
   "comments": [

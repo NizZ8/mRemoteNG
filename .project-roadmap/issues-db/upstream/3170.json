@@ -13,7 +13,7 @@
   "created_at": "2026-02-24T13:57:04Z",
   "github_updated_at": "2026-02-26T06:14:48Z",
   "body_snippet": "When trying to login to an SSH connection requiring an interactive login and no stored credentials are specified in the connection profile, if a command is specified in the Opening Command field, it is entered as the username of the login prompt, or if only a username is stored in the profile, the command is entered as the first password.  Is it possible to wait until credentials are satisfied for a user's interactive login before sending the Opening Command text?  If both a username and passwor...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -42,6 +42,12 @@
         "cost_usd": 1.774757,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit ee3a7354 exists (HIGH confidence)"
     }
   ],
   "comments": [

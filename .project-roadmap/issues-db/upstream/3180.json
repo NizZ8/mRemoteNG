@@ -8,7 +8,7 @@
   "created_at": "2026-02-26T02:31:38Z",
   "github_updated_at": "2026-02-26T03:07:07Z",
   "body_snippet": "After I removed a user profile (exported from legacy version), The application crashed on startup:\n\nException at 0x00007FFAB6A0313C (in mRemoteNG.exe): 0xC0000005: Access violation reading location 0x0000000000000000.\n\nLog:\n```\n2026-02-26 10:06:01,148 [2] INFO  - mRemoteNG Connection Manager 1.78.2 (Nightly Build 3228) x64 starting.\n2026-02-26 10:06:01,151 [2] INFO  - Command Line: B:\\mRemoteNG\\mRemoteNG.dll\n2026-02-26 10:06:01,201 [2] INFO  - Microsoft Windows 10 企业版  64-bit\n2026-02-26 10:06:01...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -31,6 +31,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 1d5c8fba"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 1d5c8fba exists (HIGH confidence)"
     }
   ],
   "comments": [],

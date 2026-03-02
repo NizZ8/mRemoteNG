@@ -14,7 +14,7 @@
   "created_at": "2022-02-03T10:04:09Z",
   "github_updated_at": "2026-02-21T10:23:19Z",
   "body_snippet": "Under \"Inheritance\", there are 2 sets of fields with the same names, even though their functions are different:\r\n1) \"Minutes To Idle\".  The 2nd field with this name should probably be labelled \"Alert on disconnect due to idle\".\r\n2) \"Disable Cursor Shadow\".  Both fields with this name appear to have the same help text.  One should probably be deleted.\r\n\r\n## Expected Behavior\r\nEach field name & function should be unique.\r\n\r\n## Current Behavior\r\nDuplicate field names.\r\n\r\n## Your Environment\r\nWindow...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -37,6 +37,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in a1717026"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit a1717026 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

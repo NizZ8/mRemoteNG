@@ -13,7 +13,7 @@
   "created_at": "2022-12-05T14:35:16Z",
   "github_updated_at": "2026-02-24T05:53:51Z",
   "body_snippet": "## Expected Behavior\r\nWhen using RDP and i doubleclick, I expect only a doubleclick will happen on the remote server\r\n\r\n## Current Behavior\r\nThe letter 'c' is typed, \r\n\r\n## Possible Solution1\r\n?\r\n\r\n## Steps to Reproduce (for bugs)\r\n1.  Key combinations are enabled in the config of remote connection, when disabled, the behaviour is normal. The behaviour does not appear with windows built-in RDP tool or on host.\r\n\r\n## Context\r\n\r\n## Your Environment\r\n* Version used:\r\nHost:\r\nWindows 10 enterprise bu...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -30,6 +30,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in dae524af"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit dae524af exists (MEDIUM confidence)"
     }
   ],
   "comments": [

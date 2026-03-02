@@ -12,7 +12,7 @@
   "created_at": "2023-09-28T08:17:21Z",
   "github_updated_at": "2026-02-26T09:26:11Z",
   "body_snippet": "The exception occurs when saving the mysql connection.\r\n\r\n**Mariadb/OS:** `Server version: 10.11.3-MariaDB-1-log Debian 12`\r\n\r\n**Stack Trace:**\r\n```\r\n   at MySql.Data.MySqlClient.CharSetMap.GetCharacterSet(DBVersion version, String charSetName)\r\n   at MySql.Data.MySqlClient.MySqlField.SetFieldEncoding()\r\n   at MySql.Data.MySqlClient.MySqlField.set_CharacterSetIndex(Int32 value)\r\n   at MySql.Data.MySqlClient.NativeDriver.GetColumnData(MySqlField field)\r\n   at MySql.Data.MySqlClient.NativeDriver.G...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -41,6 +41,12 @@
         "cost_usd": 1.873337,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit d33eae8a exists (HIGH confidence)"
     }
   ],
   "comments": [

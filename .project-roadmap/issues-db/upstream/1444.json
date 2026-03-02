@@ -10,7 +10,7 @@
   "created_at": "2019-05-08T10:37:49Z",
   "github_updated_at": "2026-02-25T21:34:29Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nRequest for an option to keep tabs open after closing connection _without_ using the option \r\n\"automatically try to reconnect when disconnected from server (rdp & ica only)\" because this causes a lot of udp traffic in the network.\r\n\r\n## Expected Behavior\r\nI need an option to keep open tabs after closing the connection for a quick reconnection without permanent alive requests in the network.\r\n\r\n<!--- If you're describing a bug, ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -39,6 +39,12 @@
         "cost_usd": 2.878124,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 2629407d exists (HIGH confidence)"
     }
   ],
   "comments": [

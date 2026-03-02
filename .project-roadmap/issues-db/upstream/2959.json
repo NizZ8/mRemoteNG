@@ -13,7 +13,7 @@
   "created_at": "2025-10-21T14:58:54Z",
   "github_updated_at": "2026-02-21T10:23:45Z",
   "body_snippet": "Testing with mRemoteNG v1.78.2-NB-3224. Bellow is one small \"annoyance\" I constantly get into and it would be nice to have some improvements like feature request.\n\n1. I like to have Connections and Config tabs at left side collapsed to have as much of the screen available for my sessions. Like this:\n   <img width=\"255\" height=\"198\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/d275fd0d-09fb-485a-8eb0-fb6681a4497a\" />\n2. When clicking on Connections tab to see or change some setting...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in bb289379"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit bb289379 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

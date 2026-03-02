@@ -8,7 +8,7 @@
   "created_at": "2026-02-23T10:04:43Z",
   "github_updated_at": "2026-02-26T09:51:37Z",
   "body_snippet": "Latest NB Self contained Version \"mRemoteNG 1.78.2 NB 3405\" still requires .NET 9.0.0 to run.",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -37,6 +37,12 @@
         "cost_usd": 1.952868,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f61f63c1 exists (HIGH confidence)"
     }
   ],
   "comments": [

@@ -13,7 +13,7 @@
   "created_at": "2024-07-18T08:54:09Z",
   "github_updated_at": "2026-02-21T10:23:34Z",
   "body_snippet": "When unfastening the tab with RDP connection to the local HV machine as a separate window, the options (reconect,disconect,fullscreen,...) do not work.\r\n\r\n## Expected Behavior\r\nThe mentioned options will operate normally.\r\n\r\n## Current Behavior\r\nNothing is happening\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Open the connection in the tab.\r\n2. Move the connection to a separate standalone window (Outside the panel)\r\n3. Select options from under the right button on the bar.\r\n\r\n## Your Environment\r\n* ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

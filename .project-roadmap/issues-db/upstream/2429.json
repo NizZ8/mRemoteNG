@@ -12,7 +12,7 @@
   "created_at": "2023-04-25T09:44:07Z",
   "github_updated_at": "2026-02-21T10:23:26Z",
   "body_snippet": "As soon as I want to create a new database connection via MySQL, this error message appears after the connection test (see screenshot)\r\n\r\nVersion: v1.77.3.1442-NB\r\n\r\n![Screenshot 2023-04-25 113307](https://user-images.githubusercontent.com/131761636/234238547-3db14379-77a2-4dc7-9145-619275c7d387.png)\r\n\r\n\r\n```\r\nFehlermeldung\r\n\"Table 'mRemoteNG.tblRoot' doesn't exist\"\r\n\r\nStack trace\r\n   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()\r\n   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& a...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -29,6 +29,12 @@
         "cost_usd": 0.139764,
         "operations": 1
       }
+    },
+    {
+      "seq": 2,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: issue reviewed and triaged"
     }
   ],
   "comments": [

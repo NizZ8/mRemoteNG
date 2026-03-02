@@ -12,7 +12,7 @@
   "created_at": "2024-04-17T09:40:11Z",
   "github_updated_at": "2026-02-21T10:23:25Z",
   "body_snippet": "The following works with stable v1.76.20, but not with Nightly v1.77.3.1784-NB:\r\n\\\\\\\\_UNC path_\\mRemoteNG.exe /c:\"\\\\\\\\_UNC path_\\confCons.xml\"\r\n\r\nOperating System: Windows Server 2022 21H2\r\n\r\nIssue was there before in v1.75.7011.34996. \r\nSee issue 803: https://github.com/mRemoteNG/mRemoteNG/issues/803",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

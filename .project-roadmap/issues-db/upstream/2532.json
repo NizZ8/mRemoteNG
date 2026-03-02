@@ -12,7 +12,7 @@
   "created_at": "2023-12-08T05:35:16Z",
   "github_updated_at": "2023-12-11T10:42:01Z",
   "body_snippet": "## Expected Behavior\r\nBeing able to organize external tools into folders | Hide tools from UI\r\n\r\n## Current Behavior\r\nAs of now once a certain number of external tools is reached, they cannot be shown in the UI anymore and one needs to expand the UI using the arrow button. Also external tools are currently sorted in a pre-determined order that cannot be changed.\r\nYou cannot change the order based on utilization.\r\nAlso all external tools are shown on the UI.\r\n\r\n## Possible Solution\r\nIt would be n...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -41,6 +41,12 @@
         "cost_usd": 1.795843,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 2775dec5 exists (HIGH confidence)"
     }
   ],
   "comments": [

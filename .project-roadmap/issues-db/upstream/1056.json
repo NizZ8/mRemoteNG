@@ -11,7 +11,7 @@
   "created_at": "2018-07-31T12:13:29Z",
   "github_updated_at": "2026-02-25T10:14:57Z",
   "body_snippet": "Failed login telnet on the first time \r\n\r\n## Expected Behavior\r\ntelnet xx.xx.xx.xx 7777 > pass > ok \r\n\r\n## Current Behavior\r\nPuTTYNG.exe xx.xx.xx.xx 7777 > good or false password > \"Mot de pase incorrect !\" ( bad password with spelling mistake \"pase\" = \"passe\" )\r\nre type good password and then I am log in  \r\n>help\r\n\r\n## Possible Solution\r\nMaybe a bad parameter in Putty terminal ?\r\nDifference between French and English ?\r\nport 7777  ( and no 23 ) ?\r\nnetping materiel\r\nnetwork?\r\n\r\n## Steps to Repro...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -34,6 +34,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (0f7b5caf9 fi)"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: previously committed"
     }
   ],
   "comments": [

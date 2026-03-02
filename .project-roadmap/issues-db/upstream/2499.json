@@ -15,7 +15,7 @@
   "created_at": "2023-10-06T05:06:29Z",
   "github_updated_at": "2026-02-21T10:23:42Z",
   "body_snippet": "When mRemoteNG is in portable mode, app should writes config files (.xml) and backup files (.backup) into individual setting folder, not into root directory where exe file exist.\r\n\r\n## Expected Behavior\r\nWhen mRemoteNG is in portable mode, new version should writes config files (.xml) and backup files (.backup) into individual setting folder.\r\n\r\n## Current Behavior\r\nWhen mRemoteNG is in portable mode, current version writes config files (.xml) and backup files (.backup) into root directory where...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -44,6 +44,12 @@
         "cost_usd": 0.994772,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 49b83278 exists (HIGH confidence)"
     }
   ],
   "comments": [

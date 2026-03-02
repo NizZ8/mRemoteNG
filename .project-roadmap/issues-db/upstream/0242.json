@@ -13,7 +13,7 @@
   "created_at": "2016-11-10T18:34:18Z",
   "github_updated_at": "2026-02-26T01:29:32Z",
   "body_snippet": "The object graph for ConnectionInfo-style objects is hard to work with due to everything inheriting from AbstractConnectionInfoData.\n\nRootNodeInfo objects do not need any of the properties from AbstractConnectionInfoData, only the methods from ContainerInfo (which inherits from ConnectionInfo).\n\nBecause of this oversimplification, differentiating between RootNodeInfos and ConnectionInfos is a bit convoluted.\n\nTo fix this, we will need to break up the object graph around the ContainerInfo by crea...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
         "cost_usd": 1.570451,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 83cc7009 exists (HIGH confidence)"
     }
   ],
   "comments": [

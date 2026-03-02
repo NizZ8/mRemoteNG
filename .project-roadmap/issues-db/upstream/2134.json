@@ -12,7 +12,7 @@
   "created_at": "2022-01-18T16:29:35Z",
   "github_updated_at": "2022-01-19T16:11:24Z",
   "body_snippet": "If this application is used by several users at the same time (on server instance for example) it should allow select where to save settings of the app for each user (for example shared home folder) \r\n\r\n## Expected Behaviour\r\nadmin on behave of the user should be able to set path where config files should be saved for each user instead of C:\\Users\\{username}\\AppData\\Roaming\\mRemoteNG\r\n\r\n## Current Behaviour\r\nThe application configuration files are stored in the user profile, namely:\r\nC:\\Users\\{u...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in c9667ba2"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit c9667ba2 exists (HIGH confidence)"
     }
   ],
   "comments": [

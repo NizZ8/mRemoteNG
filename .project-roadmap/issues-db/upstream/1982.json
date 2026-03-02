@@ -13,7 +13,7 @@
   "created_at": "2021-06-29T14:58:05Z",
   "github_updated_at": "2026-02-25T19:24:37Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nIf I define \"Panel\" in folder, all connections must use this value, but I can edit this\r\n\r\n## Expected Behavior\r\nFolder user for grouping servers by service, all neighboring servers better use in one Panel(Tab)\r\n\r\n\r\n## Current Behavior\r\nAll new connections have \"General\" in Panel, not use \"Panel\" from folder\r\n\r\n## Possible Solution\r\nif connection created inside folder, use settings from Folder.\r\n\r\n## Steps to Reproduce (for bug...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
         "cost_usd": 1.313636,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 559ff194 exists (HIGH confidence)"
     }
   ],
   "comments": [

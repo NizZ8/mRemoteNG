@@ -11,7 +11,7 @@
   "created_at": "2017-07-27T11:02:29Z",
   "github_updated_at": "2026-02-26T04:33:45Z",
   "body_snippet": "<!-- Bug -->\r\nscrollbars added to RDP window after minimize/restore of mRemoteNG v1.75\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7005  |\r\n\r\n\r\n<!-- Feature Request -->\r\nBTW: Wish Support with MySQL.\r\n<!-- If you file a feature request, please delete the bug section -->",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -34,6 +34,12 @@
         "cost_usd": 3.573015,
         "operations": 2
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 75eb790e exists (HIGH confidence)"
     }
   ],
   "comments": [

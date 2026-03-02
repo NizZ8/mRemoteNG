@@ -10,7 +10,7 @@
   "created_at": "2022-01-19T12:47:11Z",
   "github_updated_at": "2022-01-21T09:48:22Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI would like to use the same settings I have on one computer on another computer\r\n\r\n## Expected Behavior // ## Current Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\ncopying C:\\Users\\%username%\\AppData\\Roaming\\mRemoteNG -> new PC same place\r\n&\r\ncopying C:\\Users\\%username%\\AppData\\Local\\mRemoteNG -> new PC same place\r\n\r\nand then opening mRemoteNG should result in the same config on the new PC I thoug...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -33,6 +33,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in a1717026"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit a1717026 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

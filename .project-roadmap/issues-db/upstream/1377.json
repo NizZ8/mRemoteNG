@@ -12,7 +12,7 @@
   "created_at": "2019-03-26T22:23:33Z",
   "github_updated_at": "2026-02-23T23:41:52Z",
   "body_snippet": "After migrating to Windows 10 Enterprise version 1803 x64, mRemoteNG 1.76 start but can't use it because it's not accessible. \r\n\r\nIf you click on it (when it's open) from the tab, it didn't come to foreground. \r\n\r\nIf you do Win + Tab, you can see the application, you click to bring in foreground, it's appear an half second and going back in the background. \r\n\r\nYou uninstall and delete display drivers and reboot to activate your change. The application is working perfectly.\r\n\r\nYou install display...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in f34c13e7"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f34c13e7 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

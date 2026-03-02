@@ -15,7 +15,7 @@
   "created_at": "2023-01-09T13:48:14Z",
   "github_updated_at": "2026-02-21T10:23:17Z",
   "body_snippet": "See the end of this message for details on invoking \r\njust-in-time (JIT) debugging instead of this dialog box.\r\n\r\n************** Exception Text **************\r\nSystem.NullReferenceException: Object reference not set to an instance of an object.\r\n   at VncSharp.VncClippedDesktopPolicy.RepositionImage(Image desktopImage)\r\n   at VncSharp.RemoteDesktop.OnPaint(PaintEventArgs pe)\r\n   at System.Windows.Forms.Control.PaintWithErrorHandling(PaintEventArgs e, Int16 layer)\r\n   at System.Windows.Forms.Cont...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -38,6 +38,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (HIGH confidence)"
     }
   ],
   "comments": [

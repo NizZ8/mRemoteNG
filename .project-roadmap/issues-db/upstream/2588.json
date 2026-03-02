@@ -13,7 +13,7 @@
   "created_at": "2024-04-27T18:49:42Z",
   "github_updated_at": "2026-02-21T10:23:27Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI tested Ubuntu24 new \"Remote Login\" feature successfully using Windows RDP client. Basically, there are two sets of credentials.\r\n- with the first credential set (which can be specified in the \"Remote Login\" dialog, the Windows RDP client accesses Ubuntu remote login screen.\r\n- The second set of credentials matches the Ubuntu user, as if you were trying to access from the main (physical) PC\r\n\r\nI tried to access Ubuntu 24 using...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

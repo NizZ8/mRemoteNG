@@ -11,7 +11,7 @@
   "created_at": "2017-09-27T08:08:16Z",
   "github_updated_at": "2026-02-25T14:54:32Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\nConfiguration:\r\nALPHA- Win8.1x64 Enterprise - working computer\r\nBETA- W2008 Datacenter - intermediate computer with mRemoteNG 1.75.7008.17907 installed\r\nOMEGA- Win7sp1x64 Enterprise - target computer\r\nall three connected to the same networ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -28,6 +28,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in e7a3ac61"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit e7a3ac61 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

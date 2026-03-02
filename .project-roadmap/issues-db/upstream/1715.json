@@ -12,7 +12,7 @@
   "created_at": "2020-03-19T10:13:52Z",
   "github_updated_at": "2026-02-24T21:27:59Z",
   "body_snippet": "I'm using mRemoteNG to connect to Servers using RDP protocol. Sometimes it is required to Login to many Servers at the same time. These Servers are stored inside a SQL database for mRemoteNG instead of using a configuration file. Due to problems between the current stable Version of mRemoteNG and SQL I installed the latest Version which came with a bugfix for SQL Connections. But on the other Hand it seems that this Version does not handle more than 14 parallel Connections. When trying to establ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -41,6 +41,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in f34c13e7"
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f34c13e7 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

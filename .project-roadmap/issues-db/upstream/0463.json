@@ -12,7 +12,7 @@
   "created_at": "2017-03-19T22:19:45Z",
   "github_updated_at": "2026-02-26T01:58:18Z",
   "body_snippet": "Server 2012 R2 Core (no GUI) RDP fails when using mRemoteNG. However it works fine using MS RDP.\r\n\r\n<!-- Bug -->\r\n|||\r\n|--:|---|\r\n|Operating system | Windows Server 2012 R2 x64 Core |\r\n|mRemoteNG version| 1.75 hotfix 1 Stable  |\r\n\r\n\r\nI captured working vs nonworking traces. See screenshots. mRemoteNG is on 192.168.1.220 and the machine we are connecting to is 192.168.4.230. It looks like the mRemoteNG receives an ACK at packet 13 and then never sends any data. mRemoteNG then waits 19.9 seconds a...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
         "cost_usd": 1.43623,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 83cc7009 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

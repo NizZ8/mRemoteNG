@@ -14,7 +14,7 @@
   "created_at": "2023-09-20T02:44:54Z",
   "github_updated_at": "2026-02-21T10:23:40Z",
   "body_snippet": "When using the VNC protocol, it is very unstable and easily disconnects. However, this does not happen when connecting with a normal VNC client.\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: v1.76.20\r\n* Operating System and version : windows10 pro x64\r\nVNC Server version: tightvnc-2.8.59",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -37,6 +37,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

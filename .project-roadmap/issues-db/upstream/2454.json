@@ -14,7 +14,7 @@
   "created_at": "2023-06-24T13:56:11Z",
   "github_updated_at": "2026-02-26T12:17:24Z",
   "body_snippet": "As noted in various other issues (e.g., #2027, #2099), mRemoteNG needs a dependency management to keep track of and update external dependencies shipped with the mRemoteNG installer. Namely this affects at least the following components:\r\n\r\n - PuttyNG\r\n - Log4Net\r\n\r\nA solution needs to be put in place to make sure the dependencies are updated on a regular interval and new builds are created shipping the new versions.\r\n\r\nNot affected is the .NET desktop runtime framework as this is an external re...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P1-security",
   "target_release": null,
   "our_branch": null,
@@ -55,6 +55,12 @@
         "cost_usd": 2.33779,
         "operations": 2
       }
+    },
+    {
+      "seq": 4,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 74551e11 exists (HIGH confidence)"
     }
   ],
   "comments": [

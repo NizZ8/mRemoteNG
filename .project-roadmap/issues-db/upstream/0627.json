@@ -12,7 +12,7 @@
   "created_at": "2017-07-02T20:52:29Z",
   "github_updated_at": "2026-02-26T02:36:50Z",
   "body_snippet": "\r\n\r\n<!-- Bug -->\r\n|||\r\n|--:|---|\r\n|Operating system | Windows 10 x64 | Windows 2008 / 2012 R2 \r\n|mRemoteNG version| 1.75 aplha 3  |\r\n\r\nWhen opening a file to edit in notepad++ the mouse pointer disappears and makes it difficult to select a line or a field. The only way to select would be to do a select +all and due to the selection being grey the mouse appears. after select the required the mouse disappears again. \r\n\r\n\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
         "cost_usd": 2.030264,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 83cc7009 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

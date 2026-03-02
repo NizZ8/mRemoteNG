@@ -11,7 +11,7 @@
   "created_at": "2018-02-21T18:18:50Z",
   "github_updated_at": "2026-02-25T09:52:40Z",
   "body_snippet": "To save screen space, it would be very helpful to have the connection tree also as a menu (along with File, View, etc...). This way I could close the Connections panel and still access everything through a menu, saving space on lower resolution screens. Something like \"Connections\" and then a hierarchical menu with folders, connections, etc... would work nicely.\r\n\r\nThis currently is somewhat achievable if you show the Quick Connect Toolbar as clicking on the little blue globe has this informatio...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -40,6 +40,12 @@
       "date": "2026-02-25",
       "type": "testing",
       "description": "Auto-promoted: fix commit found (cb50250d5 fi)"
+    },
+    {
+      "seq": 5,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: previously committed"
     }
   ],
   "comments": [

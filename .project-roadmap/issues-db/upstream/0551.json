@@ -11,7 +11,7 @@
   "created_at": "2017-05-12T07:34:12Z",
   "github_updated_at": "2026-02-26T09:27:35Z",
   "body_snippet": "Hello,\r\nCan you please add support for X2GO client? It'll be very very useful if mremoteng works well with X2GO.\r\n\r\nThanks",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -58,6 +58,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in e7a3ac61"
+    },
+    {
+      "seq": 6,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit e7a3ac61 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

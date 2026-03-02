@@ -12,7 +12,7 @@
   "created_at": "2017-06-28T03:18:19Z",
   "github_updated_at": "2026-02-26T02:23:50Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\nSince getting hit with the windows 10 creators update, the cursor in the remote desktop has become mostly unusable. It is very tiny and when the cursor changes to an insertion marker (as in a text editor) it completely disappears. \r\n\r\nTried fiddling wit...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P4-debt",
   "target_release": null,
   "our_branch": null,
@@ -35,6 +35,12 @@
         "cost_usd": 1.874745,
         "operations": 1
       }
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 83cc7009 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

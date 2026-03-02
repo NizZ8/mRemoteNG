@@ -12,7 +12,7 @@
   "created_at": "2020-05-09T17:31:21Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nNo error messages should pop up, you should be able to close all panels and create a new (first) one without any issues\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\nWhen no panels are present, and ...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -65,6 +65,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in f34c13e7"
+    },
+    {
+      "seq": 6,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit f34c13e7 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

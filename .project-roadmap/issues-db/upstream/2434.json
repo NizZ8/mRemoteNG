@@ -13,7 +13,7 @@
   "created_at": "2023-05-12T11:06:51Z",
   "github_updated_at": "2026-02-21T10:23:28Z",
   "body_snippet": "\r\n## Expected Behavior\r\nPrompt for credentials on client opposed to within the RDP window, which in certain scenarios does not present authentication prompt and authentication fails.\r\n\r\n## Current Behavior\r\nCommon RDP setting \"Prompt for credentials on client:i:1\" does not function when imported into mRemoteNG\r\n\r\n## Possible Solution\r\nEnable options to mimic RDP file option \"prompt for credentials on client:i:1\"\r\n\r\n## Context\r\nWhen traversing via an RDS to a PAM system \"prompt for credentials on...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -36,6 +36,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [

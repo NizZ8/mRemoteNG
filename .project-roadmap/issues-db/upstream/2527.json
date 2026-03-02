@@ -11,7 +11,7 @@
   "created_at": "2023-11-25T06:44:55Z",
   "github_updated_at": "2026-02-21T10:22:43Z",
   "body_snippet": "when connecting to the vm with the rdp client downloaded from gcp all is well.\r\nWhen connecting via MRemoteNG it keeps disconnecting and connecting again after several seconds.\r\nWhat is the issue?\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P2-bug",
   "target_release": null,
   "our_branch": null,
@@ -34,6 +34,12 @@
       "date": "2026-02-27",
       "type": "testing",
       "description": "Fix in 6c110776"
+    },
+    {
+      "seq": 3,
+      "date": "2026-03-02",
+      "type": "released",
+      "description": "Bulk verified: commit 6c110776 exists (MEDIUM confidence)"
     }
   ],
   "comments": [
