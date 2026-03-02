@@ -12,7 +12,7 @@
   "created_at": "2022-04-04T20:09:44Z",
   "github_updated_at": "2026-02-25T23:27:13Z",
   "body_snippet": "it's implemented at Remote Desktop Manager Free. almost killer feature for me.\r\nnow we can copy only hostname\r\n![изображение](https://user-images.githubusercontent.com/1270117/161622623-cd30015a-eb61-4380-b751-8df0e556a6f3.png)\r\nbut this is required much more often.\r\n![изображение](https://user-images.githubusercontent.com/1270117/161622716-98d0399e-6d90-4b51-8174-fba5b9a4c2e2.png)\r\n\r\nfor ex: after ssh login i anyway need sudo, so should type password again. Without this option need to copy it f...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,

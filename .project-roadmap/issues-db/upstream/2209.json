@@ -13,7 +13,7 @@
   "created_at": "2022-04-25T07:14:37Z",
   "github_updated_at": "2026-02-26T00:06:59Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen using filter in _Connections_ tree (_Options → Connections → Filter search matches in connection tree_), choosing the connection from the result via _Up/Down_ arrow keys is possible only after switching the focus to _Connections_ tree by clicking it or pressing _Tab_.\r\n\r\nMeanwhile Up/Down arrow keys work OK if filter is disabled.\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!-...",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
