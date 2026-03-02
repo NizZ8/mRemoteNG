@@ -96,7 +96,7 @@ public class MiscToolsTests
     [Test]
     public void GetExceptionMessageRecursive_NestedExceptions_JoinsMessages()
     {
-        var inner = new ArgumentException("inner error");
+        var inner = new InvalidOperationException("inner error");
         var outer = new InvalidOperationException("outer error", inner);
         string result = MiscTools.GetExceptionMessageRecursive(outer);
         Assert.That(result, Does.Contain("outer error"));
@@ -106,9 +106,9 @@ public class MiscToolsTests
     [Test]
     public void GetExceptionMessageRecursive_ThreeLevels_JoinsAll()
     {
-        var innermost = new Exception("level3");
-        var middle = new Exception("level2", innermost);
-        var outer = new Exception("level1", middle);
+        var innermost = new InvalidOperationException("level3");
+        var middle = new InvalidOperationException("level2", innermost);
+        var outer = new InvalidOperationException("level1", middle);
         string result = MiscTools.GetExceptionMessageRecursive(outer);
         Assert.That(result, Does.Contain("level1"));
         Assert.That(result, Does.Contain("level2"));
