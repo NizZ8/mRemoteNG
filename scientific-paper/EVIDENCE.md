@@ -30,7 +30,7 @@
 |--------|-------|----------|
 | Issues triaged | 838 | `.project-roadmap/issues-db/` (993 JSON files) |
 | Issues addressed in code | 585 (70%) | git log + issue-db status fields |
-| New tests added | +468 (2,100 → 2,568 → 5,963) | `test-config.json` |
+| New tests added | +468 (2,100 → 2,568 → 6,123) | `test-config.json` |
 | Commits in triage/fix phase | ~744 | `git log --oneline` count |
 | Nullable warnings eliminated | 2,554 → 0 (CS8xxx) | `git log --grep="nullable"` |
 | Agent fallback chains | Codex → Gemini → Claude | orchestrator logs |
@@ -80,7 +80,7 @@
 ### Final State
 - **0 analyzer warnings** in main project (`mRemoteNG/`)
 - **0 analyzer warnings** in test project (`mRemoteNGTests/`)
-- **5,963 tests** passing, 0 failures
+- **6,123 tests** passing, 0 failures
 
 ### Key Technical Discoveries
 
@@ -133,6 +133,32 @@
 - Maintainer **Kvarkas** requested: "please review sonarqubecloud mentioned issues"
 - SonarCloud Quality Gate failed: 25 security hotspots (mostly from `.project-roadmap/` scripts)
 - **Resolution**: Excluded internal files, fixed source code issues, created clean branch
+
+---
+
+## Phase 5: Post-Release Quality Consolidation (2026-03-02)
+
+### Release State
+- **v1.81.0 released** — no longer beta, stable tag on `release/1.81`
+- **v1.82.0-beta.1** — active development on `main`
+
+### Metrics
+
+| Metric | Value | Evidence |
+|--------|-------|----------|
+| Tests | 6,123 passed, 0 failures | `run-tests.ps1 -Headless` |
+| Analyzer warnings | 0 (5,247 eliminated) | `msbuild` clean build |
+| CI workflows | 6/6 GREEN | GitHub Actions dashboard |
+| SonarCloud Quality Gate | PASSED (A/A/A) | SonarCloud dashboard |
+| Coverage (new code) | 80.7% | SonarCloud |
+| Duplication | 1.6% | SonarCloud |
+| Upstream PR | #3189 open (release/1.81 → v1.78.2-dev) | GitHub |
+
+### Post-Release Activities
+1. Test count growth: 5,963 (beta.5) → 6,123 (post-release) — 160 additional tests
+2. TreatWarningsAsErrors enforcement for safe compiler rules
+3. Manual testing protocol formalized for 195 `testing`-status issues
+4. Scientific paper metrics updated to reflect final state
 
 ---
 

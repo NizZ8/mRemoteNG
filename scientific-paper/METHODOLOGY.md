@@ -18,9 +18,9 @@ The subject of this case study is **mRemoteNG**, an open-source multi-protocol r
 | License | GPL-2.0 |
 | Original framework | .NET Framework 4.8 (WinForms) |
 | Current framework | .NET 10 (migrated as part of this study) |
-| Source files | ~587 (main project, C#) |
-| Lines of code | ~100,000 (C#, WinForms) |
-| Test suite | NUnit, 5,963 tests at study conclusion |
+| Source files | ~635 (main project, C#) |
+| Lines of code | ~114,000 (C#, WinForms) |
+| Test suite | NUnit, 6,123 tests at study conclusion |
 | Protocols supported | RDP, VNC, SSH, Telnet, rlogin, HTTP/S, ICA, PowerShell |
 | First release | 2008 |
 | Contributors (upstream) | 80+ |
@@ -99,7 +99,7 @@ A build failure at this stage causes the pipeline to reject the implementation a
 
 ### 5.5 Test Verify
 
-The test suite is executed using `run-tests-core.sh`, running 5,963 NUnit tests organized into 9 parallel groups plus a sequential remainder group. This step involves **no AI** — it is a deterministic pass/fail gate.
+The test suite is executed using `run-tests-core.sh`, running 6,123 NUnit tests organized into 9 parallel groups plus a sequential remainder group. This step involves **no AI** — it is a deterministic pass/fail gate.
 
 - Framework: NUnit 3 with .NET test runner
 - Parallelism: 9 groups run concurrently (sliding window)
@@ -122,7 +122,7 @@ A human developer periodically reviews the accumulated commits. Review activitie
 - Reverting or amending commits that pass automated checks but contain logical errors
 - Classifying `testing`-status issues as `released` after manual verification
 
-Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones.
+Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones. For the 195 issues classified as `testing`, a formalized manual testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
 
 ## 6. Instruments
 
@@ -271,3 +271,25 @@ The orchestrator code, build scripts, test runner, and configuration files are a
 ### Ethical considerations
 
 10. **Open-source contribution.** All code changes produced by AI agents are contributed to an open-source project under GPL-2.0. The AI-generated nature of changes is disclosed in commit messages and project documentation.
+
+## 12. Study Period Update (Post-Publication)
+
+The primary study period ended on 2026-03-02. Post-study activities include:
+
+| Metric | Study End (beta.5) | Post-Release (v1.81.0+) |
+|--------|--------------------:|------------------------:|
+| Tests | 5,963 | 6,123 |
+| Analyzer warnings | 0 | 0 |
+| CI workflows green | 6/6 | 6/6 |
+| SonarCloud Quality Gate | PASSED | PASSED |
+| TreatWarningsAsErrors | not enforced | enforced (CS0168, CS0219, CS0162, CS0164) |
+| Analyzer rules as error | none | 4 (CA1507, CA1822, CA1805, CA1510) |
+
+### Post-release quality improvements
+
+1. **Test suite growth:** 160 additional tests (5,963 → 6,123)
+2. **WarningsAsErrors enforcement:** Safe compiler rules promoted to errors
+3. **Analyzer error promotion:** 4 clean rules promoted from warning to error severity
+4. **Manual testing protocol:** Formalized for 195 issues (see [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md))
+
+These changes do not affect the primary study findings (hypothesis testing, cost analysis, regression rates) which are based on data from the study period.

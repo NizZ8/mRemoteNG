@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Legacy open-source projects accumulate hundreds of unresolved issues that exceed volunteer maintainer capacity. This paper presents a case study of applying a supervised AI orchestrator to mRemoteNG, a Windows remote-connections manager with 843 open GitHub issues and a legacy WinForms/.NET codebase. Over four architectural generations and approximately $320 in API costs, we developed a self-healing supervisor system coordinating multiple AI models (Codex Spark, Claude Sonnet/Opus, Gemini Pro) to autonomously triage, implement fixes, verify builds, run tests, and commit changes. The system resolved 697 of 843 issues (83%) with a 1.2% regression rate (7/585 implementations) and stabilized at $1.49 per commit by day 4 — confirming the hypothesis that a supervised AI orchestrator can resolve >50% of open issues with <2% regression and <$5/commit. The test suite grew from 2,179 to 5,963 tests with 0 failures, and SonarCloud Quality Gate passed with A ratings across all dimensions. The approach is reproducible: any project with open issues, a test suite, and a build system could apply the same model.
+Legacy open-source projects accumulate hundreds of unresolved issues that exceed volunteer maintainer capacity. This paper presents a case study of applying a supervised AI orchestrator to mRemoteNG, a Windows remote-connections manager with 843 open GitHub issues and a legacy WinForms/.NET codebase. Over four architectural generations and approximately $320 in API costs, we developed a self-healing supervisor system coordinating multiple AI models (Codex Spark, Claude Sonnet/Opus, Gemini Pro) to autonomously triage, implement fixes, verify builds, run tests, and commit changes. The system resolved 697 of 843 issues (83%) with a 1.2% regression rate (7/585 implementations) and stabilized at $1.49 per commit by day 4 — confirming the hypothesis that a supervised AI orchestrator can resolve >50% of open issues with <2% regression and <$5/commit. The test suite grew from 2,179 to 6,123 tests with 0 failures, and SonarCloud Quality Gate passed with A ratings across all dimensions. The approach is reproducible: any project with open issues, a test suite, and a build system could apply the same model.
 
 ## 1. Introduction
 
@@ -148,7 +148,7 @@ orchestrator_supervisor.py (~800 lines)
         |
         +---> Independent Verification (no AI -- deterministic)
               1. build.ps1 (MSBuild)
-              2. run-tests-core.sh (5,963 tests, 9 groups)
+              2. run-tests-core.sh (6,123 tests, 9 groups)
               3. git commit (green) OR git restore (red)
 ```
 
@@ -232,7 +232,7 @@ Only max-tier subscriptions with the best models produce cost-effective results.
 ### 5.1 Issue Resolution
 
 - **697 issues addressed** out of 843 tracked (83%), 1,365+ commits
-- **5,963 tests** (up from 2,179 at v1.79.0), 0 failures
+- **6,123 tests** (up from 2,179 at v1.79.0), 0 failures
 - **5,247 analyzer warnings → 0** across 100+ files
 
 ### 5.2 Codex Spark Session (Feb 27)
@@ -359,7 +359,7 @@ AI model capabilities change with provider updates. Codex Spark's 86% success ra
 
 ### 7.5 Measurement Validity
 
-"Resolved" includes issues classified as `testing` (195) — these have committed fixes but no manual verification. The true fix rate may be lower if manual testing reveals issues.
+"Resolved" includes issues classified as `testing` (195) — these have committed fixes but no manual verification. The true fix rate may be lower if manual testing reveals issues. A formalized testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
 
 ---
 
