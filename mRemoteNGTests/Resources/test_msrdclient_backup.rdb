@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "Groups": [
+    { "Name": "Production", "PersistentModelId": "g1" }
+  ],
+  "Credentials": [
+    { "FriendlyName": "admin@corp", "UserName": "admin", "Domain": "corp", "PersistentModelId": "c1" }
+  ],
+  "Connections": [
+    { "HostName": "server1.example.com", "FriendlyName": "Server 1", "GroupId": "g1", "CredentialsId": "c1", "PersistentModelId": "cn1", "GatewayHostName": "gateway.example.com" },
+    { "HostName": "server2.example.com", "FriendlyName": "Server 2", "GroupId": "", "CredentialsId": "", "PersistentModelId": "cn2" }
+  ]
+}
