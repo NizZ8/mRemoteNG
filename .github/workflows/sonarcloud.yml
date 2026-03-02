@@ -70,10 +70,12 @@ jobs:
       - name: Run tests with coverage
         shell: pwsh
         run: |
+          # Exclude FrmOptions tests — they require Application.Run message pump
+          # which fails in single-process dotnet test. These run isolated in run-tests-core.sh.
           dotnet-coverage collect `
             --output coverage.opencover.xml `
             --output-format xml `
-            "dotnet test mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll --results-directory $env:TEMP/testresults --verbosity normal"
+            "dotnet test mRemoteNGTests/bin/x64/Release/mRemoteNGTests.dll --results-directory $env:TEMP/testresults --verbosity normal --filter FullyQualifiedName!=mRemoteNGTests.UI.Forms.OptionsFormTests.FormBehavior&FullyQualifiedName!=mRemoteNGTests.UI.Forms.OptionsFormTests.AllPages"
 
       - name: End SonarCloud analysis
         shell: pwsh
