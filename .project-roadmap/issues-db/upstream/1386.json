@@ -10,7 +10,7 @@
   "created_at": "2019-04-01T07:09:22Z",
   "github_updated_at": "2026-02-25T13:14:29Z",
   "body_snippet": "it seems to be an alergie with win 10 1809, it doesn't matter if it's a virtual machine or a real pc, when trying to open a saved connection file, the program simply disappears when pressing do n ot save current connection file. this was something i noticed months ago and was simply waiting for it to get fixed and now with the march version it still is crashing.\r\n\r\n\r\n\r\n",
-  "our_status": "testing",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -120,5 +120,5 @@
   "needs_action": true,
   "waiting_for_us": true,
   "last_synced": "2026-02-25T14:41:48Z",
-  "notes": "AI triage (claude-retry): Crash on high contrast theme due to COM class unavailability in OpenFileDialog — root cause identified, fix is app.manifest supportedOS update. Workaround: disable high contrast temporarily."
+  "notes": "PASS: app.manifest has all 4 supportedOS entries including Windows 10/11"
 }
