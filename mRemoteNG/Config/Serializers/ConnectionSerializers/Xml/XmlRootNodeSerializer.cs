@@ -27,7 +27,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             if (rootNodeInfo.TotpEnabled && !string.IsNullOrEmpty(rootNodeInfo.TotpSecret))
             {
                 element.Add(new XAttribute(XName.Get("TotpEnabled"), "true"));
-                System.Security.SecureString encryptionPassword = rootNodeInfo.PasswordString.ConvertToSecureString();
+                using System.Security.SecureString encryptionPassword = rootNodeInfo.PasswordString.ConvertToSecureString();
                 element.Add(new XAttribute(XName.Get("TotpSecret"), cryptographyProvider.Encrypt(rootNodeInfo.TotpSecret, encryptionPassword)));
             }
             element.Add(CreateProtectedAttribute(rootNodeInfo, cryptographyProvider));
@@ -39,7 +39,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         {
             XAttribute attribute = new(XName.Get("Protected"), "");
             string plainText = (rootNodeInfo.PasswordString != rootNodeInfo.DefaultPassword) ? "ThisIsProtected" : "ThisIsNotProtected";
-            System.Security.SecureString encryptionPassword = rootNodeInfo.PasswordString.ConvertToSecureString();
+            using System.Security.SecureString encryptionPassword = rootNodeInfo.PasswordString.ConvertToSecureString();
             attribute.Value = cryptographyProvider.Encrypt(plainText, encryptionPassword);
             return attribute;
         }

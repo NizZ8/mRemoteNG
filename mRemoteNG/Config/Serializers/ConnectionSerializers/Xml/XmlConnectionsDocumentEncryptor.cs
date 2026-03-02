@@ -20,7 +20,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
 
         private static string GetContentToEncrypt(XNode element)
         {
-            System.Xml.XmlReader reader = element.CreateReader();
+            using System.Xml.XmlReader reader = element.CreateReader();
             reader.MoveToContent();
             return reader.ReadInnerXml();
         }
