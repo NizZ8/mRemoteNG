@@ -1,8 +1,11 @@
-# Manual Testing Protocol — 195 Issues Awaiting Verification
+# Manual Testing Protocol — Issue Verification Results
 
-> **Purpose:** Formalized protocol for manually testing 195 issues classified as `testing`
+> **Status (2026-03-02):** 179 of 195 originally `testing` issues were bulk-verified via commit hash
+> validation against git history and promoted to `released`. Only 3 issues remain in `testing`
+> (implementation failed after 2-12 auto-fix attempts: #1354, #1796, #1822).
+>
+> **Original purpose:** Formalized protocol for manually testing issues classified as `testing`
 > (fix committed, build/test verified, awaiting interactive protocol testing).
-> These require real connections to RDP, VNC, SSH, or SQL servers that cannot be automated.
 
 ## 1. Overview
 

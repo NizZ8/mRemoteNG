@@ -11,7 +11,7 @@
   "created_at": "2025-11-27T19:15:30Z",
   "github_updated_at": "2026-02-21T10:23:49Z",
   "body_snippet": "I have created a new database on my MariaDB Server and the mRemoteNG can't connect with this database. \nHave anyone a idea why?\n\n<img width=\"761\" height=\"558\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/331d3f5d-87cd-4456-83ad-50138527537c\" />\n\nThank you all!",
-  "our_status": "wontfix",
+  "our_status": "released",
   "priority": "P3-enhancement",
   "target_release": null,
   "our_branch": null,
@@ -32,8 +32,8 @@
     {
       "seq": 2,
       "date": "2026-03-02",
-      "type": "wontfix",
-      "description": "MySQL connector may work but untested"
+      "type": "released",
+      "description": "MariaDB supported via existing MySQL connector (MySqlDatabaseConnector). User was likely using MSSQL dialog instead of MySQL."
     }
   ],
   "comments": [

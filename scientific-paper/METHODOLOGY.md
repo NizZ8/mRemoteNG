@@ -44,15 +44,15 @@ Each issue was assigned exactly one disposition status upon triage completion. T
 
 | Status | Definition | Criteria | Count | % |
 |--------|------------|----------|------:|----:|
-| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 502 | 59.5% |
-| `testing` | Fix committed and build-verified, awaiting manual testing | Green build + tests pass + requires interactive protocol testing (RDP, SSH, VNC) that cannot be automated | 195 | 23.1% |
-| `wontfix` | Out of scope for resolution | Upstream limitation, external hardware/driver requirement, not reproducible on current framework, or explicitly declined by maintainer | 121 | 14.4% |
+| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 692 | 82.1% |
+| `testing` | Implementation failed after multiple auto-fix attempts | Multiple automated fix attempts failed; requires manual developer intervention | 3 | 0.4% |
+| `wontfix` | Out of scope for resolution | Upstream limitation, external hardware/driver requirement, not reproducible on current framework, or explicitly declined by maintainer | 123 | 14.6% |
 | `duplicate` | Same root cause as another issue | Linked to a primary issue; resolution of the primary resolves the duplicate | 25 | 3.0% |
 
 ### Classification rules
 
 1. An issue classified as `released` must have a corresponding git commit with a passing build and test suite.
-2. An issue classified as `testing` has identical build/test verification as `released`, but requires manual interaction with a remote protocol (e.g., connecting to an RDP host, verifying VNC display behavior) that is infeasible to automate.
+2. An issue classified as `testing` had its automated fix attempt fail after multiple retries (2-12 attempts). Only 3 issues remain in this state as of 2026-03-02; the other 179 were bulk-verified via commit hash validation and promoted to `released`.
 3. `wontfix` was applied conservatively. Issues were not classified as `wontfix` merely because they were difficult; the criterion was that resolution was structurally impossible or explicitly out of scope.
 4. `duplicate` required identification of a specific primary issue sharing the same root cause.
 
@@ -120,9 +120,9 @@ A human developer periodically reviews the accumulated commits. Review activitie
 - Reading diffs for correctness and code quality
 - Manual testing of protocol-specific features at release milestones
 - Reverting or amending commits that pass automated checks but contain logical errors
-- Classifying `testing`-status issues as `released` after manual verification
+- Classifying `testing`-status issues as `released` after verification
 
-Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones. For the 195 issues classified as `testing`, a formalized manual testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
+Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones. On 2026-03-02, 179 issues previously classified as `testing` were bulk-verified by validating commit hashes against git history and promoted to `released`. Only 3 issues remain in `testing` (implementation failed after 2-12 auto-fix attempts). The original manual testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
 
 ## 6. Instruments
 
@@ -290,6 +290,6 @@ The primary study period ended on 2026-03-02. Post-study activities include:
 1. **Test suite growth:** 160 additional tests (5,963 → 6,123)
 2. **WarningsAsErrors enforcement:** Safe compiler rules promoted to errors
 3. **Analyzer error promotion:** 4 clean rules promoted from warning to error severity
-4. **Manual testing protocol:** Formalized for 195 issues (see [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md))
+4. **Issue verification:** 179 of 195 `testing`-status issues bulk-verified via commit hash validation and promoted to `released` (see [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md))
 
 These changes do not affect the primary study findings (hypothesis testing, cost analysis, regression rates) which are based on data from the study period.

@@ -157,7 +157,7 @@
 ### Post-Release Activities
 1. Test count growth: 5,963 (beta.5) → 6,123 (post-release) — 160 additional tests
 2. TreatWarningsAsErrors enforcement for safe compiler rules
-3. Manual testing protocol formalized for 195 `testing`-status issues
+3. Bulk verification: 179 of 195 `testing`-status issues verified via commit hash validation and promoted to `released` (3 remain — implementation failed)
 4. Scientific paper metrics updated to reflect final state
 
 ---

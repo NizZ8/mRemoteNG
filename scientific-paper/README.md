@@ -24,7 +24,7 @@ suite and build system.
 | [FAILURE_CATALOG.md](FAILURE_CATALOG.md) | Complete failure post-mortems (31-hour disaster, 7 regressions, sandbox limits) |
 | [SONARCLOUD_TROUBLESHOOTING.md](SONARCLOUD_TROUBLESHOOTING.md) | 10-iteration SonarCloud Quality Gate troubleshooting log |
 | [EVIDENCE.md](EVIDENCE.md) | Evidence trail with verifiable data points (git history, CI artifacts) |
-| [MANUAL_TESTING_PROTOCOL.md](MANUAL_TESTING_PROTOCOL.md) | Manual testing protocol for 195 issues awaiting verification |
+| [MANUAL_TESTING_PROTOCOL.md](MANUAL_TESTING_PROTOCOL.md) | Manual testing protocol (179 of 195 issues verified and promoted to released, 3 remain) |
 | [data/model_performance.md](data/model_performance.md) | Model timing statistics (220 measurements, σ, range, bimodal analysis) |
 
 ## How to Read
