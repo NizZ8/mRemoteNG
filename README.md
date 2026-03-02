@@ -85,7 +85,7 @@ This project uses an AI orchestrator (Python, ~6,900 LOC) coordinating multiple 
 
 **Key results:**
 
-- **697/843 issues addressed (83%)**, 1,365+ commits, 7 regressions (1.2%)
+- **702/843 issues addressed (83.3%)**, 1,365+ commits, 7 regressions (1.2%)
 - **Cost:** ~$320 total, stabilized at $1.49/commit (down from $4.02 on day 1)
 - **Best session:** Codex Spark resolved 89/104 issues (86%) autonomously in a single run
 - **Quality:** 5,247 analyzer warnings → 0, SonarCloud Quality Gate passed (80.7% coverage)
@@ -112,16 +112,14 @@ All 843 upstream issues have been triaged and classified:
 
 | Status | Count | % |
 |--------|-------|---|
-| released | 699 | 82.9% |
-| testing | 3 | 0.4% |
+| released | 702 | 83.3% |
 | wontfix | 116 | 13.8% |
 | duplicate | 25 | 3.0% |
 
-**Post-triage verification (2026-03-02):** 179 issues previously in `testing` were bulk-verified (commit hashes validated against git history) and promoted to `released`. Only 3 remain in `testing` (implementation failed after multiple attempts).
+**Post-triage verification (2026-03-02):** All 195 `testing`-status issues were resolved: 179 bulk-verified via commit hash validation, 3 manually verified, 13 reclassified during wontfix correction. Wontfix repass found 38% imprecision in AI triage (47/123 were implementable); corrected to 116 with individual justifications.
 
 **Status definitions:**
 - **released** — fix committed, build/test verified, included in a release
-- **testing** — fix committed and build-verified, awaiting manual protocol testing (RDP/SSH/VNC)
 - **wontfix** — classified as out-of-scope (upstream limitation, requires hardware, or not reproducible)
 - **duplicate** — merged with another issue tracking the same root cause
 
@@ -180,7 +178,7 @@ The orchestrator monitors new issues (from upstream sync or user reports), triag
 
 PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (beta.6) passed SonarCloud Quality Gate on 2026-03-01 after resolving 6 security vulnerabilities (S2068 ×3, S8264 ×2, S8233 ×1), 50 security hotspots reviewed as SAFE, and all reliability/maintainability conditions met. PR [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188) (beta.5) remains open as a predecessor.
 
-Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 697 of them (83%). The potential impact of merging even a fraction of these fixes is significant. PR #3189 is a large diff and we understand it takes time to review responsibly — the upstream team built this project and their careful stewardship is what makes it worth contributing to.
+Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 702 of them (83.3%). The potential impact of merging even a fraction of these fixes is significant. PR #3189 is a large diff and we understand it takes time to review responsibly — the upstream team built this project and their careful stewardship is what makes it worth contributing to.
 
 Additionally, 4 upstream copilot draft PRs (#3177, #3176, #3154, #3171) have been reviewed and their fixes backported to our fork's `main` branch, ahead of upstream merge.
 

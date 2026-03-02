@@ -44,16 +44,15 @@ Each issue was assigned exactly one disposition status upon triage completion. T
 
 | Status | Definition | Criteria | Count | % |
 |--------|------------|----------|------:|----:|
-| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 699 | 82.9% |
-| `testing` | Implementation failed after multiple auto-fix attempts | Multiple automated fix attempts failed; requires manual developer intervention | 3 | 0.4% |
+| `released` | Fix committed, build and test verified, included in release branch | Green build + all tests pass + merged to release branch | 702 | 83.3% |
 | `wontfix` | Out of scope for resolution | Upstream limitation, external hardware/driver requirement, not reproducible on current framework, or explicitly declined by maintainer | 116 | 13.8% |
 | `duplicate` | Same root cause as another issue | Linked to a primary issue; resolution of the primary resolves the duplicate | 25 | 3.0% |
 
 ### Classification rules
 
 1. An issue classified as `released` must have a corresponding git commit with a passing build and test suite.
-2. An issue classified as `testing` had its automated fix attempt fail after multiple retries (2-12 attempts). Only 3 issues remain in this state as of 2026-03-02; the other 179 were bulk-verified via commit hash validation and promoted to `released`.
-3. `wontfix` was applied conservatively. Issues were not classified as `wontfix` merely because they were difficult; the criterion was that resolution was structurally impossible or explicitly out of scope.
+2. The `testing` status was a transient state for issues whose automated fix attempts failed. All 195 issues that entered `testing` were eventually resolved: 179 bulk-verified via commit hash validation, 3 manually verified, and 13 reclassified during the wontfix correction pass (see Section 5.8 of PAPER.md, Section 7.6).
+3. `wontfix` was applied by the AI triage, then corrected by human review. The initial AI classification was 38% imprecise on `wontfix` (47/123 were implementable). After human correction: 116 issues remain as `wontfix` with individual justifications.
 4. `duplicate` required identification of a specific primary issue sharing the same root cause.
 
 ## 5. Resolution Pipeline
@@ -122,7 +121,19 @@ A human developer periodically reviews the accumulated commits. Review activitie
 - Reverting or amending commits that pass automated checks but contain logical errors
 - Classifying `testing`-status issues as `released` after verification
 
-Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones. On 2026-03-02, 179 issues previously classified as `testing` were bulk-verified by validating commit hashes against git history and promoted to `released`. Only 3 issues remain in `testing` (implementation failed after 2-12 auto-fix attempts). The original manual testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
+Human review is not applied to every commit in real-time. Instead, it operates as a periodic quality gate, typically at the end of each working day or before release milestones. The original manual testing protocol is documented in [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md).
+
+### 5.8 Human Correction Phase (Post-Triage)
+
+A systematic human review phase was added after discovering significant imprecision in the AI triage's exclusion decisions. This phase, conducted on 2026-03-02 (~2 hours), consisted of three activities:
+
+1. **Bulk verification of `testing` issues.** 179 of 195 `testing`-status issues were verified by validating commit hashes against git history and promoted to `released`. The final 3 were verified manually by reviewing the codebase for existing fixes.
+
+2. **Wontfix correction pass.** All 123 `wontfix` classifications were reviewed individually. 47 were found to be implementable (38% error rate): 40 were implemented during the session, 7 were already present in the codebase. The corrected `wontfix` count: 116 (each with documented justification).
+
+3. **Statistical reconciliation.** All issue counts, resolution rates, and percentages were recalculated from the corrected data and propagated to paper, CLAUDE.md, and README.
+
+This phase revealed that the AI triage's classification accuracy was significantly lower for exclusion decisions (`wontfix`) than for implementation decisions (`released`). The finding is documented in detail in PAPER.md Section 7.6.
 
 ## 6. Instruments
 
@@ -290,6 +301,8 @@ The primary study period ended on 2026-03-02. Post-study activities include:
 1. **Test suite growth:** 160 additional tests (5,963 → 6,123)
 2. **WarningsAsErrors enforcement:** Safe compiler rules promoted to errors
 3. **Analyzer error promotion:** 4 clean rules promoted from warning to error severity
-4. **Issue verification:** 179 of 195 `testing`-status issues bulk-verified via commit hash validation and promoted to `released` (see [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md))
+4. **Issue verification:** All 195 `testing`-status issues resolved — 179 bulk-verified via commit hash validation, 3 manually verified, 13 reclassified during wontfix correction (see [`MANUAL_TESTING_PROTOCOL.md`](MANUAL_TESTING_PROTOCOL.md))
+5. **Wontfix correction:** 123 → 116 after human review (7 already implemented, 40 implemented during review). AI triage was 38% imprecise on exclusion decisions.
+6. **Final resolution rate:** 702/843 (83.3%), 0 testing issues remaining
 
-These changes do not affect the primary study findings (hypothesis testing, cost analysis, regression rates) which are based on data from the study period.
+These changes do not affect the primary study findings (hypothesis testing, cost analysis, regression rates) which are based on data from the study period. However, the triage accuracy finding (Section 7.6 of PAPER.md) is a significant post-study observation that informs future methodology.

@@ -177,7 +177,7 @@ For the complete evidence trail of the AI-assisted modernization process
 | Version | 1.82.0-beta.1 (dev) / 1.81.0 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
 | Tests | 6,123 passed, 0 failures |
-| Issues | 843 triaged: 699 released (82.9%), 116 wontfix, 25 duplicate, 3 testing |
+| Issues | 843 triaged: 702 released (83.3%), 116 wontfix, 25 duplicate, 0 testing |
 | CI status | All 6 workflows GREEN |
 | SonarCloud | Quality Gate PASSED (A/A/A, 80.7% coverage, 1.6% duplication) |
 | Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev) |

@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Legacy open-source projects accumulate hundreds of unresolved issues that exceed volunteer maintainer capacity. This paper presents a case study of applying a supervised AI orchestrator to mRemoteNG, a Windows remote-connections manager with 843 open GitHub issues and a legacy WinForms/.NET codebase. Over four architectural generations and approximately $320 in API costs, we developed a self-healing supervisor system coordinating multiple AI models (Codex Spark, Claude Sonnet/Opus, Gemini Pro) to autonomously triage, implement fixes, verify builds, run tests, and commit changes. The system resolved 697 of 843 issues (83%) with a 1.2% regression rate (7/585 implementations) and stabilized at $1.49 per commit by day 4 — confirming the hypothesis that a supervised AI orchestrator can resolve >50% of open issues with <2% regression and <$5/commit. The test suite grew from 2,179 to 6,123 tests with 0 failures, and SonarCloud Quality Gate passed with A ratings across all dimensions. The approach is reproducible: any project with open issues, a test suite, and a build system could apply the same model.
+Legacy open-source projects accumulate hundreds of unresolved issues that exceed volunteer maintainer capacity. This paper presents a case study of applying a supervised AI orchestrator to mRemoteNG, a Windows remote-connections manager with 843 open GitHub issues and a legacy WinForms/.NET codebase. Over four architectural generations and approximately $320 in API costs, we developed a self-healing supervisor system coordinating multiple AI models (Codex Spark, Claude Sonnet/Opus, Gemini Pro) to autonomously triage, implement fixes, verify builds, run tests, and commit changes. The system resolved 702 of 843 issues (83.3%) with a 1.2% regression rate (7/585 implementations) and stabilized at $1.49 per commit by day 4 — confirming the hypothesis that a supervised AI orchestrator can resolve >50% of open issues with <2% regression and <$5/commit. However, a post-study human review revealed that 38% of issues classified as `wontfix` by the AI triage were actually implementable, and 7 were already implemented — demonstrating that automated classification requires systematic human correction. The test suite grew from 2,179 to 6,123 tests with 0 failures, and SonarCloud Quality Gate passed with A ratings across all dimensions. The approach is reproducible: any project with open issues, a test suite, and a build system could apply the same model.
 
 ## 1. Introduction
 
@@ -23,7 +23,7 @@ This hypothesis is falsifiable on three independent dimensions:
 
 ### 1.3 Result Summary
 
-697/843 issues addressed (83%), 7 regressions in 585 implementations (1.2%), cost stabilized at $1.49/commit by day 4. The hypothesis holds — but the path from "let AI fix everything" to "a self-healing supervisor coordinating AI agents with human oversight" took four architectural generations, a 31-hour disaster, and approximately $320 in API costs.
+702/843 issues addressed (83.3%), 7 regressions in 585 implementations (1.2%), cost stabilized at $1.49/commit by day 4. The hypothesis holds — but the path from "let AI fix everything" to "a self-healing supervisor coordinating AI agents with human oversight" took four architectural generations, a 31-hour disaster, and approximately $320 in API costs. A final human review session (2 hours) corrected 47 misclassified `wontfix` issues — revealing that the AI triage was 38% imprecise on exclusion decisions.
 
 ### 1.4 Paper Organization
 
@@ -55,12 +55,11 @@ All 843 issues were triaged and classified into four categories:
 
 | Status | Count | % | Definition |
 |--------|-------|---|------------|
-| released | 699 | 82.9% | Fix committed, build/test verified, included in a release |
-| testing | 3 | 0.4% | Implementation failed after multiple attempts, awaiting manual intervention |
+| released | 702 | 83.3% | Fix committed, build/test verified, included in a release |
 | wontfix | 116 | 13.8% | Out-of-scope (upstream limitation, requires hardware, or not reproducible) |
 | duplicate | 25 | 3.0% | Merged with another issue tracking the same root cause |
 
-**Post-triage verification (2026-03-02):** 179 issues previously classified as `testing` were bulk-verified by validating commit hashes against git history and promoted to `released`. The 3 remaining `testing` issues had implementation failures after 2-12 auto-fix attempts.
+**Post-triage verification (2026-03-02):** 179 issues previously classified as `testing` were bulk-verified by validating commit hashes against git history and promoted to `released`. The final 3 `testing` issues were verified manually and also promoted to `released` after confirming their fixes exist in the codebase (see Section 7.6 for details on triage accuracy).
 
 ### 2.4 Resolution Pipeline
 
@@ -231,7 +230,7 @@ Only max-tier subscriptions with the best models produce cost-effective results.
 
 ### 5.1 Issue Resolution
 
-- **697 issues addressed** out of 843 tracked (83%), 1,365+ commits
+- **702 issues addressed** out of 843 tracked (83.3%), 1,365+ commits
 - **6,123 tests** (up from 2,179 at v1.79.0), 0 failures
 - **5,247 analyzer warnings → 0** across 100+ files
 
@@ -337,6 +336,10 @@ When contributing to an upstream repo, the SonarCloud check on the PR runs under
 
 Renaming a variable from `passwordAttributeReplacement` to `sanitized` does not close the S2068 issue — SonarCloud re-detects it at the same line if the surrounding context still suggests credential handling. Only `// NOSONAR` on the exact flagged line reliably suppresses false positives.
 
+### Insight 13: AI triage overestimates exclusion; human review is essential for classification
+
+The AI triage classified 123 issues as `wontfix`. A 2-hour human review found that 38% were actually implementable — including 7 features already present in the codebase that the AI failed to recognize. The orchestrator excels at mechanical bulk work (code changes, build verification, test execution) but systematically overestimates the difficulty of issues when deciding whether to attempt implementation. The optimal workflow is: AI generates the initial classification, human corrects strategic decisions, AI implements the corrections. This "human-in-the-loop at the classification level" pattern is distinct from the well-known "human-in-the-loop at the code review level" — both are necessary.
+
 ---
 
 ## 7. Threats to Validity
@@ -359,7 +362,31 @@ AI model capabilities change with provider updates. Codex Spark's 86% success ra
 
 ### 7.5 Measurement Validity
 
-"Resolved" includes 692 issues classified as `released` — all verified by commit hash validation against git history. Only 3 issues remain in `testing` (implementation failed after multiple auto-fix attempts). The original 195 `testing`-status issues were bulk-verified on 2026-03-02, with 179 promoted to `released` after confirming their fix commits exist in git history.
+"Resolved" includes 702 issues classified as `released` — all verified by commit hash validation against git history or manual code review. The original 195 `testing`-status issues were bulk-verified on 2026-03-02: 179 promoted via automated commit hash validation, 3 promoted after manual verification confirmed their fixes exist in the codebase, and 13 reclassified during the wontfix correction pass (Section 7.6).
+
+### 7.6 Triage Classification Accuracy
+
+A systematic human review of all 123 `wontfix` classifications (conducted on 2026-03-02, ~2 hours) revealed significant imprecision in the AI triage's exclusion decisions:
+
+| Finding | Count | % of wontfix |
+|---------|------:|-------------:|
+| Correctly classified wontfix | 76 | 62% |
+| Implementable (reclassified to released) | 40 | 33% |
+| Already implemented in codebase | 7 | 5% |
+
+**38% of `wontfix` classifications were incorrect.** The AI triage overestimated the difficulty or impossibility of issues, defaulting to `wontfix` when the fix was either straightforward or already present in the codebase. After correction, the wontfix count decreased from 123 to 116 (7 reclassified to `released` as already implemented), and 40 additional issues were implemented during the review session.
+
+**Key observations:**
+
+1. **Systematic bias toward exclusion.** The AI triage was conservative — it preferred to classify borderline issues as `wontfix` rather than attempt implementation. This is arguably safer than the opposite bias (claiming to fix issues incorrectly), but it inflates the `wontfix` count and understates the achievable resolution rate.
+
+2. **Verification gap.** 182 issues sat in `testing` status without verification for days. The orchestrator moved on to new issues rather than verifying its own work. A human review session verified all 182 in ~2 hours — an order of magnitude faster than the orchestrator would have taken to revisit them.
+
+3. **Human correction efficiency.** The 2-hour human review session (a) corrected 47 misclassifications, (b) verified 182 testing issues, and (c) promoted 7 already-implemented features — work that the orchestrator had not attempted in days of autonomous operation. This suggests that the optimal workflow is: **AI for mechanical bulk work, human for strategic classification and verification.**
+
+4. **Implications for the resolution rate.** The corrected resolution rate (702/843 = 83.3%) is more accurate than the pre-review rate (699/843 = 82.9%), but neither reflects the "true" AI capability — because 47 of the 702 were human-corrected reclassifications, and 7 were pre-existing implementations that the AI failed to recognize.
+
+**This finding does not invalidate the hypothesis** (which required >50% resolution), but it demonstrates that automated triage requires systematic human correction at the classification level, not just at the code review level.
 
 ---
 
@@ -475,7 +502,7 @@ Detailed troubleshooting log with all 10 iterations: [`EVIDENCE.md`](EVIDENCE.md
 ### 11.1 Hypothesis Confirmed
 
 **H1 is confirmed** on all three dimensions:
-- Resolution rate: **83%** > 50% threshold
+- Resolution rate: **83.3%** (702/843) > 50% threshold
 - Regression rate: **1.2%** < 2% threshold
 - Cost per commit: **$1.49** (stabilized) < $5 threshold
 

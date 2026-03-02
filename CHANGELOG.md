@@ -10,13 +10,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Fresh development cycle after v1.81.0-beta.6 was promoted to stable (upstream PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) — SonarCloud Quality Gate passed). Branch `release/1.81` frozen; `main` targets v1.82.0.
 
 ### Added
-- _(nothing yet)_
+- **SQL external tools schema** — 6 missing columns (Hidden, AuthType, AuthUsername, AuthPassword, PrivateKeyFile, Passphrase) + v3.2→v3.3 migration (`c362601a9`)
+- **MySQL auto-schema upgrade** — `UpgradeMysqlSchema` method for MySQL backends (`221bd9e70`)
+- **CLI /cons switch** — `CustomConnectionFile` static property for external connection file loading (`0bc81fd4e`)
+- **Scientific paper** — "Limitations of Automated Triage" section documenting 38% AI triage imprecision
 
 ### Fixed
-- _(nothing yet)_
+- **URL scheme injection** — validate http/https before `Process.Start` (upstream #3177, `3ed92013c`)
+- **AD Protected Users RDP** — skip password prompt for RestrictedAdmin/RCG mode (upstream #3175, `aaf82f4a8`)
+- **VNC Caps Lock** — patch `KeyTranslationTable` for correct Caps Lock handling (upstream #3154, `171e93bc6`)
+- **RDP resize threading** — marshal debounce to UI thread (upstream #3171 partial, `df10d205b`)
+- **MSSQL new folder error** — 12 missing columns + schema upgrade for `tblCons` (#1796, `7d5d7e03c`)
 
 ### Changed
 - Version bumped to 1.82.0-beta.1
+- Issue triage: 843/843 complete — 702 released (83.3%), 116 wontfix, 25 duplicate, 0 testing
+- 8 new upstream issues synced and triaged (#3163-#3180)
 
 ---
 

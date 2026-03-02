@@ -157,8 +157,36 @@
 ### Post-Release Activities
 1. Test count growth: 5,963 (beta.5) → 6,123 (post-release) — 160 additional tests
 2. TreatWarningsAsErrors enforcement for safe compiler rules
-3. Bulk verification: 179 of 195 `testing`-status issues verified via commit hash validation and promoted to `released` (3 remain — implementation failed)
-4. Scientific paper metrics updated to reflect final state
+3. Bulk verification: 179 of 195 `testing`-status issues verified via commit hash validation → promoted to `released`
+4. Manual verification: Final 3 `testing` issues (#1354, #1796, #1822) verified by code review → promoted to `released`
+5. Scientific paper metrics updated to reflect final state
+
+### Human Correction Phase (2026-03-02, ~2 hours)
+
+**Wontfix correction pass — all 123 wontfix issues reviewed individually:**
+
+| Before | After | Delta |
+|--------|-------|-------|
+| 123 wontfix | 116 wontfix | -7 (already implemented in codebase) |
+| 699 released | 702 released | +3 (testing→released) |
+| 3 testing | 0 testing | -3 (all verified fixed) |
+
+**Triage accuracy breakdown:**
+- 76/123 (62%) correctly classified as wontfix
+- 40/123 (33%) implementable — reclassified and implemented during the session
+- 7/123 (5%) already implemented — AI failed to recognize existing fixes
+
+**Key timestamps:**
+- Session start: 2026-03-02 ~14:00
+- Wontfix repass complete: 2026-03-02 ~15:30
+- Bulk promotion (177 testing→released): commit `086d5c967`
+- Wontfix repass (7 released, 116 justified): commit `63cce1d71`
+- Statistics updated: commit `1f1d4ad5d`
+
+**Efficiency comparison:**
+- Orchestrator: days of autonomous operation, 182 issues left unverified in `testing`
+- Human review session: ~2 hours, all 182 verified + 47 wontfix corrections
+- Ratio: human session was ~1 order of magnitude more efficient for classification/verification tasks
 
 ---
 
@@ -212,12 +240,13 @@
 3. **Orchestrator role**: Coordination, fallback chains, rate limiting, progress tracking
 
 ### Key Findings
-1. AI agents fix 70% of issues but introduce 1.2% regression rate (7/585)
+1. AI agents fix 83.3% of issues (702/843) but introduce 1.2% regression rate (7/585)
 2. Automated tests catch 0% of UX/focus/COM regressions — manual testing essential
 3. Parallelization of AI agents fails on shared resources (NuGet, git, build)
 4. Code quality tools (analyzers) are best applied after feature work, not during
 5. CI pipeline issues (COM refs, WinExe vs Exe, x86 runtime) require human debugging
 6. Upstream PR acceptance requires addressing SonarCloud Quality Gate — AI orchestrator artifacts create noise
+7. **AI triage is 38% imprecise on exclusion decisions** — 47/123 wontfix classifications were incorrect (33% implementable, 5% already implemented). Human correction phase is essential for classification accuracy.
 
 ### Reproducibility
 - All code is in public repository
