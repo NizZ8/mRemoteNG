@@ -65,6 +65,16 @@ dotnet_diagnostic.CA1861.severity = suggestion
 # CA2007: ConfigureAwait — WinForms needs SynchronizationContext
 dotnet_diagnostic.CA2007.severity = none
 
+# ===== Promoted to error (0 violations confirmed — prevent regression) =====
+# CA1507: Use nameof in place of string
+dotnet_diagnostic.CA1507.severity = error
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = error
+# CA1805: Do not initialize unnecessarily
+dotnet_diagnostic.CA1805.severity = error
+# CA1510: Use ArgumentNullException.ThrowIfNull
+dotnet_diagnostic.CA1510.severity = error
+
 # ===== Suppress noisy/unfixable rules for legacy WinForms codebase =====
 # CA1711: Remove type suffix from identifiers (too risky to rename legacy API)
 dotnet_diagnostic.CA1711.severity = none
