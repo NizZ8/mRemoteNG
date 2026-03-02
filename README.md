@@ -15,11 +15,11 @@ Full transparency: this project is built by humans and AI working together. We b
 </blockquote>
 
 <p align="center">
-  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6">
-    <img alt="Stable" src="https://img.shields.io/badge/stable-v1.81.0--beta.6-brightgreen?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0">
+    <img alt="Latest Stable" src="https://img.shields.io/badge/latest%20stable-v1.81.0-brightgreen?style=for-the-badge">
   </a>
-  <a href="https://github.com/robertpopa22/mRemoteNG/tree/main">
-    <img alt="Next" src="https://img.shields.io/badge/next-v1.82.0--beta.1-blue?style=for-the-badge">
+  <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
+    <img alt="Nightly" src="https://img.shields.io/badge/nightly-v1.82.0--dev-blue?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
@@ -50,7 +50,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | What you get |
 |---------|---------|--------|--------------|
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.6)** | v1.81.0-beta.6 | `release/1.81` | Frozen release branch. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
+| **[Latest Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. .NET 10, 5,963 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
 | **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
 
@@ -58,8 +58,8 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Variant | x64 | x86 | ARM64 |
 |---------|-----|-----|-------|
-| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-arm64.zip) |
-| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0-beta.6/mRemoteNG-v1.81.0-beta.6-win-arm64-SelfContained.zip) |
+| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-arm64.zip) |
+| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-arm64-SelfContained.zip) |
 
 **Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites.
 
