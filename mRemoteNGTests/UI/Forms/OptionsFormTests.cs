@@ -103,10 +103,12 @@ namespace mRemoteNGTests.UI.Forms
                 ?.GetValue(lstOptionPages);
             Assert.That(selectedObject, Is.Not.Null, "SelectedObject should not be null");
 
-            // 5. OK button sets DialogResult
+            // 5. OK button raises CloseRequested (FrmOptions uses event, not DialogResult)
+            bool closeRequested = false;
+            optionsForm.CloseRequested += (s, ev) => closeRequested = true;
             Button okButton = optionsForm.FindControl<Button>("btnOK");
             okButton.PerformClick();
-            Assert.That(optionsForm.DialogResult, Is.EqualTo(DialogResult.OK));
+            Assert.That(closeRequested, Is.True, "OK button should raise CloseRequested event");
 
             // 6. Change tracking - toggle a checkbox
             Application.DoEvents();
