@@ -48,18 +48,20 @@ Full transparency: this project is built by humans and AI working together. We b
 
 ## Downloads
 
-| Channel | Version | Branch | What you get |
-|---------|---------|--------|--------------|
-| **[Latest Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. .NET 10, 6,123 tests, SonarCloud Quality Gate passed, 0 analyzer warnings. **Recommended.** |
-| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | Latest | `main` | Auto-built on every push, fully tested. x64 framework-dependent only. |
-| **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework release. Use if you need .NET Framework 4.x compatibility. |
+| Channel | Version | Branch | Description |
+|---------|---------|--------|-------------|
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,123 tests, 0 analyzer warnings. **Recommended.** |
+| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.1 | `main` | Auto-built on every push. Latest features, fully tested. |
+| **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework 4.x release. |
 
 ### Download matrix
 
-| Variant | x64 | x86 | ARM64 |
-|---------|-----|-----|-------|
-| Framework-dependent (~21MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-arm64.zip) |
-| Self-contained (~108-116MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-arm64-SelfContained.zip) |
+| Channel | Version | Variant | x64 | x86 | ARM64 |
+|---------|---------|---------|-----|-----|-------|
+| **Stable** | v1.81.0 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-arm64.zip) |
+| **Stable** | v1.81.0 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-arm64-SelfContained.zip) |
+| **Nightly** | v1.82.0-beta.1 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
+| **Nightly** | v1.82.0-beta.1 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
 
 **Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites.
 
