@@ -917,8 +917,17 @@ namespace mRemoteNG.Connection.Protocol
                 PuttyProcess.EnableRaisingEvents = true;
                 PuttyProcess.Exited += ProcessExited;
 
+                // Start the process minimized for non-PuTTYNG so the window
+                // does not flash at its default position on screen before
+                // being reparented into the mRemoteNG panel.
+                if (!_isPuttyNg)
+                {
+                    PuttyProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                }
+
                 PuttyProcess.Start();
                 _processStartTicks = Environment.TickCount64;
+                ChildProcessTracker.AddProcess(PuttyProcess);
 
                 _windowSearchStartTime = Environment.TickCount;
                 _windowSearchTimer = new System.Windows.Forms.Timer();
@@ -1010,25 +1019,16 @@ namespace mRemoteNG.Connection.Protocol
                 }
                 else
                 {
-                    int scaledFrameBorderHeight = _display.ScaleHeight(SystemInformation.FrameBorderSize.Height);
-                    int scaledFrameBorderWidth = _display.ScaleWidth(SystemInformation.FrameBorderSize.Width);
-
-                    // Use ClientRectangle to account for padding (for connection frame color)
+                    // Window chrome (caption + thick frame) has been stripped
+                    // after reparenting, so just fill the client rectangle.
                     Rectangle clientRect = InterfaceControl.ClientRectangle;
-                    NativeMethods.MoveWindow(PuttyHandle,
-                                             clientRect.X - scaledFrameBorderWidth,
-                                             clientRect.Y - (SystemInformation.CaptionHeight + scaledFrameBorderHeight),
-                                             clientRect.Width + scaledFrameBorderWidth * 2,
-                                             clientRect.Height + SystemInformation.CaptionHeight +
-                                             scaledFrameBorderHeight * 2,
-                                             true);
+
+                    NativeMethods.MoveWindow(PuttyHandle, clientRect.X-8, clientRect.Y-30, clientRect.Width+32, clientRect.Height+38, true);
                 }
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.PuttyResizeFailed + Environment.NewLine + ex.Message,
-                                                    true);
+                Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyResizeFailed + Environment.NewLine + ex.Message, true);
             }
         }
 
@@ -1260,7 +1260,7 @@ namespace mRemoteNG.Connection.Protocol
                 outBufferSize: 0,
                 pipeSecurity);
         }
-        private static string EscapeSendKeys(string str)
+        private static new string EscapeSendKeys(string str)
         {
             var sb = new StringBuilder();
             foreach (char c in str)

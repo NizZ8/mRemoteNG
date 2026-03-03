@@ -139,7 +139,7 @@ All 843 upstream issues have been triaged and classified:
 
 **SonarCloud on fork:** Quality Gate PASSED — Coverage 80.7% on new code (threshold 80%), Reliability A, Security A, Maintainability A, Duplication 1.6%, Hotspots 100% reviewed. Achieved via 160 targeted tests + `sonar.coverage.exclusions` for untestable Protocol/UI/COM code. The fork's SonarCloud is useful for internal monitoring but has no effect on upstream PR checks (see Key Insight #10).
 
-Next milestone: enable `TreatWarningsAsErrors` per-rule, then globally once stable.
+`TreatWarningsAsErrors` enforced for compiler rules (CS0168, CS0219, CS0162, CS0164). Next: extend to analyzer rules once stable.
 
 ### 6.3. Manual Testing Protocol
 
@@ -237,7 +237,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -SelfContained
 | 3 | **CodeQL** | Push to `main` + weekly — security scanning | [![CodeQL](https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/codeql.yml?label=CodeQL&style=flat-square)](https://github.com/robertpopa22/mRemoteNG/security/code-scanning) |
 | 4 | **.NET Analyzers** | `AnalysisLevel=latest-recommended` | Active |
 
-**0 analyzer warnings** in main project. Gradual adoption — all rules are warnings (not errors). 46 noisy/architectural rules suppressed in `.editorconfig` for legacy WinForms code. Next: enable `TreatWarningsAsErrors` per-rule.
+**0 analyzer warnings** in main project. `TreatWarningsAsErrors` enforced for compiler rules (CS0168, CS0219, CS0162, CS0164). 46 noisy/architectural rules suppressed in `.editorconfig` for legacy WinForms code. Next: extend to analyzer rules once stable.
 
 ---
 
