@@ -20,9 +20,13 @@ all **false positives** — the APIs are required for mRemoteNG's core functiona
 ### Why you can trust this build
 
 1. **Open source** — Full source code at [github.com/mRemoteNG/mRemoteNG](https://github.com/mRemoteNG/mRemoteNG)
-2. **Code-signed** — Release builds are signed via [SignPath Foundation](https://signpath.io/) (free for open source)
-3. **Strong-named assemblies** — All assemblies are signed with a cryptographic key
-4. **Reproducible builds** — Build from source using `build.ps1` and compare
+2. **Code-signed** — Release builds are signed via [SignPath Foundation](https://signpath.org/) (free for open source). See [`CODE_SIGNING_POLICY.md`](../CODE_SIGNING_POLICY.md) for details
+3. **CI-verified** — Every build runs through automated security scanning (CodeQL + SonarCloud)
+4. **VirusTotal scanned** — Nightly builds are automatically scanned via VirusTotal in CI
+5. **Reproducible builds** — Build from source using `build.ps1` and compare
+
+> **Note:** Nightly builds may not yet be signed. See [`CODE_SIGNING_POLICY.md`](../CODE_SIGNING_POLICY.md)
+> for current signing status. Signed builds dramatically reduce false positive detections.
 
 ## How to verify authenticity
 
@@ -73,14 +77,17 @@ The specific steps vary by product — consult your AV's documentation.
 
 If your AV blocks mRemoteNG, please report it as a false positive:
 
-- **Bitdefender**: [bitdefender.com/submit](https://www.bitdefender.com/submit/)
-- **Windows Defender**: [microsoft.com/wdsi/filesubmission](https://www.microsoft.com/en-us/wdsi/filesubmission)
+- **Bitdefender**: [False positive report form](https://www.bitdefender.com/consumer/support/answer/29358/) or email virus_submission@bitdefender.com
+- **Windows Defender**: [WDSI file submission](https://www.microsoft.com/en-us/wdsi/filesubmission) — select "Software developer" → "False positive"
 - **ESET**: [support.eset.com/en/kb141](https://support.eset.com/en/kb141/)
 - **Kaspersky**: [opentip.kaspersky.com](https://opentip.kaspersky.com/)
 - **VirusTotal**: Upload at [virustotal.com](https://www.virustotal.com/) — results are shared with all engines
 
 When reporting, include:
 - The specific file flagged (e.g., `mRemoteNG.dll`)
-- The detection name (e.g., `Trojan.GenericKD.xxxxx`)
+- The detection name (e.g., `IL:Trojan.MSILZilla.212190`)
 - Link to this GitHub repository
 - The SHA256 hash of the file (`certutil -hashfile mRemoteNG.dll SHA256`)
+
+For detailed submission templates and step-by-step instructions, see
+[`docs/AV_FALSE_POSITIVE_SUBMISSION.md`](AV_FALSE_POSITIVE_SUBMISSION.md).

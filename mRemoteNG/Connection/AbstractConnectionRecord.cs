@@ -6,7 +6,6 @@ using System.Drawing.Design;
 using mRemoteNG.Connection.Protocol;
 using mRemoteNG.Connection.Protocol.Http;
 using mRemoteNG.Connection.Protocol.RDP;
-using mRemoteNG.Connection.Protocol.Serial;
 using mRemoteNG.Connection.Protocol.VNC;
 using mRemoteNG.Properties;
 using mRemoteNG.Tools;
@@ -156,11 +155,6 @@ namespace mRemoteNG.Connection
         private bool _vncClipboardRedirect = true;
 
         private string _credentialId = string.Empty;
-
-        private int _serialDataBits = 8;
-        private ProtocolSerial.Parity _serialParity;
-        private ProtocolSerial.StopBits _serialStopBits;
-        private ProtocolSerial.FlowControl _serialFlowControl;
 
         #endregion
 

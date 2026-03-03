@@ -29,7 +29,7 @@ namespace mRemoteNG.Tools
                 }
             };
 
-            int length = Marshal.SizeOf(typeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION));
+            int length = Marshal.SizeOf<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>();
             IntPtr infoPtr = Marshal.AllocHGlobal(length);
             try
             {

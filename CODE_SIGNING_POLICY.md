@@ -4,6 +4,19 @@
 
 All mRemoteNG release binaries are digitally signed using [SignPath Foundation](https://signpath.org/) code signing certificates. This ensures users can verify the authenticity and integrity of every release.
 
+## Current Status
+
+| Channel | Signing Status |
+|---------|---------------|
+| **Stable releases** (v1.81.x) | :white_check_mark: Signed (pending SignPath approval) |
+| **Nightly builds** (main) | :construction: Unsigned — signing will activate once SignPath secrets are configured |
+| **Self-built** | :x: Unsigned (expected — user builds from source) |
+
+> **Note (fork):** This fork (`robertpopa22/mRemoteNG`) has the CI workflow ready for signing
+> (steps 10a-10c in `Build_mR-NB.yml`) but the `SIGNPATH_API_TOKEN` and
+> `SIGNPATH_ORGANIZATION_ID` secrets are not yet configured. Once the SignPath Foundation
+> application is approved, signing will activate automatically on the next release build.
+
 ## Publisher
 
 - **Certificate Holder:** SignPath Foundation
