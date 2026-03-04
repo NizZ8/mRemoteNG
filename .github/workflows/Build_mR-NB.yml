@@ -235,12 +235,23 @@ jobs:
           VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
         run: |
           $zipPath = "$Env:GITHUB_WORKSPACE\${{ steps.version.outputs.zipname }}"
-          Write-Host "Uploading $zipPath to VirusTotal..."
+          $fileSizeMB = [math]::Round((Get-Item $zipPath).Length / 1MB, 1)
+          Write-Host "Uploading $zipPath ($fileSizeMB MB) to VirusTotal..."
           $headers = @{ "x-apikey" = $env:VIRUSTOTAL_API_KEY }
           $form = @{ file = Get-Item $zipPath }
           try {
-            $response = Invoke-RestMethod -Uri "https://www.virustotal.com/api/v3/files" `
-              -Method Post -Headers $headers -Form $form -TimeoutSec 300
+            # Files >32MB require a special upload URL from VT API
+            if ($fileSizeMB -gt 32) {
+              Write-Host "File exceeds 32MB — requesting large-file upload URL..."
+              $uploadUrlResponse = Invoke-RestMethod -Uri "https://www.virustotal.com/api/v3/files/upload_url" `
+                -Headers $headers -TimeoutSec 60
+              $uploadUrl = $uploadUrlResponse.data
+              Write-Host "Using large-file upload URL"
+            } else {
+              $uploadUrl = "https://www.virustotal.com/api/v3/files"
+            }
+            $response = Invoke-RestMethod -Uri $uploadUrl `
+              -Method Post -Headers $headers -Form $form -TimeoutSec 600
             $analysisId = $response.data.id
             Write-Host "Analysis submitted: $analysisId"
             Write-Host "View at: https://www.virustotal.com/gui/file-analysis/$analysisId"

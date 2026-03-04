@@ -283,6 +283,18 @@ namespace mRemoteNG.Connection.Protocol
 
             StopOpeningCommandTimer();
 
+            if (timedOut && !titleChanged)
+            {
+                // Title never changed — authentication likely still in progress
+                // (e.g. interactive login without stored credentials). Discard the
+                // command so it doesn't get typed into a login/password prompt (#3170).
+                Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg,
+                    "Opening command discarded: terminal title did not change within timeout (authentication may still be in progress).");
+                _openingCommandPendingCommand = string.Empty;
+                _openingCommandPendingHandle = IntPtr.Zero;
+                return;
+            }
+
             if (_openingCommandPendingHandle != IntPtr.Zero && !string.IsNullOrEmpty(_openingCommandPendingCommand))
             {
                 NativeMethods.SetForegroundWindow(_openingCommandPendingHandle);
