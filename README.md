@@ -81,7 +81,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Enterprise:** Self-contained builds (zero prerequisites), ADMX/ADML Group Policy templates, connection audit logging, JSON export, protocol/tag filtering.
 
-**Quality:** 6,123 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 4-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL), x64/x86/ARM64.
+**Quality:** 6,123 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64.
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 

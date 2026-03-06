@@ -170,7 +170,7 @@ PR history, and release status, see: **`.project-roadmap/DEVELOPER_GUIDE.md`**
 For the complete evidence trail of the AI-assisted modernization process
 (metrics, agent performance, CI data, methodology notes), see: **`scientific-paper/EVIDENCE.md`**
 
-## Current Release Status (2026-03-02)
+## Current Release Status (2026-03-07)
 
 | Metric | Value |
 |--------|-------|
