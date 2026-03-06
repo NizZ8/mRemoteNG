@@ -148,10 +148,12 @@ public class PathValidatorTests
     }
 
     [Test]
-    public void IsValidExecutablePath_PathWithParentheses_ReturnsFalse()
+    public void IsValidExecutablePath_PathWithParentheses_ReturnsTrue()
     {
-        string maliciousPath = @"notepad.exe (calc.exe)";
-        Assert.That(PathValidator.IsValidExecutablePath(maliciousPath), Is.False);
+        // Parentheses are allowed because they appear in legitimate Windows paths
+        // like "C:\Program Files (x86)\..."
+        string legitimatePath = @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe";
+        Assert.That(PathValidator.IsValidExecutablePath(legitimatePath), Is.True);
     }
 
     [Test]

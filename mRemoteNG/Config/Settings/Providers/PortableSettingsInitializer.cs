@@ -13,11 +13,15 @@ namespace mRemoteNG.Config.Settings.Providers
     internal static class PortableSettingsInitializer
     {
         private static bool _initialized;
+        private static ChooseProvider? _sharedProvider;
 
         internal static void EnsureInitialized()
         {
             if (_initialized) return;
             _initialized = true;
+
+            _sharedProvider = new ChooseProvider();
+            _sharedProvider.Initialize(_sharedProvider.Name, null);
 
             WireProvider(Properties.Settings.Default);
             WireProvider(Properties.App.Default);
@@ -40,15 +44,14 @@ namespace mRemoteNG.Config.Settings.Providers
 
         private static void WireProvider(ApplicationSettingsBase settings)
         {
-            var provider = new ChooseProvider();
-            provider.Initialize(provider.Name, null);
+            if (_sharedProvider == null) return;
 
-            if (settings.Providers[provider.Name] == null)
-                settings.Providers.Add(provider);
+            if (settings.Providers[_sharedProvider.Name] == null)
+                settings.Providers.Add(_sharedProvider);
 
             foreach (SettingsProperty prop in settings.Properties)
             {
-                prop.Provider = provider;
+                prop.Provider = _sharedProvider;
             }
         }
     }

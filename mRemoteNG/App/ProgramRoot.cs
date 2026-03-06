@@ -59,78 +59,80 @@ namespace mRemoteNG.App
             commandLineParser.ApplySwitches();
             args = commandLineParser.GetNormalizedArguments();
 
-#if !SELF_CONTAINED
-            // Runtime checks only needed for framework-dependent deployments
-            // Self-contained builds include the runtime, so no check is needed
-            string? installedVersion = DotNetRuntimeCheck.GetLatestDotNetRuntimeVersion();
-            //installedVersion = ""; // Force check for testing purposes
+            // Runtime checks only needed for framework-dependent deployments.
+            // Self-contained builds embed coreclr.dll next to the exe — skip checks.
+            bool isSelfContained = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "coreclr.dll"));
 
-            var checkFail = false;
-
-            // Checking .NET Runtime version
-            var (latestRuntimeVersion, downloadUrl) = DotNetRuntimeCheck.GetLatestAvailableDotNetVersionAsync().GetAwaiter().GetResult();
-            if (string.IsNullOrEmpty(installedVersion))
+            if (!isSelfContained)
             {
-                try
-                {
-                    var result = ShowDownloadCancelDialog(
-                        $".NET " + DotNetRuntimeCheck.RequiredDotnetVersion + ".0 " + Language.MsgRuntimeIsRequired + "\n\n" +
-                        Language.MsgDownloadLatestRuntime + "\n" + downloadUrl + "\n\n" +
-                        Language.MsgExit + "\n\n",
-                        Language.MsgMissingRuntime + " .NET " + DotNetRuntimeCheck.RequiredDotnetVersion);
+                string? installedVersion = DotNetRuntimeCheck.GetLatestDotNetRuntimeVersion();
 
-                    if (result == DialogResult.OK && InternetConnection.IsPosible())
+                var checkFail = false;
+
+                // Checking .NET Runtime version
+                var (latestRuntimeVersion, downloadUrl) = DotNetRuntimeCheck.GetLatestAvailableDotNetVersionAsync().GetAwaiter().GetResult();
+                if (string.IsNullOrEmpty(installedVersion))
+                {
+                    try
                     {
-                        try
+                        var result = ShowDownloadCancelDialog(
+                            $".NET " + DotNetRuntimeCheck.RequiredDotnetVersion + ".0 " + Language.MsgRuntimeIsRequired + "\n\n" +
+                            Language.MsgDownloadLatestRuntime + "\n" + downloadUrl + "\n\n" +
+                            Language.MsgExit + "\n\n",
+                            Language.MsgMissingRuntime + " .NET " + DotNetRuntimeCheck.RequiredDotnetVersion);
+
+                        if (result == DialogResult.OK && InternetConnection.IsPosible())
                         {
-                            if (!string.IsNullOrEmpty(downloadUrl) &&
-                                downloadUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                                Process.Start(new ProcessStartInfo(fileName: downloadUrl) { UseShellExecute = true });
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Unable to open download link: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            try
+                            {
+                                if (!string.IsNullOrEmpty(downloadUrl) &&
+                                    downloadUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                                    Process.Start(new ProcessStartInfo(fileName: downloadUrl) { UseShellExecute = true });
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Unable to open download link: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
+                    catch { }
+                    checkFail = true;
                 }
-                catch { }
-                checkFail = true;
-            }
 
-            // Checking Visual C++ Redistributable version
-            if (VCppRuntimeCheck.GetInstalledVcRedistVersions() == null || VCppRuntimeCheck.GetInstalledVcRedistVersions().Count == 0)
-            {
-                var downloadUrl2 = "https://aka.ms/vs/17/release/vc_redist.x64.exe";
-                try
+                // Checking Visual C++ Redistributable version
+                if (VCppRuntimeCheck.GetInstalledVcRedistVersions() == null || VCppRuntimeCheck.GetInstalledVcRedistVersions().Count == 0)
                 {
-                    var result = ShowDownloadCancelDialog(
-                        $"A Visual C++ (MSVC) " + Language.MsgRuntimeIsRequired + "\n\n" +
-                        Language.MsgDownloadLatestRuntime + "\n" + downloadUrl2 + "\n\n" +
-                        Language.MsgExit + "\n\n",
-                        Language.MsgMissingRuntime + " Visual C++ Redistributable x64");
-
-                    if (result == DialogResult.OK && InternetConnection.IsPosible())
+                    var downloadUrl2 = "https://aka.ms/vs/17/release/vc_redist.x64.exe";
+                    try
                     {
-                        try
+                        var result = ShowDownloadCancelDialog(
+                            $"A Visual C++ (MSVC) " + Language.MsgRuntimeIsRequired + "\n\n" +
+                            Language.MsgDownloadLatestRuntime + "\n" + downloadUrl2 + "\n\n" +
+                            Language.MsgExit + "\n\n",
+                            Language.MsgMissingRuntime + " Visual C++ Redistributable x64");
+
+                        if (result == DialogResult.OK && InternetConnection.IsPosible())
                         {
-                            if (downloadUrl2.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                                Process.Start(new ProcessStartInfo(fileName: downloadUrl2) { UseShellExecute = true });
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Unable to open download link: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            try
+                            {
+                                if (downloadUrl2.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                                    Process.Start(new ProcessStartInfo(fileName: downloadUrl2) { UseShellExecute = true });
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Unable to open download link: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
+                    catch { }
+                    checkFail = true;
                 }
-                catch { }
-                checkFail = true;
-            }
 
-            if (checkFail)
-            {
-                Environment.Exit(0);
+                if (checkFail)
+                {
+                    Environment.Exit(0);
+                }
             }
-#endif
 
             // Wire portable settings provider before any settings access
             Config.Settings.Providers.PortableSettingsInitializer.EnsureInitialized();

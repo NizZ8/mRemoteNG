@@ -15,7 +15,10 @@ namespace mRemoteNG.Config.Connections.Multiuser
         public FileConnectionsUpdateChecker(string connectionFilePath)
         {
             _connectionFilePath = connectionFilePath;
-            _watcher = new FileSystemWatcher(Path.GetDirectoryName(connectionFilePath) ?? ".", Path.GetFileName(connectionFilePath));
+            string watchDir = Path.GetDirectoryName(connectionFilePath) ?? ".";
+            if (!Directory.Exists(watchDir))
+                Directory.CreateDirectory(watchDir);
+            _watcher = new FileSystemWatcher(watchDir, Path.GetFileName(connectionFilePath));
             _watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Size;
             _watcher.Changed += OnFileChanged;
             _watcher.Created += OnFileChanged;

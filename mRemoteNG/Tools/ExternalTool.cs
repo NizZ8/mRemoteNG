@@ -369,9 +369,12 @@ namespace mRemoteNG.Tools
             }
             else
             {
-                // When RunElevated is true, we must use UseShellExecute = true for the "runas" verb
-                // When false, we use UseShellExecute = false for better security with ArgumentList
-                process.StartInfo.UseShellExecute = RunElevated;
+                // Shell-associated document types (.msc, .cpl, .msi, .url, .lnk) require
+                // UseShellExecute=true because they are not PE executables.
+                // When RunElevated is true, we also need UseShellExecute for the "runas" verb.
+                // Otherwise use UseShellExecute=false for better security with ArgumentList.
+                bool needsShellExecute = RunElevated || IsShellDocument(parsedFileName);
+                process.StartInfo.UseShellExecute = needsShellExecute;
             }
 
             process.StartInfo.FileName = parsedFileName;
@@ -390,11 +393,11 @@ namespace mRemoteNG.Tools
             }
             else
             {
-                if (isBatch)
+                bool useShellArgs = isBatch || process.StartInfo.UseShellExecute;
+                if (useShellArgs)
                 {
-                    // Batch files are routed through cmd.exe by Windows even with UseShellExecute=false.
-                    // ArgumentList uses C-runtime quoting which does NOT protect commas from cmd.exe.
-                    // Build a manually quoted Arguments string instead.
+                    // Batch files and shell documents (UseShellExecute=true) cannot use
+                    // ArgumentList. Build a manually quoted Arguments string instead.
                     string rawArgs = argParser.ParseArguments(Arguments, escapeForShell: false);
                     var parts = SplitCommandLineArguments(rawArgs);
                     process.StartInfo.Arguments = string.Join(" ", parts
@@ -432,6 +435,20 @@ namespace mRemoteNG.Tools
             string ext = Path.GetExtension(fileName);
             return ext.Equals(".cmd", StringComparison.OrdinalIgnoreCase)
                 || ext.Equals(".bat", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Returns true if the file is a shell-associated document type that requires
+        /// UseShellExecute=true (not a PE executable, launched via shell association).
+        /// </summary>
+        private static bool IsShellDocument(string fileName)
+        {
+            string ext = Path.GetExtension(fileName);
+            return ext.Equals(".msc", StringComparison.OrdinalIgnoreCase)
+                || ext.Equals(".cpl", StringComparison.OrdinalIgnoreCase)
+                || ext.Equals(".msi", StringComparison.OrdinalIgnoreCase)
+                || ext.Equals(".url", StringComparison.OrdinalIgnoreCase)
+                || ext.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
