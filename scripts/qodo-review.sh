@@ -5,10 +5,10 @@
 # Must be run by a human (not a bot) — Qodo ignores bot-created PRs.
 #
 # Usage:
-#   ./qodo-review.sh              # Review last commit on current branch
-#   ./qodo-review.sh 5            # Review last 5 commits
-#   ./qodo-review.sh 3 main       # Review last 3 commits on main
-#   ./qodo-review.sh cleanup      # Close all open review PRs
+#   ./scripts/qodo-review.sh              # Review last commit on current branch
+#   ./scripts/qodo-review.sh 5            # Review last 5 commits
+#   ./scripts/qodo-review.sh 3 main       # Review last 3 commits on main
+#   ./scripts/qodo-review.sh cleanup      # Close all open review PRs
 #
 # Prerequisites: gh CLI authenticated (gh auth login), jq installed
 
@@ -108,12 +108,12 @@ PR_URL=$(gh pr create \
     --body "**On-demand Qodo review** of the last ${N} commit(s) on \`${BRANCH}\`.
 
 **Draft PR — do not merge.** Commits are already on \`${BRANCH}\`.
-Close this PR after reading the review, or run: \`./qodo-review.sh cleanup\`")
+Close this PR after reading the review, or run: \`./scripts/qodo-review.sh cleanup\`")
 
 echo "Draft PR created: ${PR_URL}"
 echo ""
 echo "Qodo will post its review in 1-3 minutes."
-echo "After reading, run: ./qodo-review.sh cleanup"
+echo "After reading, run: ./scripts/qodo-review.sh cleanup"
 
 # Return to original branch
 git checkout "$BRANCH" --quiet
