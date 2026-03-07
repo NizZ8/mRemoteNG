@@ -23,6 +23,9 @@ namespace mRemoteNG.Tools
     public sealed class HostStatusMonitor : IDisposable
     {
         private readonly ConnectionTreeModel _model;
+
+        /// <summary>The model this monitor was constructed with.</summary>
+        public ConnectionTreeModel Model => _model;
         private CancellationTokenSource? _cts;
 
         /// <summary>How long to wait between full scan cycles (default 30 s).</summary>

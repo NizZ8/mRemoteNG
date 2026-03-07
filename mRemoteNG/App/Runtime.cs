@@ -294,12 +294,19 @@ namespace mRemoteNG.App
 
         public static void StartHostStatusMonitorIfEnabled()
         {
-            if (Properties.OptionsConnectionsPage.Default.ShowHostStatus
-                && ConnectionsService.ConnectionTreeModel != null)
+            var model = ConnectionsService.ConnectionTreeModel;
+            if (Properties.OptionsConnectionsPage.Default.ShowHostStatus && model != null)
             {
+                // Recreate monitor if the model was replaced (reload/team-sync)
+                if (HostStatusMonitor != null && !ReferenceEquals(HostStatusMonitor.Model, model))
+                {
+                    HostStatusMonitor.Dispose();
+                    HostStatusMonitor = null;
+                }
+
                 if (HostStatusMonitor == null)
                 {
-                    HostStatusMonitor = new HostStatusMonitor(ConnectionsService.ConnectionTreeModel);
+                    HostStatusMonitor = new HostStatusMonitor(model);
                 }
                 HostStatusMonitor.Start();
             }

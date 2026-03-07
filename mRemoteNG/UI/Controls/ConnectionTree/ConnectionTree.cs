@@ -303,13 +303,25 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             if (property != nameof(ConnectionInfo.Name)
              && property != nameof(ConnectionInfo.OpenConnections)
              && property != nameof(ConnectionInfo.Icon)
-             && property != nameof(ConnectionInfo.Description))
+             && property != nameof(ConnectionInfo.Description)
+             && property != nameof(ConnectionInfo.HostReachabilityStatus))
             {
                 return;
             }
 
             if (sender is not ConnectionInfo senderAsConnectionInfo)
                 return;
+
+            // HostStatusMonitor fires from background thread — marshal to UI
+            if (InvokeRequired)
+            {
+                BeginInvoke(() =>
+                {
+                    RefreshObject(senderAsConnectionInfo);
+                    AutoResizeColumn(Columns[0]);
+                });
+                return;
+            }
 
             RefreshObject(senderAsConnectionInfo);
             AutoResizeColumn(Columns[0]);

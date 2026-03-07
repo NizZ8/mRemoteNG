@@ -91,19 +91,26 @@ namespace mRemoteNG.UI
                 return DefaultConnectionIcon;
             }
 
-            // Base variants
-            ImageList.Images.Add(BuildConnectionIconName(connection.Icon, false), image);
-            ImageList.Images.Add(BuildConnectionIconName(connection.Icon, true), Overlay(image, Properties.Resources.ConnectedOverlay));
-            ImageList.Images.Add(BuildConnectionIconName(connection.Icon, false, true), CreateTemplateIcon(image));
-            ImageList.Images.Add(BuildConnectionIconNameReplace(connection.Icon), CreateReplaceIcon());
-
-            // Host status variants (on-demand)
-            if (showHostStatus && reachability != HostReachabilityStatus.Unknown)
+            // Base variants — guard with ContainsKey to avoid duplicates when
+            // reachability changes and we re-enter for a new suffixed key (#2311).
+            void AddIfMissing(string key, Image img)
             {
-                var statusImage = reachability == HostReachabilityStatus.Reachable
-                    ? Properties.Resources.HostStatus_On
-                    : Properties.Resources.HostStatus_Off;
-                ImageList.Images.Add(name, OverlayBottomRight(image, statusImage));
+                if (!ImageList.Images.ContainsKey(key))
+                    ImageList.Images.Add(key, img);
+            }
+
+            AddIfMissing(BuildConnectionIconName(connection.Icon, false), image);
+            AddIfMissing(BuildConnectionIconName(connection.Icon, true), Overlay(image, Properties.Resources.ConnectedOverlay));
+            AddIfMissing(BuildConnectionIconName(connection.Icon, false, true), CreateTemplateIcon(image));
+            AddIfMissing(BuildConnectionIconNameReplace(connection.Icon), CreateReplaceIcon());
+
+            // Host status variants — generate both On and Off so transitions are just lookups
+            if (showHostStatus)
+            {
+                AddIfMissing(BuildConnectionIconName(connection.Icon, false, false, HostReachabilityStatus.Reachable),
+                    OverlayBottomRight(image, Properties.Resources.HostStatus_On));
+                AddIfMissing(BuildConnectionIconName(connection.Icon, false, false, HostReachabilityStatus.Unreachable),
+                    OverlayBottomRight(image, Properties.Resources.HostStatus_Off));
             }
 
             return name;

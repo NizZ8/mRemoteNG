@@ -431,6 +431,12 @@ namespace mRemoteNG.UI.Forms
 
         private void OnConnectionsPageSettingChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(Properties.OptionsConnectionsPage.Default.ShowHostStatus))
+            {
+                // Repaint tree so host status overlays appear/disappear immediately
+                Windows.TreeForm?.ConnectionTree?.RebuildAll(false);
+            }
+
             if (e.PropertyName == nameof(Properties.OptionsConnectionsPage.Default.WatchConnectionFile))
             {
                 if (Properties.OptionsConnectionsPage.Default.WatchConnectionFile)
