@@ -9,7 +9,7 @@
   ],
   "author": "longtth",
   "created_at": "2022-01-21T03:49:42Z",
-  "github_updated_at": "2026-02-21T10:22:48Z",
+  "github_updated_at": "2026-02-27T08:35:34Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\nadd an external tools with \r\n\r\n- Display name: telnet\r\n- Filename: `CMD`\r\n- Arguments: `/k telnet %HOSTNAME% %PORT%`  ​\r\n​\r\n## Expected Behavior\r\n\r\nmremoteng shoudld display CMND windows with telnet result \r\n\r\n## Current Behavior\r\n\r\nalthough I could run telnet successfully with standard CMD, when I try with mremoteng it throws error that `'telnet' is no recognized as an internal or external command operable program or batch f...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -53,20 +53,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFbM",
+      "id": "IC_kwDOAAcIMM7suRIS",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:45:42Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
+      "date": "2026-02-27T08:35:34Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `a1717026` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** external tools - telnet not work from mremoteng although it \n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:22:48Z",
+  "comments_cursor": "2026-02-27T08:35:34Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (gemini): Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly.\nApproach: Modify SetProcessProperties in ExternalTool.cs for non-batch, non-elevated processes to use process.StartInfo.Arguments = parsedArguments; instead of splitting arguments and adding them to ArgumentList. This ensures that the argument string (including any necessary quotes) is passed directly to the external tool.",
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): Telnet.exe fails to launch from mRemoteNG because the argument parsing logic for non-batch external tools incorrectly removes quotes, preventing telnet.exe from interpreting arguments with spaces correctly.\nApproach: Modify SetProcessProperties in ExternalTool.cs for non-batch, non-elevated processes to use process.StartInfo.Arguments = parsedArguments; instead of splitting arguments and adding them to ArgumentList. This ensures that the argument string (including any necessary quotes) is passed directly to the external tool."
 }

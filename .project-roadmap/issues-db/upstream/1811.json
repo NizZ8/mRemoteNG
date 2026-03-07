@@ -11,7 +11,7 @@
   ],
   "author": "psyd01986",
   "created_at": "2020-07-03T11:54:46Z",
-  "github_updated_at": "2026-02-21T10:23:32Z",
+  "github_updated_at": "2026-02-26T13:49:54Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nafter selecting the database mssql and checking the connection, when the YES button is pressed, an unhandled exception occurs\r\n## Exception message\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n```\r\nСообщение исключения\r\n\"Столбец \"RedirectClipboard\" не принадлежит таблице .\"\r\n\r\nТрассировка стека\r\n   в System.Data.DataRow.GetDat...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -38,21 +38,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYhsg",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:51Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:32Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:49:54Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): DataTableDeserializer crashes on older MSSQL schemas missing columns added in later upgrades (e.g. RedirectClipboard from v26→27) because it lacks Columns.Contains guards\nApproach: Add dataRow.Table.Columns.Contains() guards for all columns introduced by SQL schema upgraders (RedirectClipboard, RedirectAudioCapture, etc.), following the existing pattern already used for IsTemplate (line 108) and EnvironmentTags (line 165)"
 }

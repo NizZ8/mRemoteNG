@@ -9,7 +9,7 @@
   ],
   "author": "pgfiore",
   "created_at": "2022-09-20T07:27:18Z",
-  "github_updated_at": "2026-02-23T17:48:24Z",
+  "github_updated_at": "2026-02-26T14:06:37Z",
   "body_snippet": "Hi there\r\nI've moved to the latest from a way earlier release. Now I'm facing a small bore and I wonder whether win11 21H2 is involved or not.\r\n\r\nSaid that I'm a strong supporter of keyboard ALT-TAB to move between windows. Since using 1.77.3, the mRemoteNG window brings to the top, but it does not \"get the focus\". So, I must click onto it before starting typing.\r\n\r\nPlease, any suggestions are welcome.\r\npf",
   "our_status": "released",
   "priority": "P2-bug",
@@ -89,28 +89,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFPV",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:00Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rOF_-",
       "author": "robertpopa22",
       "date": "2026-02-23T17:48:08Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Investigate FrmMain.cs and ConnectionWindow.cs for WndProc o\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T17:48:24Z",
+  "comments_cursor": "2026-02-26T14:06:37Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The issue likely stems from incomplete or incorrect handling of window activation messages (e.g., WM_ACTIVATE, WM_ACTIVATEAPP) within the main application window or connection windows when the application loses and regains focus via Alt-Tab, leading to remote session input not being correctly routed or the application itself not being the active window. This directly impacts user experience and productivity.\nApproach: Investigate FrmMain.cs and ConnectionWindow.cs for WndProc overrides or event handlers (Activated, Deactivated, Enter, Leave) that manage application and control focus. Specifically, look for how WM_ACTIVATE or WM_ACTIVATEAPP messages are handled, or if they are being missed. It might involve ensuring the correct child window or ActiveX control receives focus when the main application window is activated. Potentially, the issue could be related to how the embedded protocol controls regain focus after the parent application is deactivated and reactivated."
 }

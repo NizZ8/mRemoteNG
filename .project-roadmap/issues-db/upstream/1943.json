@@ -10,7 +10,7 @@
   ],
   "author": "mm154",
   "created_at": "2021-03-17T16:16:20Z",
-  "github_updated_at": "2026-02-22T00:14:26Z",
+  "github_updated_at": "2026-02-26T14:03:23Z",
   "body_snippet": "When connecting TigerVNC through the mRemoteNG program, multiple people cannot connect at the same time.  In other words, remote access is possible one by one.  Direct remote access with Tiger VNC program allows multiple access at the same time.  When connecting to VNC remotely from mRemoteNG, please tell us why the simultaneous connection is not possible.",
   "our_status": "released",
   "priority": "P2-bug",
@@ -42,16 +42,16 @@
       "id": "IC_kwDOAAcIMM7q0_1m",
       "author": "robertpopa22",
       "date": "2026-02-22T00:14:19Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Investigate the `Connection.Protocol.VNC.cs` and `VncSharpCo\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-22T00:14:26Z",
+  "comments_cursor": "2026-02-26T14:03:23Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): mRemoteNG does not currently support multiple concurrent users connecting via TigerVNC, likely due to how VNC sessions are initiated or managed by the application or its underlying VNC library.\nApproach: Investigate the `Connection.Protocol.VNC.cs` and `VncSharpCore` interaction to identify methods for enabling concurrent VNC connections. This may involve adding a new connection property, exposing existing `VncSharpCore` capabilities, and updating the UI to allow configuration."
 }

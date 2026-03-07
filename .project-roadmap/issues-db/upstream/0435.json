@@ -11,7 +11,7 @@
   ],
   "author": "countchappy",
   "created_at": "2017-03-06T15:48:37Z",
-  "github_updated_at": "2026-02-21T10:24:21Z",
+  "github_updated_at": "2026-02-26T14:16:26Z",
   "body_snippet": "<!-- Feature Request -->\r\n## Issue that prompted feature request?\r\nFolders do not allow you to set a Hostname/IP for inheritance.\r\n\r\n### Fix for specified issue:\r\n- Allow folders to configure a Hostname/IP\r\n- Allow for sub-folders/connections underneath the folder to inherit the setting\r\n\r\nI can work on this myself and submit a PR if you would like",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -76,37 +76,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhGV",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:58Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7owzXP",
       "author": "robertpopa22",
       "date": "2026-02-15T20:15:42Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`89e823cc`](https://github.com/robertpopa22/mRemoteNG/commit/89e823cca3fd4f15672deca71813ee3fbc138a42)\n**Branch:** `main`\n**What changed:** Enable the Hostname property on folder/container nodes so ch\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3gtF",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:44Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:21Z",
+  "comments_cursor": "2026-02-26T14:16:26Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Clear feature request with multiple community votes to allow folders to define a shared Hostname/IP inherited by child connections, useful for multi-port/multi-user scenarios on the same host\nApproach: Enable the Hostname property on folder/container nodes so child connections can inherit it, adding UI support in the config panel to set Hostname on folders and ensuring the inheritance resolver propagates it to children that don't override it"
 }

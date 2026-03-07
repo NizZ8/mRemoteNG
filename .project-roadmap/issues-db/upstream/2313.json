@@ -11,7 +11,7 @@
   ],
   "author": "Chrisu02",
   "created_at": "2022-12-06T07:38:47Z",
-  "github_updated_at": "2026-02-26T10:58:38Z",
+  "github_updated_at": "2026-03-05T10:07:00Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nIt would be awsome to have a multiple selection possibility like at windows with \"shift\" for Connection from - to, or Control to select multiple specific Connection\r\nThen you only have to press right click to one of this connection, select the Task / external Program and it will be executed to any of the selected connection.\r\n\r\n## Current Behavior\r\nCurrently you have to enter the Submenu of each Connecti...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -61,28 +61,37 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiiP",
+      "id": "IC_kwDOAAcIMM7sYfqU",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:56:45Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T10:58:27Z",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     },
     {
-      "id": "IC_kwDOAAcIMM7sYfqU",
+      "id": "IC_kwDOAAcIMM7umBzC",
+      "author": "Chrisu02",
+      "date": "2026-03-05T07:37:11Z",
+      "snippet": "> **Fix available for testing**\n> \n> A fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n> \n> Please test and report if this resolves your issue.\n> \n> > _We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. ...",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7uprHB",
       "author": "robertpopa22",
-      "date": "2026-02-26T10:58:27Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Feature: Option so select multiple Connections at the Overvi\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "date": "2026-03-05T10:06:45Z",
+      "snippet": "Thank you for the feedback @Chrisu02! Multi-selection with right-click context menu **does** work in the latest nightly build — including **External Applications**, which will run on all selected connections simultaneously.\n\nHere's what's enabled when multiple connections are selected:\n- **Connect** — opens all selected connections\n- **External Applications** — runs the tool against each selected connection\n- **Disconnect / Reconnect** — works on all selected\n- **Delete / Copy / Move Up / Move D...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T10:58:38Z",
-  "unread_comments": 1,
+  "comments_cursor": "2026-03-05T10:07:00Z",
+  "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T11:26:01Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Feature request to enable multi-selection of connections in the Overview/Connections tree panel for bulk operations\nApproach: Enable multi-select mode on the connections TreeView/ObjectListView control and wire up context menu actions to operate on all selected nodes"
 }

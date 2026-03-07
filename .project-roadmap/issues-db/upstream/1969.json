@@ -9,7 +9,7 @@
   ],
   "author": "natenho",
   "created_at": "2021-06-11T16:21:27Z",
-  "github_updated_at": "2026-02-21T10:24:11Z",
+  "github_updated_at": "2026-02-26T14:15:09Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\nOpening mRemoteNG the following message is shown:\r\n>---------------------------\r\n>Could not load startup file.\r\n>---------------------------\r\n>The startup connection file could not be loaded.\r\n>\r\n>connectionFilePath cannot be null or empty\r\n>\r\n>In order to prevent data loss, mRemoteNG will now exit.\r\n>---------------------------\r\n>OK   \r\n>---------------------------\r\n\r\n## Expected Behavior\r\nmRemote should open in any case. A ...",
   "our_status": "released",
   "priority": null,
@@ -57,37 +57,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXI_o",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:38Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7maATe",
-      "author": "robertpopa22",
-      "date": "2026-02-07T21:55:26Z",
-      "snippet": "Upstream PR opened for this fix:&echo https://github.com/mRemoteNG/mRemoteNG/pull/3113\r\n",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mpcFL",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:42Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3113 | **Branch:** `codex/pr9-startup-path-fallback-1969`\n**Fix:** Startup path fallback prevents crash when configured path is unavailable.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:11Z",
+  "comments_cursor": "2026-02-26T14:15:09Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

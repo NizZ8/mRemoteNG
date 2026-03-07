@@ -11,7 +11,7 @@
   ],
   "author": "zabanet",
   "created_at": "2024-09-29T11:56:08Z",
-  "github_updated_at": "2026-02-21T10:23:41Z",
+  "github_updated_at": "2026-02-26T13:54:06Z",
   "body_snippet": "**Expected Behavior**\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nThe application's title bar color should match the selected theme to provide a cohesive and visually appealing user interface. The theme should have the option to set title bar color or have the title bar automatically adjust based on the application's theme setting (light or dark).\r\n\r\n**Current Behavior**\r\n<!--- If suggesting a change/improvement, explain the difference from current behavior ...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -38,36 +38,11 @@
       "description": "Wontfix: DwmSetWindowAttribute title bar coloring requires per-monitor DPI handling and Windows version checks"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYRQt",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:13:13Z",
-      "snippet": "P2 refresh: please retest on latest build and share reproducible steps plus logs/screenshots. If not reproducible or no update, maintainers can close as stale.\r\n",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiIz",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:22Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:41Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:54:06Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: customize title bar color to match theme. UI theming, requires WinForms customization.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 429,
-    "cost_usd": 0.16862
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: customize title bar color to match theme. UI theming, requires WinForms customization."
 }

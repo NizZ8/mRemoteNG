@@ -8,7 +8,7 @@
   ],
   "author": "dkleva",
   "created_at": "2019-06-20T07:44:55Z",
-  "github_updated_at": "2026-02-21T10:22:58Z",
+  "github_updated_at": "2026-02-26T13:38:12Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nclose panel General after creating new panel\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the difference from current behavior -->\r\n\r\n## Possible S...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -35,30 +35,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXD_T",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:15Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXF5U",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:47:22Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:22:58Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:38:12Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Race condition in ConnectionWindow disposal — ClosePanelIfEmpty() queues Close via BeginInvoke but concurrent panel/tab operations access the already-disposed window\nApproach: Add IsDisposed guards before accessing ConnectionWindow in ClosePanelIfEmptyOnUiTick(), MoveConnectionTabToPanel(), and MoveToPanelMenu_DropDownOpening(); re-validate panel state after BeginInvoke dequeue before calling Close(); add try-catch for ObjectDisposedException in QueueCloseTab()"
 }

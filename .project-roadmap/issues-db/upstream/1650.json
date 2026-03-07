@@ -10,7 +10,7 @@
   ],
   "author": "techpavan",
   "created_at": "2019-12-09T04:11:29Z",
-  "github_updated_at": "2026-02-21T10:24:12Z",
+  "github_updated_at": "2026-02-26T14:19:14Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nWhile using mRemoteNG, it should behave and remain like a foreground application until the user prefers to minimize this and bring any other application to the foreground.\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the e...",
   "our_status": "released",
   "priority": null,
@@ -40,28 +40,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFzk",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:47:05Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiiq",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:47Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mbEIk",
       "author": "robertpopa22",
       "date": "2026-02-08T00:46:42Z",
-      "snippet": "Implemented fork-side fix package for this issue:\n\n- upstream PR: https://github.com/mRemoteNG/mRemoteNG/pull/3118\n- change summary:\n  - when RDP raises `OnLeaveFullScreenMode`, mRemoteNG now restores main form (if minimized), activates it, and refocuses the active session control\n  - reduces cases where mRemoteNG falls behind other windows after leaving fullscreen via RDP bar\n- fork CI evidence:\n  - https://github.com/robertpopa22/mRemoteNG/actions/runs/21789549099\n\nIf needed, we can add follow...",
+      "snippet": "Implemented fork-side fix package for this issue:\n\n- upstream PR: PR #3118 on `mRemoteNG/mRemoteNG`\n- change summary:\n  - when RDP raises `OnLeaveFullScreenMode`, mRemoteNG now restores main form (if minimized), activates it, and refocuses the active session control\n  - reduces cases where mRemoteNG falls behind other windows after leaving fullscreen via RDP bar\n- fork CI evidence:\n  - CI run 21789549099 on `robertpopa22/mRemoteNG`\n\nIf needed, we can add follow-up instrumentation around fullscre...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -70,16 +52,16 @@
       "id": "IC_kwDOAAcIMM7mpcc1",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:59Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3118 | **Branch:** `codex/pr14-rdp-fullscreen-exit-refocus-1650`\n**Fix:** RDP correctly refocuses after exiting fullscreen mode.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:12Z",
+  "comments_cursor": "2026-02-26T14:19:14Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

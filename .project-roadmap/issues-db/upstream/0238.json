@@ -9,7 +9,7 @@
   ],
   "author": "sparerd",
   "created_at": "2016-11-10T16:11:31Z",
-  "github_updated_at": "2026-02-21T10:24:19Z",
+  "github_updated_at": "2026-02-26T14:16:04Z",
   "body_snippet": "**Context:**\r\nThe user would like to set default inheritance settings so that new connections always inherit the username, password, and domain from it's parent.\r\n\r\n**User Journey:**\r\n1. Left click the **Connections** tree node\r\n1. Click the **Default Inheritance** button at the top of the config window.\r\n1. Set the appropriate inheritance values to `Yes`\r\n\r\n**User Journey in pictures:**\r\n![2016-11-10_0907](https://cloud.githubusercontent.com/assets/6999446/20184256/497d0548-a725-11e6-9747-70073...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -59,16 +59,16 @@
       "id": "IC_kwDOAAcIMM7owHy4",
       "author": "robertpopa22",
       "date": "2026-02-15T18:07:47Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`768efddd`](https://github.com/robertpopa22/mRemoteNG/commit/768efddd4f1097a0e84d577f1f1d120958ab9a52)\n**Branch:** `main`\n**What changed:** Improve the Default Inheritance settings UI to allow togglin\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:19Z",
+  "comments_cursor": "2026-02-26T14:16:04Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Users cannot set default inheritance for username/password/domain fields, and the overall inheritance UX needs improvement as a legitimate enhancement request\nApproach: Improve the Default Inheritance settings UI to allow toggling inheritance for all connection properties including username, password, and domain, with clear save/apply feedback"
 }

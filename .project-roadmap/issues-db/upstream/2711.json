@@ -11,7 +11,7 @@
   ],
   "author": "Adi-Nugraha-T",
   "created_at": "2025-06-25T04:06:36Z",
-  "github_updated_at": "2026-02-21T10:23:31Z",
+  "github_updated_at": "2026-02-26T13:49:28Z",
   "body_snippet": "when moving between desktops in windows 11 full screen rdp on mremoteng latest stable and nb is stuck to the screen, regular mstsc client on full screen kept to it own desktop  ",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -56,27 +56,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhqW",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:43Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:31Z",
+  "comments_cursor": "2026-02-26T13:49:28Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Bug: fullscreen RDP stuck on Windows 11 virtual desktops. Windows-specific, needs manual investigation.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 563,
-    "cost_usd": 0.178133
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Bug: fullscreen RDP stuck on Windows 11 virtual desktops. Windows-specific, needs manual investigation."
 }

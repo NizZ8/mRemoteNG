@@ -11,7 +11,7 @@
   ],
   "author": "wolfgangp-tak",
   "created_at": "2024-10-28T11:59:55Z",
-  "github_updated_at": "2026-02-21T10:23:46Z",
+  "github_updated_at": "2026-02-26T14:00:43Z",
   "body_snippet": "Hello \r\n\r\nwe are using a secure access tool to manage the access to RDP\r\n- the tool creates a tunnel (opens a session on a dynamic localhost port)\r\n- and also provides a password/username for every connection\r\n\r\nIt would be good to be able to execute a powershell script before each connections, which can modify the properties (username, password, protocol,.. more)\r\n\r\nbr\r\nWolfgang",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -56,36 +56,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXJK-",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:53Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiTh",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:04Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:46Z",
+  "comments_cursor": "2026-02-26T14:00:43Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: pre-connect PowerShell script to modify params. Requires scripting engine integration.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 404,
-    "cost_usd": 0.168627
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: pre-connect PowerShell script to modify params. Requires scripting engine integration."
 }

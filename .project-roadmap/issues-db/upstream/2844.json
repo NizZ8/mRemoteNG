@@ -11,7 +11,7 @@
   ],
   "author": "igor2x",
   "created_at": "2025-10-06T13:32:59Z",
-  "github_updated_at": "2026-02-21T10:23:42Z",
+  "github_updated_at": "2026-02-26T22:27:31Z",
   "body_snippet": "I see [issue 2841](https://github.com/mRemoteNG/mRemoteNG/issues/2841) was closed down, because bug is now actually fixed.\n\nI have intentionally opened new issue, because this issue can be marked as feature request, because this is now UX inconsistency and \"beauty\" issue in grand aspect of _the same issues should have the same solution._\n\nI did:\n1. Removed previous mRemoteNG and downloaded latest v1.78.2-NB-3206.\n2. Intentionally uninstalled Microsoft Windows Desktop Runtime 9.0.9 (x64)\n3. Inten...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -145,25 +145,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiLi",
+      "id": "IC_kwDOAAcIMM7sm0td",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:55:33Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T22:27:31Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `f0bdabdd` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Find the missing-dependency message box calls, reword prompt\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:42Z",
+  "comments_cursor": "2026-02-26T22:27:31Z",
   "unread_comments": 11,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid UI/UX improvement to standardize missing-dependency dialogs with better wording (question form) and standard OK/Cancel buttons instead of Yes/No.\nApproach: Find the missing-dependency message box calls, reword prompt to question form ('Do you want to download X?'), replace Yes/No with OK/Cancel MessageBoxButtons, and add the string to the language resource file for translation.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 540,
-    "cost_usd": 0.179476
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid UI/UX improvement to standardize missing-dependency dialogs with better wording (question form) and standard OK/Cancel buttons instead of Yes/No.\nApproach: Find the missing-dependency message box calls, reword prompt to question form ('Do you want to download X?'), replace Yes/No with OK/Cancel MessageBoxButtons, and add the string to the language resource file for translation."
 }

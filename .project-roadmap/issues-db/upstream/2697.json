@@ -11,7 +11,7 @@
   ],
   "author": "OpenSourceDevelop",
   "created_at": "2025-05-22T08:47:46Z",
-  "github_updated_at": "2026-02-21T10:23:28Z",
+  "github_updated_at": "2026-02-26T13:48:10Z",
   "body_snippet": "Would be nice to have a \"minimize on close\" option \n\nNice work by the way! ",
   "our_status": "released",
   "priority": "P4-debt",
@@ -58,15 +58,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhh7",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:18Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mZYqt",
       "author": "Neustradamus",
       "date": "2026-02-07T20:50:07Z",
@@ -76,15 +67,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:28Z",
+  "comments_cursor": "2026-02-26T13:48:10Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Empty issue body with no reproducible steps or clear description; only low-priority enhancement label and a comment dismissing its value; user comment about outdated version is irrelevant to fork.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 68,
-    "cost_usd": 0.16412
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Empty issue body with no reproducible steps or clear description; only low-priority enhancement label and a comment dismissing its value; user comment about outdated version is irrelevant to fork."
 }

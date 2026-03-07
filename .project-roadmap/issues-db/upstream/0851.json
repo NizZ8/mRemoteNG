@@ -11,7 +11,7 @@
   ],
   "author": "Miarka24",
   "created_at": "2017-12-21T14:12:32Z",
-  "github_updated_at": "2026-02-21T10:23:51Z",
+  "github_updated_at": "2026-02-26T13:58:14Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Feature Request -->\r\nThere was some progress regarding portable mRemoteNG, I am using it on a network share and it is working fine. There is only one thing missing, and that is saving Putty sessions portable and not in the registry. That is especia...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -125,21 +125,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiky",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:56Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:51Z",
+  "comments_cursor": "2026-02-26T13:58:14Z",
   "unread_comments": 9,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): The issue lacks concrete acceptance criteria and up-to-date validation, and recent triage explicitly requests retesting on v1.79.x with reproducible expected-versus-actual behavior.\nApproach: Request a fresh test on the latest fork/upstream build plus specific KiTTY integration requirements (supported executable options, session mapping, and UI behavior), then re-scope for implementation.\nAI triage (gemini): Support for KiTTY is partially implemented (detection, file provider) but explicitly disabled in PuttySessionsManager; enabling the provider and ensuring correct path handling should resolve this.\nApproach: Modify PuttySessionsManager.cs to allow PuttySessionsFileProvider in IsProviderEnabled check, possibly conditioned on KiTTY detection."
 }

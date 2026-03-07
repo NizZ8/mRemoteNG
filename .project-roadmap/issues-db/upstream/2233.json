@@ -9,7 +9,7 @@
   ],
   "author": "paoloholzl",
   "created_at": "2022-05-26T09:42:34Z",
-  "github_updated_at": "2026-02-23T13:19:31Z",
+  "github_updated_at": "2026-02-26T14:05:49Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nIn some situations during the connection VNC Freeze.\r\nExiting from the Window and connecting again it work perfectly.\r\n\r\nS.O: Local Win10 Pro 21H2, in virtual machine Win10 Home 21H2",
   "our_status": "released",
   "priority": "P2-bug",
@@ -62,28 +62,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFR-",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:10Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rIBTY",
       "author": "robertpopa22",
       "date": "2026-02-23T13:19:22Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Debug the application in a Windows 10 VirtualBox environment\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T13:19:31Z",
+  "comments_cursor": "2026-02-26T14:05:49Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Investigate and fix the application freeze occurring when mRemoteNG is used on Windows 10 within a VirtualBox environment, which significantly impacts usability for users in this specific environment.\nApproach: Debug the application in a Windows 10 VirtualBox environment to pinpoint the exact cause of the freeze. This will likely involve examining UI rendering loops, threading interactions, and specific API calls made in the affected environment to identify deadlocks, infinite loops, or unhandled exceptions."
 }

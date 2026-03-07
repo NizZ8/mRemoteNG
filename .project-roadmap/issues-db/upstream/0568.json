@@ -9,7 +9,7 @@
   ],
   "author": "spitty78",
   "created_at": "2017-05-24T14:23:30Z",
-  "github_updated_at": "2026-02-21T10:24:22Z",
+  "github_updated_at": "2026-02-26T14:16:41Z",
   "body_snippet": "<!-- Feature Request -->\r\nNative import from RoyalTS.  All my connections are in RoyalTS and it'll be a pain to manually set them all up in mRemoteNG which is a superior RDP Manager.\r\n",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -59,25 +59,16 @@
       "id": "IC_kwDOAAcIMM7oxXRR",
       "author": "robertpopa22",
       "date": "2026-02-15T21:55:53Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`95c323f6`](https://github.com/robertpopa22/mRemoteNG/commit/95c323f6f100b3f0bb0caf7f244e87ce2ce46726)\n**Branch:** `main`\n**What changed:** Create a new RoyalTSImporter class that parses RoyalTS XML f\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3g07",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:53Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:22Z",
+  "comments_cursor": "2026-02-26T14:16:41Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Feature request to add native import support for RoyalTS XML connection files, which store connections in a well-documented XML format with decrypted credentials\nApproach: Create a new RoyalTSImporter class that parses RoyalTS XML files and maps their connection properties (host, port, protocol, credentials) to mRemoteNG ConnectionInfo objects, then register it in the import dialog"
 }

@@ -9,7 +9,7 @@
   ],
   "author": "ptahbe",
   "created_at": "2024-06-19T07:02:05Z",
-  "github_updated_at": "2026-02-21T10:23:30Z",
+  "github_updated_at": "2026-02-26T13:49:01Z",
   "body_snippet": "## Expected Behavior\r\nFor some reason the inheritance changed on all the connections I have configured. I would like to be able to change change this for multiple connections in one go.\r\n\r\n## Current Behavior\r\nNow I have to click on a connection and select inherit all for each connection.\r\n\r\n## Possible Solution\r\nEnable bulk edit of inheritance (and other settings)\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used:...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -36,36 +36,11 @@
       "description": "Wontfix: Bulk edit inheritance on multi-select requires undo/redo support to prevent accidental mass changes"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXE1V",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:43:30Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhnk",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:34Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:30Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:49:01Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: bulk change inheritance on multiple connections. Requires tree multi-select + batch edit UI.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 67,
-    "cost_usd": 0.155726
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: bulk change inheritance on multiple connections. Requires tree multi-select + batch edit UI."
 }

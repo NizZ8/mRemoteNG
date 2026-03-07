@@ -9,7 +9,7 @@
   ],
   "author": "vupv",
   "created_at": "2020-06-26T03:59:39Z",
-  "github_updated_at": "2026-02-24T04:10:48Z",
+  "github_updated_at": "2026-02-26T14:07:59Z",
   "body_snippet": "Hi Support\r\n\r\nI got an issued when working on mRemoteNG on remote desktop machine, It was quit sudnenly and I get error in windows application log\r\n\r\nFaulting application name: mRemoteNG.exe, version: 1.76.20.24615, time stamp: 0x5cb09552\r\nFaulting module name: mstscax.dll, version: 10.0.18362.449, time stamp: 0xfa706577\r\nException code: 0xc0000005\r\nFault offset: 0x005be81b\r\nFaulting process id: 0x1638\r\nFaulting application start time: 0x01d64aa0f790c06f\r\nFaulting application path: C:\\Program Fi...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -80,28 +80,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFrw",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:37Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rXs_s",
       "author": "robertpopa22",
       "date": "2026-02-24T04:10:40Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** mremoteNG quit sundenly on remote desktop machine\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T04:10:48Z",
+  "comments_cursor": "2026-02-26T14:07:59Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Issue body is empty with no crash log, stack trace, or reproduction steps; 'quit suddenly on remote desktop machine' is too vague to diagnose without knowing if it's an unhandled exception, RDP session disconnect event, or rendering issue.\nApproach: Request crash log from %APPDATA%\\mRemoteNG\\mRemoteNG.log and steps to reproduce (OS version, RDP client version, connection type being used when crash occurs)"
 }

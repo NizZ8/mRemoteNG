@@ -8,7 +8,7 @@
   ],
   "author": "rubaboo",
   "created_at": "2017-11-05T06:40:05Z",
-  "github_updated_at": "2026-02-21T10:24:23Z",
+  "github_updated_at": "2026-02-26T14:17:03Z",
   "body_snippet": "<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete the bug section -->\r\nAs detailed in [MR-571](https://mremoteng.atlassian.net/browse/MR-571):\r\n\r\n> It would be great to have support for dynamic tab names, similar to the application SuperPutty. Escape codes in a terminal window set the tab name. This is useful in Cygwin terminals to change the tab name to the target of an ssh command, etc.\r\n> \r\n> For example this function in bash sets the tab title:\r\n> \r\n> title ()\r\n> {\r...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -49,16 +49,16 @@
       "id": "IC_kwDOAAcIMM7o4FjJ",
       "author": "robertpopa22",
       "date": "2026-02-16T08:10:33Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`e6cf3536`](https://github.com/robertpopa22/mRemoteNG/commit/e6cf353642f5ba21ae6755e3873d521b71a4b683)\n**Branch:** `main`\n**What changed:** Listen for embedded terminal title changes (PuTTY/terminal),\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:23Z",
+  "comments_cursor": "2026-02-26T14:17:03Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): The request is a clear, user-facing enhancement and the existing tab infrastructure can be extended to update tab text from terminal title changes with low regression risk.\nApproach: Listen for embedded terminal title changes (PuTTY/terminal), apply them to `ConnectionTab.TabText` with fallback to current naming rules, and add protocol tests for update and teardown behavior."
 }

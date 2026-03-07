@@ -9,7 +9,7 @@
   ],
   "author": "webabox",
   "created_at": "2025-01-17T12:47:10Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-26T21:44:52Z",
   "body_snippet": "Description: WebAuthn redirection allows WebAuthn requests to be redirected from a remote session to a local device, enabling secure, in-session passwordless authentication. This feature is crucial for improving security and user experience in remote desktop environments.\n\nBenefits:\n\nEnhanced security through passwordless authentication.\nImproved user experience by leveraging existing authentication methods.\nCompatibility with Windows Hello for Business and FIDO security keys like Yubikey.\n\nRefe...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -107,25 +107,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYg_H",
+      "id": "IC_kwDOAAcIMM7smH23",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:51:29Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T21:44:52Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `f60d2ace` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Add RedirectWebAuthn and EnableRdsAadAuth boolean properties\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-26T21:44:52Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid RDP WebAuthn/FIDO2 redirection feature request requiring two new boolean RDP file properties (redirectwebauthn:i:1, enablerdsaadauth:i:1) to be exposed in the RDP connection settings UI.\nApproach: Add RedirectWebAuthn and EnableRdsAadAuth boolean properties to RDP connection options, wire them through ConnectionInfo serialization, and expose in the RDP protocol settings panel.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 521,
-    "cost_usd": 0.17252
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid RDP WebAuthn/FIDO2 redirection feature request requiring two new boolean RDP file properties (redirectwebauthn:i:1, enablerdsaadauth:i:1) to be exposed in the RDP connection settings UI.\nApproach: Add RedirectWebAuthn and EnableRdsAadAuth boolean properties to RDP connection options, wire them through ConnectionInfo serialization, and expose in the RDP protocol settings panel."
 }

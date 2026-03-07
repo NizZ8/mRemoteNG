@@ -11,7 +11,7 @@
   ],
   "author": "KaveSys",
   "created_at": "2025-11-11T10:01:35Z",
-  "github_updated_at": "2026-02-23T07:36:40Z",
+  "github_updated_at": "2026-02-26T14:21:26Z",
   "body_snippet": "Hello,\nI'm opening a new issue after fix the SQL Injection vulnerability in mRemoteNG 1.78.2 NB 3228, an installation is not available and using the portable version, when try to attach a SQL Server Express database to share the connections with other people, mRemoteNG will stuck and is not possible to use it.\n\nFrom the logs:\n\nThe SSL connection could not be established, see inner exception.\nUnable to read data from the transport connection: An existing connection was forcibly closed by the remo...",
   "our_status": "released",
   "priority": null,
@@ -62,16 +62,7 @@
       "id": "IC_kwDOAAcIMM7mYMia",
       "author": "robertpopa22",
       "date": "2026-02-07T18:58:41Z",
-      "snippet": "Potential fix PR opened: #3110.\r\n\r\nWhat changed:\r\n- added explicit Microsoft.Data.SqlClient.SNI and Microsoft.Data.SqlClient.SNI.runtime references in mRemoteNG/mRemoteNG.csproj so native SNI assets are resolved and copied more predictably per platform build.\r\n\r\nCI reference (fork validation, x86/x64/ARM64 green):\r\n- https://github.com/robertpopa22/mRemoteNG/actions/runs/21785156992\r\n\r\nIf possible, please validate this PR build against the SQL Server scenario that reproduced the BadImageFormatEx...",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiar",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:18Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "snippet": "Potential fix PR opened: #3110.\r\n\r\nWhat changed:\r\n- added explicit Microsoft.Data.SqlClient.SNI and Microsoft.Data.SqlClient.SNI.runtime references in mRemoteNG/mRemoteNG.csproj so native SNI assets are resolved and copied more predictably per platform build.\r\n\r\nCI reference (fork validation, x86/x64/ARM64 green):\r\n- CI run 21785156992 on `robertpopa22/mRemoteNG`\r\n\r\nIf possible, please validate this PR build against the SQL Server scenario that reproduced the BadImageFormatException.\n\n---\n\n> *We...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -80,7 +71,7 @@
       "id": "IC_kwDOAAcIMM7mpbuo",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:26Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3110 | **Branch:** `codex/pr6-sqlclient-sni-runtime`\n**Fix:** SqlClient SNI runtime references included for SQL Server connections.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -98,7 +89,7 @@
       "id": "IC_kwDOAAcIMM7m1n9u",
       "author": "robertpopa22",
       "date": "2026-02-09T16:42:29Z",
-      "snippet": "@KaveSys The decision to make an official release lies with the upstream maintainers. My work is published on the fork (https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0) and all corresponding PRs (#3105–#3130) are open against upstream. If the maintainers choose to merge them, these fixes can become part of an official release.",
+      "snippet": "@KaveSys The decision to make an official release lies with the upstream maintainers. My work is published on the fork (releases page of `robertpopa22/mRemoteNG`) and all corresponding PRs (#3105–#3130) are open against upstream. If the maintainers choose to merge them, these fixes can become part of an official release.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousand...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -125,7 +116,7 @@
       "id": "IC_kwDOAAcIMM7nF_1_",
       "author": "robertpopa22",
       "date": "2026-02-10T11:47:27Z",
-      "snippet": "Guys, how may we coordinate this?\r\nI am quite new here!\r\n\r\nOn Tue, Feb 10, 2026 at 1:44 PM Dimitrij ***@***.***> wrote:\r\n\r\n> *Kvarkas* left a comment (mRemoteNG/mRemoteNG#3005)\r\n> <https://github.com/mRemoteNG/mRemoteNG/issues/3005#issuecomment-3877093326>\r\n>\r\n> @Kvarkas <https://github.com/Kvarkas> as you can see, @robertpopa22\r\n> <https://github.com/robertpopa22> publish something interesting. There is\r\n> a way to make it officially released?\r\n>\r\n> Thanks!\r\n>\r\n> I am happy to just need to stre...",
+      "snippet": "Guys, how may we coordinate this?\r\nI am quite new here!\r\n\r\nOn Tue, Feb 10, 2026 at 1:44 PM Dimitrij ***@***.***> wrote:\r\n\r\n> *Kvarkas* left a comment (mRemoteNG/mRemoteNG#3005)\r\n> <`mRemoteNG/mRemoteNG`>\r\n>\r\n> @Kvarkas <https://github.com/Kvarkas> as you can see, @robertpopa22\r\n> <https://github.com/robertpopa22> publish something interesting. There is\r\n> a way to make it officially released?\r\n>\r\n> Thanks!\r\n>\r\n> I am happy to just need to stream line his energy into right branch :)\r\n>\r\n> —\r\n> Re...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -158,10 +149,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-23T07:36:40Z",
+  "comments_cursor": "2026-02-26T14:21:26Z",
   "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-23T10:20:21Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

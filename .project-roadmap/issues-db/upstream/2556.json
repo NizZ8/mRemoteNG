@@ -9,7 +9,7 @@
   ],
   "author": "m0hossa",
   "created_at": "2024-01-16T20:56:56Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-27T10:14:16Z",
   "body_snippet": "Hi\r\n\r\nI am trying to add ESXi host to access in web using HTTPs but it does not do anything. The version I am using is 1.77.3 (Build 1784).\r\n\r\nAny help would be greatly appreciated.\r\n\r\nThanks",
   "our_status": "released",
   "priority": "P2-bug",
@@ -107,34 +107,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXE5F",
+      "id": "IC_kwDOAAcIMM7swAWM",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:43:42Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg-0",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:28Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-27T10:14:16Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Can't access to ESXi host from mRemoteNG\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entire...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-27T10:14:16Z",
   "unread_comments": 7,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue reports ESXi web console access failure but lacks reproducible steps, error logs, or confirmation on current build—maintainer already requested retest with no follow-up.\nApproach: Wait for user to retest on latest build and provide steps/logs; likely related to WebBrowser control or Chromium rendering of ESXi web UI",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 98,
-    "cost_usd": 0.15187
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue reports ESXi web console access failure but lacks reproducible steps, error logs, or confirmation on current build—maintainer already requested retest with no follow-up.\nApproach: Wait for user to retest on latest build and provide steps/logs; likely related to WebBrowser control or Chromium rendering of ESXi web UI"
 }

@@ -9,7 +9,7 @@
   ],
   "author": "vivekvemula1",
   "created_at": "2024-01-17T16:25:29Z",
-  "github_updated_at": "2026-02-21T10:23:13Z",
+  "github_updated_at": "2026-02-26T13:41:13Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI am trying to launch MRemoteNg and it is crashing (closing the application soon after the launch). I am using mRemoteNG-Installer-1.76.20.24615.msi\r\n\r\nError: \r\n\r\n2024-01-17 11:04:02,735 [1] WARN  - XmingPortablePuttySessions.Watcher.StartWatching() failed: 'sessions' does not exist.\r\n2024-01-17 11:04:52,037 [1] INFO  - mRemoteNG 1.76.20.24615 starting.\r\n2024-01-17 11:04:52,040 [1] INFO  - Command Line: C:\\Program Files (x86)\\m...",
   "our_status": "released",
   "priority": "P4-debt",
@@ -45,27 +45,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYUy0",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:23:39Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.76.20",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:13Z",
+  "comments_cursor": "2026-02-26T13:41:13Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "XmingPortablePuttySessions class removed in current codebase. PuttySessionsRegistryProvider has try/catch guard.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 835,
-    "cost_usd": 0.16982
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "XmingPortablePuttySessions class removed in current codebase. PuttySessionsRegistryProvider has try/catch guard."
 }

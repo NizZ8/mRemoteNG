@@ -11,7 +11,7 @@
   ],
   "author": "yogeshdass",
   "created_at": "2017-02-03T07:04:40Z",
-  "github_updated_at": "2026-02-25T07:26:20Z",
+  "github_updated_at": "2026-02-26T14:10:59Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\n\r\nPlease add option to hide the saved putty sessions as shown in screenshot.\r\n\r\n|--:|---|\r\n|Operating system | Windows 7 x64 |\r\n|mRemoteNG version| 1.75 aplha 3  |\r\n\r\n\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please d...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -94,28 +94,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYX1C",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:32:03Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7r4Fzf",
       "author": "robertpopa22",
       "date": "2026-02-25T07:26:11Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** option to hide the saved putty sessions\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T07:26:20Z",
+  "comments_cursor": "2026-02-26T14:10:59Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:41:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Valid enhancement request to hide PuTTY saved sessions from the connection tree, with community support (+1) and clear use case since mRemoteNG users manage connections natively\nApproach: Add a boolean setting (e.g. ShowPuttySavedSessions, default true) in Options > Connections page. When false, skip loading/displaying PuTTY saved sessions in the connection tree by short-circuiting PuttySessionsManager refresh. Persist the setting in the existing settings infrastructure."
 }

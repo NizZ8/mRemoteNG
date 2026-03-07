@@ -11,7 +11,7 @@
   ],
   "author": "Chrisu02",
   "created_at": "2022-12-06T07:03:09Z",
-  "github_updated_at": "2026-02-21T10:23:49Z",
+  "github_updated_at": "2026-02-26T14:14:47Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nHello Team, i would like to request an option if the \"Host Name\" field is empty, then the \"Name\" Field is used instead of it.\r\n\r\n## Current Behavior\r\nCurrently you basicly have to enter the Computername twice, when working with Them also as \"Name\" and as \"Hostname\".\r\n\r\n## Possible Solution\r\nAdd A Logic, (maybe Option switchable) which does use the \"Name\" Field as Hostname if Hostname is empty.\r\n\r\n## Step...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -118,25 +118,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYihN",
+      "id": "IC_kwDOAAcIMM7sbJjf",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:56:41Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T13:11:25Z",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:49Z",
+  "comments_cursor": "2026-02-26T14:14:47Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid UX enhancement to auto-populate hostname from connection name when left blank, reducing redundant data entry for users who name connections by their hostname.\nApproach: In ConnectionInfo, when Hostname is null/empty at connection time, fall back to Name field value rather than failing or using empty string.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 111,
-    "output_tokens": 21761,
-    "cost_usd": 4.910979
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid UX enhancement to auto-populate hostname from connection name when left blank, reducing redundant data entry for users who name connections by their hostname.\nApproach: In ConnectionInfo, when Hostname is null/empty at connection time, fall back to Name field value rather than failing or using empty string."
 }

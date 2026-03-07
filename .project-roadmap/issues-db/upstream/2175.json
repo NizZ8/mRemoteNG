@@ -9,7 +9,7 @@
   ],
   "author": "danielniccoli",
   "created_at": "2022-02-21T07:24:15Z",
-  "github_updated_at": "2026-02-21T10:23:16Z",
+  "github_updated_at": "2026-02-26T13:42:43Z",
   "body_snippet": "It would be great if the remote session would automatically take focus when the mouse is over the RDP area.\r\n\r\nRight now, one must always click once on the RDP area before any key strokes or keyboard shortcuts are sent to the RDP session. (If you know the VMware Remote Console, it has the same behaviour and it is incredibly helpful.)\r\n\r\n![image](https://user-images.githubusercontent.com/2971735/154907124-43b0e9a3-7d8d-4013-b429-2bdc9273f773.png)\r\n",
   "our_status": "released",
   "priority": "P2-bug",
@@ -36,21 +36,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYZ1j",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:38:06Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:16Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:42:43Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): To improve user experience by automatically focusing the remote session when the mouse hovers over the RDP area, eliminating the need for an explicit click.\nApproach: Modify `ConnectionWindow.WndProc` to identify the currently active `InterfaceControl` when a `WM_MOUSEACTIVATE` message is received. If the mouse is over an RDP `InterfaceControl`, programmatically set focus to that `InterfaceControl`. This will ensure the RDP session gains input focus when the mouse enters its area."
 }

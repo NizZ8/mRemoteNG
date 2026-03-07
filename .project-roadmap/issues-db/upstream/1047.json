@@ -10,7 +10,7 @@
   ],
   "author": "BloodyIron",
   "created_at": "2018-07-26T22:31:52Z",
-  "github_updated_at": "2026-02-21T10:23:35Z",
+  "github_updated_at": "2026-02-26T13:51:10Z",
   "body_snippet": "I'm on v1.75.7012.16814\r\n\r\nWhen I set a folder to inherit from a folder above it, that has login creds, the sub-folder does not seem to inherit the creds, and connections under the second folder do not seem to inherit the creds from the first folder.\r\n\r\nAny chance we could get this feature added?\r\n\r\nOr, I can't seem to find how this is done, as the normal inheritance method does not seem to do this.",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -163,21 +163,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYh1R",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:20Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:35Z",
+  "comments_cursor": "2026-02-26T13:51:10Z",
   "unread_comments": 14,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Enhances credential management by allowing connections deeply nested in folder structures to inherit credentials from an ancestor folder, skipping intermediate folders that do not specify credentials.\nApproach: Modify the credential resolution logic (likely in ConnectionInfo or a helper class handling inheritance) to traverse the parent hierarchy upwards until a non-empty credential is found, instead of checking only the immediate parent."
 }

@@ -9,7 +9,7 @@
   ],
   "author": "bobosch",
   "created_at": "2019-04-29T19:53:24Z",
-  "github_updated_at": "2026-02-21T10:23:27Z",
+  "github_updated_at": "2026-02-26T13:47:37Z",
   "body_snippet": "In our team we would like to share our remote connections. The SQL connection is a great feature therefore. But it is not possible to make changes, because there are overwritten on mRemoteNG exit.\r\n\r\n## Current Behavior\r\nAll connections are stored in the database if you quit mRemoteNG\r\n\r\n## Expected Behavior\r\n- Store only changed connection in the database\r\n- Load changes on other connected clients\r\n\r\n## Your Environment\r\n* Version used: 1.76.19\r\n* Operating System and version: Windows 10 1709 x...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -90,21 +90,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhbx",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:02Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:27Z",
+  "comments_cursor": "2026-02-26T13:47:37Z",
   "unread_comments": 6,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Feature request for proper SQL multiuser support — incremental saves instead of full overwrite on exit, plus live reload of other clients' changes\nApproach: Implement dirty-tracking on ConnectionInfo so only modified connections are written to SQL on save, and add a periodic poll (or SqlDependency) in SqlConnectionsLoader to detect and merge remote changes from other clients without full tree reload"
 }

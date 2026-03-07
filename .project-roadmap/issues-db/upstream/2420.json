@@ -15,7 +15,7 @@
   ],
   "author": "Kvarkas",
   "created_at": "2023-04-03T17:06:44Z",
-  "github_updated_at": "2026-02-21T10:23:23Z",
+  "github_updated_at": "2026-02-26T13:45:59Z",
   "body_snippet": "The passwords of the connection files are stored as plain text values in the memory of the mRemteNG process, even before a\r\nconnection is established.\r\nThis fulfills the requirement of CWE-316 - Cleartext Storage of Sensitive\r\nInformation in Memory.\r\nhttps://github.com/mRemoteNG/mRemoteNG/issues/726\r\n\r\n1) Create a new connection configuration, set hostname, username and\r\npassword.\r\n2) (Optional) Enable encryption of the configuration file.\r\n3) Restart mRemoteNG\r\n4) Use Task Manager / Processhack...",
   "our_status": "released",
   "priority": "P1-security",
@@ -233,15 +233,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhQP",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:29Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mY_72",
       "author": "Neustradamus",
       "date": "2026-02-07T20:30:59Z",
@@ -251,16 +242,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:23Z",
+  "comments_cursor": "2026-02-26T13:45:59Z",
   "unread_comments": 22,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "PASS by code review: SecureString for password fields + pre-decryption cache removed. commit f34c13e7. Caveat: SecureString not truly encrypted on .NET 10",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 93,
-    "cost_usd": 0.138751
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "PASS by code review: SecureString for password fields + pre-decryption cache removed. commit f34c13e7. Caveat: SecureString not truly encrypted on .NET 10"
 }

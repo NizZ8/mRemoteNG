@@ -8,7 +8,7 @@
   ],
   "author": "padillah",
   "created_at": "2019-05-15T20:03:33Z",
-  "github_updated_at": "2026-02-25T15:34:17Z",
+  "github_updated_at": "2026-02-26T14:11:48Z",
   "body_snippet": "The icon overlay on the connection tree does not refresh when the connection is lost.\r\n\r\n## Expected Behavior\r\nWhen a server reboots and the connection is lost the icon overlay should update to reflect the new connection status.\r\n\r\n## Current Behavior\r\nThe icon overlay never changes. Not even after mouseover or click.\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Connect to more than one machine.\r\n2. Reboot one of the machines to cause the connection to be lost\r\n3. Notice icon overlay does not change....",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -40,16 +40,16 @@
       "id": "IC_kwDOAAcIMM7sCsfM",
       "author": "robertpopa22",
       "date": "2026-02-25T15:34:05Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Tree icon not updated when connection lost\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T15:34:17Z",
+  "comments_cursor": "2026-02-26T14:11:48Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T21:16:17Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude-retry): Connection tree icon overlay does not update when remote connection is lost (e.g. server reboot) — valid UI bug, status icon refresh logic needs to hook disconnection events."
 }

@@ -9,7 +9,7 @@
   ],
   "author": "wkl17",
   "created_at": "2017-07-27T11:02:29Z",
-  "github_updated_at": "2026-02-26T04:33:45Z",
+  "github_updated_at": "2026-02-26T14:13:58Z",
   "body_snippet": "<!-- Bug -->\r\nscrollbars added to RDP window after minimize/restore of mRemoteNG v1.75\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7005  |\r\n\r\n\r\n<!-- Feature Request -->\r\nBTW: Wish Support with MySQL.\r\n<!-- If you file a feature request, please delete the bug section -->",
   "our_status": "released",
   "priority": "P4-debt",
@@ -89,46 +89,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXEGP",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:40Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXGDw",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:47:56Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYh2G",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:22Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sROH3",
       "author": "robertpopa22",
       "date": "2026-02-26T04:33:36Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** scrollbars added to RDP window after minimize/restore of mRe\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T04:33:45Z",
+  "comments_cursor": "2026-02-26T14:13:58Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T07:52:20Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Issue has no description, no reproducible steps, and multiple triage refresh comments with no response from the original reporter — cannot determine if the scrollbar issue still exists on current builds\nApproach: If confirmed reproducible, investigate RDP control resize handling after minimize/restore cycle to ensure scrollbars are not incorrectly added"
 }

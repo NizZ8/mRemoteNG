@@ -13,7 +13,7 @@
   ],
   "author": "judaspriest",
   "created_at": "2025-11-07T11:19:40Z",
-  "github_updated_at": "2026-02-21T10:24:16Z",
+  "github_updated_at": "2026-02-26T14:20:48Z",
   "body_snippet": "Hello @Kvarkas ,\n\nThank you for this wonderful piece of software, which I am using since many years.\n\nCurrently, I'm on the newest nightly build mRemoteNG 1.78.2 NB 3228.\n\n\nI am working in an Windows environment on several Windows 11 / Windows Server machines WITHOUT Administrator permissions (normal user permissions), which prevents me from installing additional software packages.\n\nAs mRemoteNG has the \".NET 9 Desktop Runtime x64\" as one of the software requirements, it's impossible for me to i...",
   "our_status": "released",
   "priority": null,
@@ -59,15 +59,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiVw",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:07Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mrcxs",
       "author": "judaspriest",
       "date": "2026-02-09T08:37:53Z",
@@ -89,16 +80,16 @@
       "id": "IC_kwDOAAcIMM7m0fBe",
       "author": "robertpopa22",
       "date": "2026-02-09T15:44:35Z",
-      "snippet": "@judaspriest The v1.79.0 community release is available here: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n3 platform builds (x64, x86, ARM64) available for download. This includes the .NET 10 migration and all 26 fixes from the release cycle.\n\nPlease retest with this build and let us know if the issue persists.",
+      "snippet": "@judaspriest The v1.79.0 community release is available here: releases page of `robertpopa22/mRemoteNG`\n\n3 platform builds (x64, x86, ARM64) available for download. This includes the .NET 10 migration and all 26 fixes from the release cycle.\n\nPlease retest with this build and let us know if the issue persists.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT pro...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:16Z",
+  "comments_cursor": "2026-02-26T14:20:48Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

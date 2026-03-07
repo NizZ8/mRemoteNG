@@ -11,7 +11,7 @@
   ],
   "author": "C4rb0n",
   "created_at": "2022-02-04T22:00:56Z",
-  "github_updated_at": "2026-02-21T10:24:14Z",
+  "github_updated_at": "2026-02-26T14:20:32Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nWhen the last tab in a panel is closed, the panel should also close, as was behavior prior to published nightly v1.77.2-nb.\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nWhen the last tab in a panel is closed, the panel should also close, as was behavior prior to published nightly v1.77.2-nb.\r\n\r\n## Curre...",
   "our_status": "released",
   "priority": null,
@@ -41,19 +41,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYU0L",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:23:43Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mdljk",
       "author": "robertpopa22",
       "date": "2026-02-08T08:23:59Z",
-      "snippet": "Likely addressed by panel-close behavior fixes already packaged upstream: PR #3106 and follow-up panel empty-state fix on fork release branch. \r\n \r\nPlease retest on latest RC candidate build; if resolved, recommend close as duplicate/resolved. \r\n",
+      "snippet": "Likely addressed by panel-close behavior fixes already packaged upstream: PR #3106 and follow-up panel empty-state fix on fork release branch. \r\n \r\nPlease retest on latest RC candidate build; if resolved, recommend close as duplicate/resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -62,7 +53,7 @@
       "id": "IC_kwDOAAcIMM7mgV2S",
       "author": "robertpopa22",
       "date": "2026-02-08T14:02:16Z",
-      "snippet": "Packaged fix is now available in PR #3126: https://github.com/mRemoteNG/mRemoteNG/pull/3126. This adds auto-close for empty panels after last-tab close flow in ConnectionWindow and guards against shutdown/dispose race paths.\r\n",
+      "snippet": "Packaged fix is now available in PR #3126: PR #3126 on `mRemoteNG/mRemoteNG` This adds auto-close for empty panels after last-tab close flow in ConnectionWindow and guards against shutdown/dispose race paths.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — we're preparing a con...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -71,16 +62,16 @@
       "id": "IC_kwDOAAcIMM7mpdRM",
       "author": "robertpopa22",
       "date": "2026-02-09T06:27:38Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3126 | **Branch:** `codex/pr22-close-empty-panel-2160`\n**Fix:** Empty panel correctly closes after last tab is removed.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:14Z",
+  "comments_cursor": "2026-02-26T14:20:32Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

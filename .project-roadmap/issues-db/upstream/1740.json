@@ -10,7 +10,7 @@
   ],
   "author": "egpgit",
   "created_at": "2020-04-27T12:29:31Z",
-  "github_updated_at": "2026-02-21T10:23:27Z",
+  "github_updated_at": "2026-02-26T13:47:24Z",
   "body_snippet": "Hi, thaks for this awssome program. \r\n\r\nNow the Port Scan Tool result in a table that can't be ordered, so if you want import several hosts, you need to find it in the table. Order by column helps that action.\r\n\r\nWhen you want import a host wich has two possible connections, you need do it for each one. For example, I have a host with ssh and https services, I'd like to import both services in a one step.\r\n\r\nIt will be great that the Host/IP column doesn't hide the ip when resolve dns name.\r\n¿Co...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -37,21 +37,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYhaR",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:58Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:27Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:47:24Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Feature request to add column sorting and multi-protocol import to the Port Scan results table\nApproach: Enable ObjectListView column sorting (set Sorting/SortableColumns properties in Designer), and add a multi-protocol import option that creates connections for all detected open protocols per host instead of just the selected one"
 }

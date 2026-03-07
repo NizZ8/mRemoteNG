@@ -10,7 +10,7 @@
   ],
   "author": "xtipacko",
   "created_at": "2018-07-25T07:17:25Z",
-  "github_updated_at": "2026-02-24T13:31:28Z",
+  "github_updated_at": "2026-02-26T13:50:59Z",
   "body_snippet": "Hello.\r\nI did not find such feature, which seems to exist in every other remote connection tool (like Putty, SecureCRT, Superputty). If it is not there, I propose:\r\nAdd to mRemoteNG a feature, allowing to Open a connection via a CMD in a new Tab.\r\n\r\nSyntax could be like this:\r\n`mremoteng --connection \"/connections/interxion/myswitch123\" --newtab`\r\n\r\nAlso you could implement new connection, like this:\r\n`mremoteng  --host myserver.io --port 12345 --protocol ssh2 --username admin --password ADm1n -...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -75,15 +75,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYh0m",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:17Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rjLf0",
       "author": "malte325",
       "date": "2026-02-24T13:31:27Z",
@@ -93,10 +84,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-24T13:31:28Z",
+  "comments_cursor": "2026-02-26T13:50:59Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Currently, command line arguments are ignored if an instance is already running; IPC is needed to pass arguments to the existing instance.\nApproach: Implement IPC (e.g. Named Pipes or WM_COPYDATA) in ProgramRoot.cs to send arguments from the second instance to the first instance. Update the main instance to listen for these messages and process them (e.g. open the requested connection) using the existing argument parsing logic."
 }

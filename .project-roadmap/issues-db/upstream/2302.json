@@ -10,7 +10,7 @@
   ],
   "author": "lonerzzz",
   "created_at": "2022-11-21T22:21:04Z",
-  "github_updated_at": "2026-02-23T19:12:04Z",
+  "github_updated_at": "2026-02-26T14:06:55Z",
   "body_snippet": "I frequently will have 2-6 SSH putty sessions open at once side by side as a workspace. I see that the panels exist in mRemoteNG, but the sessions are each assigned a tab within the panel. It would be very useful in many development and production settings to have the ability to see all those tabs as individual panes within the panel instead and to have them sized automatically to fit the available space.\r\n\r\nI currently use SuperPutty for this reason, but it forces me to size the panels individu...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -57,16 +57,16 @@
       "id": "IC_kwDOAAcIMM7rPuFe",
       "author": "robertpopa22",
       "date": "2026-02-23T19:11:56Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Investigate the feasibility of nesting WeifenLuo.WinFormsUI.\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T19:12:04Z",
+  "comments_cursor": "2026-02-26T14:06:55Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): To enable users to display multiple remote connections or other interactive content simultaneously within a single configurable UI panel, improving workflow efficiency.\nApproach: Investigate the feasibility of nesting WeifenLuo.WinFormsUI.Docking.DockPanel instances or creating a custom DockContent implementation that can host multiple connection views side-by-side or in a split-pane layout. This would involve modifying how connections are opened and displayed, as well as updating the layout serialization/deserialization logic."
 }

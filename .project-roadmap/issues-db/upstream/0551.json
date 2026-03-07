@@ -9,7 +9,7 @@
   ],
   "author": "computersrmyfriends",
   "created_at": "2017-05-12T07:34:12Z",
-  "github_updated_at": "2026-02-26T09:27:35Z",
+  "github_updated_at": "2026-02-27T12:00:52Z",
   "body_snippet": "Hello,\r\nCan you please add support for X2GO client? It'll be very very useful if mremoteng works well with X2GO.\r\n\r\nThanks",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -192,13 +192,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7syHaN",
+      "author": "robertpopa22",
+      "date": "2026-02-27T12:00:52Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `e7a3ac61` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Add support for X2GO client\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T09:27:35Z",
+  "comments_cursor": "2026-02-27T12:00:52Z",
   "unread_comments": 14,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-26T11:26:01Z",
-  "notes": "AI triage: Feature request with community support (+1s) to add X2Go as a new protocol/connection type, similar to existing RDP/VNC/SSH integrations\nApproach: Add X2Go as a new protocol type by creating a protocol handler that wraps the X2Go client (pyhoca-cli or x2goclient.exe), similar to how PuTTY/VNC external tools are integrated. Requires new ProtocolType enum value, connection info properties for X2Go-specific settings (session type, desktop environment, compression), and a protocol handler class that launches and manages the external X2Go client process.",
-  "impl_failed": false
+  "waiting_for_us": false,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage: Feature request with community support (+1s) to add X2Go as a new protocol/connection type, similar to existing RDP/VNC/SSH integrations\nApproach: Add X2Go as a new protocol type by creating a protocol handler that wraps the X2Go client (pyhoca-cli or x2goclient.exe), similar to how PuTTY/VNC external tools are integrated. Requires new ProtocolType enum value, connection info properties for X2Go-specific settings (session type, desktop environment, compression), and a protocol handler class that launches and manages the external X2Go client process."
 }

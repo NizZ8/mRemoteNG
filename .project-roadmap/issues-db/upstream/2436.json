@@ -10,7 +10,7 @@
   ],
   "author": "sascha-schwegelbauer",
   "created_at": "2023-05-22T10:46:29Z",
-  "github_updated_at": "2026-02-21T10:23:28Z",
+  "github_updated_at": "2026-02-26T14:00:23Z",
   "body_snippet": "It would be great if mRemoteNG has an integration with an on-prem vaultwarden-instance.\r\n",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -109,36 +109,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXJCj",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:47Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhhv",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:17Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:28Z",
+  "comments_cursor": "2026-02-26T14:00:23Z",
   "unread_comments": 8,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature request: Vaultwarden integration. Requires new credential provider plugin.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 102,
-    "cost_usd": 0.14092
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature request: Vaultwarden integration. Requires new credential provider plugin."
 }

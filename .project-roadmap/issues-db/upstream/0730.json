@@ -9,7 +9,7 @@
   ],
   "author": "kirsmi08",
   "created_at": "2017-09-27T08:08:16Z",
-  "github_updated_at": "2026-02-25T14:54:32Z",
+  "github_updated_at": "2026-02-27T12:36:14Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\nConfiguration:\r\nALPHA- Win8.1x64 Enterprise - working computer\r\nBETA- W2008 Datacenter - intermediate computer with mRemoteNG 1.75.7008.17907 installed\r\nOMEGA- Win7sp1x64 Enterprise - target computer\r\nall three connected to the same networ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -38,29 +38,28 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mXGCw",
+      "id": "IC_kwDOAAcIMM7sBkUT",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:47:53Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
+      "date": "2026-02-25T14:54:08Z",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     },
     {
-      "id": "IC_kwDOAAcIMM7sBkUT",
+      "id": "IC_kwDOAAcIMM7syy3a",
       "author": "robertpopa22",
-      "date": "2026-02-25T14:54:08Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Remote printing\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "date": "2026-02-27T12:36:13Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `e7a3ac61` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Remote printing\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — w...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T14:54:32Z",
+  "comments_cursor": "2026-02-27T12:36:14Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T21:16:17Z",
-  "notes": "AI triage: Issue has no description, no reproducible steps, and the triage comment requesting details has received no response, making it impossible to determine what the actual problem is.\nApproach: Wait for reporter to provide details about what 'remote printing' means in context (RDP printer redirection settings, specific protocol, error encountered). If no response, close as stale.",
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage: Issue has no description, no reproducible steps, and the triage comment requesting details has received no response, making it impossible to determine what the actual problem is.\nApproach: Wait for reporter to provide details about what 'remote printing' means in context (RDP printer redirection settings, specific protocol, error encountered). If no response, close as stale."
 }

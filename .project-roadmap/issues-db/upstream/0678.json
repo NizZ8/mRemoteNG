@@ -8,7 +8,7 @@
   ],
   "author": "dezryth",
   "created_at": "2017-08-12T03:42:25Z",
-  "github_updated_at": "2026-02-23T23:07:51Z",
+  "github_updated_at": "2026-02-26T14:07:14Z",
   "body_snippet": "<!-- Bug -->\r\n|||\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7008.17907  |\r\n\r\nAfter opening a connection with VNC, the connection closes after a random amount of time. Usually within a minute or two. I receive the following in my logs:\r\n\r\nSystem.EventArgs\r\n2017-08-11 16:59:14,989 [1] ERROR- Protocol Event Disconnected failed.\r\n{0}\r\n   at mRemoteNG.Connection.ConnectionInitiator.Prot_Event_Disconnected(Object sender, String disconnectedMessage)\r\n2017-08-11 16:59:15...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -49,16 +49,16 @@
       "id": "IC_kwDOAAcIMM7rT1OR",
       "author": "robertpopa22",
       "date": "2026-02-23T23:07:43Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** VNC connections close on their own after unspecified amount \n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T23:07:51Z",
+  "comments_cursor": "2026-02-26T14:07:14Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: No reproducible steps, VNC server details, or mRemoteNG version provided; the timeout could be caused by VNC server settings, network issues, or the VNC idle/screen-saver disconnect — need more details to diagnose\nApproach: If confirmed as an mRemoteNG bug, investigate whether the VNC protocol handler has a keepalive or reconnect mechanism and whether idle connections are being prematurely closed by the framebuffer update loop or a missing keepalive timer"
 }

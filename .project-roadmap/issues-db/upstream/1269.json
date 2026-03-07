@@ -10,7 +10,7 @@
   ],
   "author": "farosch",
   "created_at": "2019-01-11T11:11:37Z",
-  "github_updated_at": "2026-02-21T10:23:14Z",
+  "github_updated_at": "2026-02-26T13:41:43Z",
   "body_snippet": "## Current Behavior\r\nWhen clicking on a an external tools button in the menu strip it uses the currently selected machine in the connection tree.\r\n\r\n## Possible Solution\r\nImplement a settings option to chose weather to use the currently active connection tab or the selected connection in the connection tree.\r\n\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about the environment you experienced the bug in -->\r\n* Version used: Current develop branch\r\n* Operating System and version:...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -55,21 +55,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYXz0",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:31:58Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:14Z",
+  "comments_cursor": "2026-02-26T13:41:43Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Feature request to add a setting for external tools to use active connection tab instead of selected tree node\nApproach: Add a setting (e.g. ExternalToolsUseActiveTab) that toggles TsExtAppEntry_Click between SelectedNode (tree) and active ConnectionWindow tab. Wire setting through SettingsLoader/SettingsSaver."
 }

@@ -10,7 +10,7 @@
   ],
   "author": "craphaelhoc",
   "created_at": "2020-07-13T16:10:19Z",
-  "github_updated_at": "2026-02-21T10:23:33Z",
+  "github_updated_at": "2026-02-26T13:50:19Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nmremoteng crashing on start up\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nApplication: mRemoteNG.exe\r\nFramework Version: v4.0.30319\r\nDescription: The process was terminated due to an unhandled exception.\r\nException Info: System.Xml.XmlException\r\n   at System.Xml.XmlTextReaderImpl.Throw(System.Exception)\r\n   at System.Xml.XmlTextReaderImpl.Throw(System.String, System.String[])\r\n   ...",
   "our_status": "duplicate",
   "priority": "P2-bug",
@@ -67,30 +67,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFrG",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:35Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhvE",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:59Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:33Z",
+  "comments_cursor": "2026-02-26T13:50:19Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Crash on startup due to System.Xml.XmlException in config file is already addressed by issue #811 (Startup XML recovery), and comments confirm deleting config resolves it; no reproducible code bug exists.\nApproach: Close as duplicate of #811 or wontfix — XML recovery logic already implemented"
 }

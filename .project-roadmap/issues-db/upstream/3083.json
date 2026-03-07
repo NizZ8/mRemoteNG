@@ -10,7 +10,7 @@
   ],
   "author": "justin-oestmann",
   "created_at": "2026-01-15T11:58:31Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-26T22:44:08Z",
   "body_snippet": "Hey\n\nWhen I open two connections that have the same display name but are stored in different folders, the tab titles are identical. This makes it impossible to tell which tab belongs to which folder.\n\nExample:\n\nFolder A → Linux.11\n\nFolder B → Linux.11\n\nOpened at the same time, both tabs show only Linux.11\n\nRequest\nAdd an option in Settings to include the folder (or full folder path) in the tab title. For example:\n\nLinux.11 — Folder A\n\nLinux.11 — Folder B\n\nor \n\nLinux.11 / Folder A\n\nLinux.11 / Fol...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -54,25 +54,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYg-d",
+      "id": "IC_kwDOAAcIMM7snGDU",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:51:27Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T22:44:07Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `bb289379` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** When building tab header text, check if multiple open connec\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-26T22:44:08Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid UX enhancement to disambiguate duplicate connection names in tabs by appending folder/path, improving usability for users with many similarly-named connections across different folders.\nApproach: When building tab header text, check if multiple open connections share the same display name and append the parent folder path as suffix (e.g. 'Server [Prod/EU]') to disambiguate",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 502,
-    "cost_usd": 0.177851
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid UX enhancement to disambiguate duplicate connection names in tabs by appending folder/path, improving usability for users with many similarly-named connections across different folders.\nApproach: When building tab header text, check if multiple open connections share the same display name and append the parent folder path as suffix (e.g. 'Server [Prod/EU]') to disambiguate"
 }

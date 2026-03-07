@@ -10,7 +10,7 @@
   ],
   "author": "pauldurham",
   "created_at": "2022-02-03T10:06:00Z",
-  "github_updated_at": "2026-02-21T10:24:15Z",
+  "github_updated_at": "2026-02-26T14:20:45Z",
   "body_snippet": "In the Inheritance window, the field names are often cut off due to length.  There is no means to expand the space allocated to the field names.\r\nExample:  \"Server Authentication\" is cut off at \"Server Authentica\".\r\n\r\n## Expected Behavior\r\nField names should be fully visible.\r\n\r\n## Current Behavior\r\nField names are sometimes cut off.\r\n\r\n## Possible Solution\r\nExpand field column width with text length.\r\n\r\n## Your Environment\r\nWindows 10 Enterprise 64-bit 20H2.",
   "our_status": "released",
   "priority": null,
@@ -58,19 +58,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYU0j",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:23:44Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mhEYv",
       "author": "robertpopa22",
       "date": "2026-02-08T15:44:43Z",
-      "snippet": "Packaged fix for inheritance property-label truncation into parent package branch `codex/pr26-inheritance-label-width-2155`. \r\n \r\nParent compare/create URL: \r\nhttps://github.com/mRemoteNG/mRemoteNG/compare/v1.78.2-dev...robertpopa22:mRemoteNG:codex/pr26-inheritance-label-width-2155?expand=1 \n \r\nLocal validation: \r\n- x64 restore + build with MSBuild (warnings only).\r\n",
+      "snippet": "Packaged fix for inheritance property-label truncation into parent package branch `codex/pr26-inheritance-label-width-2155`. \r\n \r\nParent compare/create URL: \r\n`mRemoteNG/mRemoteNG` \n \r\nLocal validation: \r\n- x64 restore + build with MSBuild (warnings only).\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds ent...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -79,16 +70,16 @@
       "id": "IC_kwDOAAcIMM7mpdmv",
       "author": "robertpopa22",
       "date": "2026-02-09T06:27:54Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3130 | **Branch:** `codex/pr26-inheritance-label-width-2155`\n**Fix:** Inheritance label width no longer truncates text.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:15Z",
+  "comments_cursor": "2026-02-26T14:20:45Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

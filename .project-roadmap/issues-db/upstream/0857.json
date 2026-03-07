@@ -11,7 +11,7 @@
   ],
   "author": "fadace",
   "created_at": "2018-01-04T09:19:50Z",
-  "github_updated_at": "2026-02-21T10:23:16Z",
+  "github_updated_at": "2026-02-26T13:42:53Z",
   "body_snippet": "\r\n1) Not possible to use a Windows Authentication to connect to the MS SQL Database\r\n\r\n2) Each user using the database will access to any connection string. It's not really secure. Workaround, not really professional : create a database by user. Should be great to add a filter  \"user\" column into the table tblcons \r\n\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7008  |\r\n\r\n\r\n  ",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -50,21 +50,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYg8S",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:19Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:16Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:42:53Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): The report lacks reproducible steps and clear expected-versus-actual behavior and appears stale pending retest on current builds.\nApproach: Request a retest on v1.79.x/upstream dev plus exact DB backend, multi-user setup, reproducible steps, and expected vs actual results before scoping any fix.\nAI triage (gemini): Multiple users using SQL storage encounter data loss and security issues due to lack of concurrency control and user permissions.\nApproach: Implement row versioning for optimistic concurrency and add user/role column to tblCons to enforce access control.\nAI triage (gemini): The current SQL provider lacks proper concurrency control (optimistic concurrency), causing data overwrites when multiple users access the same database.\nApproach: Enable optimistic concurrency by adding a RowVersion column to the database schema and handling DBConcurrencyException in SqlDataProvider to merge or prompt on conflict."
 }

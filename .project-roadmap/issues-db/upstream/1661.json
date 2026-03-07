@@ -8,7 +8,7 @@
   ],
   "author": "shaddybaddah",
   "created_at": "2019-12-24T00:10:11Z",
-  "github_updated_at": "2026-02-21T10:22:56Z",
+  "github_updated_at": "2026-02-26T13:37:30Z",
   "body_snippet": "When using the right click \"Sent To...\" feature on a pane, to detach the pane and send to a screen, the pane is sent with a very small pane size. As RDP is set to \"smart size\", the remote desktop is resized accordingly. Unfortunately, even if remotely open windows are minimized, Windows resizes all open Windows to scale as well.\r\n\r\nIt would be better if the pane size was retained. Alternatively, an option made available to set either a fixed size, or percentage or screen sent to.\r\n\r\n* Version us...",
   "our_status": "wontfix",
   "priority": "P2-bug",
@@ -53,36 +53,11 @@
       "description": "Wontfix: RDP panel sizing on detach depends on MSTSCLib COM control resize behavior which varies by Windows version"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXEG2",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:42Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFxV",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:56Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:22:56Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:37:30Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Stale since 2019. RDP SmartSize after Send To Screen on multi-monitor. 10 AI fix attempts failed. Needs manual multi-monitor testing.",
-  "impl_failed": true,
-  "token_usage": {
-    "input_tokens": 27,
-    "output_tokens": 17389,
-    "cost_usd": 1.791542
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Stale since 2019. RDP SmartSize after Send To Screen on multi-monitor. 10 AI fix attempts failed. Needs manual multi-monitor testing."
 }

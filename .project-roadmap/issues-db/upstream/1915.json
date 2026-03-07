@@ -8,7 +8,7 @@
   ],
   "author": "PVC-C",
   "created_at": "2020-12-16T12:50:19Z",
-  "github_updated_at": "2026-02-21T10:23:50Z",
+  "github_updated_at": "2026-02-26T13:58:04Z",
   "body_snippet": "This Tool is sent from Heaven.\r\nMy Productivity increased greatly, but I’d like to ask for an additional Feature:\r\n\r\nSaving the IP in a Field „IP“.\r\nSaving the Hostname in a Field „Hostname“\r\nAnd a Way to set the Primary.\r\n\r\n\r\nReally fantastic would be a Check if they match at the Moment of the Connection Attempt.\r\n\r\n\r\nReason:\r\nWe have a lot of Machines scattered around different Customers and sometimes the Hostname won’t resolve, but the Hostname would be really useful.\r\nAt the Moment I put it ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -68,26 +68,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYij-",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:51Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:50Z",
+  "comments_cursor": "2026-02-26T13:58:04Z",
   "unread_comments": 3,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
-  "notes": "AI triage (gemini): The issue requests separate storage for hostname and IP addresses, which is an enhancement to provide more granular control and clarity in connection definitions.\nApproach: Introduce new properties (e.g., 'IPAddress' and a flag/enum for connection type) in AbstractConnectionRecord. Modify the existing 'Hostname' property to support the new structure. Update the XML serialization/deserialization logic in XmlConnectionNodeSerializer28 for backward compatibility. Finally, update the connection property editor UI (likely FrmConnection.cs) to expose these new fields for user input.",
-  "token_usage": {
-    "input_tokens": 27,
-    "output_tokens": 14694,
-    "cost_usd": 2.328475
-  }
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): The issue requests separate storage for hostname and IP addresses, which is an enhancement to provide more granular control and clarity in connection definitions.\nApproach: Introduce new properties (e.g., 'IPAddress' and a flag/enum for connection type) in AbstractConnectionRecord. Modify the existing 'Hostname' property to support the new structure. Update the XML serialization/deserialization logic in XmlConnectionNodeSerializer28 for backward compatibility. Finally, update the connection property editor UI (likely FrmConnection.cs) to expose these new fields for user input."
 }

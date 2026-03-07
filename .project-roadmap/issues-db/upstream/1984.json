@@ -9,7 +9,7 @@
   ],
   "author": "Apollon-Theos",
   "created_at": "2021-06-29T15:15:48Z",
-  "github_updated_at": "2026-02-22T01:28:33Z",
+  "github_updated_at": "2026-02-26T14:03:38Z",
   "body_snippet": "Instead \"Config\" tab in bottom at wing? msrk Tab \"Notifications\" and \"Screenshots\". Maybe \"Menu\" instead menu bar in main window.\r\n\r\n## Expected Behavior\r\nMore space for RDP sessions\r\n\r\n## Current Behavior\r\nMenu bar from main windows small, but use huge space.\r\n\r\n## Possible Solution\r\nEvolve idea with bottom tabs at wing, more tabs\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Only look at design \"by default\" :)\r\n2.\r\n3.\r\n4.\r\n\r\n## Context\r\nProductivity is must be high, all non needed element hide from ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -41,16 +41,16 @@
       "id": "IC_kwDOAAcIMM7q1cq4",
       "author": "robertpopa22",
       "date": "2026-02-22T01:28:26Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Create new custom Forms that inherit from DockContent to rep\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-22T01:28:33Z",
+  "comments_cursor": "2026-02-26T14:03:38Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): User requests additional dockable panels/tabs in the main application window using the existing DockPanel Suite framework.\nApproach: Create new custom Forms that inherit from DockContent to represent the desired new tabs. Instantiate and show these forms within the main FrmMain's DockPanel, specifying DockState.DockBottom for bottom placement. This will leverage the existing WeifenLuo.WinFormsUI.Docking library."
 }

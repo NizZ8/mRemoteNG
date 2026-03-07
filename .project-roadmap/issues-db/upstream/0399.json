@@ -8,7 +8,7 @@
   ],
   "author": "NetVicious",
   "created_at": "2017-02-10T16:50:03Z",
-  "github_updated_at": "2026-02-21T10:24:21Z",
+  "github_updated_at": "2026-02-26T14:16:20Z",
   "body_snippet": "<!-- Bug -->\r\nHi!\r\nI have the notifications pane unpinned/autohided like a statusbar.\r\n\r\nWhen I get a connection error, like trying to connect with RDP to a non-existent server, the focus on mRemoteNG it's changed to the notifications pane (I see the blue bottom bar of being active) but the pane it's now show, it remains hided.\r\n\r\nThis worked on 1.72, the pane opened letting me to see the error. I think the problem should be in the code change from Visual Basic to C#\r\n\r\nRegards,\r\n\r\n|--:|---|\r\n|O...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -49,25 +49,16 @@
       "id": "IC_kwDOAAcIMM7owpK2",
       "author": "robertpopa22",
       "date": "2026-02-15T19:43:21Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`e92b2111`](https://github.com/robertpopa22/mRemoteNG/commit/e92b211173fdb14d60956f6c2662eff340e6fa6e)\n**Branch:** `main`\n**What changed:** When a connection error occurs and the notifications pane is\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3goL",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:39Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:21Z",
+  "comments_cursor": "2026-02-26T14:16:20Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Bug where notification/connection error pane fails to show properly when auto-hidden, related to known notifications pane issues (#368)\nApproach: When a connection error occurs and the notifications pane is auto-hidden, force it to become visible/docked before displaying the error, ensuring the user sees the connection failure notification regardless of pane state"
 }

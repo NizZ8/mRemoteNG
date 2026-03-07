@@ -11,7 +11,7 @@
   ],
   "author": "MrChriZ",
   "created_at": "2022-08-04T14:39:57Z",
-  "github_updated_at": "2026-02-21T10:24:14Z",
+  "github_updated_at": "2026-02-26T14:20:07Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nClicking close on the applications X with a panel open presents the message\r\n_Are you sure you want to close the panel, \"General\"?..._\r\nClicking no should then prevent the panel, and therefore the application from closing, application remains on the taskbar.\r\n\r\n## Current Behavior\r\nThe application disappears from the task bar  - although it remains running in the system tray.\r\n\r\n## Steps to Reproduce (fo...",
   "our_status": "released",
   "priority": null,
@@ -59,19 +59,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXI96",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:35Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mdojA",
       "author": "robertpopa22",
       "date": "2026-02-08T08:34:03Z",
-      "snippet": "Implemented in PR #3124 from fork branch codex/pr20-main-close-cancel-2270. \r\n \r\nScope: \r\n- main close path now waits for child panel close result before hiding/shutdown \r\n- if panel close is cancelled (No), app close is cancelled and main window remains visible \r\n \r\nValidation: \r\n- local full MSBuild restore/build passed (Release/x64) \r\n",
+      "snippet": "Implemented in PR #3124 from fork branch codex/pr20-main-close-cancel-2270. \r\n \r\nScope: \r\n- main close path now waits for child panel close result before hiding/shutdown \r\n- if panel close is cancelled (No), app close is cancelled and main window remains visible \r\n \r\nValidation: \r\n- local full MSBuild restore/build passed (Release/x64)\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -80,16 +71,16 @@
       "id": "IC_kwDOAAcIMM7mpc-2",
       "author": "robertpopa22",
       "date": "2026-02-09T06:27:26Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3124 | **Branch:** `codex/pr20-main-close-cancel-2270`\n**Fix:** Main window close cancel behavior corrected — cancel actually cancels.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:14Z",
+  "comments_cursor": "2026-02-26T14:20:07Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

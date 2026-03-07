@@ -11,7 +11,7 @@
   ],
   "author": "DavidRobinsonDk",
   "created_at": "2023-07-26T20:51:50Z",
-  "github_updated_at": "2026-02-21T10:23:35Z",
+  "github_updated_at": "2026-02-26T16:07:56Z",
   "body_snippet": "Ability to move full screen RDP session between monitors, including the ability to have multiple full screen RDP sessions open at the same time.\r\n\r\n## Expected Behavior\r\nWith mstsc.exe I can \"restore\" the full screen session to a window, move the window to another monitor and go back to full screen.\r\n\r\n## Current Behavior\r\nCurrently I can see no way to do this in mRemoteNG.\r\nIf I \"restore\" a full screen RDP session in mRemoteNG, it gets put in in tab.\r\nA tabbed window goes to full screen on the ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -70,25 +70,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYh1f",
+      "id": "IC_kwDOAAcIMM7sfK8K",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:54:21Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-26T16:07:55Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `0d23eec0` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Feature request: Ability to move full screen RDP session bet\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:35Z",
+  "comments_cursor": "2026-02-26T16:07:56Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid UX enhancement with clear user demand: full-screen RDP sessions should support monitor switching without reconnect, leveraging MSTSCLib's existing multi-monitor/ContainerHandledFullScreen or sending the RDP window to a different screen.\nApproach: Expose a 'Move to monitor' action for active full-screen RDP tabs by calling MSTSCLib's ContainerHandledFullScreen or programmatically repositioning the ActiveX host window to the target screen bounds, then toggling full-screen off/on to re-enter on the new monitor.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 838,
-    "output_tokens": 5823,
-    "cost_usd": 0.963901
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid UX enhancement with clear user demand: full-screen RDP sessions should support monitor switching without reconnect, leveraging MSTSCLib's existing multi-monitor/ContainerHandledFullScreen or sending the RDP window to a different screen.\nApproach: Expose a 'Move to monitor' action for active full-screen RDP tabs by calling MSTSCLib's ContainerHandledFullScreen or programmatically repositioning the ActiveX host window to the target screen bounds, then toggling full-screen off/on to re-enter on the new monitor."
 }

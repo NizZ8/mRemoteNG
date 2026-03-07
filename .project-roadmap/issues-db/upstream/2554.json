@@ -10,7 +10,7 @@
   ],
   "author": "flamery",
   "created_at": "2024-01-15T23:16:11Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-26T14:00:32Z",
   "body_snippet": "This feature could be useful, my company uses radius/tacacs for most access, I have half a dozen or so different accounts per customer with anywhere from 10-100 connections per customer.\r\n\r\nWhen a password expires I then have to go and update all of the connections passwords.\r\n\r\nMy suggestion is, when you create a new connection, the option could be to enter a username or password (as it currently is) or a drop down list to select a shared username/password pair. When the password changes we jus...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -46,36 +46,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXJFi",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:50Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg-M",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:26Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-26T14:00:32Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: shared username/password across connections. Requires credential management redesign.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 75,
-    "cost_usd": 0.150645
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: shared username/password across connections. Requires credential management redesign."
 }

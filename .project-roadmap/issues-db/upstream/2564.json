@@ -9,7 +9,7 @@
   ],
   "author": "philinp",
   "created_at": "2024-02-08T08:44:04Z",
-  "github_updated_at": "2026-02-21T10:23:19Z",
+  "github_updated_at": "2026-02-26T13:44:10Z",
   "body_snippet": "## Expected Behavior\r\ncorrect window displaying at scaling 250%\r\n\r\n## Current Behavior\r\nincorrect window displaying at scaling 250%\r\ncan't see settings below \"auto save time in minutes\".\r\nsee the screenshot below.\r\n\r\n## Possible Solution\r\n\r\n## Steps to Reproduce (for bugs)\r\nrun program, open Options->Connections\r\n\r\n## Context\r\n\r\n## Your Environment\r\n* Version used: mRemoteNG-Installer-1.77.3.nb-1784.msi, 20230303 Nightly build.\r\n* Operating System and version (e.g. Windows 10 1709 x64): Windows ...",
   "our_status": "released",
   "priority": "P4-debt",
@@ -45,27 +45,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhDM",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:45Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:19Z",
+  "comments_cursor": "2026-02-26T13:44:10Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue has no reproduction steps or body content, was tagged as known-unfixable in .NET 6 but potentially improved in .NET 8+, and needs retest on current fork build to determine if still valid.\nApproach: Request reporter to retest on v1.81.0 fork build and provide steps to reproduce with expected vs actual behavior at 250% DPI scaling\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]\n[2026-03-01] Fork is on .NET 10 (was .NET 6 when reported). Kvarkas noted .NET 8+ should fix DPI scaling issues. Needs user retest on current build.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 108,
-    "cost_usd": 0.153108
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue has no reproduction steps or body content, was tagged as known-unfixable in .NET 6 but potentially improved in .NET 8+, and needs retest on current fork build to determine if still valid.\nApproach: Request reporter to retest on v1.81.0 fork build and provide steps to reproduce with expected vs actual behavior at 250% DPI scaling\n[Auto-skip: issue lacks sufficient detail or requires major architectural work — handle manually]\n[2026-03-01] Fork is on .NET 10 (was .NET 6 when reported). Kvarkas noted .NET 8+ should fix DPI scaling issues. Needs user retest on current build."
 }

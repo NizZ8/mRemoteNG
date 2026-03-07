@@ -1,0 +1,40 @@
+{
+  "number": 3197,
+  "repo": "mRemoteNG/mRemoteNG",
+  "title": "Content Security Policy (CSP) header not set - https://mremoteng.org",
+  "state": "open",
+  "labels": [
+    "AI",
+    "critical"
+  ],
+  "author": "Kvarkas",
+  "created_at": "2026-03-03T22:48:45Z",
+  "github_updated_at": "2026-03-03T22:48:45Z",
+  "body_snippet": "Aikido security scanner report: CSP header not set on mremoteng.org. CSP is first line of defense against XSS and data injection. Recommendation: configure web server to set Content-Security-Policy header.",
+  "our_status": "wontfix",
+  "priority": "P4-debt",
+  "target_release": null,
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-03-05",
+      "type": "wontfix",
+      "description": "Website infrastructure issue (mremoteng.org CSP headers). Not application code — out of scope for this fork. Upstream maintainer (Kvarkas) filed it themselves."
+    }
+  ],
+  "comments": [],
+  "comments_cursor": "2026-03-03T22:48:45Z",
+  "unread_comments": 0,
+  "needs_action": false,
+  "waiting_for_us": false,
+  "last_synced": "2026-03-05T08:00:00Z",
+  "notes": "Website security header, not application code. Out of scope for fork.",
+  "token_usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "impl_failed": false
+}

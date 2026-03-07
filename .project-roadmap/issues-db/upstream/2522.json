@@ -10,7 +10,7 @@
   ],
   "author": "jupitermangue",
   "created_at": "2023-11-12T02:59:53Z",
-  "github_updated_at": "2026-02-21T10:23:47Z",
+  "github_updated_at": "2026-02-27T10:05:05Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nOne great feature of mRemoteNG is the option to open a connection by just clicking once on the connection without the need to double-click. However, when this feature is enabled in the Connections Options (\"Single click on connection opens it\"), it does not only affects left-click but also right-click. I think it should not affect right-click.\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -54,34 +54,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXE58",
+      "id": "IC_kwDOAAcIMM7sv1fm",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:43:45Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYibw",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:21Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-27T10:05:05Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Right-Click on connection opens it when \"Single Click on con\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:47Z",
+  "comments_cursor": "2026-02-27T10:05:05Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty and only tagged against legacy v1.77.3 with no reproduction steps or confirmation on current builds; the right-click-opens-connection behavior is a plausible mouse-event handling bug but requires retest on current fork.\nApproach: If confirmed, check MouseDown/Click event handlers in the connection tree to ensure single-click-open logic only fires on left-button clicks, not right-button.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 754,
-    "cost_usd": 0.165733
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue body is empty and only tagged against legacy v1.77.3 with no reproduction steps or confirmation on current builds; the right-click-opens-connection behavior is a plausible mouse-event handling bug but requires retest on current fork.\nApproach: If confirmed, check MouseDown/Click event handlers in the connection tree to ensure single-click-open logic only fires on left-button clicks, not right-button."
 }

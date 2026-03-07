@@ -10,7 +10,7 @@
   ],
   "author": "lastuptodate",
   "created_at": "2019-03-15T07:57:09Z",
-  "github_updated_at": "2026-02-21T10:23:21Z",
+  "github_updated_at": "2026-02-26T13:45:04Z",
   "body_snippet": "I used mRemonteNG since 6 months and this is the 3nd time that this problem occured: mRemonteNg SQL database is completely truncated (empty)\r\n\r\n## Current Behavior\r\nThis problem is rare and random. I think that this occured when mRemonteNg  was closed and opened again fastly but not sure\r\n\r\n## Steps to Reproduce (for bugs)\r\nVery hard to reproduce\r\nHere is some logs. This time, this is just after an update.\r\nI have bolded a strange part in log. Next time, I will permanently enable debug info....\r...",
   "our_status": "released",
   "priority": "P0-critical",
@@ -109,21 +109,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhH4",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:02Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:21Z",
+  "comments_cursor": "2026-02-26T13:45:04Z",
   "unread_comments": 8,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The issue describes critical data loss (SQL database truncation) occurring randomly upon application restart, likely due to a race condition or failure during the initial load resulting in an empty or partial connection tree being saved back to the database on exit.\nApproach: Modify SqlConnectionsSaver to prevent saving if the initial load was unsuccessful or incomplete. Introduce a state tracking mechanism (e.g., a 'LoadSuccessful' flag) in the connection loading process. Ensure that exceptions during load propagate correctly or set this flag to false, blocking subsequent saves to protect existing data."
 }

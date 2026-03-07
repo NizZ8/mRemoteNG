@@ -8,7 +8,7 @@
   ],
   "author": "klui2k1",
   "created_at": "2017-04-18T04:44:36Z",
-  "github_updated_at": "2026-02-21T10:23:11Z",
+  "github_updated_at": "2026-02-26T13:40:26Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Bug -->\r\n|||I have a few entries in mRemoteNG where they use HTTPS, port 443, with the Gecko (Firefox) rendering engine. I find that some of them have windows that create child windows but they fail to open. One that I use all the time is Zoneminde...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -74,39 +74,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXEF7",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:39Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXGGT",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:48:05Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYQ_X",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:12:16Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:11Z",
+  "comments_cursor": "2026-02-26T13:40:26Z",
   "unread_comments": 5,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Gecko/XUL engine (GeckoFX) was removed from mRemoteNG long ago as it was obsolete and unmaintained; the HTTP protocol now uses IE/Edge WebView, making this issue obsolete with no reproducible steps provided despite multiple triage requests\nApproach: No code changes needed — Gecko engine is no longer part of the codebase. Close as obsolete/stale."
 }

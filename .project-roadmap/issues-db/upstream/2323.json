@@ -12,7 +12,7 @@
   ],
   "author": "aurubis",
   "created_at": "2023-01-13T10:07:03Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-27T09:46:59Z",
   "body_snippet": "I am trying to connect version 1.77.1 or even the nightly to Microsoft SQL.\r\n\r\nIn version 1.77.1 the following error occurs:\r\n\r\n_Connection file could not be saved as \"\"!\r\nThe specified ColumnMapping does not match any column in the source or destination._\r\n\r\nIn version 1.77.3 the connection to MSSQL does not work at all.\r\nI have already tried to use different SQL table creation scripts from various Github issues I found here.\r\n\r\n## Your Environment\r\n* Version used: 1.77.1 & 1.77.3\r\n* Operating ...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -146,34 +146,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFOH",
+      "id": "IC_kwDOAAcIMM7svha_",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:44:55Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg90",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:25Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-27T09:46:59Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Connection to MSSQL\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-27T09:46:59Z",
   "unread_comments": 11,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue lacks reproducible steps, logs, or confirmation that the bug exists in current builds; reporter only described ODBC working but no details on mRemoteNG DB protocol config.\nApproach: Request user to retest on latest fork build and provide connection string, protocol settings used in mRemoteNG, and error logs/screenshots",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 94,
-    "cost_usd": 0.132339
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue lacks reproducible steps, logs, or confirmation that the bug exists in current builds; reporter only described ODBC working but no details on mRemoteNG DB protocol config.\nApproach: Request user to retest on latest fork build and provide connection string, protocol settings used in mRemoteNG, and error logs/screenshots"
 }

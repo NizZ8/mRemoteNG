@@ -10,7 +10,7 @@
   ],
   "author": "gschmitt99",
   "created_at": "2017-02-10T14:18:37Z",
-  "github_updated_at": "2026-02-24T07:25:31Z",
+  "github_updated_at": "2026-02-26T14:08:30Z",
   "body_snippet": "<!-- Bug -->\r\nWhen the mRemoteNG window is behind another but still partially visible, and click on the client area of mRemoteNG, it is not brought to the front.  There are times it does, and times it does not.  As I write this description this morning, I am messing with multiple tabs open in Chrome, clicking between Chrome and mRemoteNG and different tabs in Chrome.  Sometimes the behavior does not manifest, and sometimes it does.\r\n\r\n|--:|---|\r\n|Operating system | Windows 7 x64 |\r\n|mRemoteNG ve...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -75,28 +75,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYZyi",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:37:56Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rbGm9",
       "author": "robertpopa22",
       "date": "2026-02-24T07:25:22Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** mRemoteNG to front\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T07:25:31Z",
+  "comments_cursor": "2026-02-26T14:08:30Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Issue involves PuTTY focus/Alt-Tab behavior which is a known architectural limitation of embedding external processes; last triage comment asked reporter to retest on latest build but no response yet confirming if still reproducible\nApproach: If confirmed still present, investigate WM_ACTIVATE/WM_SETFOCUS message forwarding between the embedded PuTTY HWND and the mRemoteNG parent window, potentially using SetForegroundWindow or AttachThreadInput when the PuTTY panel receives focus"
 }

@@ -10,7 +10,7 @@
   ],
   "author": "genepy",
   "created_at": "2026-01-02T14:40:41Z",
-  "github_updated_at": "2026-02-21T10:24:09Z",
+  "github_updated_at": "2026-02-26T14:18:12Z",
   "body_snippet": "\n## Expected Behavior\nmRemotNG not crash and just close panel and connections in this panel\n\n## Current Behavior\nmRemotNG crash and need to be closed\n\n\n## Possible Solution\n\n## Steps to Reproduce (for bugs)\n<!--- Provide an unambiguous set of steps to reproduce -->\n<!--- this bug. Include code to reproduce, if relevant -->\n1. open 2 or more panels with one or more connections inside\n2. close one panel with one or more connections still opened\n3. some time mRemotNG don't crash\n\n## Context\n\n\n## Yo...",
   "our_status": "released",
   "priority": null,
@@ -34,25 +34,7 @@
       "id": "IC_kwDOAAcIMM7mX-2P",
       "author": "robertpopa22",
       "date": "2026-02-07T18:27:59Z",
-      "snippet": "Update:\n\n- Fix is proposed in upstream PR:\n  - https://github.com/mRemoteNG/mRemoteNG/pull/3106\n\nScope: close-panel race/dispose handling hardening in `ConnectionWindow`.\n\n",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg76",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:18Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7maCuD",
-      "author": "robertpopa22",
-      "date": "2026-02-07T21:59:02Z",
-      "snippet": "Covered by upstream PR:&echo https://github.com/mRemoteNG/mRemoteNG/pull/3106\r\n&echo Fork CI evidence:&echo https://github.com/robertpopa22/mRemoteNG/actions/runs/21782034958\r\n",
+      "snippet": "Update:\n\n- Fix is proposed in upstream PR:\n  - PR #3106 on `mRemoteNG/mRemoteNG`\n\nScope: close-panel race/dispose handling hardening in `ConnectionWindow`.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — we're preparing a consolidated Pull Request to contribute these improvemen...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -61,16 +43,16 @@
       "id": "IC_kwDOAAcIMM7mpbht",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:16Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3106 | **Branch:** `codex/pr2-closepanel-stability`\n**Fix:** Close panel race condition resolved — prevents crash when closing tabs rapidly.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:09Z",
+  "comments_cursor": "2026-02-26T14:18:12Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

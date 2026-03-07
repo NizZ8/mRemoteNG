@@ -11,7 +11,7 @@
   ],
   "author": "raffaeler",
   "created_at": "2024-04-27T18:49:42Z",
-  "github_updated_at": "2026-02-21T10:23:27Z",
+  "github_updated_at": "2026-02-27T10:37:56Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nI tested Ubuntu24 new \"Remote Login\" feature successfully using Windows RDP client. Basically, there are two sets of credentials.\r\n- with the first credential set (which can be specified in the \"Remote Login\" dialog, the Windows RDP client accesses Ubuntu remote login screen.\r\n- The second set of credentials matches the Ubuntu user, as if you were trying to access from the main (physical) PC\r\n\r\nI tried to access Ubuntu 24 using...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -109,24 +109,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXE1i",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:43:31Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYha_",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:00Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7qLXFP",
       "author": "raffaeler",
       "date": "2026-02-19T17:46:39Z",
@@ -161,18 +143,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7swdPX",
+      "author": "robertpopa22",
+      "date": "2026-02-27T10:37:56Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Accessing Ubuntu 24 using the \"Remote Login\" feature\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork b...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:27Z",
+  "comments_cursor": "2026-02-27T10:37:56Z",
   "unread_comments": 11,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty with no bug description, steps to reproduce, or error details about Ubuntu 24 Remote Login (likely RDP/xRDP); only meta-comments about spam blocking are present.\nApproach: Request reproduction steps, xRDP version, mRemoteNG logs, and connection protocol details",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 198,
-    "cost_usd": 0.158058
-  },
-  "impl_failed": false
+  "waiting_for_us": false,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue body is empty with no bug description, steps to reproduce, or error details about Ubuntu 24 Remote Login (likely RDP/xRDP); only meta-comments about spam blocking are present.\nApproach: Request reproduction steps, xRDP version, mRemoteNG logs, and connection protocol details"
 }

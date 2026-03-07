@@ -8,7 +8,7 @@
   ],
   "author": "Bludwarf",
   "created_at": "2017-11-10T10:32:28Z",
-  "github_updated_at": "2026-02-21T10:24:23Z",
+  "github_updated_at": "2026-02-26T14:17:06Z",
   "body_snippet": "|Detail|Value|\r\n|--:|---|\r\n|Operating system | Windows 10 x64 |\r\n|mRemoteNG version| 1.75.7011.34996  |\r\n\r\n1. Connect to create a new tab\r\n2. Rename this tab\r\n3. Reconnect this tab\r\n\r\nThe name used to rename the tab is lost because it is replaced by the connection name.\r\nIt could be kept to avoid copying the old name, reconnecting and pasting the old name.",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -40,16 +40,16 @@
       "id": "IC_kwDOAAcIMM7o4OWW",
       "author": "robertpopa22",
       "date": "2026-02-16T08:19:31Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`3570c631`](https://github.com/robertpopa22/mRemoteNG/commit/3570c63112950c5d64768a80639f38f68428fe6a)\n**Branch:** `main`\n**What changed:** Capture the current tab caption before reconnect and reapply\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:23Z",
+  "comments_cursor": "2026-02-26T14:17:06Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): Reconnect closes the current tab and creates a new one, so preserving the existing custom tab title is a clear, low-risk UX fix.\nApproach: Capture the current tab caption before reconnect and reapply it to the reopened tab when the user has manually renamed it."
 }

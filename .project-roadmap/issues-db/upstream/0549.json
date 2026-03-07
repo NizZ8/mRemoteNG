@@ -8,7 +8,7 @@
   ],
   "author": "LaurenceMillward",
   "created_at": "2017-05-10T10:39:41Z",
-  "github_updated_at": "2026-02-24T09:26:18Z",
+  "github_updated_at": "2026-02-26T14:08:48Z",
   "body_snippet": "Hi,\r\n\r\nAfter playing around with the SQL settings i've managed to accidentally overwrite my whole database with a old connections file.\r\n\r\nmRemoteNG failed to connect to the database so gave me the option of either using a connections file, or quitting the program. After choosing a connections file that I haven't used in a few months just so i can actually edit the SQL settings it it loaded into the application, I changed the SQL settings and BOOM, the whole database was overridden.\r\n\r\nCould the...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -40,16 +40,16 @@
       "id": "IC_kwDOAAcIMM7rdNoP",
       "author": "robertpopa22",
       "date": "2026-02-24T09:26:08Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Request: Another option when SQL fails to connect\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T09:26:18Z",
+  "comments_cursor": "2026-02-26T14:08:48Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Issue has no body or description explaining what 'another option when SQL fails to connect' means - unclear what behavior is requested or what the current problem is\nApproach: Need reporter to clarify: what option they want (fallback to local XML, retry prompt, silent continue, etc.) and what currently happens when SQL connection fails"
 }

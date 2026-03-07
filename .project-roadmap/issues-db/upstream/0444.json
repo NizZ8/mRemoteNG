@@ -10,7 +10,7 @@
   ],
   "author": "tjgng",
   "created_at": "2017-03-08T04:22:26Z",
-  "github_updated_at": "2026-02-26T01:42:07Z",
+  "github_updated_at": "2026-02-26T14:13:31Z",
   "body_snippet": "<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete the bug section -->\r\nAs per https://mremoteng.atlassian.net/browse/MR-328 it would be nice to be able to save and provide domain username and password to pass onto VNC.",
   "our_status": "released",
   "priority": "P4-debt",
@@ -75,16 +75,16 @@
       "id": "IC_kwDOAAcIMM7sPAuF",
       "author": "robertpopa22",
       "date": "2026-02-26T01:41:58Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Add support for MS-Logon UltraVNC\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T01:42:07Z",
+  "comments_cursor": "2026-02-26T14:13:31Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T03:21:41Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: MS-Logon authentication for UltraVNC is a legitimate feature request blocked by the VncSharp dependency, which needs to be replaced per #2025 before this can be implemented\nApproach: Depends on #2025 (replace VncSharpNG with a VNC library that supports MS-Logon authentication). Once replaced, expose the Username field in the VNC connection properties UI and pass MS-Logon credentials to the new VNC library."
 }

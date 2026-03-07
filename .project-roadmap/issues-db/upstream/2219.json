@@ -11,7 +11,7 @@
   ],
   "author": "unusedcow",
   "created_at": "2022-05-05T21:06:10Z",
-  "github_updated_at": "2026-02-23T11:43:45Z",
+  "github_updated_at": "2026-02-26T14:05:33Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nExpecting successful file import for .rdg files used by Remote Desktop Connection Manager 2.90\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the d...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -64,37 +64,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFTZ",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:14Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhdJ",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:05Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rGOvx",
       "author": "robertpopa22",
       "date": "2026-02-23T11:43:37Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Analyze the RDCMan v2.90+ file format changes, then update R\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T11:43:45Z",
+  "comments_cursor": "2026-02-26T14:05:33Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): To support importing connection files from Microsoft Remote Desktop Connection Manager v2.90 and newer versions, ensuring continued compatibility for users.\nApproach: Analyze the RDCMan v2.90+ file format changes, then update RemoteDesktopConnectionManagerDeserializer.cs to parse the new schema and any modified XML structure for connections and associated properties."
 }

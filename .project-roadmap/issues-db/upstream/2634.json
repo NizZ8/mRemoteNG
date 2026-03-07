@@ -11,7 +11,7 @@
   ],
   "author": "D3ENNY",
   "created_at": "2024-08-21T06:53:15Z",
-  "github_updated_at": "2026-02-21T10:23:37Z",
+  "github_updated_at": "2026-02-26T13:52:15Z",
   "body_snippet": "\r\nI want to connect via VNC, but i want that the username and the password are of a Domain User ",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -49,15 +49,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYh98",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:41Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mZXbI",
       "author": "Neustradamus",
       "date": "2026-02-07T20:48:36Z",
@@ -67,16 +58,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:37Z",
+  "comments_cursor": "2026-02-26T13:52:15Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: VNC with domain user authentication. VNC protocol limitation (no native domain auth).",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 92,
-    "cost_usd": 0.159414
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: VNC with domain user authentication. VNC protocol limitation (no native domain auth)."
 }

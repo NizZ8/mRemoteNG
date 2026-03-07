@@ -12,7 +12,7 @@
   ],
   "author": "JotunJosh",
   "created_at": "2025-04-08T06:30:10Z",
-  "github_updated_at": "2026-02-21T10:23:24Z",
+  "github_updated_at": "2026-02-27T11:15:17Z",
   "body_snippet": "In the current nightly build i cannot connect to my seperate sql server. On the other side my stable client has no problems to connect to the same sql server (other database)\n\n> 2025-04-03 08:32:39,754 [1] ERROR - Retrieving database version failed. System.TypeInitializationException: The type initializer for 'Microsoft.Data.SqlClient.TdsParser' threw an exception.\n ---> System.TypeInitializationException: The type initializer for 'Microsoft.Data.SqlClient.SNILoadHandle' threw an exception.\n ---...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -74,25 +74,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhTa",
+      "id": "IC_kwDOAAcIMM7sxO6j",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:52:39Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-27T11:15:17Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `3670bffb` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** SQL Server Connect error in current nighly build\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork build...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:24Z",
+  "comments_cursor": "2026-02-27T11:15:17Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue lacks reproducible steps and expected vs actual behavior on current build; the x64/x32 BadImageFormatException was noted as fixed by the reporter, but no confirmation the issue is fully resolved or which library/version is affected.\nApproach: Request confirmation of current status on latest fork build with exact steps to reproduce, error messages, and which SQL Server library version is being used",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 106,
-    "cost_usd": 0.164708
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue lacks reproducible steps and expected vs actual behavior on current build; the x64/x32 BadImageFormatException was noted as fixed by the reporter, but no confirmation the issue is fully resolved or which library/version is affected.\nApproach: Request confirmation of current status on latest fork build with exact steps to reproduce, error messages, and which SQL Server library version is being used"
 }

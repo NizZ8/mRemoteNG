@@ -10,7 +10,7 @@
   ],
   "author": "Kencow",
   "created_at": "2022-09-23T23:35:23Z",
-  "github_updated_at": "2026-02-23T18:17:19Z",
+  "github_updated_at": "2026-02-26T14:06:43Z",
   "body_snippet": "Restricted Admin mode support is added in v1.77.3 for RDP, but most of my win servers don't enable RestrictedAdmin mode, so mRemoteNG fails to login when \"Use Restricted Admin\" and \"Use Remote Credential Guard\" are set to Yes. These 2 parameters can be changed in Config tab, but cannot be controlled in Quick Connect.\r\n\r\nIs it possible to Disable both of them in Quick Connect and Config for RDP by default ? ",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -75,16 +75,16 @@
       "id": "IC_kwDOAAcIMM7rOnTX",
       "author": "robertpopa22",
       "date": "2026-02-23T18:17:11Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Modify the `CreateQuickConnect` method in `ConnectionsServic\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T18:17:19Z",
+  "comments_cursor": "2026-02-26T14:06:43Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The current Quick Connect implementation does not provide a mechanism to disable or enable \"Restricted Admin\" and \"Remote Credential Guard\" settings, as it inherits them from default connection properties without an override option.\nApproach: Modify the `CreateQuickConnect` method in `ConnectionsService.cs` to parse additional parameters within the quick connect string, allowing users to explicitly control the 'Use Restricted Admin' and 'Use Remote Credential Guard' settings for the ephemeral connection. This could involve introducing flags such as `-ra` (for Restricted Admin) and `-rcg` (for Remote Credential Guard), with optional boolean values (e.g., `-ra:false`)."
 }

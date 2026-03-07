@@ -10,7 +10,7 @@
   ],
   "author": "domleg",
   "created_at": "2024-04-03T18:18:17Z",
-  "github_updated_at": "2026-02-21T10:23:24Z",
+  "github_updated_at": "2026-02-26T13:46:03Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nThat the RemoteDesktop Connect method works without errors.\r\n\r\n\r\n## Current Behavior\r\nWhen using VNCSharp this method was working fine but the performance was very bad. I upgraded my project to .NET Core 8.0 and used VNCSharpCore instead.\r\n\r\n // Create a new RemoteDesktop control\r\n RemoteDesktop newRd = new RemoteDesktop();\r\n vncPanel.Controls.Add(newRd); // Add the new control to the panel\r\n newRd.Dock ...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -84,24 +84,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXE22",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:43:35Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhQj",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:30Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mk3DI",
       "author": "imoore937",
       "date": "2026-02-08T22:21:39Z",
@@ -120,16 +102,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:24Z",
+  "comments_cursor": "2026-02-26T13:46:03Z",
   "unread_comments": 7,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "VncSharp library retired in our fork. VNC functionality replaced with newer protocol handler.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 517,
-    "cost_usd": 0.165358
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "VncSharp library retired in our fork. VNC functionality replaced with newer protocol handler."
 }

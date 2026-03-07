@@ -10,7 +10,7 @@
   ],
   "author": "mhudrlik",
   "created_at": "2018-04-06T19:32:07Z",
-  "github_updated_at": "2026-02-21T10:23:24Z",
+  "github_updated_at": "2026-02-26T13:46:20Z",
   "body_snippet": "## Expected Behavior\r\nA folder would either automatically or manually  update the list of connections in the folder.  Active Directory and/or REST\r\n\r\n## Current Behavior\r\nYou can manually import via file, AD or Portscan.\r\n\r\n## Possible Solution\r\nA flag on the folder with a setting in minutes/hours/days of how frequently to update the list, possibly by just calling the import function and overwriting the contents of the folder.  It would be nice to be able to right click and update manually as we...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -82,21 +82,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhSF",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:36Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:24Z",
+  "comments_cursor": "2026-02-26T13:46:20Z",
   "unread_comments": 3,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): The issue proposes a broad dynamic-folder concept but does not provide concrete, testable requirements or validated behavior on current builds.\nApproach: Request retest on v1.79.x/upstream dev plus clear use cases, data sources (SQL/AD/service discovery), refresh rules, and acceptance criteria before scoping implementation.\nAI triage (codex): The feature request is currently too broad and stale to implement because it lacks validated latest-build behavior and concrete acceptance criteria.\nApproach: Request a retest on v1.79.x/upstream dev with explicit requirements for dynamic folder sources, refresh rules, filtering logic, and expected UI behavior, then scope implementation from that spec.\nAI triage (claude): Dynamic connection folders with periodic AD/REST re-import is a valuable enterprise feature that builds on existing import infrastructure\nApproach: Add a DynamicSource property to ContainerInfo (source type, query, refresh interval), implement a background timer service that triggers re-import on schedule, extend the folder context menu with 'Configure Dynamic Source' and 'Refresh Now' options, and reuse existing AD/file importers to populate folder contents\nAI triage (gemini): The infrastructure for dynamic folders exists (`DynamicFolderManager`, `ContainerInfo.DynamicSource`) but currently only supports Active Directory. This feature request implies extending it to other sources (e.g., generic scripts, files, or URL) to make it truly dynamic for all users.\nApproach: Extend `DynamicSourceType` enum with new sources (e.g., `Script`, `File`). Update `DynamicFolderManager.RefreshFolderInternal` to handle these new types by invoking the appropriate importer or script parser to populate `ContainerInfo.Children`."
 }

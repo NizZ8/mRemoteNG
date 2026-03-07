@@ -10,7 +10,7 @@
   ],
   "author": "krwudtke",
   "created_at": "2021-08-27T17:23:22Z",
-  "github_updated_at": "2026-02-23T18:35:46Z",
+  "github_updated_at": "2026-02-26T14:04:12Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n**Internal error on imported connection attempt**\r\nWe have an RD Session Host server farm with 2 servers and a gateway performing load balancing. We'll call the servers RDSSERVER03 & RDSSERVER04 and the gateway server GATEWAY01 with an alias of RDS2. There is an rds2.rdp file that many people in the company use to connect to the servers and it works just fine (see attached). I imported that file into mRemoteNG, but I can't get ...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -39,19 +39,10 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mXFcz",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:48Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7q2bBU",
       "author": "robertpopa22",
       "date": "2026-02-22T04:38:03Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Investigate the XmlConnectionsDeserializer and MRemoteNGXmlI\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -66,10 +57,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-23T18:35:46Z",
+  "comments_cursor": "2026-02-26T14:04:12Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): An internal error during connection import indicates a defect in the deserialization or processing logic of imported connection data, requiring investigation and a fix.\nApproach: Investigate the XmlConnectionsDeserializer and MRemoteNGXmlImporter classes to identify the source of the internal error during connection import and implement a robust fix, potentially adding error handling or validation."
 }

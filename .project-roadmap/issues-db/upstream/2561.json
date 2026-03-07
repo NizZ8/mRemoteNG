@@ -10,7 +10,7 @@
   ],
   "author": "MrDwight",
   "created_at": "2024-02-01T21:26:43Z",
-  "github_updated_at": "2026-02-21T10:23:14Z",
+  "github_updated_at": "2026-02-26T13:41:50Z",
   "body_snippet": "Request: External Tools\r\n\r\nWhen creating an external tools command, there is an option to \"run elevated.\"  I am requesting a feature: to be able to use the saved credentials under Tools | Options | Credentials instead of having to manually enter elevated credentials via Windows UAC when using the External Tools \"run elevated\" option.\r\n\r\n## Desired Behavior\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nWhen setting up an External Tools command, you would check ...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -46,27 +46,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYX0u",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:32:02Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:14Z",
+  "comments_cursor": "2026-02-26T13:41:50Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: External Tools enhancements (run elevated per-tool). Minor UX, low priority.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 388,
-    "cost_usd": 0.159239
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: External Tools enhancements (run elevated per-tool). Minor UX, low priority."
 }

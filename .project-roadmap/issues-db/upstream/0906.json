@@ -10,7 +10,7 @@
   ],
   "author": "Greenice33",
   "created_at": "2018-03-03T05:55:40Z",
-  "github_updated_at": "2026-02-21T10:23:21Z",
+  "github_updated_at": "2026-02-26T13:44:48Z",
   "body_snippet": "Can I import and run multiple connections at once? Example\r\n54.202.139.61 Administrator ?Uuvfy?Pj=K \r\n54.212.215.27 Administrator-aP*LQSa&J \r\n54.2012.11.171 administrator pbox-Ycjh%M \r\nIf not, make this a very useful feature for everyone",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -67,21 +67,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhGE",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:57Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:21Z",
+  "comments_cursor": "2026-02-26T13:44:48Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (codex): The issue combines multiple old enhancement requests without a current-version repro or clear expected behavior, so it is not actionable yet.\nApproach: Request retest on v1.79.x and split into two reproducible asks: bulk connection creation/launch workflow and immediate inline rename when adding a new connection.\nAI triage (codex): The issue combines multiple legacy feature requests without clear, current-version reproducible steps or a single scoped expected behavior.\nApproach: Request retest on v1.79.x with exact steps and expected vs actual results, then split into separate issues for bulk connection creation/launch and immediate inline rename on new connection.\nAI triage (gemini): Feature request to allow bulk import and immediate connection from text/list (e.g. pasted IPs), which is more efficient than CSV for quick tasks.\nApproach: Implement a 'Quick Import' dialog that accepts multiline text, attempts to parse connection details (IP, User, Pass), and allows adding them to the tree or connecting immediately."
 }

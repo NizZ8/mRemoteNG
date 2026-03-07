@@ -8,7 +8,7 @@
   ],
   "author": "luisarnauth",
   "created_at": "2019-04-30T15:38:03Z",
-  "github_updated_at": "2023-03-10T02:31:31Z",
+  "github_updated_at": "2026-02-27T06:32:46Z",
   "body_snippet": "After upgrading to 1.77.0.41307 the RDP connections don't respect the desktop scaling , showing the remote desktop in 100% scaling.\r\n\r\nPrior to this upgrade, the remote desktop connections inherit the desktop scaling.",
   "our_status": "released",
   "priority": "P2-bug",
@@ -149,18 +149,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7ssg-I",
+      "author": "robertpopa22",
+      "date": "2026-02-27T06:32:46Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `f34c13e7` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** RDP doesn't respect desktop scaling\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2023-03-10T02:31:31Z",
+  "comments_cursor": "2026-02-27T06:32:46Z",
   "unread_comments": 10,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (claude-retry): RDP ignores desktop DPI scaling since v1.77 — widespread issue (10+ comments, 4K users affected). Requires DPI-awareness manifest and RDP control configuration. Workaround: compatibility settings override.\nFailed 5+ automated attempts (Sonnet). Requires manual fix or Opus-level agent.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 114,
-    "output_tokens": 50478,
-    "cost_usd": 3.870485
-  }
+  "waiting_for_us": false,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude-retry): RDP ignores desktop DPI scaling since v1.77 — widespread issue (10+ comments, 4K users affected). Requires DPI-awareness manifest and RDP control configuration. Workaround: compatibility settings override.\nFailed 5+ automated attempts (Sonnet). Requires manual fix or Opus-level agent."
 }

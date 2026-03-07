@@ -10,7 +10,7 @@
   ],
   "author": "TristisOris",
   "created_at": "2022-04-04T20:09:44Z",
-  "github_updated_at": "2026-02-25T23:27:13Z",
+  "github_updated_at": "2026-02-26T14:13:03Z",
   "body_snippet": "it's implemented at Remote Desktop Manager Free. almost killer feature for me.\r\nnow we can copy only hostname\r\n![изображение](https://user-images.githubusercontent.com/1270117/161622623-cd30015a-eb61-4380-b751-8df0e556a6f3.png)\r\nbut this is required much more often.\r\n![изображение](https://user-images.githubusercontent.com/1270117/161622716-98d0399e-6d90-4b51-8174-fba5b9a4c2e2.png)\r\n\r\nfor ex: after ssh login i anyway need sudo, so should type password again. Without this option need to copy it f...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -84,28 +84,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhRM",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:32Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sNLJ7",
       "author": "robertpopa22",
       "date": "2026-02-25T23:27:03Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** feature request: copy password\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T23:27:13Z",
+  "comments_cursor": "2026-02-26T14:13:03Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T03:21:41Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Users commonly expect to be able to copy passwords from connection entries for convenience, enhancing user experience.\nApproach: Add a public method to AbstractConnectionRecord.cs to retrieve the password string safely. Implement a 'Copy Password' context menu item in ConnectionContextMenu.cs. The menu item will retrieve the selected connection's password via the new method and use WindowsClipboard.SetText() to copy it. Ensure the menu item's visibility/enabled state is appropriate (e.g., only for connections with passwords). Add unit tests to verify functionality."
 }

@@ -10,7 +10,7 @@
   ],
   "author": "SimplifyAndAddCoffee",
   "created_at": "2021-02-12T17:48:11Z",
-  "github_updated_at": "2026-02-21T10:23:15Z",
+  "github_updated_at": "2026-02-26T13:42:26Z",
   "body_snippet": "I would like to be able to store more web admin panels in my connections, but many of them have paths in the URL that I cannot access. e.g. pi.hole:81/admin etc. Hopefully it should be relatively easy to add support for this?",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -46,21 +46,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYZ0I",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:38:01Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:15Z",
+  "comments_cursor": "2026-02-26T13:42:26Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Feature request to add a path parameter for HTTP/HTTPS connections, enhancing URL configurability.\nApproach: Add a new 'Path' property to AbstractConnectionRecord for storing the URL path. Initialize this property in ConnectionInfo.cs. Modify the GetUrl() method in Connection.Protocol.HTTPBase.cs to append the new Path property to the constructed URL, handling leading/trailing slashes appropriately. Add corresponding localization strings for 'Path' and 'PropertyDescriptionPath' in Language.resx for UI display."
 }

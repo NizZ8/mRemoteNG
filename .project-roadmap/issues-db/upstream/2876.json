@@ -6,7 +6,7 @@
   "labels": [],
   "author": "igor2x",
   "created_at": "2025-10-08T16:55:06Z",
-  "github_updated_at": "2026-02-26T05:56:06Z",
+  "github_updated_at": "2026-02-26T14:14:10Z",
   "body_snippet": "I have downloaded mRemoteNG v1.78.2-NB-3208 x64.\n\nCompare two right menus:\n<img width=\"516\" height=\"338\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/31088ffe-e681-4e7e-9236-f0025373dfa8\" />\n\n1. Disconnect icon on left side should be the same as on right side.\n2. Second and third disconnect icons should probably be something else.\n3. Duplicate tab on left side should have the same icon as on the right side.\n\nThe whole idea is, more you use right mouse buttons more quickly you can ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -50,16 +50,16 @@
       "id": "IC_kwDOAAcIMM7sSj7G",
       "author": "robertpopa22",
       "date": "2026-02-26T05:55:59Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Audit icon assignments in the active connection context menu\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T05:56:06Z",
+  "comments_cursor": "2026-02-26T14:14:10Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T07:52:20Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Visual inconsistency in right-click context menu icons for active connections is a UI polish bug worth fixing.\nApproach: Audit icon assignments in the active connection context menu and ensure consistent icon set usage across all menu items"
 }

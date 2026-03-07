@@ -9,7 +9,7 @@
   ],
   "author": "aaljaseem",
   "created_at": "2020-08-17T12:11:55Z",
-  "github_updated_at": "2026-02-21T10:23:36Z",
+  "github_updated_at": "2026-02-26T13:51:58Z",
   "body_snippet": "Hello everyone,\r\n\r\nI am a Mobaxterm user. But that is a payed tool where i cat save more than limited number of sessions.\r\nNow i am trying out ,mRemoteNG but the pain point that mRemoteNG has is a ftp side bar. This feature is very handy with linux machines where you can drag and drop files from and to the remote machine.\r\n\r\nAlso there is a monitoring bar down of the screen. It would be really handy also to have it.\r\n![mobaxterm](https://user-images.githubusercontent.com/20978632/90394650-5343fb...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -144,21 +144,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYh8e",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:35Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:36Z",
+  "comments_cursor": "2026-02-26T13:51:58Z",
   "unread_comments": 12,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Requesting an integrated SFTP file browser sidebar (MobaXterm-style) — a major new feature requiring a full file manager UI component and SSH.NET integration, far outside the scope of a remote connections manager and with no active development in 5+ years.\nApproach: Close as out-of-scope; mRemoteNG is a connection manager, not a full SSH client with file browser. Users can use standalone SFTP clients (WinSCP, FileZilla) alongside mRemoteNG."
 }

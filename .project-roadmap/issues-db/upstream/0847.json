@@ -10,7 +10,7 @@
   ],
   "author": "hoerup",
   "created_at": "2017-12-15T09:55:45Z",
-  "github_updated_at": "2026-02-21T10:24:12Z",
+  "github_updated_at": "2026-02-26T14:19:08Z",
   "body_snippet": "there's currently no option for setting redirect \"key combinations = no\" on a fullscreen RDP session.\r\n\r\nboth mstsc and RDCman2.7 has that option\r\n\r\n\r\n",
   "our_status": "released",
   "priority": null,
@@ -31,19 +31,10 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mYijS",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:49Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mbBFZ",
       "author": "robertpopa22",
       "date": "2026-02-08T00:39:36Z",
-      "snippet": "Implemented fork-side guardrail package for this issue:\n\n- upstream PR: https://github.com/mRemoteNG/mRemoteNG/pull/3117\n- change summary:\n  - expose `RedirectKeysEnabled` on `RdpProtocol`\n  - lock fullscreen toggle in tab context menu only when redirect-keys mode is active and session is already fullscreen\n  - keep fullscreen toggle available for entering fullscreen (only prevent unstable exit path)\n- fork CI evidence:\n  - https://github.com/robertpopa22/mRemoteNG/actions/runs/21789456797\n\nThis...",
+      "snippet": "Implemented fork-side guardrail package for this issue:\n\n- upstream PR: PR #3117 on `mRemoteNG/mRemoteNG`\n- change summary:\n  - expose `RedirectKeysEnabled` on `RdpProtocol`\n  - lock fullscreen toggle in tab context menu only when redirect-keys mode is active and session is already fullscreen\n  - keep fullscreen toggle available for entering fullscreen (only prevent unstable exit path)\n- fork CI evidence:\n  - CI run 21789456797 on `robertpopa22/mRemoteNG`\n\nThis is a minimal risk stabilization st...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -52,16 +43,16 @@
       "id": "IC_kwDOAAcIMM7mpcYK",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:55Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3117 | **Branch:** `codex/pr13-rdp-redirectkeys-fullscreen-847`\n**Fix:** RDP fullscreen toggle guard prevents redirect keys conflict.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:12Z",
+  "comments_cursor": "2026-02-26T14:19:08Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

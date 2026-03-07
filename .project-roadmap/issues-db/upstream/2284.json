@@ -9,7 +9,7 @@
   ],
   "author": "plegrand1",
   "created_at": "2022-09-07T11:44:18Z",
-  "github_updated_at": "2026-02-21T10:22:45Z",
+  "github_updated_at": "2026-02-27T13:17:54Z",
   "body_snippet": "Hello,\r\nwhat would be the way to proceed to make WSL, defined as external application\" open in a tab and not in a separate window?\r\n\r\nThanks for your help\r\nPascal",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -71,25 +71,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFPh",
+      "id": "IC_kwDOAAcIMM7szfS3",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:45:01Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
+      "date": "2026-02-27T13:17:54Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `bed5a7d0` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** WSL in tab\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — we're ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:22:45Z",
+  "comments_cursor": "2026-02-27T13:17:54Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue body is empty with no specification of desired WSL integration behavior, existing workarounds mentioned but no confirmation they were tried, and maintainer already requested reproducible steps with no response.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 375,
-    "cost_usd": 0.136608
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue body is empty with no specification of desired WSL integration behavior, existing workarounds mentioned but no confirmation they were tried, and maintainer already requested reproducible steps with no response."
 }

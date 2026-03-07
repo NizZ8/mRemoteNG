@@ -8,7 +8,7 @@
   ],
   "author": "kgggggb",
   "created_at": "2021-03-28T18:16:29Z",
-  "github_updated_at": "2026-02-22T00:36:41Z",
+  "github_updated_at": "2026-02-26T14:03:26Z",
   "body_snippet": "Request to add a new feature: lock the window size of mRemoteNG\r\nSometimes I always drag the window accidentally, and then I feel uncomfortable, and it takes time to adjust it.\r\nIn addition, I hope that another feature can be added: locking the window layout.",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -49,16 +49,16 @@
       "id": "IC_kwDOAAcIMM7q1G1e",
       "author": "robertpopa22",
       "date": "2026-02-22T00:36:33Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Add a 'LockWindowSize' setting to Properties.Settings, a che\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-22T00:36:41Z",
+  "comments_cursor": "2026-02-26T14:03:26Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): User requests the ability to lock the mRemoteNG window size. This can be implemented by adding a setting and controlling the main form's BorderStyle.\nApproach: Add a 'LockWindowSize' setting to Properties.Settings, a checkbox to AppearancePage, and modify FrmMain to change its FormBorderStyle based on this setting, preventing user resizing."
 }

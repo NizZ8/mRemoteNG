@@ -11,7 +11,7 @@
   ],
   "author": "pauldurham",
   "created_at": "2022-02-01T20:44:11Z",
-  "github_updated_at": "2026-02-21T10:23:19Z",
+  "github_updated_at": "2026-02-26T13:43:57Z",
   "body_snippet": "I resumed configuring my list of folders & servers after hibernating my PC.  I made many changes, saved the config (ctrl-S), and exited.  I re-opened mRemoteNG & the entire configuration was gone. I was prompted to create a configuration as if I was a first-time user.\r\n\r\n## Expected Behavior\r\nI expected the configuration to be saved and available at the app's next startup.\r\n\r\n## Current Behavior\r\nThe config was lost.  Everything was gone.  This happened only once so far.\r\n\r\n## Steps to Reproduce...",
   "our_status": "released",
   "priority": "P0-critical",
@@ -84,36 +84,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFam",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:40Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhCT",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:41Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:19Z",
+  "comments_cursor": "2026-02-26T13:43:57Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
-  "notes": "AI triage (gemini): Critical data loss bug where user configuration is lost after multiple save operations and system hibernation.\nApproach: Investigate the configuration saving and loading mechanisms, focusing on file I/O robustness, file locking, and handling of application lifecycle events, especially around system hibernation. Analyze potential conflicts or race conditions when multiple save/export operations occur. Implement atomic save operations and/or backup mechanisms to ensure data integrity.",
-  "impl_failed": true,
-  "token_usage": {
-    "input_tokens": 806,
-    "output_tokens": 49154,
-    "cost_usd": 4.063658
-  }
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): Critical data loss bug where user configuration is lost after multiple save operations and system hibernation.\nApproach: Investigate the configuration saving and loading mechanisms, focusing on file I/O robustness, file locking, and handling of application lifecycle events, especially around system hibernation. Analyze potential conflicts or race conditions when multiple save/export operations occur. Implement atomic save operations and/or backup mechanisms to ensure data integrity."
 }

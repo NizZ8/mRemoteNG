@@ -11,7 +11,7 @@
   ],
   "author": "sureshht",
   "created_at": "2025-09-17T23:24:40Z",
-  "github_updated_at": "2026-02-21T10:23:40Z",
+  "github_updated_at": "2026-02-26T13:53:26Z",
   "body_snippet": "Hi,\n\nNeed to Create custom buttons for quick access to commands.\nThis is available in SecureCRT tool. Can we have similar button feature?\n\nThanks\nSuresh",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -56,27 +56,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiEF",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:04Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:40Z",
+  "comments_cursor": "2026-02-26T13:53:26Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: custom quick-access command buttons (like SecureCRT). Major UI feature.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 79,
-    "cost_usd": 0.167039
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: custom quick-access command buttons (like SecureCRT). Major UI feature."
 }

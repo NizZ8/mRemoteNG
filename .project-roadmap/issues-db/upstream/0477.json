@@ -8,7 +8,7 @@
   ],
   "author": "hervehobbes",
   "created_at": "2017-03-30T14:45:11Z",
-  "github_updated_at": "2026-02-25T04:25:26Z",
+  "github_updated_at": "2026-02-26T14:10:43Z",
   "body_snippet": "<!-- Feature Request -->\r\nHello,\r\n\r\nWould it be possible to add shortcuts to copy and paste from/to the terminal (ssh mainly)?\r\n\r\nIdeally, the same shortucts as in Gnome shell (Ctrl + Shift +C & Ctrl + Shit + V) would be very usefull\r\n\r\nThank you\r\n<!-- If you file a feature request, please delete the bug section -->\r\n",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -40,16 +40,16 @@
       "id": "IC_kwDOAAcIMM7r1iIY",
       "author": "robertpopa22",
       "date": "2026-02-25T04:25:18Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Shortcuts for copy & paste\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T04:25:26Z",
+  "comments_cursor": "2026-02-26T14:10:43Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:41:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Issue title mentions shortcuts for copy & paste but the body is empty, so it's unclear what specific behavior is requested or what context (connection tree, config panel, terminal) the shortcuts should apply to\nApproach: Need reporter to clarify: what should be copied/pasted (connections, credentials, hostnames?), in which UI context, and what shortcuts are expected"
 }

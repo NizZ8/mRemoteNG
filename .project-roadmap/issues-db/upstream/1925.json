@@ -10,7 +10,7 @@
   ],
   "author": "rzuidhof",
   "created_at": "2021-01-28T09:32:33Z",
-  "github_updated_at": "2026-02-25T00:54:23Z",
+  "github_updated_at": "2026-02-26T14:09:55Z",
   "body_snippet": "Sometimes my Connections panel keeps scrolling down when it has focus from the mouse pointer. Clicking or selecting with arrow keys is still possible but with a long list a groups the top ones will disappear from view fast.\r\n\r\nUsing mRemoteNG 1.76.20 on Windows Server 2012 R2. I think it also happened with previous releases.\r\n\r\nFrequency is hard to tell, maybe once every two months? Restarting the application fixes the issue.",
   "our_status": "released",
   "priority": "P2-bug",
@@ -75,37 +75,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFiS",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:08Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhA0",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:35Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rxudf",
       "author": "robertpopa22",
       "date": "2026-02-25T00:54:14Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Connections panel scrolling down when focussed\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T00:54:23Z",
+  "comments_cursor": "2026-02-26T14:09:55Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:41:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The Connections panel (ConnectionTree, a TreeListView) scrolls unnecessarily when a node gains focus, likely due to an aggressive auto-scroll-on-focus behavior in the underlying TreeListView control.\nApproach: Investigate and disable or modify the TreeListView's auto-scroll-on-focus behavior in ConnectionTree.cs to prevent unwanted scrolling while ensuring the focused item remains visible when necessary (e.g., after adding a new node)."
 }

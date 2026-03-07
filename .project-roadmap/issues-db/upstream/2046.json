@@ -10,7 +10,7 @@
   ],
   "author": "penguinairlines",
   "created_at": "2021-09-13T18:33:27Z",
-  "github_updated_at": "2026-02-22T05:50:32Z",
+  "github_updated_at": "2026-02-26T14:04:30Z",
   "body_snippet": "## Expected Behavior\r\nI'm trying to configure WinSCP external tool, but a 2nd profile that uses keys instead of passwords. In my searching, looks like this has been brought up once before http://forum.mremoteng.org/viewtopic.php?f=3&t=1701 but they did not find a solution. I did not find many other results for this, surprisingly.\r\n\r\n## Current Behavior\r\nUsing the provided configuration, I get the error `No supported authentication methods available (server sent: publickey,gssapi-keyex,gssapi-wit...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -69,16 +69,16 @@
       "id": "IC_kwDOAAcIMM7q2z4Z",
       "author": "robertpopa22",
       "date": "2026-02-22T05:50:25Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Extend the `ExternalTool` class with properties for authenti\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-22T05:50:32Z",
+  "comments_cursor": "2026-02-26T14:04:30Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The current external tool configuration lacks dedicated fields for secure key-based authentication, leading to insecure or cumbersome argument string manipulation, which is a significant feature gap.\nApproach: Extend the `ExternalTool` class with properties for authentication type, username, password, private key file, and passphrase. Update `ExternalToolArgumentParser` to incorporate these new properties when constructing command-line arguments. Modify `ExternalToolsWindow` to provide UI elements for configuring these new authentication settings."
 }

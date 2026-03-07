@@ -1,0 +1,28 @@
+{
+  "number": 21,
+  "repo": "robertpopa22/mRemoteNG",
+  "title": "[Crash] System.NullReferenceException: Object reference not set to an instance of an object.",
+  "state": "open",
+  "labels": [
+    "bug",
+    "crash-report",
+    "auto-submitted"
+  ],
+  "author": "robertpopa22",
+  "created_at": "2026-02-27T09:01:52Z",
+  "github_updated_at": "2026-02-27T09:01:52Z",
+  "body_snippet": "## Crash Report\r\n\r\n### Exception\r\n**Type:** `System.NullReferenceException`\r\n**Message:** Object reference not set to an instance of an object.\r\n\r\n### Stack Trace\r\n```\r\n   at void System.Windows.Forms.Integration.ApplicationInterop.EnableModelessKeyboardInterop(Window window)\r\n   at void mRemoteNG.App.ProgramRoot.ShowSplashOnStaThread()+() => { } in D:/a/mRemoteNG/mRemoteNG/mRemoteNG/App/ProgramRoot.cs:line 379\r\n   at void System.Threading.Thread.StartCallback()\r\n```\r\n\r\n### Environment\r\n```\r\nOS:...",
+  "our_status": "new",
+  "priority": null,
+  "target_release": null,
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [],
+  "comments": [],
+  "comments_cursor": "2026-02-27T09:01:52Z",
+  "unread_comments": 0,
+  "needs_action": true,
+  "waiting_for_us": false,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": ""
+}

@@ -9,7 +9,7 @@
   ],
   "author": "Wolvverine",
   "created_at": "2024-07-05T20:26:50Z",
-  "github_updated_at": "2026-02-21T10:23:32Z",
+  "github_updated_at": "2026-02-26T13:50:05Z",
   "body_snippet": "It would be useful to add the possibility of providing separate credentials for logging in to Hyper-v virtual machines.\r\n\r\nCurrently it is possible to give credentials only for Hyper-v server - there is no possibility to give separate credentials for logging in to the virtual machine itself if they are different for the RDP session than for the Hyper-v server.\r\n\r\nmRemoteNG - v1.77.3\r\nlocal Hyper-v Server\r\nHyper-v VM - example: https://app.vagrantup.com/wolvverine/LinuxMintCinnamon (linux with XR...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -75,27 +75,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhtc",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:55Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:32Z",
+  "comments_cursor": "2026-02-26T13:50:05Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: separate Hyper-V VM credentials. 6 failed AI attempts. Requires protocol-specific credential handling.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 452,
-    "cost_usd": 0.165726
-  }
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: separate Hyper-V VM credentials. 6 failed AI attempts. Requires protocol-specific credential handling."
 }

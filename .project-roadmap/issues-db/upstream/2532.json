@@ -10,7 +10,7 @@
   ],
   "author": "ductnone",
   "created_at": "2023-12-08T05:35:16Z",
-  "github_updated_at": "2023-12-11T10:42:01Z",
+  "github_updated_at": "2026-02-26T17:07:38Z",
   "body_snippet": "## Expected Behavior\r\nBeing able to organize external tools into folders | Hide tools from UI\r\n\r\n## Current Behavior\r\nAs of now once a certain number of external tools is reached, they cannot be shown in the UI anymore and one needs to expand the UI using the arrow button. Also external tools are currently sorted in a pre-determined order that cannot be changed.\r\nYou cannot change the order based on utilization.\r\nAlso all external tools are shown on the UI.\r\n\r\n## Possible Solution\r\nIt would be n...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -58,18 +58,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7sgkJN",
+      "author": "robertpopa22",
+      "date": "2026-02-26T17:07:37Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `2775dec5` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Feature Request: Folders for external tools | Hide tools fro\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2023-12-11T10:42:01Z",
+  "comments_cursor": "2026-02-26T17:07:38Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (claude): Maintainer acknowledged the request positively ('will think about in next branch'), making this a planned UI enhancement for organizing external tools with folders and visibility toggles.\nApproach: Add folder/category grouping to external tools and a visibility (hidden) flag, persisted in config and reflected in the Tools menu UI.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 30,
-    "output_tokens": 7087,
-    "cost_usd": 1.955344
-  }
+  "waiting_for_us": false,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Maintainer acknowledged the request positively ('will think about in next branch'), making this a planned UI enhancement for organizing external tools with folders and visibility toggles.\nApproach: Add folder/category grouping to external tools and a visibility (hidden) flag, persisted in config and reflected in the Tools menu UI."
 }

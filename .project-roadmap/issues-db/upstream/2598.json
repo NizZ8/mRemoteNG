@@ -15,7 +15,7 @@
   ],
   "author": "mshalmanov",
   "created_at": "2024-05-28T15:46:33Z",
-  "github_updated_at": "2026-02-21T10:23:29Z",
+  "github_updated_at": "2026-02-26T17:28:34Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nPlease add possibility Copy/Past login and password buttons to ssh and rdp connection. How is it done in RoaylTS.\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nWhen user connected to Linux or Windows OS machine. He is can copy and past login or password from the account of the computer to which it is con...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -83,25 +83,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhjT",
+      "id": "IC_kwDOAAcIMM7shEqt",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:53:22Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
+      "date": "2026-02-26T17:28:34Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `5a9ad758` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Add Copy/Past login and password\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on yo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:29Z",
+  "comments_cursor": "2026-02-26T17:28:34Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Legitimate UX enhancement to copy credentials to clipboard from connection tree context menu, with a workaround already documented via External Tool entry.\nApproach: Add 'Copy Username' and 'Copy Password' context menu items on connection tree nodes that write decrypted credentials to clipboard with optional auto-clear after timeout, similar to the documented External Tool workaround.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 30,
-    "output_tokens": 7522,
-    "cost_usd": 1.267212
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Legitimate UX enhancement to copy credentials to clipboard from connection tree context menu, with a workaround already documented via External Tool entry.\nApproach: Add 'Copy Username' and 'Copy Password' context menu items on connection tree nodes that write decrypted credentials to clipboard with optional auto-clear after timeout, similar to the documented External Tool workaround."
 }

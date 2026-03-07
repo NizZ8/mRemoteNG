@@ -9,7 +9,7 @@
   ],
   "author": "rolfkunst",
   "created_at": "2020-10-02T11:49:43Z",
-  "github_updated_at": "2026-02-21T10:23:42Z",
+  "github_updated_at": "2026-02-26T13:58:25Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nI would like a feature in which the confcons.xml file is located on a ftp share. KeePass has that functionality. The pro's are that we i can have one file and open it on several machines.\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -42,35 +42,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXI1G",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:27Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiKM",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:27Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:42Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:58:25Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
-  "notes": "AI triage (gemini): Implement support for storing connection files on FTP, similar to KeePass, to enhance flexibility and user convenience.\nApproach: Introduce an abstract data provider interface or extend existing data providers to support various storage backends, including local file system and FTP. The existing XmlConnectionsDeserializer and XmlConnectionsSaver will then utilize this extended data provider for reading/writing connection data, allowing them to handle FTP paths. This will involve modifying how file paths/URIs are interpreted and how authentication for network protocols like FTP is handled.",
-  "token_usage": {
-    "input_tokens": 27,
-    "output_tokens": 12859,
-    "cost_usd": 1.789016
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): Implement support for storing connection files on FTP, similar to KeePass, to enhance flexibility and user convenience.\nApproach: Introduce an abstract data provider interface or extend existing data providers to support various storage backends, including local file system and FTP. The existing XmlConnectionsDeserializer and XmlConnectionsSaver will then utilize this extended data provider for reading/writing connection data, allowing them to handle FTP paths. This will involve modifying how file paths/URIs are interpreted and how authentication for network protocols like FTP is handled."
 }

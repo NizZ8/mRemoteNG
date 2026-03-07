@@ -16,7 +16,7 @@
   ],
   "author": "yongwoo1",
   "created_at": "2025-09-12T00:20:05Z",
-  "github_updated_at": "2026-02-21T10:24:17Z",
+  "github_updated_at": "2026-02-26T14:21:16Z",
   "body_snippet": "- Version: 1.76.11.40527\n\n- Issue:\n\nWhen a saved PuTTY session name contains Korean characters, the session name is not displayed correctly, and the corresponding session cannot be connected.\n\n\n- Suspected Cause:\n\nThere appears to be an issue with decoding session names. This problem is likely not limited to Korean but may affect all CJK characters.",
   "our_status": "released",
   "priority": null,
@@ -82,15 +82,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiC9",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:00Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mZYdm",
       "author": "Neustradamus",
       "date": "2026-02-07T20:49:56Z",
@@ -103,7 +94,7 @@
       "id": "IC_kwDOAAcIMM7ma23f",
       "author": "robertpopa22",
       "date": "2026-02-08T00:09:49Z",
-      "snippet": "Fork triage update v1.79.x: candidate fix implemented on branch codex/release-1.79-bootstrap commit 9a797785. Added decoder at mRemoteNG/Config/Putty/PuttySessionNameDecoder.cs, wired provider and normalization paths, and added tests in mRemoteNGTests/Config/Putty/PuttySessionNameDecoderTests.cs. Validation: local targeted tests passed and fork CI is green https://github.com/robertpopa22/mRemoteNG/actions/runs/21789090820. I can open a focused upstream PR if maintainers want.\r\n",
+      "snippet": "Fork triage update v1.79.x: candidate fix implemented on branch codex/release-1.79-bootstrap commit 9a797785. Added decoder at mRemoteNG/Config/Putty/PuttySessionNameDecoder.cs, wired provider and normalization paths, and added tests in mRemoteNGTests/Config/Putty/PuttySessionNameDecoderTests.cs. Validation: local targeted tests passed and fork CI is green CI run 21789090820. on `robertpopa22/mRemoteNG` I can open a focused upstream PR if maintainers want.\n\n---\n\n> *We sincerely appreciate the mR...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -112,7 +103,7 @@
       "id": "IC_kwDOAAcIMM7mpcQb",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:48Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3115 | **Branch:** `codex/pr11-putty-cjk-decode-2785`\n**Fix:** PuTTY CJK session name decoding corrected for non-ASCII characters.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -157,7 +148,7 @@
       "id": "IC_kwDOAAcIMM7m1jX7",
       "author": "robertpopa22",
       "date": "2026-02-09T16:32:56Z",
-      "snippet": "@yongwoo1 Thank you for testing. The issue is confirmed: on .NET 10, CodePagesEncodingProvider must be registered at startup for non-UTF-8 codepages (EUC-KR/CP949) to work. Without it, the decoder fails silently.\n\nFix applied:\n- Encoding.RegisterProvider(CodePagesEncodingProvider.Instance) added to app startup\n- Added try/catch fallback in PuttySessionNameDecoder\n\nWill update once a testable build is available.",
+      "snippet": "@yongwoo1 Thank you for testing. The issue is confirmed: on .NET 10, CodePagesEncodingProvider must be registered at startup for non-UTF-8 codepages (EUC-KR/CP949) to work. Without it, the decoder fails silently.\n\nFix applied:\n- Encoding.RegisterProvider(CodePagesEncodingProvider.Instance) added to app startup\n- Added try/catch fallback in PuttySessionNameDecoder\n\nWill update once a testable build is available.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful communit...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -166,7 +157,7 @@
       "id": "IC_kwDOAAcIMM7m1juT",
       "author": "robertpopa22",
       "date": "2026-02-09T16:33:12Z",
-      "snippet": "Confirmed: on .NET 10 without CodePagesEncodingProvider registered, Encoding.GetEncoding(949) fails and CJK session names are not decoded. Fix in v1.80.0: registered the provider at app startup and added fallback in the decoder.",
+      "snippet": "Confirmed: on .NET 10 without CodePagesEncodingProvider registered, Encoding.GetEncoding(949) fails and CJK session names are not decoded. Fix in v1.80.0: registered the provider at app startup and added fallback in the decoder.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — w...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -175,7 +166,7 @@
       "id": "IC_kwDOAAcIMM7m1j8_",
       "author": "robertpopa22",
       "date": "2026-02-09T16:33:22Z",
-      "snippet": "Confirmed: on .NET 10, CodePagesEncodingProvider must be registered at startup for CJK codepages (EUC-KR / CP949) to work. Fix applied in v1.80.0 branch: provider registration added to ProgramRoot.cs + try/catch fallback in decoder.",
+      "snippet": "Confirmed: on .NET 10, CodePagesEncodingProvider must be registered at startup for CJK codepages (EUC-KR / CP949) to work. Fix applied in v1.80.0 branch: provider registration added to ProgramRoot.cs + try/catch fallback in decoder.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -199,10 +190,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:17Z",
+  "comments_cursor": "2026-02-26T14:21:16Z",
   "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

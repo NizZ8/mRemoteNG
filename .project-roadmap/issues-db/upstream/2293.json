@@ -10,7 +10,7 @@
   ],
   "author": "hungrysnake",
   "created_at": "2022-10-01T09:28:53Z",
-  "github_updated_at": "2026-02-23T18:26:44Z",
+  "github_updated_at": "2026-02-26T14:06:46Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\ni want to search by folder name and expand it to see all the connections inside\r\ncurrently the search/filter showing only the pattern match irregardless of connections or folder, which make it very difficult to search if only know/remember the folder name\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nable to filter only by folder name and keep all the connection/subfolder inside\r\n\r\n<...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -48,16 +48,16 @@
       "id": "IC_kwDOAAcIMM7rOyau",
       "author": "robertpopa22",
       "date": "2026-02-23T18:26:29Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Introduce a new method, NodeMatchesFolderNameFilter, which o\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-23T18:26:44Z",
+  "comments_cursor": "2026-02-26T14:06:46Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The existing filtering logic for ancestors, via AnyAncestorContainerMatchesFilter, uses the general NodeMatchesFilter which checks multiple properties (name, hostname, description, tags). To fulfill 'filter by folder name but list all connections inside' more strictly, a specific name-only check for ancestor folders is needed to avoid unintended matches and ensure only relevant folder name matches trigger the display of their contents.\nApproach: Introduce a new method, NodeMatchesFolderNameFilter, which only checks the node's name against the filter text. Modify AnyAncestorContainerMatchesFilter to use this new method when checking if a parent container matches the filter, thus ensuring that if a folder name matches, all its descendants are shown, based purely on the folder's name."
 }

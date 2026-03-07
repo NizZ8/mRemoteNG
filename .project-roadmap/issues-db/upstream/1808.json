@@ -9,7 +9,7 @@
   ],
   "author": "zactill",
   "created_at": "2020-06-30T13:24:44Z",
-  "github_updated_at": "2026-02-24T01:56:24Z",
+  "github_updated_at": "2026-02-26T14:07:41Z",
   "body_snippet": "Love the program, rely on it honestly. For whatever reason I continually have the confCons.xml issue where it goes to null and the program will not open. I copy a confCons.xml backup for my connections and uninstall the program. I reinstall and import my connections and it works fine for the day. When I come back the next day the program will not open and I have to do this process all over again, every day.\r\n\r\n## Current Behavior\r\nProgram will not open, confCons.xml goes null.\r\n\r\n## Possible Sol...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -62,37 +62,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXD_4",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:17Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFrd",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:36Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rWEZw",
       "author": "robertpopa22",
       "date": "2026-02-24T01:56:17Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Program will not open.\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T01:56:24Z",
+  "comments_cursor": "2026-02-26T14:07:41Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): confCons.xml corruption causing startup failure is a known class of issues, but the reporter provides no logs, no error details, and no reproducible steps; we already posted a triage-refresh comment asking for confirmation on the latest build with no response.\nApproach: Wait for reporter to retest on latest build and provide logs/steps; close as stale if no response within 30 days."
 }

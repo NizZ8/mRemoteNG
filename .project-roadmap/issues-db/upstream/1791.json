@@ -9,7 +9,7 @@
   ],
   "author": "farosch",
   "created_at": "2020-06-13T17:42:55Z",
-  "github_updated_at": "2026-02-21T10:23:03Z",
+  "github_updated_at": "2026-02-26T13:58:21Z",
   "body_snippet": "Was moved to its own project by @benwa.\r\nI cannot delete the branch as it is protected.",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -36,21 +36,11 @@
       "description": "Repass confirmed: Upstream repo admin task (delete gh-pages branch), not a code change"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXI1B",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:27Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:03Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:58:21Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Removing a gh-pages branch is a repository maintenance task outside the scope of code changes in this fork and not relevant to mRemoteNG application functionality.\nApproach: Close as wontfix — branch management is handled directly via GitHub repository settings, not via code commits"
 }

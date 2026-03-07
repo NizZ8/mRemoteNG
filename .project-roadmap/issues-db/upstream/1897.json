@@ -8,7 +8,7 @@
   ],
   "author": "puttasekhar",
   "created_at": "2020-11-13T07:17:03Z",
-  "github_updated_at": "2026-02-21T10:22:51Z",
+  "github_updated_at": "2026-02-26T13:35:57Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\n\r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, explain the difference from current behavior -->\r\n\r\n## Possible Solution\r\n<!--- Not obligatory, but suggest a...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -41,26 +41,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mXFkV",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:15Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:22:51Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:35:57Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
-  "notes": "AI triage (gemini): The 'Reset layout' menu item in the View menu does not delete the persisted layout configuration file (pnlLayout.xml), causing the layout to revert to the old state on application restart. The current implementation only programmatically sets the default layout for the current session, but the old configuration is reloaded on the next launch.\nApproach: Modify the `mMenViewResetLayout_Click` method in `mRemoteNG\\UI\\Menu\\msMain\\ViewMenu.cs` to delete the `pnlLayout.xml` file (located at `SettingsFileInfo.SettingsPath\\SettingsFileInfo.LayoutFileName`) after user confirmation and before calling `MainForm?.SetDefaultLayout()`. This will ensure a clean slate for the default layout to be applied and correctly persisted.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 98,
-    "cost_usd": 0.645095
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): The 'Reset layout' menu item in the View menu does not delete the persisted layout configuration file (pnlLayout.xml), causing the layout to revert to the old state on application restart. The current implementation only programmatically sets the default layout for the current session, but the old configuration is reloaded on the next launch.\nApproach: Modify the `mMenViewResetLayout_Click` method in `mRemoteNG\\UI\\Menu\\msMain\\ViewMenu.cs` to delete the `pnlLayout.xml` file (located at `SettingsFileInfo.SettingsPath\\SettingsFileInfo.LayoutFileName`) after user confirmation and before calling `MainForm?.SetDefaultLayout()`. This will ensure a clean slate for the default layout to be applied and correctly persisted."
 }

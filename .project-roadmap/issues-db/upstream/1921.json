@@ -8,7 +8,7 @@
   ],
   "author": "TonyRoo2",
   "created_at": "2021-01-11T16:23:23Z",
-  "github_updated_at": "2026-02-25T18:07:26Z",
+  "github_updated_at": "2026-02-26T14:12:21Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nfeature request, it is very annoying (and dangerous) to have the connection panel links not affect the tab; I constantly am clicking on the server/connection in the connections panel and then think I am now working on that server, as it is has been chosen and is highlighted, but I am not; I have done work on the incorrect server several times because of this.  If a server/connection is chosen in the connection panel and there i...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -61,37 +61,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXEEr",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:34Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFi-",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:10Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sGOoz",
       "author": "robertpopa22",
       "date": "2026-02-25T18:07:17Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** feature request - link connection panel to tab\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T18:07:26Z",
+  "comments_cursor": "2026-02-26T14:12:21Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T21:16:17Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): New feature to link the connection panel to the currently active tab for improved usability and navigation.\nApproach: Implement modifications in ConnectionTab to manage a reference to a ConnectionTree panel, dynamically updating its content based on the active connection within the tab. Adjust PanelBinder to establish and maintain this connection between the tab and the panel."
 }

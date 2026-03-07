@@ -10,7 +10,7 @@
   ],
   "author": "jcefoli",
   "created_at": "2022-02-11T19:48:33Z",
-  "github_updated_at": "2026-02-21T10:24:15Z",
+  "github_updated_at": "2026-02-26T14:20:42Z",
   "body_snippet": "I am not sure how to completely reproduce this, but have experienced a crash when I use regular RDP to an instance (ie - juimp server) and run mRemoteNG in that RDP session. When the RDP resizes or if I disconnect, I notice that in some special instances mRemoteNG tabs will become messed up and disassociate with the RDP session. They cannot be closed or removed unless you exit the app. I don't know how toi reproduce this 100%, but noted that it happens when mRemoteNG remains connected in an RDP ...",
   "our_status": "released",
   "priority": null,
@@ -49,19 +49,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYZzX",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:37:59Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mdlj3",
       "author": "robertpopa22",
       "date": "2026-02-08T08:24:00Z",
-      "snippet": "Likely addressed by panel-close behavior fixes already packaged upstream: PR #3106 and follow-up panel empty-state fix on fork release branch. \r\n \r\nPlease retest on latest RC candidate build; if resolved, recommend close as duplicate/resolved. \r\n",
+      "snippet": "Likely addressed by panel-close behavior fixes already packaged upstream: PR #3106 and follow-up panel empty-state fix on fork release branch. \r\n \r\nPlease retest on latest RC candidate build; if resolved, recommend close as duplicate/resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -70,7 +61,7 @@
       "id": "IC_kwDOAAcIMM7mgzWV",
       "author": "robertpopa22",
       "date": "2026-02-08T15:01:57Z",
-      "snippet": "RC update: packaged in parent PR #3129 and ready for retest on latest RC builds. \r\nPR: https://github.com/mRemoteNG/mRemoteNG/pull/3129 \r\nScope: harden document-tab close path during resize/reconnect layout churn (deferred close plus guards in DockPaneStripNG). \r\nNote: the FormClosing enumeration trace from this issue is covered by parent PR #3124. \r\n",
+      "snippet": "RC update: packaged in parent PR #3129 and ready for retest on latest RC builds. \r\nPR: PR #3129 on `mRemoteNG/mRemoteNG` \r\nScope: harden document-tab close path during resize/reconnect layout churn (deferred close plus guards in DockPaneStripNG). \r\nNote: the FormClosing enumeration trace from this issue is covered by parent PR #3124.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work po...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -79,16 +70,16 @@
       "id": "IC_kwDOAAcIMM7mpddx",
       "author": "robertpopa22",
       "date": "2026-02-09T06:27:49Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3129 | **Branch:** `codex/pr25-tab-crash-resize-2166`\n**Fix:** Tab close race condition under window resize resolved.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:15Z",
+  "comments_cursor": "2026-02-26T14:20:42Z",
   "unread_comments": 2,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

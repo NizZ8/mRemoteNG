@@ -10,7 +10,7 @@
   ],
   "author": "C4rb0n",
   "created_at": "2016-11-15T21:40:38Z",
-  "github_updated_at": "2026-02-25T03:21:42Z",
+  "github_updated_at": "2026-02-26T14:10:31Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete the bug section -->\r\nPlease add a global option to enable SmartSize for RDP/VNC by default.\r\n\r\nI often log into the computer on which I have mRemoteNG running, from a remote com...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -120,28 +120,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYicR",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:23Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7r0zDP",
       "author": "robertpopa22",
       "date": "2026-02-25T03:21:34Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Add global SmartSize option for RDP/VNC\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T03:21:42Z",
+  "comments_cursor": "2026-02-26T14:10:31Z",
   "unread_comments": 9,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:41:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Clear feature request with community support (+1) to add a global SmartSize default option for RDP/VNC connections, reducing repetitive per-connection configuration\nApproach: Add SmartSize to DefaultConnectionInfo so new connections inherit the global default, and expose the option in the Options/Connections UI page"
 }

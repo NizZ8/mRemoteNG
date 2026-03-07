@@ -12,7 +12,7 @@
   ],
   "author": "r-w-frederick",
   "created_at": "2024-09-01T21:18:09Z",
-  "github_updated_at": "2026-02-21T10:23:38Z",
+  "github_updated_at": "2026-02-26T13:52:52Z",
   "body_snippet": "## Expected Behavior\r\nAttempt to connect to remote Gnome Remote Desktop (Fedora 40 Workstation) with RDP protocol from Windows client.\r\nExpect behavior similar to remote connection to Windows via RDP, and remote Linux hosts via RDP/XRPD.\r\n\r\n## Current Behavior\r\nSupplying Username & Password leads to error.\r\nError code: 0x0\r\nExtended error code: 0x0\r\n\r\nRemove UN/PW from mRemoteNG config pops Windows Security dialog.  Supply correct UN/PW.\r\nGNOME Remote Desktop Handover Daemon complains:\r\n\"This co...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -75,27 +75,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiBR",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:53Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:38Z",
+  "comments_cursor": "2026-02-26T13:52:52Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature request: Gnome Remote Desktop (RDP alternative). Requires new protocol plugin.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 75,
-    "cost_usd": 0.159808
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature request: Gnome Remote Desktop (RDP alternative). Requires new protocol plugin."
 }

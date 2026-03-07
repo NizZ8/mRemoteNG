@@ -8,7 +8,7 @@
   ],
   "author": "paoloholzl",
   "created_at": "2022-05-26T09:38:19Z",
-  "github_updated_at": "2026-02-26T11:17:47Z",
+  "github_updated_at": "2026-02-26T14:13:16Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n## Expected Behavior\r\n\r\n<!--- If you're describing a bug, tell us what should happen -->\r\nConnected from Windows 2010 Pro 21H2 to other Win 10 Pro 21H2 on a virtual machine Virtualbox, all with italian keyboard, often Shift is not functioning.\r\nIn some situation using shift lock work bud not normal shift.\r\nIn rare case also some characters are not functioning (but the keyboard language is correct)\r\n\r\n<!--- If you're suggesting ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -49,19 +49,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFSX",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:11Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sOGuH",
       "author": "robertpopa22",
       "date": "2026-02-26T00:34:21Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** In some cases problems with Uppercase\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -76,10 +67,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-26T11:17:47Z",
+  "comments_cursor": "2026-02-26T14:13:16Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-26T11:26:01Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The issue description 'In some cases problems with Uppercase' is too vague. More information is needed to understand the specific problem area, as 'uppercase' appears in multiple contexts (password validation, VNC protocol, registry path comparison).\nApproach: Gather more information from the issue reporter to clarify the specific problem with uppercase characters."
 }

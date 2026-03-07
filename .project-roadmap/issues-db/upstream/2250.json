@@ -10,7 +10,7 @@
   ],
   "author": "MrChriZ",
   "created_at": "2022-06-22T11:00:36Z",
-  "github_updated_at": "2026-02-26T07:39:24Z",
+  "github_updated_at": "2026-02-26T14:13:22Z",
   "body_snippet": "## Desired Behavior\r\nAt present it's possible to import remote desktop connection manager and RDP files.\r\nHowever as far as I can see there's no support for the Microsoft Remote Desktop app backupfiles:\r\nhttps://apps.microsoft.com/store/detail/microsoft-remote-desktop/9WZDNCRFJ3PS?hl=en-gb&gl=GB\r\nThese have the extension .rdb.\r\n\r\n## Current Behavior\r\nCurrently not supported\r\n\r\n## Context\r\nI'm a poor soul coming from another Microsoft product (I have seen the errors of my ways) and I'm having to ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -75,7 +75,7 @@
       "id": "IC_kwDOAAcIMM7sOeOy",
       "author": "robertpopa22",
       "date": "2026-02-26T01:02:16Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Import Microsoft Remote Desktop Client backups\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -90,10 +90,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-26T07:39:24Z",
+  "comments_cursor": "2026-02-26T14:13:22Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-26T07:52:20Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Implement functionality to import connection backups from Microsoft Remote Desktop Client.\nApproach: Analyze Microsoft Remote Desktop Client backup format, implement a new deserializer to parse the backup file, map its properties to mRemoteNG connection objects, and add a UI entry point for the import process. Include comprehensive unit tests."
 }

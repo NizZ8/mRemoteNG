@@ -8,7 +8,7 @@
   ],
   "author": "mstock-speedling-com",
   "created_at": "2021-03-18T13:55:46Z",
-  "github_updated_at": "2026-02-24T04:32:05Z",
+  "github_updated_at": "2026-02-27T07:29:32Z",
   "body_snippet": "## Expected Behavior\r\nLately, when launching mRemoteNG I've been getting a .NET Exception message. It's attached.\r\nIt's not every time I launch it, but I can't quite figure out why it does it. It does more often than not.\r\nI need to end-task the program, then when I try to re-open it works just fine.\r\n\r\n![mremoteng](https://user-images.githubusercontent.com/50890638/111637559-eaab3180-87cf-11eb-9348-10374e4f385c.png)\r\n",
   "our_status": "released",
   "priority": "P2-bug",
@@ -37,38 +37,28 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mXD_q",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:16Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXFg7",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:03Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rX9hW",
       "author": "robertpopa22",
       "date": "2026-02-24T04:31:58Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Unhandled Exception - Value cannot be null. Parameter v1.\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7stURn",
+      "author": "robertpopa22",
+      "date": "2026-02-27T07:29:32Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `35856820` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Unhandled Exception - Value cannot be null. Parameter v1.\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our f...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T04:32:05Z",
+  "comments_cursor": "2026-02-27T07:29:32Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-24T14:53:33Z",
-  "notes": "AI triage (gemini): An unhandled null reference exception ('Value cannot be null. Parameter v1') indicates a critical bug that needs to be addressed to prevent application crashes. The specific context of 'v1' is unknown, but such errors typically require null checks.\nApproach: Identify the code path leading to the 'Value cannot be null. Parameter v1' error, specifically where 'v1' is used, and implement appropriate null checks or ensure proper initialization of 'v1' before its access.",
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): An unhandled null reference exception ('Value cannot be null. Parameter v1') indicates a critical bug that needs to be addressed to prevent application crashes. The specific context of 'v1' is unknown, but such errors typically require null checks.\nApproach: Identify the code path leading to the 'Value cannot be null. Parameter v1' error, specifically where 'v1' is used, and implement appropriate null checks or ensure proper initialization of 'v1' before its access."
 }

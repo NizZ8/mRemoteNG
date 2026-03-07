@@ -11,7 +11,7 @@
   ],
   "author": "igor2x",
   "created_at": "2023-03-24T12:59:34Z",
-  "github_updated_at": "2026-02-21T10:23:22Z",
+  "github_updated_at": "2026-02-26T15:13:47Z",
   "body_snippet": "I have been using mRemoteNG for years. Currently I am using mRemoteNG officially stable version 1.76.20 on Windows 10.\r\n\r\n1. Open some SSH connection to e.g. Linux computer.\r\n2. On top new tab appears that represents connection.\r\n3. Click middle button on tab to close down connection. Problem appears. Dialog opens with question _\"Do you want to close down the connection?\"_ and **Yes** and **No** buttons appears. User experience problem appears. In my humble opinion Yes/No questions should almost...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -61,25 +61,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhJk",
+      "id": "IC_kwDOAAcIMM7sd6qV",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:52:08Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-26T15:13:47Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `a966dd5e` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Yes/No question with dangerous consequences\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds ent...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:22Z",
+  "comments_cursor": "2026-02-26T15:13:47Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Valid UX issue where a Yes/No dialog with dangerous consequences (SSH disconnect/reconnect) should use explicit action-labeled buttons instead of ambiguous Yes/No to prevent accidental destructive actions.\nApproach: Replace MessageBox.Show Yes/No dialogs in SSH connection flows with explicit-label buttons (e.g., 'Disconnect'/'Cancel') using a custom dialog or MessageBoxButtons with clear action labels",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 30,
-    "output_tokens": 8891,
-    "cost_usd": 1.570246
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Valid UX issue where a Yes/No dialog with dangerous consequences (SSH disconnect/reconnect) should use explicit action-labeled buttons instead of ambiguous Yes/No to prevent accidental destructive actions.\nApproach: Replace MessageBox.Show Yes/No dialogs in SSH connection flows with explicit-label buttons (e.g., 'Disconnect'/'Cancel') using a custom dialog or MessageBoxButtons with clear action labels"
 }

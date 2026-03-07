@@ -10,7 +10,7 @@
   ],
   "author": "Eeeedison",
   "created_at": "2020-12-19T05:54:24Z",
-  "github_updated_at": "2026-02-21T10:24:10Z",
+  "github_updated_at": "2026-02-26T14:18:27Z",
   "body_snippet": "Hi developers, I am trying to configure mRemoteNG  version 1.77.1.27713 with mysql for saving my config file.\r\nBut I got an error msg while trying to create a new connection file\r\n\r\n## Current Behavior\r\nCouldn't save connections file as \"\"!\r\nMissing the DataColumn 'DisableCursorBlinking' in the DataTable 'tblCons' for the SourceColumn 'DisableCursorBlinking'.\r\nI used this script to create database:\r\nDisableCursorBlinking tinyint(1) NOT NULL,\r\n\r\n## Steps to Reproduce (for bugs)\r\n1. Create new dat...",
   "our_status": "released",
   "priority": null,
@@ -94,19 +94,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYikb",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:53Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mYozC",
       "author": "robertpopa22",
       "date": "2026-02-07T20:12:16Z",
-      "snippet": "Implemented a compatibility hardening pass in my fork for this SQL schema edge case and validated it in CI. \r\n \r\nWhat changed: \r\n- always load SQL reader schema even when `tblCons` has 0 rows \r\n- auto-add missing serializer-required columns when source SQL schema is partial/outdated \r\n- regression test added for missing-column source schema \r\n \r\nFork commit: https://github.com/robertpopa22/mRemoteNG/commit/cd6eee37 \r\nCI run (x86/x64/ARM64 green): https://github.com/robertpopa22/mRemoteNG/actions...",
+      "snippet": "Implemented a compatibility hardening pass in my fork for this SQL schema edge case and validated it in CI. \r\n \r\nWhat changed: \r\n- always load SQL reader schema even when `tblCons` has 0 rows \r\n- auto-add missing serializer-required columns when source SQL schema is partial/outdated \r\n- regression test added for missing-column source schema \r\n \r\nFork commit: commit `cd6eee37` on `robertpopa22/mRemoteNG` \r\nCI run (x86/x64/ARM64 green): CI run 21786116643 on `robertpopa22/mRemoteNG` \r\n \r\nPlease re...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -115,16 +106,16 @@
       "id": "IC_kwDOAAcIMM7mpb04",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:30Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3111 | **Branch:** `codex/pr7-sql-schema-compat-1916`\n**Fix:** SQL schema compatibility hardened for older database versions.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:10Z",
+  "comments_cursor": "2026-02-26T14:18:27Z",
   "unread_comments": 7,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

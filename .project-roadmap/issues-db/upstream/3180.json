@@ -3,10 +3,16 @@
   "repo": "mRemoteNG/mRemoteNG",
   "title": "Main window does not show",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "Bug",
+    "Windows",
+    "Connections",
+    "1.78.*",
+    "Nightly Build"
+  ],
   "author": "lujiaxing",
   "created_at": "2026-02-26T02:31:38Z",
-  "github_updated_at": "2026-02-26T03:07:07Z",
+  "github_updated_at": "2026-02-27T12:11:39Z",
   "body_snippet": "After I removed a user profile (exported from legacy version), The application crashed on startup:\n\nException at 0x00007FFAB6A0313C (in mRemoteNG.exe): 0xC0000005: Access violation reading location 0x0000000000000000.\n\nLog:\n```\n2026-02-26 10:06:01,148 [2] INFO  - mRemoteNG Connection Manager 1.78.2 (Nightly Build 3228) x64 starting.\n2026-02-26 10:06:01,151 [2] INFO  - Command Line: B:\\mRemoteNG\\mRemoteNG.dll\n2026-02-26 10:06:01,201 [2] INFO  - Microsoft Windows 10 企业版  64-bit\n2026-02-26 10:06:01...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -39,17 +45,21 @@
       "description": "Bulk verified: commit 1d5c8fba exists (HIGH confidence)"
     }
   ],
-  "comments": [],
-  "comments_cursor": "2026-02-26T03:07:07Z",
+  "comments": [
+    {
+      "id": "IC_kwDOAAcIMM7sxgFC",
+      "author": "robertpopa22",
+      "date": "2026-02-27T11:27:15Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `1d5c8fba` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Main window does not show\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foun...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-02-27T12:11:39Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-26T03:21:41Z",
-  "notes": "AI triage (claude): Issue has no body or comments — no reproduction steps, no error details, no environment info provided.\nApproach: Request reproduction steps, OS version, .NET version, and any error messages or logs",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 122,
-    "cost_usd": 0.167445
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue has no body or comments — no reproduction steps, no error details, no environment info provided.\nApproach: Request reproduction steps, OS version, .NET version, and any error messages or logs"
 }

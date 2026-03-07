@@ -12,7 +12,7 @@
   ],
   "author": "Cool34000",
   "created_at": "2025-11-04T14:42:49Z",
-  "github_updated_at": "2026-02-21T10:24:13Z",
+  "github_updated_at": "2026-02-26T14:19:27Z",
   "body_snippet": "Hi,\n\nI'm testing mRemoteNG 1.78.2 NB 3228 x64\nI can't find the configuration file for the options of mRemoteNG (previously stored in user.config)\nI've searched in:\n- Portable version folder\n- %AppData%\\mRemoteNG Connection Manager\n- %LocalAppData%\\mRemoteNG Connection Manager (only have a log file)\n\nI've even checked in th registry and found nothing.\n\n\nThanks\n",
   "our_status": "released",
   "priority": null,
@@ -87,19 +87,10 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiUW",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:06Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mc4F7",
       "author": "robertpopa22",
       "date": "2026-02-08T06:48:59Z",
-      "snippet": "Fork-side candidate fix is now ready:\n- PR: https://github.com/mRemoteNG/mRemoteNG/pull/3120\n- scope:\n  - log exact effective user settings file path at startup (`User settings file: ...`)\n  - expose resolved path in `SettingsFileInfo`\n  - update troubleshooting docs for installed vs portable settings locations\n\nWhy this helps:\n- issue `#2987` reports users cannot reliably locate/reset settings after configuration failures\n- installed build path can vary by company metadata + hash, so fixed/stat...",
+      "snippet": "Fork-side candidate fix is now ready:\n- PR: PR #3120 on `mRemoteNG/mRemoteNG`\n- scope:\n  - log exact effective user settings file path at startup (`User settings file: ...`)\n  - expose resolved path in `SettingsFileInfo`\n  - update troubleshooting docs for installed vs portable settings locations\n\nWhy this helps:\n- issue `#2987` reports users cannot reliably locate/reset settings after configuration failures\n- installed build path can vary by company metadata + hash, so fixed/static docs paths a...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -108,16 +99,16 @@
       "id": "IC_kwDOAAcIMM7mpcul",
       "author": "robertpopa22",
       "date": "2026-02-09T06:27:11Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3120 | **Branch:** `codex/pr16-settings-path-observability-2987`\n**Fix:** Settings path now logged for easier troubleshooting.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:13Z",
+  "comments_cursor": "2026-02-26T14:19:27Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

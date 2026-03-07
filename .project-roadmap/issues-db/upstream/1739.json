@@ -10,7 +10,7 @@
   ],
   "author": "scardella",
   "created_at": "2020-04-24T18:56:26Z",
-  "github_updated_at": "2026-02-21T10:22:54Z",
+  "github_updated_at": "2026-02-26T13:37:18Z",
   "body_snippet": "I'd love to be able to use mRemoteNG to handle libvirt/QEMU SPICE protocol.  That would allow connections to libvirt/QEMU VMs even if there was some reason that networking was not working within the VM.  OS installs, upgrades, etc.  Oddball OSes that you don't know whether there's remote access.  Or, diagnosing networking issues in the VM.\r\n\r\nIt seems like it would slot in well with the mRemoteNG's ethos.\r\n",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -138,15 +138,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFtn",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:46:45Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mhEOx",
       "author": "jonnytest1",
       "date": "2026-02-08T15:44:19Z",
@@ -174,10 +165,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:22:54Z",
+  "comments_cursor": "2026-02-26T13:37:18Z",
   "unread_comments": 14,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Adding a new remote protocol (SPICE) requires significant architectural work, a native client library, and ongoing maintenance that is out of scope for this community fork focused on stability and bug fixes.\nApproach: Close as out-of-scope; suggest upstream feature request or third-party tool"
 }

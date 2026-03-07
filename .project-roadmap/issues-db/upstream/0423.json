@@ -10,7 +10,7 @@
   ],
   "author": "ysqi",
   "created_at": "2017-03-02T01:27:20Z",
-  "github_updated_at": "2026-02-21T10:24:21Z",
+  "github_updated_at": "2026-02-26T14:16:23Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Feature Request -->\r\nHello - mRemoteNG is my favorite Remote Desktop client! Thanks you!\r\n\r\nWould it be possible to request add control for SQL Server. i don't want other can update connect info . other people just can load and  refresh connect fro...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -66,25 +66,16 @@
       "id": "IC_kwDOAAcIMM7owumA",
       "author": "robertpopa22",
       "date": "2026-02-15T20:01:55Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`aa82a175`](https://github.com/robertpopa22/mRemoteNG/commit/aa82a175c944cddfbd14f2627e69c8cf39c35f0c)\n**Branch:** `main`\n**What changed:** Add a 'Read-Only Mode' checkbox to the SQL Server options pa\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3gq7",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:41Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:21Z",
+  "comments_cursor": "2026-02-26T14:16:23Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "ALREADY IMPLEMENTED: SQL Server options page has 'Access for Read Only' checkbox (chkSQLReadOnly) with tooltip 'Data from db will be loaded but not saved'. Setting persisted in Properties.OptionsDBsPage.Default.SQLReadOnly. Dual-layer write suppression: SqlConnectionsSaver.Save() line 45 and SqlDataProvider.Save() line 36 both check the flag and abort with informational messages. Registry/GPO enforcement supported via OptRegistrySqlServerPage.SQLReadOnly. Load operations work unconditionally (no read-only checks). No code changes needed."
 }

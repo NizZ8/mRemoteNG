@@ -11,7 +11,7 @@
   ],
   "author": "tecxx",
   "created_at": "2025-01-12T16:44:26Z",
-  "github_updated_at": "2026-02-21T10:23:17Z",
+  "github_updated_at": "2026-02-27T10:56:55Z",
   "body_snippet": "FYI\r\nRdpVersion.cs was modified on 12.11.2024, line 11 -> Rdc12 was added\r\nthis breaks mRemoteNG on windows 10.\r\n",
   "our_status": "released",
   "priority": "P2-bug",
@@ -46,34 +46,19 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mYRRO",
+      "id": "IC_kwDOAAcIMM7swxng",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:13:16Z",
-      "snippet": "P2 refresh: please retest on latest build and share reproducible steps plus logs/screenshots. If not reproducible or no update, maintainers can close as stale.\r\n",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg9e",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:23Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-27T10:56:55Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Rdc12 breaks mRemoteNG on Win10\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on you...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:17Z",
+  "comments_cursor": "2026-02-27T10:56:55Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): No reproduction steps, logs, or screenshots provided, and issue needs retest on latest build to confirm if still reproducible.\nApproach: Request reporter to retest on latest build with steps to reproduce and attach logs/screenshots",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 71,
-    "cost_usd": 0.160858
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): No reproduction steps, logs, or screenshots provided, and issue needs retest on latest build to confirm if still reproducible.\nApproach: Request reporter to retest on latest build with steps to reproduce and attach logs/screenshots"
 }

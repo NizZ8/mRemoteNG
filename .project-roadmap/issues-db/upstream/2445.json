@@ -10,7 +10,7 @@
   ],
   "author": "mgaugusch",
   "created_at": "2023-06-14T17:02:07Z",
-  "github_updated_at": "2026-02-21T10:23:29Z",
+  "github_updated_at": "2026-02-26T13:48:41Z",
   "body_snippet": "I got lots of \".vnc\" files and would like to import them into mRemoteNG.\r\n\r\n## Expected Behavior\r\nWhen I start the import, \"*.vnc\" files shall be offered as valid import source. Possibly, drag & drop of such files into a folder in mRemoteNG shall add them there as well.\r\n\r\n## Current Behavior\r\nThe \"*.vnc\" files are not recognized at all. \r\n\r\n## Possible Solution\r\nThe *.vnc files are simple text files with information like this:\r\n`ConnMethod=tcp`\r\n`ConnTime=2023-01-01T00:00:00.000Z`\r\n`FriendlyNam...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -46,27 +46,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhl2",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:28Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:29Z",
+  "comments_cursor": "2026-02-26T13:48:41Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: import .vnc connection files. Niche import format.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 385,
-    "cost_usd": 0.148427
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: import .vnc connection files. Niche import format."
 }

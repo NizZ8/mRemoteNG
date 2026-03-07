@@ -11,7 +11,7 @@
   ],
   "author": "austin-bridge",
   "created_at": "2022-01-28T01:56:45Z",
-  "github_updated_at": "2026-02-21T10:24:17Z",
+  "github_updated_at": "2026-02-26T14:21:13Z",
   "body_snippet": "## Expected Behavior\r\nI would expect that when disconnecting from HDMI (going from 2 screens to 1 screen) that the connections would auto-resize.\r\n\r\n## Current Behavior\r\nWhen disconnecting from HDMI, the mRemoteNG application appears on the primary screen, however, the connections do not resize appropriately. They still appear the same, large size as if they are still on a larger monitor so I can only access basically the top-left 1/4 of the screen.  Reconnecting does not resize. It seems I have...",
   "our_status": "released",
   "priority": null,
@@ -50,24 +50,6 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXFa5",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:45:41Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhBo",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:38Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7mtwCC",
       "author": "siggemannen",
       "date": "2026-02-09T10:14:00Z",
@@ -95,10 +77,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:17Z",
+  "comments_cursor": "2026-02-26T14:21:13Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

@@ -8,7 +8,7 @@
   ],
   "author": "rpg-hub",
   "created_at": "2017-01-14T02:15:52Z",
-  "github_updated_at": "2026-02-25T03:56:53Z",
+  "github_updated_at": "2026-02-26T14:10:37Z",
   "body_snippet": "<!--\r\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\r\n\r\nBefore opening an issue, please search for a duplicate or closed issue.\r\nPlease provide as much detail as possible for us to fix your issue.\r\n-->\r\n\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete the bug section -->\r\nfeature request:\r\n\r\nSee #601 for this request:\r\n~~1. changing Tab title should be easy and inbuilt, we should not need to modify our shell prompt code to ge...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -49,16 +49,16 @@
       "id": "IC_kwDOAAcIMM7r1KFt",
       "author": "robertpopa22",
       "date": "2026-02-25T03:56:44Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Additional info to be displayed about SSH/PuTTY sessions und\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T03:56:53Z",
+  "comments_cursor": "2026-02-26T14:10:37Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:41:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: The issue requests displaying additional SSH/PuTTY session info under the tab bar but lacks specifics on exactly what information should be shown, and the maintainer's comment asking about prior art and feasibility remains unanswered.\nApproach: Would need to determine what session metadata (hostname, user, encryption, tunnel info) is available from PuTTY/SSH sessions and display it in a status strip or tooltip under the tab bar, but requires clarification from the reporter first."
 }

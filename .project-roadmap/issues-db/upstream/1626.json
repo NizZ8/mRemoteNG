@@ -8,7 +8,7 @@
   ],
   "author": "Catskan-zz",
   "created_at": "2019-10-21T14:41:03Z",
-  "github_updated_at": "2026-02-25T16:23:55Z",
+  "github_updated_at": "2026-02-26T14:12:00Z",
   "body_snippet": "Hi guys,\r\n\r\nI find your software and it's just really good ! \r\n\r\nI use this on my personnal computer and works great.\r\n\r\nSo, I have a personnel WebDav drive and I'll want to start mRemoteNG over my WebDav.\r\n\r\nI copy the portable version and when I start mRemoteNG.exe, I have a Windows error Message : \r\n![image](https://user-images.githubusercontent.com/17289964/67215217-64938b80-f421-11e9-84de-b9c6cc4519bb.png)\r\n\r\nWhen I click \"Yes\", I\"m redirect on https://docs.microsoft.com/fr-fr/dotnet/framew...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -49,37 +49,19 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mXD-T",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:40:12Z",
-      "snippet": "\"%MSG%\"",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXF2J",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:47:12Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sD54z",
       "author": "robertpopa22",
       "date": "2026-02-25T16:23:47Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Execute mRemoteNG over a Webdav drive\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T16:23:55Z",
+  "comments_cursor": "2026-02-26T14:12:00Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T21:16:17Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Issue requests running mRemoteNG from a WebDAV-mapped drive but provides no error details, OS version, or WebDAV provider (IIS, SharePoint, etc.) to diagnose path resolution or startup failures.\nApproach: Reproduce with a WebDAV mapped drive; check if Application.StartupPath resolves correctly on WebDAV paths and whether config/temp file writes fail due to UNC or permission restrictions; add fallback to %APPDATA% if startup path is unreachable."
 }

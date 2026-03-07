@@ -13,7 +13,7 @@
   ],
   "author": "uponatime2019",
   "created_at": "2024-11-11T03:50:41Z",
-  "github_updated_at": "2026-02-21T10:23:47Z",
+  "github_updated_at": "2026-02-26T13:56:28Z",
   "body_snippet": "I frequently manage a large number of SSH connections (30+ VPS instances) using mRemoteNG and encounter frequent disconnects across various sessions. It would significantly improve usability and efficiency if the following features could be implemented to enhance the reconnection experience:\r\n\r\n1. **Enhanced Disconnect Alert Navigation**  \r\n   When an SSH connection is disconnected, an alert message currently appears. However, upon clicking \"OK,\" it does not navigate to the relevant disconnected...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -76,27 +76,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiaP",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:17Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.4",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:47Z",
+  "comments_cursor": "2026-02-26T13:56:28Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: improved SSH reconnect (auto-reconnect, session persistence). PuTTY limitation. Related to #2359, #2404.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 332,
-    "cost_usd": 0.16762
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: improved SSH reconnect (auto-reconnect, session persistence). PuTTY limitation. Related to #2359, #2404."
 }

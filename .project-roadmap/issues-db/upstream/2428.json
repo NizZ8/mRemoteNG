@@ -11,7 +11,7 @@
   ],
   "author": "bitboy85",
   "created_at": "2023-04-24T14:41:59Z",
-  "github_updated_at": "2026-02-21T10:23:26Z",
+  "github_updated_at": "2026-02-26T13:47:11Z",
   "body_snippet": "Try open a webpage with default install and normal user. Set Engine to Edge Chromium.\r\nThe result is an empty page.\r\n\r\nGive the user modify permission on the installation directory of mremoteNG and retry. It works.\r\nAn additional folder \"mRemoteNG.exe.WebView2\" is created within the install directory.\r\n\r\nThis is a bad design. Normal users should never require write permissions in program folders.\r\n\r\nAffected: The current nightly, 1.77.3 1784",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -86,36 +86,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXE8C",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:43:52Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhYb",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:54Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:26Z",
+  "comments_cursor": "2026-02-26T13:47:11Z",
   "unread_comments": 6,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "PASS: WebView2 UserDataFolder redirected to AppData/Temp",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 111,
-    "cost_usd": 0.140414
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "PASS: WebView2 UserDataFolder redirected to AppData/Temp"
 }

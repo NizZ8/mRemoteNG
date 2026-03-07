@@ -10,7 +10,7 @@
   ],
   "author": "mariowitdoek",
   "created_at": "2020-04-12T09:42:52Z",
-  "github_updated_at": "2026-02-21T10:24:27Z",
+  "github_updated_at": "2026-02-26T14:17:15Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nIt would be interesting if there was a backup possibility to backup the conf files to Google Drive, Onedrive, Nextcloud, ... or maybe a simple FTP server (like a NAS)\r\n\r\n## Expected Behavior\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nI just reinstalled my computer ... without a backup :( ... \r\nNor further comments please and yes it is a life lesson ...\r\n\r\n## Current Behavior\r\n\r\n## Possible...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -72,28 +72,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYhUX",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:41Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7qv_oR",
       "author": "robertpopa22",
       "date": "2026-02-21T08:29:26Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`c1747d43`](https://github.com/robertpopa22/mRemoteNG/commit/c1747d43b02ab9ba6bc9524056d5f50f2c781360)\n**Branch:** `main`\n**What changed:** Design and implement a modular system for cloud integration,\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:27Z",
+  "comments_cursor": "2026-02-26T14:17:15Z",
   "unread_comments": 3,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Feature request to add automatic cloud backup and restore for connection data.\nApproach: Design and implement a modular system for cloud integration, allowing users to configure automatic backups and manual restore from supported cloud storage providers. This would involve adding new UI elements, configuration options, and a service layer to interact with cloud APIs."
 }

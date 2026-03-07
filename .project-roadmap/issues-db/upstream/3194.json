@@ -1,0 +1,41 @@
+{
+  "number": 3194,
+  "repo": "mRemoteNG/mRemoteNG",
+  "title": "Bug in \"Audio Capture\" function",
+  "state": "closed",
+  "labels": [
+    "Bug",
+    "1.78.*",
+    "Nightly Build"
+  ],
+  "author": "TcDhlPro",
+  "created_at": "2026-03-03T14:30:00Z",
+  "github_updated_at": "2026-03-04T09:24:36Z",
+  "body_snippet": "Version: 1.77.2 / 1.78.2 NB 3405. Config > Redirect > Audio Capture. By default disabled. If enabled, works normally on first RDP connect. After closing and reopening mRemoteNG, Audio Capture disappears from Config > Redirect interface and becomes unusable. After second restart, it reappears but is disabled again. Setting oscillates between save/reload cycles.",
+  "our_status": "released",
+  "priority": "P2-bug",
+  "target_release": "v1.82.0",
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [
+    {
+      "seq": 1,
+      "date": "2026-03-05",
+      "type": "triage",
+      "description": "Audio Capture setting lost/oscillating across save/reload cycles. Upstream fixed in PR #3195 (merged 2026-03-03). Issue closed as COMPLETED."
+    }
+  ],
+  "comments": [],
+  "comments_cursor": "2026-03-04T09:24:36Z",
+  "unread_comments": 0,
+  "needs_action": false,
+  "waiting_for_us": false,
+  "last_synced": "2026-03-05T08:00:00Z",
+  "notes": "Fixed upstream via PR #3195. Audio Capture RDP redirect setting was oscillating between save/reload. Check if our fork has the fix (upstream merge needed).",
+  "token_usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "impl_failed": false
+}

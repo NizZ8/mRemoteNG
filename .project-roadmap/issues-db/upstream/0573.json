@@ -12,7 +12,7 @@
   ],
   "author": "billymckendrick",
   "created_at": "2017-05-30T12:52:24Z",
-  "github_updated_at": "2026-02-21T10:24:22Z",
+  "github_updated_at": "2026-02-26T14:16:47Z",
   "body_snippet": "Hello,\r\n\r\nI have a lot of machines that I manage using UltraVNC, that require both a username and password.\r\n\r\nWould it be at all possible to add this in, as I'd find it extremely useful and would mean I am using mRemoteNG for everything!\r\n\r\nThanks,\r\nBilly\r\n",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -98,25 +98,16 @@
       "id": "IC_kwDOAAcIMM7oxbVZ",
       "author": "robertpopa22",
       "date": "2026-02-15T22:07:37Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`4a78fd00`](https://github.com/robertpopa22/mRemoteNG/commit/4a78fd00ff108b8aed1f54c7b11f1feb520553a0)\n**Branch:** `main`\n**What changed:** Create a new UltraVNC protocol handler that downloads/bundle\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3g3A",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:55Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:22Z",
+  "comments_cursor": "2026-02-26T14:16:47Z",
   "unread_comments": 6,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Feature request to replace VncSharp with bundled UltraVNC client using the same external-process-embedding approach as PuTTY/SSH, which is a proven pattern in the codebase\nApproach: Create a new UltraVNC protocol handler that downloads/bundles the UVNC viewer executable and embeds its window into mRemoteNG panels using the same SetParent approach used for PuTTY; feasibility prototype first before full implementation"
 }

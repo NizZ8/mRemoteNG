@@ -10,7 +10,7 @@
   ],
   "author": "kmscode",
   "created_at": "2018-08-28T21:10:03Z",
-  "github_updated_at": "2026-02-21T10:23:38Z",
+  "github_updated_at": "2026-02-26T13:52:32Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n\r\n## Expected Behavior\r\nPanel should be themed properly.\r\n\r\nvs2015blue (and light) look OK:\r\n![image](https://user-images.githubusercontent.com/16654335/44750983-f4230000-aae4-11e8-89ba-47285a51873f.png)\r\n\r\n\r\n## Current Behavior\r\nPanel is not themed properly with the vs2015dark theme:\r\n![image](https://user-images.githubusercontent.com/16654335/44750834-824ab680-aae4-11e8-9d51-ac10b822d2ba.png)\r\n\r\nNot sure if dracula theme is m...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -43,21 +43,11 @@
       "description": "Included in v1.81.0-beta.3"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYh_U",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:54:47Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:38Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:52:32Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (claude): Theme selection in Options dialog has a display/application bug affecting UI consistency for all users.\nApproach: Inspect ThemePage options panel for incorrect theme preview or apply logic; ensure selected theme is correctly previewed and persisted on OK, reverted on Cancel."
 }

@@ -10,7 +10,7 @@
   ],
   "author": "ForPete2024",
   "created_at": "2024-04-17T09:40:11Z",
-  "github_updated_at": "2026-02-21T10:23:25Z",
+  "github_updated_at": "2026-02-27T10:28:29Z",
   "body_snippet": "The following works with stable v1.76.20, but not with Nightly v1.77.3.1784-NB:\r\n\\\\\\\\_UNC path_\\mRemoteNG.exe /c:\"\\\\\\\\_UNC path_\\confCons.xml\"\r\n\r\nOperating System: Windows Server 2022 21H2\r\n\r\nIssue was there before in v1.75.7011.34996. \r\nSee issue 803: https://github.com/mRemoteNG/mRemoteNG/issues/803",
   "our_status": "released",
   "priority": "P2-bug",
@@ -54,34 +54,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXE2I",
+      "id": "IC_kwDOAAcIMM7swRno",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:43:33Z",
-      "snippet": "Triage refresh (P2): this issue has been inactive for a long time. Please retest on the latest build and share reproducible steps, expected vs actual behavior, and logs/screenshots. If there is no confirmation/update, maintainers can close it as stale or not reproducible.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhWO",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:47Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
+      "date": "2026-02-27T10:28:29Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `6c110776` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Starting .exe from UNC path with config from UNC path not wo\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:25Z",
+  "comments_cursor": "2026-02-27T10:28:29Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue about UNC path startup not working lacks reproducible steps, affected code paths, and confirmation on current build (v1.79+).\nApproach: Request reporter to retest on latest build with specific UNC path scenario, share logs and exact error",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 78,
-    "cost_usd": 0.154714
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue about UNC path startup not working lacks reproducible steps, affected code paths, and confirmation on current build (v1.79+).\nApproach: Request reporter to retest on latest build with specific UNC path scenario, share logs and exact error"
 }

@@ -10,7 +10,7 @@
   ],
   "author": "Brainiarc7",
   "created_at": "2017-03-12T08:06:56Z",
-  "github_updated_at": "2026-02-21T10:24:22Z",
+  "github_updated_at": "2026-02-26T14:16:32Z",
   "body_snippet": "\r\n<!-- Feature Request -->\r\n<!-- If you file a feature request, please delete the bug section -->\r\n\r\nAs stated on the title: Make connection details editable from a right click context menu.\r\nHaving to go through a different panel to do the same thing over and over again is broken design.",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -51,25 +51,16 @@
       "id": "IC_kwDOAAcIMM7oxCmm",
       "author": "robertpopa22",
       "date": "2026-02-15T20:52:45Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** [`04d41065`](https://github.com/robertpopa22/mRemoteNG/commit/04d410659f1ce9a05f1e957bccc526222315314a)\n**Branch:** `main`\n**What changed:** Add an 'Edit Connection' or 'Properties' menu item to the co\n\n**Download latest beta:** [v1.81.0-beta.2](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0-beta.2)\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7o3gvJ",
-      "author": "robertpopa22",
-      "date": "2026-02-16T07:27:46Z",
-      "snippet": "**Correction:** The download link in my previous comment was broken. Here is the correct one:\n\n**Download pre-built binaries:** https://github.com/robertpopa22/mRemoteNG/releases\n\nLook for the latest **v1.81.0-beta.2** build (x64, x86, ARM64 — both portable and self-contained variants available).\n\nSorry for the inconvenience!",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:22Z",
+  "comments_cursor": "2026-02-26T14:16:32Z",
   "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Clear UI/UX enhancement request to allow editing connection properties directly from the right-click context menu, improving workflow efficiency\nApproach: Add an 'Edit Connection' or 'Properties' menu item to the connection node right-click context menu that opens the connection's property editor, similar to double-click behavior"
 }

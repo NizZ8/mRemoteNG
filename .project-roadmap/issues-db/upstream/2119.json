@@ -8,7 +8,7 @@
   ],
   "author": "simonai1254",
   "created_at": "2022-01-12T20:10:50Z",
-  "github_updated_at": "2022-01-12T20:13:12Z",
+  "github_updated_at": "2026-02-27T08:22:25Z",
   "body_snippet": "## Expected Behavior\r\nWhen having the option \"File>Options>Startup/Exit>Reconnect to previously opened sessions on startup\" enabled, the opened sessions should be opened again after closing and starting mRemoteNG.\r\n\r\n## Current Behavior\r\nWhen having the option \"File>Options>Startup/Exit>Reconnect to previously opened sessions on startup\" enabled, some opened sessions are forgotten and not opened again after closing and starting mRemoteNG.\r\n\r\nI could observer missing RDP sessions, SSH sessions ar...",
   "our_status": "released",
   "priority": "P2-bug",
@@ -41,12 +41,21 @@
       "description": "Bulk verified: commit a1717026 exists (MEDIUM confidence)"
     }
   ],
-  "comments": [],
-  "comments_cursor": "2022-01-12T20:13:12Z",
+  "comments": [
+    {
+      "id": "IC_kwDOAAcIMM7suEfA",
+      "author": "robertpopa22",
+      "date": "2026-02-27T08:22:25Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `a1717026` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Restoring Sessions after program start \"forgets\" opened conn\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-02-27T08:22:25Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-15T09:52:50Z",
-  "notes": "AI triage (gemini): The application fails to correctly restore previously opened connections upon startup, leading to lost user session state.\nApproach: Investigate and debug the `PreviousSessionOpener` class and its interaction with `OpenConsFromLastSession` to ensure that previously opened connections are correctly identified, serialized on shutdown, and deserialized/re-established upon application startup.",
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (gemini): The application fails to correctly restore previously opened connections upon startup, leading to lost user session state.\nApproach: Investigate and debug the `PreviousSessionOpener` class and its interaction with `OpenConsFromLastSession` to ensure that previously opened connections are correctly identified, serialized on shutdown, and deserialized/re-established upon application startup."
 }

@@ -10,7 +10,7 @@
   ],
   "author": "Kvarkas",
   "created_at": "2025-06-24T10:21:37Z",
-  "github_updated_at": "2026-02-21T10:23:31Z",
+  "github_updated_at": "2026-02-26T13:49:21Z",
   "body_snippet": "Добавить страницы с содержанием:\n\nAbout > https://mremoteng.org/ (вместо одной картинки предусмотреть карусель с загрузкой картинок из директории static/images/{подпапка карусели} предусмотреть что их там будет 5-7 штук\n\nNews > https://mremoteng.org/posts/ (пока страницу заглушку, но посмотри структуру, позже нужно будет прикрутить механизм вывода новостей, будет отдельная таска для этого)\n\nDownloads > https://mremoteng.org/download (возможно подумать над структурой динамического вывода из храни...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -37,27 +37,11 @@
       "description": "Repass confirmed: Website missing pages, not desktop application code"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYhpf",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:41Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:31Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:49:21Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: add missing pages (About, carousel). UI translation enhancement (Russian).",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 207,
-    "cost_usd": 0.168051
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: add missing pages (About, carousel). UI translation enhancement (Russian)."
 }

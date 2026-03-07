@@ -11,7 +11,7 @@
   ],
   "author": "dashimanshu",
   "created_at": "2025-03-28T07:36:03Z",
-  "github_updated_at": "2026-02-21T10:23:23Z",
+  "github_updated_at": "2026-02-26T13:45:49Z",
   "body_snippet": "**Description:**\n\nImplement a text zoom feature in mRemoteNG that allows users to increase or decrease the font size of the terminal/session display by holding down the Ctrl key and scrolling the mouse wheel, similar to the functionality found in Windows Terminal.\n\n**Use Case:**\n\nUsers often need to adjust the text size during sessions for better readability, especially when dealing with:\n\n* High-resolution displays where text appears too small.\n* Presentations or demonstrations where larger tex...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -47,27 +47,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhOM",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:22Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:23Z",
+  "comments_cursor": "2026-02-26T13:45:49Z",
   "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature request requiring display framework rewrite. Very low priority per upstream maintainer.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 383,
-    "cost_usd": 0.169839
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature request requiring display framework rewrite. Very low priority per upstream maintainer."
 }

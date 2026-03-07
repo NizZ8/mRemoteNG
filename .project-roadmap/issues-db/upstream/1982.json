@@ -11,7 +11,7 @@
   ],
   "author": "Apollon-Theos",
   "created_at": "2021-06-29T14:58:05Z",
-  "github_updated_at": "2026-02-25T19:24:37Z",
+  "github_updated_at": "2026-02-26T14:12:33Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nIf I define \"Panel\" in folder, all connections must use this value, but I can edit this\r\n\r\n## Expected Behavior\r\nFolder user for grouping servers by service, all neighboring servers better use in one Panel(Tab)\r\n\r\n\r\n## Current Behavior\r\nAll new connections have \"General\" in Panel, not use \"Panel\" from folder\r\n\r\n## Possible Solution\r\nif connection created inside folder, use settings from Folder.\r\n\r\n## Steps to Reproduce (for bug...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -91,37 +91,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXI6b",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:30Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhrx",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:53:48Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.8 (Fenix)",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7sH4bn",
       "author": "robertpopa22",
       "date": "2026-02-25T19:24:28Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** Connection, by default, must use \"Panel\"(Tab) from it's Fold\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-25T19:24:37Z",
+  "comments_cursor": "2026-02-26T14:12:33Z",
   "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T21:16:17Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): The default setting for inheriting the 'Panel' property is currently false, preventing new connections from automatically adopting the parent folder's panel.\nApproach: Change the default value of the InhDefaultPanel setting in mRemoteNG\\Properties\\Settings.settings from False to True."
 }

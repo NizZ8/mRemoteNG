@@ -10,7 +10,7 @@
   ],
   "author": "igor2x",
   "created_at": "2025-10-19T05:26:17Z",
-  "github_updated_at": "2026-02-21T10:23:45Z",
+  "github_updated_at": "2026-02-26T22:31:41Z",
   "body_snippet": "Downloaded mRemoteNG v1.78.2 NB 3224 I have looked at the File | Options design again, because it just feels not the best UI/UX. This is maybe continuation of [issue 2909](https://github.com/mRemoteNG/mRemoteNG/issues/2909) where we discussed what should happen when Option panel is closed down. That issue looked like a bug, but this issue is more about enhancement.\n\nLets step back a little bit. How did File | Options work few NB releases ago? Options were opened as dialog and in dialog it is cus...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -45,25 +45,19 @@
   ],
   "comments": [
     {
-      "id": "IC_kwDOAAcIMM7mYiQ3",
+      "id": "IC_kwDOAAcIMM7sm47k",
       "author": "robertpopa22",
-      "date": "2026-02-07T19:55:54Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
+      "date": "2026-02-26T22:31:41Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `bb289379` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** Add change event handlers to options controls that trigger s\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Ou...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:45Z",
+  "comments_cursor": "2026-02-26T22:31:41Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Auto-saving options settings on change improves UX by eliminating the need to explicitly click Save/Apply, reducing accidental loss of changes.\nApproach: Add change event handlers to options controls that trigger save logic automatically, or persist settings immediately on property change instead of only on OK/Apply button click",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 370,
-    "cost_usd": 0.174339
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Auto-saving options settings on change improves UX by eliminating the need to explicitly click Save/Apply, reducing accidental loss of changes.\nApproach: Add change event handlers to options controls that trigger save logic automatically, or persist settings immediately on property change instead of only on OK/Apply button click"
 }

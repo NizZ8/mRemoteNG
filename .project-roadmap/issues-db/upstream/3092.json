@@ -12,7 +12,7 @@
   ],
   "author": "jonashilmersson",
   "created_at": "2026-01-24T16:44:49Z",
-  "github_updated_at": "2026-02-21T10:24:17Z",
+  "github_updated_at": "2026-02-26T14:21:10Z",
   "body_snippet": "I'm running Windows 11, 1Password for Windows 8.12.0 (81200013) and mRemoteNG 1.78 Nightly build 3228. \n\nI've activated 1P CLI and tested it out in the terminal, it works fine. \n\nI've created a RDP connection using IP address, set it to use 1Password as the External Credential Provider. In the API User ID field, I've written \n\n`op://My Vault/My RDP item`\n\nWhen I try to connect, I get the normal Windows login dialog with the username prefilled, just like if I use the normal Windows RDP client. I'...",
   "our_status": "released",
   "priority": null,
@@ -99,16 +99,7 @@
       "id": "IC_kwDOAAcIMM7mX-2N",
       "author": "robertpopa22",
       "date": "2026-02-07T18:27:59Z",
-      "snippet": "Update:\n\n- Fix is proposed in upstream PR:\n  - https://github.com/mRemoteNG/mRemoteNG/pull/3107\n\nScope includes robust `op://` parsing for vault/item names with spaces and `CONCEALED` fallback field handling.\n\n",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7maCi_",
-      "author": "robertpopa22",
-      "date": "2026-02-07T21:58:48Z",
-      "snippet": "Covered by upstream PR:&echo https://github.com/mRemoteNG/mRemoteNG/pull/3107\r\n&echo Fork CI evidence:&echo https://github.com/robertpopa22/mRemoteNG/actions/runs/21782320844\r\n",
+      "snippet": "Update:\n\n- Fix is proposed in upstream PR:\n  - PR #3107 on `mRemoteNG/mRemoteNG`\n\nScope includes robust `op://` parsing for vault/item names with spaces and `CONCEALED` fallback field handling.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — we're preparing a consolidated Pull ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -117,7 +108,7 @@
       "id": "IC_kwDOAAcIMM7mpblr",
       "author": "robertpopa22",
       "date": "2026-02-09T06:26:19Z",
-      "snippet": "✅ Fix available in community release: https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.79.0\n\n**PR:** #3107 | **Branch:** `codex/pr3-onepassword-3092`\n**Fix:** 1Password credential parser and fallback handling corrected.\n\n3 platform builds (x64, x86, ARM64) available for download.",
+      "snippet": "**Fix available in community release**\n\nThis fix is included in a community build from our fork (`robertpopa22/mRemoteNG`, branch `main`). Available from the fork's Releases page.\n\nPlease test and let us know if the issue is fully resolved.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your fo...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -177,10 +168,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-21T10:24:17Z",
+  "comments_cursor": "2026-02-26T14:21:10Z",
   "unread_comments": 12,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-02-21T12:06:48Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": ""
 }

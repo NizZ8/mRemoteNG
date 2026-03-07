@@ -8,7 +8,7 @@
   ],
   "author": "albertonietoxeridia",
   "created_at": "2023-09-22T07:45:11Z",
-  "github_updated_at": "2026-02-21T10:23:40Z",
+  "github_updated_at": "2026-02-26T13:53:49Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\nIn 1.76.20 the option ssh tunnel is not present in ssh connections\r\n## Expected Behavior\r\n<!--- If you're describing a bug, tell us what should happen -->\r\n<!--- If you're suggesting a change/improvement, tell us how it should work -->\r\nA connection with the option ssh tunnel \r\n## Current Behavior\r\n<!--- If describing a bug, tell us what happens instead of the expected behavior -->\r\n<!--- If suggesting a change/improvement, exp...",
   "our_status": "wontfix",
   "priority": "P4-debt",
@@ -71,26 +71,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYiHc",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:17Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.76.20",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:40Z",
+  "comments_cursor": "2026-02-26T13:53:49Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Issue is for legacy version v1.76.20 which is no longer supported, and the tunneling feature is confirmed working in nightly builds.\nApproach: Close as wontfix - feature works in current builds, legacy version not supported",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 76,
-    "cost_usd": 0.14597
-  }
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Issue is for legacy version v1.76.20 which is no longer supported, and the tunneling feature is confirmed working in nightly builds.\nApproach: Close as wontfix - feature works in current builds, legacy version not supported"
 }

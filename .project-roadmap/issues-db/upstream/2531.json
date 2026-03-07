@@ -11,7 +11,7 @@
   ],
   "author": "ductnone",
   "created_at": "2023-12-06T06:45:40Z",
-  "github_updated_at": "2026-02-21T10:23:50Z",
+  "github_updated_at": "2026-02-26T13:57:51Z",
   "body_snippet": "## Expected Behavior\r\nHaving an extra option to set an idle timeout timer to have mRemoteNG close itself.\r\n\r\n## Current Behavior\r\nmRemoteNG currently stays open indefinitely until manually closed.\r\nThis poses a security concern as the software lets one save access information (IP, Username, Password) to networking infrastructure etc.\r\n\r\n## Possible Solution\r\nDesign a new option under the security tab that lets you set an idle timeout timer in seconds/minutes.\r\n\r\n## Steps to Reproduce (for bugs)\r...",
   "our_status": "wontfix",
   "priority": "P3-enhancement",
@@ -74,27 +74,11 @@
       "description": "Wontfix: Idle timeout auto-close could disconnect active sessions unexpectedly — risky UX for sysadmins"
     }
   ],
-  "comments": [
-    {
-      "id": "IC_kwDOAAcIMM7mYiie",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:46Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.3",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    }
-  ],
-  "comments_cursor": "2026-02-21T10:23:50Z",
+  "comments": [],
+  "comments_cursor": "2026-02-26T13:57:51Z",
   "unread_comments": 0,
   "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "Feature: auto-close after idle timeout. 6 failed AI attempts. Requires idle detection architecture.",
-  "impl_failed": false,
-  "token_usage": {
-    "input_tokens": 30,
-    "output_tokens": 7868,
-    "cost_usd": 1.530316
-  }
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "Feature: auto-close after idle timeout. 6 failed AI attempts. Requires idle detection architecture."
 }

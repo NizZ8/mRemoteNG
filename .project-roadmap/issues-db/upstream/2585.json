@@ -13,7 +13,7 @@
   ],
   "author": "etug80",
   "created_at": "2024-04-22T14:01:25Z",
-  "github_updated_at": "2026-02-21T10:23:26Z",
+  "github_updated_at": "2026-02-27T06:17:04Z",
   "body_snippet": "Hello Folks!\r\n\r\nI'm glad to come across mRemoteNG when I searched for Libre Software alternative to SecureCRT.\r\n\r\nUnfortunately, when I requested my organization to install mRemoteNG (either v1.76.20 or v1.77.3.1784-NB) on my work laptop, the SOC team rejected my request citing the following CVEs.\r\n[1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-24307\r\n[2] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-30367\r\n\r\nAny inside information regarding these?\r\n\r\nP.S.\r\nThank you all f...",
   "our_status": "released",
   "priority": "P1-security",
@@ -84,43 +84,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mXJCe",
+      "id": "IC_kwDOAAcIMM7ssROA",
       "author": "robertpopa22",
-      "date": "2026-02-07T16:55:46Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXJLu",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:54Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYhYF",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:52:53Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
+      "date": "2026-02-27T06:17:04Z",
+      "snippet": "**Fix available for testing**\n\n**Commit:** `f34c13e7` (fork `robertpopa22/mRemoteNG`, branch `main`)\n**What changed:** CVE-2020-24307 and CVE-2023-30367\n\nA beta build (v1.81.0-beta.4) including this fix is available from the fork's Releases page.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on y...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:26Z",
+  "comments_cursor": "2026-02-27T06:17:04Z",
   "unread_comments": 4,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "AI triage (claude): Security CVE issue with empty body and stale status - needs verification if CVEs are still applicable to current fork (v1.79.x/.NET 10) before any fix can be scoped.\nApproach: Verify if CVE-2020-24307 and CVE-2023-30367 affect current codebase, identify vulnerable components, then patch accordingly",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 107,
-    "cost_usd": 0.156033
-  },
-  "impl_failed": false
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "AI triage (claude): Security CVE issue with empty body and stale status - needs verification if CVEs are still applicable to current fork (v1.79.x/.NET 10) before any fix can be scoped.\nApproach: Verify if CVE-2020-24307 and CVE-2023-30367 affect current codebase, identify vulnerable components, then patch accordingly"
 }

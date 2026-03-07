@@ -10,7 +10,7 @@
   ],
   "author": "Zewwy",
   "created_at": "2019-01-26T05:16:52Z",
-  "github_updated_at": "2026-02-21T10:23:18Z",
+  "github_updated_at": "2026-02-26T13:58:41Z",
   "body_snippet": "Inheritance on sub folder and connections within should have inherit all to yes as default\r\n\r\n## Expected Behavior\r\nCreate a Parent folder, set your folder properties. Create a Sub folder within it, it should have all the properties of it's parent automatically.\r\n\r\n## Current Behavior\r\nI have to select the inheritance Icon, set inherit All: Yes\r\nFor every sub folder, and every sub connection.\r\n\r\n## Possible Solution\r\nSet inheritance to be default to yes. If I had to do this in Windows folder cre...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -55,30 +55,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mXI66",
-      "author": "robertpopa22",
-      "date": "2026-02-07T16:55:31Z",
-      "snippet": "Triage (P3 stale status): this issue is labeled as actively worked, but activity appears stale. Please confirm whether work is still in progress. If not, please relabel to Need 2 check (or close) to keep status labels accurate.",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYg_0",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:51:32Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.77.2",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:18Z",
+  "comments_cursor": "2026-02-26T13:58:41Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage (gemini): Allows users to configure the default inheritance behavior for newly created connections, streamlining workflows where inheritance is not always desired.\nApproach: Add a new user setting to toggle the default inheritance state. Update the ConnectionInfo constructor or initialization logic to respect this setting when creating new connection instances."
 }

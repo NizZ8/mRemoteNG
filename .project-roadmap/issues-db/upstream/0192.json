@@ -11,7 +11,7 @@
   ],
   "author": "ninken",
   "created_at": "2016-10-21T18:23:35Z",
-  "github_updated_at": "2026-02-24T06:08:20Z",
+  "github_updated_at": "2026-02-26T14:17:50Z",
   "body_snippet": "<!--\nOnly file GitHub issues for bugs and feature requests.  All other topics will be closed.\n\nBefore opening an issue, please search for a duplicate or closed issue.\nPlease provide as much detail as possible for us to fix your issue.\n-->\n\n<!-- Feature Request -->\n\nIs it possible to add a option for Multiple Monitor option for RDP aka \"Use all my monitors..\"  feature? \nI understand the ActiveX parameters changes the normal syntax and functionality radically, possible work around making you have ...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -133,7 +133,7 @@
       "id": "MDEyOklzc3VlQ29tbWVudDYwNzY2MzkxOA==",
       "author": "robertpopa22",
       "date": "2020-04-02T07:10:21Z",
-      "snippet": "Would be very useful for this COVID crisis to have multiple monitors!",
+      "snippet": "Would be very useful for this COVID crisis to have multiple monitors!\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork builds entirely on your foundation — we're preparing a consolidated Pull Request to contribute these improvements back to the official project. Thank you for everything you've built.*\n>\n> *— robert...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
@@ -265,28 +265,19 @@
       "action_needed": true
     },
     {
-      "id": "IC_kwDOAAcIMM7mYiRO",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:55:55Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
-    },
-    {
       "id": "IC_kwDOAAcIMM7rZsk8",
       "author": "robertpopa22",
       "date": "2026-02-24T06:08:13Z",
-      "snippet": "**Fix available for testing**\n\n**Commit:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n**Branch:** `main`\n**What changed:** RDP using multiple monitors\n\n**Download latest beta:** **[CENSORED!] Links to external GitHub repositories are not allowed**\n\nPlease test and report if this resolves your issue.\n\n---\n_Automated by mRemoteNG Issue Intelligence System_",
+      "snippet": "**Fix available for testing**\n\nA fix for this issue has been implemented in our community fork (`robertpopa22/mRemoteNG`, branch `main`). A beta build including this fix is available from the fork's Releases page.\n\nPlease test and report if this resolves your issue.\n\n---\n\n> *We sincerely appreciate the mRemoteNG maintainers and the wonderful community that has kept this project alive and thriving for over a decade. Your work powers thousands of IT professionals worldwide, including us. Our fork ...",
       "is_ours": true,
       "analyzed": false,
       "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-24T06:08:20Z",
+  "comments_cursor": "2026-02-26T14:17:50Z",
   "unread_comments": 24,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-02-25T14:05:39Z",
+  "last_synced": "2026-03-07T07:13:19Z",
   "notes": "AI triage: Enhancement request for multi-monitor RDP support with no clear reproducible steps, empty body, and last triage comment already asked reporter to retest on latest build and provide details\nApproach: Awaiting reporter confirmation if issue persists on v1.80+; if valid, would involve exposing mstscax UseMultimon/SelectedMonitors properties in connection settings UI"
 }

@@ -10,7 +10,7 @@
   ],
   "author": "yonia1981",
   "created_at": "2023-11-23T07:27:47Z",
-  "github_updated_at": "2026-02-21T10:23:48Z",
+  "github_updated_at": "2026-02-26T13:57:05Z",
   "body_snippet": "Every time I connect the screen is very small.\r\nWhen I connect via RDP (Remote connection desktop), It looks normal\r\n\r\n![Capture](https://github.com/mRemoteNG/mRemoteNG/assets/59318144/8bb0e7d2-05fa-4f7a-9616-15c558e5cfc9)\r\n\r\n\r\nVersion\r\n![Capture1](https://github.com/mRemoteNG/mRemoteNG/assets/59318144/9bff3b87-50fc-4daf-ad98-271e2fb7eef4)\r\n\r\n",
   "our_status": "released",
   "priority": "P4-debt",
@@ -73,27 +73,12 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
-    },
-    {
-      "id": "IC_kwDOAAcIMM7mYieK",
-      "author": "robertpopa22",
-      "date": "2026-02-07T19:56:29Z",
-      "snippet": "Triage refresh (P4 version-label debt): this issue is tagged with legacy version labels. Please retest on the latest build (fork v1.79.x or upstream dev), then share reproducible steps and expected vs actual behavior. If still valid, keep open and relabel to current triage scope (for example Need 2 check). If fixed, close with resolution.\n\nCurrent legacy version labels: 1.78.*",
-      "is_ours": true,
-      "analyzed": false,
-      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-21T10:23:48Z",
+  "comments_cursor": "2026-02-26T13:57:05Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-02-21T12:06:48Z",
-  "notes": "DPI scaling issue likely improved by .NET 10 upgrade (same class as #2564). Needs manual verification.",
-  "token_usage": {
-    "input_tokens": 3,
-    "output_tokens": 69,
-    "cost_usd": 0.148495
-  },
-  "impl_failed": false
+  "waiting_for_us": true,
+  "last_synced": "2026-03-07T07:13:19Z",
+  "notes": "DPI scaling issue likely improved by .NET 10 upgrade (same class as #2564). Needs manual verification."
 }
