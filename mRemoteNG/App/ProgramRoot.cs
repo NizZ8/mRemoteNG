@@ -420,7 +420,8 @@ namespace mRemoteNG.App
 
                 _wpfSplash.ShowInTaskbar = false;
                 _wpfSplash.Show();
-                System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(_wpfSplash);
+                try { System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(_wpfSplash); }
+                catch { /* non-critical — keyboard interop for splash screen */ }
                 System.Windows.Threading.Dispatcher.Run(); // WPF message loop
             })
             { IsBackground = true };

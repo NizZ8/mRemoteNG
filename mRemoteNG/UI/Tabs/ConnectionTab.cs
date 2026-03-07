@@ -212,7 +212,7 @@ namespace mRemoteNG.UI.Tabs
         {
             try
             {
-                ((InterfaceControl?)Tag)?.Protocol?.Close();
+                (Tag as InterfaceControl)?.Protocol?.Close();
             }
             catch (Exception ex)
             {
