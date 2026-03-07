@@ -1793,8 +1793,10 @@ namespace mRemoteNG.Connection.Protocol.RDP
                         {
                             await System.Threading.Tasks.Task.Delay(100);
 
-                            if (_frmMain == null || _frmMain.IsDisposed) return;
+                            if (_frmMain == null || _frmMain.IsDisposed || !_frmMain.IsHandleCreated) return;
 
+                            try
+                            {
                             _frmMain.Invoke((MethodInvoker)delegate
                             {
                                 IntPtr hwnd = NativeMethods.GetForegroundWindow();
@@ -1844,6 +1846,8 @@ namespace mRemoteNG.Connection.Protocol.RDP
                                     fixApplied = true;
                                 }
                             });
+                            }
+                            catch (ObjectDisposedException) { return; }
 
                             if (fixApplied) break;
                         }
@@ -1862,13 +1866,44 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
         private void RDPEvent_OnLeaveFullscreenMode()
         {
-            Fullscreen = false;
-            // Restore SmartSize to the state it was in before entering fullscreen (#1402).
-            SmartSize = _smartSizeBeforeFullscreen;
+            try
+            {
+                Fullscreen = false;
+                // Restore SmartSize to the state it was in before entering fullscreen (#1402).
+                SmartSize = _smartSizeBeforeFullscreen;
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace("RDP leave-fullscreen state restore failed", ex, MessageClass.WarningMsg, false);
+            }
+
             _leaveFullscreenEvent?.Invoke(this, EventArgs.Empty);
 
             try
             {
+                if (_frmMain == null || _frmMain.IsDisposed) return;
+
+                if (_frmMain.InvokeRequired)
+                {
+                    _frmMain.BeginInvoke(new MethodInvoker(RestoreAfterFullscreen));
+                }
+                else
+                {
+                    RestoreAfterFullscreen();
+                }
+            }
+            catch (Exception ex)
+            {
+                Runtime.MessageCollector.AddExceptionStackTrace("RDP leave-fullscreen refocus failed", ex, MessageClass.WarningMsg, false);
+            }
+        }
+
+        private void RestoreAfterFullscreen()
+        {
+            try
+            {
+                if (_frmMain == null || _frmMain.IsDisposed) return;
+
                 if (_frmMain.WindowState == FormWindowState.Minimized && !Properties.OptionsTabsPanelsPage.Default.DoNotRestoreOnRdpMinimize)
                 {
                     _frmMain.WindowState = FormWindowState.Normal;
@@ -1893,7 +1928,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddExceptionStackTrace("RDP leave-fullscreen refocus failed", ex, MessageClass.WarningMsg, false);
+                Runtime.MessageCollector.AddExceptionStackTrace("RDP leave-fullscreen restore failed", ex, MessageClass.WarningMsg, false);
             }
         }
 
