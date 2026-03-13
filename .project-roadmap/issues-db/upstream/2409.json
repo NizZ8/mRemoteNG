@@ -11,7 +11,7 @@
   ],
   "author": "igor2x",
   "created_at": "2023-03-24T14:03:44Z",
-  "github_updated_at": "2026-02-26T13:45:39Z",
+  "github_updated_at": "2026-03-07T10:57:03Z",
   "body_snippet": "I have been using mRemoteNG for years. Currently I am using mRemoteNG officially stable version 1.76.20 on Windows 10.\r\n    1. Open SSH connection to e.g. Linux computer and do some tasks.\r\n    2. Move mouse to top left and position it on Connections horizontal tab. Do not click on Connections tab. Connection tab is expended. Now move mouse back rigth on \"black\" terminal background and \"Connection\" tab is collapsed.\r\n    3. Now move mouse to top left position again and now click on Connections. ...",
   "our_status": "released",
   "priority": "P4-debt",
@@ -146,12 +146,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYx8C",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:56:56Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nThis has been confirmed fixed. Tab auto-collapse works correctly in current builds.\n\nAvailable in **[CENSORED!] Links to external GitHub repositories are not allowed** and included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T13:45:39Z",
+  "comments_cursor": "2026-03-07T10:57:03Z",
   "unread_comments": 12,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "Confirmed fixed in nightly by BlueBlock (with GIF demo). Tab auto-collapse works correctly."
 }

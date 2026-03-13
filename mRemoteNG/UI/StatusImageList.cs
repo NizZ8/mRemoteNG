@@ -99,7 +99,7 @@ namespace mRemoteNG.UI
                     ImageList.Images.Add(key, img);
             }
 
-            AddIfMissing(BuildConnectionIconName(connection.Icon, false), image);
+            AddIfMissing(BuildConnectionIconName(connection.Icon, false), image.ToBitmap());
             AddIfMissing(BuildConnectionIconName(connection.Icon, true), Overlay(image, Properties.Resources.ConnectedOverlay));
             AddIfMissing(BuildConnectionIconName(connection.Icon, false, true), CreateTemplateIcon(image));
             AddIfMissing(BuildConnectionIconNameReplace(connection.Icon), CreateReplaceIcon());

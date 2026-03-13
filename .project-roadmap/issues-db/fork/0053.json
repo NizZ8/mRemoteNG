@@ -1,0 +1,34 @@
+{
+  "number": 53,
+  "repo": "robertpopa22/mRemoteNG",
+  "title": "Couldn't add panel error when startint mRemoteNG 1.8.10 (current latest stable)",
+  "state": "open",
+  "labels": [],
+  "author": "zgabi",
+  "created_at": "2026-03-12T12:38:58Z",
+  "github_updated_at": "2026-03-12T12:43:52Z",
+  "body_snippet": "<img width=\"539\" height=\"380\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/697de2f6-3621-4c19-94e8-db4ac5c17722\" />\n\nI exported the connection from the \"original\" mRemoteNG 1.76.20.24615 to an xml configutazion file. (contains RDP. VNC and SSH connections)\nAn then imported it in yout latest version.\nAfter some restart I got the error message.",
+  "our_status": "new",
+  "priority": null,
+  "target_release": null,
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [],
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7xL_rG",
+      "author": "zgabi",
+      "date": "2026-03-12T12:40:28Z",
+      "snippet": "When I click OK, the program closes, I can't start it anymore.\n\nEdit: It started after some minutes.\nThen I closed it again.\nThen start => not responding for a minute again.",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    }
+  ],
+  "comments_cursor": "2026-03-12T12:43:52Z",
+  "unread_comments": 1,
+  "needs_action": true,
+  "waiting_for_us": true,
+  "last_synced": "2026-03-13T17:44:31Z",
+  "notes": ""
+}

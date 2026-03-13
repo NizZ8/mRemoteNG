@@ -10,7 +10,7 @@
   ],
   "author": "mlakatamitis",
   "created_at": "2023-08-03T09:37:14Z",
-  "github_updated_at": "2026-02-26T13:51:23Z",
+  "github_updated_at": "2026-03-07T10:54:57Z",
   "body_snippet": "Hi all,\r\n\r\nI have installed the Stable version and i want to update to Nightly but i have issue with the DB. \r\nIs there any way to migrate my database from the stable version to the Nightly version?\r\n\r\n\r\n## Your Environment\r\nWindows\r\n",
   "our_status": "released",
   "priority": "P4-debt",
@@ -73,12 +73,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYxUN",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:54:51Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nThe schema migration issue has been fixed. Auto-upgrade logic now adds missing columns when migrating between versions for both MSSQL and MySQL backends. Upgrading from v1.76.20 stable to current nightly should work without manual intervention.\n\nAvailable in **[CENSORED!] Links to external GitHub repositories are not allowed** and included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T13:51:23Z",
+  "comments_cursor": "2026-03-07T10:54:57Z",
   "unread_comments": 4,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "Fixed: auto-upgrade schema logic adds missing columns when migrating between versions for both MSSQL and MySQL."
 }

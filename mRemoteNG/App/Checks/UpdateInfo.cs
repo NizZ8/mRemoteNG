@@ -42,6 +42,20 @@ namespace mRemoteNG.App.Update
                         newInfo.Version = ver;
                 }
 
+                // Fallback: if tag_name is not semver (e.g. "nightly"), try to extract
+                // version from the release name like "Nightly Build — 20260313 (v1.82.0-beta.1)" (#51)
+                if (newInfo.Version == null && root.TryGetProperty("name", out JsonElement nameEl))
+                {
+                    string? name = nameEl.GetString();
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        var match = System.Text.RegularExpressions.Regex.Match(
+                            name, @"v?(\d+\.\d+\.\d+)");
+                        if (match.Success && Version.TryParse(match.Groups[1].Value, out Version? nameVer))
+                            newInfo.Version = nameVer;
+                    }
+                }
+
                 if (root.TryGetProperty("html_url", out JsonElement htmlUrlEl))
                 {
                     string? htmlUrl = htmlUrlEl.GetString();
