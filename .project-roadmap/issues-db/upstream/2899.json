@@ -11,7 +11,7 @@
   ],
   "author": "jeanbruder",
   "created_at": "2025-10-15T07:49:27Z",
-  "github_updated_at": "2026-02-26T13:55:08Z",
+  "github_updated_at": "2026-03-07T10:55:03Z",
   "body_snippet": "Dear mRemoteNG team,\n\nAs described in the documentation pages on using a database to save the configuration, I want to use MySQL. However, I am unable to connect to it. I have created a database named mRemoteNG and a user named mRemoteNG with full rights to this database. I can connect to it from a tool such as DBeaver, but not from mremoteng. Could you help me with this?\n\nThank you in advance, Jean",
   "our_status": "released",
   "priority": "P4-debt",
@@ -56,12 +56,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYxVm",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:54:55Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nThe current fork auto-creates MySQL schema and upgrades missing columns automatically. MySQL 9.x compatibility should be improved. Please try the latest **[CENSORED!] Links to external GitHub repositories are not allowed**.\n\nFix included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T13:55:08Z",
+  "comments_cursor": "2026-03-07T10:55:03Z",
   "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "Legacy v1.76.20 issue. Current fork auto-creates MySQL schema and upgrades missing columns."
 }

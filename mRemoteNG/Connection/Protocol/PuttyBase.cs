@@ -853,8 +853,10 @@ namespace mRemoteNG.Connection.Protocol
                                                             arguments.Add("-pw", password);
                                                         }
                                                         // Disable interactive prompts so PuTTY exits on auth failure
-                                                        // instead of hanging with a password retry prompt (#1213)
-                                                        if (!IsSshTunnelSession())
+                                                        // instead of hanging with a password retry prompt (#1213).
+                                                        // Only add -batch for recognized PuTTY-compatible tools (#49).
+                                                        PuttyTypeDetector.PuttyType puttyType = PuttyTypeDetector.GetPuttyType(PuttyPath ?? string.Empty);
+                                                        if (!IsSshTunnelSession() && puttyType != PuttyTypeDetector.PuttyType.Unknown)
                                                         {
                                                             arguments.Add("-batch");
                                                         }

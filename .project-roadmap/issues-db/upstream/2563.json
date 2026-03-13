@@ -5,11 +5,12 @@
   "state": "open",
   "labels": [
     "In progress",
+    "Duplicate",
     "1.77.3"
   ],
   "author": "David-Houser",
   "created_at": "2024-02-07T15:17:17Z",
-  "github_updated_at": "2026-02-26T13:42:10Z",
+  "github_updated_at": "2026-03-10T16:05:55Z",
   "body_snippet": "I am unable to select a default connection file to open on startup.\r\n\r\nI have tried adding the /c: and /cons: parameters, but these do not work.\r\n\r\n“C:\\Program Files (x86)\\mRemoteNG\\mRemoteNG.exe” /c:”C:\\OneDrive\\path\\to\\config.xml\"\r\n\r\nThere does not seem be an option for this in the mRemote application.\r\n\r\nAm I missing something? Is this possible in the current version? I'm using build 1.77.3 (Nightly Build; 1784)\r\n\r\nThank you,\r\n",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -66,12 +67,30 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYxcS",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:55:10Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nFixed — same root cause as #2368. The `GetStartupConnectionFileName()` priority logic now correctly respects the default connection file setting.\n\nAvailable in **[CENSORED!] Links to external GitHub repositories are not allowed** and included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDOAAcIMM7wXUN5",
+      "author": "simonai1254",
+      "date": "2026-03-10T16:05:55Z",
+      "snippet": "Duplicate of #2474",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-26T13:42:10Z",
-  "unread_comments": 4,
+  "comments_cursor": "2026-03-10T16:05:55Z",
+  "unread_comments": 5,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "PASS: Same fix as #2368 — GetStartupConnectionFileName() priority logic"
 }

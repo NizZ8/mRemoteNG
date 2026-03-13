@@ -13,7 +13,7 @@
   ],
   "author": "VQFCOSTA-Infortech",
   "created_at": "2023-10-06T13:41:50Z",
-  "github_updated_at": "2026-02-26T13:54:26Z",
+  "github_updated_at": "2026-03-07T10:54:31Z",
   "body_snippet": "<!--- Provide a general summary of the issue in the Title above -->\r\n-\r\nI communicate with the MySQL database, but I cannot import the xml file that I currently use for the database, when trying to import both csv and xml, the import presents an error.\r\n-\r\n\r\n![image](https://github.com/mRemoteNG/mRemoteNG/assets/140181514/eb2f9824-ade6-4662-b399-06d90bd26130)\r\n\r\n![image](https://github.com/mRemoteNG/mRemoteNG/assets/140181514/72786e2f-4e5a-4442-b051-9dac5c686610)\r\n\r\nThe other problem I have is w...",
   "our_status": "released",
   "priority": "P4-debt",
@@ -238,12 +238,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYxKu",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:54:24Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nThis has been fixed. The MySQL database connector now auto-discovers and adds missing columns when upgrading between versions (`UpgradeMysqlSchema`). The schema upgrade runs automatically on connection, so no manual SQL is needed.\n\nAvailable in our fork's **[CENSORED!] Links to external GitHub repositories are not allowed** and included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-26T13:54:26Z",
+  "comments_cursor": "2026-03-07T10:54:31Z",
   "unread_comments": 22,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "Fixed: MySQL schema upgrade now auto-adds missing columns (DisableCursorBlinking etc.) when upgrading."
 }

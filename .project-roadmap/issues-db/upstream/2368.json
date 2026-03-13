@@ -10,7 +10,7 @@
   ],
   "author": "brolifen",
   "created_at": "2023-03-11T22:21:12Z",
-  "github_updated_at": "2026-02-27T16:40:58Z",
+  "github_updated_at": "2026-03-07T10:55:15Z",
   "body_snippet": "When using the /cons cmd switch to load an existing connection file it gets ignored. Tried with and without quotes, local and file share unc's but nothing works.\r\n\r\n## Expected Behavior\r\nLoad existing connection file using /cons: or /c: switch.\r\n\r\n## Current Behavior\r\nActs like no connection file exists and asks to create one on first load. On subsequent loads it just uses the default connection file under the users appdata.\r\n\r\n## Your Environment\r\n<!--- Include as many relevant details about th...",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -76,12 +76,21 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDOAAcIMM7vYxbz",
+      "author": "robertpopa22",
+      "date": "2026-03-07T10:55:09Z",
+      "snippet": "**Update from fork `robertpopa22/mRemoteNG`**\n\nThe `/cons:` CLI switch is now working. The fix ensures `StartupArgumentsInterpreter` + `ConnectionsService` properly handle the custom connection file path.\n\nAvailable in **[CENSORED!] Links to external GitHub repositories are not allowed** and included in **[CENSORED!] Links to external GitHub repositories are not allowed**.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-02-27T16:40:58Z",
+  "comments_cursor": "2026-03-07T10:55:15Z",
   "unread_comments": 5,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "PASS: CLI /cons: switch implemented in StartupArgumentsInterpreter + ConnectionsService"
 }

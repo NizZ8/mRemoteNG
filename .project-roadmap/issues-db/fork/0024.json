@@ -3,10 +3,12 @@
   "repo": "robertpopa22/mRemoteNG",
   "title": "Automatically build and release MSI files",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "enhancement"
+  ],
   "author": "darkpixel",
   "created_at": "2026-02-27T16:26:57Z",
-  "github_updated_at": "2026-02-27T16:26:57Z",
+  "github_updated_at": "2026-03-08T08:37:47Z",
   "body_snippet": "Similar to how the original mRemoteNG project does it, I'd love to see MSI files automatically created when you cut a new release.",
   "our_status": "new",
   "priority": null,
@@ -14,11 +16,30 @@
   "our_branch": null,
   "our_pr": null,
   "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-02-27T16:26:57Z",
-  "unread_comments": 0,
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7vXT74",
+      "author": "robertpopa22",
+      "date": "2026-03-07T07:41:41Z",
+      "snippet": "Thank you for the suggestion! MSI installer generation is on our radar. Currently we distribute ZIP archives for portability. Keeping this open as a feature request.\n\nLabel: enhancement",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDORKxwDc7vh716",
+      "author": "meyergru",
+      "date": "2026-03-08T08:36:59Z",
+      "snippet": "I second that this is an urgent issue:\n\nI sure would like to try the fix with the empty regions when focus has changed. I have tried for weeks now - yet, I cannot get a working version:\n\n1. The first version crashed hard.\n2. The only self-contained, installable version does not contain the fix.\n3. There is no nightly version that does not ask for .NET 10 in an endless loop.\n4. Contrary to what the front page says, there is no self-contained nightly version - the link points to a 20 MB file only....",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    }
+  ],
+  "comments_cursor": "2026-03-08T08:37:47Z",
+  "unread_comments": 1,
   "needs_action": true,
-  "waiting_for_us": false,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "waiting_for_us": true,
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": ""
 }

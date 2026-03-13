@@ -1178,7 +1178,14 @@ namespace BrightIdeasSoftware
 
             if (this.lastRetrieveVirtualItemIndex != e.ItemIndex) {
                 this.lastRetrieveVirtualItemIndex = e.ItemIndex;
-                this.lastRetrieveVirtualItem = this.MakeListViewItem(e.ItemIndex);
+                try {
+                    this.lastRetrieveVirtualItem = this.MakeListViewItem(e.ItemIndex);
+                } catch (ArgumentOutOfRangeException) {
+                    // Race condition: VirtualListSize changed between render request and
+                    // item retrieval (e.g. tree model updated concurrently). Return a
+                    // placeholder item to prevent crash (#52).
+                    this.lastRetrieveVirtualItem = new OLVListItem(new object());
+                }
             }
             e.Item = this.lastRetrieveVirtualItem;
         }

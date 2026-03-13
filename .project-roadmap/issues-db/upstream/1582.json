@@ -10,7 +10,7 @@
   ],
   "author": "donebydavid",
   "created_at": "2019-09-15T23:06:38Z",
-  "github_updated_at": "2026-02-26T13:53:20Z",
+  "github_updated_at": "2026-03-10T14:16:24Z",
   "body_snippet": "Apparently #1107 was merged to fix issues with High DPI support as mentioned in ticket #321.  On v1.77.1.27654 this issue is still occurring where by the mRemote interface scales fine, but the remote connection does not.\r\n\r\n## Expected Behavior\r\nRemote session to scale correctly\r\n\r\n## Current Behaviour\r\nRemote session does not scale\r\n",
   "our_status": "released",
   "priority": "P3-enhancement",
@@ -111,10 +111,10 @@
       "action_needed": true
     }
   ],
-  "comments_cursor": "2026-02-26T13:53:20Z",
+  "comments_cursor": "2026-03-10T14:16:24Z",
   "unread_comments": 8,
   "needs_action": true,
   "waiting_for_us": true,
-  "last_synced": "2026-03-07T07:13:19Z",
+  "last_synced": "2026-03-13T17:44:31Z",
   "notes": "AI triage (claude): RDP sessions don't inherit client DPI scaling factor — the DesktopScaleFactor property exists but is not auto-detected from the current monitor's DPI\nApproach: Auto-detect current monitor DPI via GetDpiForMonitor and pass matching DesktopScaleFactor to RDP ActiveX control at connect time; add an 'Auto' option to RDPDesktopScaleFactor enum that reads the client DPI dynamically"
 }
