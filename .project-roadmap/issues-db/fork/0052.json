@@ -3,10 +3,12 @@
   "repo": "robertpopa22/mRemoteNG",
   "title": "[Crash] System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the colle...",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "P2-medium"
+  ],
   "author": "zgabi",
   "created_at": "2026-03-12T12:03:24Z",
-  "github_updated_at": "2026-03-12T12:03:24Z",
+  "github_updated_at": "2026-03-14T07:50:52Z",
   "body_snippet": "## Crash Report\r\n\r\n### Exception\r\n**Type:** `System.ArgumentOutOfRangeException`\r\n**Message:** Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')\r\n\r\n### Stack Trace\r\n```\r\n   at OLVListItem BrightIdeasSoftware.TreeListView.MakeListViewItem(int itemIndex)\r\n   at void System.Windows.Forms.ListView.OnRetrieveVirtualItem(RetrieveVirtualItemEventArgs e)\r\n   at ListViewItem System.Windows.Forms.ListView+ListViewNativeItemCollection.GetItemByIndexI...",
   "our_status": "new",
   "priority": null,
@@ -14,11 +16,39 @@
   "our_branch": null,
   "our_pr": null,
   "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-03-12T12:03:24Z",
-  "unread_comments": 0,
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7xz9n-",
+      "author": "robertpopa22",
+      "date": "2026-03-13T17:53:21Z",
+      "snippet": "Hi @zgabi, thanks for the detailed crash report!\n\nThis is a known race condition in the `TreeListView` component (part of ObjectListView) — it happens when the view tries to render an item at an index that no longer exists, typically during rapid tree updates (e.g., when connections are being loaded or the host status check updates the tree).\n\nGood news: this is **non-fatal** (as the crash report confirms), so the app continues working.\n\nWe'll add a defensive bounds check in `TreeListView.MakeLi...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDORKxwDc7x2HeS",
+      "author": "zgabi",
+      "date": "2026-03-13T19:32:11Z",
+      "snippet": "1: 68 connections\n2: only occasionally.. I saw it only once an the issue was reported automatically\n3 I can't see any led icons. I havent changed it, so if it is turned off by default, then is should be disabled.",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    },
+    {
+      "id": "IC_kwDORKxwDc7x_go-",
+      "author": "robertpopa22",
+      "date": "2026-03-14T07:50:52Z",
+      "snippet": "Thanks for the details @zgabi!\n\nGood news — since host status is disabled, the crash was from a general race condition in the tree rendering component, which we've already fixed in commit 91f2937. Since it happened only once, you should be good on the latest build.\n\nIf you see it again, please let us know!",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-14T07:50:52Z",
+  "unread_comments": 1,
   "needs_action": true,
   "waiting_for_us": false,
-  "last_synced": "2026-03-13T17:44:31Z",
+  "last_synced": "2026-03-14T08:07:39Z",
   "notes": ""
 }

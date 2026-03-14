@@ -1,0 +1,36 @@
+{
+  "number": 55,
+  "repo": "robertpopa22/mRemoteNG",
+  "title": "Disconnect button label too ling in Hungarian",
+  "state": "open",
+  "labels": [
+    "P2-medium"
+  ],
+  "author": "zgabi",
+  "created_at": "2026-03-13T20:58:27Z",
+  "github_updated_at": "2026-03-14T07:51:24Z",
+  "body_snippet": "The label of the Disconnect button is not fully visible.\n\n<img width=\"436\" height=\"135\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/c9723296-d091-4c99-82d7-be02ff622e39\" />\n\nSo please\n- increase the button\n- replace the \"Kapcsolat bontása\" (disconnect the connection) to for example \"Szétkapcsolás\" (disconnect)\n- or replace simply to \"Yes\" (\"Igen\" in hungarian), since the questions is: \"Are you sure...?\"",
+  "our_status": "new",
+  "priority": null,
+  "target_release": null,
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [],
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7x_g61",
+      "author": "robertpopa22",
+      "date": "2026-03-14T07:51:11Z",
+      "snippet": "Hi @zgabi, thanks for reporting this!\n\nYou're right — the Hungarian translation \"Kapcsolat bontása\" is too long for the button. Your suggestion of \"Szétkapcsolás\" or simply \"Igen\" (Yes) makes sense.\n\nWe'll fix the button sizing to accommodate longer translations. The disconnect confirmation dialog should adapt to the text length.\n\nCould you also check: does this happen in any other dialogs where Hungarian text is truncated? We'd like to fix all such issues at once.",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-14T07:51:24Z",
+  "unread_comments": 0,
+  "needs_action": true,
+  "waiting_for_us": false,
+  "last_synced": "2026-03-14T08:07:39Z",
+  "notes": ""
+}

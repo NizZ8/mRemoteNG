@@ -3,10 +3,12 @@
   "repo": "robertpopa22/mRemoteNG",
   "title": "duplicate please delete ...sry",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "duplicate"
+  ],
   "author": "JensHKnudsen",
   "created_at": "2026-03-09T10:29:19Z",
-  "github_updated_at": "2026-03-09T10:30:58Z",
+  "github_updated_at": "2026-03-13T17:53:45Z",
   "body_snippet": "Trying to import an existing config trows error due to a hardcoded nonexisting path\n\n\n## Crash Report\n\n### Exception\n**Type:** `System.ArgumentException`\n**Message:** The directory name 'D:\\github\\mRemoteNG\\mRemoteNG\\bin\\x64\\Release\\Settings' does not exist. (Parameter 'path')\n\n### Stack Trace\n```\n   at void System.IO.FileSystemWatcher.CheckPathValidity(string path)\n   at new System.IO.FileSystemWatcher(string path, string filter)\n   at new mRemoteNG.Config.Connections.Multiuser.FileConnectionsU...",
   "our_status": "new",
   "priority": null,
@@ -14,11 +16,21 @@
   "our_branch": null,
   "our_pr": null,
   "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-03-09T10:30:58Z",
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7xz9D1",
+      "author": "robertpopa22",
+      "date": "2026-03-13T17:53:01Z",
+      "snippet": "Hi @JensHKnudsen, thanks for reporting this!\n\nThis is related to #50 — we're investigating the root cause of these hardcoded paths. The crash you're seeing in `FileConnectionsUpdateChecker` happens because it tries to create a `FileSystemWatcher` on a path that doesn't exist on your machine.\n\nWe're working on a fix that will:\n1. Use the correct portable settings path relative to where you extracted the app\n2. Add defensive handling so the app doesn't crash even if the path is invalid\n\nI'll link ...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-13T17:53:45Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-03-13T17:44:31Z",
+  "last_synced": "2026-03-14T08:07:39Z",
   "notes": ""
 }

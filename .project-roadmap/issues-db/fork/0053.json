@@ -6,7 +6,7 @@
   "labels": [],
   "author": "zgabi",
   "created_at": "2026-03-12T12:38:58Z",
-  "github_updated_at": "2026-03-12T12:43:52Z",
+  "github_updated_at": "2026-03-14T07:50:59Z",
   "body_snippet": "<img width=\"539\" height=\"380\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/697de2f6-3621-4c19-94e8-db4ac5c17722\" />\n\nI exported the connection from the \"original\" mRemoteNG 1.76.20.24615 to an xml configutazion file. (contains RDP. VNC and SSH connections)\nAn then imported it in yout latest version.\nAfter some restart I got the error message.",
   "our_status": "new",
   "priority": null,
@@ -23,12 +23,39 @@
       "is_ours": false,
       "analyzed": false,
       "action_needed": true
+    },
+    {
+      "id": "IC_kwDORKxwDc7xz9xW",
+      "author": "robertpopa22",
+      "date": "2026-03-13T17:53:26Z",
+      "snippet": "Hi @zgabi, thanks for reporting this!\n\nThis bug was **already fixed** in a recent commit (after build 3411). The root cause was a race condition during startup: the panel system (`Runtime.WindowList`) wasn't initialized before the layout loader tried to add panels.\n\n**The fix** ensures `WindowList` is initialized before any panels are loaded, and adds a null-safety guard as a second defense line.\n\n**To resolve this:** please download the latest nightly build — it should include the fix. You can ...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    },
+    {
+      "id": "IC_kwDORKxwDc7x21Dc",
+      "author": "zgabi",
+      "date": "2026-03-13T20:07:38Z",
+      "snippet": "Ok, I upraded to v1.82.0-beta.1-91f2937\nI'll let you know if I see this issue again.\n\nBy the way, the program still starts very slow. \nThe may windows is showns after 11 seconds. => Let's say that this is OK.\nAfter the main window shown, not responding for 20-30-35 seconds. (3 different measures, same config) => I think this is not OK.\n\n\"Original\" version start completly in 5 seconds. With the same connections.",
+      "is_ours": false,
+      "analyzed": false,
+      "action_needed": true
+    },
+    {
+      "id": "IC_kwDORKxwDc7x_gvk",
+      "author": "robertpopa22",
+      "date": "2026-03-14T07:50:59Z",
+      "snippet": "Great to hear the panel error is fixed on the latest build! Thanks for testing @zgabi.\n\nRegarding the **slow startup** (11s + 30s not responding vs 5s on original) — that's definitely worth investigating. A few questions:\n1. Are your 68 connections stored in a **local XML file** or **SQL database**?\n2. Do you have any **external tools** configured (Tools → External Tools)?\n3. Are you running the app from a **local SSD** or a **network/USB drive**?\n\nThe 30s \"not responding\" after the window shows...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
     }
   ],
-  "comments_cursor": "2026-03-12T12:43:52Z",
-  "unread_comments": 1,
+  "comments_cursor": "2026-03-14T07:50:59Z",
+  "unread_comments": 2,
   "needs_action": true,
-  "waiting_for_us": true,
-  "last_synced": "2026-03-13T17:44:31Z",
+  "waiting_for_us": false,
+  "last_synced": "2026-03-14T08:07:39Z",
   "notes": ""
 }

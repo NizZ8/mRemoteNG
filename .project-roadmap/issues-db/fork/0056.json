@@ -1,0 +1,37 @@
+{
+  "number": 56,
+  "repo": "robertpopa22/mRemoteNG",
+  "title": "[Crash] System.InvalidOperationException: When in VirtualMode the ListView RetrieveVirtualListItem event needs a list view...",
+  "state": "open",
+  "labels": [
+    "P2-medium",
+    "ai-regression"
+  ],
+  "author": "zgabi",
+  "created_at": "2026-03-13T21:07:53Z",
+  "github_updated_at": "2026-03-14T07:51:25Z",
+  "body_snippet": "## Crash Report\nI got this error when built the program from latest source, so probably it is version 1.81+, not 1.80.2 as it was auto generated:\ncommit 91f2937532a0f6c417ea7a478d44d48c8abc87ad\nDate:   Fri Mar 13 20:09:43 2026 +0200\n\n### Exception\n**Type:** `System.InvalidOperationException`\n**Message:** When in VirtualMode the ListView RetrieveVirtualListItem event needs a list view SubItem for each ListView column.\n\n### Stack Trace\n```\n   at void System.Windows.Forms.ListView.WmReflectNotify(r...",
+  "our_status": "new",
+  "priority": null,
+  "target_release": null,
+  "our_branch": null,
+  "our_pr": null,
+  "iterations": [],
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7x_g-N",
+      "author": "robertpopa22",
+      "date": "2026-03-14T07:51:13Z",
+      "snippet": "Hi @zgabi, thanks for reporting this!\n\nThis is a regression from our fix for #52 — the placeholder item we create during the race condition didn't have SubItems for each column, which triggers this `InvalidOperationException` in VirtualMode.\n\n**Already fixed** — the placeholder now includes empty SubItems for each column. The fix will be in the next push.\n\nThanks for helping us catch this quickly!",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-14T07:51:25Z",
+  "unread_comments": 0,
+  "needs_action": true,
+  "waiting_for_us": false,
+  "last_synced": "2026-03-14T08:07:39Z",
+  "notes": ""
+}

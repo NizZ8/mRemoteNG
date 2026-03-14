@@ -3,10 +3,12 @@
   "repo": "robertpopa22/mRemoteNG",
   "title": "Putty connection - option \"-batch\" not available in this tool",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "P2-medium"
+  ],
   "author": "Alessio71",
   "created_at": "2026-03-11T09:28:15Z",
-  "github_updated_at": "2026-03-11T09:28:15Z",
+  "github_updated_at": "2026-03-13T17:53:39Z",
   "body_snippet": "mRemoteNG 1.82.0-beta.1 NB Build 3424\n\nwhen launching a SSH V2 connection I get this error\n\n<img width=\"301\" height=\"152\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/7f1dd676-df71-42d0-bcde-db94da9dadc7\" />\n\nwhat could it be and how do I fix it?\nThanks",
   "our_status": "new",
   "priority": null,
@@ -14,11 +16,21 @@
   "our_branch": null,
   "our_pr": null,
   "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-03-11T09:28:15Z",
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7xz9N9",
+      "author": "robertpopa22",
+      "date": "2026-03-13T17:53:06Z",
+      "snippet": "Hi @Alessio71, thanks for the report!\n\nThe `-batch` flag is used to prevent PuTTY from showing interactive password retry prompts. However, not all PuTTY variants support this option.\n\nCould you help us narrow this down?\n1. Are you using the **bundled PuTTYNG.exe** that ships with mRemoteNG, or do you have a **custom PuTTY/KiTTY** configured in Tools → Options → Advanced?\n2. If using a custom tool, what is the name and version?\n3. Does the SSH connection work if you manually remove `-batch` from...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-13T17:53:39Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-03-13T17:44:31Z",
+  "last_synced": "2026-03-14T08:07:39Z",
   "notes": ""
 }

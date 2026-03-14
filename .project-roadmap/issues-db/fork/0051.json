@@ -3,10 +3,12 @@
   "repo": "robertpopa22/mRemoteNG",
   "title": "Update not working on nightly builds",
   "state": "open",
-  "labels": [],
+  "labels": [
+    "P2-medium"
+  ],
   "author": "goudeseunejJYZ",
   "created_at": "2026-03-12T10:15:39Z",
-  "github_updated_at": "2026-03-12T10:15:39Z",
+  "github_updated_at": "2026-03-13T17:53:46Z",
   "body_snippet": "Wrong versions for nightly builds\n<img width=\"1140\" height=\"625\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/cf050d29-74e4-453d-928b-945142ab918f\" />",
   "our_status": "new",
   "priority": null,
@@ -14,11 +16,21 @@
   "our_branch": null,
   "our_pr": null,
   "iterations": [],
-  "comments": [],
-  "comments_cursor": "2026-03-12T10:15:39Z",
+  "comments": [
+    {
+      "id": "IC_kwDORKxwDc7xz9dC",
+      "author": "robertpopa22",
+      "date": "2026-03-13T17:53:15Z",
+      "snippet": "Hi @goudeseunejJYZ, thanks for reporting this!\n\nWe've identified the root cause: our nightly release uses `tag_name: nightly` (a static tag) instead of a proper semantic version like `v1.82.0-beta.1`. The update checker can't parse \"nightly\" as a version number, so it either shows incorrect version info or fails to detect updates.\n\nWe're working on a fix to:\n1. Parse the version from the release **name** (which contains the actual version) instead of the tag\n2. Handle pre-release version compari...",
+      "is_ours": true,
+      "analyzed": false,
+      "action_needed": false
+    }
+  ],
+  "comments_cursor": "2026-03-13T17:53:46Z",
   "unread_comments": 0,
-  "needs_action": true,
+  "needs_action": false,
   "waiting_for_us": false,
-  "last_synced": "2026-03-13T17:44:31Z",
+  "last_synced": "2026-03-14T08:07:39Z",
   "notes": ""
 }
