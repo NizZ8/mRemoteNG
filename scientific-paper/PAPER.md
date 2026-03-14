@@ -613,6 +613,12 @@ See [RELATED_WORK.md](RELATED_WORK.md) for related work and full references.
 - SonarCloud: [Dashboard](https://sonarcloud.io/project/overview?id=robertpopa22_mRemoteNG)
 - Evidence trail: [`EVIDENCE.md`](EVIDENCE.md)
 
+### Published Articles (Geseidl IT Solutions)
+
+- [makeitcount research — AI Software Maintenance: Scientific Study](https://geseidl.ro/makeitcount-research-ai-software-maintenance) — Research presentation with visual data, methodology overview, and key insights
+- [Open-Source Modernization with AI — mRemoteNG Case Study](https://geseidl.ro/mremoteng-modernizare-open-source-ai) — Narrative case study for a general audience
+- [Geseidl IT Open-Source Contributions](https://geseidl.ro/contributii-open-source-geseidl) — Overview of all Geseidl open-source projects
+
 ---
 
 *Note: This paper has not yet undergone peer review. Data and interpretations are preliminary.*
