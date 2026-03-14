@@ -21,9 +21,11 @@ namespace mRemoteNG.App.Initialization
             LogApplicationData();
             LogSettingsData();
             LogCmdLineArgs();
-            LogSystemData();
             LogClrData();
             LogCultureData();
+            // WMI queries are slow (200-1000ms) — run on background thread.
+            // The data is purely informational logging, no startup behavior depends on it.
+            System.Threading.Tasks.Task.Run(LogSystemData);
         }
 
         private void LogSystemData()
