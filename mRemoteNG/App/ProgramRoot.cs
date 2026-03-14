@@ -54,6 +54,7 @@ namespace mRemoteNG.App
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
+            MigrateStaleCultureFolders();
 
             CommandLineParser commandLineParser = new(args);
             commandLineParser.ApplySwitches();
@@ -202,6 +203,54 @@ namespace mRemoteNG.App
         {
             string fullPath = Path.GetFullPath(path);
             return fullPath.StartsWith(_appBaseDir, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Migrates satellite assemblies left in stale per-culture folders (de/, fr/, hu/ etc.)
+        /// into the Languages/ subfolder. This handles upgrades from older builds where the
+        /// MSBuild MoveSatelliteAssemblies target didn't clean up during incremental builds.
+        /// </summary>
+        private static void MigrateStaleCultureFolders()
+        {
+            try
+            {
+                string langDir = Path.Combine(_appBaseDir, "Languages");
+                foreach (string dir in Directory.GetDirectories(_appBaseDir))
+                {
+                    string folderName = Path.GetFileName(dir);
+                    // Skip known non-culture folders
+                    if (folderName is "Assemblies" or "Icons" or "Languages" or "Plugins"
+                        or "runtimes" or "Schemas" or "Settings" or "Themes"
+                        or "publish" or "ref")
+                        continue;
+
+                    // Check if this looks like a culture folder (contains .resources.dll)
+                    string[] resourceDlls = Directory.GetFiles(dir, "*.resources.dll");
+                    if (resourceDlls.Length == 0) continue;
+
+                    // Move to Languages/{culture}/
+                    string targetDir = Path.Combine(langDir, folderName);
+                    if (!Directory.Exists(targetDir))
+                        Directory.CreateDirectory(targetDir);
+
+                    foreach (string file in resourceDlls)
+                    {
+                        string dest = Path.Combine(targetDir, Path.GetFileName(file));
+                        if (!File.Exists(dest))
+                            File.Move(file, dest);
+                        else
+                            File.Delete(file); // Already migrated, just clean up
+                    }
+
+                    // Remove the stale culture folder if it's now empty
+                    if (Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0)
+                        Directory.Delete(dir);
+                }
+            }
+            catch
+            {
+                // Best-effort cleanup — don't crash on failure
+            }
         }
 
         private static void CheckLockalDB()
