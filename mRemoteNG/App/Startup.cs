@@ -41,15 +41,29 @@ namespace mRemoteNG.App
         public void InitializeProgram(MessageCollector messageCollector)
         {
             Debug.Print("---------------------------" + Environment.NewLine + "[START] - " + Convert.ToString(DateTime.Now, CultureInfo.InvariantCulture));
+            var sw = Stopwatch.StartNew();
+
             StartupDataLogger startupLogger = new(messageCollector);
             startupLogger.LogStartupData();
+            messageCollector.AddMessage(MessageClass.InformationMsg, $"[Startup]   StartupDataLogger: {sw.ElapsedMilliseconds}ms", true);
+
             CompatibilityChecker.CheckCompatibility(messageCollector);
             ParseCommandLineArgs(messageCollector);
-            IeBrowserEmulation.Register();
+
+            // IE Browser Emulation registry writes are only needed when a WebBrowser control
+            // initializes (much later). Run on background thread to avoid blocking startup.
+            sw.Restart();
+            Task.Run(() => IeBrowserEmulation.Register());
             _connectionIconLoader.GetConnectionIcons();
+            messageCollector.AddMessage(MessageClass.InformationMsg, $"[Startup]   IconLoader: {sw.ElapsedMilliseconds}ms", true);
+
             DefaultConnectionInfo.Instance.LoadFrom(Settings.Default, a => "ConDefault" + a);
             DefaultConnectionInheritance.LoadFrom(Settings.Default, a => "InhDefault" + a);
-            PluginManager.Instance.LoadPlugins();
+
+            // Plugin loading involves Assembly.Load + reflection per DLL — defer to background
+            // since plugins are not needed until user explicitly uses them.
+            // PluginManager.RegisterMenu() already handles InvokeRequired for UI marshaling.
+            Task.Run(() => PluginManager.Instance.LoadPlugins());
         }
 
         private void ParseCommandLineArgs(MessageCollector messageCollector)

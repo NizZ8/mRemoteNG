@@ -105,7 +105,12 @@ namespace mRemoteNG.UI.Forms
         private const int HOTKEY_ID_ACTIVATE = 1;
         private bool _isAutoLocked;
         private bool _unlockPromptInProgress;
-        public static FrmOptions? OptionsForm;
+        private static FrmOptions? _optionsForm;
+        public static FrmOptions? OptionsForm
+        {
+            get => _optionsForm == null || _optionsForm.IsDisposed ? (_optionsForm = new FrmOptions()) : _optionsForm;
+            set => _optionsForm = value;
+        }
 
         /// <summary>
         /// Recreates the OptionsForm if it has been disposed.
@@ -244,23 +249,31 @@ namespace mRemoteNG.UI.Forms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            var totalSw = Stopwatch.StartNew();
+            var phaseSw = new Stopwatch();
             MessageCollector messageCollector = Runtime.MessageCollector;
 
+            phaseSw.Restart();
             SettingsLoader settingsLoader = new(this, messageCollector, _quickConnectToolStrip, _externalToolsToolStrip, _multiSshToolStrip, msMain);
             settingsLoader.LoadSettings();
             ApplyWindowSizeLockSetting();
+            Debug.Print($"[Startup] SettingsLoad: {phaseSw.ElapsedMilliseconds}ms");
 
             MessageCollectorSetup.SetupMessageCollector(messageCollector, _messageWriters);
             MessageCollectorSetup.BuildMessageWritersFromSettings(_messageWriters);
 
+            phaseSw.Restart();
             Startup.Instance.InitializeProgram(messageCollector);
+            Debug.Print($"[Startup] InitializeProgram: {phaseSw.ElapsedMilliseconds}ms");
 
             SetMenuDependencies();
 
             Runtime.WindowList = [];
 
+            phaseSw.Restart();
             DockPanelLayoutLoader uiLoader = new(this, messageCollector);
             uiLoader.LoadPanelsFromXml();
+            Debug.Print($"[Startup] PanelLayout: {phaseSw.ElapsedMilliseconds}ms");
 
             ShowHidePanelTabs();
 
@@ -282,12 +295,16 @@ namespace mRemoteNG.UI.Forms
 
             Runtime.ConnectionsService.ConnectionsLoaded += ConnectionsServiceOnConnectionsLoaded;
             Runtime.ConnectionsService.ConnectionsSaved += ConnectionsServiceOnConnectionsSaved;
-            
+
             // Close splash screen and shut down its WPF Dispatcher to prevent the
             // background WPF message pump from intercepting WinForms mouse events.
+            phaseSw.Restart();
             ProgramRoot.CloseSplash();
+            Debug.Print($"[Startup] CloseSplash: {phaseSw.ElapsedMilliseconds}ms");
 
+            phaseSw.Restart();
             CredsAndConsSetup.LoadCredsAndCons();
+            Debug.Print($"[Startup] LoadConnections: {phaseSw.ElapsedMilliseconds}ms");
             _autoLockTimer.Start();
 
             // Initialize panel binding for Connections and Config panels
@@ -311,7 +328,6 @@ namespace mRemoteNG.UI.Forms
             ApplyLanguage();
 
             Opacity = 1;
-            //Fix MagicRemove , revision on panel strategy for mdi
 
             pnlDock.ShowDocumentIcon = true;
 
@@ -331,7 +347,8 @@ namespace mRemoteNG.UI.Forms
                 Fullscreen.Value = true;
             }
 
-            OptionsForm = new FrmOptions();
+            // FrmOptions is lazy-loaded on first access — no need to create at startup
+            Debug.Print($"[Startup] Total FrmMain_Load: {totalSw.ElapsedMilliseconds}ms");
 
             // Auto-start external tools flagged with RunOnStartup (#318)
             foreach (var tool in Runtime.ExternalToolsService.ExternalTools)
