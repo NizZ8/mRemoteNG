@@ -229,10 +229,27 @@ namespace mRemoteNG.UI.Menu
         {
             if (Runtime.ConnectionsService.IsConnectionsFileLoaded)
             {
-                // Load as additional connection file — supports multiple files open simultaneously (#2331)
                 using OpenFileDialog loadDialog = DialogFactory.BuildLoadConnectionsDialog();
                 if (loadDialog.ShowDialog() != DialogResult.OK) return;
-                Runtime.ConnectionsService.LoadAdditionalConnectionFile(loadDialog.FileName);
+
+                // Ask user whether to replace current connections or add as additional file
+                DialogResult choice = MessageBox.Show(
+                    FrmMain.Default,
+                    "Replace current connections with this file, or add it alongside existing connections?\n\n" +
+                    "Yes = Replace current connections\n" +
+                    "No = Add as additional file",
+                    Language.OpenConnectionFile,
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question);
+
+                if (choice == DialogResult.Yes)
+                {
+                    Runtime.LoadConnections(true);
+                }
+                else if (choice == DialogResult.No)
+                {
+                    Runtime.ConnectionsService.LoadAdditionalConnectionFile(loadDialog.FileName);
+                }
                 return;
             }
 
