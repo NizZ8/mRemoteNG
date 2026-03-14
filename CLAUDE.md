@@ -170,14 +170,15 @@ PR history, and release status, see: **`.project-roadmap/DEVELOPER_GUIDE.md`**
 For the complete evidence trail of the AI-assisted modernization process
 (metrics, agent performance, CI data, methodology notes), see: **`scientific-paper/EVIDENCE.md`**
 
-## Current Release Status (2026-03-07)
+## Current Release Status (2026-03-14)
 
 | Metric | Value |
 |--------|-------|
 | Version | 1.82.0-beta.1 (dev) / 1.81.0 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
-| Tests | 6,123 passed, 0 failures |
-| Issues | 843 triaged: 702 released (83.3%), 116 wontfix, 25 duplicate, 0 testing |
+| Tests | 6,175 passed, 0 failures |
+| Issues | 853 triaged: 712 released (83.5%), 116 wontfix, 25 duplicate |
+| Startup time | ≤1s with 200 connections (optimized from ~10-30s) |
 | CI status | All 6 workflows GREEN |
 | SonarCloud | Quality Gate PASSED (A/A/A, 80.7% coverage, 1.6% duplication) |
 | Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev) |

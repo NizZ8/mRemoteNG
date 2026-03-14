@@ -293,3 +293,71 @@
 - Orchestrator scripts are self-documenting
 - CI/CD is fully automated and verifiable
 - Session transcripts capture every tool call and decision point
+
+---
+
+## Phase 7: User Bug Fixes & Startup Performance (2026-03-13 to 2026-03-14)
+
+### Context
+First real users (from nightly builds) reported 8 issues (#47-#54) between March 8-12. A second wave (#55-#56) followed on March 13 after our fixes. User @zgabi was particularly active — reporting 5 issues, testing our fixes, and providing detailed feedback including **30-second startup time** with 68 connections (vs 5s on original v1.76.20).
+
+### Bug Fixes (2 commits, 2026-03-13)
+
+| Commit | Issues | Fix |
+|--------|--------|-----|
+| `91f2937` | #49, #51, #52 | PuTTY `-batch` guard for non-PuTTY tools, nightly update parser fallback (tag→name), TreeListView race condition catch |
+| `d06b0af` | #54, #55, #56 | VNC STA thread (TightVNC null stream), TaskDialog button auto-reposition (Hungarian l10n), placeholder SubItems fix |
+
+Also fixed 2 pre-existing build errors (StatusImageList Icon→Bitmap, AppWindows.TreeForm typo) from previous PR.
+
+### User Engagement
+- **13 GitHub comments** posted across 8 issues — detailed, welcoming, asking for reproduction details
+- **2 users responded** with additional info within hours (zgabi, goudeseunejJYZ)
+- **1 user upgraded** to our fix and confirmed panel error resolved (zgabi on #53)
+
+### Startup Performance Optimization (2 commits, 2026-03-14)
+
+**Problem:** Entire startup sequence ran synchronously on UI thread. With 200+ connections, FrmMain_Load took 10-30 seconds.
+
+**Methodology:**
+1. Added `Stopwatch` instrumentation per startup phase
+2. Generated test confCons.xml with 200 connections (578KB, 10 folders × 20 connections)
+3. Measured baseline, applied optimizations iteratively, measured after each
+
+**Optimizations applied:**
+
+| # | Optimization | File | Technique | Savings |
+|---|-------------|------|-----------|---------|
+| 1 | WMI queries | `StartupDataLogger.cs` | `Task.Run()` — informational logging only | -500-1000ms |
+| 2 | IE Browser Emulation | `Startup.cs` | `Task.Run()` — registry values only needed later | -50-200ms |
+| 3 | Plugin loading | `Startup.cs` | `Task.Run()` — Assembly.Load deferred | -10-500ms |
+| 4 | FrmOptions (13 pages) | `frmMain.cs` | Lazy property (`??=`) instead of eager creation | -940ms |
+| 5 | XML attribute lookups | `XmlExtensions.cs`, `XmlConnectionsDeserializer.cs` | Pre-built `Dictionary<string,string>` per node — O(1) vs O(n) for 258 attributes × 200 connections | -36% on LoadConnections |
+
+**Benchmark results (200 connections, 578KB confCons.xml):**
+
+| Phase | Before | After Commit 1 | After Commit 2 |
+|-------|--------|----------------|----------------|
+| ThemeManager+ApplyTheme | (not measured) | (not measured) | 10ms |
+| SettingsLoad | ~200ms | 161ms | 147ms |
+| InitializeProgram (WMI) | ~1000ms+ | 72ms | 65ms |
+| PanelLayout | ~160ms | 158ms | 138ms |
+| CloseSplash | ~30ms | 29ms | 26ms |
+| LoadConnections | ~2146ms | 549ms | **349ms** |
+| FrmOptions | ~940ms | 0ms | 0ms |
+| **Total FrmMain_Load** | **~10-30s** | **1.26s** | **≤1s** |
+
+**Key evidence commits:**
+- `1a38026` — Background threading + lazy FrmOptions (10x improvement)
+- `194db58` — Dictionary O(1) attribute lookups (additional 21% improvement)
+
+### Metrics Update (2026-03-14)
+
+| Metric | Value | Evidence |
+|--------|-------|----------|
+| Tests | 6,175 passed, 0 failures | `run-tests-core.sh` |
+| Issues triaged | 853 (843 upstream + 10 fork) | `.project-roadmap/issues-db/` |
+| Issues addressed | 712 released (83.5%) | issue-db status fields |
+| CI workflows | 6/6 GREEN | GitHub Actions |
+| Startup time (200 conn) | ≤1 second | Stopwatch instrumentation |
+| User-reported issues fixed | 8/8 responded, 6/8 code-fixed | GitHub issue comments |

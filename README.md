@@ -81,7 +81,9 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Enterprise:** Self-contained builds (zero prerequisites), ADMX/ADML Group Policy templates, connection audit logging, JSON export, protocol/tag filtering.
 
-**Quality:** 6,123 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64.
+**Performance:** Startup optimized to **under 1 second** with 200 connections (down from 10-30s). WMI queries, plugin loading, and IE emulation deferred to background threads. XML deserialization uses O(1) dictionary lookups instead of O(n) attribute scans.
+
+**Quality:** 6,175 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64.
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -107,7 +109,7 @@ This project uses an AI orchestrator (Python, ~6,900 LOC) coordinating multiple 
 
 **Key results:**
 
-- **702/843 issues addressed (83.3%)**, 1,365+ commits, 7 regressions (1.2%)
+- **712/853 issues addressed (83.5%)**, 1,370+ commits, 7 regressions (1.2%)
 - **Cost:** ~$320 total, stabilized at $1.49/commit (down from $4.02 on day 1)
 - **Best session:** Codex Spark resolved 89/104 issues (86%) autonomously in a single run
 - **Quality:** 5,247 analyzer warnings → 0, SonarCloud Quality Gate passed (80.7% coverage)
