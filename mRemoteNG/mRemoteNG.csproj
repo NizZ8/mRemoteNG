@@ -687,25 +687,9 @@
       <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' " Update="%(ReferenceCopyLocalPaths)" DestinationSubDirectory="Assemblies\" />
     </ItemGroup>
   </Target>
-  <!-- Move satellite assemblies: {OutDir}/{culture}/ → {OutDir}/Languages/{culture}/
-       Keeps release directory clean. Runtime loads via AssemblyResolve in ProgramRoot.cs. -->
-  <Target Name="MoveSatelliteAssembliesToLanguagesFolder" AfterTargets="Build;Publish"
-          Condition="'$(DesignTimeBuild)' != 'true'">
-    <PropertyGroup>
-      <_SatOutDir Condition="'$(PublishDir)' != '' and Exists('$(PublishDir)')">$(PublishDir)</_SatOutDir>
-      <_SatOutDir Condition="'$(_SatOutDir)' == ''">$(OutputPath)</_SatOutDir>
-    </PropertyGroup>
-    <ItemGroup>
-      <_SatFiles Include="$(_SatOutDir)**\mRemoteNG.resources.dll"
-                 Exclude="$(_SatOutDir)Languages\**" />
-    </ItemGroup>
-    <Copy SourceFiles="@(_SatFiles)"
-          DestinationFiles="@(_SatFiles->'$(_SatOutDir)Languages\%(RecursiveDir)%(Filename)%(Extension)')"
-          SkipUnchangedFiles="true"
-          Condition="'@(_SatFiles)' != ''" />
-    <Delete Files="@(_SatFiles)" Condition="'@(_SatFiles)' != ''" />
-    <RemoveDir Directories="@(_SatFiles->'%(RootDir)%(Directory)')" Condition="'@(_SatFiles)' != ''" />
-  </Target>
+  <!-- Satellite assembly grouping is handled by build.ps1 post-build step.
+       Runtime fallback: ProgramRoot.MigrateStaleCultureFolders() handles
+       upgrades from older builds where culture folders weren't cleaned up. -->
   <PropertyGroup>
     <!-- Disable CET compatibility check in .NET 9 AppHost -->
     <CETCompat>false</CETCompat>

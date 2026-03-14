@@ -78,4 +78,29 @@ if ($Portable) {
 }
 
 $timer.Stop()
+
+# Move satellite assemblies from stale culture folders into Languages/
+$outDir = Join-Path $PSScriptRoot "mRemoteNG\bin\$Arch\$Configuration"
+$langDir = Join-Path $outDir "Languages"
+$knownDirs = @('Assemblies','Icons','Languages','Plugins','publish','ref','runtimes','Schemas','Settings','Themes')
+$moved = 0
+Get-ChildItem $outDir -Directory -ErrorAction SilentlyContinue | Where-Object {
+    $_.Name -notin $knownDirs -and $_.Name -notlike 'win-*'
+} | ForEach-Object {
+    $resDlls = Get-ChildItem $_.FullName -Filter '*.resources.dll' -ErrorAction SilentlyContinue
+    if ($resDlls) {
+        $dest = Join-Path $langDir $_.Name
+        if (-not (Test-Path $dest)) { New-Item $dest -ItemType Directory -Force | Out-Null }
+        $resDlls | ForEach-Object {
+            $target = Join-Path $dest $_.Name
+            if (-not (Test-Path $target)) { Move-Item $_.FullName $target } else { Remove-Item $_.FullName }
+        }
+        $moved++
+    }
+    if ((Get-ChildItem $_.FullName -Force -ErrorAction SilentlyContinue).Count -eq 0) {
+        Remove-Item $_.FullName -Force
+    }
+}
+if ($moved -gt 0) { Write-Host "Moved $moved culture folder(s) into Languages/" -ForegroundColor DarkGray }
+
 Write-Host "Build completed in $($timer.Elapsed.TotalSeconds.ToString('F1'))s" -ForegroundColor Cyan
