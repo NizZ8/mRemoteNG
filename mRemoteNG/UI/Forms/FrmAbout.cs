@@ -46,6 +46,9 @@ namespace mRemoteNG.UI.Forms
             llForkGitHub.Text = Language.ForkGitHubPage;
             llForkReleases.Text = Language.ForkReleases;
             llForkChangelog.Text = Language.ForkChangelog;
+            lblMaintainedBy.Text = Language.MaintainedBy;
+            lblMaintainer.Text = "Geseidl IT Solutions";
+            llMaintainerWebsite.Text = "geseidl.ro/servicii-it";
             AddPortableString();
         }
 
@@ -119,6 +122,11 @@ namespace mRemoteNG.UI.Forms
         private void llForkChangelog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenUrl(GeneralAppInfo.UrlForkChangelog);
+        }
+
+        private void llMaintainerWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenUrl("https://geseidl.ro/servicii-it");
         }
 
         private static void OpenUrl(string url)

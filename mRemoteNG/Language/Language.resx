@@ -2796,6 +2796,9 @@ Nightly Channel includes Alphas, Betas &amp; Release Candidates.</value>
   <data name="ForkHeader" xml:space="preserve">
     <value>This Fork</value>
   </data>
+  <data name="MaintainedBy" xml:space="preserve">
+    <value>Maintained by</value>
+  </data>
   <data name="ForkGitHubPage" xml:space="preserve">
     <value>GitHub Page</value>
   </data>

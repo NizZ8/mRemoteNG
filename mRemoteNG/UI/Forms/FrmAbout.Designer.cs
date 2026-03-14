@@ -187,6 +187,47 @@ namespace mRemoteNG.UI.Forms
             llForkChangelog.Text = "Changelog";
             llForkChangelog.LinkClicked += llForkChangelog_LinkClicked;
             //
+            // lblMaintainedBy
+            //
+            lblMaintainedBy = new Controls.MrngLabel();
+            lblMaintainedBy.AutoSize = true;
+            lblMaintainedBy.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            lblMaintainedBy.ForeColor = System.Drawing.SystemColors.ControlText;
+            lblMaintainedBy.Location = new System.Drawing.Point(300, 160);
+            lblMaintainedBy.Name = "lblMaintainedBy";
+            lblMaintainedBy.Size = new System.Drawing.Size(100, 17);
+            lblMaintainedBy.TabIndex = 15;
+            lblMaintainedBy.Text = "Maintained by";
+            //
+            // lblMaintainer
+            //
+            lblMaintainer = new Controls.MrngLabel();
+            lblMaintainer.AutoSize = true;
+            lblMaintainer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            lblMaintainer.ForeColor = System.Drawing.SystemColors.ControlText;
+            lblMaintainer.Location = new System.Drawing.Point(300, 179);
+            lblMaintainer.Name = "lblMaintainer";
+            lblMaintainer.Size = new System.Drawing.Size(200, 17);
+            lblMaintainer.TabIndex = 16;
+            lblMaintainer.Text = "Geseidl IT Solutions";
+            //
+            // llMaintainerWebsite
+            //
+            llMaintainerWebsite = new System.Windows.Forms.LinkLabel();
+            llMaintainerWebsite.AutoSize = true;
+            llMaintainerWebsite.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            llMaintainerWebsite.Location = new System.Drawing.Point(300, 198);
+            llMaintainerWebsite.Name = "llMaintainerWebsite";
+            llMaintainerWebsite.Size = new System.Drawing.Size(130, 17);
+            llMaintainerWebsite.TabIndex = 17;
+            llMaintainerWebsite.TabStop = true;
+            llMaintainerWebsite.Text = "geseidl.ro/servicii-it";
+            llMaintainerWebsite.LinkClicked += llMaintainerWebsite_LinkClicked;
+            //
+            pnlBottom.Controls.Add(lblMaintainedBy);
+            pnlBottom.Controls.Add(lblMaintainer);
+            pnlBottom.Controls.Add(llMaintainerWebsite);
+            //
             // frmAbout
             //
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -221,5 +262,8 @@ namespace mRemoteNG.UI.Forms
         private System.Windows.Forms.LinkLabel llForkGitHub;
         private System.Windows.Forms.LinkLabel llForkReleases;
         private System.Windows.Forms.LinkLabel llForkChangelog;
+        private Controls.MrngLabel lblMaintainedBy;
+        private Controls.MrngLabel lblMaintainer;
+        private System.Windows.Forms.LinkLabel llMaintainerWebsite;
     }
 }

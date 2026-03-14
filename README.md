@@ -56,8 +56,8 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | Description |
 |---------|---------|--------|-------------|
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,123 tests, 0 analyzer warnings. **Recommended.** |
-| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.1 | `main` | Auto-built on every push. Latest features, fully tested. |
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,175 tests, 0 analyzer warnings. **Recommended.** |
+| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.2 | `main` | Auto-built on every push. Latest features, fully tested. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework 4.x release. |
 
 ### Download matrix
@@ -66,8 +66,8 @@ Full transparency: this project is built by humans and AI working together. We b
 |---------|---------|---------|-----|-----|-------|
 | **Stable** | v1.81.0 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-arm64.zip) |
 | **Stable** | v1.81.0 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-arm64-SelfContained.zip) |
-| **Nightly** | v1.82.0-beta.1 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
-| **Nightly** | v1.82.0-beta.1 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
+| **Nightly** | v1.82.0-beta.2 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
+| **Nightly** | v1.82.0-beta.2 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
 
 **Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites.
 
@@ -83,7 +83,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Performance:** Startup optimized to **under 1 second** with 200 connections (down from 10-30s). WMI queries, plugin loading, and IE emulation deferred to background threads. XML deserialization uses O(1) dictionary lookups instead of O(n) attribute scans.
 
-**Quality:** 6,175 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64.
+**Quality:** 6,175 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64. 853 issues triaged (712 released).
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -105,11 +105,11 @@ If your antivirus flags mRemoteNG, please see [Antivirus False Positive Guide](d
 
 ## How We Build This — AI-Assisted Development
 
-This project uses an AI orchestrator (Python, ~6,900 LOC) coordinating multiple AI agents to resolve a backlog of 843 upstream issues. The system evolved through four architectural generations — from manual prompting to a self-healing supervisor with autonomous agents.
+This project uses an AI orchestrator (Python, ~6,900 LOC) coordinating multiple AI agents to resolve a backlog of 853 upstream issues. The system evolved through four architectural generations — from manual prompting to a self-healing supervisor with autonomous agents.
 
 **Key results:**
 
-- **712/853 issues addressed (83.5%)**, 1,370+ commits, 7 regressions (1.2%)
+- **712/853 issues addressed (83.5%)**, 1,400+ commits, 7 regressions (1.2%)
 - **Cost:** ~$320 total, stabilized at $1.49/commit (down from $4.02 on day 1)
 - **Best session:** Codex Spark resolved 89/104 issues (86%) autonomously in a single run
 - **Quality:** 5,247 analyzer warnings → 0, SonarCloud Quality Gate passed (80.7% coverage)
@@ -132,13 +132,13 @@ The complete research documentation is in [`scientific-paper/`](scientific-paper
 
 ### 6.1. Issue Triage — Complete (843/843)
 
-All 843 upstream issues have been triaged and classified:
+All 853 upstream issues have been triaged and classified:
 
 | Status | Count | % |
 |--------|-------|---|
-| released | 702 | 83.3% |
-| wontfix | 116 | 13.8% |
-| duplicate | 25 | 3.0% |
+| released | 712 | 83.5% |
+| wontfix | 116 | 13.6% |
+| duplicate | 25 | 2.9% |
 
 **Post-triage verification (2026-03-02):** All 195 `testing`-status issues were resolved: 179 bulk-verified via commit hash validation, 3 manually verified, 13 reclassified during wontfix correction. Wontfix repass found 38% imprecision in AI triage (47/123 were implementable); corrected to 116 with individual justifications.
 
@@ -167,7 +167,7 @@ All 843 upstream issues have been triaged and classified:
 
 ### 6.3. Manual Testing Protocol
 
-Beta.5 proved that 7/585 AI-introduced regressions passed all 6,123 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
+Beta.5 proved that 7/585 AI-introduced regressions passed all 6,175 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
 
 **Protocol:** Manual testing session at every beta release, focused on UX flows that cannot be unit tested:
 
@@ -202,7 +202,7 @@ The orchestrator monitors new issues (from upstream sync or user reports), triag
 
 PR [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (beta.6) passed SonarCloud Quality Gate on 2026-03-01 after resolving 6 security vulnerabilities (S2068 ×3, S8264 ×2, S8233 ×1), 50 security hotspots reviewed as SAFE, and all reliability/maintainability conditions met. PR [#3188](https://github.com/mRemoteNG/mRemoteNG/pull/3188) (beta.5) remains open as a predecessor.
 
-Upstream has 830+ open issues (843 total triaged by our orchestrator). This fork has addressed 702 of them (83.3%). The potential impact of merging even a fraction of these fixes is significant. PR #3189 is a large diff and we understand it takes time to review responsibly — the upstream team built this project and their careful stewardship is what makes it worth contributing to.
+Upstream has 830+ open issues (853 total triaged by our orchestrator). This fork has addressed 712 of them (83.5%). The potential impact of merging even a fraction of these fixes is significant. PR #3189 is a large diff and we understand it takes time to review responsibly — the upstream team built this project and their careful stewardship is what makes it worth contributing to.
 
 Additionally, 4 upstream copilot draft PRs (#3177, #3176, #3154, #3171) have been reviewed and their fixes backported to our fork's `main` branch, ahead of upstream merge.
 
@@ -281,7 +281,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**6,123 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
+**6,175 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 
@@ -315,6 +315,16 @@ This fork is based on [mRemoteNG/mRemoteNG](https://github.com/mRemoteNG/mRemote
 
 [GPL-2.0](COPYING.TXT)
 
+## Maintained by
+
+<a href="https://geseidl.ro/servicii-it"><img src="https://geseidl.ro/assets/icons/logo-green.png" alt="Geseidl Consulting Group" height="45"></a>
+
+This Community Edition is maintained by **[Geseidl IT Solutions](https://geseidl.ro/servicii-it)**, part of [Geseidl Consulting Group](https://geseidl.ro) — an IT infrastructure, cloud, and cybersecurity services provider in Ploiești, Romania.
+
+We use mRemoteNG daily across our managed infrastructure (50+ servers, 300+ client connections) and built this modernized edition because we needed it to be better. The research paper documenting the AI-assisted development process is available at [`scientific-paper/PAPER.md`](scientific-paper/PAPER.md).
+
+[geseidl.ro/servicii-it](https://geseidl.ro/servicii-it) | [About us](https://geseidl.ro/despre-noi)
+
 ## Support the Project
 
 If you find this fork useful, please consider giving it a star — it helps others discover the project and motivates continued development.
@@ -328,3 +338,15 @@ If you find this fork useful, please consider giving it a star — it helps othe
 ## Contributing
 
 Submit code via pull request. See the [Wiki](https://github.com/mRemoteNG/mRemoteNG/wiki) for development environment setup.
+
+---
+
+<p align="center">
+  <a href="https://make-it-count.ro">
+    <img src="https://geseidl.ro/assets/icons/makeitcount-amprenta-gold.png" alt="makeitcount" height="60">
+  </a>
+  <br>
+  <sub><em>Building better tools, one commit at a time. Make it count.</em></sub>
+  <br>
+  <sub><a href="https://make-it-count.ro">make-it-count.ro</a></sub>
+</p>

@@ -2712,6 +2712,15 @@ namespace mRemoteNG.Resources.Language {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Maintained by.
+        /// </summary>
+        internal static string MaintainedBy {
+            get {
+                return ResourceManager.GetString("MaintainedBy", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Releases.
         /// </summary>
         internal static string ForkReleases {
