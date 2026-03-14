@@ -365,7 +365,15 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 bool requiresProxyHandshake = UsesExplicitProxy(_info.VNCProxyType);
                 bool viewOnly = _info.VNCViewOnly || Force.HasFlag(ConnectionInfo.Force.ViewOnly);
                 if (requiresProxyHandshake || TestConnect(connectHost, connectPort, 5000))
+                {
                     ConnectWithTimeout(_vnc, connectHost, _info, viewOnly, VncConnectTimeoutMs);
+                }
+                else
+                {
+                    throw new IOException(
+                        $"Could not establish TCP connection to {connectHost}:{connectPort}. " +
+                        "Verify the VNC server is running and the port is correct.");
+                }
 
                 // Install the lock-key filter after Connect() creates the VncClient.
                 // Fixes Caps Lock sending 't' instead of toggle (issue #227).
@@ -702,7 +710,11 @@ namespace mRemoteNG.Connection.Protocol.VNC
         private static void ConnectWithTimeout(VncSharpCore.RemoteDesktop vnc, string hostName, ConnectionInfo info, bool viewOnly, int timeoutMs)
         {
             Exception? connectException = null;
-            var connectTask = Task.Run(() =>
+            // Use an STA thread instead of Task.Run() because VncSharpCore.RemoteDesktop
+            // is a WinForms UserControl and its Connect() stores state in control fields.
+            // Task.Run() uses MTA ThreadPool threads which can cause null stream errors
+            // on some VNC servers like TightVNC (#54).
+            var connectThread = new Thread(() =>
             {
                 try
                 {
@@ -713,8 +725,11 @@ namespace mRemoteNG.Connection.Protocol.VNC
                     connectException = ex;
                 }
             });
+            connectThread.SetApartmentState(ApartmentState.STA);
+            connectThread.IsBackground = true;
+            connectThread.Start();
 
-            if (!connectTask.Wait(timeoutMs))
+            if (!connectThread.Join(timeoutMs))
             {
                 // Timed out — force-disconnect to unblock the background thread
                 try { vnc.Disconnect(); } catch { /* best-effort cleanup */ }

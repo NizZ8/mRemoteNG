@@ -342,6 +342,9 @@ namespace mRemoteNG.UI.TaskDialog
                          Buttons == ETaskDialogButtons.DisconnectCancel ||
                          Buttons == ETaskDialogButtons.DeleteCancel;
 
+            // Reposition buttons right-to-left so longer translations (e.g. Hungarian) fit (#55)
+            RepositionButtons();
+
             if (!showVerifyCheckbox && ExpandedInfo == "" && Buttons == ETaskDialogButtons.None)
                 pnlButtons.Visible = false;
             else
@@ -410,6 +413,23 @@ namespace mRemoteNG.UI.TaskDialog
         }
 
         //--------------------------------------------------------------------------------
+        private void RepositionButtons()
+        {
+            const int padding = 6;
+            const int rightMargin = 9;
+            const int minWidth = 75;
+            int x = pnlButtons.ClientSize.Width - rightMargin;
+            foreach (MrngButton btn in new[] { bt3, bt2, bt1 })
+            {
+                if (!btn.Visible) continue;
+                int textWidth = TextRenderer.MeasureText(btn.Text, btn.Font).Width + 16;
+                btn.Width = Math.Max(minWidth, textWidth);
+                x -= btn.Width;
+                btn.Left = x;
+                x -= padding;
+            }
+        }
+
         private Image ResizeBitmap(Image srcImg, int newWidth, int newHeight)
         {
             float percentWidth = _display.ScaleWidth(newWidth) / (float)srcImg.Width;
