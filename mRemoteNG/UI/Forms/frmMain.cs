@@ -171,9 +171,11 @@ namespace mRemoteNG.UI.Forms
             PresentationMode = new mRemoteNG.UI.PresentationModeHandler(this);
 
             //Theming support
+            var themeSw = Stopwatch.StartNew();
             _themeManager = ThemeManager.getInstance();
             vsToolStripExtender.DefaultRenderer = _toolStripProfessionalRenderer;
             ApplyTheme();
+            Debug.Print($"[Startup] ThemeManager+ApplyTheme: {themeSw.ElapsedMilliseconds}ms");
 
             _advancedWindowMenu = new AdvancedWindowMenu(this);
             _autoLockTimer.Tick += AutoLockTimer_Tick;
