@@ -66,8 +66,14 @@ namespace mRemoteNG.Tools
 
         private static bool IsPuttyNg(string filename)
         {
-            return !string.IsNullOrEmpty(filename) && File.Exists(filename) &&
-                   (FileVersionInfo.GetVersionInfo(filename).InternalName?.Contains("PuTTYNG", StringComparison.Ordinal) == true);
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+                return false;
+            var versionInfo = FileVersionInfo.GetVersionInfo(filename);
+            // PuTTYNG 0.83+ has InternalName="PuTTY" (not "PuTTYNG") but
+            // ProductVersion contains "mRemoteNG". Check both patterns.
+            return versionInfo.InternalName?.Contains("PuTTYNG", StringComparison.Ordinal) == true ||
+                   (versionInfo.InternalName?.Contains("PuTTY", StringComparison.Ordinal) == true &&
+                    versionInfo.ProductVersion?.Contains("mRemoteNG", StringComparison.OrdinalIgnoreCase) == true);
         }
 
         private static bool IsKitty(string filename)
