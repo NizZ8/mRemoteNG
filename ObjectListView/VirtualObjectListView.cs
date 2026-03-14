@@ -1183,8 +1183,11 @@ namespace BrightIdeasSoftware
                 } catch (ArgumentOutOfRangeException) {
                     // Race condition: VirtualListSize changed between render request and
                     // item retrieval (e.g. tree model updated concurrently). Return a
-                    // placeholder item to prevent crash (#52).
-                    this.lastRetrieveVirtualItem = new OLVListItem(new object());
+                    // placeholder item to prevent crash (#52, #56).
+                    var placeholder = new OLVListItem(new object());
+                    for (int i = 1; i < this.Columns.Count; i++)
+                        placeholder.SubItems.Add(string.Empty);
+                    this.lastRetrieveVirtualItem = placeholder;
                 }
             }
             e.Item = this.lastRetrieveVirtualItem;
