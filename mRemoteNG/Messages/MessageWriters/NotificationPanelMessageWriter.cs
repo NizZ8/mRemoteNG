@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Versioning;
 using System.Windows.Forms;
 using mRemoteNG.UI;
@@ -10,20 +11,35 @@ namespace mRemoteNG.Messages.MessageWriters
     public class NotificationPanelMessageWriter(ErrorAndInfoWindow messageWindow) : IMessageWriter
     {
         private readonly ErrorAndInfoWindow _messageWindow = messageWindow ?? throw new ArgumentNullException(nameof(messageWindow));
+        private List<ListViewItem>? _pendingItems = [];
 
         public void Write(IMessage message)
         {
             NotificationMessageListViewItem lvItem = new(message);
-
             AddToList(lvItem);
         }
 
         private void AddToList(ListViewItem lvItem)
         {
-            // Check if the control is disposed or handle not created (during shutdown)
-            if (_messageWindow.lvErrorCollector.IsDisposed || !_messageWindow.lvErrorCollector.IsHandleCreated)
-            {
+            if (_messageWindow.lvErrorCollector.IsDisposed)
                 return;
+
+            // Buffer messages until the control handle is created.
+            // ErrorAndInfoWindow starts in DockBottomAutoHide — its handle is only
+            // created when the user first opens the panel, which is well after
+            // startup timing messages are posted (#53).
+            if (_pendingItems != null)
+            {
+                if (!_messageWindow.lvErrorCollector.IsHandleCreated)
+                {
+                    if (_pendingItems.Count == 0)
+                        _messageWindow.lvErrorCollector.HandleCreated += OnHandleCreated;
+                    _pendingItems.Add(lvItem);
+                    return;
+                }
+
+                // Handle already exists — flush and switch to direct mode
+                FlushPending();
             }
 
             if (_messageWindow.lvErrorCollector.InvokeRequired)
@@ -34,17 +50,14 @@ namespace mRemoteNG.Messages.MessageWriters
                 }
                 catch (System.ComponentModel.InvalidAsynchronousStateException)
                 {
-                    // Destination thread no longer exists (application shutting down)
                     return;
                 }
                 catch (ObjectDisposedException)
                 {
-                    // Control has been disposed (application shutting down)
                     return;
                 }
                 catch (InvalidOperationException)
                 {
-                    // Control handle no longer exists or other invalid operation (application shutting down)
                     return;
                 }
             }
@@ -52,6 +65,21 @@ namespace mRemoteNG.Messages.MessageWriters
             {
                 _messageWindow.AddMessage(lvItem);
             }
+        }
+
+        private void OnHandleCreated(object? sender, EventArgs e)
+        {
+            _messageWindow.lvErrorCollector.HandleCreated -= OnHandleCreated;
+            FlushPending();
+        }
+
+        private void FlushPending()
+        {
+            if (_pendingItems == null) return;
+            var items = _pendingItems;
+            _pendingItems = null; // switch to direct mode permanently
+            foreach (var pending in items)
+                _messageWindow.AddMessage(pending);
         }
     }
 }

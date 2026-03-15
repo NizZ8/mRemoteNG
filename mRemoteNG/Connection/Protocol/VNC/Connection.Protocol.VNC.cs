@@ -282,7 +282,6 @@ namespace mRemoteNG.Connection.Protocol.VNC
     {
         #region Private Declarations
 
-        private const int VncConnectTimeoutMs = 10_000;
         // Keep-alive interval (ms). Sends a periodic FramebufferUpdateRequest to prevent
         // silent TCP drops caused by firewall/NAT state-table expiry or server idle timeouts
         // (issue #678). 30 seconds is well below any real-world firewall timeout.
@@ -366,7 +365,7 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 bool viewOnly = _info.VNCViewOnly || Force.HasFlag(ConnectionInfo.Force.ViewOnly);
                 if (requiresProxyHandshake || TestConnect(connectHost, connectPort, 5000))
                 {
-                    ConnectWithTimeout(_vnc, connectHost, _info, viewOnly, VncConnectTimeoutMs);
+                    ConnectVnc(_vnc, connectHost, _info, viewOnly);
                 }
                 else
                 {
@@ -374,6 +373,12 @@ namespace mRemoteNG.Connection.Protocol.VNC
                         $"Could not establish TCP connection to {connectHost}:{connectPort}. " +
                         "Verify the VNC server is running and the port is correct.");
                 }
+
+                // VncSharpCore's GetPassword returned null (we set it above), so its
+                // internal Authenticate() was skipped. If the server requires a password,
+                // perform VNC DES authentication ourselves using BCrypt (no weak-key
+                // restriction) and then initialize the VNC session via reflection (#54).
+                PerformManualVncAuth(_vnc, _info);
 
                 // Install the lock-key filter after Connect() creates the VncClient.
                 // Fixes Caps Lock sending 't' instead of toggle (issue #227).
@@ -550,7 +555,10 @@ namespace mRemoteNG.Connection.Protocol.VNC
                     FrmMain.ClipboardChanged += VNCEvent_ClipboardChanged;
                 if (!Force.HasFlag(ConnectionInfo.Force.NoCredentials))
                 {
-                    _vnc.GetPassword = VNCEvent_Authenticate;
+                    // Return null from GetPassword so VncSharpCore does NOT call its own
+                    // Authenticate(). We handle authentication manually in Connect() to
+                    // avoid .NET 10 rejecting DES weak keys during VNC auth (#54).
+                    _vnc.GetPassword = () => null;
                 }
             }
             catch (Exception ex)
@@ -704,112 +712,148 @@ namespace mRemoteNG.Connection.Protocol.VNC
         }
 
         /// <summary>
-        /// Runs the blocking VncSharpCore Connect() on a background thread with a timeout
-        /// so that unreachable VNC servers fail fast instead of freezing the UI (issue #636).
+        /// Connects using the standard VncSharpCore overload: Connect(host, viewOnly, scaled).
+        /// This is the same call the upstream mRemoteNG uses (v1.78.2-dev).
+        /// Timeout protection is handled by TestConnect() TCP probe before this method
+        /// is called, so unreachable servers fail fast without freezing the UI (#636).
         /// </summary>
-        private static void ConnectWithTimeout(VncSharpCore.RemoteDesktop vnc, string hostName, ConnectionInfo info, bool viewOnly, int timeoutMs)
-        {
-            // VncSharpCore.RemoteDesktop is a WinForms UserControl — its Connect() must
-            // run on the thread that owns the control handle (the UI thread). Running on
-            // background threads (Task.Run MTA or separate STA) causes "Value cannot be
-            // null (Parameter 'stream')" on TightVNC and similar servers (#54).
-            // Timeout protection is handled by TestConnect() TCP probe before this method
-            // is called, so unreachable servers fail fast without freezing the UI (#636).
-            ConnectRemoteDesktop(vnc, hostName, info, viewOnly);
-        }
-
-        /// <summary>
-        /// Connects using the best available VncSharpCore overload while forcing shared sessions on
-        /// servers that support it (issue #1943). Falls back to the legacy overload behavior if
-        /// no explicit shared-session overload is available.
-        /// </summary>
-        private static void ConnectRemoteDesktop(VncSharpCore.RemoteDesktop vnc, string hostName, ConnectionInfo info, bool viewOnly)
+        private static void ConnectVnc(VncSharpCore.RemoteDesktop vnc, string hostName, ConnectionInfo info, bool viewOnly)
         {
             bool smartSizeEnabled = info.VNCSmartSizeMode != SmartSizeMode.SmartSNo;
-
-            // Preferred: Connect(host, display, viewOnly, scaled, shared)
-            MethodInfo? connectWithSharedAndDisplay = typeof(VncSharpCore.RemoteDesktop).GetMethod(
-                "Connect",
-                BindingFlags.Public | BindingFlags.Instance,
-                binder: null,
-                types: new[] { typeof(string), typeof(int), typeof(bool), typeof(bool), typeof(bool) },
-                modifiers: null);
-
-            if (connectWithSharedAndDisplay != null)
-            {
-                InvokeConnectMethod(connectWithSharedAndDisplay, vnc, new object[] { hostName, 0, viewOnly, smartSizeEnabled, true });
-                return;
-            }
-
-            // Preferred: Connect(host, viewOnly, scaled, shared)
-            MethodInfo? connectWithShared = typeof(VncSharpCore.RemoteDesktop).GetMethod(
-                "Connect",
-                BindingFlags.Public | BindingFlags.Instance,
-                binder: null,
-                types: new[] { typeof(string), typeof(bool), typeof(bool), typeof(bool) },
-                modifiers: null);
-
-            if (connectWithShared != null)
-            {
-                InvokeConnectMethod(connectWithShared, vnc, new object[] { hostName, viewOnly, smartSizeEnabled, true });
-                return;
-            }
-
-            // Older builds may expose Connect(host, display, viewOnly, bool).
-            // If that bool is named "shared", force shared mode; otherwise preserve SmartSize behavior.
-            MethodInfo? connectWithDisplay = typeof(VncSharpCore.RemoteDesktop).GetMethod(
-                "Connect",
-                BindingFlags.Public | BindingFlags.Instance,
-                binder: null,
-                types: new[] { typeof(string), typeof(int), typeof(bool), typeof(bool) },
-                modifiers: null);
-
-            if (connectWithDisplay != null)
-            {
-                bool fourthArg = smartSizeEnabled;
-                ParameterInfo[] parameters = connectWithDisplay.GetParameters();
-                if (parameters.Length == 4 &&
-                    string.Equals(parameters[3].Name, "shared", StringComparison.OrdinalIgnoreCase))
-                {
-                    fourthArg = true;
-                }
-
-                InvokeConnectMethod(connectWithDisplay, vnc, new object[] { hostName, 0, viewOnly, fourthArg });
-                return;
-            }
-
-            // Older builds expose only Connect(host, viewOnly, bool).
-            // If that bool is named "shared", force shared mode; otherwise preserve SmartSize behavior.
-            MethodInfo? connectThreeArgs = typeof(VncSharpCore.RemoteDesktop).GetMethod(
-                "Connect",
-                BindingFlags.Public | BindingFlags.Instance,
-                binder: null,
-                types: new[] { typeof(string), typeof(bool), typeof(bool) },
-                modifiers: null);
-
-            if (connectThreeArgs != null)
-            {
-                bool thirdArg = smartSizeEnabled;
-                ParameterInfo[] parameters = connectThreeArgs.GetParameters();
-                if (parameters.Length == 3 &&
-                    string.Equals(parameters[2].Name, "shared", StringComparison.OrdinalIgnoreCase))
-                {
-                    thirdArg = true;
-                }
-
-                InvokeConnectMethod(connectThreeArgs, vnc, new object[] { hostName, viewOnly, thirdArg });
-                return;
-            }
-
-            // Last-resort fallback (existing behavior).
             vnc.Connect(hostName, viewOnly, smartSizeEnabled);
         }
 
-        private static void InvokeConnectMethod(MethodInfo connectMethod, VncSharpCore.RemoteDesktop vnc, object[] args)
+        /// <summary>
+        /// Performs VNC authentication manually using BCrypt DES (no weak-key restriction).
+        /// VncSharpCore's GetPassword was set to return null, so its internal
+        /// Authenticate() was skipped. We read the challenge from the RFB stream,
+        /// encrypt with VncDesHelper, send the response, and call Initialize() (#54).
+        /// </summary>
+        private static void PerformManualVncAuth(VncSharpCore.RemoteDesktop vnc, ConnectionInfo info)
         {
+            // Check if authentication is pending (securityType == 2)
+            var rdField = typeof(VncSharpCore.RemoteDesktop)
+                .GetField("passwordPending", BindingFlags.NonPublic | BindingFlags.Instance);
+            bool pending = rdField != null && (bool)(rdField.GetValue(vnc) ?? false);
+            if (!pending) return; // No auth needed (securityType == 1)
+
+            string password = info.Password ?? string.Empty;
+
+            // Get VncClient from RemoteDesktop
+            var vncClientField = typeof(VncSharpCore.RemoteDesktop)
+                .GetField("vnc", BindingFlags.NonPublic | BindingFlags.Instance);
+            object? vncClient = vncClientField?.GetValue(vnc);
+            if (vncClient == null) throw new InvalidOperationException("VncClient is null after Connect.");
+
+            // Get RfbProtocol from VncClient
+            var rfbField = vncClient.GetType()
+                .GetField("rfb", BindingFlags.NonPublic | BindingFlags.Instance);
+            object? rfb = rfbField?.GetValue(vncClient);
+            if (rfb == null) throw new InvalidOperationException("RfbProtocol is null.");
+
+            // Read 16-byte challenge
+            var readChallenge = rfb.GetType()
+                .GetMethod("ReadSecurityChallenge", BindingFlags.Public | BindingFlags.Instance);
+            byte[]? challenge = readChallenge?.Invoke(rfb, null) as byte[];
+            if (challenge == null || challenge.Length != 16)
+                throw new InvalidOperationException("Failed to read VNC security challenge.");
+
+            // Encrypt using BCrypt DES (allows weak keys)
+            byte[] response = VncDesHelper.EncryptChallenge(password, challenge);
+
+            // Send response
+            var writeResponse = rfb.GetType()
+                .GetMethod("WriteSecurityResponse", BindingFlags.Public | BindingFlags.Instance);
+            writeResponse?.Invoke(rfb, [response]);
+
+            // Read security result
+            var readResult = rfb.GetType()
+                .GetMethod("ReadSecurityResult", BindingFlags.Public | BindingFlags.Instance);
+            uint result = (uint)(readResult?.Invoke(rfb, null) ?? 1u);
+
+            if (result != 0)
+            {
+                // Check server version for failure reason
+                var serverVersionProp = rfb.GetType()
+                    .GetProperty("ServerVersion", BindingFlags.Public | BindingFlags.Instance);
+                float serverVersion = (float)(serverVersionProp?.GetValue(rfb) ?? 0f);
+                string reason = "Authentication failed.";
+                if (serverVersion >= 3.8f)
+                {
+                    var readReason = rfb.GetType()
+                        .GetMethod("ReadSecurityFailureReason", BindingFlags.Public | BindingFlags.Instance);
+                    reason = readReason?.Invoke(rfb, null) as string ?? reason;
+                }
+                throw new InvalidOperationException($"VNC authentication failed: {reason}");
+            }
+
+            rdField?.SetValue(vnc, false);
+
+            // Replicate RemoteDesktop.Initialize() step by step. We cannot call it
+            // directly because SetState(Connected) loads an embedded cursor resource
+            // ("Resources.vnccursor.cur") that is missing from VncSharpCore on .NET 10,
+            // causing ArgumentNullException("stream"). Instead we set the state field
+            // directly and use Cursors.Cross as a safe substitute.
             try
             {
-                connectMethod.Invoke(vnc, args);
+                // 1. VncClient.Initialize — sends ClientInit, reads ServerInit
+                var vncInitMethod = vncClient.GetType()
+                    .GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance,
+                        null, [typeof(int), typeof(int)], null);
+                vncInitMethod?.Invoke(vncClient, [vnc.BitsPerPixel, vnc.Depth]);
+
+                // 2. Set state = Connected (skip Cursor resource load)
+                var stateField = typeof(VncSharpCore.RemoteDesktop)
+                    .GetField("state", BindingFlags.NonPublic | BindingFlags.Instance);
+                stateField?.SetValue(vnc, 2); // RuntimeState.Connected = 2
+                vnc.Cursor = System.Windows.Forms.Cursors.Cross;
+
+                // 3. SetupDesktop — creates the desktop bitmap
+                var setupDesktop = typeof(VncSharpCore.RemoteDesktop)
+                    .GetMethod("SetupDesktop", BindingFlags.NonPublic | BindingFlags.Instance);
+                setupDesktop?.Invoke(vnc, null);
+
+                // 4. Fire ConnectComplete event
+                var framebufferProp = vncClient.GetType()
+                    .GetProperty("Framebuffer", BindingFlags.Public | BindingFlags.Instance);
+                object? fb = framebufferProp?.GetValue(vncClient);
+                if (fb != null)
+                {
+                    int w = (int)(fb.GetType().GetProperty("Width")?.GetValue(fb) ?? 800);
+                    int h = (int)(fb.GetType().GetProperty("Height")?.GetValue(fb) ?? 600);
+                    string name = fb.GetType().GetProperty("DesktopName")?.GetValue(fb) as string ?? "";
+                    var onConnect = typeof(VncSharpCore.RemoteDesktop)
+                        .GetMethod("OnConnectComplete", BindingFlags.NonPublic | BindingFlags.Instance);
+                    var argsType = typeof(VncSharpCore.RemoteDesktop).Assembly
+                        .GetType("VncSharpCore.ConnectEventArgs");
+                    if (argsType != null && onConnect != null)
+                    {
+                        var args = Activator.CreateInstance(argsType, w, h, name);
+                        onConnect.Invoke(vnc, [args]);
+                    }
+                }
+
+                vnc.AutoScrollMinSize = vnc.AutoScrollMinSize; // refresh
+
+                // 5. Hook VncUpdate and start the worker thread
+                var vncUpdateEvent = vncClient.GetType().GetEvent("VncUpdate");
+                var vncUpdateHandler = typeof(VncSharpCore.RemoteDesktop)
+                    .GetMethod("VncUpdate", BindingFlags.NonPublic | BindingFlags.Instance);
+                if (vncUpdateEvent != null && vncUpdateHandler != null)
+                {
+                    var del = Delegate.CreateDelegate(vncUpdateEvent.EventHandlerType!, vnc, vncUpdateHandler);
+                    vncUpdateEvent.AddEventHandler(vncClient, del);
+                }
+
+                // Ensure the control handle exists before the worker thread starts.
+                // The worker calls Control.Invoke on disconnect — if no handle exists,
+                // it throws InvalidOperationException.
+                if (!vnc.IsHandleCreated)
+                    _ = vnc.Handle; // forces handle creation
+
+                var startUpdates = vncClient.GetType()
+                    .GetMethod("StartUpdates", BindingFlags.Public | BindingFlags.Instance);
+                startUpdates?.Invoke(vncClient, null);
             }
             catch (TargetInvocationException ex) when (ex.InnerException != null)
             {
@@ -1024,14 +1068,13 @@ namespace mRemoteNG.Connection.Protocol.VNC
                 }
 
                 // Server is reachable and reconnect is requested.
-                // ConnectWithTimeout blocks this background thread — not the UI — for up to
-                // VncConnectTimeoutMs while the VNC handshake completes.
                 SetupTraceListener();
                 (string connectHost, int connectPort) = ResolveConnectionEndpoint();
                 if (_vnc == null || _info == null) { _reconnectAttemptInProgress = false; return; }
                 _vnc.VncPort = connectPort;
                 bool viewOnly = _info.VNCViewOnly || Force.HasFlag(ConnectionInfo.Force.ViewOnly);
-                ConnectWithTimeout(_vnc, connectHost, capturedInfo, viewOnly, VncConnectTimeoutMs);
+                ConnectVnc(_vnc, connectHost, capturedInfo, viewOnly);
+                PerformManualVncAuth(_vnc, capturedInfo);
 
                 // Reconnect succeeded — perform UI-thread-only cleanup via BeginInvoke.
                 var control = Control;
@@ -1092,13 +1135,14 @@ namespace mRemoteNG.Connection.Protocol.VNC
 
         private void VNCEvent_ClipboardChanged()
         {
-            _vnc?.FillServerClipboard();
-        }
-
-        private string VNCEvent_Authenticate()
-        {
-            //return _info.Password.ConvertToUnsecureString();
-            return _info?.Password ?? string.Empty;
+            // Guard against calling VncSharpCore after the control handle is
+            // destroyed — WriteClientCutText → OnConnectionLost → Invoke would
+            // throw InvalidOperationException on a disposed control.
+            if (_vnc != null && _vnc.IsHandleCreated && !_vnc.IsDisposed)
+            {
+                try { _vnc.FillServerClipboard(); }
+                catch (Exception) when (!_vnc.IsHandleCreated || _vnc.IsDisposed) { /* control gone */ }
+            }
         }
 
         #endregion
