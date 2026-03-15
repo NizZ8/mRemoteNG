@@ -72,6 +72,8 @@ namespace mRemoteNG.App
 
                 // Checking .NET Runtime version
                 var (latestRuntimeVersion, downloadUrl) = DotNetRuntimeCheck.GetLatestAvailableDotNetVersionAsync().GetAwaiter().GetResult();
+                bool validDownloadUrl = Uri.TryCreate(downloadUrl, UriKind.Absolute, out var downloadUri)
+                                        && downloadUri.Scheme == Uri.UriSchemeHttps;
                 if (string.IsNullOrEmpty(installedVersion))
                 {
                     try
@@ -86,8 +88,7 @@ namespace mRemoteNG.App
                         {
                             try
                             {
-                                if (!string.IsNullOrEmpty(downloadUrl) &&
-                                    downloadUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                                if (validDownloadUrl)
                                     Process.Start(new ProcessStartInfo(fileName: downloadUrl) { UseShellExecute = true });
                             }
                             catch (Exception ex)
@@ -104,6 +105,7 @@ namespace mRemoteNG.App
                 if (VCppRuntimeCheck.GetInstalledVcRedistVersions() == null || VCppRuntimeCheck.GetInstalledVcRedistVersions().Count == 0)
                 {
                     var downloadUrl2 = "https://aka.ms/vs/17/release/vc_redist.x64.exe";
+                    bool validUrl2 = Uri.TryCreate(downloadUrl2, UriKind.Absolute, out var uri2) && uri2.Scheme == Uri.UriSchemeHttps;
                     try
                     {
                         var result = ShowDownloadCancelDialog(
@@ -116,7 +118,7 @@ namespace mRemoteNG.App
                         {
                             try
                             {
-                                if (downloadUrl2.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                                if (validUrl2)
                                     Process.Start(new ProcessStartInfo(fileName: downloadUrl2) { UseShellExecute = true });
                             }
                             catch (Exception ex)

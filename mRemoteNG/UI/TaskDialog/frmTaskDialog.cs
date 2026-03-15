@@ -24,11 +24,9 @@ namespace mRemoteNG.UI.TaskDialog
             new("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
         private readonly List<MrngRadioButton> _radioButtonCtrls = [];
-        private readonly DisplayProperties _display = new();
         private Control? _focusControl;
 
         private int _mainInstructionLeftMargin;
-        private int _mainInstructionRightMargin;
 
         #endregion
 
@@ -142,8 +140,7 @@ namespace mRemoteNG.UI.TaskDialog
         public void BuildForm()
         {
             int formHeight = 0;
-            imgMain.Width = _display.ScaleWidth(imgMain.Width);
-            imgMain.Height = _display.ScaleHeight(imgMain.Height);
+            // PerMonitorV2 handles DPI scaling automatically — no manual scaling needed
 
             // Setup Main Instruction
             switch (MainIcon)
@@ -167,10 +164,9 @@ namespace mRemoteNG.UI.TaskDialog
             lbMainInstruction.Text = _mainInstruction;
             lbMainInstruction.Font = _mainInstructionFont;
             AdjustLabelHeight(lbMainInstruction);
-            pnlMainInstruction.Height = Math.Max(41, lbMainInstruction.Height + _display.ScaleHeight(16));
+            pnlMainInstruction.Height = Math.Max(41, lbMainInstruction.Height + 16);
 
-            _mainInstructionLeftMargin = imgMain.Left + imgMain.Width + _display.ScaleWidth(imgMain.Padding.Right);
-            _mainInstructionRightMargin = _display.ScaleWidth(8);
+            _mainInstructionLeftMargin = imgMain.Left + imgMain.Width + imgMain.Padding.Right;
             formHeight += pnlMainInstruction.Height;
 
             // Setup Content
@@ -178,7 +174,7 @@ namespace mRemoteNG.UI.TaskDialog
             if (Content != "")
             {
                 AdjustLabelHeight(lbContent);
-                pnlContent.Height = lbContent.Height + _display.ScaleHeight(4);
+                pnlContent.Height = lbContent.Height + 4;
                 formHeight += pnlContent.Height;
             }
 
@@ -190,18 +186,18 @@ namespace mRemoteNG.UI.TaskDialog
             {
                 pnlExpandedInfo.Visible = false;
                 lbShowHideDetails.Visible = false;
-                cbVerify.Top = _display.ScaleHeight(12);
-                pnlButtons.Height = _display.ScaleHeight(40);
+                cbVerify.Top = 12;
+                pnlButtons.Height = 40;
             }
             else
             {
                 AdjustLabelHeight(lbExpandedInfo);
-                pnlExpandedInfo.Height = lbExpandedInfo.Height + _display.ScaleHeight(4);
+                pnlExpandedInfo.Height = lbExpandedInfo.Height + 4;
                 pnlExpandedInfo.Visible = Expanded;
                 lbShowHideDetails.Text = Expanded ? "        Hide details" : "        Show details";
                 lbShowHideDetails.ImageIndex = Expanded ? 0 : 3;
                 if (!showVerifyCheckbox)
-                    pnlButtons.Height = _display.ScaleHeight(40);
+                    pnlButtons.Height = 40;
                 if (Expanded)
                     formHeight += pnlExpandedInfo.Height;
             }
@@ -211,15 +207,15 @@ namespace mRemoteNG.UI.TaskDialog
             if (RadioButtons != "")
             {
                 string[] arr = RadioButtons.Split('|');
-                int pnlHeight = _display.ScaleHeight(12);
+                int pnlHeight = 12;
                 for (int i = 0; i < arr.Length; i++)
                 {
                     MrngRadioButton rb = new() { Parent = pnlRadioButtons};
-                    rb.Location = new Point(_display.ScaleWidth(60), _display.ScaleHeight(4) + i * rb.Height);
+                    rb.Location = new Point(60, 4 + i * rb.Height);
                     rb.Text = arr[i];
                     rb.Tag = i;
                     rb.Checked = DefaultButtonIndex == i;
-                    rb.Width = Width - rb.Left - _display.ScaleWidth(15);
+                    rb.Width = Width - rb.Left - 15;
                     pnlHeight += rb.Height;
                     _radioButtonCtrls.Add(rb);
                 }
@@ -233,16 +229,16 @@ namespace mRemoteNG.UI.TaskDialog
             if (CommandButtons != "")
             {
                 string[] arr = CommandButtons.Split('|');
-                int t = _display.ScaleHeight(8);
-                int pnlHeight = _display.ScaleHeight(16);
+                int t = 8;
+                int pnlHeight = 16;
                 for (int i = 0; i < arr.Length; i++)
                 {
                     CommandButton btn = new()
                     {
-                        Parent = pnlCommandButtons, Location = new Point(_display.ScaleWidth(50), t)
+                        Parent = pnlCommandButtons, Location = new Point(50, t)
                     };
                     btn.Text = arr[i];
-                    btn.Size = new Size(Width - btn.Left - _display.ScaleWidth(15), btn.GetBestHeight());
+                    btn.Size = new Size(Width - btn.Left - 15, btn.GetBestHeight());
                     t += btn.Height;
                     pnlHeight += btn.Height;
                     btn.Tag = i;
@@ -354,7 +350,7 @@ namespace mRemoteNG.UI.TaskDialog
             if (Footer != "")
             {
                 AdjustLabelHeight(lbFooter);
-                pnlFooter.Height = Math.Max(_display.ScaleHeight(28), lbFooter.Height + _display.ScaleHeight(16));
+                pnlFooter.Height = Math.Max(28, lbFooter.Height + 16);
                 switch (FooterIcon)
                 {
                     case ESysIcons.Information:
@@ -433,10 +429,10 @@ namespace mRemoteNG.UI.TaskDialog
             }
         }
 
-        private Image ResizeBitmap(Image srcImg, int newWidth, int newHeight)
+        private static Image ResizeBitmap(Image srcImg, int newWidth, int newHeight)
         {
-            float percentWidth = _display.ScaleWidth(newWidth) / (float)srcImg.Width;
-            float percentHeight = _display.ScaleHeight(newHeight) / (float)srcImg.Height;
+            float percentWidth = newWidth / (float)srcImg.Width;
+            float percentHeight = newHeight / (float)srcImg.Height;
 
             float resizePercent = percentHeight < percentWidth ? percentHeight : percentWidth;
 
