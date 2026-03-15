@@ -259,14 +259,19 @@ namespace mRemoteNG.UI.Forms
             SettingsLoader settingsLoader = new(this, messageCollector, _quickConnectToolStrip, _externalToolsToolStrip, _multiSshToolStrip, msMain);
             settingsLoader.LoadSettings();
             ApplyWindowSizeLockSetting();
-            Debug.Print($"[Startup] SettingsLoad: {phaseSw.ElapsedMilliseconds}ms");
+            long settingsMs = phaseSw.ElapsedMilliseconds;
+            Debug.Print($"[Startup] SettingsLoad: {settingsMs}ms");
 
             MessageCollectorSetup.SetupMessageCollector(messageCollector, _messageWriters);
             MessageCollectorSetup.BuildMessageWritersFromSettings(_messageWriters);
 
+            // Post early phase timing now that messageCollector is ready
+            messageCollector.AddMessage(Messages.MessageClass.InformationMsg, $"[Startup] SettingsLoad: {settingsMs}ms");
+
             phaseSw.Restart();
             Startup.Instance.InitializeProgram(messageCollector);
             Debug.Print($"[Startup] InitializeProgram: {phaseSw.ElapsedMilliseconds}ms");
+            messageCollector.AddMessage(Messages.MessageClass.InformationMsg, $"[Startup] InitializeProgram: {phaseSw.ElapsedMilliseconds}ms");
 
             SetMenuDependencies();
 
@@ -276,6 +281,7 @@ namespace mRemoteNG.UI.Forms
             DockPanelLayoutLoader uiLoader = new(this, messageCollector);
             uiLoader.LoadPanelsFromXml();
             Debug.Print($"[Startup] PanelLayout: {phaseSw.ElapsedMilliseconds}ms");
+            messageCollector.AddMessage(Messages.MessageClass.InformationMsg, $"[Startup] PanelLayout: {phaseSw.ElapsedMilliseconds}ms");
 
             ShowHidePanelTabs();
 
@@ -307,6 +313,7 @@ namespace mRemoteNG.UI.Forms
             phaseSw.Restart();
             CredsAndConsSetup.LoadCredsAndCons();
             Debug.Print($"[Startup] LoadConnections: {phaseSw.ElapsedMilliseconds}ms");
+            messageCollector.AddMessage(Messages.MessageClass.InformationMsg, $"[Startup] LoadConnections: {phaseSw.ElapsedMilliseconds}ms");
             _autoLockTimer.Start();
 
             // Initialize panel binding for Connections and Config panels
@@ -351,6 +358,7 @@ namespace mRemoteNG.UI.Forms
 
             // FrmOptions is lazy-loaded on first access — no need to create at startup
             Debug.Print($"[Startup] Total FrmMain_Load: {totalSw.ElapsedMilliseconds}ms");
+            messageCollector.AddMessage(Messages.MessageClass.InformationMsg, $"[Startup] Total: {totalSw.ElapsedMilliseconds}ms");
 
             // Auto-start external tools flagged with RunOnStartup (#318)
             foreach (var tool in Runtime.ExternalToolsService.ExternalTools)

@@ -422,6 +422,9 @@ namespace mRemoteNG.UI.TaskDialog
             foreach (MrngButton btn in new[] { bt3, bt2, bt1 })
             {
                 if (!btn.Visible) continue;
+                // Remove Right anchor before repositioning — it overrides Left/Width
+                // during layout, causing long translations to stay truncated (#55).
+                btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 int textWidth = TextRenderer.MeasureText(btn.Text, btn.Font).Width + 16;
                 btn.Width = Math.Max(minWidth, textWidth);
                 x -= btn.Width;

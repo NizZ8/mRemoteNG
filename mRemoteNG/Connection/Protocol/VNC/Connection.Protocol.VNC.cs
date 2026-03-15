@@ -709,36 +709,13 @@ namespace mRemoteNG.Connection.Protocol.VNC
         /// </summary>
         private static void ConnectWithTimeout(VncSharpCore.RemoteDesktop vnc, string hostName, ConnectionInfo info, bool viewOnly, int timeoutMs)
         {
-            Exception? connectException = null;
-            // Use an STA thread instead of Task.Run() because VncSharpCore.RemoteDesktop
-            // is a WinForms UserControl and its Connect() stores state in control fields.
-            // Task.Run() uses MTA ThreadPool threads which can cause null stream errors
-            // on some VNC servers like TightVNC (#54).
-            var connectThread = new Thread(() =>
-            {
-                try
-                {
-                    ConnectRemoteDesktop(vnc, hostName, info, viewOnly);
-                }
-                catch (Exception ex)
-                {
-                    connectException = ex;
-                }
-            });
-            connectThread.SetApartmentState(ApartmentState.STA);
-            connectThread.IsBackground = true;
-            connectThread.Start();
-
-            if (!connectThread.Join(timeoutMs))
-            {
-                // Timed out — force-disconnect to unblock the background thread
-                try { vnc.Disconnect(); } catch { /* best-effort cleanup */ }
-                throw new TimeoutException(
-                    $"VNC connection to {info.Hostname}:{info.Port} timed out after {timeoutMs / 1000} seconds.");
-            }
-
-            if (connectException != null)
-                ExceptionDispatchInfo.Capture(connectException).Throw();
+            // VncSharpCore.RemoteDesktop is a WinForms UserControl — its Connect() must
+            // run on the thread that owns the control handle (the UI thread). Running on
+            // background threads (Task.Run MTA or separate STA) causes "Value cannot be
+            // null (Parameter 'stream')" on TightVNC and similar servers (#54).
+            // Timeout protection is handled by TestConnect() TCP probe before this method
+            // is called, so unreachable servers fail fast without freezing the UI (#636).
+            ConnectRemoteDesktop(vnc, hostName, info, viewOnly);
         }
 
         /// <summary>

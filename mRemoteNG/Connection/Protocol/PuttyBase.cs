@@ -852,14 +852,10 @@ namespace mRemoteNG.Connection.Protocol
                                                         {
                                                             arguments.Add("-pw", password);
                                                         }
-                                                        // Disable interactive prompts so PuTTY exits on auth failure
-                                                        // instead of hanging with a password retry prompt (#1213).
-                                                        // Only add -batch for recognized PuTTY-compatible tools (#49).
-                                                        PuttyTypeDetector.PuttyType puttyType = PuttyTypeDetector.GetPuttyType(PuttyPath ?? string.Empty);
-                                                        if (!IsSshTunnelSession() && puttyType != PuttyTypeDetector.PuttyType.Unknown)
-                                                        {
-                                                            arguments.Add("-batch");
-                                                        }
+                                                        // NOTE: -batch is a plink.exe (command-line) option, NOT a
+                                                        // putty.exe (GUI) option. Passing it to putty.exe causes
+                                                        // "option -batch not available in this tool" error (#49).
+                                                        // Removed: arguments.Add("-batch");
                                                     }                        }
 
                         if (InterfaceControl.Info?.ExternalCredentialProvider == ExternalCredentialProvider.VaultOpenbao && InterfaceControl.Info?.VaultOpenbaoSecretEngine == VaultOpenbaoSecretEngine.SSHOTP) {
