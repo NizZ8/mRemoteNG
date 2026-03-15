@@ -36,10 +36,12 @@ namespace mRemoteNG.Tree.Smart
         private void RefreshList()
         {
             var recents = RecentConnectionsService.Instance.GetRecentConnections();
-            
-            // Rebuild list to match order
-            Children.Clear();
-            
+
+            // Remove existing items using RemoveChild (not Children.Clear())
+            // so INotifyCollectionChanged events fire and the tree stays in sync.
+            foreach (var item in Children.ToList())
+                RemoveChild(item);
+
             foreach (var c in recents)
             {
                 if (c == null) continue;
