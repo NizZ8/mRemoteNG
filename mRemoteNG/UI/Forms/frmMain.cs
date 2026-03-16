@@ -1442,7 +1442,15 @@ namespace mRemoteNG.UI.Forms
             }
 
             string version = Application.ProductVersion ?? "";
-            StringBuilder titleBuilder = new($"{Application.ProductName} v{version}");
+            string buildTime = "";
+            try
+            {
+                var asm = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                if (!string.IsNullOrEmpty(asm))
+                    buildTime = $" [{System.IO.File.GetLastWriteTime(asm):HH:mm}]";
+            }
+            catch { /* ignore */ }
+            StringBuilder titleBuilder = new($"{Application.ProductName} v{version}{buildTime}");
             const string separator = " - ";
 
             if (Runtime.ConnectionsService.IsConnectionsFileLoaded)
