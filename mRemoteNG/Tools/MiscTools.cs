@@ -260,6 +260,11 @@ namespace mRemoteNG.Tools
                 return true;
             }
 
+            public override bool GetStandardValuesExclusive(ITypeDescriptorContext? context)
+            {
+                return true;
+            }
+
             public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
             {
                 bool[] bools = { true, false };
