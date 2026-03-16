@@ -254,15 +254,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 return;
             }
 
-            if (SmartSize)
-            {
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize skipped for '{connectionInfo.Hostname}': SmartSize is enabled (use client-side scaling instead)");
-                return;
-            }
+            // Note: SmartSize (client-side scaling) is compatible with FitToWindow/Fullscreen.
+            // We reconnect at the new panel size so the session runs at native resolution;
+            // SmartSize handles smooth scaling during intermediate resize states.
 
             Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                $"Resizing RDP connection to host '{connectionInfo.Hostname}'");
+                $"Resizing RDP connection to host '{connectionInfo.Hostname}' (SmartSize={SmartSize})");
 
             try
             {
@@ -283,6 +280,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
                     $"Calling UpdateSessionDisplaySettings({size.Width}, {size.Height}) for '{connectionInfo.Hostname}' (Control.Size={Control.Size}, InterfaceControl.Size={InterfaceControl.Size})");
 
                 UpdateSessionDisplaySettings((uint)size.Width, (uint)size.Height);
+
+                // Re-apply SmartSizing after reconnect — the COM property may be lost
+                EnsureSmartSizing();
 
                 Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
                     $"Successfully resized RDP session for '{connectionInfo.Hostname}' to {size.Width}x{size.Height}");

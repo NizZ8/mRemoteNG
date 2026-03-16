@@ -197,6 +197,7 @@ namespace mRemoteNG.Themes
                     var lightNG = themes["vs2015lightNG"] as ThemeInfo;
                     var darkNG = themes["vs2015darkNG"] as ThemeInfo;
                     var blueNG = themes["vs2015blueNG"] as ThemeInfo;
+                    var darculaNg = themes["darculaNG"] as ThemeInfo;
 
                     if (lightNG != null)
                     {
@@ -212,6 +213,11 @@ namespace mRemoteNG.Themes
                     {
                         ThemeInfo vs2015Blue = new("vs2015Blue", blueNG.Theme, "", VisualStudioToolStripExtender.VsVersion.Vs2015, blueNG.ExtendedPalette);
                         themes.Add(vs2015Blue.Name!, vs2015Blue);
+                    }
+                    if (darculaNg != null)
+                    {
+                        ThemeInfo darcula = new("Darcula", darculaNg.Theme, "", VisualStudioToolStripExtender.VsVersion.Vs2015, darculaNg.ExtendedPalette);
+                        themes.Add(darcula.Name!, darcula);
                     }
                 }
             }
