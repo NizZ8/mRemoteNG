@@ -1724,7 +1724,11 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 Event_Disconnected(this, reason, discReason);
             }
 
-            if (Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect)
+            // Only attempt reconnect on unexpected disconnects (server/network).
+            // When the user explicitly disconnects (discReason == UI_ERR_NORMAL_DISCONNECT),
+            // close the tab immediately — the user expressed clear intent to disconnect.
+            if (discReason != UI_ERR_NORMAL_DISCONNECT &&
+                Properties.OptionsAdvancedPage.Default.ReconnectOnDisconnect)
             {
                 ReconnectGroup = new ReconnectGroup();
                 ReconnectGroup.CloseClicked += Event_ReconnectGroupCloseClicked;

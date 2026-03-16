@@ -2230,8 +2230,11 @@ namespace mRemoteNG.UI.Window
                 }
 
                 ProtocolBase? protocolBase = sender as ProtocolBase;
-                if (!(protocolBase?.InterfaceControl?.Parent is ConnectionTab tabPage)) return;
-                if (tabPage.Disposing || tabPage.IsDisposed) return;
+                if (!(protocolBase?.InterfaceControl?.Parent is ConnectionTab tabPage))
+                    return;
+                if (tabPage.IsDisposed) return; // Already fully disposed — nothing to do
+                // Note: do NOT return early on Disposing — the tab is mid-close and
+                // needs protocolClose=true set by the code below to complete (#55).
 
                 ConnectionInfo? closedConnectionInfo =
                     tabPage.TrackedConnectionInfo ??
