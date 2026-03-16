@@ -19,8 +19,12 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const githubRepoRegex =
-              /\[[^\]]*\]\((?!https?:\/\/github\.com\/user-attachments\/assets\/)[^\)]*https?:\/\/github\.com\/(?!user-attachments\/assets\/)[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*\)|https?:\/\/github\.com\/(?!user-attachments\/assets\/)[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+[^\s)]*/gi;
+            // Allow: own repo, upstream repo, and image/asset uploads
+            const allowed = '(?!user-attachments\\/assets\\/)(?!robertpopa22\\/mRemoteNG)(?!mRemoteNG\\/mRemoteNG)';
+            const githubRepoRegex = new RegExp(
+              `\\[[^\\]]*\\]\\((?!https?:\\/\\/github\\.com\\/user-attachments\\/assets\\/)[^\\)]*https?:\\/\\/github\\.com\\/${allowed}[A-Za-z0-9_.-]+\\/[A-Za-z0-9_.-]+[^\\s)]*\\)|https?:\\/\\/github\\.com\\/${allowed}[A-Za-z0-9_.-]+\\/[A-Za-z0-9_.-]+[^\\s)]*`,
+              'gi'
+            );
             
             // CASE 1: Comment
             if (context.payload.comment) {

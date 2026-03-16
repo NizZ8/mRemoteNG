@@ -436,7 +436,8 @@ namespace mRemoteNG.Connection
                 {
                     if (dockContent is not ConnectionTab connectionTab) continue;
 
-                    if (connectionTab.Tag is InterfaceControl interfaceControl)
+                    if (connectionTab.Tag is InterfaceControl interfaceControl &&
+                        !interfaceControl.IsDisposed && interfaceControl.Parent == connectionTab)
                     {
                         if (AreEquivalentConnections(interfaceControl.Info, connectionInfo) ||
                             AreEquivalentConnections(interfaceControl.OriginalInfo, connectionInfo))
@@ -444,9 +445,8 @@ namespace mRemoteNG.Connection
                         continue;
                     }
 
-                    ConnectionInfo? trackedConnectionInfo = connectionTab.Tag as ConnectionInfo ?? connectionTab.TrackedConnectionInfo;
-                    if (AreEquivalentConnections(trackedConnectionInfo, connectionInfo))
-                        return connectionTab;
+                    // Tab has no active InterfaceControl — skip it.
+                    // Closed/disconnected tabs should not be treated as open connections (#61).
                 }
             }
 
