@@ -31,6 +31,26 @@ namespace mRemoteNG.UI.Window
         private ToolStripMenuItem cmenTabStatistics;
 
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                components?.Dispose();
+
+            try
+            {
+                base.Dispose(disposing);
+            }
+            catch (System.Runtime.InteropServices.InvalidComObjectException)
+            {
+                // RDP ActiveX (MSTSCLib) COM RCW already released.
+            }
+            catch (System.InvalidOperationException)
+            {
+                // .NET 10 WinForms AxHost.DisposeAxControl() throws this
+                // when COM RCW is already separated during app shutdown.
+            }
+        }
+
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();

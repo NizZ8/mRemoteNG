@@ -242,9 +242,8 @@ namespace mRemoteNG.UI.Tabs
                 }
                 else if (hasActiveProtocol)
                 {
+                    // silentClose = true → app shutdown or panel close. Just disconnect, don't keep tab.
                     CloseProtocolSafe();
-                    if (Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect)
-                        e.Cancel = true;
                 }
             }
 
