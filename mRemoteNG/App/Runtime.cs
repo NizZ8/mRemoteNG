@@ -71,6 +71,7 @@ namespace mRemoteNG.App
         {
             Thread t = new(LoadConnectionsBGd);
             t.SetApartmentState(ApartmentState.STA);
+            t.IsBackground = true;
             t.Start();
         }
 

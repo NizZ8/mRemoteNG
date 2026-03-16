@@ -554,6 +554,7 @@ namespace mRemoteNG.Connection
                 }
             });
             t.SetApartmentState(ApartmentState.STA);
+            t.IsBackground = true;
             t.Start();
         }
 
