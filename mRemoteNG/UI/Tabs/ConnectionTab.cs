@@ -112,11 +112,20 @@ namespace mRemoteNG.UI.Tabs
         {
             Panel outer = new() { Dock = DockStyle.Fill };
 
+            // Detect dark background to pick readable text color
+            Color bg = BackColor;
+            bool isDark = bg.GetBrightness() < 0.4f;
+            Color fg = isDark ? Color.White : SystemColors.ControlText;
+            Color fgDim = isDark ? Color.FromArgb(160, 160, 160) : SystemColors.GrayText;
+
             Label lblName = new()
             {
                 Text = info.Name,
                 Font = new Font(Font.FontFamily, 14f, FontStyle.Bold),
                 AutoSize = true,
+                Anchor = AnchorStyles.None,
+                ForeColor = fg,
+                BackColor = Color.Transparent,
             };
 
             string details = $"{info.Protocol}   {info.Hostname}:{info.Port}";
@@ -128,7 +137,9 @@ namespace mRemoteNG.UI.Tabs
                 Text = details,
                 Font = new Font(Font.FontFamily, 9.5f),
                 AutoSize = true,
-                ForeColor = SystemColors.GrayText,
+                ForeColor = fgDim,
+                BackColor = Color.Transparent,
+                Anchor = AnchorStyles.None,
             };
 
             Button btnConnect = new()
@@ -136,27 +147,44 @@ namespace mRemoteNG.UI.Tabs
                 Text = Language.Connect,
                 AutoSize = true,
                 Padding = new Padding(24, 4, 24, 4),
+                Anchor = AnchorStyles.None,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = fg,
+                BackColor = isDark ? Color.FromArgb(60, 60, 60) : SystemColors.Control,
             };
             btnConnect.Click += (_, _) => Runtime.ConnectionInitiator.OpenConnection(info);
 
-            outer.Controls.AddRange([lblName, lblDetails, btnConnect]);
-
-            void CenterControls(object? s, EventArgs a)
+            // TableLayoutPanel with Anchor=None centers each control horizontally
+            TableLayoutPanel table = new()
             {
-                const int gap = 8;
-                int totalH = lblName.Height + gap + lblDetails.Height + gap * 2 + btnConnect.Height;
-                int y = Math.Max(10, (outer.Height - totalH) / 2);
-                int cx = outer.Width / 2;
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 1,
+                RowCount = 3,
+                Margin = Padding.Empty,
+                Padding = new Padding(0, 0, 0, 0),
+            };
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            table.Controls.Add(lblName, 0, 0);
+            table.Controls.Add(lblDetails, 0, 1);
+            table.Controls.Add(btnConnect, 0, 2);
 
-                lblName.Location = new Point(cx - lblName.Width / 2, y);
-                y += lblName.Height + gap;
-                lblDetails.Location = new Point(cx - lblDetails.Width / 2, y);
-                y += lblDetails.Height + gap * 2;
-                btnConnect.Location = new Point(cx - btnConnect.Width / 2, y);
+            outer.Controls.Add(table);
+
+            // Center the table block both horizontally and vertically in the outer panel
+            void CenterTable(object? s, EventArgs a)
+            {
+                if (outer.Width == 0 || outer.Height == 0) return;
+                Size preferred = table.PreferredSize;
+                table.Location = new Point(
+                    Math.Max(0, (outer.Width - preferred.Width) / 2),
+                    Math.Max(10, (outer.Height - preferred.Height) / 2));
             }
 
-            outer.Resize += CenterControls;
-            outer.Layout += CenterControls;
+            outer.SizeChanged += CenterTable;
             return outer;
         }
 
