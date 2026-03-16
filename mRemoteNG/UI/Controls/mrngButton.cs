@@ -122,8 +122,14 @@ namespace mRemoteNG.UI.Controls
 
             using (SolidBrush backBrush = new(back))
                 pevent.Graphics.FillRectangle(backBrush, pevent.ClipRectangle);
-            using (Pen borderPen = new(border, 1))
-                pevent.Graphics.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+
+            // Draw a thicker, brighter border when the button is focused or is the
+            // form's default (AcceptButton) so the user can see which button is active.
+            bool isFocusedOrDefault = Focused || (IsDefault && FindForm()?.AcceptButton == this);
+            float borderWidth = isFocusedOrDefault ? 2f : 1f;
+            Color actualBorder = isFocusedOrDefault ? palette.getColor("Button_Hover_Border") : border;
+            using (Pen borderPen = new(actualBorder, borderWidth))
+                pevent.Graphics.DrawRectangle(borderPen, 1, 1, Width - 2, Height - 2);
             pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             pevent.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             //Warning. the app doesnt use many images in buttons so this positions are kinda tailored just for the used by the app

@@ -199,7 +199,7 @@ namespace mRemoteNG.UI.TaskDialog
             // bt1
             // 
             this.bt1._mice = MrngButton.MouseState.HOVER;
-            this.bt1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.bt1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bt1.Location = new System.Drawing.Point(218, 8);
             this.bt1.Name = "bt1";
             this.bt1.Size = new System.Drawing.Size(75, 23);
@@ -209,7 +209,7 @@ namespace mRemoteNG.UI.TaskDialog
             // bt2
             //
             this.bt2._mice = MrngButton.MouseState.HOVER;
-            this.bt2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.bt2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bt2.Location = new System.Drawing.Point(299, 8);
             this.bt2.Name = "bt2";
             this.bt2.Size = new System.Drawing.Size(75, 23);
@@ -219,7 +219,7 @@ namespace mRemoteNG.UI.TaskDialog
             // bt3
             //
             this.bt3._mice = MrngButton.MouseState.HOVER;
-            this.bt3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.bt3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bt3.Location = new System.Drawing.Point(380, 8);
             this.bt3.Name = "bt3";
             this.bt3.Size = new System.Drawing.Size(75, 23);
@@ -256,7 +256,7 @@ namespace mRemoteNG.UI.TaskDialog
             // 
             // lbExpandedInfo
             // 
-            this.lbExpandedInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbExpandedInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbExpandedInfo.Location = new System.Drawing.Point(50, 0);
             this.lbExpandedInfo.Name = "lbExpandedInfo";
@@ -266,7 +266,7 @@ namespace mRemoteNG.UI.TaskDialog
             // 
             // lbContent
             // 
-            this.lbContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbContent.Location = new System.Drawing.Point(50, 0);
             this.lbContent.Name = "lbContent";
@@ -276,11 +276,11 @@ namespace mRemoteNG.UI.TaskDialog
             // 
             // lbMainInstruction
             // 
-            this.lbMainInstruction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbMainInstruction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMainInstruction.Location = new System.Drawing.Point(50, 9);
             this.lbMainInstruction.Name = "lbMainInstruction";
-            this.lbMainInstruction.Size = new System.Drawing.Size(409, 19);
+            this.lbMainInstruction.Size = new System.Drawing.Size(400, 19);
             this.lbMainInstruction.TabIndex = 1;
             this.lbMainInstruction.Text = "lbMainInstruction";
             // 
@@ -288,7 +288,7 @@ namespace mRemoteNG.UI.TaskDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(464, 593);
+            this.ClientSize = new System.Drawing.Size(480, 593);
             this.Controls.Add(this.pnlFooter);
             this.Controls.Add(this.pnlButtons);
             this.Controls.Add(this.pnlCommandButtons);

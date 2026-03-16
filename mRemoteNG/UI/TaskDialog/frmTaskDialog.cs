@@ -310,7 +310,7 @@ namespace mRemoteNG.UI.TaskDialog
                     bt2.DialogResult = DialogResult.Yes;
                     bt3.Text = Language._Cancel;
                     bt3.DialogResult = DialogResult.No;
-                    AcceptButton = bt2;
+                    AcceptButton = bt3; // Cancel is safer default for destructive action
                     CancelButton = bt3;
                     break;
                 case ETaskDialogButtons.DeleteCancel:
@@ -319,7 +319,7 @@ namespace mRemoteNG.UI.TaskDialog
                     bt2.DialogResult = DialogResult.Yes;
                     bt3.Text = Language._Cancel;
                     bt3.DialogResult = DialogResult.No;
-                    AcceptButton = bt2;
+                    AcceptButton = bt3; // Cancel is safer default for destructive action
                     CancelButton = bt3;
                     break;
                 case ETaskDialogButtons.None:
@@ -409,20 +409,51 @@ namespace mRemoteNG.UI.TaskDialog
         }
 
         //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Positions buttons right-to-left with widths based on actual text.
+        /// Widens the form when buttons don't fit (#55).
+        /// </summary>
         private void RepositionButtons()
         {
             const int padding = 6;
             const int rightMargin = 9;
+            const int leftMargin = 9;
             const int minWidth = 75;
-            int x = pnlButtons.ClientSize.Width - rightMargin;
-            foreach (MrngButton btn in new[] { bt3, bt2, bt1 })
+
+            // Measure required width for each visible button
+            var buttons = new[] { bt3, bt2, bt1 };
+            int totalNeeded = rightMargin + leftMargin;
+            int visibleCount = 0;
+            foreach (var btn in buttons)
             {
                 if (!btn.Visible) continue;
-                // Remove Right anchor before repositioning — it overrides Left/Width
-                // during layout, causing long translations to stay truncated (#55).
-                btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 int textWidth = TextRenderer.MeasureText(btn.Text, btn.Font).Width + 16;
                 btn.Width = Math.Max(minWidth, textWidth);
+                totalNeeded += btn.Width;
+                visibleCount++;
+            }
+            totalNeeded += Math.Max(0, visibleCount - 1) * padding;
+
+            // Widen the form if buttons don't fit
+            int panelWidth = pnlButtons.ClientSize.Width;
+            if (totalNeeded > panelWidth)
+            {
+                int grow = totalNeeded - panelWidth;
+                Width += grow;
+                // Re-center on screen
+                if (Owner != null)
+                    Left = Owner.Left + (Owner.Width - Width) / 2;
+                else
+                    CenterToScreen();
+                panelWidth = pnlButtons.ClientSize.Width;
+            }
+
+            // Position right-to-left
+            int x = panelWidth - rightMargin;
+            foreach (var btn in buttons)
+            {
+                if (!btn.Visible) continue;
+                btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 x -= btn.Width;
                 btn.Left = x;
                 x -= padding;
@@ -483,6 +514,14 @@ namespace mRemoteNG.UI.TaskDialog
         {
             if (!_formBuilt)
                 throw new InvalidOperationException("frmTaskDialog : Please call .BuildForm() before showing the TaskDialog");
+            // Reposition buttons AFTER the form is fully laid out.
+            // BuildForm() calls RepositionButtons() too, but the WinForms layout engine
+            // may override button positions between BuildForm() and Show(). This second
+            // call ensures buttons are correctly positioned after all layout passes (#55).
+            RepositionButtons();
+            // Focus the default button so the user can see which one is active.
+            if (AcceptButton is Control acceptControl)
+                acceptControl.Focus();
             base.OnShown(e);
         }
 

@@ -760,18 +760,23 @@ namespace mRemoteNG.UI.Forms
             if (Runtime.WindowList != null)
             {
                 BaseWindow[] windowsToClose = Runtime.WindowList.Cast<BaseWindow>().ToArray();
+                Runtime.MessageCollector.AddMessage(Messages.MessageClass.DebugMsg,
+                    $"[Shutdown] Closing {windowsToClose.Length} window(s)...");
                 foreach (BaseWindow window in windowsToClose)
                 {
                     if (window == null || window.IsDisposed)
                         continue;
 
+                    Runtime.MessageCollector.AddMessage(Messages.MessageClass.DebugMsg,
+                        $"[Shutdown] Closing window: {window.GetType().Name} ({window.Text})");
                     window.Close();
                 }
 
-                // If a child window/panel close is cancelled (for example user clicks "No"),
-                // keep main app visible and abort this close request.
-                if (GetOpenConnectionsCount() > 0)
+                int remaining = GetOpenConnectionsCount();
+                if (remaining > 0)
                 {
+                    Runtime.MessageCollector.AddMessage(Messages.MessageClass.DebugMsg,
+                        $"[Shutdown] CANCELLED — {remaining} connection(s) still open after window.Close()");
                     e.Cancel = true;
                     return;
                 }
