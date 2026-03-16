@@ -1186,7 +1186,7 @@ namespace BrightIdeasSoftware
                     // placeholder item to prevent crash (#52, #56).
                     var placeholder = new OLVListItem(new object());
                     for (int i = 1; i < this.Columns.Count; i++)
-                        placeholder.SubItems.Add(string.Empty);
+                        placeholder.SubItems.Add(new OLVListSubItem());
                     this.lastRetrieveVirtualItem = placeholder;
                 }
             }

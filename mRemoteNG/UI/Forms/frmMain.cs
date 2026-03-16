@@ -757,6 +757,8 @@ namespace mRemoteNG.UI.Forms
             // Must happen before window.Close() which removes them from pnlDock.
             SettingsSaver.SaveDockPanelLayout();
 
+            IsClosing = true;
+
             if (Runtime.WindowList != null)
             {
                 BaseWindow[] windowsToClose = Runtime.WindowList.Cast<BaseWindow>().ToArray();
@@ -772,12 +774,11 @@ namespace mRemoteNG.UI.Forms
                 // keep main app visible and abort this close request.
                 if (GetOpenConnectionsCount() > 0)
                 {
+                    IsClosing = false;
                     e.Cancel = true;
                     return;
                 }
             }
-
-            IsClosing = true;
             _autoLockTimer.Stop();
 
             NativeMethods.UnregisterHotKey(Handle, HOTKEY_ID_ACTIVATE);
