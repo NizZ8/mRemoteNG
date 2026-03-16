@@ -2111,6 +2111,15 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 _extendedReconnectTimer?.Stop();
                 _extendedReconnectTimer?.Dispose();
 
+                // Remove control from parent BEFORE releasing COM so the message
+                // pump can no longer call AxHost.PreProcessMessage on a detached RCW.
+                // Without this, a queued message can race with FinalReleaseComObject
+                // and throw InvalidComObjectException (see #73).
+                if (Control is { IsDisposed: false, Parent: { } parent })
+                {
+                    parent.Controls.Remove(Control);
+                }
+
                 if (_rdpClient != null)
                 {
                     // If connected, try to disconnect first

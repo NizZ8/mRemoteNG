@@ -451,6 +451,13 @@ namespace mRemoteNG.App
 
         private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs e)
         {
+            // AxHost.PreProcessMessage can race with COM RCW disposal during RDP
+            // disconnect/close — the message pump delivers a message to the ActiveX
+            // control after Marshal.FinalReleaseComObject detached the RCW.
+            // This is benign (the control is being torn down) so suppress the crash dialog.
+            if (e.Exception is System.Runtime.InteropServices.InvalidComObjectException)
+                return;
+
             CloseSplash();
             if (FrmMain.Default.IsDisposed) return;
             FrmUnhandledException window = new(e.Exception, false);
