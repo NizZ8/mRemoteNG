@@ -9645,11 +9645,11 @@ namespace BrightIdeasSoftware
             Color backColor = olvi.BackColor;
             Color foreColor = olvi.ForeColor;
             Font font = olvi.Font;
-            foreach (OLVListSubItem subitem in olvi.SubItems)
+            foreach (ListViewItem.ListViewSubItem rawSubitem in olvi.SubItems)
             {
-                subitem.BackColor = backColor;
-                subitem.ForeColor = foreColor;
-                subitem.Font = font;
+                rawSubitem.BackColor = backColor;
+                rawSubitem.ForeColor = foreColor;
+                rawSubitem.Font = font;
             }
         }
 
@@ -11410,9 +11410,9 @@ namespace BrightIdeasSoftware
                         d.Draw(this, g, contentRectangle);
                     }
                 }
-                foreach (OLVListSubItem subItem in olvi.SubItems)
+                foreach (ListViewItem.ListViewSubItem rawSubItem in olvi.SubItems)
                 {
-                    if (subItem.HasDecoration)
+                    if (rawSubItem is OLVListSubItem subItem && subItem.HasDecoration)
                     {
                         foreach (IDecoration d in subItem.Decorations)
                         {

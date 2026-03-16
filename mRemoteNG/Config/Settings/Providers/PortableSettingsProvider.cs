@@ -48,8 +48,9 @@ namespace mRemoteNG.Config.Settings.Providers
         {
             get
             {
-                string exeDir = Path.GetDirectoryName(Application.ExecutablePath) ?? throw new InvalidOperationException();
-                string settingsDir = Path.Combine(exeDir, SettingsFileInfo.PortableSettingsFolderName);
+                // Reuse SettingsFileInfo's writable path logic which falls back to
+                // %APPDATA% when the exe directory is read-only (e.g. Program Files).
+                string settingsDir = SettingsFileInfo.SettingsPath;
                 if (!Directory.Exists(settingsDir))
                     Directory.CreateDirectory(settingsDir);
                 return Path.Combine(settingsDir, $"{ApplicationName}.settings");
