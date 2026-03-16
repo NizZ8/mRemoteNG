@@ -1278,6 +1278,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                 if (Force.HasFlag(ConnectionInfo.Force.Fullscreen))
                 {
+                    var forcedScreen = Screen.FromControl(InterfaceControl ?? (Control)_frmMain);
+                    _rdpClient.DesktopWidth = (int)(forcedScreen.Bounds.Width * ResolutionScalingFactor.Width);
+                    _rdpClient.DesktopHeight = (int)(forcedScreen.Bounds.Height * ResolutionScalingFactor.Height);
                     _rdpClient.FullScreen = true;
                     return;
                 }
@@ -1317,6 +1320,9 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                         break;
                     case RDPResolutions.Fullscreen:
+                        var fullScreen = Screen.FromControl(InterfaceControl ?? (Control)_frmMain);
+                        _rdpClient.DesktopWidth = (int)(fullScreen.Bounds.Width * ResolutionScalingFactor.Width);
+                        _rdpClient.DesktopHeight = (int)(fullScreen.Bounds.Height * ResolutionScalingFactor.Height);
                         _rdpClient.FullScreen = true;
                         break;
                     case RDPResolutions.Custom:
