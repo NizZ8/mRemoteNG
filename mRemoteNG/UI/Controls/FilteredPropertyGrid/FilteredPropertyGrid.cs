@@ -132,8 +132,12 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
                 else
                 {
                     _mWrappers = value.Select(o => new ObjectWrapper(o)).ToArray();
+                    // RefreshProperties sets base.SelectedObject (single) or
+                    // base.SelectedObjects (multi) and calls Refresh().
+                    // Do NOT override afterwards — forcing SelectedObjects on a
+                    // single wrapper puts the PropertyGrid in multi-select mode
+                    // which hides dropdown buttons for enum/bool properties (#68).
                     RefreshProperties();
-                    base.SelectedObjects = _mWrappers;
                 }
             }
         }
