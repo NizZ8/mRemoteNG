@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Versioning;
 using System.Security;
+using System.Threading.Tasks;
 using mRemoteNG.Security;
 using mRemoteNG.Security.Authentication;
 using mRemoteNG.Security.Factories;
@@ -15,6 +16,8 @@ namespace mRemoteNG.Config.Serializers
     {
         private readonly ICryptographyProvider _cryptographyProvider;
         private readonly RootNodeInfo _rootNodeInfo;
+        private readonly BlockCipherEngines? _cipherEngine;
+        private readonly BlockCipherModes? _cipherMode;
         private SecureString? _cachedDecryptionKey;
 
         public Func<Optional<SecureString>>? AuthenticationRequestor { get; set; }
@@ -34,6 +37,8 @@ namespace mRemoteNG.Config.Serializers
 
         public XmlConnectionsDecryptor(BlockCipherEngines blockCipherEngine, BlockCipherModes blockCipherMode, RootNodeInfo rootNodeInfo)
         {
+            _cipherEngine = blockCipherEngine;
+            _cipherMode = blockCipherMode;
             _cryptographyProvider = new CryptoProviderFactory(blockCipherEngine, blockCipherMode).Build();
             _rootNodeInfo = rootNodeInfo;
         }
@@ -53,6 +58,43 @@ namespace mRemoteNG.Config.Serializers
             return plainText == ""
                 ? ""
                 : _cryptographyProvider.Decrypt(plainText, GetDecryptionKey());
+        }
+
+        /// <summary>
+        /// Decrypts multiple ciphertexts in parallel using thread-local crypto providers.
+        /// PBKDF2 key derivation dominates decrypt time (~100ms per call at 600K iterations),
+        /// so parallelizing across CPU cores provides near-linear speedup.
+        /// </summary>
+        public string[] DecryptBatch(string[] cipherTexts)
+        {
+            string[] results = new string[cipherTexts.Length];
+            if (cipherTexts.Length == 0) return results;
+
+            SecureString key = GetDecryptionKey();
+
+            Parallel.For(0, cipherTexts.Length,
+                new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                () => CreateThreadLocalProvider(),
+                (i, _, localProvider) =>
+                {
+                    results[i] = string.IsNullOrEmpty(cipherTexts[i])
+                        ? ""
+                        : localProvider.Decrypt(cipherTexts[i], key);
+                    return localProvider;
+                },
+                _ => { });
+
+            return results;
+        }
+
+        private ICryptographyProvider CreateThreadLocalProvider()
+        {
+            if (_cipherEngine == null)
+                return new LegacyRijndaelCryptographyProvider();
+
+            ICryptographyProvider provider = new CryptoProviderFactory(_cipherEngine.Value, _cipherMode!.Value).Build();
+            provider.KeyDerivationIterations = KeyDerivationIterations;
+            return provider;
         }
 
         public string LegacyFullFileDecrypt(string xml)

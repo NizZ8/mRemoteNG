@@ -37,6 +37,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         private BlockCipherEngines _cipherEngine;
         private BlockCipherModes _cipherMode;
         private int _kdfIterations;
+        private readonly List<(Action<string> Setter, string CipherText)> _pendingDecrypts = [];
 
         public Func<Optional<SecureString>>? AuthenticationRequestor { get; set; } = authenticationRequestor;
 
@@ -49,13 +50,17 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
         {
             if (string.IsNullOrEmpty(xml)) return null;
 
-            var stopwatch = Stopwatch.StartNew(); // Start stopwatch
+            var stopwatch = Stopwatch.StartNew();
+            var phaseSw = new Stopwatch();
 
             try
             {
                 _rootNodeInfo.Filename = ConnectionFileName;
+
+                phaseSw.Restart();
                 LoadXmlConnectionData(xml);
                 ValidateConnectionFileVersion();
+                long parseMs = phaseSw.ElapsedMilliseconds;
 
                 XmlElement rootXmlElement = _xmlDocument.DocumentElement
                     ?? throw new XmlException("Failed to parse XML connection file.");
@@ -64,7 +69,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 _connectionTreeModel = new ConnectionTreeModel();
                 _connectionTreeModel.AddRootNode(_rootNodeInfo);
 
-
+                phaseSw.Restart();
                 if (_confVersion > 1.3)
                 {
                     string protectedString = _xmlDocument.DocumentElement?.Attributes["Protected"]?.Value ?? string.Empty;
@@ -73,7 +78,9 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                         return null;
                     }
                 }
+                long authMs = phaseSw.ElapsedMilliseconds;
 
+                phaseSw.Restart();
                 if (_confVersion >= 2.6)
                 {
                     bool fullFileEncryptionValue = rootXmlElement.GetAttributeAsBool("FullFileEncryption");
@@ -83,14 +90,25 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                         rootXmlElement.InnerXml = decryptedContent;
                     }
                 }
+                long fullDecryptMs = phaseSw.ElapsedMilliseconds;
 
+                phaseSw.Restart();
+                _pendingDecrypts.Clear();
                 AddNodesFromXmlRecursive(rootXmlElement, _rootNodeInfo);
+                long nodesMs = phaseSw.ElapsedMilliseconds;
+
+                phaseSw.Restart();
+                ProcessPendingDecrypts();
+                long batchDecryptMs = phaseSw.ElapsedMilliseconds;
 
                 if (!import)
                     Runtime.ConnectionsService.IsConnectionsFileLoaded = true;
 
-                stopwatch.Stop(); // Stop stopwatch
-                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, $"Connection deserialization completed in {stopwatch.ElapsedMilliseconds} ms."); // Log performance
+                stopwatch.Stop();
+                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
+                    $"[Deser] XML parse: {parseMs}ms, Auth: {authMs}ms, FullDecrypt: {fullDecryptMs}ms, " +
+                    $"Nodes: {nodesMs}ms, BatchDecrypt({_pendingDecrypts.Count} fields): {batchDecryptMs}ms, " +
+                    $"Total: {stopwatch.ElapsedMilliseconds}ms");
 
                 return _connectionTreeModel;
             }
@@ -99,11 +117,25 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 Runtime.ConnectionsService.IsConnectionsFileLoaded = false;
                 Runtime.MessageCollector.AddExceptionStackTrace(Language.LoadFromXmlFailed, ex);
 
-                stopwatch.Stop(); // Stop stopwatch even on error
-                Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, $"Connection deserialization failed after {stopwatch.ElapsedMilliseconds} ms."); // Log performance on error
+                stopwatch.Stop();
+                Runtime.MessageCollector.AddMessage(MessageClass.WarningMsg, $"Connection deserialization failed after {stopwatch.ElapsedMilliseconds} ms.");
 
                 throw;
             }
+        }
+
+        private void ProcessPendingDecrypts()
+        {
+            if (_pendingDecrypts.Count == 0) return;
+
+            string[] cipherTexts = new string[_pendingDecrypts.Count];
+            for (int i = 0; i < _pendingDecrypts.Count; i++)
+                cipherTexts[i] = _pendingDecrypts[i].CipherText;
+
+            string[] plainTexts = _decryptor.DecryptBatch(cipherTexts);
+
+            for (int i = 0; i < _pendingDecrypts.Count; i++)
+                _pendingDecrypts[i].Setter(plainTexts[i]);
         }
 
         private void LoadXmlConnectionData(string connections)
@@ -204,7 +236,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                             if (_confVersion >= 2.8)
                             {
                                 containerInfo.AutoSort = xmlNode.GetAttributeAsBool("AutoSort");
-                                containerInfo.ContainerPassword = DecryptField(xmlNode, "ContainerPassword");
+                                DeferDecrypt(v => containerInfo.ContainerPassword = v, xmlNode, "ContainerPassword");
                                 containerInfo.DynamicSource = xmlNode.GetAttributeAsEnum("DynamicSource", DynamicSourceType.None);
                                 containerInfo.DynamicSourceValue = xmlNode.GetAttributeAsString("DynamicSourceValue");
                                 containerInfo.DynamicRefreshInterval = xmlNode.GetAttributeAsInt("DynamicRefreshInterval");
@@ -266,8 +298,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     if (!Runtime.UseCredentialManager || _confVersion <= 2.6) // 0.2 - 2.6
                     {
                         connectionInfo.Username = a.GetAttr("Username");
-                        connectionInfo.Password = DecryptField(a, "Password");
-                        //connectionInfo.Password = _decryptor.Decrypt(a.GetAttr("Password")).ConvertToSecureString();
+                        DeferDecrypt(v => connectionInfo.Password = v, a, "Password");
                         connectionInfo.Domain = a.GetAttr("Domain");
                     }
                 }
@@ -437,7 +468,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.VNCProxyIP = a.GetAttr("VNCProxyIP");
                     connectionInfo.VNCProxyPort = a.GetAttrInt("VNCProxyPort");
                     connectionInfo.VNCProxyUsername = a.GetAttr("VNCProxyUsername");
-                    connectionInfo.VNCProxyPassword = DecryptField(a, "VNCProxyPassword");
+                    DeferDecrypt(v => connectionInfo.VNCProxyPassword = v, a, "VNCProxyPassword");
                     connectionInfo.VNCColors = xmlnode.GetAttributeAsEnum<ProtocolVNC.Colors>("VNCColors");
                     connectionInfo.VNCSmartSizeMode = xmlnode.GetAttributeAsEnum<ProtocolVNC.SmartSizeMode>("VNCSmartSizeMode");
                     connectionInfo.VNCViewOnly = a.GetAttrBool("VNCViewOnly");
@@ -489,7 +520,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.RDGatewayHostname = a.GetAttr("RDGatewayHostname");
                     connectionInfo.RDGatewayUseConnectionCredentials = xmlnode.GetAttributeAsEnum<RDGatewayUseConnectionCredentials>("RDGatewayUseConnectionCredentials");
                     connectionInfo.RDGatewayUsername = a.GetAttr("RDGatewayUsername");
-                    connectionInfo.RDGatewayPassword = DecryptField(a, "RDGatewayPassword");
+                    DeferDecrypt(v => connectionInfo.RDGatewayPassword = v, a, "RDGatewayPassword");
                     connectionInfo.RDGatewayDomain = a.GetAttr("RDGatewayDomain");
 
                     // Get inheritance settings
@@ -681,20 +712,20 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             return connectionInfo;
         }
 
-        private string DecryptField(Dictionary<string, string> attrs, string attributeName)
+        private void DeferDecrypt(Action<string> setter, Dictionary<string, string> attrs, string attributeName)
         {
             string cipherText = attrs.GetAttr(attributeName);
             if (string.IsNullOrEmpty(cipherText))
-                return string.Empty;
-            return _decryptor.Decrypt(cipherText);
+                return;
+            _pendingDecrypts.Add((setter, cipherText));
         }
 
-        private string DecryptField(XmlNode xmlNode, string attributeName)
+        private void DeferDecrypt(Action<string> setter, XmlNode xmlNode, string attributeName)
         {
             string cipherText = xmlNode.GetAttributeAsString(attributeName);
             if (string.IsNullOrEmpty(cipherText))
-                return string.Empty;
-            return _decryptor.Decrypt(cipherText);
+                return;
+            _pendingDecrypts.Add((setter, cipherText));
         }
 
         private static RDGatewayUsageMethod GetRdGatewayUsageMethod(XmlNode xmlNode)

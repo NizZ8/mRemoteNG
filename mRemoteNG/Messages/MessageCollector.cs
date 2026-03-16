@@ -39,7 +39,6 @@ namespace mRemoteNG.Messages
             List<IMessage> newMessages = new();
             foreach (IMessage message in messages)
             {
-                if (_messageList.Contains(message)) continue;
                 _messageList.Add(message);
                 newMessages.Add(message);
             }

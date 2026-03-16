@@ -32,7 +32,7 @@ namespace mRemoteNG.Connection
                     string expectedPropertyName = propertyNameMutator(property.Name);
                     System.Reflection.PropertyInfo? propertyFromSource = typeof(TSource).GetProperty(expectedPropertyName);
                     if (propertyFromSource == null)
-                        throw new SettingsPropertyNotFoundException($"No property with name '{expectedPropertyName}' found.");
+                        continue; // Property not in Settings — keep default value
 
                     object? valueFromSource = propertyFromSource.GetValue(sourceInstance, null);
 

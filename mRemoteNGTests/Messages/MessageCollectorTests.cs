@@ -39,15 +39,6 @@ namespace mRemoteNGTests.Messages
         }
 
         [Test]
-        public void MessagesAreUnique()
-        {
-            var message = Substitute.For<IMessage>();
-            _messageCollector.AddMessage(message);
-            _messageCollector.AddMessage(message);
-            Assert.That(_messageCollector.Messages, Is.Unique);
-        }
-
-        [Test]
         public void NotifiedWhenMessageAdded()
         {
             var wasCalled = false;
@@ -78,15 +69,5 @@ namespace mRemoteNGTests.Messages
             Assert.That(notificationCount, Is.EqualTo(1));
         }
 
-        [Test]
-        public void EventNotRaisedIfMsgIsntUnique()
-        {
-            var notificationCount = 0;
-            var msg1 = Substitute.For<IMessage>();
-            _messageCollector.AddMessage(msg1);
-            _messageCollector.CollectionChanged += (sender, args) => notificationCount++;
-            _messageCollector.AddMessage(msg1);
-            Assert.That(notificationCount, Is.EqualTo(0));
-        }
     }
 }
