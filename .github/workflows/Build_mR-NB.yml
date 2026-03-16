@@ -224,6 +224,23 @@ jobs:
           Compress-Archive -Path $items.FullName -DestinationPath "$Env:GITHUB_WORKSPACE\${{ steps.version.outputs.zipname }}" -Force
           Write-Host "Created unsigned ZIP: ${{ steps.version.outputs.zipname }}"
 
+      - name: (09a) Build MSI installer
+        if: matrix.platform == 'x64' && matrix.selfcontained == false
+        shell: pwsh
+        run: |
+          $harvestPath = "$Env:GITHUB_WORKSPACE\mRemoteNG\bin\x64\Release"
+          $msiVersion = "${{ steps.version_info.outputs.version }}" -replace '-.*$', ''
+          Write-Host "Building MSI (version: $msiVersion, harvest: $harvestPath)..."
+          pwsh -NoProfile -ExecutionPolicy Bypass -File "$Env:GITHUB_WORKSPACE\build-msi.ps1" -NoBuild -HarvestPath $harvestPath
+
+      - name: (09b) Upload MSI artifact
+        if: matrix.platform == 'x64' && matrix.selfcontained == false
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: msi-x64
+          path: mRemoteNGInstaller\bin\**\*.msi
+          retention-days: 5
+
       # --------------------------------------------------------
       # VirusTotal scan (optional — requires VIRUSTOTAL_API_KEY secret)
       # --------------------------------------------------------
@@ -393,6 +410,14 @@ jobs:
         uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
         with:
           pattern: build-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: (04b) Download MSI artifact
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+        continue-on-error: true
+        with:
+          pattern: msi-*
           path: release-assets
           merge-multiple: true
 

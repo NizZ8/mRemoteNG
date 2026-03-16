@@ -1,0 +1,4 @@
+<!-- Stop inheriting Directory.Build.props from repo root.
+     The WiX installer project does not need analyzers or CPM. -->
+<Project>
+</Project>

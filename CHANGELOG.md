@@ -3,6 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.82.0-beta.3] - 2026-03-16
+
+### Highlight: MSI Installer (Issue #24)
+
+Automatic MSI installer generation — the most requested feature from community testers. Resolves [#24](https://github.com/robertpopa22/mRemoteNG/issues/24).
+
+### Added
+- **MSI installer** — WiX 7 SDK project generates Windows Installer packages automatically in CI ([#24](https://github.com/robertpopa22/mRemoteNG/issues/24))
+- **`build-msi.ps1`** — local MSI build script with automatic file harvesting from build output
+- **Nightly MSI** — MSI installer included alongside ZIP in every nightly release
+- **Release MSI** — MSI artifact generated for x64 framework-dependent builds in release workflow
+
+### Changed
+- Version bumped to 1.82.0-beta.3
+- README download matrix updated with MSI column
+- CI cache key includes `.wixproj` files
+
+---
+
 ## [1.82.0-beta.1] - Unreleased
 
 ### Highlight: New Development Cycle

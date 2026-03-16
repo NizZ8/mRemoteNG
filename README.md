@@ -19,7 +19,7 @@ Full transparency: this project is built by humans and AI working together. We b
     <img alt="Latest Stable" src="https://img.shields.io/badge/latest%20stable-v1.81.0-brightgreen?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly">
-    <img alt="Nightly" src="https://img.shields.io/badge/nightly-v1.82.0--dev-blue?style=for-the-badge">
+    <img alt="Nightly" src="https://img.shields.io/badge/nightly-v1.82.0--beta.3-blue?style=for-the-badge">
   </a>
   <a href="https://github.com/robertpopa22/mRemoteNG/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/robertpopa22/mRemoteNG/pr_validation.yml?style=for-the-badge&label=CI">
@@ -57,7 +57,7 @@ Full transparency: this project is built by humans and AI working together. We b
 | Channel | Version | Branch | Description |
 |---------|---------|--------|-------------|
 | **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,175 tests, 0 analyzer warnings. **Recommended.** |
-| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.2 | `main` | Auto-built on every push. Latest features, fully tested. |
+| **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.3 | `main` | Auto-built on every push. Latest features, fully tested. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework 4.x release. |
 
 ### Download matrix
@@ -66,10 +66,10 @@ Full transparency: this project is built by humans and AI working together. We b
 |---------|---------|---------|-----|-----|-------|
 | **Stable** | v1.81.0 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x64.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-x86.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-arm64.zip) |
 | **Stable** | v1.81.0 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x64-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-x86-SelfContained.zip) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/download/v1.81.0/mRemoteNG-v1.81.0-win-arm64-SelfContained.zip) |
-| **Nightly** | v1.82.0-beta.2 | Framework-dependent (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
-| **Nightly** | v1.82.0-beta.2 | Self-contained (~108-116 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
+| **Nightly** | v1.82.0-beta.3 | ZIP (~21 MB) | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | — | — |
+| **Nightly** | v1.82.0-beta.3 | **MSI Installer** | [Download](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) | — | — |
 
-**Framework-dependent** requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites.
+**Framework-dependent** (ZIP + MSI) requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0). **Self-contained** includes the .NET runtime — no prerequisites. **MSI** installs to Program Files with desktop & Start Menu shortcuts.
 
 ---
 

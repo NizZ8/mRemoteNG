@@ -1,0 +1,33 @@
+<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup>
+    <OutputType>Package</OutputType>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <OutputName>mRemoteNG-Installer</OutputName>
+    <!-- Opt out of Central Package Management (repo uses Directory.Packages.props) -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <!-- Disable auto-include to avoid picking up old WiX 3 files in Installer/ -->
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Package.wxs" />
+    <Compile Include="_GeneratedFiles.wxs" />
+    <EmbeddedResource Include="en-US.wxl" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))\</SolutionDir>
+    <HarvestPath Condition="'$(HarvestPath)' == ''">$(SolutionDir)mRemoteNG\bin\x64\Release</HarvestPath>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.82.0</ProductVersion>
+    <DefineConstants>HarvestPath=$(HarvestPath);ProductVersion=$(ProductVersion)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindInputPath Include="$(HarvestPath)" />
+  </ItemGroup>
+</Project>

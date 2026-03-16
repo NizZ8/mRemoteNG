@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-US" Language="1033"
+                 xmlns="http://wixtoolset.org/schemas/v4/wxl">
+  <String Id="Upgrade_NewerVersionInstalled" Overridable="yes" Value="A newer version of [ProductName] is already installed." />
+  <String Id="Install_NeedToBeAdminToInstall" Value="You need to be an administrator to install this product." />
+  <String Id="Feature_DesktopShortcut" Value="Desktop Shortcut" />
+  <String Id="Feature_StartMenuShortcut" Value="Start Menu Shortcut" />
+  <String Id="FinishPage_LaunchMremoteNow" Value="Launch mRemoteNG now" />
+</WixLocalization>

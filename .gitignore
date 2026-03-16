@@ -1,5 +1,8 @@
 .test-profile/
 provider_debug.log
+
+# MSI installer generated files
+mRemoteNGInstaller/_GeneratedFiles.wxs
 **/bin/
 **/obj/
 **/[Rr]elease [Pp]ortable/

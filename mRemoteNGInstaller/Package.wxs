@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="mRemoteNG (64 bit)"
+           Manufacturer="mRemoteNG Open Source Project"
+           Version="$(var.ProductVersion)"
+           UpgradeCode="dd678a54-ca75-4791-8dfe-d818095684f8"
+           Compressed="yes"
+           InstallerVersion="500"
+           Scope="perMachine">
+
+    <SummaryInformation Description="mRemoteNG - Multi-Remote Next Generation Connection Manager" />
+
+    <MajorUpgrade DowngradeErrorMessage="!(loc.Upgrade_NewerVersionInstalled)"
+                  Schedule="afterInstallExecute" />
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Add/Remove Programs metadata -->
+    <Icon Id="AppIcon.ico" SourceFile="Installer\Resources\AppIcon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/robertpopa22/mRemoteNG" />
+
+    <!-- Restore install directory from previous installations -->
+    <Property Id="INSTALLFOLDER">
+      <RegistrySearch Id="mRemoteNGRegistry" Type="raw" Root="HKLM"
+                      Key="Software\mRemoteNG" Name="InstallDir" />
+    </Property>
+
+    <!-- Administrator required for per-machine install -->
+    <Launch Condition="Privileged" Message="!(loc.Install_NeedToBeAdminToInstall)" />
+
+    <!-- Directory structure -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="mRemoteNG" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder" />
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="mRemoteNG" />
+    </StandardDirectory>
+
+    <!-- Save install location in registry -->
+    <Component Id="RegistryEntries" Directory="INSTALLFOLDER">
+      <RegistryKey Root="HKLM" Key="Software\mRemoteNG">
+        <RegistryValue Type="string" Name="InstallDir" Value="[INSTALLFOLDER]" KeyPath="yes" />
+      </RegistryKey>
+    </Component>
+
+    <!-- Desktop shortcut (optional feature) -->
+    <Component Id="DesktopShortcutComp" Directory="DesktopFolder">
+      <Shortcut Id="DesktopShortcut" Name="mRemoteNG"
+                Target="[INSTALLFOLDER]mRemoteNG.exe"
+                WorkingDirectory="INSTALLFOLDER" Icon="AppIcon.ico" />
+      <RegistryValue Root="HKCU" Key="Software\mRemoteNG"
+                     Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- Start Menu shortcut (optional feature) -->
+    <Component Id="StartMenuShortcutComp" Directory="ApplicationProgramsFolder">
+      <Shortcut Id="StartMenuShortcut" Name="mRemoteNG"
+                Target="[INSTALLFOLDER]mRemoteNG.exe"
+                WorkingDirectory="INSTALLFOLDER" Icon="AppIcon.ico" />
+      <RemoveFolder Id="RemoveStartMenuFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\mRemoteNG"
+                     Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- Features -->
+    <Feature Id="MainFeature" Title="mRemoteNG" AllowAbsent="no"
+             ConfigurableDirectory="INSTALLFOLDER" Display="expand" Level="1">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="RegistryEntries" />
+    </Feature>
+
+    <Feature Id="DesktopShortcutFeature" Title="!(loc.Feature_DesktopShortcut)"
+             AllowAbsent="yes" AllowAdvertise="no" Level="1">
+      <ComponentRef Id="DesktopShortcutComp" />
+    </Feature>
+
+    <Feature Id="StartMenuShortcutFeature" Title="!(loc.Feature_StartMenuShortcut)"
+             AllowAbsent="yes" AllowAdvertise="no" Level="1">
+      <ComponentRef Id="StartMenuShortcutComp" />
+    </Feature>
+
+    <!-- Installer UI (WiX built-in feature tree with license dialog) -->
+    <ui:WixUI Id="WixUI_FeatureTree" />
+    <WixVariable Id="WixUILicenseRtf" Value="Installer\Resources\License.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="Installer\Resources\Installer_Side.png" />
+    <WixVariable Id="WixUIBannerBmp" Value="Installer\Resources\Installer_Header.png" />
+
+  </Package>
+</Wix>

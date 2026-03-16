@@ -170,11 +170,11 @@ PR history, and release status, see: **`.project-roadmap/DEVELOPER_GUIDE.md`**
 For the complete evidence trail of the AI-assisted modernization process
 (metrics, agent performance, CI data, methodology notes), see: **`scientific-paper/EVIDENCE.md`**
 
-## Current Release Status (2026-03-15)
+## Current Release Status (2026-03-16)
 
 | Metric | Value |
 |--------|-------|
-| Version | 1.82.0-beta.2 (dev) / 1.81.0 (stable) |
+| Version | 1.82.0-beta.3 (dev) / 1.81.0 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
 | Tests | 6,175 passed, 0 failures |
 | Issues | 853 triaged: 712 released (83.5%), 116 wontfix, 25 duplicate |
@@ -184,3 +184,4 @@ For the complete evidence trail of the AI-assisted modernization process
 | SonarCloud | Quality Gate PASSED (A/A/A, 80.7% coverage, 1.6% duplication) |
 | Upstream PR | [#3189](https://github.com/mRemoteNG/mRemoteNG/pull/3189) (release/1.81 → v1.78.2-dev, CONFLICTING) |
 | Nightly release | [Auto-generated on push to main](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly) |
+| MSI installer | WiX 6.0.2 SDK — auto-generated in nightly + release CI ([#24](https://github.com/robertpopa22/mRemoteNG/issues/24)) |

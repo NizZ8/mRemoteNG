@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-x64-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-x64-nuget-${{ hashFiles('**/*.csproj', '**/*.wixproj') }}
           restore-keys: |
             ${{ runner.os }}-x64-nuget-
 
@@ -54,7 +54,15 @@ jobs:
         shell: bash
         run: bash run-tests-core.sh
 
-      - name: Compute version & create ZIP
+      - name: Build MSI installer
+        shell: pwsh
+        run: |
+          $csproj = Get-Content "mRemoteNG/mRemoteNG.csproj" -Raw
+          if ($csproj -match '<Version>(\d+\.\d+\.\d+)') { $msiVersion = $matches[1] }
+          Write-Host "Building MSI (version: $msiVersion)..."
+          pwsh -NoProfile -ExecutionPolicy Bypass -File build-msi.ps1 -NoBuild -HarvestPath "$env:GITHUB_WORKSPACE\mRemoteNG\bin\x64\Release"
+
+      - name: Compute version & create artifacts
         id: meta
         shell: pwsh
         run: |
@@ -78,7 +86,19 @@ jobs:
           Compress-Archive -Path $items.FullName -DestinationPath $zipName -Force
           Write-Host "Created: $zipName ($('{0:N1} MB' -f ((Get-Item $zipName).Length / 1MB)))"
 
+          # Find MSI
+          $msi = Get-ChildItem -Path "mRemoteNGInstaller\bin" -Recurse -Filter "*.msi" -ErrorAction SilentlyContinue | Select-Object -First 1
+          $msiName = ""
+          if ($msi) {
+            $msiName = "mRemoteNG-nightly-$date-v$version-$sha-x64.msi"
+            Copy-Item $msi.FullName -Destination $msiName
+            Write-Host "MSI: $msiName ($('{0:N1} MB' -f ((Get-Item $msiName).Length / 1MB)))"
+          } else {
+            Write-Warning "MSI not found - ZIP only release"
+          }
+
           echo "zipname=$zipName" >> $env:GITHUB_OUTPUT
+          echo "msiname=$msiName" >> $env:GITHUB_OUTPUT
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "date=$date" >> $env:GITHUB_OUTPUT
           echo "sha=$sha" >> $env:GITHUB_OUTPUT
@@ -97,7 +117,9 @@ jobs:
         with:
           tag_name: nightly
           name: "Nightly Build — ${{ steps.meta.outputs.date }} (v${{ steps.meta.outputs.version }})"
-          files: ${{ steps.meta.outputs.zipname }}
+          files: |
+            ${{ steps.meta.outputs.zipname }}
+            ${{ steps.meta.outputs.msiname }}
           body: |
             ## Nightly Build
 
@@ -107,10 +129,17 @@ jobs:
             **Architecture:** x64 (framework-dependent)
             **Tests:** All passed
 
-            > [!WARNING]
-            > This is an automated build from the `main` branch. It includes the latest changes but may not be fully tested in production scenarios. For stable releases, use the [latest beta](https://github.com/${{ github.repository }}/releases/tag/v1.81.0-beta.3) or [stable](https://github.com/${{ github.repository }}/releases/tag/v1.76.20).
+            ### Downloads
 
-            Requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
+            | Format | Description |
+            |--------|-------------|
+            | **ZIP** | Portable — extract and run |
+            | **MSI** | Windows Installer — installs to Program Files with shortcuts |
+
+            > [!WARNING]
+            > This is an automated build from the `main` branch. It includes the latest changes but may not be fully tested in production scenarios. For stable releases, use the [latest release](https://github.com/${{ github.repository }}/releases/tag/v1.81.0) or [legacy](https://github.com/${{ github.repository }}/releases/tag/v1.76.20).
+
+            The framework-dependent build requires [.NET Desktop Runtime 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 
             This release is automatically replaced on every push to `main`.
           draft: false
