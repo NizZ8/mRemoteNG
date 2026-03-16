@@ -71,6 +71,7 @@ namespace mRemoteNG.UI.TaskDialog
             this.imgMain.Location = new System.Drawing.Point(8, 8);
             this.imgMain.Name = "imgMain";
             this.imgMain.Size = new System.Drawing.Size(32, 32);
+            this.imgMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgMain.TabIndex = 0;
             this.imgMain.TabStop = false;
             // 
@@ -125,6 +126,7 @@ namespace mRemoteNG.UI.TaskDialog
             this.imgFooter.Location = new System.Drawing.Point(8, 10);
             this.imgFooter.Name = "imgFooter";
             this.imgFooter.Size = new System.Drawing.Size(16, 16);
+            this.imgFooter.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgFooter.TabIndex = 4;
             this.imgFooter.TabStop = false;
             // 
