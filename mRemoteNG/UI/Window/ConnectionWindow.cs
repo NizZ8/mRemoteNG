@@ -2251,6 +2251,10 @@ namespace mRemoteNG.UI.Window
                     {
                         var ic = protocolBase.InterfaceControl;
                         tabPage.Controls.Remove(ic);
+                        // Clear stale IC reference so FindConnectionTab/GetConnectionInfoForTab
+                        // don't treat this closed tab as having an active connection (#61).
+                        if (ReferenceEquals(tabPage.Tag, ic))
+                            tabPage.Tag = closedConnectionInfo;
                         try
                         {
                             if (!ic.IsDisposed)
