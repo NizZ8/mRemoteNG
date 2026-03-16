@@ -1856,34 +1856,15 @@ namespace mRemoteNG.UI.Window
         {
             ConnectionTab? selectedTab = GetSelectedTab();
             if (selectedTab == null) return;
-            if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.Multiple)
-            {
-                DialogResult result = CTaskDialog.MessageBox(this, GeneralAppInfo.ProductName,
-                                                    string.Format(CultureInfo.CurrentCulture, Language.ConfirmCloseConnectionOthersInstruction,
-                                                                  selectedTab.TabText), "", "", "",
-                                                    Language.CheckboxDoNotShowThisMessageAgain,
-                                                    ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,
-                                                    ESysIcons.Question);
-                if (CTaskDialog.VerificationChecked)
-                {
-                    Settings.Default.ConfirmCloseConnection = (int)ConfirmCloseEnum.Exit;
-                    Settings.Default.Save();
-                }
 
-                if (result == DialogResult.No)
-                {
-                    return;
-                }
-            }
-
+            List<ConnectionTab> tabsToClose = [];
             foreach (IDockContent dockContent in connDock.Documents.ToArray())
             {
-                ConnectionTab tab = (ConnectionTab)dockContent;
-                if (selectedTab != tab)
-                {
-                    tab.Close();
-                }
+                if (dockContent is ConnectionTab tab && tab != selectedTab)
+                    tabsToClose.Add(tab);
             }
+
+            CloseTabs(tabsToClose, selectedTab.TabText);
         }
 
         private void CloseOtherTabsToTheRight()
@@ -1894,26 +1875,59 @@ namespace mRemoteNG.UI.Window
                 if (selectedTab == null) return;
                 DockPane dockPane = selectedTab.Pane;
 
-                bool pastTabToKeepAlive = false;
-                List<ConnectionTab> connectionsToClose = new();
+                bool pastSelected = false;
+                List<ConnectionTab> tabsToClose = [];
                 foreach (IDockContent dockContent in dockPane.Contents)
                 {
                     ConnectionTab tab = (ConnectionTab)dockContent;
-                    if (pastTabToKeepAlive)
-                        connectionsToClose.Add(tab);
-
+                    if (pastSelected)
+                        tabsToClose.Add(tab);
                     if (selectedTab == tab)
-                        pastTabToKeepAlive = true;
+                        pastSelected = true;
                 }
 
-                foreach (ConnectionTab tab in connectionsToClose)
-                {
-                    tab.Close();
-                }
+                CloseTabs(tabsToClose, selectedTab.TabText);
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionMessage("CloseTabMenu (UI.Window.ConnectionWindow) failed", ex);
+            }
+        }
+
+        /// <summary>
+        /// Batch close/disconnect tabs with a single confirmation dialog.
+        /// </summary>
+        private static void CloseTabs(List<ConnectionTab> tabs, string? referenceTabName)
+        {
+            if (tabs.Count == 0) return;
+
+            // Check if any tab has an active protocol that needs disconnecting
+            bool hasActiveConnections = tabs.Exists(t =>
+                t.Tag is InterfaceControl ic && ic.Protocol != null && !ic.IsDisposed);
+
+            if (hasActiveConnections &&
+                Settings.Default.ConfirmCloseConnection is (int)ConfirmCloseEnum.All or (int)ConfirmCloseEnum.Multiple)
+            {
+                DialogResult result = CTaskDialog.MessageBox(null, GeneralAppInfo.ProductName,
+                    string.Format(CultureInfo.CurrentCulture, Language.ConfirmCloseConnectionOthersInstruction,
+                                  referenceTabName ?? ""), "", "", "",
+                    Language.CheckboxDoNotShowThisMessageAgain,
+                    ETaskDialogButtons.DisconnectCancel, ESysIcons.Question,
+                    ESysIcons.Question);
+                if (CTaskDialog.VerificationChecked)
+                {
+                    Settings.Default.ConfirmCloseConnection = (int)ConfirmCloseEnum.Exit;
+                    Settings.Default.Save();
+                }
+
+                if (result == DialogResult.No)
+                    return;
+            }
+
+            foreach (ConnectionTab tab in tabs)
+            {
+                tab.silentClose = true;
+                tab.Close();
             }
         }
 

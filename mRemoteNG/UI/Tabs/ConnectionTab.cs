@@ -196,7 +196,14 @@ namespace mRemoteNG.UI.Tabs
                 // skip protocol close and confirmation — there's nothing to disconnect.
                 bool hasActiveProtocol = Tag is InterfaceControl ic && ic.Protocol != null && !ic.IsDisposed;
 
-                if (hasActiveProtocol && !silentClose)
+                if (!hasActiveProtocol)
+                {
+                    // Tab is in closed/disconnected state — no protocol to shut down.
+                    // Mark protocolClose so downstream logic skips protocol cleanup.
+                    protocolClose = true;
+                    HideClosedState();
+                }
+                else if (!silentClose)
                 {
                     if (Settings.Default.ConfirmCloseConnection == (int)ConfirmCloseEnum.All)
                     {
@@ -220,16 +227,24 @@ namespace mRemoteNG.UI.Tabs
                         else
                         {
                             CloseProtocolSafe();
+                            // Protocol close handler (HandleProtocolClosed) will show closed state.
+                            // Cancel form close so the tab stays open with Connect button (#61).
+                            if (Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect)
+                                e.Cancel = true;
                         }
                     }
                     else
                     {
                         CloseProtocolSafe();
+                        if (Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect)
+                            e.Cancel = true;
                     }
                 }
                 else if (hasActiveProtocol)
                 {
                     CloseProtocolSafe();
+                    if (Properties.OptionsTabsPanelsPage.Default.KeepTabsOpenAfterDisconnect)
+                        e.Cancel = true;
                 }
             }
 

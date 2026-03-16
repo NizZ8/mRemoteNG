@@ -27,6 +27,11 @@
                 // RDP ActiveX control (MSTSCLib) may already be detached from its RCW
                 // when the protocol was closed before Dispose runs.
             }
+            catch (System.InvalidOperationException)
+            {
+                // .NET 10 WinForms throws InvalidOperationException from
+                // AxHost.DisposeAxControl() when COM RCW is already separated.
+            }
         }
 
         #region Windows Form Designer generated code
