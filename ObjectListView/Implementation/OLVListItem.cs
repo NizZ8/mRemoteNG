@@ -293,8 +293,8 @@ namespace BrightIdeasSoftware {
         /// <returns>An OLVListSubItem</returns>
         public virtual OLVListSubItem GetSubItem(int index) {
             if (index >= 0 && index < this.SubItems.Count)
-                return (OLVListSubItem)this.SubItems[index];
-            
+                return this.SubItems[index] as OLVListSubItem;
+
             return null;
         }
 

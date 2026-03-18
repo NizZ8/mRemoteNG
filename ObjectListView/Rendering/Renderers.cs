@@ -1104,7 +1104,7 @@ namespace BrightIdeasSoftware {
 
             this.Event = e;
             this.ListItem = (OLVListItem)e.Item;
-            this.SubItem = (OLVListSubItem)e.SubItem;
+            this.SubItem = e.SubItem as OLVListSubItem;
             this.ListView = (ObjectListView)this.ListItem.ListView;
             this.Column = (OLVColumn)e.Header;
             this.RowObject = model;
