@@ -109,11 +109,23 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
             switch (PropertyMode) {
                 case PropertyMode.Connection:
                 default:
-                    SelectedObjects = _selectedConnectionInfos.ToArray();
+                {
+                    var items = _selectedConnectionInfos.ToArray();
+                    if (items.Length == 1)
+                        SelectedObject = items[0];
+                    else
+                        SelectedObjects = items;
                     break;
+                }
                 case PropertyMode.Inheritance:
-                    SelectedObjects = _selectedConnectionInfos.Select(c => c.Inheritance).ToArray();
+                {
+                    var items = _selectedConnectionInfos.Select(c => c.Inheritance).ToArray();
+                    if (items.Length == 1)
+                        SelectedObject = items[0];
+                    else
+                        SelectedObjects = items;
                     break;
+                }
                 case PropertyMode.DefaultConnection:
                     SelectedObject = DefaultConnectionInfo.Instance;
                     break;
