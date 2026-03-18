@@ -14,6 +14,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
     {
         private readonly System.Timers.Timer _updateTimer;
         private readonly IConnectionsUpdateChecker _updateChecker;
+        private bool _disposed;
 
         public double TimerIntervalInMilliseconds
         {
@@ -96,7 +97,8 @@ namespace mRemoteNG.Config.Connections.Multiuser
 
         private void OnUpdateCheckFinished(object sender, ConnectionsUpdateCheckFinishedEventArgs eventArgs)
         {
-            _updateTimer.Start();
+            if (!_disposed)
+                _updateTimer.Start();
             UpdateCheckFinished?.Invoke(this, eventArgs);
         }
 
@@ -114,6 +116,7 @@ namespace mRemoteNG.Config.Connections.Multiuser
         private void Dispose(bool itIsSafeToAlsoFreeManagedObjects)
         {
             if (!itIsSafeToAlsoFreeManagedObjects) return;
+            _disposed = true;
             _updateTimer.Dispose();
             _updateChecker.Dispose();
         }
