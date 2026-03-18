@@ -130,6 +130,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 }
 
                 DoResizeClient();
+
+                // Cancel any pending debounced resize — immediate resize already handled it.
+                // Without this, the debounce timer fires 100ms later causing a second Reconnect()
+                // which can leave the session at the wrong resolution (#69).
+                _hasPendingResize = false;
+                _resizeDebounceTimer?.Stop();
             }
             else
             {
