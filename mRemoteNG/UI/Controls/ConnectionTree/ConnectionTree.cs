@@ -800,7 +800,16 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
                 switch (args.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        AddObjects(args.NewItems);
+                        if (args.NewItems != null)
+                        {
+                            foreach (ConnectionInfo item in args.NewItems.OfType<ConnectionInfo>())
+                            {
+                                if (item.Parent != null)
+                                    RefreshObject(item.Parent);
+                                else
+                                    AddObject(item);
+                            }
+                        }
                         break;
                     case NotifyCollectionChangedAction.Remove:
                         RemoveObjects(args.OldItems);
