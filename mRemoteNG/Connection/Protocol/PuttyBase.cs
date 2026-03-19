@@ -46,6 +46,7 @@ namespace mRemoteNG.Connection.Protocol
         private bool _terminalTitleTrackingEnabled;
         private bool _postOpenLayoutResizePending;
         private bool _postOpenLayoutResizeHooked;
+        private bool _isResizing;
         private System.Windows.Forms.Timer? _windowSearchTimer;
         private int _windowSearchStartTime;
         private System.Windows.Forms.Timer? _openingCommandTimer;
@@ -1017,28 +1018,34 @@ namespace mRemoteNG.Connection.Protocol
         {
             try
             {
+                if (_isResizing) return; // prevent reentrancy from MoveWindow triggering layout
                 if (InterfaceControl.Size == Size.Empty || PuttyHandle == IntPtr.Zero)
                     return;
 
+                _isResizing = true;
+
+                Rectangle clientRect = InterfaceControl.ClientRectangle;
+
                 if (_isPuttyNg)
                 {
-                    // PuTTYNG 0.70.0.1 and later doesn't have any window borders
-                    // Use ClientRectangle to account for padding (for connection frame color)
-                    Rectangle clientRect = InterfaceControl.ClientRectangle;
+                    // PuTTYNG creates a borderless child window — fill exactly
                     NativeMethods.MoveWindow(PuttyHandle, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height, true);
                 }
                 else
                 {
-                    // Window chrome (caption + thick frame) has been stripped
-                    // after reparenting, so just fill the client rectangle.
-                    Rectangle clientRect = InterfaceControl.ClientRectangle;
-
-                    NativeMethods.MoveWindow(PuttyHandle, clientRect.X-8, clientRect.Y-30, clientRect.Width+32, clientRect.Height+38, true);
+                    // Regular PuTTY retains its title bar and borders after SetParent.
+                    // Offset the window so chrome is pushed outside the visible area,
+                    // showing only the terminal content.
+                    NativeMethods.MoveWindow(PuttyHandle, clientRect.X - 8, clientRect.Y - 30, clientRect.Width + 16, clientRect.Height + 38, true);
                 }
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg, Language.PuttyResizeFailed + Environment.NewLine + ex.Message, true);
+            }
+            finally
+            {
+                _isResizing = false;
             }
         }
 
