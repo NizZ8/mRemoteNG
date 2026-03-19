@@ -367,9 +367,18 @@ namespace mRemoteNG.UI.Controls.FilteredPropertyGrid
             }
 
             if (_mWrappers.Length == 1)
+            {
+                // Force clean transition from multi-select to single-select.
+                // Without this, .NET WinForms PropertyGrid may retain internal
+                // multi-select state and hide dropdown buttons (#68).
+                if (base.SelectedObjects is { Length: > 0 })
+                    base.SelectedObject = null;
                 base.SelectedObject = _mWrappers[0];
+            }
             else
+            {
                 base.SelectedObjects = _mWrappers;
+            }
             
             Refresh();
         }
