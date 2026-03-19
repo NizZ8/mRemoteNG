@@ -69,11 +69,12 @@ namespace mRemoteNG.Tools
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                 return false;
             var versionInfo = FileVersionInfo.GetVersionInfo(filename);
-            // PuTTYNG 0.83+ has InternalName="PuTTY" (not "PuTTYNG") but
-            // ProductVersion contains "mRemoteNG". Check both patterns.
-            return versionInfo.InternalName?.Contains("PuTTYNG", StringComparison.Ordinal) == true ||
-                   (versionInfo.InternalName?.Contains("PuTTY", StringComparison.Ordinal) == true &&
-                    versionInfo.ProductVersion?.Contains("mRemoteNG", StringComparison.OrdinalIgnoreCase) == true);
+            // Only detect as PuTTYNG when InternalName explicitly contains "PuTTYNG".
+            // The bundled PuTTYNG 0.83 has InternalName="PuTTY" with "mRemoteNG" in
+            // ProductVersion but does NOT support -hwndparent. Using the lenient check
+            // caused "unknown option: -hwndparent" errors (#80). The fallback SetParent
+            // embedding works correctly for all PuTTY variants.
+            return versionInfo.InternalName?.Contains("PuTTYNG", StringComparison.Ordinal) == true;
         }
 
         private static bool IsKitty(string filename)
