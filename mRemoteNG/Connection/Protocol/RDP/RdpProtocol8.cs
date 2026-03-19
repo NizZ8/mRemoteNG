@@ -104,14 +104,13 @@ namespace mRemoteNG.Connection.Protocol.RDP
             // Actual RDP session resize is deferred to ResizeEnd() to prevent flickering
             DoResizeControl();
 
-            // Only resize RDP session on window state changes (Maximize/Restore)
-            // Manual drag-resizing will be handled by ResizeEnd()
+            // Track window state transitions for minimize/restore handling
             if (LastWindowState != _frmMain.WindowState)
             {
                 bool wasMinimized = LastWindowState == FormWindowState.Minimized;
 
                 Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize() - Window state changed from {LastWindowState} to {_frmMain.WindowState}, calling DoResizeClient()");
+                    $"Resize() - Window state changed from {LastWindowState} to {_frmMain.WindowState}");
                 LastWindowState = _frmMain.WindowState;
 
                 if (wasMinimized)
@@ -128,26 +127,13 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
                     EnsureSmartSizing();
                 }
-
-                DoResizeClient();
-
-                // Cancel any pending debounced resize — immediate resize already handled it.
-                // Without this, the debounce timer fires 100ms later causing a second Reconnect()
-                // which can leave the session at the wrong resolution (#69).
-                _hasPendingResize = false;
-                _resizeDebounceTimer?.Stop();
             }
-            else
-            {
-                // Window state unchanged but size may have changed (e.g. jump-host RDP session
-                // reconnect at a different resolution). WM_EXITSIZEMOVE / ResizeEnd() is not
-                // fired for programmatic resizes, so schedule a debounced resize here too.
-                // The debounce timer ensures only one resize fires even if Resize() + ResizeEnd()
-                // both fire during a normal user-drag.
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize() - Window state unchanged ({_frmMain.WindowState}), scheduling debounced resize");
-                ScheduleDebouncedResize();
-            }
+
+            // Always use debounced resize — during state changes (Maximize/Restore),
+            // InterfaceControl.Size may not yet reflect the final layout. The debounce
+            // timer lets layout complete before calling Reconnect() with correct
+            // dimensions. For unchanged state, handles programmatic resizes (#69).
+            ScheduleDebouncedResize();
         }
 
         protected override void ResizeEnd(object sender, EventArgs e)
