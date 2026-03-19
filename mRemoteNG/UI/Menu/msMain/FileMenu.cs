@@ -244,7 +244,8 @@ namespace mRemoteNG.UI.Menu
 
                 if (choice == DialogResult.Yes)
                 {
-                    Runtime.LoadConnections(true);
+                    // Load the file already selected above — do NOT show another dialog
+                    Runtime.ConnectionsService.LoadConnections(false, false, loadDialog.FileName);
                 }
                 else if (choice == DialogResult.No)
                 {
