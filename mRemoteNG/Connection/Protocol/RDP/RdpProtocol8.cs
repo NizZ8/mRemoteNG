@@ -62,6 +62,12 @@ namespace mRemoteNG.Connection.Protocol.RDP
         {
             if (RdpVersion < Versions.RDC81) return false; // minimum dll version checked, loaded MSTSCLIB dll version is not capable
 
+            // Subscribe to external events here (not in constructor) so temporary
+            // probing instances from RdpProtocolFactory are not rooted by static
+            // events, preventing memory leaks (upstream: 32d54235a).
+            _frmMain.ResizeEnd += ResizeEnd;
+            SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
+
             // https://learn.microsoft.com/en-us/windows/win32/termserv/imsrdpextendedsettings-property
             if (connectionInfo.UseRestrictedAdmin)
             {
@@ -371,6 +377,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         public override void Close()
         {
             _frmMain.ResizeEnd -= ResizeEnd;
+            SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
 
             // Clean up debounce timer
             if (_resizeDebounceTimer != null)
