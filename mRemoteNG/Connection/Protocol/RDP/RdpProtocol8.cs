@@ -88,6 +88,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             get => base.Fullscreen;
             protected set
             {
+                DevLog.Write($"Fullscreen={value} host={connectionInfo?.Hostname}");
                 base.Fullscreen = value;
                 DoResizeClient();
             }
@@ -107,8 +108,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
                 $"Resize() called - WindowState={_frmMain.WindowState}, LastWindowState={LastWindowState}");
 
-            // Update control size during resize to keep UI synchronized
-            // Actual RDP session resize is deferred to ResizeEnd() to prevent flickering
+            DevLog.Write($"WindowState={_frmMain.WindowState} LastWindowState={LastWindowState} InterfaceControl.Size={InterfaceControl?.Size}");
             DoResizeControl();
 
             // Track window state transitions for minimize/restore handling
@@ -150,8 +150,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             // Skip resize when minimized
             if (_frmMain.WindowState == FormWindowState.Minimized) return;
 
-            Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                $"ResizeEnd() called - WindowState={_frmMain.WindowState}");
+            DevLog.Write($"WindowState={_frmMain.WindowState} InterfaceControl.Size={InterfaceControl?.Size}");
 
             // Update window state tracking
             LastWindowState = _frmMain.WindowState;
@@ -226,32 +225,34 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
         private void DoResizeClient()
         {
+            DevLog.Write($"host={connectionInfo?.Hostname} loginComplete={loginComplete} Fullscreen={Fullscreen}");
+
             if (!loginComplete)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize skipped for '{connectionInfo.Hostname}': Login not complete");
+                DevLog.Write($"SKIP: login not complete");
                 return;
             }
 
             if (Control == null || InterfaceControl == null || Control.IsDisposed || InterfaceControl.IsDisposed)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize skipped for '{connectionInfo.Hostname}': RDP controls are no longer available");
+                DevLog.Write($"SKIP: controls disposed");
                 return;
             }
 
+            DevLog.Write($"AutomaticResize={InterfaceControl.Info.AutomaticResize} Resolution={InterfaceControl.Info.Resolution} SmartSize={SmartSize}");
+
             if (!InterfaceControl.Info.AutomaticResize)
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize skipped for '{connectionInfo.Hostname}': AutomaticResize is disabled");
+                DevLog.Write($"SKIP: AutomaticResize disabled");
                 return;
             }
 
             if (!(InterfaceControl.Info.Resolution == RDPResolutions.FitToWindow ||
-                  InterfaceControl.Info.Resolution == RDPResolutions.Fullscreen))
+                  InterfaceControl.Info.Resolution == RDPResolutions.Fullscreen ||
+                  InterfaceControl.Info.Resolution == RDPResolutions.SmartSize ||
+                  InterfaceControl.Info.Resolution == RDPResolutions.SmartSizeAspect))
             {
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Resize skipped for '{connectionInfo.Hostname}': Resolution is {InterfaceControl.Info.Resolution} (needs FitToWindow or Fullscreen)");
+                DevLog.Write($"SKIP: Resolution={InterfaceControl.Info.Resolution} (needs FitToWindow, Fullscreen, or SmartSize)");
                 return;
             }
 
@@ -264,32 +265,27 @@ namespace mRemoteNG.Connection.Protocol.RDP
 
             try
             {
-                // Use InterfaceControl.Size instead of Control.Size because Control may be docked
-                // and not reflect the actual available space
                 Size size = Fullscreen
                     ? Screen.FromControl(Control).Bounds.Size
                     : InterfaceControl.Size;
-                
+
+                DevLog.Write($"Fullscreen={Fullscreen} targetSize={size.Width}x{size.Height} Control.Size={Control.Size} InterfaceControl.Size={InterfaceControl.Size}");
+
                 if (size.Width <= 0 || size.Height <= 0)
                 {
-                    Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                        $"Resize skipped for '{connectionInfo.Hostname}': Invalid size {size.Width}x{size.Height}");
+                    DevLog.Write($"SKIP: invalid size {size.Width}x{size.Height}");
                     return;
                 }
 
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Calling UpdateSessionDisplaySettings({size.Width}, {size.Height}) for '{connectionInfo.Hostname}' (Control.Size={Control.Size}, InterfaceControl.Size={InterfaceControl.Size})");
-
+                DevLog.Write($"Calling Reconnect({size.Width}, {size.Height})");
                 UpdateSessionDisplaySettings((uint)size.Width, (uint)size.Height);
 
-                // Re-apply SmartSizing after reconnect — the COM property may be lost
                 EnsureSmartSizing();
-
-                Runtime.MessageCollector.AddMessage(MessageClass.DebugMsg,
-                    $"Successfully resized RDP session for '{connectionInfo.Hostname}' to {size.Width}x{size.Height}");
+                DevLog.Write($"Reconnect done. SmartSize={SmartSize}");
             }
             catch (Exception ex)
             {
+                DevLog.Write($"EXCEPTION: {ex.GetType().Name}: {ex.Message}");
                 Runtime.MessageCollector.AddExceptionMessage(
                     string.Format(CultureInfo.InvariantCulture, Language.ChangeConnectionResolutionError, connectionInfo.Hostname),
                     ex, MessageClass.WarningMsg, false);

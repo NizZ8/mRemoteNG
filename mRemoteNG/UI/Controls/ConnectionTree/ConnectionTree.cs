@@ -123,33 +123,34 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
         {
             const int WM_MOUSEACTIVATE = 0x0021;
             const int WM_LBUTTONDOWN = 0x0201;
-            const int MA_ACTIVATE = 1;
 
             if (DevLog.IsEnabled && (m.Msg == WM_MOUSEACTIVATE || m.Msg == WM_LBUTTONDOWN || m.Msg == 0x0007))
                 DevLog.Write($"Msg=0x{m.Msg:X4} Focused={Focused} SelectedObject={SelectedObject}");
 
             if (m.Msg == WM_MOUSEACTIVATE)
             {
+                // Identify the click target BEFORE Focus() triggers WM_SETFOCUS,
+                // so the scroll-restore handler knows not to snap back (#68).
+                System.Drawing.Point clientPt = PointToClient(MousePosition);
+                OlvListViewHitTestInfo hit = OlvHitTest(clientPt.X, clientPt.Y);
+                _pendingClickTarget = hit.Item?.RowObject as ConnectionInfo;
+                DevLog.Write($"WM_MOUSEACTIVATE: pendingClickTarget={_pendingClickTarget?.Name}");
+
+                // Freeze painting during the focus battle to avoid visible scroll/selection flicker
+                const int WM_SETREDRAW = 0x000B;
+                NativeMethods.SendMessage(Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero);
                 Focus();
-                m.Result = (IntPtr)MA_ACTIVATE;
-                return;
+                BeginInvoke(() =>
+                {
+                    NativeMethods.SendMessage(Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                    Invalidate(true);
+                });
             }
 
-            const int WM_SETFOCUS = 0x0007;
-            if (m.Msg == WM_SETFOCUS)
-            {
-                // Prevent the ListView from auto-scrolling to the focused item when the
-                // control gains focus (issue #1925). Save and restore the scroll position
-                // so that the user's current view is not disturbed.
-                System.Drawing.Point scrollPos = LowLevelScrollPosition;
-                base.WndProc(ref m);
-                System.Drawing.Point newScrollPos = LowLevelScrollPosition;
-                int dx = scrollPos.X - newScrollPos.X;
-                int dy = scrollPos.Y - newScrollPos.Y;
-                if (dx != 0 || dy != 0)
-                    LowLevelScroll(dx, dy);
-                return;
-            }
+            // WM_SETFOCUS: previously had scroll-restore logic (#1925) but it
+            // breaks tree navigation when RDP ActiveX controls cause focus
+            // oscillation — the scroll snaps back and makes the tree unusable.
+            // Removed: let ListView handle focus scrolling naturally (#68).
             base.WndProc(ref m);
         }
 
@@ -870,17 +871,26 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             {
                 var nodes = GetSelectedNodes();
 
-                // When RDP ActiveX steals focus, ObjectListView clears its selection
-                // and AfterSelect fires with 0 nodes. If we have a pending click target,
-                // suppress this empty event — the real selection will follow (#68).
-                if (nodes.Count == 0 && _pendingClickTarget != null)
+                // When RDP ActiveX steals focus, ObjectListView may clear selection
+                // or select the wrong node (due to auto-scroll). Use the click target
+                // captured in WM_MOUSEACTIVATE before the scroll happened (#68).
+                if (_pendingClickTarget != null)
                 {
-                    DevLog.Write($"Suppressing empty AfterSelect — pending click on {_pendingClickTarget.Name}");
-                    SelectObject(_pendingClickTarget);
+                    var target = _pendingClickTarget;
                     _pendingClickTarget = null;
-                    return;
+
+                    if (nodes.Count == 0 || (nodes.Count == 1 && nodes[0] != target))
+                    {
+                        DevLog.Write($"Correcting selection → {target.Name} (was {nodes.FirstOrDefault()?.Name ?? "empty"})");
+                        SelectObject(target);
+                        EnsureModelVisible(target);
+                        nodes = [target];
+                    }
                 }
-                _pendingClickTarget = null;
+                else
+                {
+                    _pendingClickTarget = null;
+                }
 
                 DevLog.Write($"SelectedNodes={nodes.Count}, First={nodes.FirstOrDefault()?.Name}");
                 AppWindows.ConfigForm.SelectedTreeNodes = nodes;
@@ -899,11 +909,13 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             if (!Focused)
                 Focus();
 
-            // When gaining focus from an RDP ActiveX control, focus oscillates
-            // and ObjectListView clears its selection. Save the click target so
-            // AfterSelect can recover when it sees SelectedNodes=0 (#68).
-            OlvListViewHitTestInfo hit = OlvHitTest(e.X, e.Y);
-            _pendingClickTarget = hit.Item?.RowObject as ConnectionInfo;
+            // _pendingClickTarget may already be set by WM_MOUSEACTIVATE (before
+            // the tree scrolled). Only override if not already set (#68).
+            if (_pendingClickTarget == null)
+            {
+                OlvListViewHitTestInfo hit = OlvHitTest(e.X, e.Y);
+                _pendingClickTarget = hit.Item?.RowObject as ConnectionInfo;
+            }
             DevLog.Write($"pendingClickTarget={_pendingClickTarget?.Name}");
         }
 

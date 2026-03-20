@@ -1491,7 +1491,11 @@ namespace mRemoteNG.UI.Forms
                 titleBuilder.Append(separator);
                 titleBuilder.Append(SelectedConnection!.Name);
 
-                if (Settings.TrackActiveConnectionInConnectionTree)
+                // Only jump to the active connection if the tree doesn't have focus.
+                // Without this check, RDP ActiveX focus oscillation causes JumpToNode
+                // to override the user's tree selection after every click (#68).
+                if (Settings.TrackActiveConnectionInConnectionTree &&
+                    AppWindows.TreeForm?.ConnectionTree?.Focused != true)
                     AppWindows.TreeForm?.JumpToNode(SelectedConnection, suppressPreview: true);
             }
 
