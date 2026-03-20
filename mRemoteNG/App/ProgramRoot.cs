@@ -46,6 +46,11 @@ namespace mRemoteNG.App
                 Environment.Exit(0);
             }
 
+            // Must be called before any other WinForms API usage so that
+            // per-monitor font scaling is initialised correctly from the very
+            // first UI operation (upstream: 193cfd5c2).
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+
             // Ensure the real entry point is definitely STA
             MainAsync(args).GetAwaiter().GetResult();
         }
@@ -268,7 +273,6 @@ namespace mRemoteNG.App
             // across secondary monitors with different DPI/scaling.
             PatchController.EnablePerScreenDpi = true;
 
-            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
