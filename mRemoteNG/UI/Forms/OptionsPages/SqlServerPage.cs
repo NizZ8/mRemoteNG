@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using mRemoteNG.App;
 using mRemoteNG.Config.Connections.Multiuser;
 using mRemoteNG.Config.DatabaseConnectors;
@@ -128,14 +129,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
             if (Properties.OptionsDBsPage.Default.UseSQLServer)
             {
-                try
-                {
-                    ReinitializeSqlUpdater();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(Language.ErrorConnectionListSaveFailed + Environment.NewLine + ex.Message, Language.Errors, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _ = ReinitializeSqlUpdaterAsync();
             }
             else if (!Properties.OptionsDBsPage.Default.UseSQLServer && sqlServerWasPreviouslyEnabled)
                 DisableSql();
@@ -193,11 +187,56 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                 DisableControl(chkSQLReadOnly);
         }
 
-        private static void ReinitializeSqlUpdater()
+        private async Task ReinitializeSqlUpdaterAsync()
         {
-            Runtime.ConnectionsService.RemoteConnectionsSyncronizer?.Dispose();
-            Runtime.ConnectionsService.RemoteConnectionsSyncronizer = new RemoteConnectionsSyncronizer(new SqlConnectionsUpdateChecker());
-            Runtime.ConnectionsService.LoadConnections(true, false, "");
+            SetSqlControlsEnabled(false);
+            lblTestConnectionResults.Text = Language.TestingConnection;
+            imgConnectionStatus.Image = Properties.Resources.Loading_Spinner;
+
+            try
+            {
+                using var cts = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(30));
+                await Task.Run(() =>
+                {
+                    Runtime.ConnectionsService.RemoteConnectionsSyncronizer?.Dispose();
+                    Runtime.ConnectionsService.RemoteConnectionsSyncronizer =
+                        new RemoteConnectionsSyncronizer(new SqlConnectionsUpdateChecker());
+                    Runtime.ConnectionsService.LoadConnections(true, false, "");
+                }, cts.Token);
+
+                if (IsDisposed) return;
+                UpdateConnectionImage(true);
+                lblTestConnectionResults.Text = Language.ConnectionSuccessful;
+            }
+            catch (OperationCanceledException)
+            {
+                if (IsDisposed) return;
+                UpdateConnectionImage(false);
+                lblTestConnectionResults.Text = "SQL connection timed out (30s)";
+            }
+            catch (Exception ex)
+            {
+                if (IsDisposed) return;
+                UpdateConnectionImage(false);
+                lblTestConnectionResults.Text = Language.ErrorConnectionListSaveFailed + ": " + ex.Message;
+            }
+            finally
+            {
+                if (!IsDisposed)
+                    SetSqlControlsEnabled(true);
+            }
+        }
+
+        private void SetSqlControlsEnabled(bool enabled)
+        {
+            chkUseSQLServer.Enabled = enabled;
+            txtSQLServer.Enabled = enabled;
+            txtSQLDatabaseName.Enabled = enabled;
+            txtSQLUsername.Enabled = enabled;
+            txtSQLPassword.Enabled = enabled;
+            txtSQLType.Enabled = enabled;
+            txtSQLAuthType.Enabled = enabled;
+            btnTestConnection.Enabled = enabled;
         }
 
         private static void DisableSql()
