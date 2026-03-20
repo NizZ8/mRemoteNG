@@ -103,4 +103,13 @@ Get-ChildItem $outDir -Directory -ErrorAction SilentlyContinue | Where-Object {
 }
 if ($moved -gt 0) { Write-Host "Moved $moved culture folder(s) into Languages/" -ForegroundColor DarkGray }
 
+# Copy local test connections file if present (no-op on CI / other machines)
+$localConfCons = Join-Path 'E:\OneDrive\_Portable\mRemoteNG 1.77.1' 'confCons.xml'
+if (Test-Path $localConfCons) {
+    $settingsDir = Join-Path $outDir 'Settings'
+    if (-not (Test-Path $settingsDir)) { New-Item $settingsDir -ItemType Directory -Force | Out-Null }
+    Copy-Item $localConfCons (Join-Path $settingsDir 'confCons.xml') -Force
+    Write-Host "Copied test connections from portable install" -ForegroundColor DarkGray
+}
+
 Write-Host "Build completed in $($timer.Elapsed.TotalSeconds.ToString('F1'))s" -ForegroundColor Cyan

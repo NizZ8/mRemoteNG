@@ -121,6 +121,20 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
 
         protected override void WndProc(ref Message m)
         {
+            const int WM_MOUSEACTIVATE = 0x0021;
+            const int WM_LBUTTONDOWN = 0x0201;
+            const int MA_ACTIVATE = 1;
+
+            if (DevLog.IsEnabled && (m.Msg == WM_MOUSEACTIVATE || m.Msg == WM_LBUTTONDOWN || m.Msg == 0x0007))
+                DevLog.Write($"Msg=0x{m.Msg:X4} Focused={Focused} SelectedObject={SelectedObject}");
+
+            if (m.Msg == WM_MOUSEACTIVATE)
+            {
+                Focus();
+                m.Result = (IntPtr)MA_ACTIVATE;
+                return;
+            }
+
             const int WM_SETFOCUS = 0x0007;
             if (m.Msg == WM_SETFOCUS)
             {
@@ -192,6 +206,7 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
             };
             Expanding += OnExpanding;
             SelectionChanged += TvConnections_AfterSelect;
+            MouseDown += OnMouse_Down;
             MouseDoubleClick += OnMouse_DoubleClick;
             MouseClick += OnMouse_SingleClick;
             MouseClick += OnMouse_MiddleClick;
@@ -853,12 +868,43 @@ namespace mRemoteNG.UI.Controls.ConnectionTree
         {
             try
             {
-                AppWindows.ConfigForm.SelectedTreeNodes = GetSelectedNodes();
+                var nodes = GetSelectedNodes();
+
+                // When RDP ActiveX steals focus, ObjectListView clears its selection
+                // and AfterSelect fires with 0 nodes. If we have a pending click target,
+                // suppress this empty event — the real selection will follow (#68).
+                if (nodes.Count == 0 && _pendingClickTarget != null)
+                {
+                    DevLog.Write($"Suppressing empty AfterSelect — pending click on {_pendingClickTarget.Name}");
+                    SelectObject(_pendingClickTarget);
+                    _pendingClickTarget = null;
+                    return;
+                }
+                _pendingClickTarget = null;
+
+                DevLog.Write($"SelectedNodes={nodes.Count}, First={nodes.FirstOrDefault()?.Name}");
+                AppWindows.ConfigForm.SelectedTreeNodes = nodes;
             }
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddExceptionStackTrace("tvConnections_AfterSelect (UI.Window.ConnectionTreeWindow) failed", ex);
             }
+        }
+
+        private ConnectionInfo? _pendingClickTarget;
+
+        private void OnMouse_Down(object sender, MouseEventArgs e)
+        {
+            DevLog.Write($"at ({e.X},{e.Y}) Button={e.Button} Focused={Focused} SelectedObject={SelectedObject}");
+            if (!Focused)
+                Focus();
+
+            // When gaining focus from an RDP ActiveX control, focus oscillates
+            // and ObjectListView clears its selection. Save the click target so
+            // AfterSelect can recover when it sees SelectedNodes=0 (#68).
+            OlvListViewHitTestInfo hit = OlvHitTest(e.X, e.Y);
+            _pendingClickTarget = hit.Item?.RowObject as ConnectionInfo;
+            DevLog.Write($"pendingClickTarget={_pendingClickTarget?.Name}");
         }
 
         private void OnMouse_DoubleClick(object sender, MouseEventArgs mouseEventArgs)

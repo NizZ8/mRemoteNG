@@ -29,6 +29,12 @@ namespace mRemoteNG.App
     [SupportedOSPlatform("windows")]
     public static class Runtime
     {
+        /// <summary>
+        /// True when <c>verbose.log.enable</c> exists next to the exe.
+        /// Enables verbose logging and build ID in title bar.
+        /// </summary>
+        public static bool IsDevMode => DevLog.IsEnabled;
+
         public static bool IsPortableEdition
         {
             get

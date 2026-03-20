@@ -51,6 +51,9 @@ namespace mRemoteNG.App
             // first UI operation (upstream: 193cfd5c2).
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
+            // Initialize dev-mode verbose logging (active only if verbose.log.enable exists)
+            DevLog.Initialize();
+
             // Ensure the real entry point is definitely STA
             MainAsync(args).GetAwaiter().GetResult();
         }

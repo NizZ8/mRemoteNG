@@ -71,8 +71,19 @@ namespace mRemoteNG.UI.Window
             {
                 _selectedTreeNodes = value;
                 _selectedTreeNode = _selectedTreeNodes?.FirstOrDefault();
-                _pGrid.SelectedConnectionInfos = value;
-                UpdateTopRow();
+                DevLog.Write($"node={_selectedTreeNode?.Name} count={_selectedTreeNodes?.Count()}");
+                const int WM_SETREDRAW = 0x000B;
+                NativeMethods.SendMessage(_pGrid.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+                try
+                {
+                    _pGrid.SelectedConnectionInfos = value;
+                    UpdateTopRow();
+                }
+                finally
+                {
+                    NativeMethods.SendMessage(_pGrid.Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                    _pGrid.Invalidate(true);
+                }
             }
         }
 

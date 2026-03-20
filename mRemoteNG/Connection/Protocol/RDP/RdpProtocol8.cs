@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using AxMSTSCLib;
+using Microsoft.Win32;
 using mRemoteNG.App;
 using mRemoteNG.Messages;
 using MSTSCLib;
@@ -66,7 +67,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
             // probing instances from RdpProtocolFactory are not rooted by static
             // events, preventing memory leaks (upstream: 32d54235a).
             _frmMain.ResizeEnd += ResizeEnd;
-            SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
+            SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChangedHandler;
 
             // https://learn.microsoft.com/en-us/windows/win32/termserv/imsrdpextendedsettings-property
             if (connectionInfo.UseRestrictedAdmin)
@@ -204,6 +205,8 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 DoResizeClient();
             }
         }
+
+        private void OnDisplaySettingsChangedHandler(object? sender, EventArgs e) => OnDisplaySettingsChanged();
 
         public override void OnDisplaySettingsChanged()
         {
@@ -377,7 +380,7 @@ namespace mRemoteNG.Connection.Protocol.RDP
         public override void Close()
         {
             _frmMain.ResizeEnd -= ResizeEnd;
-            SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
+            SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChangedHandler;
 
             // Clean up debounce timer
             if (_resizeDebounceTimer != null)

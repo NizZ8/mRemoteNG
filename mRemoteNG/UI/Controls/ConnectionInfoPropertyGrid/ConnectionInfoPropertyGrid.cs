@@ -102,30 +102,21 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
 
             if (_selectedConnectionInfos == null || !_selectedConnectionInfos.Any())
             {
+                DevLog.Write("selectedConnectionInfos is null/empty — clearing grid");
                 SelectedObjects = null;
                 return;
             }
 
+            DevLog.Write($"count={_selectedConnectionInfos.Count()} mode={PropertyMode} first={_selectedConnectionInfos.FirstOrDefault()?.Name}");
+
             switch (PropertyMode) {
                 case PropertyMode.Connection:
                 default:
-                {
-                    var items = _selectedConnectionInfos.ToArray();
-                    if (items.Length == 1)
-                        SelectedObject = items[0];
-                    else
-                        SelectedObjects = items;
+                    SelectedObjects = _selectedConnectionInfos.ToArray();
                     break;
-                }
                 case PropertyMode.Inheritance:
-                {
-                    var items = _selectedConnectionInfos.Select(c => c.Inheritance).ToArray();
-                    if (items.Length == 1)
-                        SelectedObject = items[0];
-                    else
-                        SelectedObjects = items;
+                    SelectedObjects = _selectedConnectionInfos.Select(c => c.Inheritance).ToArray();
                     break;
-                }
                 case PropertyMode.DefaultConnection:
                     SelectedObject = DefaultConnectionInfo.Instance;
                     break;
@@ -134,8 +125,13 @@ namespace mRemoteNG.UI.Controls.ConnectionInfoPropertyGrid {
                     break;
             }
 
+            DevLog.Write($"after set: SelectedObjects={SelectedObjects?.Length} SelectedObject={SelectedObject} Visible={Visible}");
+
             if ((SelectedObjects != null && SelectedObjects.Length > 0) || SelectedObject != null)
+            {
                 ShowHideGridItems();
+                DevLog.Write($"after ShowHide: GridItems={GetVisibleGridItems().Count}");
+            }
         }
 
         private void ShowHideGridItems() {

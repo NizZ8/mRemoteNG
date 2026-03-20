@@ -58,6 +58,13 @@ namespace mRemoteNG.UI.Window
             ApplyLanguage();
         }
 
+        protected override void WndProc(ref System.Windows.Forms.Message m)
+        {
+            if (DevLog.IsEnabled && (m.Msg == 0x0021 || m.Msg == 0x0201 || m.Msg == 0x0210))
+                DevLog.Write($"Msg=0x{m.Msg:X4} Focused={Focused}");
+            base.WndProc(ref m);
+        }
+
         private void OnAppSettingsChanged(object o, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(Settings.UseFilterSearch))

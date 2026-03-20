@@ -1,5 +1,9 @@
 .test-profile/
 provider_debug.log
+post-build-local.ps1
+verbose.log.enable
+mRemoteNG-verbose.log
+tree-debug.log
 
 # MSI installer generated files
 mRemoteNGInstaller/_GeneratedFiles.wxs

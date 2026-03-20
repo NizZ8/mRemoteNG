@@ -1052,6 +1052,12 @@ namespace mRemoteNG.UI.Forms
 
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
+            if (DevLog.IsEnabled && (m.Msg == 0x0006 || m.Msg == 0x0021))
+            {
+                var ctrl = FromChildHandle(NativeMethods.WindowFromPoint(MousePosition));
+                DevLog.Write($"Msg=0x{m.Msg:X4} wParam=0x{m.WParam:X} ctrl={ctrl?.GetType().Name}({ctrl?.Name})");
+            }
+
             // Listen for and handle operating system messages
             try
             {
@@ -1122,6 +1128,7 @@ namespace mRemoteNG.UI.Forms
                             if (controlThatWasClicked != null)
                             {
                                 if (controlThatWasClicked is TreeView ||
+                                    controlThatWasClicked is ListView ||
                                     controlThatWasClicked is ComboBox ||
                                     controlThatWasClicked is MrngTextBox ||
                                     controlThatWasClicked is FrmMain)
@@ -1414,6 +1421,8 @@ namespace mRemoteNG.UI.Forms
             InterfaceControl? ifc = InterfaceControl.FindInterfaceControl(tab);
             if (ifc == null) return;
 
+            DevLog.Write($"protocol={ifc.Protocol?.GetType().Name} connection={ifc.Info?.Name}");
+
             if (ifc.Protocol is PuttyBase puttyProtocol)
                 puttyProtocol.RequestPostOpenLayoutResizePass();
 
@@ -1443,15 +1452,21 @@ namespace mRemoteNG.UI.Forms
             }
 
             string version = Application.ProductVersion ?? "";
-            string buildTime = "";
-            try
+            StringBuilder titleBuilder = new($"{Application.ProductName} v{version}");
+
+            if (Runtime.IsDevMode)
             {
-                var asm = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                if (!string.IsNullOrEmpty(asm))
-                    buildTime = $" [{System.IO.File.GetLastWriteTime(asm):HH:mm}]";
+                try
+                {
+                    var asm = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    if (!string.IsNullOrEmpty(asm))
+                        titleBuilder.Append($" [DEV {System.IO.File.GetLastWriteTime(asm):HH:mm}]");
+                    else
+                        titleBuilder.Append(" [DEV]");
+                }
+                catch { titleBuilder.Append(" [DEV]"); }
             }
-            catch { /* ignore */ }
-            StringBuilder titleBuilder = new($"{Application.ProductName} v{version}{buildTime}");
+
             const string separator = " - ";
 
             if (Runtime.ConnectionsService.IsConnectionsFileLoaded)

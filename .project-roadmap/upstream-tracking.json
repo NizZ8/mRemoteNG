@@ -1,0 +1,206 @@
+{
+  "_meta": {
+    "description": "Tracks upstream (mRemoteNG/mRemoteNG) commits and PRs — what we analyzed, applied, or skipped",
+    "upstream_branch": "v1.78.2-dev",
+    "last_checked": "2026-03-20",
+    "statuses": ["pending", "applied", "skip", "already-have", "monitor"]
+  },
+  "commits": [
+    {
+      "sha": "f8b0625d6",
+      "date": "2026-03-17",
+      "author": "Dimitrij",
+      "message": "Update regex to filter GitHub links more accurately",
+      "status": "skip",
+      "reason": "CI/tooling only, not relevant to our fork"
+    },
+    {
+      "sha": "af04ff460",
+      "date": "2026-03-08",
+      "author": "Kvarkas",
+      "message": "resize fix for DPI",
+      "status": "pending",
+      "reason": "Potentially relevant to #69 RDP resize issues"
+    },
+    {
+      "sha": "d743d95eb",
+      "date": "2026-03-08",
+      "author": "Kvarkas",
+      "message": "lib update",
+      "status": "pending",
+      "reason": "Check which libs were updated"
+    },
+    {
+      "sha": "7011b30b4",
+      "date": "2026-03-08",
+      "author": "Kvarkas",
+      "message": "DPI fix for menu",
+      "status": "pending",
+      "reason": "DPI fix — may help with menu rendering issues"
+    },
+    {
+      "sha": "cea9210f1",
+      "date": "2026-03-08",
+      "author": "Kvarkas",
+      "message": "fix tests",
+      "status": "skip",
+      "reason": "Test infrastructure, we have our own test setup"
+    },
+    {
+      "sha": "f2244a0e0",
+      "date": "2026-03-06",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Guard ResizeDebounceTimer_Elapsed against shutdown race",
+      "status": "already-have",
+      "reason": "We have equivalent fix in our RdpProtocol8 resize code"
+    },
+    {
+      "sha": "32d54235a",
+      "date": "2026-03-06",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Move static event subscriptions from constructor to Initialize() in RdpProtocol8",
+      "status": "applied",
+      "applied_commit": "1918910bb",
+      "reason": "Fixed missing event subscriptions + memory leak"
+    },
+    {
+      "sha": "1d3c35c18",
+      "date": "2026-03-06",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Fix cross-thread access in OnDisplaySettingsChanged",
+      "status": "already-have",
+      "reason": "We marshal to UI thread in our OnDisplaySettingsChanged"
+    },
+    {
+      "sha": "193cfd5c2",
+      "date": "2026-03-06",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Move SetHighDpiMode to the very start of Main() before any WinForms API usage",
+      "status": "applied",
+      "applied_commit": "8be01a2f5",
+      "reason": "DPI must init before any WinForms API"
+    },
+    {
+      "sha": "7e4f2e6a4",
+      "date": "2026-03-06",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Fix small fonts and cursor mismatch at 125% display scaling by enabling PerMonitorV2 DPI mode",
+      "status": "pending",
+      "reason": "DPI fix — we already have PerMonitorV2 but check for differences"
+    },
+    {
+      "sha": "153fa485d",
+      "date": "2026-03-03",
+      "author": "copilot-swe-agent[bot]",
+      "message": "Fix Audio Capture bug: read InheritRedirectAudioCapture instead of RedirectAudioCapture for inheritance flag",
+      "status": "pending",
+      "reason": "Bug fix — audio capture inheritance was reading wrong property"
+    },
+    {
+      "sha": "77d4af5ea",
+      "date": "2026-03-13",
+      "author": "Jörgen Hedkvist",
+      "message": "Update Swedish translation",
+      "status": "pending",
+      "reason": "i18n — low priority, easy to cherry-pick"
+    },
+    {
+      "sha": "11226d788",
+      "date": "2026-03-06",
+      "author": "Kvarkas",
+      "message": "fix for download url",
+      "status": "skip",
+      "reason": "Upstream-specific download URL, not applicable to our fork"
+    },
+    {
+      "sha": "f9259873b",
+      "date": "2026-03-06",
+      "author": "Kvarkas",
+      "message": "fixing tests",
+      "status": "skip",
+      "reason": "Test infrastructure, upstream-specific"
+    }
+  ],
+  "prs": [
+    {
+      "number": 3220,
+      "title": "Fix VNC connections broken by missing cursor resource in VncSharpCore 1.2.1",
+      "author": "Copilot",
+      "status": "pending",
+      "reason": "VNC bug fix — needs analysis"
+    },
+    {
+      "number": 3221,
+      "title": "Update dependency Microsoft.Data.SqlClient to v7",
+      "author": "renovate[bot]",
+      "status": "skip",
+      "reason": "Dep update — we manage deps independently"
+    },
+    {
+      "number": 3223,
+      "title": "Update aws-sdk-net monorepo",
+      "author": "renovate[bot]",
+      "status": "skip",
+      "reason": "Dep update — we manage deps independently"
+    },
+    {
+      "number": 3189,
+      "title": "v1.81.0-beta.6: .NET 10 migration, 585 issues fixed, zero warnings",
+      "author": "robertpopa22",
+      "status": "applied",
+      "reason": "Our PR to upstream — release/1.81 branch"
+    },
+    {
+      "number": 3177,
+      "title": "URL scheme injection fix",
+      "author": "Copilot",
+      "status": "applied",
+      "applied_commit": "3ed92013c",
+      "reason": "Security fix — applied"
+    },
+    {
+      "number": 3176,
+      "title": "Fix RDP auth failure for AD Protected Users (NTLM disabled)",
+      "author": "Copilot",
+      "status": "applied",
+      "applied_commit": "aaf82f4a8",
+      "reason": "Bug fix — applied"
+    },
+    {
+      "number": 3161,
+      "title": "Add host status indicator to connection tree",
+      "author": "Copilot",
+      "status": "skip",
+      "reason": "Feature, not bug fix — monitor only"
+    },
+    {
+      "number": 3154,
+      "title": "Fix Caps Lock sending 't' keypress over VNC",
+      "author": "Copilot",
+      "status": "applied",
+      "applied_commit": "171e93bc6",
+      "reason": "Bug fix — applied"
+    },
+    {
+      "number": 3153,
+      "title": "Dynamic tab naming for SSH/Telnet via PuTTY terminal title tracking",
+      "author": "Copilot",
+      "status": "skip",
+      "reason": "Feature with timer polling — we have our own implementation"
+    },
+    {
+      "number": 3001,
+      "title": "Add SCP/SFTP file browser with dual-pane transfer interface",
+      "author": "joubertdj",
+      "status": "monitor",
+      "reason": "Large feature (+6923 LOC), SonarCloud failed, experimental"
+    },
+    {
+      "number": 2997,
+      "title": "Feature/ssh dotnet terminal",
+      "author": "joubertdj",
+      "status": "monitor",
+      "reason": "Large feature, experimental SSH.NET terminal"
+    }
+  ]
+}
