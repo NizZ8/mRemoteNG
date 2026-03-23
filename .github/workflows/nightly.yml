@@ -39,6 +39,50 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-x64-nuget-
 
+      - name: Generate AssemblyInfo.cs from csproj version
+        shell: pwsh
+        run: |
+          $csprojPath = "$env:GITHUB_WORKSPACE/mRemoteNG/mRemoteNG.csproj"
+          $csprojContent = Get-Content $csprojPath -Raw
+          if ($csprojContent -match '<Version>([^<]+)</Version>') {
+            $csprojVersion = $matches[1].Trim()
+          } else {
+            throw "Could not find <Version> element in csproj"
+          }
+          Write-Host "Version from csproj: $csprojVersion"
+          if ($csprojVersion -match '^(\d+)\.(\d+)\.(\d+)') {
+            $major = [int]$matches[1]; $minor = [int]$matches[2]; $revision = [int]$matches[3]
+          } else {
+            throw "Could not parse version from csproj: $csprojVersion"
+          }
+          $prerelease = if ($csprojVersion -match '-(.+)$') { "-$($matches[1])" } else { "" }
+          $channel = if ($prerelease) { "Pre-release" } else { "Release" }
+          $base = [datetime]"2019-09-02"
+          $build = [int](([datetime]::UtcNow - $base).TotalMinutes / 1000)
+          $platform = "x64"
+          $year = [datetime]::UtcNow.Year
+          $content = @"
+          //Generated for platform: $platform
+          using System.Reflection;
+          using System.Resources;
+          //Build nr: $build
+          [assembly: AssemblyTitle("mRemoteNG")]
+          [assembly: AssemblyDescription("Multi-Remote Next Generation Connection Manager")]
+          [assembly: AssemblyConfiguration("$platform")]
+          [assembly: AssemblyCompany("Profi-KOM Ltd.")]
+          [assembly: AssemblyProduct("mRemoteNG Connection Manager")]
+          [assembly: AssemblyCopyright("(c) $year mRemoteNG")]
+          [assembly: AssemblyTrademark("Profi-KOM LTd.")]
+          [assembly: AssemblyCulture("")]
+          [assembly: AssemblyVersion("$major.$minor.$revision.$build")]
+          [assembly: AssemblyFileVersion("$major.$minor.$revision.$build")]
+          [assembly: NeutralResourcesLanguageAttribute("en-US")]
+          [assembly: AssemblyInformationalVersion("$major.$minor.$revision$prerelease ($channel $build) $platform")]
+          "@
+          $outPath = "$env:GITHUB_WORKSPACE\mRemoteNG\Properties\AssemblyInfo.cs"
+          Set-Content -Path $outPath -Value $content -Encoding UTF8
+          Write-Host "Generated AssemblyInfo.cs: v$major.$minor.$revision$prerelease.$build ($channel) $platform"
+
       - name: Build x64 Release
         run: msbuild mRemoteNG.sln /restore -m /verbosity:minimal -p:Configuration=Release -p:Platform=x64
 

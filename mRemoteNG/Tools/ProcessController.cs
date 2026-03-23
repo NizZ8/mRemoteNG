@@ -126,7 +126,7 @@ namespace mRemoteNG.Tools
                 Handle = Process.MainWindowHandle;
                 if (Handle == IntPtr.Zero)
                 {
-                    System.Threading.Thread.Sleep(0);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
 
