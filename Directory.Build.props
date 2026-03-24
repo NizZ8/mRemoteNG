@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <!-- Disabled UseSharedCompilation to fix CS2012 WPF temp assembly lock (VBCSCompiler keeps DLL open) -->
-    <UseSharedCompilation>false</UseSharedCompilation>
+    <!-- Re-enabled: VS2026 MSBuild 18.x fixed the CS2012 WPF temp assembly lock (VBCSCompiler) -->
+    <UseSharedCompilation>true</UseSharedCompilation>
 
     <!-- Suppress CA1416 (platform compatibility) — app is 100% Windows-only, net10.0-windows TFM -->
     <!-- Suppress CS8622 (nullable event handler parameter mismatch) — .NET 10 WinForms delegates use nullable sender -->
