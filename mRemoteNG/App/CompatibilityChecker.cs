@@ -52,9 +52,7 @@ namespace mRemoteNG.App
             //About to pop up a message, let's not block it...
             try
             {
-                var splash = FrmSplashScreenNew.GetInstance();
-                if (!splash.Dispatcher.HasShutdownStarted)
-                    splash.Dispatcher.Invoke(() => { splash.Close(); splash.Dispatcher.InvokeShutdown(); });
+                ProgramRoot.CloseSplash();
             }
             catch (TaskCanceledException)
 

@@ -29,8 +29,7 @@ namespace mRemoteNG.App
         private static Mutex? _mutex;
         private static string customResourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Languages");
 
-        private static System.Threading.Thread? _wpfSplashThread;
-        private static FrmSplashScreenNew? _wpfSplash;
+        private static FrmSplashScreenNew? _splash;
 
         [STAThread]
         public static void Main(string[] args)
@@ -479,75 +478,23 @@ namespace mRemoteNG.App
 
         private static void ShowSplashOnStaThread()
         {
-            _wpfSplashThread = new System.Threading.Thread(() =>
-            {
-                _wpfSplash = FrmSplashScreenNew.GetInstance();
-
-                _wpfSplash.ShowInTaskbar = false;
-                _wpfSplash.Show();
-                try { System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(_wpfSplash); }
-                catch { /* non-critical — keyboard interop for splash screen */ }
-                System.Windows.Threading.Dispatcher.Run(); // WPF message loop
-            })
-            { IsBackground = true };
-            _wpfSplashThread.SetApartmentState(System.Threading.ApartmentState.STA);
-            _wpfSplashThread.Start();
+            _splash = FrmSplashScreenNew.GetInstance();
+            _splash.Show();
         }
 
         public static void CloseSplash()
         {
-            if (_wpfSplash == null)
-            {
-                if (_wpfSplashThread != null)
-                {
-                    _wpfSplashThread.Join(TimeSpan.FromMilliseconds(100));
-                    _wpfSplashThread = null;
-                }
-                return;
-            }
+            if (_splash == null) return;
 
             try
             {
-                var splash = _wpfSplash;
-                _wpfSplash = null; // Set to null first to avoid multiple calls
-
-                if (splash.Dispatcher.HasShutdownStarted) return;
-
-                if (splash.Dispatcher.CheckAccess())
-                {
-                    splash.Close();
-                    splash.Dispatcher.InvokeShutdown();
-                }
-                else
-                {
-                    splash.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        try
-                        {
-                            splash.Close();
-                            splash.Dispatcher.InvokeShutdown();
-                        }
-                        catch
-                        {
-                            // Ignore errors during async close
-                        }
-                    }));
-                }
+                if (!_splash.IsDisposed)
+                    _splash.Close();
             }
-            catch (TaskCanceledException) { /* Intentionally empty */ }
-            catch (OperationCanceledException) { /* Intentionally empty */ }
-            catch (Exception ex) { _ = ex; }
+            catch { /* Intentionally empty */ }
             finally
             {
-                if (_wpfSplashThread != null)
-                {
-                    // Don't join if we're already on that thread
-                    if (System.Threading.Thread.CurrentThread != _wpfSplashThread)
-                    {
-                        _wpfSplashThread.Join(TimeSpan.FromMilliseconds(500));
-                    }
-                    _wpfSplashThread = null;
-                }
+                _splash = null;
             }
         }
 

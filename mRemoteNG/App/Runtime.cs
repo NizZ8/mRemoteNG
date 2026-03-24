@@ -161,9 +161,7 @@ namespace mRemoteNG.App
             {
                 try
                 {
-                    var splash = FrmSplashScreenNew.GetInstance();
-                    if (!splash.Dispatcher.HasShutdownStarted)
-                        splash.Dispatcher.Invoke(() => { splash.Close(); splash.Dispatcher.InvokeShutdown(); });
+                    ProgramRoot.CloseSplash();
                 }
                 catch (TaskCanceledException)
 

@@ -26,7 +26,8 @@
     <LangVersion>latest</LangVersion>
     <PackageIcon>Header_dark.png</PackageIcon>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UseWPF>True</UseWPF>
+    <!-- UseWPF removed: splash screen converted to WinForms to eliminate WPF
+         MarkupCompilePass2 temp assembly recompilation (~32s per build). -->
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <SignAssembly>False</SignAssembly>
     <Title>Multi-Remote Next Generation Connection Manager</Title>
@@ -184,6 +185,10 @@
   <PropertyGroup>
     <CrashReportToken Condition="'$(CrashReportToken)' == ''"></CrashReportToken>
   </PropertyGroup>
+  <!-- WriteCrashReportToken: write once, then skip if content unchanged.
+       WriteCodeFragment always rewrites the file (new timestamp), which invalidates
+       MSBuild incremental build and forces a full 30s recompile every time.
+       Fix: write to a .tmp file first, compare, only overwrite if different. -->
   <Target Name="WriteCrashReportToken" BeforeTargets="CoreCompile" DependsOnTargets="PrepareForBuild">
     <ItemGroup>
       <_CrashTokenAttr Include="System.Reflection.AssemblyMetadataAttribute">
@@ -191,10 +196,15 @@
         <_Parameter2>$(CrashReportToken)</_Parameter2>
       </_CrashTokenAttr>
     </ItemGroup>
-    <WriteCodeFragment AssemblyAttributes="@(_CrashTokenAttr)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="CrashReportToken.g.cs">
-      <Output TaskParameter="OutputFile" ItemName="Compile" />
-      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    <WriteCodeFragment AssemblyAttributes="@(_CrashTokenAttr)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="CrashReportToken.g.cs.tmp">
+      <Output TaskParameter="OutputFile" PropertyName="_CrashTokenTmpFile" />
     </WriteCodeFragment>
+    <!-- Only overwrite the real file if content changed (preserves timestamp for incremental build) -->
+    <Exec Command="fc /b &quot;$(IntermediateOutputPath)CrashReportToken.g.cs.tmp&quot; &quot;$(IntermediateOutputPath)CrashReportToken.g.cs&quot; >nul 2>&amp;1 &amp;&amp; del &quot;$(IntermediateOutputPath)CrashReportToken.g.cs.tmp&quot; || move /y &quot;$(IntermediateOutputPath)CrashReportToken.g.cs.tmp&quot; &quot;$(IntermediateOutputPath)CrashReportToken.g.cs&quot; >nul" IgnoreExitCode="true" StandardOutputImportance="low" />
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)CrashReportToken.g.cs" Condition="!@(Compile->AnyHaveMetadataValue('Identity','$(IntermediateOutputPath)CrashReportToken.g.cs'))" />
+      <FileWrites Include="$(IntermediateOutputPath)CrashReportToken.g.cs" />
+    </ItemGroup>
   </Target>
   <ItemGroup>
     <None Remove="buildenv.tmp" />
@@ -230,7 +240,7 @@
     <PackageReference Include="Microsoft.NETCore.Platforms" />
     <PackageReference Include="Microsoft.NETCore.Targets" />
     <PackageReference Include="Microsoft.Web.WebView2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+
     <PackageReference Include="MySql.Data" />
     <PackageReference Include="System.Data.Odbc" />
     <PackageReference Include="Newtonsoft.Json" />
