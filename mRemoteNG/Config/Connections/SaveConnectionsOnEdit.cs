@@ -34,7 +34,22 @@ namespace mRemoteNG.Config.Connections
 
         private void ConnectionTreeModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            SaveConnectionOnEdit(propertyChangedEventArgs.PropertyName ?? "");
+            string property = propertyChangedEventArgs.PropertyName ?? "";
+
+            // Skip runtime-only properties that are never persisted to the connections file.
+            // Without this filter, the HostStatusMonitor fires PropertyChanged for every
+            // connection on each scan cycle, each triggering a full save that re-encrypts
+            // ALL passwords with PBKDF2 (600K iterations per field) — causing 100% CPU on
+            // one thread for minutes. See issue #83.
+            if (property is nameof(Connection.ConnectionInfo.HostReachabilityStatus)
+                         or nameof(Connection.ConnectionInfo.OpenConnections)
+                         or nameof(Connection.ConnectionInfo.IsQuickConnect)
+                         or nameof(Connection.ConnectionInfo.PleaseConnect))
+            {
+                return;
+            }
+
+            SaveConnectionOnEdit(property);
         }
 
         private void ConnectionTreeModelOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)

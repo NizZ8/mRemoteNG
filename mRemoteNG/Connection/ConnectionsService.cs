@@ -43,6 +43,8 @@ namespace mRemoteNG.Connection
         private bool _batchingSaves;
         private bool _saveRequested;
         private bool _saveAsyncRequested;
+        private System.Threading.Timer? _saveDebounceTimer;
+        private const int SaveDebounceMs = 2000;
         // Cached SQL custom encryption password — avoids re-prompting on every reload (#1646)
         private SecureString? _cachedSqlEncryptionPassword;
 
@@ -541,21 +543,23 @@ namespace mRemoteNG.Connection
                 return;
             }
 
-            ConnectionTreeModel? treeModel = ConnectionTreeModel;
-            string? fileName = ConnectionFileName;
-            if (treeModel is null || fileName is null)
-                return;
-
-            Thread t = new(() =>
+            // Debounce: reset the timer on each call so that rapid-fire PropertyChanged
+            // events (e.g. from HostStatusMonitor or bulk edits) coalesce into a single
+            // save instead of queuing N independent saves — each of which re-encrypts
+            // every password with PBKDF2 at 600K iterations. See issue #83.
+            _saveDebounceTimer?.Dispose();
+            _saveDebounceTimer = new System.Threading.Timer(_ =>
             {
+                ConnectionTreeModel? treeModel = ConnectionTreeModel;
+                string? fileName = ConnectionFileName;
+                if (treeModel is null || fileName is null)
+                    return;
+
                 lock (SaveLock)
                 {
                     SaveConnections(treeModel, UsingDatabase, new SaveFilter(), fileName, propertyNameTrigger: propertyNameTrigger);
                 }
-            });
-            t.SetApartmentState(ApartmentState.STA);
-            t.IsBackground = true;
-            t.Start();
+            }, null, SaveDebounceMs, Timeout.Infinite);
         }
 
         public static string GetStartupConnectionFileName()
