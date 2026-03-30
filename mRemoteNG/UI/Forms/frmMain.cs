@@ -310,6 +310,10 @@ namespace mRemoteNG.UI.Forms
             ProgramRoot.CloseSplash();
             Debug.Print($"[Startup] CloseSplash: {phaseSw.ElapsedMilliseconds}ms");
 
+            // Show basic title ("mRemoteNG vX.Y.Z") immediately after splash closes.
+            // ConnectionsLoaded will update it again with the connection file name.
+            UpdateWindowTitle();
+
             phaseSw.Restart();
             CredsAndConsSetup.LoadCredsAndCons();
             Debug.Print($"[Startup] LoadConnections: {phaseSw.ElapsedMilliseconds}ms");

@@ -83,7 +83,7 @@ ALTER TABLE tblCons ALTER COLUMN [ExternalAddressProvider] nvarchar(256) NULL;
 ALTER TABLE tblCons ALTER COLUMN [UserViaAPI] nvarchar(512) NOT NULL;
 
 ALTER TABLE tblRoot ALTER COLUMN [Name] nvarchar(2048) NOT NULL;
-ALTER TABLE tblRoot ALTER COLUMN [Protected] nvarchar(4048) NOT NULL;
+ALTER TABLE tblRoot ALTER COLUMN [Protected] nvarchar(MAX) NOT NULL;
 ALTER TABLE tblRoot ALTER COLUMN [ConfVersion] nvarchar(15) NOT NULL;
 
 ALTER TABLE tblExternalTools ALTER COLUMN [DisplayName] nvarchar(256) NOT NULL;

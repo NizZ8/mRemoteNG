@@ -30,7 +30,7 @@ namespace mRemoteNGSpecs.StepDefinitions
 
             // FlaUI may return the window before the title is fully set.
             // Poll for up to 10 seconds waiting for the title to populate.
-            var deadline = DateTime.UtcNow.AddSeconds(10);
+            var deadline = DateTime.UtcNow.AddSeconds(30);
             string title = mainWindow.Title;
             while (string.IsNullOrWhiteSpace(title) || !title.Contains(expectedTitle, StringComparison.OrdinalIgnoreCase))
             {

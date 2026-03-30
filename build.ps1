@@ -112,4 +112,14 @@ if (Test-Path $localConfCons) {
     Write-Host "Copied test connections from portable install" -ForegroundColor DarkGray
 }
 
-Write-Host "Build completed in $($timer.Elapsed.TotalSeconds.ToString('F1'))s" -ForegroundColor Cyan
+$elapsed = $timer.Elapsed.TotalSeconds.ToString('F1')
+Write-Host "Build completed in ${elapsed}s" -ForegroundColor Cyan
+
+# Append timing to build log (CSV: timestamp, seconds, mode, arch, hostname)
+$buildMode = if ($Portable) { 'portable' } elseif ($SelfContained) { 'self-contained' } elseif ($NoRestore) { 'no-restore' } else { 'full' }
+$logLine = "$([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss')),$elapsed,$buildMode,$Arch,$env:COMPUTERNAME"
+$logFile = Join-Path $PSScriptRoot 'build-timing.log'
+if (-not (Test-Path $logFile)) {
+    'timestamp,seconds,mode,arch,hostname' | Out-File $logFile -Encoding utf8
+}
+$logLine | Out-File $logFile -Append -Encoding utf8

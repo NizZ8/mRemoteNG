@@ -68,6 +68,30 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlSQLCon.Controls.Add(numSQLReloadInterval, 1, 6);
         }
 
+        protected override void ApplyTheme()
+        {
+            base.ApplyTheme();
+            var tm = Themes.ThemeManager.getInstance();
+            if (!tm.ActiveAndExtended) return;
+            var bg = tm.ActiveTheme.ExtendedPalette?.getColor("Dialog_Background");
+            var fg = tm.ActiveTheme.ExtendedPalette?.getColor("Dialog_Foreground");
+            if (bg == null || fg == null) return;
+
+            // Propagate theme to all containers that don't auto-inherit
+            pnlServerBlock.BackColor = bg.Value;
+            pnlServerBlock.ForeColor = fg.Value;
+            tabCtrlSQL.BackColor = bg.Value;
+            tabCtrlSQL.ForeColor = fg.Value;
+            foreach (System.Windows.Forms.TabPage tp in tabCtrlSQL.TabPages)
+            {
+                tp.BackColor = bg.Value;
+                tp.ForeColor = fg.Value;
+            }
+            lblSectionName.BackColor = bg.Value;
+            lblSectionName.ForeColor = fg.Value;
+            lblRegistrySettingsUsedInfo.BackColor = bg.Value;
+        }
+
         public override string PageName
         {
             get => Language.SQLServer.TrimEnd(':');
@@ -103,6 +127,11 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             txtSQLPassword.Text = cryptographyProvider.Decrypt(Properties.OptionsDBsPage.Default.SQLPass, Runtime.EncryptionKey);
             chkSQLReadOnly.Checked = Properties.OptionsDBsPage.Default.SQLReadOnly;
             chkShowDatabasePickerOnStartup.Checked = Properties.OptionsDBsPage.Default.ShowDatabasePickerOnStartup;
+
+            // Populate simple mode read-only fields
+            mrngTextBox2.Text = Properties.OptionsDBsPage.Default.SQLHost;
+            mrngTextBox1.Text = Properties.OptionsDBsPage.Default.SQLDatabaseName;
+            mrngTextBox4.Text = Properties.OptionsDBsPage.Default.SQLUser;
 
             string savedAuthType = Properties.OptionsDBsPage.Default.SQLAuthType;
             int authIndex = txtSQLAuthType.FindStringExact(savedAuthType);
@@ -192,6 +221,70 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             SetSqlControlsEnabled(false);
             lblTestConnectionResults.Text = Language.TestingConnection;
             imgConnectionStatus.Image = Properties.Resources.Loading_Spinner;
+
+            // Pre-check: test connectivity before loading connections.
+            // If the database doesn't exist, offer to create it.
+            string type = DatabaseConnectorFactory.NormalizeType(Properties.OptionsDBsPage.Default.SQLServerType);
+            string server = Properties.OptionsDBsPage.Default.SQLHost;
+            string database = Properties.OptionsDBsPage.Default.SQLDatabaseName;
+            string username = Properties.OptionsDBsPage.Default.SQLUser;
+            LegacyRijndaelCryptographyProvider crypto = new();
+            string password = crypto.Decrypt(Properties.OptionsDBsPage.Default.SQLPass, Runtime.EncryptionKey);
+            string authType = Properties.OptionsDBsPage.Default.SQLAuthType;
+
+            var testResult = await DatabaseConnectionTester.TestConnectivity(type, server, database, username, password, authType);
+
+            if (testResult == ConnectionTestResult.UnknownDatabase)
+            {
+                if (IsDisposed) return;
+                var result = MessageBox.Show(
+                    string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database)
+                        + Environment.NewLine + Environment.NewLine
+                        + $"Would you like to create database '{database}' now?",
+                    "Database Not Found",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        await DatabaseConnectionTester.TryCreateDatabaseAsync(type, server, database, username, password, authType);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (IsDisposed) return;
+                        UpdateConnectionImage(false);
+                        SetSqlControlsEnabled(true);
+                        lblTestConnectionResults.Text = BuildTestFailedMessage($"Failed to create database: {ex.Message}");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (IsDisposed) return;
+                    UpdateConnectionImage(false);
+                    SetSqlControlsEnabled(true);
+                    lblTestConnectionResults.Text =
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database));
+                    return;
+                }
+            }
+            else if (testResult != ConnectionTestResult.ConnectionSucceded)
+            {
+                if (IsDisposed) return;
+                UpdateConnectionImage(false);
+                SetSqlControlsEnabled(true);
+                lblTestConnectionResults.Text = testResult switch
+                {
+                    ConnectionTestResult.ServerNotAccessible =>
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.ServerNotAccessible, server)),
+                    ConnectionTestResult.CredentialsRejected =>
+                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.LoginFailedForUser, username)),
+                    _ => BuildTestFailedMessage(Language.RdpErrorUnknown)
+                };
+                return;
+            }
 
             try
             {
@@ -331,8 +424,23 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     break;
                 case ConnectionTestResult.UnknownDatabase:
                     UpdateConnectionImage(false);
-                    lblTestConnectionResults.Text =
-                        BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database));
+                    var createResult = MessageBox.Show(
+                        string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database)
+                            + Environment.NewLine + Environment.NewLine
+                            + $"Would you like to create database '{database}' now?",
+                        "Database Not Found",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (createResult == DialogResult.Yes)
+                    {
+                        await CreateDatabaseAndRetestAsync(type, server, database, username, password, authType);
+                    }
+                    else
+                    {
+                        lblTestConnectionResults.Text =
+                            BuildTestFailedMessage(string.Format(CultureInfo.CurrentCulture, Language.DatabaseNotAvailable, database));
+                    }
                     break;
                 case ConnectionTestResult.UnknownError:
                     UpdateConnectionImage(false);
@@ -342,6 +450,40 @@ namespace mRemoteNG.UI.Forms.OptionsPages
                     UpdateConnectionImage(false);
                     lblTestConnectionResults.Text = BuildTestFailedMessage(Language.RdpErrorUnknown);
                     break;
+            }
+        }
+
+        private async Task CreateDatabaseAndRetestAsync(string type, string server, string database, string username, string password, string authType)
+        {
+            lblTestConnectionResults.Text = $"Creating database '{database}'...";
+            imgConnectionStatus.Image = Properties.Resources.Loading_Spinner;
+            btnTestConnection.Enabled = false;
+
+            try
+            {
+                await DatabaseConnectionTester.TryCreateDatabaseAsync(type, server, database, username, password, authType);
+
+                // Re-test to confirm it works
+                var retest = await DatabaseConnectionTester.TestConnectivity(type, server, database, username, password, authType);
+                if (retest == ConnectionTestResult.ConnectionSucceded)
+                {
+                    UpdateConnectionImage(true);
+                    lblTestConnectionResults.Text = $"Database '{database}' created. {Language.ConnectionSuccessful}";
+                }
+                else
+                {
+                    UpdateConnectionImage(false);
+                    lblTestConnectionResults.Text = $"Database created but connection test failed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateConnectionImage(false);
+                lblTestConnectionResults.Text = BuildTestFailedMessage($"Failed to create database: {ex.Message}");
+            }
+            finally
+            {
+                btnTestConnection.Enabled = true;
             }
         }
 

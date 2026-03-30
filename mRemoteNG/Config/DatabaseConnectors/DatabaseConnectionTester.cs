@@ -1,4 +1,5 @@
 using System;
+using System.Data.Common;
 using System.Data.Odbc;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
@@ -56,8 +57,8 @@ namespace mRemoteNG.Config.DatabaseConnectors
             return sqlException.Number switch
             {
                 4060 => ConnectionTestResult.UnknownDatabase,
-                18456 => ConnectionTestResult.CredentialsRejected,
-                -1 => ConnectionTestResult.ServerNotAccessible,
+                18456 or 18452 or 18451 or 18470 or 18486 or 18487 or 18488 => ConnectionTestResult.CredentialsRejected,
+                -1 or -2 or 2 or 53 => ConnectionTestResult.ServerNotAccessible,
                 _ => ConnectionTestResult.UnknownError
             };
         }
@@ -73,6 +74,29 @@ namespace mRemoteNG.Config.DatabaseConnectors
                 2005 => ConnectionTestResult.ServerNotAccessible,
                 _ => ConnectionTestResult.UnknownError
             };
+        }
+
+        /// <summary>
+        /// Attempts to create the specified database by connecting to 'master' (MSSQL)
+        /// or without a database (MySQL), then issuing CREATE DATABASE.
+        /// </summary>
+        public static async Task<bool> TryCreateDatabaseAsync(string type, string server, string database, string username, string password, string? authType = null)
+        {
+            string masterDb = string.Equals(type, DatabaseConnectorFactory.MySqlType, StringComparison.OrdinalIgnoreCase)
+                ? ""
+                : "master";
+
+            using IDatabaseConnector dbConnector = DatabaseConnectorFactory.DatabaseConnector(type, server, masterDb, username, password, authType);
+            await dbConnector.ConnectAsync();
+
+            // Database names are user-supplied — validate to prevent injection.
+            // Allow only alphanumeric, underscore, hyphen (safe subset).
+            if (!System.Text.RegularExpressions.Regex.IsMatch(database, @"^[A-Za-z0-9_\-]+$"))
+                throw new ArgumentException($"Invalid database name: {database}");
+
+            DbCommand cmd = dbConnector.DbCommand($"CREATE DATABASE [{database}]");
+            await cmd.ExecuteNonQueryAsync();
+            return true;
         }
 
         private static ConnectionTestResult HandleOdbcException(OdbcException odbcException)

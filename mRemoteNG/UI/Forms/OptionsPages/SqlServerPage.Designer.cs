@@ -19,8 +19,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlServerPage));
-            lblRegistrySettingsUsedInfo = new System.Windows.Forms.Label();
-            lblSectionName = new System.Windows.Forms.Label();
+            lblRegistrySettingsUsedInfo = new MrngLabel();
+            lblSectionName = new MrngLabel();
             pnlServerBlock = new System.Windows.Forms.Panel();
             tabCtrlSQL = new System.Windows.Forms.TabControl();
             tabPageProfiles = new System.Windows.Forms.TabPage();
@@ -32,8 +32,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             lblProfileName = new MrngLabel();
             tabPage1 = new System.Windows.Forms.TabPage();
             pnlSQLCon = new System.Windows.Forms.TableLayoutPanel();
-            chkSQLReadOnly = new System.Windows.Forms.CheckBox();
-            chkShowDatabasePickerOnStartup = new System.Windows.Forms.CheckBox();
+            chkSQLReadOnly = new MrngCheckBox();
+            chkShowDatabasePickerOnStartup = new MrngCheckBox();
             lblShowDatabasePickerOnStartup = new MrngLabel();
             txtSQLAuthType = new MrngComboBox();
             lblSQLAuthType = new MrngLabel();
@@ -80,24 +80,24 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             mrngTextBox11 = new MrngTextBox();
             tabPage4 = new System.Windows.Forms.TabPage();
             tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            DCMSetuptxtmandatory4 = new System.Windows.Forms.Label();
-            DCMSetuptxtmandatory3 = new System.Windows.Forms.Label();
-            DCMSetuptxtmandatory2 = new System.Windows.Forms.Label();
-            DCMSetuptxtmandatory1 = new System.Windows.Forms.Label();
+            DCMSetuptxtmandatory4 = new MrngLabel();
+            DCMSetuptxtmandatory3 = new MrngLabel();
+            DCMSetuptxtmandatory2 = new MrngLabel();
+            DCMSetuptxtmandatory1 = new MrngLabel();
             DCMSetuptxtuserpwd = new MrngTextBox();
             DCMSetuptxtuser = new MrngTextBox();
-            DCMSetuplbluserpwd = new System.Windows.Forms.Label();
-            DCMSetuplbluser = new System.Windows.Forms.Label();
+            DCMSetuplbluserpwd = new MrngLabel();
+            DCMSetuplbluser = new MrngLabel();
             DCMSetuptxtdbname = new MrngTextBox();
-            DCMSetuplbldbname = new System.Windows.Forms.Label();
+            DCMSetuplbldbname = new MrngLabel();
             DCMSetuptxtadmpwd = new MrngTextBox();
-            DCMSetuplbladminpwd = new System.Windows.Forms.Label();
+            DCMSetuplbladminpwd = new MrngLabel();
             DCMSetuptxtadmuser = new MrngTextBox();
             DCMSetupRdBtnC = new System.Windows.Forms.RadioButton();
             DCMSetupRdBtnV = new System.Windows.Forms.RadioButton();
-            DCMSetuplblschema = new System.Windows.Forms.Label();
-            DCMSetupddschema = new System.Windows.Forms.ComboBox();
-            DCMSetuplbladminuser = new System.Windows.Forms.Label();
+            DCMSetuplblschema = new MrngLabel();
+            DCMSetupddschema = new MrngComboBox();
+            DCMSetuplbladminuser = new MrngLabel();
             imgConnectionStatus = new System.Windows.Forms.PictureBox();
             lblTestConnectionResults = new MrngLabel();
             btnTestConnection = new MrngButton();
@@ -109,9 +109,9 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             mrngTextBox1 = new MrngTextBox();
             mrngLabel6 = new MrngLabel();
             mrngTextBox4 = new MrngTextBox();
-            label1 = new System.Windows.Forms.Label();
+            label1 = new MrngLabel();
             picboxLogo = new System.Windows.Forms.PictureBox();
-            chkUseSQLServer = new System.Windows.Forms.CheckBox();
+            chkUseSQLServer = new MrngCheckBox();
             frmtoolTip = new System.Windows.Forms.ToolTip(components);
             pnlServerBlock.SuspendLayout();
             tabCtrlSQL.SuspendLayout();
@@ -133,7 +133,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // 
             // lblRegistrySettingsUsedInfo
             // 
-            lblRegistrySettingsUsedInfo.BackColor = System.Drawing.SystemColors.ControlLight;
+            // BackColor follows theme (no hardcoded color)
             lblRegistrySettingsUsedInfo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
             lblRegistrySettingsUsedInfo.ForeColor = System.Drawing.Color.IndianRed;
             lblRegistrySettingsUsedInfo.Location = new System.Drawing.Point(3, 46);
@@ -146,10 +146,10 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // 
             // lblSectionName
             // 
-            lblSectionName.BackColor = System.Drawing.SystemColors.ControlLight;
+            // BackColor follows theme
             lblSectionName.Dock = System.Windows.Forms.DockStyle.Top;
             lblSectionName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
-            lblSectionName.ForeColor = System.Drawing.SystemColors.ControlText;
+            // ForeColor follows theme
             lblSectionName.Location = new System.Drawing.Point(0, 0);
             lblSectionName.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
             lblSectionName.Name = "lblSectionName";
@@ -160,7 +160,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // 
             // pnlServerBlock
             // 
-            pnlServerBlock.BackColor = System.Drawing.SystemColors.ControlLight;
+            // BackColor follows theme (no hardcoded ControlLight)
             pnlServerBlock.Controls.Add(tabCtrlSQL);
             pnlServerBlock.Controls.Add(imgConnectionStatus);
             pnlServerBlock.Controls.Add(lblTestConnectionResults);
@@ -171,7 +171,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlServerBlock.Controls.Add(picboxLogo);
             pnlServerBlock.Location = new System.Drawing.Point(15, 120);
             pnlServerBlock.Name = "pnlServerBlock";
-            pnlServerBlock.Size = new System.Drawing.Size(492, 324);
+            pnlServerBlock.Size = new System.Drawing.Size(600, 550);
             pnlServerBlock.TabIndex = 27;
             pnlServerBlock.Visible = false;
             // 
@@ -185,7 +185,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabCtrlSQL.Location = new System.Drawing.Point(8, 3);
             tabCtrlSQL.Name = "tabCtrlSQL";
             tabCtrlSQL.SelectedIndex = 0;
-            tabCtrlSQL.Size = new System.Drawing.Size(481, 277);
+            tabCtrlSQL.Size = new System.Drawing.Size(585, 480);
             tabCtrlSQL.TabIndex = 33;
             tabCtrlSQL.Visible = false;
             // 
@@ -203,7 +203,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabPageProfiles.Size = new System.Drawing.Size(473, 251);
             tabPageProfiles.TabIndex = 4;
             tabPageProfiles.Text = "Profiles";
-            tabPageProfiles.UseVisualStyleBackColor = true;
+            // UseVisualStyleBackColor removed — follows dark theme
             // 
             // lstProfiles
             // 
@@ -267,7 +267,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabPage1.Size = new System.Drawing.Size(473, 251);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Server & Credentials";
-            tabPage1.UseVisualStyleBackColor = true;
+            // UseVisualStyleBackColor removed — follows dark theme
             // 
             // pnlSQLCon
             // 
@@ -288,7 +288,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlSQLCon.Controls.Add(txtSQLServer, 1, 1);
             pnlSQLCon.Controls.Add(txtSQLPassword, 1, 5);
             pnlSQLCon.Controls.Add(txtSQLUsername, 1, 4);
-            pnlSQLCon.Location = new System.Drawing.Point(-3, 9);
+            pnlSQLCon.Dock = System.Windows.Forms.DockStyle.Fill;
             pnlSQLCon.Name = "pnlSQLCon";
             pnlSQLCon.RowCount = 9;
             pnlSQLCon.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
@@ -300,7 +300,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             pnlSQLCon.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             pnlSQLCon.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             pnlSQLCon.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            pnlSQLCon.Size = new System.Drawing.Size(458, 223);
+            pnlSQLCon.Size = new System.Drawing.Size(458, 280);
             pnlSQLCon.TabIndex = 23;
             // 
             // chkSQLReadOnly
@@ -462,7 +462,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabPage2.Size = new System.Drawing.Size(473, 251);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Connection Properties";
-            tabPage2.UseVisualStyleBackColor = true;
+            // UseVisualStyleBackColor removed — follows dark theme
             // 
             // tableLayoutPanel2
             // 
@@ -602,7 +602,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabPage3.Size = new System.Drawing.Size(473, 251);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Security";
-            tabPage3.UseVisualStyleBackColor = true;
+            // UseVisualStyleBackColor removed — follows dark theme
             // 
             // tableLayoutPanel3
             // 
@@ -845,7 +845,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tabPage4.Size = new System.Drawing.Size(473, 251);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Setup";
-            tabPage4.UseVisualStyleBackColor = true;
+            // UseVisualStyleBackColor removed — follows dark theme
             // 
             // tableLayoutPanel4
             // 
@@ -871,7 +871,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             tableLayoutPanel4.Controls.Add(DCMSetuplblschema, 0, 1);
             tableLayoutPanel4.Controls.Add(DCMSetupddschema, 1, 1);
             tableLayoutPanel4.Controls.Add(DCMSetuplbladminuser, 0, 2);
-            tableLayoutPanel4.Location = new System.Drawing.Point(8, 6);
+            tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 8;
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -1092,7 +1092,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // imgConnectionStatus
             // 
             imgConnectionStatus.Image = Properties.Resources.F1Help_16x;
-            imgConnectionStatus.Location = new System.Drawing.Point(243, 286);
+            imgConnectionStatus.Location = new System.Drawing.Point(243, 495);
             imgConnectionStatus.Name = "imgConnectionStatus";
             imgConnectionStatus.Size = new System.Drawing.Size(16, 16);
             imgConnectionStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1102,7 +1102,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // lblTestConnectionResults
             // 
             lblTestConnectionResults.AutoSize = true;
-            lblTestConnectionResults.Location = new System.Drawing.Point(17, 289);
+            lblTestConnectionResults.Location = new System.Drawing.Point(17, 498);
             lblTestConnectionResults.Name = "lblTestConnectionResults";
             lblTestConnectionResults.Size = new System.Drawing.Size(124, 13);
             lblTestConnectionResults.TabIndex = 31;
@@ -1111,7 +1111,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnTestConnection
             // 
             btnTestConnection._mice = MrngButton.MouseState.OUT;
-            btnTestConnection.Location = new System.Drawing.Point(265, 286);
+            btnTestConnection.Location = new System.Drawing.Point(265, 495);
             btnTestConnection.Name = "btnTestConnection";
             btnTestConnection.Size = new System.Drawing.Size(109, 25);
             btnTestConnection.TabIndex = 30;
@@ -1121,12 +1121,13 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // btnExpandOptions
             // 
             btnExpandOptions._mice = MrngButton.MouseState.OUT;
-            btnExpandOptions.Location = new System.Drawing.Point(380, 286);
+            btnExpandOptions.Location = new System.Drawing.Point(380, 495);
             btnExpandOptions.Name = "btnExpandOptions";
             btnExpandOptions.Size = new System.Drawing.Size(109, 25);
             btnExpandOptions.TabIndex = 29;
             btnExpandOptions.Text = "Advanced >>";
             btnExpandOptions.UseVisualStyleBackColor = true;
+            btnTestConnection.Click += btnTestConnection_Click;
             btnExpandOptions.Click += btnExpandOptions_Click;
             // 
             // tableLayoutPanel1
@@ -1214,9 +1215,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // label1
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            label1.BackColor = System.Drawing.SystemColors.ControlLight;
+            // BackColor/ForeColor follow theme
             label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
-            label1.ForeColor = System.Drawing.SystemColors.ControlText;
             label1.Location = new System.Drawing.Point(163, 69);
             label1.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
             label1.Name = "label1";
@@ -1228,7 +1228,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             // 
             // picboxLogo
             // 
-            picboxLogo.BackColor = System.Drawing.SystemColors.Control;
+            // BackColor follows theme
             picboxLogo.Image = (System.Drawing.Image)resources.GetObject("picboxLogo.Image");
             picboxLogo.Location = new System.Drawing.Point(47, 39);
             picboxLogo.Margin = new System.Windows.Forms.Padding(10);
@@ -1288,11 +1288,11 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             ResumeLayout(false);
             PerformLayout();
         }
-        internal System.Windows.Forms.Label lblRegistrySettingsUsedInfo;
-        internal System.Windows.Forms.Label lblSectionName;
+        internal MrngLabel lblRegistrySettingsUsedInfo;
+        internal MrngLabel lblSectionName;
         private System.Windows.Forms.Panel pnlServerBlock;
         private System.Windows.Forms.PictureBox picboxLogo;
-        internal System.Windows.Forms.Label label1;
+        internal MrngLabel label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         internal MrngLabel mrngLabel5;
         internal MrngTextBox mrngTextBox1;
@@ -1342,8 +1342,8 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         internal MrngLabel mrngLabel7;
         internal MrngTextBox mrngTextBox5;
         internal MrngLabel mrngLabel3;
-        private System.Windows.Forms.CheckBox chkSQLReadOnly;
-        private System.Windows.Forms.CheckBox chkUseSQLServer;
+        private MrngCheckBox chkSQLReadOnly;
+        private MrngCheckBox chkUseSQLServer;
         internal MrngLabel mrngLabel19;
         private MrngComboBox mrngComboBox4;
         internal MrngLabel mrngLabel18;
@@ -1358,24 +1358,24 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         private System.Windows.Forms.RadioButton DCMSetupRdBtnC;
         private System.Windows.Forms.RadioButton DCMSetupRdBtnV;
         internal MrngTextBox DCMSetuptxtadmuser;
-        private System.Windows.Forms.Label DCMSetuplblschema;
-        private System.Windows.Forms.ComboBox DCMSetupddschema;
-        private System.Windows.Forms.Label DCMSetuplbladminuser;
+        private MrngLabel DCMSetuplblschema;
+        private MrngComboBox DCMSetupddschema;
+        private MrngLabel DCMSetuplbladminuser;
         private System.Windows.Forms.ToolTip frmtoolTip;
         private System.ComponentModel.IContainer components;
-        private System.Windows.Forms.Label DCMSetuplbladminpwd;
+        private MrngLabel DCMSetuplbladminpwd;
         internal MrngTextBox DCMSetuptxtadmpwd;
         internal MrngTextBox DCMSetuptxtdbname;
-        private System.Windows.Forms.Label DCMSetuplbldbname;
+        private MrngLabel DCMSetuplbldbname;
         internal MrngTextBox DCMSetuptxtuserpwd;
         internal MrngTextBox DCMSetuptxtuser;
-        private System.Windows.Forms.Label DCMSetuplbluserpwd;
-        private System.Windows.Forms.Label DCMSetuplbluser;
-        private System.Windows.Forms.Label DCMSetuptxtmandatory4;
-        private System.Windows.Forms.Label DCMSetuptxtmandatory3;
-        private System.Windows.Forms.Label DCMSetuptxtmandatory2;
-        private System.Windows.Forms.Label DCMSetuptxtmandatory1;
-        private System.Windows.Forms.CheckBox chkShowDatabasePickerOnStartup;
+        private MrngLabel DCMSetuplbluserpwd;
+        private MrngLabel DCMSetuplbluser;
+        private MrngLabel DCMSetuptxtmandatory4;
+        private MrngLabel DCMSetuptxtmandatory3;
+        private MrngLabel DCMSetuptxtmandatory2;
+        private MrngLabel DCMSetuptxtmandatory1;
+        private MrngCheckBox chkShowDatabasePickerOnStartup;
         private System.Windows.Forms.TabPage tabPageProfiles;
         private System.Windows.Forms.ListBox lstProfiles;
         private MrngButton btnLoadProfile;

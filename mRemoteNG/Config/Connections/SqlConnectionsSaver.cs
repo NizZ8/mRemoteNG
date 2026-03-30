@@ -195,6 +195,8 @@ namespace mRemoteNG.Config.Connections
                     nameParam.Value = rootTreeNode.Name;
                     DbParameter protectedParam = dbQuery.CreateParameter();
                     protectedParam.ParameterName = "@Protected";
+                    protectedParam.DbType = System.Data.DbType.String;
+                    protectedParam.Size = -1; // nvarchar(MAX)
                     protectedParam.Value = strProtected;
                     DbParameter versionParam = dbQuery.CreateParameter();
                     versionParam.ParameterName = "@Version";

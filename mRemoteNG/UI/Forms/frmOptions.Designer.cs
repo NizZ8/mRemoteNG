@@ -98,6 +98,7 @@ namespace mRemoteNG.UI.Forms
             // 
             // pnlMain
             // 
+            this.pnlMain.AutoScroll = true;
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(152, 0);
             this.pnlMain.Name = "pnlMain";
@@ -142,15 +143,16 @@ namespace mRemoteNG.UI.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(1075, 725);
+            this.ClientSize = new System.Drawing.Size(1075, 825);
+            this.MinimumSize = new System.Drawing.Size(900, 700);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.splitter2);
             this.Controls.Add(this.lstOptionPages);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.pnlBottom);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
             this.MinimizeBox = false;
             this.Name = "FrmOptions";
             this.ShowInTaskbar = false;

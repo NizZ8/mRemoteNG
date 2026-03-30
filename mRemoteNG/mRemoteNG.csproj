@@ -694,7 +694,11 @@
   </PropertyGroup>
   <Target Name="CopyPackageAssembliesToSubFolder" AfterTargets="ResolveReferences">
     <ItemGroup>
-      <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' " Update="%(ReferenceCopyLocalPaths)" DestinationSubDirectory="Assemblies\" />
+      <!-- Only redirect managed NuGet DLLs into Assemblies\. Native RID-specific
+           DLLs already have DestinationSubDirectory set by NuGet (e.g.
+           runtimes\win-x64\native\) — overwriting it causes architecture
+           mismatches when multiple RIDs are restored (fix for #81). -->
+      <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' AND '%(ReferenceCopyLocalPaths.DestinationSubDirectory)' == '' " Update="%(ReferenceCopyLocalPaths)" DestinationSubDirectory="Assemblies\" />
     </ItemGroup>
   </Target>
   <!-- Satellite assembly grouping is handled by build.ps1 post-build step.

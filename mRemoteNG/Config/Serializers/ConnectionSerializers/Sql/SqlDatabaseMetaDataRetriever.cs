@@ -141,6 +141,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
 
                     DbParameter protectedParam = cmd.CreateParameter();
                     protectedParam.ParameterName = "@Protected";
+                    protectedParam.DbType = System.Data.DbType.String;
+                    protectedParam.Size = -1; // nvarchar(MAX) — column is 4048 which exceeds nvarchar param limit of 4000
                     protectedParam.Value = strProtected;
                     cmd.Parameters.Add(protectedParam);
 
@@ -459,7 +461,7 @@ CREATE TABLE [dbo].[tblCons] (
 CREATE TABLE [dbo].[tblRoot] (
         [Name] [nvarchar] (2048) NOT NULL,
         [Export] [bit] NOT NULL,
-        [Protected] [nvarchar] (4048) NOT NULL,
+        [Protected] [nvarchar] (MAX) NOT NULL,
         [ConfVersion] [nvarchar] (15) NOT NULL
 ) ON [PRIMARY]
 
@@ -699,7 +701,7 @@ DROP TABLE IF EXISTS `tblRoot`;
 CREATE TABLE `tblRoot` (
     `Name` varchar(2048) NOT NULL,
     `Export` tinyint NOT NULL,
-    `Protected` varchar(4048) NOT NULL,
+    `Protected` text NOT NULL,
     `ConfVersion` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
