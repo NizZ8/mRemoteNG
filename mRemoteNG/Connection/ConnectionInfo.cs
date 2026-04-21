@@ -374,8 +374,18 @@ namespace mRemoteNG.Connection
             {
                 try
                 {
+                    // Resolve by both name AND return type — RootNodeInfo shadows some
+                    // ConnectionInfo properties (e.g. `new bool Password`) which makes a
+                    // name-only GetProperty call throw AmbiguousMatchException. Empty
+                    // `types` array targets a property with no indexer parameters.
                     Type connectionInfoType = currentParent.GetType();
-                    PropertyInfo? parentPropertyInfo = connectionInfoType.GetProperty(propertyName);
+                    PropertyInfo? parentPropertyInfo = connectionInfoType.GetProperty(
+                        propertyName,
+                        BindingFlags.Public | BindingFlags.Instance,
+                        binder: null,
+                        returnType: typeof(TPropertyType),
+                        types: Type.EmptyTypes,
+                        modifiers: null);
                     if (parentPropertyInfo == null)
                         throw new InvalidOperationException(
                             $"Could not retrieve property data for property '{propertyName}' on parent node '{currentParent.Name}'"
