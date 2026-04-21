@@ -436,6 +436,15 @@ namespace mRemoteNG.Connection.Protocol
                 {
                     return _fallbackTabText;
                 }
+
+                // Filter noise from #90: very short titles leak from vi/editor status,
+                // and "(inactive)" stays stuck after Ctrl-D when the session closes.
+                string trimmed = terminalTitle.Trim();
+                if (trimmed.Length <= 2 ||
+                    trimmed.EndsWith("(inactive)", StringComparison.OrdinalIgnoreCase))
+                {
+                    return _fallbackTabText;
+                }
             }
 
             string tabText = terminalTitle.Replace("&", "&&", StringComparison.Ordinal);
