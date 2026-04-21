@@ -46,7 +46,7 @@ public class SqlVersion31To32UpgraderTests
         Assert.That(upgradedVersion, Is.EqualTo(new Version(3, 2)));
         Assert.That(connector.CommandTexts, Has.Count.EqualTo(2));
         Assert.That(connector.CommandTexts[0], Does.Contain("ALTER TABLE tblCons ALTER COLUMN [Name] nvarchar(128) NOT NULL;"));
-        Assert.That(connector.CommandTexts[0], Does.Contain("ALTER TABLE tblRoot ALTER COLUMN [Protected] nvarchar(4048) NOT NULL;"));
+        Assert.That(connector.CommandTexts[0], Does.Contain("ALTER TABLE tblRoot ALTER COLUMN [Protected] nvarchar(MAX) NOT NULL;"));
         Assert.That(connector.CommandTexts[0], Does.Contain("ALTER TABLE tblExternalTools ALTER COLUMN [Arguments] nvarchar(2048) NOT NULL;"));
         Assert.That(connector.CommandTexts[1], Does.Contain("UPDATE tblRoot SET ConfVersion=@confVersion;"));
         transaction.Received(1).Commit();
