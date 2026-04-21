@@ -294,7 +294,7 @@ namespace mRemoteNG.Container
         public void SortOnRecursive<TProperty>(Func<ConnectionInfo, TProperty> propertyToCompare, ListSortDirection sortDirection = ListSortDirection.Ascending)
             where TProperty : IComparable<TProperty>
         {
-            foreach (ContainerInfo child in Children.OfType<ContainerInfo>())
+            foreach (ContainerInfo child in Children.OfType<ContainerInfo>().ToArray())
                 child.SortOnRecursive(propertyToCompare, sortDirection);
             SortOn(propertyToCompare, sortDirection);
         }
@@ -326,7 +326,9 @@ namespace mRemoteNG.Container
 
         public IEnumerable<ConnectionInfo> GetRecursiveChildList()
         {
-            foreach (ConnectionInfo child in Children)
+            // Snapshot Children so concurrent tree mutations (e.g. LoadConnections on
+            // the sync watcher's background thread) can't trip enumeration. Fixes #102.
+            foreach (ConnectionInfo child in Children.ToArray())
             {
                 yield return child;
                 if (child is ContainerInfo childContainer)
@@ -339,7 +341,7 @@ namespace mRemoteNG.Container
 
         public IEnumerable<ConnectionInfo> GetRecursiveFavoriteChildList()
         {
-            foreach (ConnectionInfo child in Children)
+            foreach (ConnectionInfo child in Children.ToArray())
             {
                 if (child.Favorite && child.GetTreeNodeType() == TreeNodeType.Connection)
                     yield return child;

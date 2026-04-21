@@ -1,6 +1,7 @@
 ﻿using mRemoteNG.App;
 using mRemoteNG.Messages;
 using mRemoteNG.Properties;
+using mRemoteNG.UI.Forms;
 using System;
 using System.Runtime.Versioning;
 using System.Timers;
@@ -50,6 +51,16 @@ namespace mRemoteNG.Config.Connections.Multiuser
 
         private void Load(object sender, ConnectionsUpdateAvailableEventArgs args)
         {
+            // Update checkers (SQL polling, file watcher) raise this event from
+            // background threads. Marshal the reload onto the UI thread so the
+            // tree/model stays single-threaded — otherwise concurrent Children
+            // mutations trip enumeration in GetRecursiveChildList. Fixes #102.
+            if (FrmMain.IsCreated && FrmMain.Default.IsHandleCreated && FrmMain.Default.InvokeRequired)
+            {
+                FrmMain.Default.BeginInvoke(new Action(() => Load(sender, args)));
+                return;
+            }
+
             if (args.DatabaseConnector != null)
             {
                 Runtime.ConnectionsService.LoadConnections(true, false, "");

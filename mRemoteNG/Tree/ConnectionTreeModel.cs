@@ -67,8 +67,10 @@ namespace mRemoteNG.Tree
 
         public IReadOnlyList<ConnectionInfo> GetRecursiveChildList()
         {
+            // Snapshot RootNodes; the sync watcher can trigger a reload from a
+            // background thread while the UI thread mutates the tree. #102.
             List<ConnectionInfo> list = new();
-            foreach (ContainerInfo rootNode in RootNodes)
+            foreach (ContainerInfo rootNode in RootNodes.ToArray())
             {
                 list.AddRange(GetRecursiveChildList(rootNode));
             }
@@ -109,7 +111,7 @@ namespace mRemoteNG.Tree
             if (string.IsNullOrWhiteSpace(connectionId))
                 return null;
 
-            foreach (ContainerInfo rootNode in RootNodes)
+            foreach (ContainerInfo rootNode in RootNodes.ToArray())
             {
                 if (string.Equals(rootNode.ConstantID, connectionId, StringComparison.OrdinalIgnoreCase))
                     return rootNode;
