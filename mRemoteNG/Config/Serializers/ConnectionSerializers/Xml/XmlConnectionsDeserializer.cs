@@ -81,12 +81,17 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 long authMs = phaseSw.ElapsedMilliseconds;
 
                 phaseSw.Restart();
+                bool fullFileEncryptionValue = false;
+                int innerTextLength = 0;
+                int decryptedLength = 0;
                 if (_confVersion >= 2.6)
                 {
-                    bool fullFileEncryptionValue = rootXmlElement.GetAttributeAsBool("FullFileEncryption");
+                    fullFileEncryptionValue = rootXmlElement.GetAttributeAsBool("FullFileEncryption");
+                    innerTextLength = rootXmlElement.InnerText?.Length ?? 0;
                     if (fullFileEncryptionValue)
                     {
                         string decryptedContent = _decryptor.Decrypt(rootXmlElement.InnerText);
+                        decryptedLength = decryptedContent?.Length ?? 0;
                         rootXmlElement.InnerXml = decryptedContent;
                     }
                 }
@@ -101,14 +106,31 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 ProcessPendingDecrypts();
                 long batchDecryptMs = phaseSw.ElapsedMilliseconds;
 
+                // Safety net: refuse to hand back an empty tree when the source input
+                // was non-trivially large. A downstream AutoSave would otherwise persist
+                // the empty tree over the user's file and lose all data. Only kicks in
+                // for FullFileEncryption files where ciphertext was expected to decrypt
+                // to connections but produced nothing (e.g. wrong password path taken,
+                // decrypt silently returned empty, attribute misread).
+                int nodeCount = _rootNodeInfo.Children.Count;
+                if (nodeCount == 0 && fullFileEncryptionValue && innerTextLength > 1024)
+                {
+                    stopwatch.Stop();
+                    throw new InvalidOperationException(
+                        $"Connection file decrypted to 0 nodes despite {innerTextLength} bytes of ciphertext "
+                        + $"(decrypted: {decryptedLength} bytes). Refusing to load to prevent data loss. "
+                        + "Verify password or restore from backup.");
+                }
+
                 if (!import)
                     Runtime.ConnectionsService.IsConnectionsFileLoaded = true;
 
                 stopwatch.Stop();
                 Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
-                    $"[Deser] XML parse: {parseMs}ms, Auth: {authMs}ms, FullDecrypt: {fullDecryptMs}ms, " +
-                    $"Nodes: {nodesMs}ms, BatchDecrypt({_pendingDecrypts.Count} fields): {batchDecryptMs}ms, " +
-                    $"Total: {stopwatch.ElapsedMilliseconds}ms");
+                    $"[Deser] XML parse: {parseMs}ms, Auth: {authMs}ms, FullDecrypt: {fullDecryptMs}ms, "
+                    + $"Nodes: {nodesMs}ms ({nodeCount} root-level), BatchDecrypt({_pendingDecrypts.Count} fields): {batchDecryptMs}ms, "
+                    + $"InnerText: {innerTextLength}B, Decrypted: {decryptedLength}B, FullEnc: {fullFileEncryptionValue}, "
+                    + $"Total: {stopwatch.ElapsedMilliseconds}ms");
 
                 return _connectionTreeModel;
             }
