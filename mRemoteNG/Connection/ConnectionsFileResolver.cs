@@ -1,0 +1,156 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Versioning;
+using System.Windows.Forms;
+using mRemoteNG.App;
+using mRemoteNG.App.Info;
+using mRemoteNG.Messages;
+using mRemoteNG.Properties;
+
+namespace mRemoteNG.Connection
+{
+    [SupportedOSPlatform("windows")]
+    public static class ConnectionsFileResolver
+    {
+        /// <summary>
+        /// A candidate <c>confCons.xml</c> location that was discovered on disk.
+        /// </summary>
+        public sealed record Candidate(string Path, DateTime LastWriteTimeUtc, long Size, string Label);
+
+        /// <summary>
+        /// Scan every well-known location where a connections file could live and
+        /// return one <see cref="Candidate"/> per existing file. Paths are de-duplicated
+        /// case-insensitively on their full paths.
+        /// </summary>
+        public static IReadOnlyList<Candidate> DiscoverCandidates()
+        {
+            List<string> seen = [];
+            List<Candidate> result = [];
+
+            void AddIfExists(string path, string label)
+            {
+                if (string.IsNullOrWhiteSpace(path)) return;
+                string full;
+                try { full = System.IO.Path.GetFullPath(path); }
+                catch { return; }
+                if (seen.Any(s => string.Equals(s, full, StringComparison.OrdinalIgnoreCase))) return;
+                if (!File.Exists(full)) return;
+                try
+                {
+                    var info = new FileInfo(full);
+                    // Touching Length / LastWriteTimeUtc can still throw if the file
+                    // is deleted or permissions change between the File.Exists check
+                    // and this read — treat that as "not present" and move on.
+                    long size = info.Length;
+                    DateTime mtimeUtc = info.LastWriteTimeUtc;
+                    seen.Add(full);
+                    result.Add(new Candidate(full, mtimeUtc, size, label));
+                }
+                catch
+                {
+                    // ignore — candidate vanished during the scan
+                }
+            }
+
+            // Installed-edition default: %LOCALAPPDATA%\mRemoteNG\confCons.xml
+            AddIfExists(
+                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                       Application.ProductName ?? "mRemoteNG",
+                                       ConnectionsFileInfo.DefaultConnectionsFile),
+                "Installed (LocalAppData)");
+
+            // Installed-edition fallback: %APPDATA%\mRemoteNG\confCons.xml
+            AddIfExists(
+                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                       Application.ProductName ?? "mRemoteNG",
+                                       ConnectionsFileInfo.DefaultConnectionsFile),
+                "Installed (Roaming AppData)");
+
+            // Portable-edition main: <exedir>\Settings\confCons.xml
+            string exeDir = System.IO.Path.GetDirectoryName(
+                Assembly.GetAssembly(typeof(ConnectionInfo))?.Location) ?? string.Empty;
+            if (!string.IsNullOrEmpty(exeDir))
+            {
+                AddIfExists(
+                    System.IO.Path.Combine(exeDir, SettingsFileInfo.PortableSettingsFolderName,
+                                           ConnectionsFileInfo.DefaultConnectionsFile),
+                    "Portable (exe\\Settings)");
+                AddIfExists(
+                    System.IO.Path.Combine(exeDir, ConnectionsFileInfo.DefaultConnectionsFile),
+                    "Portable (exe root, legacy)");
+            }
+
+            // The saved Options path (user-configured custom location) — include only
+            // if it actually exists on disk; we don't want to list a stale setting.
+            try
+            {
+                string saved = OptionsConnectionsPage.Default.ConnectionFilePath;
+                if (!string.IsNullOrWhiteSpace(saved))
+                {
+                    AddIfExists(Environment.ExpandEnvironmentVariables(saved), "Saved (Options)");
+                }
+            }
+            catch
+            {
+                // Settings subsystem failure is not fatal here; just skip.
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// When more than one candidate file is discovered, returns the one the user
+        /// chose (or auto-selected newest if prompting is disabled). Returns <c>null</c>
+        /// if no candidates exist or if the user cancelled the prompt.
+        /// </summary>
+        /// <param name="candidates">The candidates to resolve.</param>
+        /// <param name="promptFactory">
+        /// Factory used to show the picker dialog. Injected so tests can assert behavior
+        /// without a real dialog.
+        /// </param>
+        public static Candidate? Resolve(
+            IReadOnlyList<Candidate> candidates,
+            Func<IReadOnlyList<Candidate>, Candidate?, (Candidate? Choice, bool RememberChoice)> promptFactory)
+        {
+            ArgumentNullException.ThrowIfNull(candidates);
+            ArgumentNullException.ThrowIfNull(promptFactory);
+
+            if (candidates.Count == 0) return null;
+            if (candidates.Count == 1) return candidates[0];
+
+            // Newest-by-mtime is the default pre-selection.
+            Candidate newest = candidates.OrderByDescending(c => c.LastWriteTimeUtc).First();
+
+            // If user already recorded a choice for this exact set, honour it silently.
+            string savedChoice = OptionsConnectionsPage.Default.ResolvedConnectionFilePath;
+            if (!string.IsNullOrWhiteSpace(savedChoice))
+            {
+                Candidate? prior = candidates.FirstOrDefault(
+                    c => string.Equals(c.Path, savedChoice, StringComparison.OrdinalIgnoreCase));
+                if (prior is not null) return prior;
+            }
+
+            (Candidate? Choice, bool RememberChoice) outcome = promptFactory(candidates, newest);
+            if (outcome.Choice is null) return null;
+
+            if (outcome.RememberChoice)
+            {
+                OptionsConnectionsPage.Default.ConnectionFilePath = outcome.Choice.Path;
+                OptionsConnectionsPage.Default.ResolvedConnectionFilePath = outcome.Choice.Path;
+                OptionsConnectionsPage.Default.Save();
+            }
+            else
+            {
+                // Session-only choice: remember inside the resolver cache only, no persist.
+                OptionsConnectionsPage.Default.ResolvedConnectionFilePath = outcome.Choice.Path;
+            }
+
+            Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
+                $"Connections file resolved to {outcome.Choice.Path} (remembered={outcome.RememberChoice}).");
+            return outcome.Choice;
+        }
+    }
+}

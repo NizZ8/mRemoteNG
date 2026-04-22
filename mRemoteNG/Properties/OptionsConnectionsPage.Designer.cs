@@ -94,5 +94,17 @@ namespace mRemoteNG.Properties {
                 this["ShowHostStatus"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ResolvedConnectionFilePath {
+            get {
+                return ((string)(this["ResolvedConnectionFilePath"]));
+            }
+            set {
+                this["ResolvedConnectionFilePath"] = value;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -572,12 +573,29 @@ namespace mRemoteNG.Connection
 
             if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
             {
-                return Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
+                string saved = Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
+                // Honour the saved path only if the file is still there. If the user
+                // moved or deleted it, fall through to candidate discovery so the
+                // picker can offer the remaining options (#95).
+                if (File.Exists(saved)) return saved;
             }
-            else
+
+            // If multiple confCons.xml files are present across the well-known
+            // locations (installed vs portable vs legacy), let the user pick which
+            // one to load (#95). Newest-by-mtime is pre-selected. When a single
+            // candidate is found, it is used silently. When none are found, fall
+            // through to the edition default (which typically returns a path that
+            // does not yet exist and is created on first save).
+            IReadOnlyList<ConnectionsFileResolver.Candidate> candidates = ConnectionsFileResolver.DiscoverCandidates();
+            if (candidates.Count > 0)
             {
-                return GetDefaultStartupConnectionFileName();
+                ConnectionsFileResolver.Candidate? chosen = ConnectionsFileResolver.Resolve(
+                    candidates,
+                    UI.Forms.FrmChooseConnectionsFile.Prompt);
+                if (chosen is not null) return chosen.Path;
             }
+
+            return GetDefaultStartupConnectionFileName();
         }
 
         public static string GetDefaultStartupConnectionFileName()
