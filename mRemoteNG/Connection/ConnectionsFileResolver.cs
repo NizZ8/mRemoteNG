@@ -58,19 +58,32 @@ namespace mRemoteNG.Connection
                 }
             }
 
-            // Installed-edition default: %LOCALAPPDATA%\mRemoteNG\confCons.xml
-            AddIfExists(
-                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                       Application.ProductName ?? "mRemoteNG",
-                                       ConnectionsFileInfo.DefaultConnectionsFile),
-                "Installed (LocalAppData)");
+            // Installed-edition candidates — check BOTH folder naming conventions:
+            //   * "mRemoteNG Connection Manager"  (Application.ProductName, what newer
+            //     builds write to when running as installed edition)
+            //   * "mRemoteNG"                      (legacy / short name, what older
+            //     installs used and what still ships on many user boxes)
+            // This is exactly the upgrade scenario #95 reported: the old location on
+            // disk uses the short name, a new install starts writing to the long name,
+            // and without checking both the picker never surfaces the legacy file.
+            string[] installedFolderNames = string.IsNullOrEmpty(Application.ProductName)
+                ? new[] { "mRemoteNG" }
+                : new[] { Application.ProductName, "mRemoteNG" }.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
-            // Installed-edition fallback: %APPDATA%\mRemoteNG\confCons.xml
-            AddIfExists(
-                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                                       Application.ProductName ?? "mRemoteNG",
-                                       ConnectionsFileInfo.DefaultConnectionsFile),
-                "Installed (Roaming AppData)");
+            foreach (string folderName in installedFolderNames)
+            {
+                AddIfExists(
+                    System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                           folderName,
+                                           ConnectionsFileInfo.DefaultConnectionsFile),
+                    $"Installed LocalAppData ({folderName})");
+
+                AddIfExists(
+                    System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                           folderName,
+                                           ConnectionsFileInfo.DefaultConnectionsFile),
+                    $"Installed Roaming ({folderName})");
+            }
 
             // Portable-edition main: <exedir>\Settings\confCons.xml
             string exeDir = System.IO.Path.GetDirectoryName(
@@ -101,6 +114,7 @@ namespace mRemoteNG.Connection
                 // Settings subsystem failure is not fatal here; just skip.
             }
 
+            mRemoteNG.App.DevLog.Write($"[Resolver] candidates={result.Count} paths=[{string.Join("; ", result.Select(r => r.Path))}]");
             return result;
         }
 
@@ -135,7 +149,6 @@ namespace mRemoteNG.Connection
                 OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = false;
                 OptionsConnectionsPage.Default.Save();
             }
-
             if (!force && candidates.Count == 1) return candidates[0];
 
             // Newest-by-mtime is the default pre-selection.
