@@ -106,5 +106,17 @@ namespace mRemoteNG.Properties {
                 this["ResolvedConnectionFilePath"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ResolvedCandidatesFingerprint {
+            get {
+                return ((string)(this["ResolvedCandidatesFingerprint"]));
+            }
+            set {
+                this["ResolvedCandidatesFingerprint"] = value;
+            }
+        }
     }
 }

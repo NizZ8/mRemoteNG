@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.App.Info;
@@ -124,9 +127,19 @@ namespace mRemoteNG.Connection
             // Newest-by-mtime is the default pre-selection.
             Candidate newest = candidates.OrderByDescending(c => c.LastWriteTimeUtc).First();
 
-            // If user already recorded a choice for this exact set, honour it silently.
+            // If the user already picked for this EXACT candidate set, honour it
+            // silently. The fingerprint covers both the set of paths AND their
+            // mtimes, so if a new candidate appears (or an existing one is
+            // overwritten with a newer version) the stored fingerprint no longer
+            // matches and we re-prompt. This is the "Remember tied to this exact
+            // set" semantic — a plain path match would silently keep loading the
+            // old file after a new one shows up alongside it, which is the class
+            // of bug #95 originally described.
             string savedChoice = OptionsConnectionsPage.Default.ResolvedConnectionFilePath;
-            if (!string.IsNullOrWhiteSpace(savedChoice))
+            string savedFingerprint = OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint;
+            string currentFingerprint = ComputeCandidatesFingerprint(candidates);
+            if (!string.IsNullOrWhiteSpace(savedChoice) &&
+                string.Equals(savedFingerprint, currentFingerprint, StringComparison.Ordinal))
             {
                 Candidate? prior = candidates.FirstOrDefault(
                     c => string.Equals(c.Path, savedChoice, StringComparison.OrdinalIgnoreCase));
@@ -140,17 +153,37 @@ namespace mRemoteNG.Connection
             {
                 OptionsConnectionsPage.Default.ConnectionFilePath = outcome.Choice.Path;
                 OptionsConnectionsPage.Default.ResolvedConnectionFilePath = outcome.Choice.Path;
+                OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = currentFingerprint;
                 OptionsConnectionsPage.Default.Save();
             }
             else
             {
                 // Session-only choice: remember inside the resolver cache only, no persist.
                 OptionsConnectionsPage.Default.ResolvedConnectionFilePath = outcome.Choice.Path;
+                OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = currentFingerprint;
             }
 
             Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
                 $"Connections file resolved to {outcome.Choice.Path} (remembered={outcome.RememberChoice}).");
             return outcome.Choice;
+        }
+
+        /// <summary>
+        /// Canonical fingerprint of a candidate set: SHA-256 over sorted
+        /// <c>full-path|last-write-utc-ticks</c> entries. Used to detect when the
+        /// set of discovered <c>confCons.xml</c> files has changed since the user
+        /// last made a pick, so the picker can reappear instead of silently
+        /// returning a stale remembered choice.
+        /// </summary>
+        internal static string ComputeCandidatesFingerprint(IEnumerable<Candidate> candidates)
+        {
+            IEnumerable<string> ordered = candidates
+                .Select(c => string.Create(CultureInfo.InvariantCulture,
+                                           $"{c.Path.ToLowerInvariant()}|{c.LastWriteTimeUtc.Ticks}"))
+                .OrderBy(s => s, StringComparer.Ordinal);
+            byte[] bytes = Encoding.UTF8.GetBytes(string.Join("\n", ordered));
+            byte[] hash = SHA256.HashData(bytes);
+            return Convert.ToHexString(hash);
         }
     }
 }

@@ -148,21 +148,67 @@ namespace mRemoteNG.UI.Forms
         {
             if (!ThemeManager.getInstance().ActiveAndExtended) return;
             if (ThemeManager.getInstance().ActiveTheme.ExtendedPalette is not { } palette) return;
-            BackColor = palette.getColor("Dialog_Background");
-            ForeColor = palette.getColor("Dialog_Foreground");
-            _list.BackColor = palette.getColor("TextBox_Background");
-            _list.ForeColor = palette.getColor("TextBox_Foreground");
+
+            Color dialogBg = palette.getColor("Dialog_Background");
+            Color dialogFg = palette.getColor("Dialog_Foreground");
+            Color textBg   = palette.getColor("TextBox_Background");
+            Color textFg   = palette.getColor("TextBox_Foreground");
+            Color btnBg    = palette.getColor("Button_Background");
+            Color btnFg    = palette.getColor("Button_Foreground");
+
+            BackColor = dialogBg;
+            ForeColor = dialogFg;
+
+            _header.BackColor = dialogBg;
+            _header.ForeColor = dialogFg;
+
+            _list.BackColor = textBg;
+            _list.ForeColor = textFg;
+
+            _rememberBox.BackColor = dialogBg;
+            _rememberBox.ForeColor = dialogFg;
+
+            foreach (Button b in new[] { _okButton, _cancelButton })
+            {
+                b.BackColor = btnBg;
+                b.ForeColor = btnFg;
+                b.FlatStyle = FlatStyle.Flat;
+                b.FlatAppearance.BorderColor = palette.getColor("Button_Border");
+            }
+
+            // Propagate to the container panels so they don't stick out with
+            // the default WinForms gray in dark themes.
+            foreach (Control ctrl in Controls)
+            {
+                if (ctrl is Panel or FlowLayoutPanel)
+                {
+                    ctrl.BackColor = dialogBg;
+                    ctrl.ForeColor = dialogFg;
+                }
+            }
         }
 
         /// <summary>
         /// Convenience factory matching <see cref="ConnectionsFileResolver.Resolve"/>'s delegate signature.
+        /// Uses <see cref="FrmMain.Default"/> as dialog owner when available so the picker
+        /// inherits z-order and task-bar behavior from the main window; falls back to an
+        /// owner-less modal at cold startup when the main form hasn't been created yet.
         /// </summary>
         public static (ConnectionsFileResolver.Candidate? Choice, bool RememberChoice) Prompt(
             IReadOnlyList<ConnectionsFileResolver.Candidate> candidates,
             ConnectionsFileResolver.Candidate? suggested)
         {
             using FrmChooseConnectionsFile dlg = new(candidates, suggested);
-            DialogResult result = dlg.ShowDialog();
+            DialogResult result;
+            if (FrmMain.IsCreated && FrmMain.Default is { IsDisposed: false } main)
+            {
+                dlg.ShowInTaskbar = false;
+                result = dlg.ShowDialog(main);
+            }
+            else
+            {
+                result = dlg.ShowDialog();
+            }
             return result == DialogResult.OK
                 ? (dlg.Chosen, dlg.RememberChoice)
                 : (null, false);

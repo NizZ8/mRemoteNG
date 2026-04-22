@@ -23,7 +23,12 @@ namespace mRemoteNG.UI.Forms
             ShowInTaskbar = false;
             BackColor = Color.Magenta;
             TransparencyKey = Color.Magenta;
-            Size = new Size(450, 120);
+            // Canvas size was 450x120 — the fixed title/version/subtitle layout ran
+            // out of room (longer version strings + AI-assisted tagline were getting
+            // clipped on the right). Doubled both dimensions to 900x240 (4x total
+            // area) and the painter now centers everything with margins so future
+            // tagline/version churn doesn't run off the edge.
+            Size = new Size(900, 240);
             CenterOnPrimaryScreen();
         }
 
@@ -42,36 +47,50 @@ namespace mRemoteNG.UI.Forms
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
             // Background with rounded corners
-            using GraphicsPath path = CreateRoundedRect(new Rectangle(0, 0, Width - 1, Height - 1), 10);
+            using GraphicsPath path = CreateRoundedRect(new Rectangle(0, 0, Width - 1, Height - 1), 20);
             using SolidBrush bgBrush = new(Color.FromArgb(0x37, 0x3C, 0x42));
-            using Pen borderPen = new(Color.FromArgb(0x21, 0x1E, 0x1B), 1);
+            using Pen borderPen = new(Color.FromArgb(0x21, 0x1E, 0x1B), 2);
             g.FillPath(bgBrush, path);
             g.DrawPath(borderPen, path);
 
-            Font? brandFont = LoadBrandFont(40f);
-            Font fallbackFont = new("Segoe UI", 30f, FontStyle.Bold);
+            // Title: "m" in blue + "RemoteNG" in white, centered as a group.
+            Font? brandFont = LoadBrandFont(80f);
+            Font fallbackFont = new("Segoe UI", 60f, FontStyle.Bold);
             Font titleFont = brandFont ?? fallbackFont;
 
-            // "m" in blue
+            const string mGlyph = "m";
+            const string restGlyph = "RemoteNG";
+            SizeF mSize = g.MeasureString(mGlyph, titleFont);
+            SizeF restSize = g.MeasureString(restGlyph, titleFont);
+            // Kerning fudge — the custom brand font leaves too much air between
+            // the 'm' and the 'R' when measured independently, so trim a touch.
+            const float kern = 16f;
+            float titleWidth = mSize.Width + restSize.Width - kern;
+            float titleX = (Width - titleWidth) / 2f;
+            const float titleY = 24f;
+
             using SolidBrush blueBrush = new(Color.FromArgb(0x52, 0x89, 0xF9));
-            g.DrawString("m", titleFont, blueBrush, 104, 2);
-
-            // "RemoteNG" in white
-            float mWidth = g.MeasureString("m", titleFont).Width - 8;
             using SolidBrush whiteBrush = new(Color.FromArgb(0xE8, 0xEB, 0xEE));
-            g.DrawString("RemoteNG", titleFont, whiteBrush, 104 + mWidth, 2);
+            g.DrawString(mGlyph, titleFont, blueBrush, titleX, titleY);
+            g.DrawString(restGlyph, titleFont, whiteBrush, titleX + mSize.Width - kern, titleY);
 
-            // Version
-            using Font versionFont = new("Segoe UI", 12f);
-            string versionText = $"v. {GeneralAppInfo.ApplicationVersion} - 'Fructus temporum'";
+            // Version — centered beneath the title.
+            using Font versionFont = new("Segoe UI", 16f);
+            string versionText = $"v. {GeneralAppInfo.ApplicationVersion} — Community Edition";
             SizeF versionSize = g.MeasureString(versionText, versionFont);
-            g.DrawString(versionText, versionFont, whiteBrush, (Width - versionSize.Width) / 2, 55);
+            g.DrawString(versionText, versionFont, whiteBrush, (Width - versionSize.Width) / 2f, 130f);
 
             // Subtitle
-            using Font subtitleFont = new("Segoe UI", 11f, FontStyle.Bold);
-            string subtitle = "Multi-Remote Next Generation Connection Manager";
+            using Font subtitleFont = new("Segoe UI", 14f, FontStyle.Bold);
+            const string subtitle = "Multi-Remote Next Generation Connection Manager";
             SizeF subtitleSize = g.MeasureString(subtitle, subtitleFont);
-            g.DrawString(subtitle, subtitleFont, whiteBrush, (Width - subtitleSize.Width) / 2, 85);
+            g.DrawString(subtitle, subtitleFont, whiteBrush, (Width - subtitleSize.Width) / 2f, 165f);
+
+            // Tagline — AI-assisted badge line, smaller than the subtitle.
+            using Font taglineFont = new("Segoe UI", 11f, FontStyle.Italic);
+            const string tagline = "AI-assisted open source · 16 protocols · .NET 10";
+            SizeF taglineSize = g.MeasureString(tagline, taglineFont);
+            g.DrawString(tagline, taglineFont, whiteBrush, (Width - taglineSize.Width) / 2f, 200f);
 
             if (brandFont != null) brandFont.Dispose();
             fallbackFont.Dispose();

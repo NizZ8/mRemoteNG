@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Versioning;
 using mRemoteNG.Connection;
 using mRemoteNG.Properties;
@@ -12,14 +14,17 @@ namespace mRemoteNGTests.Connection
     {
         private string _savedPath = string.Empty;
         private string _resolvedPath = string.Empty;
+        private string _resolvedFingerprint = string.Empty;
 
         [SetUp]
         public void Save()
         {
             _savedPath = OptionsConnectionsPage.Default.ConnectionFilePath;
             _resolvedPath = OptionsConnectionsPage.Default.ResolvedConnectionFilePath;
+            _resolvedFingerprint = OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint;
             OptionsConnectionsPage.Default.ConnectionFilePath = string.Empty;
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = string.Empty;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = string.Empty;
         }
 
         [TearDown]
@@ -27,6 +32,7 @@ namespace mRemoteNGTests.Connection
         {
             OptionsConnectionsPage.Default.ConnectionFilePath = _savedPath;
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = _resolvedPath;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = _resolvedFingerprint;
         }
 
         private static ConnectionsFileResolver.Candidate Cand(string path, DateTime mtimeUtc, long size = 100, string? label = null)
@@ -130,7 +136,12 @@ namespace mRemoteNGTests.Connection
             ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", DateTime.UtcNow.AddDays(-1));
             ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", DateTime.UtcNow);
 
+            // Prior remembered choice carries both the path and the fingerprint
+            // of the candidate set that was present when the user picked. Same
+            // set on next launch -> honour silently (no picker).
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = a.Path;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint =
+                ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a, b });
             bool called = false;
 
             ConnectionsFileResolver.Candidate? result = ConnectionsFileResolver.Resolve(
@@ -138,7 +149,7 @@ namespace mRemoteNGTests.Connection
                 (_, _) => { called = true; return (null, false); });
 
             Assert.That(result, Is.SameAs(a));
-            Assert.That(called, Is.False, "Prior saved choice must not show the picker again.");
+            Assert.That(called, Is.False, "Prior saved choice with matching fingerprint must not show the picker again.");
         }
 
         [Test]
@@ -156,6 +167,97 @@ namespace mRemoteNGTests.Connection
 
             Assert.That(result, Is.SameAs(b));
             Assert.That(called, Is.True, "When the saved path is gone, the picker must be shown.");
+        }
+
+        [Test]
+        public void Resolve_RememberedChoice_ReprompsWhenCandidateSetChanges()
+        {
+            ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", DateTime.UtcNow.AddDays(-1));
+            ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", DateTime.UtcNow);
+            ConnectionsFileResolver.Candidate c = Cand(@"C:\c\confCons.xml", DateTime.UtcNow.AddHours(-1));
+
+            // Simulate a prior run where the user picked A with "Remember".
+            OptionsConnectionsPage.Default.ResolvedConnectionFilePath = a.Path;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint =
+                ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a, b });
+
+            bool called = false;
+
+            // A new candidate C appeared since last run -> fingerprint differs ->
+            // re-prompt instead of silently returning the stale remembered A.
+            ConnectionsFileResolver.Candidate? result = ConnectionsFileResolver.Resolve(
+                new[] { a, b, c },
+                (_, _) => { called = true; return (c, false); });
+
+            Assert.That(called, Is.True, "New candidate -> fingerprint changes -> prompt must appear.");
+            Assert.That(result, Is.SameAs(c));
+        }
+
+        [Test]
+        public void Resolve_RememberedChoice_StaysSilentWhenCandidateSetAndMtimesUnchanged()
+        {
+            ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", DateTime.UtcNow.AddDays(-1));
+            ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", DateTime.UtcNow);
+
+            OptionsConnectionsPage.Default.ResolvedConnectionFilePath = a.Path;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint =
+                ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a, b });
+
+            bool called = false;
+            ConnectionsFileResolver.Candidate? result = ConnectionsFileResolver.Resolve(
+                new[] { a, b },
+                (_, _) => { called = true; return (null, false); });
+
+            Assert.That(called, Is.False, "Same set + same mtimes -> remembered choice honoured silently.");
+            Assert.That(result, Is.SameAs(a));
+        }
+
+        [Test]
+        public void ComputeCandidatesFingerprint_IsStableForSameInputRegardlessOfOrder()
+        {
+            ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", new DateTime(2026, 4, 1, 10, 0, 0, DateTimeKind.Utc));
+            ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", new DateTime(2026, 4, 2, 10, 0, 0, DateTimeKind.Utc));
+
+            string first  = ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a, b });
+            string second = ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { b, a });
+
+            Assert.That(first, Is.EqualTo(second), "Fingerprint must not depend on enumeration order.");
+            Assert.That(first, Is.Not.Empty);
+        }
+
+        [Test]
+        public void ComputeCandidatesFingerprint_ChangesWhenMtimeChanges()
+        {
+            ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", new DateTime(2026, 4, 1, 10, 0, 0, DateTimeKind.Utc));
+            ConnectionsFileResolver.Candidate aTouched = Cand(@"C:\a\confCons.xml", new DateTime(2026, 4, 1, 10, 0, 1, DateTimeKind.Utc));
+
+            Assert.That(
+                ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a }),
+                Is.Not.EqualTo(ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { aTouched })));
+        }
+
+        [Test, NonParallelizable]
+        public void DiscoverCandidates_FindsSavedPathWhenItPointsToARealFile()
+        {
+            string tmp = Path.Combine(Path.GetTempPath(), $"mrng_disc_{Path.GetRandomFileName()}.xml");
+            File.WriteAllText(tmp, "<?xml version=\"1.0\"?><Connections/>");
+            string originalSaved = OptionsConnectionsPage.Default.ConnectionFilePath;
+            try
+            {
+                OptionsConnectionsPage.Default.ConnectionFilePath = tmp;
+
+                IReadOnlyList<ConnectionsFileResolver.Candidate> candidates =
+                    ConnectionsFileResolver.DiscoverCandidates();
+
+                Assert.That(
+                    candidates.Any(c => string.Equals(c.Path, tmp, StringComparison.OrdinalIgnoreCase)),
+                    "Saved ConnectionFilePath must be returned as one of the candidates when the file exists.");
+            }
+            finally
+            {
+                OptionsConnectionsPage.Default.ConnectionFilePath = originalSaved;
+                try { File.Delete(tmp); } catch { /* best-effort cleanup */ }
+            }
         }
     }
 }
