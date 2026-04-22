@@ -176,7 +176,7 @@ For the complete evidence trail of the AI-assisted modernization process
 |--------|-------|
 | Version | 1.82.0-beta.3 (dev) / 1.81.0 (stable) |
 | Analyzer warnings | 0 (5,247 eliminated) |
-| Tests | 6,175 passed, 0 failures |
+| Tests | 6,183 passed, 0 failures |
 | Issues | 853 triaged: 712 released (83.5%), 116 wontfix, 25 duplicate |
 | Fork issues | 12 open (6 from zgabi, active tester) |
 | Startup time | ≤1s with 200 connections (optimized from ~10-30s) |

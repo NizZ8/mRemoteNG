@@ -56,7 +56,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 | Channel | Version | Branch | Description |
 |---------|---------|--------|-------------|
-| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,175 tests, 0 analyzer warnings. **Recommended.** |
+| **[Stable](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.81.0)** | v1.81.0 | `release/1.81` | Frozen release. 6,183 tests, 0 analyzer warnings. **Recommended.** |
 | **[Nightly](https://github.com/robertpopa22/mRemoteNG/releases/tag/nightly)** | v1.82.0-beta.3 | `main` | Auto-built on every push. Latest features, fully tested. |
 | **[Legacy](https://github.com/robertpopa22/mRemoteNG/releases/tag/v1.76.20)** | v1.76.20 | — | Last .NET Framework 4.x release. |
 
@@ -83,7 +83,7 @@ Full transparency: this project is built by humans and AI working together. We b
 
 **Performance:** Startup optimized to **under 1 second** with 200 connections (down from 10-30s). WMI queries, plugin loading, and IE emulation deferred to background threads. XML deserialization uses O(1) dictionary lookups instead of O(n) attribute scans.
 
-**Quality:** 6,175 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64. 853 issues triaged (712 released).
+**Quality:** 6,183 automated tests (0 failures), 0 analyzer warnings, SonarCloud Quality Gate passed (A reliability, A security, A maintainability, 80.7% coverage, 1.6% duplication), 5-level code quality pipeline (Roslynator + Meziantou + SonarCloud + CodeQL + Qodo AI Review), x64/x86/ARM64. 853 issues triaged (712 released).
 
 For detailed usage, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
@@ -107,12 +107,22 @@ If your antivirus flags mRemoteNG, please see [Antivirus False Positive Guide](d
 
 This project uses an AI orchestrator (Python, ~6,900 LOC) coordinating multiple AI agents to resolve a backlog of 853 upstream issues. The system evolved through four architectural generations — from manual prompting to a self-healing supervisor with autonomous agents.
 
+**AI agents in the loop (2026):**
+
+- **Claude Opus 4.7 (1M context)** — deep multi-file fixes, WinForms / COM interop, complex regressions, review of the other agents' output
+- **Codex / GPT-5.4** — fast triage, single-file patches, second-opinion diagnosis via the `codex-rescue` subagent contract
+- **Gemini CLI** — bulk code transforms (nullable warning sweeps, repetitive refactors)
+- **Qodo** — AI code review on pull requests, complements SonarCloud + CodeQL
+
+Human review sits on top: every commit is inspected before it hits `main`, every upstream PR is hand-curated. The AI agents never merge without a human in the loop.
+
 **Key results:**
 
 - **712/853 issues addressed (83.5%)**, 1,400+ commits, 7 regressions (1.2%)
 - **Cost:** ~$320 total, stabilized at $1.49/commit (down from $4.02 on day 1)
 - **Best session:** Codex Spark resolved 89/104 issues (86%) autonomously in a single run
 - **Quality:** 5,247 analyzer warnings → 0, SonarCloud Quality Gate passed (80.7% coverage)
+- **Code review:** every non-trivial patch now goes through an independent Codex second-opinion before commit
 - **4 upstream PRs backported:** URL injection fix, AD Protected Users, VNC Caps Lock, RDP resize
 
 The complete research documentation is in [`scientific-paper/`](scientific-paper/):
@@ -149,7 +159,7 @@ All 853 upstream issues have been triaged and classified:
 
 ### 6.2. Code Quality — Four Levels Operational, Zero Warnings
 
-**5,247 analyzer warnings → 0** across 100+ files in a single session using parallel AI agents (Claude Opus + Sonnet).
+**5,247 analyzer warnings → 0** across 100+ files in a single session using parallel AI agents (Claude Opus + Sonnet; later passes added Codex and Gemini in parallel).
 
 | Phase | What was done | Count fixed |
 |-------|---------------|-------------|
@@ -167,7 +177,7 @@ All 853 upstream issues have been triaged and classified:
 
 ### 6.3. Manual Testing Protocol
 
-Beta.5 proved that 7/585 AI-introduced regressions passed all 6,175 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
+Beta.5 proved that 7/585 AI-introduced regressions passed all 6,183 automated tests at the time. The failure rate (~1.2%) sounds low, but one regression (PuTTY root save) would silently destroy all user connections.
 
 **Protocol:** Manual testing session at every beta release, focused on UX flows that cannot be unit tested:
 
@@ -281,7 +291,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless
 pwsh -NoProfile -ExecutionPolicy Bypass -File run-tests.ps1 -Headless -NoBuild
 ```
 
-**6,175 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
+**6,183 tests**, 9 groups with sliding-window concurrency (max 2) + 2 isolated, 0 failures.
 
 Multi-process parallelism is required because the production code uses shared mutable singletons — NUnit fixture-level parallelism causes race conditions. Each `dotnet test` process gets isolated static state.
 

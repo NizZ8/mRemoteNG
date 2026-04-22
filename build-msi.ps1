@@ -52,8 +52,12 @@ Write-Host "Harvest path: $HarvestPath"
 # --- Generate WiX file list ---
 Write-Host "`n=== Generating file list ===" -ForegroundColor Cyan
 
-$excludeDirs = @('ref', 'publish', 'win-x64', 'win-x86', 'win-arm64', 'win-x64-sc')
+# Release-hygiene exclusions. `Settings` is always excluded — it is user-profile data
+# (confCons.xml, quickConnectHistory.xml, mRemoteNG.settings, etc.) that is created by
+# the running app and must never end up in a release artifact.
+$excludeDirs = @('ref', 'publish', 'win-x64', 'win-x86', 'win-arm64', 'win-x64-sc', 'Settings')
 $excludeExts = @('.pdb', '.log')
+$excludeNamePatterns = @('confCons', '.xml.backup')
 $sourceLen = $HarvestPath.TrimEnd('\').Length + 1
 
 # Collect all files with their relative paths
@@ -61,8 +65,13 @@ $allFiles = Get-ChildItem -Path $HarvestPath -Recurse -File | Where-Object {
     $rel = $_.FullName.Substring($sourceLen)
     $parts = $rel -split '\\'
     $topDir = if ($parts.Count -gt 1) { $parts[0] } else { $null }
+    $nameMatches = $false
+    foreach ($pat in $excludeNamePatterns) {
+        if ($_.Name -like "*$pat*") { $nameMatches = $true; break }
+    }
     ($null -eq $topDir -or $topDir -notin $excludeDirs) -and
-    $_.Extension -notin $excludeExts
+    $_.Extension -notin $excludeExts -and
+    -not $nameMatches
 }
 
 # Collect unique directory paths and assign WiX IDs

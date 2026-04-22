@@ -124,11 +124,48 @@ jobs:
 
           # Create ZIP (framework-dependent, x64)
           $sourceDir = "mRemoteNG\bin\x64\Release"
+
+          # Defense-in-depth: strip anything that could contain user connection data
+          # before packaging. CI runners should never stage these, but the extra sweep
+          # costs a few ms and the blast radius of a miss is too high to skip.
+          $settingsPath = Join-Path $sourceDir 'Settings'
+          if (Test-Path $settingsPath) {
+            Write-Host "Removing stray Settings/ before packaging"
+            Remove-Item -Recurse -Force $settingsPath
+          }
+          Get-ChildItem -Path $sourceDir -Recurse -File -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -like 'confCons*' -or $_.Name -like '*.xml.backup*' -or $_.Name -like '*.settings' } |
+            ForEach-Object {
+              Write-Host "Removing forbidden file: $($_.FullName)"
+              Remove-Item -Force $_.FullName
+            }
+
           $items = Get-ChildItem -Path $sourceDir | Where-Object {
-            $_.Name -notin @('ref','publish','win-x64','win-x86','win-arm64','win-x64-sc')
+            $_.Name -notin @('ref','publish','win-x64','win-x86','win-arm64','win-x64-sc','Settings')
           }
           Compress-Archive -Path $items.FullName -DestinationPath $zipName -Force
           Write-Host "Created: $zipName ($('{0:N1} MB' -f ((Get-Item $zipName).Length / 1MB)))"
+
+          # Post-zip sanity check — fail the workflow if anything sensitive slipped
+          # through. Uses .NET ZipFile so it does not depend on runner tar.exe.
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $archive = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $zipName))
+          try {
+            # Schemas/mremoteng_confcons_v2_8.xsd is a legitimate shipped asset,
+            # so exclude *.xsd matches from the leak pattern.
+            $leaks = $archive.Entries | ForEach-Object { $_.FullName } | Where-Object {
+              ($_ -like 'Settings/*') -or
+              ($_ -like '*.xml.backup*') -or
+              ($_ -like '*.settings') -or
+              ($_ -like '*confCons*' -and $_ -notlike '*.xsd')
+            }
+          }
+          finally { $archive.Dispose() }
+          if ($leaks) {
+            Write-Error "Release ZIP contains forbidden paths:`n  $($leaks -join "`n  ")"
+            exit 1
+          }
+          Write-Host "Sanity check passed: no Settings/confCons/backup entries in ZIP"
 
           # Find MSI
           $msi = Get-ChildItem -Path "mRemoteNGInstaller\bin" -Recurse -Filter "*.msi" -ErrorAction SilentlyContinue | Select-Object -First 1

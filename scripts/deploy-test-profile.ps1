@@ -1,6 +1,15 @@
 param([string]$Config = "Release")
 $ErrorActionPreference = "Stop"
 
+# CI guard: this script stages test connection data into the build output
+# (Settings/confCons.xml). It must NEVER run on CI — a release build that ran
+# this would ship the developer's test profile in the published ZIP.
+$isCI = $env:CI -or $env:GITHUB_ACTIONS -or $env:TF_BUILD -or $env:BUILD_BUILDID -or $env:JENKINS_URL -or $env:GITLAB_CI
+if ($isCI) {
+    Write-Error "deploy-test-profile.ps1 refuses to run on CI — it stages user connection data"
+    exit 1
+}
+
 $repoRoot   = "$PSScriptRoot\.."
 $profileDir = "$repoRoot\.test-profile"
 $targetDir  = "$repoRoot\mRemoteNG\bin\x64\$Config"

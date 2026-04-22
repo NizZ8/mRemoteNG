@@ -103,13 +103,18 @@ Get-ChildItem $outDir -Directory -ErrorAction SilentlyContinue | Where-Object {
 }
 if ($moved -gt 0) { Write-Host "Moved $moved culture folder(s) into Languages/" -ForegroundColor DarkGray }
 
-# Copy local test connections file if present (no-op on CI / other machines)
-$localConfCons = Join-Path 'E:\OneDrive\_Portable\mRemoteNG 1.77.1' 'confCons.xml'
-if (Test-Path $localConfCons) {
-    $settingsDir = Join-Path $outDir 'Settings'
-    if (-not (Test-Path $settingsDir)) { New-Item $settingsDir -ItemType Directory -Force | Out-Null }
-    Copy-Item $localConfCons (Join-Path $settingsDir 'confCons.xml') -Force
-    Write-Host "Copied test connections from portable install" -ForegroundColor DarkGray
+# Copy local test connections file if present — DEVELOPMENT MACHINES ONLY.
+# Never do this on CI: the release ZIP would ship the developer's working set.
+# Guard every known CI signal so the step cannot run under a release workflow.
+$isCI = $env:CI -or $env:GITHUB_ACTIONS -or $env:TF_BUILD -or $env:BUILD_BUILDID -or $env:JENKINS_URL -or $env:GITLAB_CI
+if (-not $isCI) {
+    $localConfCons = Join-Path 'E:\OneDrive\_Portable\mRemoteNG 1.77.1' 'confCons.xml'
+    if (Test-Path $localConfCons) {
+        $settingsDir = Join-Path $outDir 'Settings'
+        if (-not (Test-Path $settingsDir)) { New-Item $settingsDir -ItemType Directory -Force | Out-Null }
+        Copy-Item $localConfCons (Join-Path $settingsDir 'confCons.xml') -Force
+        Write-Host "Copied test connections from portable install (local dev only)" -ForegroundColor DarkGray
+    }
 }
 
 $elapsed = $timer.Elapsed.TotalSeconds.ToString('F1')
