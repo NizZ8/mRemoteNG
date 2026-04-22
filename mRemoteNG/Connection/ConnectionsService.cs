@@ -563,7 +563,13 @@ namespace mRemoteNG.Connection
             }, null, SaveDebounceMs, Timeout.Infinite);
         }
 
-        public static string GetStartupConnectionFileName()
+        public static string GetStartupConnectionFileName() =>
+            GetStartupConnectionFileName(UI.Forms.FrmChooseConnectionsFile.Prompt);
+
+        internal static string GetStartupConnectionFileName(
+            Func<IReadOnlyList<ConnectionsFileResolver.Candidate>,
+                 ConnectionsFileResolver.Candidate?,
+                 (ConnectionsFileResolver.Candidate? Choice, bool RememberChoice)> promptFactory)
         {
             // Command-line /cons: or /c: override (session-only, not persisted)
             if (!string.IsNullOrWhiteSpace(Tools.Cmdline.StartupArgumentsInterpreter.CustomConnectionFile))
@@ -571,28 +577,27 @@ namespace mRemoteNG.Connection
                 return Tools.Cmdline.StartupArgumentsInterpreter.CustomConnectionFile;
             }
 
-            if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
-            {
-                string saved = Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
-                // Honour the saved path only if the file is still there. If the user
-                // moved or deleted it, fall through to candidate discovery so the
-                // picker can offer the remaining options (#95).
-                if (File.Exists(saved)) return saved;
-            }
-
-            // If multiple confCons.xml files are present across the well-known
-            // locations (installed vs portable vs legacy), let the user pick which
-            // one to load (#95). Newest-by-mtime is pre-selected. When a single
-            // candidate is found, it is used silently. When none are found, fall
-            // through to the edition default (which typically returns a path that
-            // does not yet exist and is created on first save).
+            // Always enumerate candidates before deciding, even when a
+            // ConnectionFilePath is saved in Options. The saved path is treated as
+            // one candidate among others: if it is still the only one that exists
+            // we return it silently; if newer files exist in other well-known
+            // locations we offer the picker. Short-circuiting on the saved path
+            // (the pre-d43382e84 behaviour) meant users who once picked a path
+            // would never be told about a newer file showing up alongside it,
+            // which is exactly the regression #95 reported.
             IReadOnlyList<ConnectionsFileResolver.Candidate> candidates = ConnectionsFileResolver.DiscoverCandidates();
             if (candidates.Count > 0)
             {
-                ConnectionsFileResolver.Candidate? chosen = ConnectionsFileResolver.Resolve(
-                    candidates,
-                    UI.Forms.FrmChooseConnectionsFile.Prompt);
+                ConnectionsFileResolver.Candidate? chosen = ConnectionsFileResolver.Resolve(candidates, promptFactory);
                 if (chosen is not null) return chosen.Path;
+            }
+
+            // No candidate files on disk and the user did not pick one — fall back
+            // to the saved path if there is one (create-on-first-save path), and
+            // only then to the edition default.
+            if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
+            {
+                return Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
             }
 
             return GetDefaultStartupConnectionFileName();
