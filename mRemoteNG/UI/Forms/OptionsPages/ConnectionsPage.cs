@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 using mRemoteNG.App;
 using mRemoteNG.Config;
 using mRemoteNG.Config.Connections;
@@ -6,6 +8,7 @@ using mRemoteNG.Properties;
 using mRemoteNG.Resources.Language;
 using System.Runtime.Versioning;
 using mRemoteNG.Config.Settings.Registry;
+using mRemoteNG.UI.Controls;
 
 namespace mRemoteNG.UI.Forms.OptionsPages
 {
@@ -18,21 +21,63 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         #endregion
 
+        private MrngButton? _btnResetResolver;
+
         public ConnectionsPage()
         {
             InitializeComponent();
             ApplyTheme();
             PageIcon = Resources.ImageConverter.GetImageAsIcon(Properties.Resources.ASPWebSite_16x);
 
-            /* 
-             * Comments added: Jun 15, 2024 
+            /*
+             * Comments added: Jun 15, 2024
              * These settings are not used on the settings page. It doesn't matter if they are set or not; nothing happens:
              * 1) chkSaveConnectionsAfterEveryEdit: never used
             */
-            chkSaveConnectionsAfterEveryEdit.Visible = false; // Temporary hide control, never used, added: Jun 15, 2024 
-            
+            chkSaveConnectionsAfterEveryEdit.Visible = false; // Temporary hide control, never used, added: Jun 15, 2024
+
+            BuildResetResolverButton();
+
             // Reload settings when page becomes visible to reflect any changes made outside the Options dialog
             VisibleChanged += ConnectionsPage_VisibleChanged;
+        }
+
+        /// <summary>
+        /// Adds a "Reset connections-file picker" button. Clears the remembered
+        /// resolver state (ConnectionFilePath / ResolvedConnectionFilePath /
+        /// ResolvedCandidatesFingerprint) so the startup picker reappears on the
+        /// next launch. Handy for support / testing and self-service when the
+        /// user wants to switch profiles without digging through user.config.
+        /// </summary>
+        private void BuildResetResolverButton()
+        {
+            _btnResetResolver = new MrngButton
+            {
+                Name = "btnResetResolver",
+                Text = "Reset connections-file picker (Remember)",
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Padding = new Padding(8, 4, 8, 4),
+                Margin = new Padding(6, 12, 6, 6),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
+            };
+            _btnResetResolver.Location = new Point(6, Math.Max(chkShowHostStatus.Bottom + 16, 420));
+            _btnResetResolver.Click += (_, _) => ResetConnectionsFilePicker();
+            Controls.Add(_btnResetResolver);
+            _btnResetResolver.BringToFront();
+        }
+
+        private static void ResetConnectionsFilePicker()
+        {
+            OptionsConnectionsPage.Default.ConnectionFilePath = string.Empty;
+            OptionsConnectionsPage.Default.ResolvedConnectionFilePath = string.Empty;
+            OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = string.Empty;
+            OptionsConnectionsPage.Default.Save();
+            MessageBox.Show(
+                "Connections-file picker state cleared.\n\nNext time you start mRemoteNG the picker will appear again if more than one confCons.xml file is found on disk.",
+                "mRemoteNG",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private void ConnectionsPage_VisibleChanged(object sender, EventArgs e)
