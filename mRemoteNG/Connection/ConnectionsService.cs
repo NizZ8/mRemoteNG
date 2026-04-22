@@ -582,20 +582,29 @@ namespace mRemoteNG.Connection
             // one candidate among others: if it is still the only one that exists
             // we return it silently; if newer files exist in other well-known
             // locations we offer the picker. Short-circuiting on the saved path
-            // (the pre-d43382e84 behaviour) meant users who once picked a path
-            // would never be told about a newer file showing up alongside it,
-            // which is exactly the regression #95 reported.
+            // meant users who once picked a path would never be told about a newer
+            // file showing up alongside it, which is the regression #95 reported.
             IReadOnlyList<ConnectionsFileResolver.Candidate> candidates = ConnectionsFileResolver.DiscoverCandidates();
+            bool userCancelled = false;
             if (candidates.Count > 0)
             {
                 ConnectionsFileResolver.Candidate? chosen = ConnectionsFileResolver.Resolve(candidates, promptFactory);
                 if (chosen is not null) return chosen.Path;
+                // Null after a real prompt = user clicked Cancel. Treat that as
+                // "don't auto-load anything from a remembered path" — skip the
+                // saved-path fallback below and use the edition default. Without
+                // this skip, Cancel would silently load whatever is in
+                // ConnectionFilePath, which is exactly the "Cancel still runs the
+                // previous session" behaviour the user reported.
+                userCancelled = true;
             }
 
-            // No candidate files on disk and the user did not pick one — fall back
-            // to the saved path if there is one (create-on-first-save path), and
-            // only then to the edition default.
-            if (!string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
+            // No candidate files on disk (or user explicitly cancelled the picker)
+            // — fall back to the saved path only when the user did NOT cancel
+            // (create-on-first-save path for fresh boxes with a custom setting),
+            // and only then to the edition default.
+            if (!userCancelled &&
+                !string.IsNullOrWhiteSpace(Properties.OptionsConnectionsPage.Default.ConnectionFilePath))
             {
                 return Environment.ExpandEnvironmentVariables(Properties.OptionsConnectionsPage.Default.ConnectionFilePath);
             }

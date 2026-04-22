@@ -169,17 +169,18 @@ namespace mRemoteNG.Connection
         }
 
         /// <summary>
-        /// Canonical fingerprint of a candidate set: SHA-256 over sorted
-        /// <c>full-path|last-write-utc-ticks</c> entries. Used to detect when the
-        /// set of discovered <c>confCons.xml</c> files has changed since the user
-        /// last made a pick, so the picker can reappear instead of silently
-        /// returning a stale remembered choice.
+        /// Canonical fingerprint of a candidate set: SHA-256 over sorted lowercase
+        /// full paths only. Deliberately ignores file sizes / mtimes — the app
+        /// itself modifies <c>confCons.xml</c> every save and autosave, so
+        /// hashing mtime would invalidate the remembered choice on every second
+        /// launch. The fingerprint flips only when the <i>set of known locations</i>
+        /// changes (a new install path appeared, an old one was removed), which
+        /// is exactly the condition under which we want the picker to re-appear.
         /// </summary>
         internal static string ComputeCandidatesFingerprint(IEnumerable<Candidate> candidates)
         {
             IEnumerable<string> ordered = candidates
-                .Select(c => string.Create(CultureInfo.InvariantCulture,
-                                           $"{c.Path.ToLowerInvariant()}|{c.LastWriteTimeUtc.Ticks}"))
+                .Select(c => c.Path.ToLowerInvariant())
                 .OrderBy(s => s, StringComparer.Ordinal);
             byte[] bytes = Encoding.UTF8.GetBytes(string.Join("\n", ordered));
             byte[] hash = SHA256.HashData(bytes);

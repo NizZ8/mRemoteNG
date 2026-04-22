@@ -194,7 +194,7 @@ namespace mRemoteNGTests.Connection
         }
 
         [Test]
-        public void Resolve_RememberedChoice_StaysSilentWhenCandidateSetAndMtimesUnchanged()
+        public void Resolve_RememberedChoice_StaysSilentWhenCandidateSetUnchanged()
         {
             ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", DateTime.UtcNow.AddDays(-1));
             ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", DateTime.UtcNow);
@@ -226,14 +226,32 @@ namespace mRemoteNGTests.Connection
         }
 
         [Test]
-        public void ComputeCandidatesFingerprint_ChangesWhenMtimeChanges()
+        public void ComputeCandidatesFingerprint_IgnoresMtimeChanges()
         {
+            // The app rewrites confCons.xml on autosave / shutdown-save, so the
+            // candidate's mtime ticks forward between launches even when the set
+            // of known locations has not changed. Hashing mtime would force the
+            // picker to reappear on every second launch, defeating the
+            // "Remember this choice" checkbox.
             ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", new DateTime(2026, 4, 1, 10, 0, 0, DateTimeKind.Utc));
             ConnectionsFileResolver.Candidate aTouched = Cand(@"C:\a\confCons.xml", new DateTime(2026, 4, 1, 10, 0, 1, DateTimeKind.Utc));
 
             Assert.That(
                 ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a }),
-                Is.Not.EqualTo(ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { aTouched })));
+                Is.EqualTo(ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { aTouched })),
+                "Fingerprint must be path-set only — mtime churn from regular app saves must not invalidate it.");
+        }
+
+        [Test]
+        public void ComputeCandidatesFingerprint_ChangesWhenPathAdded()
+        {
+            ConnectionsFileResolver.Candidate a = Cand(@"C:\a\confCons.xml", DateTime.UtcNow);
+            ConnectionsFileResolver.Candidate b = Cand(@"C:\b\confCons.xml", DateTime.UtcNow);
+
+            Assert.That(
+                ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a }),
+                Is.Not.EqualTo(ConnectionsFileResolver.ComputeCandidatesFingerprint(new[] { a, b })),
+                "Fingerprint must flip when a new location appears in the candidate set.");
         }
 
         [Test, NonParallelizable]
