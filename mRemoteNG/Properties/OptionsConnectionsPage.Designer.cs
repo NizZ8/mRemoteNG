@@ -118,5 +118,17 @@ namespace mRemoteNG.Properties {
                 this["ResolvedCandidatesFingerprint"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceConnectionsFilePickerOnNextStart {
+            get {
+                return ((bool)(this["ForceConnectionsFilePickerOnNextStart"]));
+            }
+            set {
+                this["ForceConnectionsFilePickerOnNextStart"] = value;
+            }
+        }
     }
 }

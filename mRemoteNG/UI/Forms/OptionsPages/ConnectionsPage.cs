@@ -72,9 +72,13 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             OptionsConnectionsPage.Default.ConnectionFilePath = string.Empty;
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = string.Empty;
             OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = string.Empty;
+            // Also force the picker on the very next launch, even when only one
+            // confCons.xml candidate exists — so the button is always useful,
+            // not just when multiple files are present.
+            OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = true;
             OptionsConnectionsPage.Default.Save();
             MessageBox.Show(
-                "Connections-file picker state cleared.\n\nNext time you start mRemoteNG the picker will appear again if more than one confCons.xml file is found on disk.",
+                "Connections-file picker state cleared.\n\nThe picker will appear the next time you start mRemoteNG so you can reselect a confCons.xml file (or confirm the only one found).",
                 "mRemoteNG",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);

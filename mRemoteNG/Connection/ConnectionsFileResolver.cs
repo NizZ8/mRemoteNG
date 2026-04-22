@@ -122,7 +122,21 @@ namespace mRemoteNG.Connection
             ArgumentNullException.ThrowIfNull(promptFactory);
 
             if (candidates.Count == 0) return null;
-            if (candidates.Count == 1) return candidates[0];
+
+            // Reset button sets ForceConnectionsFilePickerOnNextStart so the
+            // picker appears on the very next launch regardless of how many
+            // candidate files exist (the default "1 candidate -> silent" fast
+            // path would otherwise hide the picker from users who only have
+            // a single confCons.xml but still want to pick / move it). Flag
+            // is cleared immediately so it only consumes the one launch.
+            bool force = OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart;
+            if (force)
+            {
+                OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = false;
+                OptionsConnectionsPage.Default.Save();
+            }
+
+            if (!force && candidates.Count == 1) return candidates[0];
 
             // Newest-by-mtime is the default pre-selection.
             Candidate newest = candidates.OrderByDescending(c => c.LastWriteTimeUtc).First();

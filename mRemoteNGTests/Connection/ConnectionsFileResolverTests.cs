@@ -15,6 +15,7 @@ namespace mRemoteNGTests.Connection
         private string _savedPath = string.Empty;
         private string _resolvedPath = string.Empty;
         private string _resolvedFingerprint = string.Empty;
+        private bool _forcePicker;
 
         [SetUp]
         public void Save()
@@ -22,9 +23,11 @@ namespace mRemoteNGTests.Connection
             _savedPath = OptionsConnectionsPage.Default.ConnectionFilePath;
             _resolvedPath = OptionsConnectionsPage.Default.ResolvedConnectionFilePath;
             _resolvedFingerprint = OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint;
+            _forcePicker = OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart;
             OptionsConnectionsPage.Default.ConnectionFilePath = string.Empty;
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = string.Empty;
             OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = string.Empty;
+            OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = false;
         }
 
         [TearDown]
@@ -33,6 +36,7 @@ namespace mRemoteNGTests.Connection
             OptionsConnectionsPage.Default.ConnectionFilePath = _savedPath;
             OptionsConnectionsPage.Default.ResolvedConnectionFilePath = _resolvedPath;
             OptionsConnectionsPage.Default.ResolvedCandidatesFingerprint = _resolvedFingerprint;
+            OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = _forcePicker;
         }
 
         private static ConnectionsFileResolver.Candidate Cand(string path, DateTime mtimeUtc, long size = 100, string? label = null)
@@ -62,6 +66,23 @@ namespace mRemoteNGTests.Connection
 
             Assert.That(result, Is.SameAs(only));
             Assert.That(called, Is.False);
+        }
+
+        [Test]
+        public void Resolve_SingleCandidate_ForceFlagShowsPickerAndClearsFlag()
+        {
+            ConnectionsFileResolver.Candidate only = Cand(@"C:\a\confCons.xml", DateTime.UtcNow);
+            OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart = true;
+            bool called = false;
+
+            ConnectionsFileResolver.Candidate? result = ConnectionsFileResolver.Resolve(
+                new[] { only },
+                (_, suggested) => { called = true; return (suggested, false); });
+
+            Assert.That(called, Is.True, "Force flag must override the 1-candidate fast path.");
+            Assert.That(result, Is.SameAs(only));
+            Assert.That(OptionsConnectionsPage.Default.ForceConnectionsFilePickerOnNextStart, Is.False,
+                "Force flag must be consumed (cleared) after one launch.");
         }
 
         [Test]
