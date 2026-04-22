@@ -1268,8 +1268,10 @@ namespace mRemoteNG.UI.Window
             if (selectedConnectionInfo == null) return;
             FrmMain.Default.SelectedConnection = selectedConnectionInfo;
 
-            // Refocus the protocol window so the embedded process (e.g. PuTTY) regains input (#2237)
-            if (selectedTab?.Tag is InterfaceControl activeIc)
+            // Refocus the protocol window so the embedded process (e.g. PuTTY) regains input (#2237).
+            // Skip when the user is interacting with the PropertyGrid so an in-place cell editor
+            // keeps keyboard focus during tab activation triggered by navigation.
+            if (selectedTab?.Tag is InterfaceControl activeIc && !FrmMain.IsCursorOverConfigWindow())
                 activeIc.Protocol?.Focus();
         }
 
