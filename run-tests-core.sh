@@ -111,6 +111,18 @@ run_group() {
     fi
 
     echo "$output" | grep -qiE "crashed|aborted" && crashed=true
+
+    # Preserve trx on failure/crash so CI collector can surface test names.
+    # On success, clean up to avoid filling /tmp across many groups.
+    if [ "$failed" -gt 0 ] 2>/dev/null || [ "$crashed" = "true" ]; then
+        preserve="$REPO_ROOT/test-results-dump"
+        mkdir -p "$preserve" 2>/dev/null || true
+        if [ -f "$trx_path" ]; then
+            cp "$trx_path" "$preserve/$(basename "$results_dir").trx" 2>/dev/null || true
+        fi
+        # Also capture stdout tail for context
+        echo "$output" > "$preserve/$(basename "$results_dir").out" 2>/dev/null || true
+    fi
     rm -rf "$results_dir" 2>/dev/null || true
     echo "${passed}|${failed}|${crashed}"
 }

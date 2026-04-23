@@ -104,15 +104,20 @@ jobs:
         run: |
           $outDir = "$env:GITHUB_WORKSPACE\test-results-dump"
           New-Item -ItemType Directory -Path $outDir -Force | Out-Null
-          # /tmp on GH Actions bash maps under the runner's temp — walk common roots
-          $roots = @($env:TEMP, $env:TMP, "$env:GITHUB_WORKSPACE") | Where-Object { $_ } | Select-Object -Unique
+          # run-tests-core.sh now preserves failed trx into $REPO_ROOT/test-results-dump
+          # directly. Also walk common temp roots as fallback in case of crashes
+          # before preservation.
+          $roots = @($outDir, $env:TEMP, $env:TMP, "$env:GITHUB_WORKSPACE",
+                     "C:\Users\runneradmin\AppData\Local\Temp",
+                     "C:\Windows\Temp") | Where-Object { $_ -and (Test-Path $_) } | Select-Object -Unique
           $trx = foreach ($r in $roots) { Get-ChildItem $r -Recurse -Filter *.trx -ErrorAction SilentlyContinue }
-          $trx | ForEach-Object {
-            $dest = Join-Path $outDir ("{0}_{1}" -f $_.Directory.Name, $_.Name)
-            Copy-Item $_.FullName $dest -Force
+          $trx = $trx | Sort-Object FullName -Unique
+          foreach ($t in $trx) {
+            $dest = Join-Path $outDir ("{0}_{1}" -f $t.Directory.Name, $t.Name)
+            if ($t.FullName -ne $dest) { Copy-Item $t.FullName $dest -Force }
           }
-          Write-Host "Collected $($trx.Count) trx files:"
-          Get-ChildItem $outDir | Select-Object Name, Length | Format-Table -AutoSize
+          Write-Host "Collected $(($trx | Measure-Object).Count) trx files:"
+          Get-ChildItem $outDir -Filter *.trx | Select-Object Name, Length | Format-Table -AutoSize
           # Surface failed test names directly to the step log for quick triage
           foreach ($f in Get-ChildItem $outDir -Filter *.trx) {
             Write-Host ""; Write-Host "=== $($f.Name) — failures ==="
@@ -124,6 +129,12 @@ jobs:
               Write-Host ("  X " + $u.testName)
               $msg = $u.SelectSingleNode('t:Output/t:ErrorInfo/t:Message', $ns)
               if ($msg) { Write-Host ("    " + $msg.InnerText.Split("`n")[0]) }
+            }
+            # Also surface RunInfo aborts (crashes without UnitTestResult entries)
+            $aborts = $x.SelectNodes('//t:RunInfos/t:RunInfo[@outcome="Error"]', $ns)
+            foreach ($a in $aborts) {
+              $t = $a.SelectSingleNode('t:Text', $ns)
+              if ($t) { Write-Host ("  !! CRASH: " + $t.InnerText.Split("`n")[0]) }
             }
           }
 

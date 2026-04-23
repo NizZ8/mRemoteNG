@@ -924,16 +924,26 @@ namespace mRemoteNG.UI.Window
 
         private void ShowStatusImage(Image image)
         {
-            if (_pGrid.InvokeRequired)
+            if (_pGrid is null || _pGrid.IsDisposed || !_pGrid.IsHandleCreated)
+                return;
+            if (IsDisposed || Disposing) return;
+
+            try
             {
-                ShowStatusImageCb d = ShowStatusImage;
-                _pGrid.Invoke(d, image);
+                if (_pGrid.InvokeRequired)
+                {
+                    ShowStatusImageCb d = ShowStatusImage;
+                    _pGrid.Invoke(d, image);
+                }
+                else
+                {
+                    _btnHostStatus.Image = image;
+                    _btnHostStatus.Tag = "checkfinished";
+                }
             }
-            else
-            {
-                _btnHostStatus.Image = image;
-                _btnHostStatus.Tag = "checkfinished";
-            }
+            catch (ObjectDisposedException) { }
+            catch (InvalidOperationException) { }
+            catch (InvalidAsynchronousStateException) { }
         }
 
         private void SetHostStatus(object? connectionInfo)
