@@ -4898,7 +4898,43 @@ namespace mRemoteNG.Resources.Language {
                 return ResourceManager.GetString("PropertyDescriptionRedirectAudioCapture", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to WebAuthn / FIDO2 passkey redirection description.
+        /// </summary>
+        internal static string PropertyDescriptionRedirectWebAuthn {
+            get {
+                return ResourceManager.GetString("PropertyDescriptionRedirectWebAuthn", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Entra ID authentication description.
+        /// </summary>
+        internal static string PropertyDescriptionEnableRdsAadAuth {
+            get {
+                return ResourceManager.GetString("PropertyDescriptionEnableRdsAadAuth", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to WebAuthn (FIDO2).
+        /// </summary>
+        internal static string WebAuthn {
+            get {
+                return ResourceManager.GetString("WebAuthn", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Entra ID Authentication.
+        /// </summary>
+        internal static string EntraIdAuthentication {
+            get {
+                return ResourceManager.GetString("EntraIdAuthentication", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Select whether the clipboard should be shared..
         /// </summary>

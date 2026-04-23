@@ -145,6 +145,10 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             connectionInfo.RDPStartProgram = dataRow["StartProgram"] as string ?? "";
             connectionInfo.RDPStartProgramWorkDir = dataRow["StartProgramWorkDir"] as string ?? "";
             connectionInfo.RedirectAudioCapture = MiscTools.GetBooleanValue(dataRow["RedirectAudioCapture"]);
+            if (dataRow.Table.Columns.Contains("RedirectWebAuthn"))
+                connectionInfo.RedirectWebAuthn = MiscTools.GetBooleanValue(dataRow["RedirectWebAuthn"]);
+            if (dataRow.Table.Columns.Contains("EnableRdsAadAuth"))
+                connectionInfo.EnableRdsAadAuth = MiscTools.GetBooleanValue(dataRow["EnableRdsAadAuth"]);
             if (dataRow.Table.Columns.Contains("RedirectClipboard"))
                 connectionInfo.RedirectClipboard = MiscTools.GetBooleanValue(dataRow["RedirectClipboard"]);
             if (!dataRow.IsNull("RedirectDiskDrives"))
@@ -258,6 +262,10 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 connectionInfo.Inheritance.RDPMinutesToIdleTimeout = MiscTools.GetBooleanValue(dataRow["InheritRDPMinutesToIdleTimeout"]);
             connectionInfo.Inheritance.RdpVersion = MiscTools.GetBooleanValue(dataRow["InheritRdpVersion"]);
             connectionInfo.Inheritance.RedirectAudioCapture = MiscTools.GetBooleanValue(dataRow["InheritRedirectAudioCapture"]);
+            if (dataRow.Table.Columns.Contains("InheritRedirectWebAuthn"))
+                connectionInfo.Inheritance.RedirectWebAuthn = MiscTools.GetBooleanValue(dataRow["InheritRedirectWebAuthn"]);
+            if (dataRow.Table.Columns.Contains("InheritEnableRdsAadAuth"))
+                connectionInfo.Inheritance.EnableRdsAadAuth = MiscTools.GetBooleanValue(dataRow["InheritEnableRdsAadAuth"]);
             if (dataRow.Table.Columns.Contains("InheritRedirectClipboard"))
                 connectionInfo.Inheritance.RedirectClipboard = MiscTools.GetBooleanValue(dataRow["InheritRedirectClipboard"]);
             connectionInfo.Inheritance.RedirectDiskDrives = MiscTools.GetBooleanValue(dataRow["InheritRedirectDiskDrives"]);

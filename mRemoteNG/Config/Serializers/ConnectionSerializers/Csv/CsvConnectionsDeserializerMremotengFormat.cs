@@ -549,6 +549,18 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                     connectionRecord.RedirectAudioCapture = value;
             }
 
+            if (headerSet.Contains("RedirectWebAuthn"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("RedirectWebAuthn")], out bool value))
+                    connectionRecord.RedirectWebAuthn = value;
+            }
+
+            if (headerSet.Contains("EnableRdsAadAuth"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("EnableRdsAadAuth")], out bool value))
+                    connectionRecord.EnableRdsAadAuth = value;
+            }
+
             if (headerSet.Contains("RedirectKeys"))
             {
                 if (bool.TryParse(connectionCsv[headers.IndexOf("RedirectKeys")], out bool value))
@@ -1250,6 +1262,18 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
             {
                 if (bool.TryParse(connectionCsv[headers.IndexOf("InheritRedirectAudioCapture")], out bool value))
                     connectionRecord.Inheritance.RedirectAudioCapture = value;
+            }
+
+            if (headerSet.Contains("InheritRedirectWebAuthn"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("InheritRedirectWebAuthn")], out bool value))
+                    connectionRecord.Inheritance.RedirectWebAuthn = value;
+            }
+
+            if (headerSet.Contains("InheritEnableRdsAadAuth"))
+            {
+                if (bool.TryParse(connectionCsv[headers.IndexOf("InheritEnableRdsAadAuth")], out bool value))
+                    connectionRecord.Inheritance.EnableRdsAadAuth = value;
             }
 
             if (headerSet.Contains("InheritRdpVersion"))

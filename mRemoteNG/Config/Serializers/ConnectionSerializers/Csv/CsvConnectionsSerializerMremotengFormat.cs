@@ -63,7 +63,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                       "CacheBitmaps;RedirectDiskDrives;RedirectDiskDrivesCustom;RedirectPorts;RedirectPrinters;RedirectClipboard;RedirectSmartCards;RedirectSound;RedirectKeys;" +
                       "PreExtApp;PostExtApp;MacAddress;UserField;UserField1;UserField2;UserField3;UserField4;UserField5;UserField6;UserField7;UserField8;UserField9;UserField10;EnvironmentTags;ExtApp;Favorite;AutoSort;VNCCompression;VNCEncoding;VNCAuthMode;VNCProxyType;VNCProxyIP;" +
                       "VNCProxyPort;VNCProxyUsername;VNCProxyPassword;VNCColors;VNCSmartSizeMode;VNCViewOnly;VNCClipboardRedirect;RDGatewayUsageMethod;RDGatewayHostname;" +
-                      "RDGatewayUseConnectionCredentials;RDGatewayUsername;RDGatewayPassword;RDGatewayDomain;RDGatewayExternalCredentialProvider;RDGatewayUserViaAPI;RedirectAudioCapture;RdpVersion;RDPStartProgram;RDPStartProgramWorkDir;UserViaAPI;EC2InstanceId;EC2Region;ExternalCredentialProvider;ExternalAddressProvider;PrivateKeyPath;UsePersistentBrowser;ScriptErrorsSuppressed;DesktopScaleFactor;CredentialId;RDPSignScope;RDPSignature;RDPSizingMode;ResolutionWidth;ResolutionHeight;RDPUseMultimon;Notes;RetryOnFirstConnect;WaitForIPAvailability;WaitForIPTimeout;ConnectionAddressPrimary;IPAddress;");
+                      "RDGatewayUseConnectionCredentials;RDGatewayUsername;RDGatewayPassword;RDGatewayDomain;RDGatewayExternalCredentialProvider;RDGatewayUserViaAPI;RedirectAudioCapture;RedirectWebAuthn;EnableRdsAadAuth;RdpVersion;RDPStartProgram;RDPStartProgramWorkDir;UserViaAPI;EC2InstanceId;EC2Region;ExternalCredentialProvider;ExternalAddressProvider;PrivateKeyPath;UsePersistentBrowser;ScriptErrorsSuppressed;DesktopScaleFactor;CredentialId;RDPSignScope;RDPSignature;RDPSizingMode;ResolutionWidth;ResolutionHeight;RDPUseMultimon;Notes;RetryOnFirstConnect;WaitForIPAvailability;WaitForIPTimeout;ConnectionAddressPrimary;IPAddress;");
 
             if (_saveFilter.SaveInheritance)
                 sb.Append("InheritCacheBitmaps;InheritColors;InheritDescription;InheritDisplayThemes;InheritDisplayWallpaper;" +
@@ -77,7 +77,7 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
                           "InheritVNCProxyPort;InheritVNCProxyUsername;InheritVNCProxyPassword;InheritVNCColors;InheritVNCSmartSizeMode;InheritVNCViewOnly;InheritVNCClipboardRedirect;" +
                           "InheritRDGatewayUsageMethod;InheritRDGatewayHostname;InheritRDGatewayUseConnectionCredentials;InheritRDGatewayUsername;" +
                           "InheritRDGatewayPassword;InheritRDGatewayDomain;InheritRDGatewayExternalCredentialProvider;InheritRDGatewayUserViaAPI;InheritRDPAlertIdleTimeout;InheritRDPMinutesToIdleTimeout;InheritSoundQuality;InheritUserViaAPI;" +
-                          "InheritRedirectAudioCapture;InheritRdpVersion;InheritExternalCredentialProvider;" +
+                          "InheritRedirectAudioCapture;InheritRedirectWebAuthn;InheritEnableRdsAadAuth;InheritRdpVersion;InheritExternalCredentialProvider;" +
                           "InheritPrivateKeyPath;InheritScriptErrorsSuppressed;InheritDesktopScaleFactor;" +
                           "InheritIPAddress;InheritConnectionAddressPrimary;InheritRDPSignScope;InheritRDPSignature;" +
                           "InheritRDPSizingMode;InheritResolutionWidth;InheritResolutionHeight;InheritRDPUseMultimon;" +
@@ -201,6 +201,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
               .Append(FormatForCsv(con.RDGatewayExternalCredentialProvider))
               .Append(FormatForCsv(con.RDGatewayUserViaAPI))
               .Append(FormatForCsv(con.RedirectAudioCapture))
+              .Append(FormatForCsv(con.RedirectWebAuthn))
+              .Append(FormatForCsv(con.EnableRdsAadAuth))
               .Append(FormatForCsv(con.RdpVersion))
               .Append(FormatForCsv(con.RDPStartProgram))
               .Append(FormatForCsv(con.RDPStartProgramWorkDir))
@@ -321,6 +323,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Csv
               .Append(FormatForCsv(con.Inheritance.RDPMinutesToIdleTimeout))
               .Append(FormatForCsv(con.Inheritance.SoundQuality))
               .Append(FormatForCsv(con.Inheritance.RedirectAudioCapture))
+              .Append(FormatForCsv(con.Inheritance.RedirectWebAuthn))
+              .Append(FormatForCsv(con.Inheritance.EnableRdsAadAuth))
               .Append(FormatForCsv(con.Inheritance.RdpVersion))
               .Append(FormatForCsv(con.Inheritance.UserViaAPI))
               .Append(FormatForCsv(con.Inheritance.ExternalCredentialProvider))

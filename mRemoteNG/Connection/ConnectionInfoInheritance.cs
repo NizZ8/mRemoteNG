@@ -525,6 +525,18 @@ namespace mRemoteNG.Connection
          TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
         public bool RedirectAudioCapture { get; set; }
 
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Redirect), 7),
+         LocalizedAttributes.LocalizedDisplayNameInherit(nameof(Language.WebAuthn)),
+         LocalizedAttributes.LocalizedDescriptionInherit(nameof(Language.PropertyDescriptionRedirectWebAuthn)),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
+        public bool RedirectWebAuthn { get; set; }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Connection), 2),
+         LocalizedAttributes.LocalizedDisplayNameInherit(nameof(Language.EntraIdAuthentication)),
+         LocalizedAttributes.LocalizedDescriptionInherit(nameof(Language.PropertyDescriptionEnableRdsAadAuth)),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter))]
+        public bool EnableRdsAadAuth { get; set; }
+
         #endregion
 
         #region Misc

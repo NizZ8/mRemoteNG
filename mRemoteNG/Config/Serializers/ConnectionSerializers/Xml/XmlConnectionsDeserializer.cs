@@ -406,6 +406,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.Resolution = xmlnode.GetAttributeAsEnum<RDPResolutions>("Resolution");
                     connectionInfo.RedirectSound = xmlnode.GetAttributeAsEnum<RDPSounds>("RedirectSound");
                     connectionInfo.RedirectAudioCapture = a.GetAttrBool("RedirectAudioCapture");
+                    connectionInfo.RedirectWebAuthn = a.GetAttrBool("RedirectWebAuthn");
+                    connectionInfo.EnableRdsAadAuth = a.GetAttrBool("EnableRdsAadAuth");
                 }
                 else
                 {
@@ -443,6 +445,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                     connectionInfo.Inheritance.RedirectSmartCards = a.GetAttrBool("InheritRedirectSmartCards");
                     connectionInfo.Inheritance.RedirectSound = a.GetAttrBool("InheritRedirectSound");
                     connectionInfo.Inheritance.RedirectAudioCapture = a.GetAttrBool("InheritRedirectAudioCapture");
+                    connectionInfo.Inheritance.RedirectWebAuthn = a.GetAttrBool("InheritRedirectWebAuthn");
+                    connectionInfo.Inheritance.EnableRdsAadAuth = a.GetAttrBool("InheritEnableRdsAadAuth");
                     connectionInfo.Inheritance.Resolution = a.GetAttrBool("InheritResolution");
                     connectionInfo.Inheritance.UseConsoleSession = a.GetAttrBool("InheritUseConsoleSession");
 

@@ -208,6 +208,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataTable.Columns.Add("InheritRDPMinutesToIdleTimeout", typeof(bool));
             dataTable.Columns.Add("InheritRdpVersion", typeof(bool));
             dataTable.Columns.Add("InheritRedirectAudioCapture", typeof(bool));
+            dataTable.Columns.Add("InheritRedirectWebAuthn", typeof(bool));
+            dataTable.Columns.Add("InheritEnableRdsAadAuth", typeof(bool));
             dataTable.Columns.Add("InheritRedirectClipboard", typeof(bool));
             dataTable.Columns.Add("InheritRedirectDiskDrives", typeof(bool));
             dataTable.Columns.Add("InheritRedirectDiskDrivesCustom", typeof(bool));
@@ -283,6 +285,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataTable.Columns.Add("RDPMinutesToIdleTimeout", typeof(int));
             dataTable.Columns.Add("RdpVersion", typeof(string));
             dataTable.Columns.Add("RedirectAudioCapture", typeof(bool));
+            dataTable.Columns.Add("RedirectWebAuthn", typeof(bool));
+            dataTable.Columns.Add("EnableRdsAadAuth", typeof(bool));
             dataTable.Columns.Add("RedirectClipboard", typeof(bool));
             dataTable.Columns.Add("RedirectDiskDrives", typeof(string));
             dataTable.Columns.Add("RedirectDiskDrivesCustom", typeof(string));
@@ -438,6 +442,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             isFieldNotChange = isFieldNotChange && dataRow["RDPMinutesToIdleTimeout"].Equals(connectionInfo.RDPMinutesToIdleTimeout);
             isFieldNotChange = isFieldNotChange && dataRow["RdpVersion"].Equals(connectionInfo.RdpVersion.ToString());
             isFieldNotChange = isFieldNotChange && dataRow["RedirectAudioCapture"].Equals(connectionInfo.RedirectAudioCapture);
+            isFieldNotChange = isFieldNotChange && dataRow["RedirectWebAuthn"].Equals(connectionInfo.RedirectWebAuthn);
+            isFieldNotChange = isFieldNotChange && dataRow["EnableRdsAadAuth"].Equals(connectionInfo.EnableRdsAadAuth);
             isFieldNotChange = isFieldNotChange && dataRow["RedirectClipboard"].Equals(connectionInfo.RedirectClipboard);
             isFieldNotChange = isFieldNotChange && dataRow["RedirectDiskDrives"].Equals(connectionInfo.RedirectDiskDrives.ToString());
             isFieldNotChange = isFieldNotChange && dataRow["RedirectDiskDrivesCustom"].Equals(connectionInfo.RedirectDiskDrivesCustom);
@@ -527,6 +533,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                     dataRow["InheritRDPMinutesToIdleTimeout"].Equals(connectionInfo.Inheritance.RDPMinutesToIdleTimeout) &&
                     dataRow["InheritRdpVersion"].Equals(connectionInfo.Inheritance.RdpVersion) &&
                     dataRow["InheritRedirectAudioCapture"].Equals(connectionInfo.Inheritance.RedirectAudioCapture) &&
+                    dataRow["InheritRedirectWebAuthn"].Equals(connectionInfo.Inheritance.RedirectWebAuthn) &&
+                    dataRow["InheritEnableRdsAadAuth"].Equals(connectionInfo.Inheritance.EnableRdsAadAuth) &&
                     dataRow["InheritRedirectClipboard"].Equals(connectionInfo.Inheritance.RedirectClipboard) &&
                     dataRow["InheritRedirectDiskDrives"].Equals(connectionInfo.Inheritance.RedirectDiskDrives) &&
                     dataRow["InheritRedirectDiskDrivesCustom"].Equals(connectionInfo.Inheritance.RedirectDiskDrivesCustom) &&
@@ -604,6 +612,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                     dataRow["InheritRDPMinutesToIdleTimeout"].Equals(false) &&
                     dataRow["InheritRdpVersion"].Equals(false) &&
                     dataRow["InheritRedirectAudioCapture"].Equals(false) &&
+                    dataRow["InheritRedirectWebAuthn"].Equals(false) &&
+                    dataRow["InheritEnableRdsAadAuth"].Equals(false) &&
                     dataRow["InheritRedirectClipboard"].Equals(false) &&
                     dataRow["InheritRedirectDiskDrives"].Equals(false) &&
                     dataRow["InheritRedirectDiskDrivesCustom"].Equals(false) &&
@@ -724,6 +734,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
             dataRow["RDPSignature"] = connectionInfo.RDPSignature;
             dataRow["RdpVersion"] = connectionInfo.RdpVersion;
             dataRow["RedirectAudioCapture"] = connectionInfo.RedirectAudioCapture;
+            dataRow["RedirectWebAuthn"] = connectionInfo.RedirectWebAuthn;
+            dataRow["EnableRdsAadAuth"] = connectionInfo.EnableRdsAadAuth;
             dataRow["RedirectClipboard"] = connectionInfo.RedirectClipboard;
             dataRow["RedirectDiskDrives"] = connectionInfo.RedirectDiskDrives;
             dataRow["RedirectDiskDrivesCustom"] = connectionInfo.RedirectDiskDrivesCustom;
@@ -820,6 +832,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritRDPSignature"] = connectionInfo.Inheritance.RDPSignature;
                 dataRow["InheritRdpVersion"] = connectionInfo.Inheritance.RdpVersion;
                 dataRow["InheritRedirectAudioCapture"] = connectionInfo.Inheritance.RedirectAudioCapture;
+                dataRow["InheritRedirectWebAuthn"] = connectionInfo.Inheritance.RedirectWebAuthn;
+                dataRow["InheritEnableRdsAadAuth"] = connectionInfo.Inheritance.EnableRdsAadAuth;
                 dataRow["InheritRedirectClipboard"] = connectionInfo.Inheritance.RedirectClipboard;
                 dataRow["InheritRedirectDiskDrives"] = connectionInfo.Inheritance.RedirectDiskDrives;
                 dataRow["InheritRedirectDiskDrivesCustom"] = connectionInfo.Inheritance.RedirectDiskDrivesCustom;
@@ -915,6 +929,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Sql
                 dataRow["InheritRDPSignature"] = false;
                 dataRow["InheritRdpVersion"] = false;
                 dataRow["InheritRedirectAudioCapture"] = false;
+                dataRow["InheritRedirectWebAuthn"] = false;
+                dataRow["InheritEnableRdsAadAuth"] = false;
                 dataRow["InheritRedirectClipboard"] = false;
                 dataRow["InheritRedirectDiskDrives"] = false;
                 dataRow["InheritRedirectDiskDrivesCustom"] = false;

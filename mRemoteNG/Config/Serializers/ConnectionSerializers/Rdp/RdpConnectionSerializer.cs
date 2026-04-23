@@ -125,6 +125,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Rdp
             sb.AppendLine(CultureInfo.InvariantCulture, $"redirectsmartcards:i:{BoolToRdp(con.RedirectSmartCards)}");
             sb.AppendLine(CultureInfo.InvariantCulture, $"redirectdrives:i:{WriteDriveRedirect(con.RedirectDiskDrives)}");
             sb.AppendLine(CultureInfo.InvariantCulture, $"audiocapturemode:i:{BoolToRdp(con.RedirectAudioCapture)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"redirectwebauthn:i:{BoolToRdp(con.RedirectWebAuthn)}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"enablerdsaadauth:i:{BoolToRdp(con.EnableRdsAadAuth)}");
 
             // Sound
             sb.AppendLine(CultureInfo.InvariantCulture, $"audiomode:i:{(int)con.RedirectSound}");

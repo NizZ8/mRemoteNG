@@ -573,6 +573,8 @@ namespace mRemoteNG.Connection
             RedirectAudioCapture = Settings.Default.ConDefaultRedirectAudioCapture;
             RedirectSound = Enum.Parse<RDPSounds>(Settings.Default.ConDefaultRedirectSound);
             SoundQuality = Enum.Parse<RDPSoundQuality>(Settings.Default.ConDefaultSoundQuality);
+            RedirectWebAuthn = Settings.Default.ConDefaultRedirectWebAuthn;
+            EnableRdsAadAuth = Settings.Default.ConDefaultEnableRdsAadAuth;
         }
 
         private void SetMiscDefaults()

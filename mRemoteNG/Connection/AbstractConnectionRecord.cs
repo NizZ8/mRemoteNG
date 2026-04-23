@@ -110,6 +110,8 @@ namespace mRemoteNG.Connection
         private RDPSounds _redirectSound;
         private RDPSoundQuality _soundQuality;
         private bool _redirectAudioCapture;
+        private bool _redirectWebAuthn;
+        private bool _enableRdsAadAuth;
 
         private string _preExtApp = string.Empty;
         private string _postExtApp = string.Empty;
@@ -1139,6 +1141,28 @@ namespace mRemoteNG.Connection
         {
             get => GetPropertyValue(nameof(RedirectAudioCapture), _redirectAudioCapture);
             set => SetField(ref _redirectAudioCapture, value, nameof(RedirectAudioCapture));
+        }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Redirect), 6),
+         LocalizedAttributes.LocalizedDisplayName(nameof(Language.WebAuthn)),
+         LocalizedAttributes.LocalizedDescription(nameof(Language.PropertyDescriptionRedirectWebAuthn)),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter)),
+         AttributeUsedInProtocol(ProtocolType.RDP)]
+        public bool RedirectWebAuthn
+        {
+            get => GetPropertyValue(nameof(RedirectWebAuthn), _redirectWebAuthn);
+            set => SetField(ref _redirectWebAuthn, value, nameof(RedirectWebAuthn));
+        }
+
+        [LocalizedAttributes.LocalizedCategory(nameof(Language.Connection), 2),
+         LocalizedAttributes.LocalizedDisplayName(nameof(Language.EntraIdAuthentication)),
+         LocalizedAttributes.LocalizedDescription(nameof(Language.PropertyDescriptionEnableRdsAadAuth)),
+         TypeConverter(typeof(MiscTools.YesNoTypeConverter)),
+         AttributeUsedInProtocol(ProtocolType.RDP)]
+        public bool EnableRdsAadAuth
+        {
+            get => GetPropertyValue(nameof(EnableRdsAadAuth), _enableRdsAadAuth);
+            set => SetField(ref _enableRdsAadAuth, value, nameof(EnableRdsAadAuth));
         }
 
         #endregion

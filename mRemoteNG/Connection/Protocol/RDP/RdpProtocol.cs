@@ -1436,6 +1436,11 @@ namespace mRemoteNG.Connection.Protocol.RDP
                 Runtime.MessageCollector.AddExceptionStackTrace(Language.RdpSetRedirectionFailed, ex);
             }
 
+            // Extended settings — silent fallback: older MSTSC versions may not expose these.
+            // Required Windows build for WebAuthn: Win10 20H1+. Required for Entra ID: Win10 22H2 / Win11.
+            SetExtendedProperty("RedirectWebAuthn", connectionInfo.RedirectWebAuthn, silent: true);
+            SetExtendedProperty("EnableRdsAadAuth", connectionInfo.EnableRdsAadAuth, silent: true);
+
             try
             {
                 SetDriveRedirection();

@@ -329,6 +329,8 @@ namespace mRemoteNGTests.UI.Window.ConfigWindowTests
                         nameof(ConnectionInfo.RedirectSmartCards),
                         nameof(ConnectionInfo.RedirectSound),
                         nameof(ConnectionInfo.RedirectAudioCapture),
+                        nameof(ConnectionInfo.RedirectWebAuthn),
+                        nameof(ConnectionInfo.EnableRdsAadAuth),
 			            nameof(ConnectionInfo.RdpVersion),
                         nameof(ConnectionInfo.RDPStartProgram),
                         nameof(ConnectionInfo.RDPStartProgramWorkDir),

@@ -1170,6 +1170,12 @@ If you run into such an error, please create a new connection file!</value>
   <data name="PropertyDescriptionRedirectAudioCapture" xml:space="preserve">
     <value>Select whether the default audio input device on the remote machine should be redirected to this computer.</value>
   </data>
+  <data name="PropertyDescriptionRedirectWebAuthn" xml:space="preserve">
+    <value>Select whether WebAuthn / FIDO2 passkey requests on the remote machine should be forwarded to authenticators attached to this computer.</value>
+  </data>
+  <data name="PropertyDescriptionEnableRdsAadAuth" xml:space="preserve">
+    <value>Use Microsoft Entra ID (Azure AD) authentication when signing in to the remote machine. Requires a compatible RDP client and a server enrolled with Entra ID.</value>
+  </data>
   <data name="PropertyDescriptionRenderingEngine" xml:space="preserve">
     <value>Select one of the available rendering engines that will be used to display HTML.</value>
   </data>
@@ -1358,6 +1364,12 @@ If you run into such an error, please create a new connection file!</value>
   </data>
   <data name="AudioCapture" xml:space="preserve">
     <value>Audio Capture</value>
+  </data>
+  <data name="WebAuthn" xml:space="preserve">
+    <value>WebAuthn (FIDO2)</value>
+  </data>
+  <data name="EntraIdAuthentication" xml:space="preserve">
+    <value>Entra ID Authentication</value>
   </data>
   <data name="RenderingEngine" xml:space="preserve">
     <value>Rendering Engine</value>

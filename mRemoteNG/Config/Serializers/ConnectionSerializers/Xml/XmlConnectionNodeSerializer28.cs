@@ -136,6 +136,8 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
             element.Add(new XAttribute("RedirectSound", connectionInfo.RedirectSound.ToString()));
             element.Add(new XAttribute("SoundQuality", connectionInfo.SoundQuality.ToString()));
             element.Add(new XAttribute("RedirectAudioCapture", connectionInfo.RedirectAudioCapture.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("RedirectWebAuthn", connectionInfo.RedirectWebAuthn.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("EnableRdsAadAuth", connectionInfo.EnableRdsAadAuth.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("RedirectKeys", connectionInfo.RedirectKeys.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("Connected", (connectionInfo.OpenConnections.Count > 0).ToString().ToLowerInvariant()));
             element.Add(new XAttribute("PreExtApp", connectionInfo.PreExtApp ?? string.Empty));
@@ -302,6 +304,10 @@ namespace mRemoteNG.Config.Serializers.ConnectionSerializers.Xml
                 element.Add(new XAttribute("InheritSoundQuality", inheritance.SoundQuality.ToString().ToLowerInvariant()));
             if (inheritance.RedirectAudioCapture)
                 element.Add(new XAttribute("InheritRedirectAudioCapture", inheritance.RedirectAudioCapture.ToString().ToLowerInvariant()));
+            if (inheritance.RedirectWebAuthn)
+                element.Add(new XAttribute("InheritRedirectWebAuthn", inheritance.RedirectWebAuthn.ToString().ToLowerInvariant()));
+            if (inheritance.EnableRdsAadAuth)
+                element.Add(new XAttribute("InheritEnableRdsAadAuth", inheritance.EnableRdsAadAuth.ToString().ToLowerInvariant()));
             if (inheritance.Resolution)
                 element.Add(new XAttribute("InheritResolution", inheritance.Resolution.ToString().ToLowerInvariant()));
             if (inheritance.DesktopScaleFactor)

@@ -61,6 +61,8 @@
 		public TType RedirectSound { get; set; }
 		public TType SoundQuality { get; set; }
 		public TType RedirectAudioCapture { get; set; }
+		public TType RedirectWebAuthn { get; set; }
+		public TType EnableRdsAadAuth { get; set; }
 		public TType PreExtApp { get; set; }
 		public TType PostExtApp { get; set; }
 		public TType MacAddress { get; set; }

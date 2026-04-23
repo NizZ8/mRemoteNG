@@ -289,7 +289,31 @@ namespace mRemoteNG.Properties {
                 this["ConDefaultRedirectAudioCapture"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ConDefaultRedirectWebAuthn {
+            get {
+                return ((bool)(this["ConDefaultRedirectWebAuthn"]));
+            }
+            set {
+                this["ConDefaultRedirectWebAuthn"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ConDefaultEnableRdsAadAuth {
+            get {
+                return ((bool)(this["ConDefaultEnableRdsAadAuth"]));
+            }
+            set {
+                this["ConDefaultEnableRdsAadAuth"] = value;
+            }
+        }
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -613,7 +637,31 @@ namespace mRemoteNG.Properties {
                 this["InhDefaultRedirectAudioCapture"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool InhDefaultRedirectWebAuthn {
+            get {
+                return ((bool)(this["InhDefaultRedirectWebAuthn"]));
+            }
+            set {
+                this["InhDefaultRedirectWebAuthn"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool InhDefaultEnableRdsAadAuth {
+            get {
+                return ((bool)(this["InhDefaultEnableRdsAadAuth"]));
+            }
+            set {
+                this["InhDefaultEnableRdsAadAuth"] = value;
+            }
+        }
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]

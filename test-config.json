@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "total_expected": 6201,
+    "total_expected": 6251,
     "min_total_threshold": 5601,
-    "last_updated": "2026-04-22",
+    "last_updated": "2026-04-23",
     "stats": {
       "unique_methods": 1249,
       "static_test_cases": 1337,
@@ -15,7 +15,7 @@
       {
         "name": "Connection",
         "filter": "FullyQualifiedName~mRemoteNGTests.Connection",
-        "expected": 1092
+        "expected": 1113
       },
       {
         "name": "Config.Xml",
@@ -25,7 +25,7 @@
       {
         "name": "Config.Other",
         "filter": "FullyQualifiedName~mRemoteNGTests.Config&FullyQualifiedName\\!~Serializers.ConnectionSerializers.Xml",
-        "expected": 775
+        "expected": 779
       },
       {
         "name": "UI",
@@ -50,7 +50,7 @@
       {
         "name": "Remaining",
         "filter": "FullyQualifiedName\\!~mRemoteNGTests.Connection&FullyQualifiedName\\!~mRemoteNGTests.Config&FullyQualifiedName\\!~mRemoteNGTests.UI&FullyQualifiedName\\!~mRemoteNGTests.Tools&FullyQualifiedName\\!~mRemoteNGTests.Security&FullyQualifiedName\\!~mRemoteNGTests.Tree&FullyQualifiedName\\!~mRemoteNGTests.Container&FullyQualifiedName\\!~mRemoteNGTests.Credential&FullyQualifiedName\\!~mRemoteNGTests.IntegrationTests&Name!=FormBehavior&Name!=AllPagesExistWithIconsAndLoadCorrectSettings",
-        "expected": 3078
+        "expected": 3103
       },
       {
         "name": "Integration",
