@@ -1,5 +1,7 @@
+using System;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using mRemoteNG.Config.DatabaseConnectors;
 using NUnit.Framework;
 
@@ -9,11 +11,38 @@ namespace mRemoteNGTests.Config.DatabaseConnectors
     /// Integration tests that verify Microsoft.Data.SqlClient.SNI native DLL
     /// loads correctly and SQL connectivity works end-to-end.
     /// Requires a local SQL Server Express instance (SQLEXPRESS).
+    /// Automatically skipped on hosts without SQLEXPRESS (e.g. CI runners).
     /// </summary>
     [TestFixture]
     [SupportedOSPlatform("windows")]
     public class SqlConnectivityTests
     {
+        private static bool _sqlExpressAvailable;
+
+        [OneTimeSetUp]
+        public void ProbeSqlExpress()
+        {
+            try
+            {
+                using var conn = new SqlConnection(
+                    @"Server=localhost\SQLEXPRESS;Database=master;Integrated Security=true;" +
+                    "TrustServerCertificate=true;Connect Timeout=3");
+                conn.Open();
+                _sqlExpressAvailable = true;
+            }
+            catch (Exception)
+            {
+                _sqlExpressAvailable = false;
+            }
+        }
+
+        [SetUp]
+        public void RequireSqlExpress()
+        {
+            if (!_sqlExpressAvailable)
+                Assert.Ignore("localhost\\SQLEXPRESS not available on this host — skipping SQL integration tests.");
+        }
+
         [Test]
         public async Task TestConnectivity_LocalSqlExpress_WindowsAuth_Succeeds()
         {
