@@ -98,6 +98,44 @@ jobs:
         shell: bash
         run: bash run-tests-core.sh
 
+      - name: Collect test results on failure
+        if: failure()
+        shell: pwsh
+        run: |
+          $outDir = "$env:GITHUB_WORKSPACE\test-results-dump"
+          New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+          # /tmp on GH Actions bash maps under the runner's temp — walk common roots
+          $roots = @($env:TEMP, $env:TMP, "$env:GITHUB_WORKSPACE") | Where-Object { $_ } | Select-Object -Unique
+          $trx = foreach ($r in $roots) { Get-ChildItem $r -Recurse -Filter *.trx -ErrorAction SilentlyContinue }
+          $trx | ForEach-Object {
+            $dest = Join-Path $outDir ("{0}_{1}" -f $_.Directory.Name, $_.Name)
+            Copy-Item $_.FullName $dest -Force
+          }
+          Write-Host "Collected $($trx.Count) trx files:"
+          Get-ChildItem $outDir | Select-Object Name, Length | Format-Table -AutoSize
+          # Surface failed test names directly to the step log for quick triage
+          foreach ($f in Get-ChildItem $outDir -Filter *.trx) {
+            Write-Host ""; Write-Host "=== $($f.Name) — failures ==="
+            [xml]$x = Get-Content $f.FullName -Raw
+            $ns = New-Object System.Xml.XmlNamespaceManager($x.NameTable)
+            $ns.AddNamespace('t','http://microsoft.com/schemas/VisualStudio/TeamTest/2010')
+            $fails = $x.SelectNodes('//t:UnitTestResult[@outcome="Failed"]', $ns)
+            foreach ($u in $fails) {
+              Write-Host ("  X " + $u.testName)
+              $msg = $u.SelectSingleNode('t:Output/t:ErrorInfo/t:Message', $ns)
+              if ($msg) { Write-Host ("    " + $msg.InnerText.Split("`n")[0]) }
+            }
+          }
+
+      - name: Upload test results artifact
+        if: failure()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: test-results-${{ github.sha }}
+          path: test-results-dump/
+          retention-days: 14
+          if-no-files-found: warn
+
       - name: Build MSI installer
         shell: pwsh
         run: |
